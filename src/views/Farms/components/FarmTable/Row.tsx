@@ -46,7 +46,7 @@ const CellInner = styled.div`
 
 const StyledTr = styled.tr`
   cursor: pointer;
-  border-bottom: 1px solid #5B5B5B;
+  border-bottom: 1px solid #5b5b5b;
 `;
 
 const EarnedMobileCell = styled.td`
@@ -111,7 +111,7 @@ const Row: React.FunctionComponent<RowProps> = (props) => {
               default:
                 return (
                   <td key={key}>
-                    <CellInner >
+                    <CellInner>
                       <CellLayout
                         label={TranslateString(
                           tableSchema[columnIndex].translationId,

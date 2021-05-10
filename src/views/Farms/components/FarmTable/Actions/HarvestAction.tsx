@@ -56,7 +56,7 @@ const HarvestAction: React.FunctionComponent<FarmWithStakedValue> = ({
 
   return (
     // <GradientBorder>
-      <ActionContainer>
+    <ActionContainer>
       <ActionTitles>
         <Title>CAKE </Title>
         <Subtle>EARNED</Subtle>
@@ -80,7 +80,7 @@ const HarvestAction: React.FunctionComponent<FarmWithStakedValue> = ({
         </Button>
       </ActionContent>
     </ActionContainer>
-  //  </GradientBorder> 
+    //  </GradientBorder>
   );
 };
 

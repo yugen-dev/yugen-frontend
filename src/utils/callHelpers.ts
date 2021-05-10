@@ -142,24 +142,20 @@ export const soushHarvestBnb = async (sousChefContract, account) => {
 
 export const enter = async (contract, amount, account) => {
   return contract.methods
-      .enter(
-          new BigNumber(amount).times(new BigNumber(10).pow(18)).toString(),
-      )
-      .send({ from: account })
-      .on('transactionHash', (tx) => {
-        console.log(tx)
-        return tx.transactionHash
-      })
-}
+    .enter(new BigNumber(amount).times(new BigNumber(10).pow(18)).toString())
+    .send({ from: account })
+    .on("transactionHash", (tx) => {
+      console.log(tx);
+      return tx.transactionHash;
+    });
+};
 
 export const leave = async (contract, amount, account) => {
   return contract.methods
-      .leave(
-          new BigNumber(amount).times(new BigNumber(10).pow(18)).toString(),
-      )
-      .send({ from: account })
-      .on('transactionHash', (tx) => {
-        console.log(tx)
-        return tx.transactionHash
-      })
-}
+    .leave(new BigNumber(amount).times(new BigNumber(10).pow(18)).toString())
+    .send({ from: account })
+    .on("transactionHash", (tx) => {
+      console.log(tx);
+      return tx.transactionHash;
+    });
+};

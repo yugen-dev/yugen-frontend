@@ -1,11 +1,6 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
-import {
-  useTable,
-  Button,
-  ChevronUpIcon,
-  ColumnType,
-} from "cryption-uikit";
+import { useTable, Button, ChevronUpIcon, ColumnType } from "cryption-uikit";
 import useI18n from "hooks/useI18n";
 
 import Row, { RowProps } from "./Row";
@@ -90,7 +85,11 @@ const FarmTable: React.FC<ITableProps> = (props) => {
           </StyledTable>
         </TableWrapper>
         <ScrollButtonContainer>
-          <Button variant="text" onClick={scrollToTop} style={{color:'#3869EE',fontWeight: 'bold',fontSize: '20px'}}>
+          <Button
+            variant="text"
+            onClick={scrollToTop}
+            style={{ color: "#3869EE", fontWeight: "bold", fontSize: "20px" }}
+          >
             {TranslateString(999, "To Top")}
             <ChevronUpIcon color="#415FEF" />
           </Button>

@@ -9,7 +9,7 @@ import {
   // Input as UIKitInput
 } from "cryption-uikit";
 
-import {Input as UIKitInput} from '@pancakeswap-libs/uikit'
+import { Input as UIKitInput } from "@pancakeswap-libs/uikit";
 
 import useI18n from "hooks/useI18n";
 
@@ -63,11 +63,11 @@ const BalanceInput: React.FC<BalanceInputProps> = ({
         </Text>
       </Flex>
       <Flex alignItems="center">
-        <Input 
-        onChange={onChange} 
-        // onInputChange={onChange} 
-        placeholder="0" 
-        value={value} 
+        <Input
+          onChange={onChange}
+          // onInputChange={onChange}
+          placeholder="0"
+          value={value}
         />
         {onSelectMax && (
           <Button scale="sm" onClick={onSelectMax} mr="8px">

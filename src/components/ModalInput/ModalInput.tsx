@@ -7,9 +7,8 @@ import {
   Link,
   // Input, InputProps
 } from "cryption-uikit";
-import {Input, InputProps} from '@pancakeswap-libs/uikit';
+import { Input, InputProps } from "@pancakeswap-libs/uikit";
 import useI18n from "../../hooks/useI18n";
-
 
 interface ModalInputProps {
   max: string;
@@ -90,10 +89,11 @@ const ModalInput: React.FC<ModalInputProps> = ({
         </Flex>
         <Flex alignItems="flex-end" justifyContent="space-around">
           <StyledInput
-          onChange={onChange} 
-          // onInputChange={onChange} 
-          placeholder="0" 
-          value={value} />
+            onChange={onChange}
+            // onInputChange={onChange}
+            placeholder="0"
+            value={value}
+          />
           <Button scale="sm" onClick={onSelectMax} mr="8px">
             {TranslateString(452, "Max")}
           </Button>

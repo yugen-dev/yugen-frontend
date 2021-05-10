@@ -1,13 +1,7 @@
 import BigNumber from "bignumber.js";
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
-import {
-  Button,
-  IconButton,
-  useModal,
-  AddIcon,
-  Image,
-} from "cryption-uikit";
+import { Button, IconButton, useModal, AddIcon, Image } from "cryption-uikit";
 import { useWeb3React } from "@web3-react/core";
 import UnlockButton from "components/UnlockButton";
 import Label from "components/Label";
@@ -61,7 +55,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   const TranslateString = useI18n();
   const { account } = useWeb3React();
   const { onApprove } = useApproveStaking();
- /*  const {onEnter} = useEnter();
+  /*  const {onEnter} = useEnter();
   const {onLeave} = useLeave(); */
   const { onStake } = useSousStake(sousId, isBnbPool);
   const { onUnstake } = useSousUnstake(sousId);

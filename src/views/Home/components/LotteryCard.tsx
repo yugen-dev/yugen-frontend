@@ -1,12 +1,6 @@
 import React, { useState, useCallback } from "react";
 import styled from "styled-components";
-import {
-  Heading,
-  Card,
-  CardBody,
-  Button,
-  useModal,
-} from "cryption-uikit";
+import { Heading, Card, CardBody, Button, useModal } from "cryption-uikit";
 import { getCakeAddress } from "utils/addressHelpers";
 import { getBalanceNumber } from "utils/formatBalance";
 import useI18n from "hooks/useI18n";
@@ -134,9 +128,14 @@ const FarmedStakingCard = () => {
     //     </Actions>
     //   </CardBody>
     // </StyledLotteryCard>
-  <div>
-    <img src="/images/CNBarista.svg" alt="Barista" height='100%' width='100%'/>
-  </div>
+    <div>
+      <img
+        src="/images/CNBarista.svg"
+        alt="Barista"
+        height="100%"
+        width="100%"
+      />
+    </div>
   );
 };
 

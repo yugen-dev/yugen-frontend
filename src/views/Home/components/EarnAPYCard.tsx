@@ -18,7 +18,7 @@ import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CAKE_POOL_PID } from "config";
 const StyledFarmStakingCard = styled(Card)`
   max-height: 225px;
   padding: 40px;
-  background: #1E202A;
+  background: #1e202a;
   box-shadow: 1px 2px 4px 3px rgba(0, 0, 0, 0.16);
   margin-left: auto;
   margin-right: auto;
@@ -30,10 +30,10 @@ const StyledFarmStakingCard = styled(Card)`
   }
 `;
 const CardMidContent = styled.div`
-font-size: 30px;
-font-weight: bold;
-color: #57CA81;
-text-transform: capitalize;
+  font-size: 30px;
+  font-weight: bold;
+  color: #57ca81;
+  text-transform: capitalize;
 `;
 
 const EarnAPYCard = () => {
@@ -110,9 +110,7 @@ const EarnAPYCard = () => {
   return (
     <StyledFarmStakingCard>
       <CNCardBody>
-        <CNHeading >
-          Earn up to
-        </CNHeading>
+        <CNHeading>Earn up to</CNHeading>
         <CardMidContent>
           {getHighestAPY() ? (
             `${getHighestAPY()}% ${TranslateString(736, "APR")}`
@@ -121,9 +119,7 @@ const EarnAPYCard = () => {
           )}
         </CardMidContent>
         <Flex justifyContent="space-between">
-          <CNHeading>
-            in Farms
-          </CNHeading>
+          <CNHeading>in Farms</CNHeading>
           {/* <NavLink exact activeClassName="active" to="/farms" id="farm-apy-cta">
             <ArrowForwardIcon mt={30} color="primary" />
           </NavLink> */}
@@ -134,17 +130,17 @@ const EarnAPYCard = () => {
 };
 
 const CNHeading = styled.div`
-color: #CFCCCC;
-font-size: 18px;
-font-weight: 600;
-text-transform: capitalize;
+  color: #cfcccc;
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: capitalize;
 `;
 
 const CNCardBody = styled.div`
-display: flex;
-justify-content: space-between;
-flex-direction: column;
-height: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 100%;
 `;
 
 export default EarnAPYCard;

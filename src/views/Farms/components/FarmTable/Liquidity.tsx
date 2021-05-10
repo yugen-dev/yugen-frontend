@@ -52,7 +52,7 @@ const Liquidity: React.FunctionComponent<LiquidityProps> = ({ liquidity }) => {
           "The total value of the funds in this farm’s liquidity pool"
         )}
       >
-        <HelpIcon color="textSubtle" style={{marginTop: '10px'}}/>
+        <HelpIcon color="textSubtle" style={{ marginTop: "10px" }} />
       </Tooltip>
     </Container>
   );
@@ -63,7 +63,7 @@ const CNText = styled.div`
   margin-right: 5px;
   font-size: 20px;
   font-weight: 600;
-  color: #86878F;
+  color: #86878f;
   padding: none;
 `;
 

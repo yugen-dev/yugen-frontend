@@ -21,7 +21,7 @@ export interface ActionPanelProps {
 }
 
 const Container = styled.div`
-  background: #1E202A;
+  background: #1e202a;
   display: flex;
   width: 100%;
   flex-direction: column-reverse;
@@ -35,7 +35,7 @@ const Container = styled.div`
 
 const StyledLinkExternal = styled(LinkExternal)`
   font-weight: 400;
-  color: #3869EE;
+  color: #3869ee;
 `;
 
 const StakeContainer = styled.div`

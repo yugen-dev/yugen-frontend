@@ -9,7 +9,6 @@ import UnlockButton from "components/UnlockButton";
 import CakeHarvestBalance from "./CakeHarvestBalance";
 import CakeWalletBalance from "./CakeWalletBalance";
 
-
 const Block = styled.div`
   display: flex;
   min-width: 100%;
@@ -17,8 +16,7 @@ const Block = styled.div`
   align-items: center;
 `;
 
-const CardImage = styled.img`
-`;
+const CardImage = styled.img``;
 
 const Label = styled.div`
   color: white;
@@ -56,67 +54,73 @@ const FarmedStakingCard = () => {
   }, [onReward]);
 
   return (
-      <CNCardBody>
-        <CNHeading>
-          {TranslateString(542, "Farms & Staking")}
-        </CNHeading>
-        <CardImage
-          src="/images/CNLatte.png"
-          alt="cake logo"
-          width={64}
-          height={64}
-        />
-        <Block>
-          <Label>{TranslateString(544, "CAKE to Harvest")} {`  `}:</Label>
-          <CakeHarvestBalance />
-        </Block>
-        <Block>
-          <Label>{TranslateString(546, "CAKE in Wallet")} {` `}:</Label>
-          <CakeWalletBalance />
-        </Block>
-        <Actions>
-          {account ? (
-            <Button
-              id="harvest-all"
-              disabled={balancesWithValue.length <= 0 || pendingTx}
-              onClick={harvestAllFarms}
-              width='100%'
-            >
-              {pendingTx
-                ? TranslateString(548, "Collecting CAKE")
-                : TranslateString(
-                    532,
-                    `Harvest all (${balancesWithValue.length})`
-                  )}
-            </Button>
-          ) : (
-            <UnlockButton />
-          )}
-        </Actions>
-      </CNCardBody>
+    <CNCardBody>
+      <CNHeading>{TranslateString(542, "Farms & Staking")}</CNHeading>
+      <CardImage
+        src="/images/CNLatte.png"
+        alt="cake logo"
+        width={64}
+        height={64}
+      />
+      <Block>
+        <Label>
+          {TranslateString(544, "CAKE to Harvest")} {`  `}:
+        </Label>
+        <CakeHarvestBalance />
+      </Block>
+      <Block>
+        <Label>
+          {TranslateString(546, "CAKE in Wallet")} {` `}:
+        </Label>
+        <CakeWalletBalance />
+      </Block>
+      <Actions>
+        {account ? (
+          <Button
+            id="harvest-all"
+            disabled={balancesWithValue.length <= 0 || pendingTx}
+            onClick={harvestAllFarms}
+            width="100%"
+          >
+            {pendingTx
+              ? TranslateString(548, "Collecting CAKE")
+              : TranslateString(
+                  532,
+                  `Harvest all (${balancesWithValue.length})`
+                )}
+          </Button>
+        ) : (
+          <UnlockButton />
+        )}
+      </Actions>
+    </CNCardBody>
   );
 };
 
 const CNHeading = styled.div`
-font-size: 30px;
-font-weight: 700;
-text-transform: uppercase;
-color:#CFCCCC;
+  font-size: 30px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #cfcccc;
 `;
 
 const CNCardBody = styled.div`
-text-align:center;
-padding: 40px;
-min-width: 400px;
-min-height: 350px;
-display: flex;
-flex-direction: column;
-justify-content: space-between;
-align-items: center;
-border: 2px solid #48494E;
-border-radius: 27px;
-background: linear-gradient(123.13deg, rgba(255, 253, 253, 0.12) 25.56%, rgba(255, 255, 255, 0.03) 97.77%);
-box-shadow: 0px 4px 4px  rgba(0, 0, 0, 0.25);
+  text-align: center;
+  padding: 40px;
+  min-width: 400px;
+  min-height: 350px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid #48494e;
+  border-radius: 27px;
+  background: linear-gradient(
+    123.13deg,
+    rgba(255, 253, 253, 0.12) 25.56%,
+    rgba(255, 255, 255, 0.03) 97.77%
+  );
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
 export default FarmedStakingCard;

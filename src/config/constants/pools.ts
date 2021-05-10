@@ -3,19 +3,19 @@ import { PoolConfig, QuoteToken, PoolCategory } from "./types";
 const pools: PoolConfig[] = [
   {
     sousId: 0,
-    tokenName: 'CAKE',
-    tokenAddress: '0x9822C1FBe8e9669a36CA2621430eC717336630a7',
+    tokenName: "CAKE",
+    tokenAddress: "0x9822C1FBe8e9669a36CA2621430eC717336630a7",
     stakingTokenName: QuoteToken.CAKE,
-    stakingTokenAddress: '0x9822C1FBe8e9669a36CA2621430eC717336630a7',
+    stakingTokenAddress: "0x9822C1FBe8e9669a36CA2621430eC717336630a7",
     contractAddress: {
-      97: '0xd3af5fe61dbaf8f73149bfcfa9fb653ff096029a',
-      56: '0x73feaa1eE314F8c655E354234017bE2193C9E24E',
-      80001: '0x73feaa1eE314F8c655E354234017bE2193C9E24E'
+      97: "0xd3af5fe61dbaf8f73149bfcfa9fb653ff096029a",
+      56: "0x73feaa1eE314F8c655E354234017bE2193C9E24E",
+      80001: "0x73feaa1eE314F8c655E354234017bE2193C9E24E",
     },
     poolCategory: PoolCategory.CORE,
-    projectLink: 'https://pancakeswap.finance/',
+    projectLink: "https://pancakeswap.finance/",
     harvest: true,
-    tokenPerBlock: '10',
+    tokenPerBlock: "10",
     sortOrder: 1,
     isFinished: false,
     tokenDecimals: 18,

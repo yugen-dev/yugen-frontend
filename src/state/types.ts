@@ -1,12 +1,12 @@
-import { Toast } from 'cryption-uikit';
-import BigNumber from 'bignumber.js';
+import { Toast } from "cryption-uikit";
+import BigNumber from "bignumber.js";
 import {
   CampaignType,
   FarmConfig,
   Nft,
   PoolConfig,
   Team,
-} from 'config/constants/types';
+} from "config/constants/types";
 
 export type TranslatableText =
   | string

@@ -46,11 +46,8 @@ export const PoolsSlice = createSlice({
 });
 
 // Actions
-export const {
-  setPoolsPublicData,
-  setPoolsUserData,
-  updatePoolsUserData,
-} = PoolsSlice.actions;
+export const { setPoolsPublicData, setPoolsUserData, updatePoolsUserData } =
+  PoolsSlice.actions;
 
 // Thunks
 export const fetchPoolsPublicDataAsync = () => async (dispatch) => {
@@ -90,58 +87,52 @@ export const fetchPoolsUserDataAsync = (account) => async (dispatch) => {
   dispatch(setPoolsUserData(userData));
 };
 
-export const updateUserAllowance = (sousId: string, account: string) => async (
-  dispatch
-) => {
-  const allowances = await fetchPoolsAllowance(account);
-  dispatch(
-    updatePoolsUserData({
-      sousId,
-      field: "allowance",
-      value: allowances[sousId],
-    })
-  );
-};
+export const updateUserAllowance =
+  (sousId: string, account: string) => async (dispatch) => {
+    const allowances = await fetchPoolsAllowance(account);
+    dispatch(
+      updatePoolsUserData({
+        sousId,
+        field: "allowance",
+        value: allowances[sousId],
+      })
+    );
+  };
 
-export const updateUserBalance = (sousId: string, account: string) => async (
-  dispatch
-) => {
-  const tokenBalances = await fetchUserBalances(account);
-  dispatch(
-    updatePoolsUserData({
-      sousId,
-      field: "stakingTokenBalance",
-      value: tokenBalances[sousId],
-    })
-  );
-};
+export const updateUserBalance =
+  (sousId: string, account: string) => async (dispatch) => {
+    const tokenBalances = await fetchUserBalances(account);
+    dispatch(
+      updatePoolsUserData({
+        sousId,
+        field: "stakingTokenBalance",
+        value: tokenBalances[sousId],
+      })
+    );
+  };
 
-export const updateUserStakedBalance = (
-  sousId: string,
-  account: string
-) => async (dispatch) => {
-  const stakedBalances = await fetchUserStakeBalances(account);
-  dispatch(
-    updatePoolsUserData({
-      sousId,
-      field: "stakedBalance",
-      value: stakedBalances[sousId],
-    })
-  );
-};
+export const updateUserStakedBalance =
+  (sousId: string, account: string) => async (dispatch) => {
+    const stakedBalances = await fetchUserStakeBalances(account);
+    dispatch(
+      updatePoolsUserData({
+        sousId,
+        field: "stakedBalance",
+        value: stakedBalances[sousId],
+      })
+    );
+  };
 
-export const updateUserPendingReward = (
-  sousId: string,
-  account: string
-) => async (dispatch) => {
-  const pendingRewards = await fetchUserPendingRewards(account);
-  dispatch(
-    updatePoolsUserData({
-      sousId,
-      field: "pendingReward",
-      value: pendingRewards[sousId],
-    })
-  );
-};
+export const updateUserPendingReward =
+  (sousId: string, account: string) => async (dispatch) => {
+    const pendingRewards = await fetchUserPendingRewards(account);
+    dispatch(
+      updatePoolsUserData({
+        sousId,
+        field: "pendingReward",
+        value: pendingRewards[sousId],
+      })
+    );
+  };
 
 export default PoolsSlice.reducer;

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import BigNumber from "bignumber.js";
 import { useWeb3React } from "@web3-react/core";
 import { Contract } from "web3-eth-contract";
-import { getLotteryAddress,getCoffeeTableAddress } from "utils/addressHelpers";
+import { getLotteryAddress, getCoffeeTableAddress } from "utils/addressHelpers";
 import { useCake } from "./useContract";
 import useRefresh from "./useRefresh";
 
@@ -50,7 +50,6 @@ export const useStakingAllowance = () => {
 
   return allowance;
 };
-
 
 // Retrieve IFO allowance
 export const useIfoAllowance = (

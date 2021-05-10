@@ -68,7 +68,7 @@ const App: React.FC = () => {
               <Pools />
             </Route>
             <Route path="/migrate">
-                <Migrate />
+              <Migrate />
             </Route>
             {/* <Route path="/lottery">
               <Lottery />

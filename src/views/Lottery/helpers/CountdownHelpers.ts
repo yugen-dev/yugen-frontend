@@ -38,8 +38,7 @@ const getNextLotteryDrawTime = (currentMillis) => {
 };
 
 // @ts-ignore
-const getNextTicketSaleTime = (currentMillis) =>
-  (0);
+const getNextTicketSaleTime = (currentMillis) => 0;
 const hoursAndMinutesString = (hours, minutes) =>
   `${parseInt(hours)}h, ${parseInt(minutes)}m`;
 

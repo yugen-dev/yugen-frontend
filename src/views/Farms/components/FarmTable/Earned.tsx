@@ -7,8 +7,7 @@ export interface EarnedProps {
 }
 
 const Amount = styled.span<{ earned: number }>`
-  color: ${({ earned}) =>
-    earned ? "#86878F" : "#86878F"};
+  color: ${({ earned }) => (earned ? "#86878F" : "#86878F")};
   display: flex;
   align-items: center;
   font-size: 20px;

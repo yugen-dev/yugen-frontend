@@ -12,14 +12,13 @@ import CardValue from "./CardValue";
 import CardBusdValue from "./CardBusdValue";
 
 const CNText = styled.div`
-  color: #D04863;
+  color: #d04863;
   font-size: 16px;
   font-weight: 500;
   text-transform: uppercase;
 `;
 
-const Block = styled.div`
-`;
+const Block = styled.div``;
 
 const CakeWalletBalance = () => {
   const TranslateString = useI18n();
@@ -30,11 +29,7 @@ const CakeWalletBalance = () => {
   const { account } = useWeb3React();
 
   if (!account) {
-    return (
-      <CNText>
-        {TranslateString(298, "Locked")}
-      </CNText>
-    );
+    return <CNText>{TranslateString(298, "Locked")}</CNText>;
   }
 
   return (

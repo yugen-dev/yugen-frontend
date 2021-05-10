@@ -103,7 +103,7 @@ const StyledImage = styled(Image)`
 
 const Header = styled.div`
   padding: 32px 0px;
-  background: #1A1B23;
+  background: #1a1b23;
 
   padding-left: 16px;
   padding-right: 16px;
@@ -120,7 +120,7 @@ const Farms: React.FC = () => {
   const TranslateString = useI18n();
   const farmsLP = useFarms();
   const cakePrice = usePriceCakeBusd();
-  console.log(cakePrice.toNumber())
+  console.log(cakePrice.toNumber());
   const bnbPrice = usePriceBnbBusd();
   const [query, setQuery] = useState("");
   const [viewMode, setViewMode] = useState(ViewMode.TABLE);
@@ -183,7 +183,7 @@ const Farms: React.FC = () => {
     (farmsToDisplay): FarmWithStakedValue[] => {
       const cakePriceVsBNB = new BigNumber(
         farmsLP.find((farm) => farm.pid === CAKE_POOL_PID)?.tokenPriceVsQuote ||
-        0
+          0
       );
       let farmsToDisplayWithAPY: FarmWithStakedValue[] = farmsToDisplay.map(
         (farm) => {

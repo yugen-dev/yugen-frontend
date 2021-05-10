@@ -65,17 +65,13 @@ const useGetPublicIfoData = (ifo: Ifo) => {
 
   useEffect(() => {
     const fetchProgress = async () => {
-      const [
-        startBlock,
-        endBlock,
-        raisingAmount,
-        totalAmount,
-      ] = (await makeBatchRequest([
-        contract.methods.startBlock().call,
-        contract.methods.endBlock().call,
-        contract.methods.raisingAmount().call,
-        contract.methods.totalAmount().call,
-      ])) as [string, string, string, string];
+      const [startBlock, endBlock, raisingAmount, totalAmount] =
+        (await makeBatchRequest([
+          contract.methods.startBlock().call,
+          contract.methods.endBlock().call,
+          contract.methods.raisingAmount().call,
+          contract.methods.totalAmount().call,
+        ])) as [string, string, string, string];
 
       const startBlockNum = parseInt(startBlock, 10);
       const endBlockNum = parseInt(endBlock, 10);

@@ -9,14 +9,11 @@ const Nfts: Nft[] = [
       lg: "bullish-lg.png",
       md: "bullish-md.png",
       sm: "bullish-sm.png",
-      ipfs:
-        "https://gateway.pinata.cloud/ipfs/QmNS1A5HsRW1JvFWtGkm4o9TgZVe2P7kA8TB4yxvS6A7ms/bullish.png",
+      ipfs: "https://gateway.pinata.cloud/ipfs/QmNS1A5HsRW1JvFWtGkm4o9TgZVe2P7kA8TB4yxvS6A7ms/bullish.png",
     },
     video: {
-      webm:
-        "https://gateway.pinata.cloud/ipfs/QmNS1A5HsRW1JvFWtGkm4o9TgZVe2P7kA8TB4yxvS6A7ms/bullish.webm",
-      mp4:
-        "https://gateway.pinata.cloud/ipfs/QmNS1A5HsRW1JvFWtGkm4o9TgZVe2P7kA8TB4yxvS6A7ms/bullish.mp4",
+      webm: "https://gateway.pinata.cloud/ipfs/QmNS1A5HsRW1JvFWtGkm4o9TgZVe2P7kA8TB4yxvS6A7ms/bullish.webm",
+      mp4: "https://gateway.pinata.cloud/ipfs/QmNS1A5HsRW1JvFWtGkm4o9TgZVe2P7kA8TB4yxvS6A7ms/bullish.mp4",
     },
     sortOrder: 999,
     bunnyId: 11,
@@ -29,8 +26,7 @@ const Nfts: Nft[] = [
       lg: "hiccup-lg.png",
       md: "hiccup-md.png",
       sm: "hiccup-sm.png",
-      ipfs:
-        "https://gateway.pinata.cloud/ipfs/QmQ6EE6gkVzAQUdQLLM7CyrnME6LZHCoy92ZERW8HXmyjw/hiccup.png",
+      ipfs: "https://gateway.pinata.cloud/ipfs/QmQ6EE6gkVzAQUdQLLM7CyrnME6LZHCoy92ZERW8HXmyjw/hiccup.png",
     },
     sortOrder: 999,
     bunnyId: 10,
@@ -43,8 +39,7 @@ const Nfts: Nft[] = [
       lg: "sleepy-lg.png",
       md: "sleepy-md.png",
       sm: "sleepy-sm.png",
-      ipfs:
-        "https://gateway.pinata.cloud/ipfs/QmYD9AtzyQPjSa9jfZcZq88gSaRssdhGmKqQifUDjGFfXm/sleepy.png",
+      ipfs: "https://gateway.pinata.cloud/ipfs/QmYD9AtzyQPjSa9jfZcZq88gSaRssdhGmKqQifUDjGFfXm/sleepy.png",
       blur: "sleepy-blur.png",
     },
     sortOrder: 999,
@@ -58,8 +53,7 @@ const Nfts: Nft[] = [
       lg: "sunny-lg.png",
       md: "sunny-md.png",
       sm: "sunny-sm.png",
-      ipfs:
-        "https://gateway.pinata.cloud/ipfs/QmYD9AtzyQPjSa9jfZcZq88gSaRssdhGmKqQifUDjGFfXm/sunny.png",
+      ipfs: "https://gateway.pinata.cloud/ipfs/QmYD9AtzyQPjSa9jfZcZq88gSaRssdhGmKqQifUDjGFfXm/sunny.png",
       blur: "sunny-blur.png",
     },
     sortOrder: 999,
@@ -73,8 +67,7 @@ const Nfts: Nft[] = [
       lg: "churro-lg.png",
       md: "churro-md.png",
       sm: "churro-sm.png",
-      ipfs:
-        "https://gateway.pinata.cloud/ipfs/QmYD9AtzyQPjSa9jfZcZq88gSaRssdhGmKqQifUDjGFfXm/churro.png",
+      ipfs: "https://gateway.pinata.cloud/ipfs/QmYD9AtzyQPjSa9jfZcZq88gSaRssdhGmKqQifUDjGFfXm/churro.png",
       blur: "churro-blur.png",
     },
     sortOrder: 999,
@@ -87,8 +80,7 @@ const Nfts: Nft[] = [
       lg: "dollop-lg.png",
       md: "dollop-md.png",
       sm: "dollop-sm.png",
-      ipfs:
-        "https://gateway.pinata.cloud/ipfs/QmYD9AtzyQPjSa9jfZcZq88gSaRssdhGmKqQifUDjGFfXm/dollop.png",
+      ipfs: "https://gateway.pinata.cloud/ipfs/QmYD9AtzyQPjSa9jfZcZq88gSaRssdhGmKqQifUDjGFfXm/dollop.png",
       blur: "dollop-blur.png",
     },
     sortOrder: 999,
@@ -102,8 +94,7 @@ const Nfts: Nft[] = [
       lg: "twinkle-lg.png",
       md: "twinkle-md.png",
       sm: "twinkle-sm.png",
-      ipfs:
-        "https://gateway.pinata.cloud/ipfs/QmYD9AtzyQPjSa9jfZcZq88gSaRssdhGmKqQifUDjGFfXm/twinkle.png",
+      ipfs: "https://gateway.pinata.cloud/ipfs/QmYD9AtzyQPjSa9jfZcZq88gSaRssdhGmKqQifUDjGFfXm/twinkle.png",
       blur: "twinkle-blur.png",
     },
     sortOrder: 999,
@@ -117,8 +108,7 @@ const Nfts: Nft[] = [
       lg: "swapsies-lg.png",
       md: "swapsies-md.png",
       sm: "swapsies-sm.png",
-      ipfs:
-        "https://gateway.pinata.cloud/ipfs/QmXdHqg3nywpNJWDevJQPtkz93vpfoHcZWQovFz2nmtPf5/swapsies.png",
+      ipfs: "https://gateway.pinata.cloud/ipfs/QmXdHqg3nywpNJWDevJQPtkz93vpfoHcZWQovFz2nmtPf5/swapsies.png",
       blur: "swapsies-blur.png",
     },
     sortOrder: 999,
@@ -132,8 +122,7 @@ const Nfts: Nft[] = [
       lg: "drizzle-lg.png",
       md: "drizzle-md.png",
       sm: "drizzle-sm.png",
-      ipfs:
-        "https://gateway.pinata.cloud/ipfs/QmXdHqg3nywpNJWDevJQPtkz93vpfoHcZWQovFz2nmtPf5/drizzle.png",
+      ipfs: "https://gateway.pinata.cloud/ipfs/QmXdHqg3nywpNJWDevJQPtkz93vpfoHcZWQovFz2nmtPf5/drizzle.png",
       blur: "drizzle-blur.png",
     },
     sortOrder: 999,
@@ -147,8 +136,7 @@ const Nfts: Nft[] = [
       lg: "blueberries-lg.png",
       md: "blueberries-md.png",
       sm: "blueberries-sm.png",
-      ipfs:
-        "https://gateway.pinata.cloud/ipfs/QmXdHqg3nywpNJWDevJQPtkz93vpfoHcZWQovFz2nmtPf5/blueberries.png",
+      ipfs: "https://gateway.pinata.cloud/ipfs/QmXdHqg3nywpNJWDevJQPtkz93vpfoHcZWQovFz2nmtPf5/blueberries.png",
       blur: "blueberries-blur.png",
     },
     sortOrder: 999,
@@ -162,8 +150,7 @@ const Nfts: Nft[] = [
       lg: "circular-lg.png",
       md: "circular-md.png",
       sm: "circular-sm.png",
-      ipfs:
-        "https://gateway.pinata.cloud/ipfs/QmXdHqg3nywpNJWDevJQPtkz93vpfoHcZWQovFz2nmtPf5/circular.png",
+      ipfs: "https://gateway.pinata.cloud/ipfs/QmXdHqg3nywpNJWDevJQPtkz93vpfoHcZWQovFz2nmtPf5/circular.png",
       blur: "circular-blur.png",
     },
     sortOrder: 999,
@@ -177,8 +164,7 @@ const Nfts: Nft[] = [
       lg: "sparkle-lg.png",
       md: "sparkle-md.png",
       sm: "sparkle-sm.png",
-      ipfs:
-        "https://gateway.pinata.cloud/ipfs/QmXdHqg3nywpNJWDevJQPtkz93vpfoHcZWQovFz2nmtPf5/sparkle.png",
+      ipfs: "https://gateway.pinata.cloud/ipfs/QmXdHqg3nywpNJWDevJQPtkz93vpfoHcZWQovFz2nmtPf5/sparkle.png",
       blur: "sparkle-blur.png",
     },
     sortOrder: 999,

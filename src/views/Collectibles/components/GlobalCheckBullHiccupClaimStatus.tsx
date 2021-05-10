@@ -13,11 +13,8 @@ import ClaimBullHiccupNftModal from "./ClaimBullHiccupNftModal";
  */
 const GlobalCheckBullHiccupClaimStatus = () => {
   const hasDisplayedModal = useRef(false);
-  const {
-    isSomeClaimable,
-    isBullClaimable,
-    isHiccupClaimable,
-  } = useGetBullHiccupClaimableStatus();
+  const { isSomeClaimable, isBullClaimable, isHiccupClaimable } =
+    useGetBullHiccupClaimableStatus();
   const [onPresentGiftModal] = useModal(
     <ClaimBullHiccupNftModal
       isBullClaimable={isBullClaimable}

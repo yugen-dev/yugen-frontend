@@ -1,20 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  Card,
-  CardBody,
-  Flex,
-  Heading,
-  Skeleton,
-  Text,
-} from "cryption-uikit";
+import { Card, CardBody, Flex, Heading, Skeleton, Text } from "cryption-uikit";
 import useI18n from "hooks/useI18n";
 import { useGetStats } from "hooks/api";
 
 const StyledTotalValueLockedCard = styled(Card)`
   max-height: 225px;
   padding: 40px;
-  background: #1E202A;
+  background: #1e202a;
   box-shadow: 1px 2px 4px 3px rgba(0, 0, 0, 0.16);
   align-items: center;
   display: flex;
@@ -39,14 +32,14 @@ const TotalValueLockedCard = () => {
         </CNHeading>
         {data ? (
           <>
-            <CNValueHeading >{`$${tvl}`}</CNValueHeading>
+            <CNValueHeading>{`$${tvl}`}</CNValueHeading>
           </>
         ) : (
           <>
             <Skeleton height={66} />
           </>
         )}
-        <CNText >
+        <CNText>
           {TranslateString(764, "Across all LPs and Syrup Pools")}
         </CNText>
       </CNCardBody>
@@ -55,29 +48,29 @@ const TotalValueLockedCard = () => {
 };
 
 const CNValueHeading = styled.div`
-font-size: 40px;
-font-weight: bold;
-text-transform: capitalize;
-color: white;
+  font-size: 40px;
+  font-weight: bold;
+  text-transform: capitalize;
+  color: white;
 `;
 
 const CNText = styled.div`
-font-size: 14px;
-font-weight: normal;
-color: #CFCCCC;
+  font-size: 14px;
+  font-weight: normal;
+  color: #cfcccc;
 `;
 
 const CNHeading = styled.div`
-color:  #686B7A;
-font-size: 20px;
-font-weight: bold;
-text-transform: capitalize;
+  color: #686b7a;
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: capitalize;
 `;
 const CNCardBody = styled.div`
-display: flex;
-justify-content: space-between;
-flex-direction: column;
-height: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 100%;
 `;
 
 export default TotalValueLockedCard;

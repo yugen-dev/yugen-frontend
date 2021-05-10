@@ -27,10 +27,8 @@ const PastLotteryRoundViewer = () => {
     isInitialized: false,
     isLoading: true,
   });
-  const {
-    data: initialLotteryData,
-    mostRecentLotteryNumber,
-  } = useGetRecentLotteryRoundData();
+  const { data: initialLotteryData, mostRecentLotteryNumber } =
+    useGetRecentLotteryRoundData();
   const TranslateString = useI18n();
   const { roundData, error, isInitialized, isLoading } = state;
 

@@ -1,14 +1,14 @@
 /* eslint-disable no-param-reassign */
-import { Toast } from 'cryption-uikit';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ToastsState } from '../types';
+import { Toast } from "cryption-uikit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ToastsState } from "../types";
 
 const initialState: ToastsState = {
   data: [],
 };
 
 export const toastsSlice = createSlice({
-  name: 'toasts',
+  name: "toasts",
   initialState,
   reducers: {
     push: (state: ToastsState, action: PayloadAction<Toast>) => {

@@ -17,13 +17,8 @@ const viewTitle = {
 };
 
 const EditProfileModal: React.FC<EditProfileModalProps> = ({ onDismiss }) => {
-  const {
-    currentView,
-    goToChange,
-    goToRemove,
-    goToApprove,
-    goPrevious,
-  } = useEditProfile();
+  const { currentView, goToChange, goToRemove, goToApprove, goPrevious } =
+    useEditProfile();
   const TranslateString = useI18n();
   const { id, label } = viewTitle[currentView];
 

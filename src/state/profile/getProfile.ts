@@ -47,14 +47,8 @@ const getProfile = async (address: string): Promise<GetProfileResponse> => {
     const profileResponse = await profileContract.methods
       .getUserProfile(address)
       .call();
-    const {
-      userId,
-      points,
-      teamId,
-      tokenId,
-      nftAddress,
-      isActive,
-    } = transformProfileResponse(profileResponse);
+    const { userId, points, teamId, tokenId, nftAddress, isActive } =
+      transformProfileResponse(profileResponse);
     const team = await getTeam(teamId);
     const username = await getUsername(address);
 

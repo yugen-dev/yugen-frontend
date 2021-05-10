@@ -42,7 +42,7 @@ const AprWrapper = styled.div`
   margin-top: 10px;
   font-size: 20px;
   font-weight: 600;
-  color: #86878F;
+  color: #86878f;
 `;
 
 const Apr: React.FC<AprProps> = ({

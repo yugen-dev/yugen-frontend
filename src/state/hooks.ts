@@ -1,12 +1,12 @@
-import { useEffect, useMemo } from 'react';
-import BigNumber from 'bignumber.js';
-import { kebabCase } from 'lodash';
-import { useWeb3React } from '@web3-react/core';
-import { Toast, toastTypes } from 'cryption-uikit';
-import { useSelector, useDispatch } from 'react-redux';
-import { Team } from 'config/constants/types';
-import { getWeb3NoAccount } from 'utils/web3';
-import useRefresh from 'hooks/useRefresh';
+import { useEffect, useMemo } from "react";
+import BigNumber from "bignumber.js";
+import { kebabCase } from "lodash";
+import { useWeb3React } from "@web3-react/core";
+import { Toast, toastTypes } from "cryption-uikit";
+import { useSelector, useDispatch } from "react-redux";
+import { Team } from "config/constants/types";
+import { getWeb3NoAccount } from "utils/web3";
+import useRefresh from "hooks/useRefresh";
 import {
   fetchFarmsPublicDataAsync,
   fetchPoolsPublicDataAsync,
@@ -15,7 +15,7 @@ import {
   remove as removeToast,
   clear as clearToast,
   setBlock,
-} from './actions';
+} from "./actions";
 import {
   State,
   Farm,
@@ -25,11 +25,11 @@ import {
   TeamsState,
   AchievementState,
   PriceState,
-} from './types';
-import { fetchProfile } from './profile';
-import { fetchTeam, fetchTeams } from './teams';
-import { fetchAchievements } from './achievements';
-import { fetchPrices } from './prices';
+} from "./types";
+import { fetchProfile } from "./profile";
+import { fetchTeam, fetchTeams } from "./teams";
+import { fetchAchievements } from "./achievements";
+import { fetchPrices } from "./prices";
 
 const ZERO = new BigNumber(0);
 
@@ -206,12 +206,8 @@ export const useFetchProfile = () => {
 };
 
 export const useProfile = () => {
-  const {
-    isInitialized,
-    isLoading,
-    data,
-    hasRegistered,
-  }: ProfileState = useSelector((state: State) => state.profile);
+  const { isInitialized, isLoading, data, hasRegistered }: ProfileState =
+    useSelector((state: State) => state.profile);
   return {
     profile: data,
     hasProfile: isInitialized && hasRegistered,
@@ -260,7 +256,7 @@ export const useFetchAchievements = () => {
 };
 
 export const useAchievements = () => {
-  const achievements: AchievementState['data'] = useSelector(
+  const achievements: AchievementState["data"] = useSelector(
     (state: State) => state.achievements.data
   );
   return achievements;
@@ -277,7 +273,7 @@ export const useFetchPriceList = () => {
 };
 
 export const useGetApiPrices = () => {
-  const prices: PriceState['data'] = useSelector(
+  const prices: PriceState["data"] = useSelector(
     (state: State) => state.prices.data
   );
   return prices;

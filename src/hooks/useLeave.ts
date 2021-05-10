@@ -1,10 +1,10 @@
-import {useCallback} from 'react'
+import { useCallback } from "react";
 
 import { useWeb3React } from "@web3-react/core";
 
-import {leave} from "utils/callHelpers";
+import { leave } from "utils/callHelpers";
 
-import { useCake,useCoffeeTable } from "./useContract";
+import { useCake, useCoffeeTable } from "./useContract";
 
 const useLeave = () => {
   const { account } = useWeb3React();
@@ -13,18 +13,13 @@ const useLeave = () => {
 
   const handle = useCallback(
     async (amount: string) => {
-      const txHash = await leave(
-        coffeeTable,
-        amount,
-        account,
-      )
-      console.log(txHash)
+      const txHash = await leave(coffeeTable, amount, account);
+      console.log(txHash);
     },
-    [account, coffeeTable],
-  )
+    [account, coffeeTable]
+  );
 
-  return {onLeave: handle}
-}
+  return { onLeave: handle };
+};
 
-export default useLeave
-
+export default useLeave;

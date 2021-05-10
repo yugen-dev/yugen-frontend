@@ -11,7 +11,7 @@ const Container = styled.div`
   width: 100%;
   justify-content: flex-end;
   padding-right: 8px;
-  color: #415FEF;
+  color: #415fef;
   font-weight: 500;
   font-size: 16px;
 
@@ -32,7 +32,7 @@ const Details: React.FC<DetailsProps> = ({ actionPanelToggled }) => {
   return (
     <Container>
       {!isMobile && "Details"}
-      <ArrowIcon color="#415FEF" toggled={actionPanelToggled}/>
+      <ArrowIcon color="#415FEF" toggled={actionPanelToggled} />
     </Container>
   );
 };

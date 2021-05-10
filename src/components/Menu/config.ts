@@ -1,39 +1,39 @@
-import { MenuEntry } from 'cryption-uikit';
+import { MenuEntry } from "cryption-uikit";
 
 const config: MenuEntry[] = [
   {
-    label: 'Home',
-    icon: 'HomeIcon',
-    href: '/',
+    label: "Home",
+    icon: "HomeIcon",
+    href: "/",
   },
   {
-    label: 'Trade',
-    icon: 'TradeIcon',
+    label: "Trade",
+    icon: "TradeIcon",
     items: [
       {
-        label: 'Exchange',
-        href: 'https://exchange.pancakeswap.finance',
+        label: "Exchange",
+        href: "https://exchange.pancakeswap.finance",
       },
       {
-        label: 'Liquidity',
-        href: 'https://exchange.pancakeswap.finance/#/pool',
+        label: "Liquidity",
+        href: "https://exchange.pancakeswap.finance/#/pool",
       },
     ],
   },
   {
-    label: 'Farms',
-    icon: 'FarmIcon',
-    href: '/farms',
+    label: "Farms",
+    icon: "FarmIcon",
+    href: "/farms",
   },
   {
-    label: 'Pools',
-    icon: 'PoolIcon',
-    href: '/pools',
+    label: "Pools",
+    icon: "PoolIcon",
+    href: "/pools",
   },
   {
-    label: 'Migrate',
-    icon: 'PoolIcon',
-    href: '/migrate',
+    label: "Migrate",
+    icon: "PoolIcon",
+    href: "/migrate",
   },
   // {
   //   label: 'Lottery',
@@ -65,24 +65,24 @@ const config: MenuEntry[] = [
   //   ],
   // },
   {
-    label: 'Info',
-    icon: 'InfoIcon',
+    label: "Info",
+    icon: "InfoIcon",
     items: [
       {
-        label: 'Overview',
-        href: 'https://pancakeswap.info',
+        label: "Overview",
+        href: "https://pancakeswap.info",
       },
       {
-        label: 'Tokens',
-        href: 'https://pancakeswap.info/tokens',
+        label: "Tokens",
+        href: "https://pancakeswap.info/tokens",
       },
       {
-        label: 'Pairs',
-        href: 'https://pancakeswap.info/pairs',
+        label: "Pairs",
+        href: "https://pancakeswap.info/pairs",
       },
       {
-        label: 'Accounts',
-        href: 'https://pancakeswap.info/accounts',
+        label: "Accounts",
+        href: "https://pancakeswap.info/accounts",
       },
     ],
   },
@@ -92,24 +92,24 @@ const config: MenuEntry[] = [
   //   href: '/ifo',
   // },
   {
-    label: 'More',
-    icon: 'MoreIcon',
+    label: "More",
+    icon: "MoreIcon",
     items: [
       {
-        label: 'Voting',
-        href: 'https://voting.pancakeswap.finance',
+        label: "Voting",
+        href: "https://voting.pancakeswap.finance",
       },
       {
-        label: 'Github',
-        href: 'https://github.com/pancakeswap',
+        label: "Github",
+        href: "https://github.com/pancakeswap",
       },
       {
-        label: 'Docs',
-        href: 'https://docs.pancakeswap.finance',
+        label: "Docs",
+        href: "https://docs.pancakeswap.finance",
       },
       {
-        label: 'Blog',
-        href: 'https://pancakeswap.medium.com',
+        label: "Blog",
+        href: "https://pancakeswap.medium.com",
       },
     ],
   },

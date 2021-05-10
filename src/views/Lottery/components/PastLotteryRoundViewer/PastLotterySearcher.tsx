@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Text, Button} from "cryption-uikit";
-import {Input} from '@pancakeswap-libs/uikit';
+import { Text, Button } from "cryption-uikit";
+import { Input } from "@pancakeswap-libs/uikit";
 import useI18n from "hooks/useI18n";
 
 interface PastLotterySearcherProps {

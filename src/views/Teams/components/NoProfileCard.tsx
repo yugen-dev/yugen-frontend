@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Button,
-  Card,
-  CardBody,
-  Flex,
-  Heading,
-  Text,
-} from "cryption-uikit";
+import { Button, Card, CardBody, Flex, Heading, Text } from "cryption-uikit";
 import useI18n from "hooks/useI18n";
 import { Link } from "react-router-dom";
 

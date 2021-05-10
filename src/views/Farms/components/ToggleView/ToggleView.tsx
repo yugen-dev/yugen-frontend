@@ -1,10 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  ListViewIcon,
-  CardViewIcon,
-  IconButton,
-} from "cryption-uikit";
+import { ListViewIcon, CardViewIcon, IconButton } from "cryption-uikit";
 import { ViewMode } from "../types";
 
 interface ToogleViewProps {

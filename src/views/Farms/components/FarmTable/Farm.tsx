@@ -32,7 +32,7 @@ const Container = styled.div`
 `;
 
 const Farm: React.FunctionComponent<FarmProps> = ({ image, label, pid }) => {
-  console.log("Image is: ",image);
+  console.log("Image is: ", image);
   const { stakedBalance } = useFarmUser(pid);
   const TranslateString = useI18n();
   const rawStakedBalance = getBalanceNumber(stakedBalance);
@@ -54,7 +54,7 @@ const Farm: React.FunctionComponent<FarmProps> = ({ image, label, pid }) => {
       <IconImage
         // src={`/images/farms/${image}.svg`}
         // TODO: make images for all
-         src="/images/farms/btc-bnb.svg"
+        src="/images/farms/btc-bnb.svg"
         alt="icon"
         width={40}
         height={40}

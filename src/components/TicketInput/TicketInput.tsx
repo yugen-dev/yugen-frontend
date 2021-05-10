@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Button, Flex } from "cryption-uikit";
-import { Input, InputProps } from '@pancakeswap-libs/uikit';
+import { Input, InputProps } from "@pancakeswap-libs/uikit";
 import useI18n from "../../hooks/useI18n";
 
 interface TokenInputProps extends InputProps {
@@ -26,10 +26,12 @@ const TicketInput: React.FC<TokenInputProps> = ({
   return (
     <StyledTokenInput>
       <Flex alignItems="center">
-        <Input 
-        onChange={onChange} 
-        // onInputChange={onChange} 
-        placeholder="0" value={value} />
+        <Input
+          onChange={onChange}
+          // onInputChange={onChange}
+          placeholder="0"
+          value={value}
+        />
         <StyledTokenAdornmentWrapper>
           <StyledTokenSymbol>{symbol}</StyledTokenSymbol>
           <StyledSpacer />

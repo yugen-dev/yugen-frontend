@@ -1,12 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  Card,
-  CardBody,
-  TicketRound,
-  Text,
-  Heading,
-} from "cryption-uikit";
+import { Card, CardBody, TicketRound, Text, Heading } from "cryption-uikit";
 import useI18n from "hooks/useI18n";
 import useGetLotteryHasDrawn from "hooks/useGetLotteryHasDrawn";
 import useTickets from "hooks/useTickets";

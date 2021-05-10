@@ -12,7 +12,7 @@ import { getMulticallAddress } from "./addressHelpers";
 export const multiCall = async (abi, calls) => {
   const web3 = getWeb3NoAccount();
   const multi = new web3.eth.Contract(
-    (MultiCallAbi as unknown) as AbiItem,
+    MultiCallAbi as unknown as AbiItem,
     getMulticallAddress()
   );
   const itf = new Interface(abi);

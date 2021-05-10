@@ -96,7 +96,7 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({
 
   if (!account) {
     return (
-    // <GradientBorder>
+      // <GradientBorder>
       <ActionContainer>
         <ActionTitles>
           <Subtle>{TranslateString(999, "START FARMING")}</Subtle>
@@ -105,14 +105,14 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({
           <UnlockButton width="100%" />
         </ActionContent>
       </ActionContainer>
-    //  </GradientBorder> 
+      //  </GradientBorder>
     );
   }
 
   if (isApproved) {
     if (rawStakedBalance) {
       return (
-      // <GradientBorder>
+        // <GradientBorder>
         <ActionContainer>
           <ActionTitles>
             <Title>{lpSymbol} </Title>
@@ -136,7 +136,7 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({
             </IconButtonWrapper>
           </ActionContent>
         </ActionContainer>
-      //  </GradientBorder> 
+        //  </GradientBorder>
       );
     }
 
@@ -174,17 +174,15 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({
         </Button>
       </ActionContent>
     </ActionContainer>
-    // </GradientBorder> 
+    // </GradientBorder>
   );
 };
 
 // const GradientBorder = styled.div`
 //   background: linear-gradient(180deg, #2082E9 0%, #9208FE 100%);
-  
-  
+
 //   padding: 2px;
 //   border-radius: 14px;
 // `;
-
 
 export default Staked;

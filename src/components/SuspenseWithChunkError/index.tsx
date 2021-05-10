@@ -22,8 +22,8 @@ class SuspenseWithChunkError extends React.Component<SuspenseProps, State> {
 
     // Save a flag on the window object indicating that we have already had a chunk error.
     // This prevents infinite reloads
-    const isRecoveringFromChunkError = !!window.history.state
-      ?.isRecoveringFromChunkError;
+    const isRecoveringFromChunkError =
+      !!window.history.state?.isRecoveringFromChunkError;
 
     // If was a chunk load error, refresh the page
     if (isChunkLoadError && !isRecoveringFromChunkError) {

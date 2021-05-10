@@ -1,12 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import {
-  Modal,
-  Text,
-  Button,
-  Flex,
-  InjectedModalProps,
-} from "cryption-uikit";
+import { Modal, Text, Button, Flex, InjectedModalProps } from "cryption-uikit";
 import history from "routerHistory";
 import { delay } from "lodash";
 import useI18n from "hooks/useI18n";

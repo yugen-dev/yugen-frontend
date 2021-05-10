@@ -69,11 +69,8 @@ const useGetWalletNfts = () => {
 
           const getTokenIdAndBunnyId = async (index: number) => {
             try {
-              const {
-                tokenOfOwnerByIndex,
-                getBunnyId,
-                tokenURI,
-              } = pancakeRabbitsContract.methods;
+              const { tokenOfOwnerByIndex, getBunnyId, tokenURI } =
+                pancakeRabbitsContract.methods;
               const tokenId = await tokenOfOwnerByIndex(account, index).call();
               const [bunnyId, tokenUri] = await makeBatchRequest([
                 getBunnyId(tokenId).call,

@@ -31,7 +31,13 @@ const ApyButton: React.FC<ApyButtonProps> = ({
   };
 
   return (
-    <IconButton onClick={handleClickButton} variant="text" scale="sm" ml="4px" style={{marginTop: '10px'}}>
+    <IconButton
+      onClick={handleClickButton}
+      variant="text"
+      scale="sm"
+      ml="4px"
+      style={{ marginTop: "10px" }}
+    >
       <CalculateIcon width="18px" />
     </IconButton>
   );

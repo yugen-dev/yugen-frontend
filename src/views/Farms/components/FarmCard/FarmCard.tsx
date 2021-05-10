@@ -40,8 +40,8 @@ const StyledCardAccent = styled.div`
     rgba(42, 118, 235, 0.4) 20%,
     rgba(42, 118, 235, 0.6) 30%,
     rgba(42, 118, 235, 0.6) 40%,
-    #2A76EB 50%,
-    #9702FF 60%,
+    #2a76eb 50%,
+    #9702ff 60%,
     rgba(151, 2, 255, 0.6) 70%,
     rgba(151, 2, 255, 0.6) 80%,
     rgba(151, 2, 255, 0.4) 90%,
@@ -57,12 +57,12 @@ const StyledCardAccent = styled.div`
   bottom: -2px;
   left: -2px;
   z-index: -1;
-/* */
+  /* */
 `;
 
 const FCard = styled.div`
   align-self: baseline;
-  background: #1E202A ;
+  background: #1e202a;
   border-radius: 32px;
   box-shadow: 1px 2px 4px 3px rgba(0, 0, 0, 0.16);
   display: flex;

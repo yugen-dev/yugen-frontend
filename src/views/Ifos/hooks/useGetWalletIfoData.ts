@@ -68,15 +68,12 @@ const useGetWalletIfoData = (ifo: Ifo) => {
 
   useEffect(() => {
     const fetchIfoData = async () => {
-      const [
-        offeringAmount,
-        userInfoResponse,
-        refundingAmount,
-      ] = (await makeBatchRequest([
-        contract.methods.getOfferingAmount(account).call,
-        contract.methods.userInfo(account).call,
-        contract.methods.getRefundingAmount(account).call,
-      ])) as [string, UserInfo, string];
+      const [offeringAmount, userInfoResponse, refundingAmount] =
+        (await makeBatchRequest([
+          contract.methods.getOfferingAmount(account).call,
+          contract.methods.userInfo(account).call,
+          contract.methods.getRefundingAmount(account).call,
+        ])) as [string, UserInfo, string];
 
       setState((prevState) => ({
         ...prevState,

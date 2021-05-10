@@ -14,7 +14,7 @@ const MultiplierWrapper = styled.div`
   margin-right: 5px;
   font-size: 20px;
   font-weight: 600;
-  color: #86878F;
+  color: #86878f;
   padding: none;
   text-align: right;
 
@@ -63,7 +63,7 @@ const Multiplier: React.FunctionComponent<MultiplierProps> = ({
           </div>
         }
       >
-        <HelpIcon color="textSubtle" style={{marginTop: '10px'}} />
+        <HelpIcon color="textSubtle" style={{ marginTop: "10px" }} />
       </Tooltip>
     </Container>
   );

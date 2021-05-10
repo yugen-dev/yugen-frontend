@@ -7,7 +7,7 @@ import {
   // Input, InputProps
 } from "cryption-uikit";
 import useI18n from "hooks/useI18n";
-import { Input, InputProps} from '@pancakeswap-libs/uikit'
+import { Input, InputProps } from "@pancakeswap-libs/uikit";
 
 interface TokenInputProps extends InputProps {
   max: number | string;
@@ -34,10 +34,12 @@ const TokenInput: React.FC<TokenInputProps> = ({
         </Text>
       </Flex>
       <Flex alignItems="center">
-        <Input 
-        onChange={onChange} 
-        // onInputChange={onChange} 
-        placeholder="0" value={value} />
+        <Input
+          onChange={onChange}
+          // onInputChange={onChange}
+          placeholder="0"
+          value={value}
+        />
         <Flex alignItems="center">
           <Text bold color="primary" textTransform="uppercase" mx="8px">
             {symbol}

@@ -4,37 +4,36 @@ import BigNumber from "bignumber.js";
 import styled from "styled-components";
 import { useWeb3React } from "@web3-react/core";
 import { Heading } from "@pancakeswap-libs/uikit";
-import {getBalanceNumber} from "utils/formatBalance";
+import { getBalanceNumber } from "utils/formatBalance";
 import useI18n from "hooks/useI18n";
 import FlexLayout from "components/layout/Flex";
 import Page from "components/layout/Page";
-import { getCakeContract,getCoffeeTableContract } from "utils/contractHelpers";
+import { getCakeContract, getCoffeeTableContract } from "utils/contractHelpers";
 
 import StakeCNT from "./components/StakeCNT";
 import UnstakeXCNT from "./components/UnstakeXCNT";
 import Divider from "./components/Divider";
 
-
 const Farm: React.FC = () => {
   const { path } = useRouteMatch();
   const TranslateString = useI18n();
-  const cake = getCakeContract()
-  const [totalSupply, setTotalSupply] = useState<BigNumber>()
+  const cake = getCakeContract();
+  const [totalSupply, setTotalSupply] = useState<BigNumber>();
 
   useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     async function fetchTotalSupply() {
-      const xCNTContract = getCoffeeTableContract()
+      const xCNTContract = getCoffeeTableContract();
       const supply = await xCNTContract.methods.totalSupply().call();
       setTotalSupply(new BigNumber(supply));
     }
     if (cake) {
-      fetchTotalSupply()
+      fetchTotalSupply();
     }
-  }, [cake,setTotalSupply])
+  }, [cake, setTotalSupply]);
 
   return (
     <Page>
@@ -45,14 +44,30 @@ const Farm: React.FC = () => {
           </Heading>
           <ul>
             <li>{TranslateString(580, "Stake CNT to earn more CNT.")}</li>
-            <li>{TranslateString(486, "ℹ️️ You will earn a portion of the swaps fees based on the amount of xCNT held relative the weight of the staking.")}</li>
+            <li>
+              {TranslateString(
+                486,
+                "ℹ️️ You will earn a portion of the swaps fees based on the amount of xCNT held relative the weight of the staking."
+              )}
+            </li>
             <li>{TranslateString(406, "xCNT can be minted by staking CNT")}</li>
-            <li>{TranslateString(406, "To redeem CNT staked plus swap fees convert xCNT back to CNT.")}</li>
-            <li>{totalSupply ? `There are currently ${getBalanceNumber(totalSupply)} xCNT in existence.` : '' }</li>
+            <li>
+              {TranslateString(
+                406,
+                "To redeem CNT staked plus swap fees convert xCNT back to CNT."
+              )}
+            </li>
+            <li>
+              {totalSupply
+                ? `There are currently ${getBalanceNumber(
+                    totalSupply
+                  )} xCNT in existence.`
+                : ""}
+            </li>
           </ul>
         </div>
         <img
-           src="../../../public/images/syrup.png"
+          src="../../../public/images/syrup.png"
           alt="SYRUP POOL icon"
           width={410}
           height={191}
@@ -67,8 +82,8 @@ const Farm: React.FC = () => {
                   <PoolCard key={pool.sousId} pool={pool} />
                 ))
             } */}
-            <StakeCNT/>
-            <UnstakeXCNT/>
+            <StakeCNT />
+            <UnstakeXCNT />
           </>
         </Route>
       </FlexLayout>

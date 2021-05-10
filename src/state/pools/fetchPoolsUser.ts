@@ -20,7 +20,7 @@ const bnbPools = poolsConfig.filter(
 const nonMasterPools = poolsConfig.filter((p) => p.sousId !== 0);
 const web3 = getWeb3NoAccount();
 const masterChefContract = new web3.eth.Contract(
-  (masterChefABI as unknown) as AbiItem,
+  masterChefABI as unknown as AbiItem,
   getMasterChefAddress()
 );
 
@@ -86,9 +86,9 @@ export const fetchUserStakeBalances = async (account) => {
   );
 
   // Cake / Cake pool
-  const {
-    amount: masterPoolAmount,
-  } = await masterChefContract.methods.userInfo("0", account).call();
+  const { amount: masterPoolAmount } = await masterChefContract.methods
+    .userInfo("0", account)
+    .call();
 
   return { ...stakedBalances, 0: new BigNumber(masterPoolAmount).toJSON() };
 };

@@ -58,11 +58,9 @@ const Home: React.FC = () => {
   const TranslateString = useI18n();
 
   return (
-    <Page style={{backgroundColor: '#1A1B23'}}>
+    <Page style={{ backgroundColor: "#1A1B23" }}>
       <Hero>
-        <CNHeading>
-          {TranslateString(576, "Pancakeswap")}
-        </CNHeading>
+        <CNHeading>{TranslateString(576, "Pancakeswap")}</CNHeading>
         <CNText>
           {TranslateString(
             578,
@@ -90,16 +88,16 @@ const Home: React.FC = () => {
 };
 
 const CNHeading = styled.div`
-font-size: 54px;
-font-weight: bold;
-text-align: left;
-color: white;
+  font-size: 54px;
+  font-weight: bold;
+  text-align: left;
+  color: white;
 `;
 
 const CNText = styled.div`
-font-size: 16px;
-font-weight: normal;
-text-align: left;
-color: #9D9FA8;
+  font-size: 16px;
+  font-weight: normal;
+  text-align: left;
+  color: #9d9fa8;
 `;
 export default Home;

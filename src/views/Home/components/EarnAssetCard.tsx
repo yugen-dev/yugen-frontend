@@ -13,7 +13,7 @@ import pools from "config/constants/pools";
 import { Pool } from "state/types";
 
 const StyledFarmStakingCard = styled(Card)`
-  background: linear-gradient(180deg, #2082E9 0%, #9900FF 100%);
+  background: linear-gradient(180deg, #2082e9 0%, #9900ff 100%);
   padding: 40px;
   max-height: 225px;
   margin-left: auto;
@@ -25,17 +25,17 @@ const StyledFarmStakingCard = styled(Card)`
   }
 `;
 const CardMidContent = styled.div`
-color: #E0E0E0;
+  color: #e0e0e0;
   font-size: 30px;
   font-weight: 800;
   line-height: 44px;
 `;
 
 const CNHeading = styled.div`
-margin: 10px 0;
-color: #CFCCCC;
-font-size: '18px';
-font-weight: 600;
+  margin: 10px 0;
+  color: #cfcccc;
+  font-size: "18px";
+  font-weight: 600;
 `;
 const EarnAssetCard = () => {
   const activeNonCakePools = pools.filter(
@@ -54,14 +54,10 @@ const EarnAssetCard = () => {
   return (
     <StyledFarmStakingCard>
       <CNCardBody>
-        <CNHeading>
-          Earn
-        </CNHeading>
+        <CNHeading>Earn</CNHeading>
         <CardMidContent>{assets}</CardMidContent>
-        <Flex justifyContent="space-between" >
-          <CNHeading>
-            in Pools
-          </CNHeading>
+        <Flex justifyContent="space-between">
+          <CNHeading>in Pools</CNHeading>
           {/* <NavLink exact activeClassName="active" to="/syrup" id="pool-cta" >
             <ArrowForwardIcon mt={30} color="primary" />
           </NavLink> */}

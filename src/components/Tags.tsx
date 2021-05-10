@@ -1,19 +1,25 @@
 import React from "react";
-import {
-  Tag,
-  VerifiedIcon,
-  CommunityIcon,
-  BinanceIcon,
-} from "cryption-uikit";
+import { Tag, VerifiedIcon, CommunityIcon, BinanceIcon } from "cryption-uikit";
 
 const CoreTag = (props) => (
-  <Tag color="#9307FE" outline startIcon={<VerifiedIcon color="#9307FE" />} {...props}>
+  <Tag
+    color="#9307FE"
+    outline
+    startIcon={<VerifiedIcon color="#9307FE" />}
+    {...props}
+  >
     Core
   </Tag>
 );
 
 const CommunityTag = (props) => (
-  <Tag color="#9307FE" variant="textSubtle" outline startIcon={<CommunityIcon />} {...props}>
+  <Tag
+    color="#9307FE"
+    variant="textSubtle"
+    outline
+    startIcon={<CommunityIcon />}
+    {...props}
+  >
     Community
   </Tag>
 );
