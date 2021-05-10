@@ -18,7 +18,7 @@ const GlobalStyle = createGlobalStyle`
   }
   body {
     font-family: 'Wavehaus';
-    background-color: #1A1B23;
+    background-color: #100C18;
 
     img {
       height: auto;

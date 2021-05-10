@@ -6,7 +6,7 @@ import Page from "../../components/layout/Page";
 const Migrate = () => {
   return (
     <>
-      <Page style={{ backgroundColor: "#1A1B23" }}>
+      <Page style={{ backgroundColor: "#100C18" }}>
         <Heading>Migrate Liquidity</Heading>
         <SubHeading>
           Migrate your Uniswap LP tokens to SushiSwap LP tokens.

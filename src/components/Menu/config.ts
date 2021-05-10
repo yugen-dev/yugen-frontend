@@ -31,6 +31,11 @@ const config: MenuEntry[] = [
     href: "/pools",
   },
   {
+    label: "CNT Bar",
+    icon: "PoolIcon",
+    href: "/cntbar",
+  },
+  {
     label: "Migrate",
     icon: "PoolIcon",
     href: "/migrate",

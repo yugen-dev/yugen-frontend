@@ -42,7 +42,7 @@ const Farm: React.FC = () => {
           <Heading as="h1" size="xxl" mb="16px">
             {TranslateString(738, "Syrup Pool")}
           </Heading>
-          <ul>
+          <ul style={{ color: "#86878f" }}>
             <li>{TranslateString(580, "Stake CNT to earn more CNT.")}</li>
             <li>
               {TranslateString(

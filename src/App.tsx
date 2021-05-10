@@ -24,6 +24,7 @@ import history from "./routerHistory";
 const Home = lazy(() => import("./views/Home"));
 const Farms = lazy(() => import("./views/Farms"));
 const Migrate = lazy(() => import("./views/Migrate"));
+const CNTBar = lazy(() => import("./views/CNTBar"));
 // const Lottery = lazy(() => import("./views/Lottery"));
 // const Ifos = lazy(() => import("./views/Ifos"));
 // const NotFound = lazy(() => import("./views/NotFound"));
@@ -69,6 +70,9 @@ const App: React.FC = () => {
             </Route>
             <Route path="/migrate">
               <Migrate />
+            </Route>
+            <Route path="/cntbar">
+              <CNTBar />
             </Route>
             {/* <Route path="/lottery">
               <Lottery />

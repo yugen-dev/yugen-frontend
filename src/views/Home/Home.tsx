@@ -58,7 +58,7 @@ const Home: React.FC = () => {
   const TranslateString = useI18n();
 
   return (
-    <Page style={{ backgroundColor: "#1A1B23" }}>
+    <Page style={{ backgroundColor: "#100C18" }}>
       <Hero>
         <CNHeading>{TranslateString(576, "Pancakeswap")}</CNHeading>
         <CNText>
