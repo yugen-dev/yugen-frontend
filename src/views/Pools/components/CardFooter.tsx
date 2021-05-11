@@ -33,8 +33,7 @@ interface Props {
 
 const StyledFooter = styled.div<{ isFinished: boolean }>`
   border-top: 1px solid ${({ theme }) => (theme.isDark ? "#524B63" : "#E9EAEB")};
-  color: ${({ isFinished, theme }) =>
-    theme.colors[isFinished ? "textDisabled2" : "primary2"]};
+  color: #86878f;
   padding: 24px;
 `;
 

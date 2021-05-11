@@ -1,18 +1,20 @@
+/* eslint-disable react/no-danger */
 import React, { useState, useEffect } from "react";
 import { Route, useRouteMatch } from "react-router-dom";
 import BigNumber from "bignumber.js";
+import Container from "@material-ui/core/Container";
 import styled from "styled-components";
+import Grid from "@material-ui/core/Grid";
 import { useWeb3React } from "@web3-react/core";
 import { Heading } from "@pancakeswap-libs/uikit";
 import { getBalanceNumber } from "utils/formatBalance";
 import useI18n from "hooks/useI18n";
 import FlexLayout from "components/layout/Flex";
-import Page from "components/layout/Page";
 import { getCakeContract, getCoffeeTableContract } from "utils/contractHelpers";
-
+import pools from "config/constants/pools";
+import PoolCard from "./components/PoolCard";
 import StakeCNT from "./components/StakeCNT";
 import UnstakeXCNT from "./components/UnstakeXCNT";
-import Divider from "./components/Divider";
 
 const Farm: React.FC = () => {
   const { path } = useRouteMatch();
@@ -36,71 +38,81 @@ const Farm: React.FC = () => {
   }, [cake, setTotalSupply]);
 
   return (
-    <Page>
+    <div>
       <Hero>
-        <div>
-          <Heading as="h1" size="xxl" mb="16px">
-            {TranslateString(738, "Syrup Pool")}
-          </Heading>
-          <ul style={{ color: "#86878f" }}>
-            <li>{TranslateString(580, "Stake CNT to earn more CNT.")}</li>
-            <li>
-              {TranslateString(
-                486,
-                "ℹ️️ You will earn a portion of the swaps fees based on the amount of xCNT held relative the weight of the staking."
-              )}
-            </li>
-            <li>{TranslateString(406, "xCNT can be minted by staking CNT")}</li>
-            <li>
-              {TranslateString(
-                406,
-                "To redeem CNT staked plus swap fees convert xCNT back to CNT."
-              )}
-            </li>
-            <li>
-              {totalSupply
-                ? `There are currently ${getBalanceNumber(
-                  totalSupply
-                )} xCNT in existence.`
-                : ""}
-            </li>
-          </ul>
-        </div>
-        <img
-          src="../../../public/images/syrup.png"
-          alt="SYRUP POOL icon"
-          width={410}
-          height={191}
-        />
+        <Container maxWidth="lg">
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6} lg={6} xl={6}>
+              <HeadingTex>
+                {TranslateString(738, "Syrup Pool")}
+              </HeadingTex>
+              <ul style={{ color: "#86878f" }}>
+                <DescriptionTextLi>{TranslateString(580, "Stake CNT to earn more CNT.")}</DescriptionTextLi>
+                <DescriptionTextLi>
+                  {TranslateString(
+                    486,
+                    "ℹ️️ You will earn a portion of the swaps fees based on the amount of xCNT held relative the weight of the staking."
+                  )}
+                </DescriptionTextLi>
+                <DescriptionTextLi>{TranslateString(406, "xCNT can be minted by staking CNT")}</DescriptionTextLi>
+                <DescriptionTextLi>
+                  {TranslateString(
+                    406,
+                    "To redeem CNT staked plus swap fees convert xCNT back to CNT."
+                  )}
+                </DescriptionTextLi>
+                <DescriptionTextLi>
+                  {totalSupply
+                    ? `There are currently ${getBalanceNumber(
+                      totalSupply
+                    )} xCNT in existence.`
+                    : ""}
+                </DescriptionTextLi>
+              </ul>
+            </Grid>
+            <Grid item xs={12} md={6} lg={6} xl={6}>
+              {/* <img
+                src="../../../public/images/syrup.png"
+                alt="SYRUP POOL icon"
+                width={410}
+                height={191}
+              /> */}
+              <div
+                dangerouslySetInnerHTML={{
+                  __html:
+                    '<lottie-player src="https://assets7.lottiefiles.com/packages/lf20_0cvczw8l.json"  background="transparent"  speed="1" style="height: 200px;" loop  autoplay></lottie-player>',
+                }}
+              />
+            </Grid>
+          </Grid>
+        </Container>
       </Hero>
-      <Divider />
-      <FlexLayout>
+      <Container maxWidth="lg">
         <Route exact path={`${path}`}>
-          <>
-            {/* {
-              orderBy(openPools, ["sortOrder"]).map((pool) => (
+          <Grid container spacing={3} style={{margin: '30px 0px'}}>
+            {
+              pools.map((pool) => (
+                <Grid item xs={12} md={6} lg={4} xl={4}>
                   <PoolCard key={pool.sousId} pool={pool} />
-                ))
-            } */}
-            <StakeCNT />
-            <UnstakeXCNT />
-          </>
+                </Grid>
+              ))
+            }
+          </Grid>
+          {/* <StakeCNT /> */}
+          {/* <UnstakeXCNT /> */}
         </Route>
-      </FlexLayout>
-    </Page>
+      </Container>
+    </div>
   );
 };
 
 const Hero = styled.div`
   align-items: center;
+  background: #383357;
+  padding: 30px 0px;
   color: ${({ theme }) => theme.colors.primary};
-  display: grid;
-  grid-gap: 32px;
-  grid-template-columns: 1fr;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 250px;
-  padding: 48px 0;
+  margin: 20px;
+  border-radius: 10px;
   ul {
     margin: 0;
     padding: 0;
@@ -115,10 +127,22 @@ const Hero = styled.div`
     max-width: 100%;
   }
   @media (min-width: 576px) {
-    grid-template-columns: 1fr 1fr;
-    margin: 0;
     max-width: none;
   }
 `;
+const HeadingTex = styled.div`
+  font-size: 23px;
+  font-weight: bold;
+  text-align: left;
+  color: white;
+  margin-bottom: 20px;
+`;
 
+const DescriptionTextLi = styled.li`
+  font-size: 17px;
+  font-weight: normal;
+  text-align: left;
+  margin-bottom: 10px !important;
+  color: #9d9fa8;
+`;
 export default Farm;
