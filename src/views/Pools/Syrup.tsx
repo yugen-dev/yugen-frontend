@@ -60,8 +60,8 @@ const Farm: React.FC = () => {
             <li>
               {totalSupply
                 ? `There are currently ${getBalanceNumber(
-                    totalSupply
-                  )} xCNT in existence.`
+                  totalSupply
+                )} xCNT in existence.`
                 : ""}
             </li>
           </ul>
