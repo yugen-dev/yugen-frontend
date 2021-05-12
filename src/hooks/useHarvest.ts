@@ -6,19 +6,45 @@ import {
   updateUserBalance,
   updateUserPendingReward,
 } from "state/actions";
-import { soushHarvest, soushHarvestBnb, harvest } from "utils/callHelpers";
-import { useMasterchef, useSousChef } from "./useContract";
+import {
+  soushHarvest,
+  soushHarvestBnb,
+  harvest,
+  GaslessHarvest,
+} from "utils/callHelpers";
+import {
+  useMasterchef,
+  useSousChef,
+  useMasterchefGasless,
+} from "./useContract";
 
 export const useHarvest = (farmPid: number) => {
   const dispatch = useDispatch();
   const { account } = useWeb3React();
   const masterChefContract = useMasterchef();
+  const masterChefGaslessContract = useMasterchefGasless();
 
   const handleHarvest = useCallback(async () => {
-    const txHash = await harvest(masterChefContract, farmPid, account);
-    dispatch(fetchFarmUserDataAsync(account));
+    let txHash;
+    if (true) {
+      txHash = await GaslessHarvest(
+        masterChefGaslessContract,
+        farmPid,
+        account
+      );
+      dispatch(fetchFarmUserDataAsync(account));
+    } else {
+      txHash = await harvest(masterChefContract, farmPid, account);
+      dispatch(fetchFarmUserDataAsync(account));
+    }
     return txHash;
-  }, [account, dispatch, farmPid, masterChefContract]);
+  }, [
+    account,
+    dispatch,
+    farmPid,
+    masterChefContract,
+    masterChefGaslessContract,
+  ]);
 
   return { onReward: handleHarvest };
 };

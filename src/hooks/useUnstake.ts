@@ -7,21 +7,43 @@ import {
   updateUserBalance,
   updateUserPendingReward,
 } from "state/actions";
-import { unstake, sousUnstake, sousEmegencyUnstake } from "utils/callHelpers";
-import { useMasterchef, useSousChef } from "./useContract";
+import {
+  unstake,
+  sousUnstake,
+  sousEmegencyUnstake,
+  GaslessUnStake,
+} from "utils/callHelpers";
+import {
+  useMasterchef,
+  useSousChef,
+  useMasterchefGasless,
+} from "./useContract";
 
 const useUnstake = (pid: number) => {
   const dispatch = useDispatch();
   const { account } = useWeb3React();
   const masterChefContract = useMasterchef();
-
+  const masterChefGaslessContract = useMasterchefGasless();
   const handleUnstake = useCallback(
     async (amount: string) => {
-      const txHash = await unstake(masterChefContract, pid, amount, account);
-      dispatch(fetchFarmUserDataAsync(account));
-      console.info(txHash);
+      if (true) {
+        const txHash = await GaslessUnStake(
+          masterChefGaslessContract,
+          pid,
+          amount,
+          account
+        );
+        dispatch(fetchFarmUserDataAsync(account));
+        console.info(txHash);
+      } else {
+        const txHash = await unstake(masterChefContract, pid, amount, account);
+        dispatch(fetchFarmUserDataAsync(account));
+        console.info(txHash);
+        dispatch(fetchFarmUserDataAsync(account));
+        console.info(txHash);
+      }
     },
-    [account, dispatch, masterChefContract, pid]
+    [account, dispatch, masterChefContract, masterChefGaslessContract, pid]
   );
 
   return { onUnstake: handleUnstake };

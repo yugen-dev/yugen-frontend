@@ -6,9 +6,7 @@ import masterChefABI from "config/abi/masterchef.json";
 import { getMasterChefAddress } from "utils/addressHelpers";
 import { AbiItem } from "web3-utils";
 import { getWeb3NoAccount } from "utils/web3";
-// import useBiconomyWeb3 from "../hooks/useBiconomyWeb3";
-import useBiconomyWeb3 from "hooks/useBiconomyWeb3";
-import { useMasterchefGasless } from "../hooks/useContract";
+import { getBiconomyWeb3 } from "utils/biconomyweb3";
 
 export const approve = async (lpContract, masterChefContract, account) => {
   return lpContract.methods
@@ -52,90 +50,67 @@ const domainData = {
   chainId: 80001,
 };
 
-export const stake = async (masterChefContract, pid, amount, account) => {
-  console.log(masterChefContract._address);
+export const GaslessStake = async (
+  masterChefContract,
+  pid,
+  amount,
+  account
+) => {
+  const biconomyWeb3 = getBiconomyWeb3();
 
-  // const biconomy = new Biconomy((window as WindowChain).ethereum, {
-  //   apiKey: "jTZ4rld-C.223a91ce-4426-4344-93d0-81a4a3f596fa",
-  // });
-  // const biconomyWeb3 = new Web3(biconomy);
-  // const contract = new biconomyWeb3.eth.Contract(
-  //   masterChefABI as unknown as AbiItem,
-  //   masterChefContract._address
-  // );
-  const biconomyWeb3 = useBiconomyWeb3();
-  const contract = useMasterchefGasless();
-  const nonce = await contract.methods.getNonce(account).call();
+  const contract = masterChefContract;
+
   const functionSignature = await contract.methods
     .deposit(
       pid,
       new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
     )
     .encodeABI();
-  const message = {
-    nonce: 0,
-    from: "",
-    functionSignature: "",
-  };
-  message.nonce = parseInt(nonce);
-  message.from = account;
-  message.functionSignature = functionSignature;
+  await executeMetaTransaction(masterChefContract, account, functionSignature);
+};
 
-  const dataToSign = JSON.stringify({
-    types: {
-      EIP712Domain: domainType,
-      MetaTransaction: metaTransactionType,
-    },
-    domain: domainData,
-    primaryType: "MetaTransaction",
-    message,
-  });
-  try {
-    const web3 = getWeb3NoAccount();
-    // @ts-ignore
-    await biconomyWeb3.currentProvider.send(
-      {
-        jsonrpc: "2.0",
-        id: 999999999999,
-        method: "eth_signTypedData_v4",
-        params: [account, dataToSign],
-      },
-      async function (error, response) {
-        if (error) {
-          console.log(error);
-          return error;
-        }
-        const { r, s, v } = getSignatureParameters(response.result);
-        console.log({ r, s, v });
-        const gasLimit = await contract.methods
-          .executeMetaTransaction(account, functionSignature, r, s, v)
-          .estimateGas({ from: account });
-        const gasPrice = await biconomyWeb3.eth.getGasPrice();
-        return contract.methods
-          .executeMetaTransaction(account, functionSignature, r, s, v)
-          .send({
-            from: account,
-            gasPrice: biconomyWeb3.utils.toHex(gasPrice),
-            gasLimit: biconomyWeb3.utils.toHex(gasLimit),
-          })
-          .on("transactionHash", (tx) => {
-            return tx.transactionHash;
-          });
-      }
-    );
-  } catch (e) {
-    console.log("error");
-  }
+export const GaslessUnStake = async (
+  masterChefContract,
+  pid,
+  amount,
+  account
+) => {
+  const biconomyWeb3 = getBiconomyWeb3();
 
-  // return masterChefContract.methods
-  //   .deposit(
-  //     pid,
-  //     new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
-  //   )
-  //   .send({ from: account, gas: 200000 })
-  //   .on("transactionHash", (tx) => {
-  //     return tx.transactionHash;
-  //   });
+  const contract = masterChefContract;
+
+  const functionSignature = await contract.methods
+    .withdraw(
+      pid,
+      new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
+    )
+    .encodeABI();
+
+  await executeMetaTransaction(masterChefContract, account, functionSignature);
+};
+
+export const GaslessHarvest = async (masterChefContract, pid, account) => {
+  const biconomyWeb3 = getBiconomyWeb3();
+
+  const contract = masterChefContract;
+
+  const functionSignature = await contract.methods
+    .deposit(pid, "0")
+    .encodeABI();
+
+  await executeMetaTransaction(masterChefContract, account, functionSignature);
+};
+
+export const stake = async (masterChefContract, pid, amount, account) => {
+  return masterChefContract.methods
+    .deposit(
+      pid,
+      new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
+    )
+    .send({ from: account, gas: 200000 })
+    .on("transactionHash", (tx) => {
+      return tx.transactionHash;
+    });
 };
 
 export const sousStake = async (
@@ -168,84 +143,15 @@ export const sousStakeBnb = async (sousChefContract, amount, account) => {
 };
 
 export const unstake = async (masterChefContract, pid, amount, account) => {
-  const biconomy = new Biconomy((window as WindowChain).ethereum, {
-    apiKey: "jTZ4rld-C.223a91ce-4426-4344-93d0-81a4a3f596fa",
-  });
-  const biconomyWeb3 = new Web3(biconomy);
-  const contract = new biconomyWeb3.eth.Contract(
-    masterChefABI as unknown as AbiItem,
-    masterChefContract._address
-  );
-  const nonce = await contract.methods.getNonce(account).call();
-  const functionSignature = await contract.methods
+  return masterChefContract.methods
     .withdraw(
       pid,
       new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
     )
-    .encodeABI();
-  const message = {
-    nonce: 0,
-    from: "",
-    functionSignature: "",
-  };
-  message.nonce = parseInt(nonce);
-  message.from = account;
-  message.functionSignature = functionSignature;
-
-  const dataToSign = JSON.stringify({
-    types: {
-      EIP712Domain: domainType,
-      MetaTransaction: metaTransactionType,
-    },
-    domain: domainData,
-    primaryType: "MetaTransaction",
-    message,
-  });
-  try {
-    const web3 = getWeb3NoAccount();
-    // @ts-ignore
-    biconomyWeb3.currentProvider.send(
-      {
-        jsonrpc: "2.0",
-        id: 999999999999,
-        method: "eth_signTypedData_v4",
-        params: [account, dataToSign],
-      },
-      async function (error, response) {
-        if (error) {
-          console.log(error);
-          return error;
-        }
-        const { r, s, v } = getSignatureParameters(response.result);
-        console.log({ r, s, v });
-        const gasLimit = await contract.methods
-          .executeMetaTransaction(account, functionSignature, r, s, v)
-          .estimateGas({ from: account });
-        const gasPrice = await biconomyWeb3.eth.getGasPrice();
-        return contract.methods
-          .executeMetaTransaction(account, functionSignature, r, s, v)
-          .send({
-            from: account,
-            gasPrice: biconomyWeb3.utils.toHex(gasPrice),
-            gasLimit: biconomyWeb3.utils.toHex(gasLimit),
-          })
-          .on("transactionHash", (tx) => {
-            return tx.transactionHash;
-          });
-      }
-    );
-  } catch (e) {
-    console.log("error");
-  }
-  // return masterChefContract.methods
-  //   .withdraw(
-  //     pid,
-  //     new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
-  //   )
-  //   .send({ from: account, gas: 200000 })
-  //   .on("transactionHash", (tx) => {
-  //     return tx.transactionHash;
-  //   });
+    .send({ from: account, gas: 200000 })
+    .on("transactionHash", (tx) => {
+      return tx.transactionHash;
+    });
 };
 
 export const sousUnstake = async (
@@ -302,80 +208,12 @@ export const sousEmegencyUnstake = async (
 };
 
 export const harvest = async (masterChefContract, pid, account) => {
-  console.log(masterChefContract._address);
-
-  const biconomy = new Biconomy((window as WindowChain).ethereum, {
-    apiKey: "jTZ4rld-C.223a91ce-4426-4344-93d0-81a4a3f596fa",
-  });
-  const biconomyWeb3 = new Web3(biconomy);
-  const contract = new biconomyWeb3.eth.Contract(
-    masterChefABI as unknown as AbiItem,
-    masterChefContract._address
-  );
-  const nonce = await contract.methods.getNonce(account).call();
-  const functionSignature = await contract.methods
+  return masterChefContract.methods
     .deposit(pid, "0")
-    .encodeABI();
-  const message = {
-    nonce: 0,
-    from: "",
-    functionSignature: "",
-  };
-  message.nonce = parseInt(nonce);
-  message.from = account;
-  message.functionSignature = functionSignature;
-
-  const dataToSign = JSON.stringify({
-    types: {
-      EIP712Domain: domainType,
-      MetaTransaction: metaTransactionType,
-    },
-    domain: domainData,
-    primaryType: "MetaTransaction",
-    message,
-  });
-  try {
-    const web3 = getWeb3NoAccount();
-    // @ts-ignore
-    biconomyWeb3.currentProvider.send(
-      {
-        jsonrpc: "2.0",
-        id: 999999999999,
-        method: "eth_signTypedData_v4",
-        params: [account, dataToSign],
-      },
-      async function (error, response) {
-        if (error) {
-          console.log(error);
-          return error;
-        }
-        const { r, s, v } = getSignatureParameters(response.result);
-        console.log({ r, s, v });
-        const gasLimit = await contract.methods
-          .executeMetaTransaction(account, functionSignature, r, s, v)
-          .estimateGas({ from: account });
-        const gasPrice = await biconomyWeb3.eth.getGasPrice();
-        return contract.methods
-          .executeMetaTransaction(account, functionSignature, r, s, v)
-          .send({
-            from: account,
-            gasPrice: biconomyWeb3.utils.toHex(gasPrice),
-            gasLimit: biconomyWeb3.utils.toHex(gasLimit),
-          })
-          .on("transactionHash", (tx) => {
-            return tx.transactionHash;
-          });
-      }
-    );
-  } catch (e) {
-    console.log("error");
-  }
-  // return masterChefContract.methods
-  //   .deposit(pid, "0")
-  //   .send({ from: account, gas: 200000 })
-  //   .on("transactionHash", (tx) => {
-  //     return tx.transactionHash;
-  //   });
+    .send({ from: account, gas: 200000 })
+    .on("transactionHash", (tx) => {
+      return tx.transactionHash;
+    });
 };
 
 export const soushHarvest = async (sousChefContract, account) => {
@@ -414,4 +252,71 @@ export const leave = async (contract, amount, account) => {
       console.log(tx);
       return tx.transactionHash;
     });
+};
+
+const executeMetaTransaction = async (
+  masterChefContract,
+  account,
+  functionSignature
+) => {
+  const biconomyWeb3 = getBiconomyWeb3();
+
+  const contract = masterChefContract;
+
+  const nonce = await contract.methods.getNonce(account).call();
+  const message = {
+    nonce: 0,
+    from: "",
+    functionSignature: "",
+  };
+  message.nonce = parseInt(nonce);
+  message.from = account;
+  message.functionSignature = functionSignature;
+
+  const dataToSign = JSON.stringify({
+    types: {
+      EIP712Domain: domainType,
+      MetaTransaction: metaTransactionType,
+    },
+    domain: domainData,
+    primaryType: "MetaTransaction",
+    message,
+  });
+
+  try {
+    const web3 = getWeb3NoAccount();
+    // @ts-ignore
+    await biconomyWeb3.currentProvider.send(
+      {
+        jsonrpc: "2.0",
+        id: 999999999999,
+        method: "eth_signTypedData_v4",
+        params: [account, dataToSign],
+      },
+      async function (error, response) {
+        if (error) {
+          console.log(error);
+          return error;
+        }
+        const { r, s, v } = getSignatureParameters(response.result);
+        console.log({ r, s, v });
+        const gasLimit = await contract.methods
+          .executeMetaTransaction(account, functionSignature, r, s, v)
+          .estimateGas({ from: account });
+        const gasPrice = await biconomyWeb3.eth.getGasPrice();
+        return contract.methods
+          .executeMetaTransaction(account, functionSignature, r, s, v)
+          .send({
+            from: account,
+            gasPrice: biconomyWeb3.utils.toHex(gasPrice),
+            gasLimit: biconomyWeb3.utils.toHex(gasLimit),
+          })
+          .on("transactionHash", (tx) => {
+            return tx.transactionHash;
+          });
+      }
+    );
+  } catch (e) {
+    console.log("error");
+  }
 };

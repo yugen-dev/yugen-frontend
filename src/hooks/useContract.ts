@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import useWeb3 from "hooks/useWeb3";
-import useBiconomyWeb3 from "hooks/useBiconomyWeb3";
+import { getBiconomyWeb3 } from "utils/biconomyweb3";
 import {
   getBep20Contract,
   getCakeContract,
@@ -68,7 +68,7 @@ export const useMasterchef = () => {
 };
 
 export const useMasterchefGasless = () => {
-  const web3 = useBiconomyWeb3();
+  const web3 = getBiconomyWeb3();
   return useMemo(() => getMasterchefContract(web3), [web3]);
 };
 
