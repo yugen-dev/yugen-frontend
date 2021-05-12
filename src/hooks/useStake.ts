@@ -24,9 +24,19 @@ const useStake = (pid: number) => {
   const masterChefContract = useMasterchef();
   const masterChefGaslessContract = useMasterchefGasless();
 
+  let isMetaTransactionEnabled = false;
+  const metaTransactionCheck = window.localStorage.getItem("metatransaction");
+
+  if (typeof metaTransactionCheck === null) {
+    isMetaTransactionEnabled = false;
+  } else if (metaTransactionCheck === "true") {
+    isMetaTransactionEnabled = true;
+  } else {
+    isMetaTransactionEnabled = false;
+  }
   const handleStake = useCallback(
     async (amount: string) => {
-      if (true) {
+      if (isMetaTransactionEnabled) {
         const txHash = await GaslessStake(
           masterChefGaslessContract,
           pid,
@@ -41,7 +51,14 @@ const useStake = (pid: number) => {
         console.info(txHash);
       }
     },
-    [account, dispatch, masterChefGaslessContract, masterChefContract, pid]
+    [
+      account,
+      dispatch,
+      masterChefGaslessContract,
+      masterChefContract,
+      pid,
+      isMetaTransactionEnabled,
+    ]
   );
 
   return { onStake: handleStake };

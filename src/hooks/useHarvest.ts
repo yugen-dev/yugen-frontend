@@ -23,10 +23,20 @@ export const useHarvest = (farmPid: number) => {
   const { account } = useWeb3React();
   const masterChefContract = useMasterchef();
   const masterChefGaslessContract = useMasterchefGasless();
+  let isMetaTransactionEnabled = false;
+  const metaTransactionCheck = window.localStorage.getItem("metatransaction");
+
+  if (typeof metaTransactionCheck === null) {
+    isMetaTransactionEnabled = false;
+  } else if (metaTransactionCheck === "true") {
+    isMetaTransactionEnabled = true;
+  } else {
+    isMetaTransactionEnabled = false;
+  }
 
   const handleHarvest = useCallback(async () => {
     let txHash;
-    if (true) {
+    if (isMetaTransactionEnabled) {
       txHash = await GaslessHarvest(
         masterChefGaslessContract,
         farmPid,
@@ -44,6 +54,7 @@ export const useHarvest = (farmPid: number) => {
     farmPid,
     masterChefContract,
     masterChefGaslessContract,
+    isMetaTransactionEnabled,
   ]);
 
   return { onReward: handleHarvest };

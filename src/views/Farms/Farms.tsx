@@ -19,7 +19,7 @@ import { fetchFarmUserDataAsync } from "state/actions";
 import { QuoteToken } from "config/constants/types";
 import useI18n from "hooks/useI18n";
 import { getBalanceNumber } from "utils/formatBalance";
-import { orderBy } from "lodash";
+import { orderBy, stubFalse } from "lodash";
 
 import FarmCard, { FarmWithStakedValue } from "./components/FarmCard/FarmCard";
 import Table from "./components/FarmTable/FarmTable";
@@ -123,7 +123,7 @@ const Farms: React.FC = () => {
   console.log(cakePrice.toNumber());
   const bnbPrice = usePriceBnbBusd();
   const [query, setQuery] = useState("");
-  const [viewMode, setViewMode] = useState(ViewMode.TABLE);
+  const [viewMode, setViewMode] = useState(ViewMode.CARD);
   const ethPriceUsd = usePriceEthBusd();
   // console.log(ethPriceUsd.toNumber());
   const { account } = useWeb3React();
@@ -137,8 +137,21 @@ const Farms: React.FC = () => {
     }
   }, [account, dispatch, fastRefresh]);
 
+  const truevaraible = true;
+  const falsevaraible = false;
   const [stackedOnly, setStackedOnly] = useState(false);
+  const [metaTransactionOnly, setmetaTransactionOnly] = useState(false);
 
+  let metaTransactionCheck = window.localStorage.getItem("metatransaction");
+
+  if (typeof metaTransactionCheck === null) {
+    metaTransactionCheck = "false";
+  } else {
+    if (metaTransactionCheck === "true") {
+      console.log("hldsaflkjdlfjalkfsjl");
+    }
+    console.log(metaTransactionCheck);
+  }
   const activeFarms = farmsLP.filter((farm) => farm.multiplier !== "0X");
   const inactiveFarms = farmsLP.filter((farm) => farm.multiplier === "0X");
   // samarth
@@ -423,6 +436,32 @@ const Farms: React.FC = () => {
               />
               <Text> {TranslateString(1116, "Staked only")}</Text>
             </ToggleWrapper>
+            {metaTransactionCheck === "true" ? (
+              <ToggleWrapper>
+                <Toggle
+                  checked={truevaraible}
+                  onChange={() => {
+                    setmetaTransactionOnly(!truevaraible);
+                    window.localStorage.setItem("metatransaction", "false");
+                  }}
+                  scale="sm"
+                />
+                <Text> {TranslateString(1116, "Meta Trandaction")}</Text>
+              </ToggleWrapper>
+            ) : (
+              <ToggleWrapper>
+                <Toggle
+                  checked={falsevaraible}
+                  onChange={() => {
+                    setmetaTransactionOnly(!falsevaraible);
+                    window.localStorage.setItem("metatransaction", "true");
+                  }}
+                  scale="sm"
+                />
+                <Text> {TranslateString(1116, "Meta Trandaction")}</Text>
+              </ToggleWrapper>
+            )}
+
             <FarmTabButtons />
           </ViewControls>
           <FilterContainer>
