@@ -5,7 +5,7 @@ import { light, dark } from "cryption-uikit";
 const CACHE_KEY = "IS_DARK";
 
 const ThemeContext = React.createContext({
-  isDark: null,
+  isDark: true,
   toggleTheme: () => null,
 });
 
