@@ -133,6 +133,7 @@ const FarmedStakingCard = () => {
         src="/images/CNBarista.svg"
         alt="Barista"
         height="100%"
+        style={{ maxWidth: '400px' }}
         width="100%"
       />
     </div>

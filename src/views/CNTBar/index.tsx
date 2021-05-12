@@ -360,7 +360,7 @@ const CNTBar = () => {
                 style={{ whiteSpace: "nowrap" }}
                 fontSize="22px"
               >
-                Balnces
+                Balances
               </Text>
               <InfoDiv>
                 <Text
