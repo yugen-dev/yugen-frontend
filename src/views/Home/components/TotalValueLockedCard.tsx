@@ -5,8 +5,8 @@ import useI18n from "hooks/useI18n";
 import { useGetStats } from "hooks/api";
 
 const StyledTotalValueLockedCard = styled(Card)`
-  max-height: 225px;
-  padding: 40px;
+  height: 100%;
+  padding: 30px 40px;
   background: #1e202a;
   box-shadow: 1px 2px 4px 3px rgba(0, 0, 0, 0.16);
   align-items: center;

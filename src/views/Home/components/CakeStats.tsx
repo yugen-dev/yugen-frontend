@@ -8,7 +8,7 @@ import { getCakeAddress } from "utils/addressHelpers";
 import CardValue from "./CardValue";
 
 const StyledCakeStats = styled(Card)`
-  max-height: 225px;
+  height: 100%;
   padding: 30px 40px;
   background: #1e202a;
   box-shadow: 1px 2px 4px 3px rgba(0, 0, 0, 0.16);

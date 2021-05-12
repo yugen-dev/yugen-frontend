@@ -1,5 +1,5 @@
 import BigNumber from "bignumber.js";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState, useEffect } from "react";
 import { Button, Modal } from "cryption-uikit";
 import ModalActions from "components/ModalActions";
 import TokenInput from "../../../components/TokenInput";
@@ -11,6 +11,7 @@ interface DepositModalProps {
   onConfirm: (amount: string, decimals: number) => void;
   onDismiss?: () => void;
   tokenName?: string;
+  tokenAmount?:string;
   stakingTokenDecimals?: number;
 }
 
@@ -19,11 +20,15 @@ const DepositModal: React.FC<DepositModalProps> = ({
   onConfirm,
   onDismiss,
   tokenName = "",
+  tokenAmount,
   stakingTokenDecimals = 18,
 }) => {
-  const [val, setVal] = useState("");
+  const [val, setVal] = useState(tokenAmount || '');
   const [pendingTx, setPendingTx] = useState(false);
   const TranslateString = useI18n();
+  useEffect(() => {
+    setVal(tokenAmount || '');
+  }, [tokenAmount]);
   const fullBalance = useMemo(() => {
     return getFullDisplayBalance(max, stakingTokenDecimals);
   }, [max, stakingTokenDecimals]);

@@ -4,7 +4,7 @@ import { usePriceCakeBusd } from "state/hooks";
 const useGetDocumentTitlePrice = () => {
   const cakePriceUsd = usePriceCakeBusd();
   useEffect(() => {
-    document.title = `SwapCafe - $${Number(cakePriceUsd).toLocaleString(
+    document.title = `PolyDex - $${Number(cakePriceUsd).toLocaleString(
       undefined,
       {
         minimumFractionDigits: 3,

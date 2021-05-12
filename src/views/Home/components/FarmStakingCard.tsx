@@ -16,7 +16,9 @@ const Block = styled.div`
   align-items: center;
 `;
 
-const CardImage = styled.img``;
+const CardImage = styled.img`
+  margin-right: 20px;
+`;
 
 const Label = styled.div`
   color: white;
@@ -55,13 +57,15 @@ const FarmedStakingCard = () => {
 
   return (
     <CNCardBody>
-      <CNHeading>{TranslateString(542, "Farms & Staking")}</CNHeading>
-      <CardImage
-        src="/images/CNLatte.png"
-        alt="cake logo"
-        width={64}
-        height={64}
-      />
+      <HeadingSection>
+        <CardImage
+          src="/images/CNLatte.png"
+          alt="cake logo"
+          width={64}
+          height={64}
+        />
+        <CNHeading>{TranslateString(542, "Farms & Staking")}</CNHeading>
+      </HeadingSection>
       <Block>
         <Label>
           {TranslateString(544, "CAKE to Harvest")} {`  `}:
@@ -85,9 +89,9 @@ const FarmedStakingCard = () => {
             {pendingTx
               ? TranslateString(548, "Collecting CAKE")
               : TranslateString(
-                  532,
-                  `Harvest all (${balancesWithValue.length})`
-                )}
+                532,
+                `Harvest all (${balancesWithValue.length})`
+              )}
           </Button>
         ) : (
           <UnlockButton />
@@ -103,18 +107,25 @@ const CNHeading = styled.div`
   text-transform: uppercase;
   color: #cfcccc;
 `;
-
+const HeadingSection = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  max-width: 400px;
+  width: 100%;
+`;
 const CNCardBody = styled.div`
   text-align: center;
-  padding: 40px;
-  min-width: 400px;
+  padding: 25px;
+  max-width: 420px;
+  align-self: center;
   min-height: 350px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  border: 2px solid #48494e;
-  border-radius: 27px;
+  border: 1px solid #48494e;
+  border-radius: 20px;
   background: linear-gradient(
     123.13deg,
     rgba(255, 253, 253, 0.12) 25.56%,

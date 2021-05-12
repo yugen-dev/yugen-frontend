@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
-import { Heading, Text, BaseLayout } from "cryption-uikit";
+// import { Heading, Text, BaseLayout } from "cryption-uikit";
 import useI18n from "hooks/useI18n";
 import Container from "@material-ui/core/Container";
 import FarmStakingCard from "views/Home/components/FarmStakingCard";
@@ -14,22 +14,10 @@ import EarnAssetCard from "views/Home/components/EarnAssetCard";
 
 const Hero = styled.div`
   align-items: left;
-  background-repeat: no-repeat;
-  background-position: top center;
   display: flex;
-  justify-content: space-around;
   flex-direction: column;
-  margin: auto;
   margin-bottom: 32px;
-  margin-left: 30px;
-  padding-top: 116px;
   text-align: center;
-
-  ${({ theme }) => theme.mediaQueries.lg} {
-    background-position: left center, right center;
-    height: 165px;
-    padding-top: 0;
-  }
 `;
 
 // const Cards = styled(BaseLayout)`
@@ -59,35 +47,43 @@ const Home: React.FC = () => {
   const TranslateString = useI18n();
 
   return (
-    <Container maxWidth="lg" style={{marginTop: '50px'}}>
-      <Grid container spacing={3}>
+    <Container maxWidth="lg" style={{ marginTop: '50px' }}>
+      <Grid container spacing={5} justify="center">
         <Grid item xs={12} md={6} lg={6} xl={6}>
-          <Hero>
-            <CNHeading>{TranslateString(576, "Cryption Network")}</CNHeading>
-            <CNText>
-              {TranslateString(
-                578,
-                "The #1 AMM and yield farm on Matic BlockChain."
-              )}
-            </CNText>
-          </Hero>
-          <FarmStakingCard />
+          <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
+            <Hero>
+              <CNHeading>{TranslateString(576, "PolyDex")}</CNHeading>
+              <CNText>
+                {TranslateString(
+                  578,
+                  "The #1 AMM and yield farm on Matic BlockChain."
+                )}
+              </CNText>
+            </Hero>
+            <FarmStakingCard />
+          </div>
         </Grid>
         <Grid item xs={12} md={6} lg={6} xl={6}>
           <LotteryCard />
         </Grid>
+
         <Grid item xs={12} md={6} lg={6} xl={6}>
-          <EarnAssetCard />
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6} lg={6} xl={6}>
+              <EarnAssetCard />
+            </Grid>
+            <Grid item xs={12} md={6} lg={6} xl={6}>
+              <EarnAPYCard />
+            </Grid>
+          </Grid>
         </Grid>
+
         <Grid item xs={12} md={6} lg={6} xl={6}>
           <TotalValueLockedCard />
         </Grid>
         {/* <Grid item xs={12} md={6} lg={6} xl={6}>
           <WinCard />
         </Grid> */}
-        <Grid item xs={12} md={6} lg={6} xl={6}>
-          <EarnAPYCard />
-        </Grid>
         <Grid item xs={12} md={6} lg={6} xl={6}>
           <CakeStats />
         </Grid>
@@ -97,16 +93,17 @@ const Home: React.FC = () => {
 };
 
 const CNHeading = styled.div`
-  font-size: 54px;
+  font-size: 50px;
   font-weight: bold;
-  text-align: left;
+  text-align: center;
   color: white;
+  margin-bottom: 20px;
 `;
 
 const CNText = styled.div`
-  font-size: 16px;
+  font-size: 20px;
   font-weight: normal;
-  text-align: left;
+  text-align: center;
   color: #9d9fa8;
 `;
 export default Home;

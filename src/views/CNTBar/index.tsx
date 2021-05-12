@@ -171,6 +171,7 @@ const CNTBar = () => {
   }, [onApprove, setRequestedApproval]);
   const [onPresentDeposit] = useModal(
     <DepositModal
+      tokenAmount={tokenAmount}
       max={tokenBalance}
       onConfirm={onEnter}
       tokenName={tokenName}
@@ -178,6 +179,7 @@ const CNTBar = () => {
   );
   const [onPresentLeave] = useModal(
     <WithdrawModal
+      tokenAmount={tokenAmount}
       max={xCNTBalance}
       onConfirm={onLeave}
       tokenName={xTokenName}
@@ -272,7 +274,7 @@ const CNTBar = () => {
                 </Text>
                 {totalSupply &&
                   <ConversionInfo>
-                    {`There are currently ${getBalanceNumber(totalSupply)} xCNT`}
+                    {`There are currently ${getBalanceNumber(totalSupply).toFixed(2)} xCNT`}
                   </ConversionInfo>
                 }
               </InfoDiv>
@@ -292,7 +294,7 @@ const CNTBar = () => {
                     mr="10px"
                     style={{ whiteSpace: "nowrap" }}
                   >
-                    Balance: {getBalanceNumber(tokenBal)}
+                    Balance: {getBalanceNumber(tokenBal).toFixed(2)}
                   </Text>
                   <Button
                     scale="sm"
@@ -329,7 +331,7 @@ const CNTBar = () => {
                   </Text>
                   <Button variant="secondary" scale="sm">
                     {" "}
-                    View Seats
+                    View Stats
                   </Button>
                 </div>
                 <div>
@@ -363,24 +365,30 @@ const CNTBar = () => {
                 Balances
               </Text>
               <InfoDiv>
-                <Text
-                  bold
-                  color="#9d9fa8"
-                  textTransform="uppercase"
-                  style={{ whiteSpace: "nowrap" }}
-                  fontSize="18px"
-                >
-                  CNT: {getBalanceNumber(tokenBalance)}
-                </Text>
-                <Text
-                  bold
-                  color="#9d9fa8"
-                  textTransform="uppercase"
-                  style={{ whiteSpace: "nowrap" }}
-                  fontSize="18px"
-                >
-                  xCNT: {getBalanceNumber(xCNTBalance)}
-                </Text>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <img src="/images/CNT.png" alt="CNT" width="24px" style={{ marginRight: '10px' }} />
+                  <Text
+                    bold
+                    color="#9d9fa8"
+                    textTransform="uppercase"
+                    style={{ whiteSpace: "nowrap" }}
+                    fontSize="18px"
+                  >
+                    CNT: {getBalanceNumber(tokenBalance).toFixed(2)}
+                  </Text>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <img src="/images/CNT.png" alt="CNT" width="24px" style={{ marginRight: '10px' }} />
+                  <Text
+                    bold
+                    color="#9d9fa8"
+                    textTransform="uppercase"
+                    style={{ whiteSpace: "nowrap" }}
+                    fontSize="18px"
+                  >
+                    xCNT: {getBalanceNumber(xCNTBalance).toFixed(2)}
+                  </Text>
+                </div>
               </InfoDiv>
             </StakingContainer>
           </Grid>

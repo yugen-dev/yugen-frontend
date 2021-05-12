@@ -14,8 +14,8 @@ import { Pool } from "state/types";
 
 const StyledFarmStakingCard = styled(Card)`
   background: linear-gradient(180deg, #2082e9 0%, #9900ff 100%);
-  padding: 40px;
-  max-height: 225px;
+  padding: 20px;
+  height: 100%;
   margin-left: auto;
   margin-right: auto;
   width: 100%;
@@ -39,7 +39,7 @@ const CNHeading = styled.div`
 `;
 const EarnAssetCard = () => {
   const activeNonCakePools = pools.filter(
-    (pool) => !pool.isFinished && !pool.tokenName.includes("CAKE")
+    (pool) => !pool.isFinished
   );
   const latestPools: Pool[] = orderBy(
     activeNonCakePools,
@@ -47,7 +47,7 @@ const EarnAssetCard = () => {
     ["desc", "desc"]
   ).slice(0, 3);
   // Always include CAKE
-  const assets = ["CAKE", ...latestPools.map((pool) => pool.tokenName)].join(
+  const assets = [...latestPools.map((pool) => pool.tokenName)].join(
     ", "
   );
 
