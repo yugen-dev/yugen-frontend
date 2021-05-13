@@ -207,10 +207,16 @@ export const useFetchProfile = () => {
 };
 
 export const useProfile = () => {
-  const { isInitialized, isLoading, data, hasRegistered }: ProfileState =
-    useSelector((state: State) => state.profile);
+  const {
+    isInitialized,
+    isLoading,
+    data,
+    hasRegistered,
+    metaTranscation,
+  }: ProfileState = useSelector((state: State) => state.profile);
   return {
     profile: data,
+    metaTranscation,
     hasProfile: isInitialized && hasRegistered,
     isInitialized,
     isLoading,

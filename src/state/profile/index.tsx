@@ -8,6 +8,7 @@ const initialState: ProfileState = {
   isLoading: true,
   hasRegistered: false,
   data: null,
+  metaTranscation: false,
 };
 
 export const profileSlice = createSlice({
@@ -24,6 +25,7 @@ export const profileSlice = createSlice({
       const { profile, hasRegistered } = action.payload;
 
       return {
+        metaTranscation: state.metaTranscation,
         isInitialized: true,
         isLoading: false,
         hasRegistered,
@@ -37,6 +39,15 @@ export const profileSlice = createSlice({
     addPoints: (state, action: PayloadAction<number>) => {
       state.data.points += action.payload;
     },
+    toggleMetaTranscationState: (
+      state,
+      action
+    ) => {
+      return {
+        ...state,
+        metaTranscation: action.payload,
+      };
+    },
   },
 });
 
@@ -46,6 +57,7 @@ export const {
   profileFetchSucceeded,
   profileFetchFailed,
   addPoints,
+  toggleMetaTranscationState,
 } = profileSlice.actions;
 
 // Thunks
