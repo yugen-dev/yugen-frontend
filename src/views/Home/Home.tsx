@@ -7,8 +7,8 @@ import Container from "@material-ui/core/Container";
 import FarmStakingCard from "views/Home/components/FarmStakingCard";
 import LotteryCard from "views/Home/components/LotteryCard";
 import CakeStats from "views/Home/components/CakeStats";
-import TotalValueLockedCard from "views/Home/components/TotalValueLockedCard";
-import EarnAPYCard from "views/Home/components/EarnAPYCard";
+import StatsCard from "views/Home/components/StatsCard";
+// import EarnAPYCard from "views/Home/components/EarnAPYCard";
 import EarnAssetCard from "views/Home/components/EarnAssetCard";
 // import WinCard from "views/Home/components/WinCard";
 
@@ -66,6 +66,21 @@ const Home: React.FC = () => {
         <Grid item xs={12} md={6} lg={6} xl={6}>
           <LotteryCard />
         </Grid>
+        {
+          // Stats Card
+        }
+        <Grid item xs={12} md={6} lg={6} xl={6}>
+          <StatsCard
+            totalSuply={126125600}
+            circulatingSupply={15776336}
+          />
+        </Grid>
+        {
+          // Grapht Card
+        }
+        <Grid item xs={12} md={6} lg={6} xl={6}>
+          <CakeStats />
+        </Grid>
 
         <Grid item xs={12} md={6} lg={6} xl={6}>
           <Grid container spacing={3}>
@@ -73,19 +88,19 @@ const Home: React.FC = () => {
               <EarnAssetCard />
             </Grid>
             <Grid item xs={12} md={6} lg={6} xl={6}>
-              <EarnAPYCard />
+              <EarnAssetCard />
             </Grid>
           </Grid>
         </Grid>
-
         <Grid item xs={12} md={6} lg={6} xl={6}>
-          <TotalValueLockedCard />
-        </Grid>
-        {/* <Grid item xs={12} md={6} lg={6} xl={6}>
-          <WinCard />
-        </Grid> */}
-        <Grid item xs={12} md={6} lg={6} xl={6}>
-          <CakeStats />
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6} lg={6} xl={6}>
+              <EarnAssetCard />
+            </Grid>
+            <Grid item xs={12} md={6} lg={6} xl={6}>
+              <EarnAssetCard />
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     </Container>

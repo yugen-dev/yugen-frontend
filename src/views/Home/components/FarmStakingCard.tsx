@@ -61,8 +61,8 @@ const FarmedStakingCard = () => {
         <CardImage
           src="/images/CNLatte.png"
           alt="cake logo"
-          width={64}
-          height={64}
+          width="40px"
+          height="40px"
         />
         <CNHeading>{TranslateString(542, "Farms & Staking")}</CNHeading>
       </HeadingSection>
