@@ -116,7 +116,6 @@ const HeadingSection = styled.div`
 `;
 const CNCardBody = styled.div`
   text-align: center;
-  padding: 25px;
   max-width: 420px;
   align-self: center;
   min-height: 350px;
@@ -125,7 +124,8 @@ const CNCardBody = styled.div`
   justify-content: space-between;
   align-items: center;
   border: 1px solid #48494e;
-  border-radius: 20px;
+  border-radius: 0.625rem !important;
+  padding: 30px 15px;
   background: linear-gradient(
     123.13deg,
     rgba(255, 253, 253, 0.12) 25.56%,

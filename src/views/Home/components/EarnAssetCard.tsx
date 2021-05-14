@@ -13,8 +13,9 @@ import pools from "config/constants/pools";
 import { Pool } from "state/types";
 
 const StyledFarmStakingCard = styled(Card)`
-  background: linear-gradient(180deg, #2082e9 0%, #9900ff 100%);
-  padding: 20px;
+  background-color: #1E202A;
+  border-radius: 0.625rem !important;
+  padding: 30px 15px;
   height: 100%;
   margin-left: auto;
   margin-right: auto;

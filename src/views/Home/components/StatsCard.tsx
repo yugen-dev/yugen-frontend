@@ -16,7 +16,7 @@ const BorderLinearProgress = withStyles((theme: Theme) =>
     },
     bar: {
       borderRadius: 2,
-      backgroundColor: '#6253F3',
+      background: 'linear-gradient(101.01deg ,#9900FF 41.86%,#2082E9 88.75%)'
     },
   }),
 )(LinearProgress);
@@ -69,7 +69,7 @@ const CardValue: React.FC<CardValueProps> = ({ totalSuply, circulatingSupply }) 
           <Text color="#9d9fa8" fontSize="15px">
             Circulating Supply
             </Text>
-          <Text color="#6253F3" fontSize="22px" fontWeight="700" style={{ display: 'flex', alignItems: 'center' }}>
+          <Text color="#2082E9" fontSize="22px" fontWeight="700" style={{ display: 'flex', alignItems: 'center' }}>
             {numberWithCommas(circulatingSupply)}  <Text color="#C1C5CB" fontSize="15px" ml="8px"> CNT </Text>
           </Text>
         </ProgressItemText>
@@ -127,7 +127,7 @@ const CardValue: React.FC<CardValueProps> = ({ totalSuply, circulatingSupply }) 
               <Text color="#9d9fa8" fontSize="16px">
                 CNT Price
             </Text>
-              <Text color="#6253F3" fontSize="16px" fontWeight="700"> $122 </Text>
+              <Text color="#2082E9" fontSize="16px" fontWeight="700"> $122 </Text>
             </ProgressText>
             <ProgressText>
               <Text color="#9d9fa8" fontSize="16px">
