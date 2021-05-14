@@ -13,6 +13,7 @@ import {
   sousEmegencyUnstake,
   GaslessUnStake,
 } from "utils/callHelpers";
+import { useProfile } from "state/hooks";
 import {
   useMasterchef,
   useSousChef,
@@ -24,19 +25,10 @@ const useUnstake = (pid: number) => {
   const { account } = useWeb3React();
   const masterChefContract = useMasterchef();
   const masterChefGaslessContract = useMasterchefGasless();
-  let isMetaTransactionEnabled = false;
-  const metaTransactionCheck = window.localStorage.getItem("metatransaction");
-
-  if (typeof metaTransactionCheck === null) {
-    isMetaTransactionEnabled = false;
-  } else if (metaTransactionCheck === "true") {
-    isMetaTransactionEnabled = true;
-  } else {
-    isMetaTransactionEnabled = false;
-  }
+  const { metaTranscation } = useProfile();
   const handleUnstake = useCallback(
     async (amount: string) => {
-      if (isMetaTransactionEnabled) {
+      if (metaTranscation) {
         const txHash = await GaslessUnStake(
           masterChefGaslessContract,
           pid,
@@ -59,7 +51,7 @@ const useUnstake = (pid: number) => {
       masterChefContract,
       masterChefGaslessContract,
       pid,
-      isMetaTransactionEnabled,
+      metaTranscation,
     ]
   );
 

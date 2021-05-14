@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { useDispatch } from "react-redux";
+import { useProfile } from "state/hooks";
 import {
   fetchFarmUserDataAsync,
   updateUserBalance,
@@ -23,20 +24,11 @@ export const useHarvest = (farmPid: number) => {
   const { account } = useWeb3React();
   const masterChefContract = useMasterchef();
   const masterChefGaslessContract = useMasterchefGasless();
-  let isMetaTransactionEnabled = false;
-  const metaTransactionCheck = window.localStorage.getItem("metatransaction");
-
-  if (typeof metaTransactionCheck === null) {
-    isMetaTransactionEnabled = false;
-  } else if (metaTransactionCheck === "true") {
-    isMetaTransactionEnabled = true;
-  } else {
-    isMetaTransactionEnabled = false;
-  }
+  const { metaTranscation } = useProfile();
 
   const handleHarvest = useCallback(async () => {
     let txHash;
-    if (isMetaTransactionEnabled) {
+    if (metaTranscation) {
       txHash = await GaslessHarvest(
         masterChefGaslessContract,
         farmPid,
@@ -54,7 +46,7 @@ export const useHarvest = (farmPid: number) => {
     farmPid,
     masterChefContract,
     masterChefGaslessContract,
-    isMetaTransactionEnabled,
+    metaTranscation,
   ]);
 
   return { onReward: handleHarvest };

@@ -52,9 +52,7 @@ const Farm: React.FunctionComponent<FarmProps> = ({ image, label, pid }) => {
   return (
     <Container>
       <IconImage
-        // src={`/images/farms/${image}.svg`}
-        // TODO: make images for all
-        src="/images/farms/btc-bnb.svg"
+        src={`/images/farms/${image}.png`}
         alt="icon"
         width={40}
         height={40}

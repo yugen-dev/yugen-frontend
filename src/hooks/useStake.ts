@@ -12,6 +12,7 @@ import {
   sousStakeBnb,
   GaslessStake,
 } from "utils/callHelpers";
+import { useProfile } from "state/hooks";
 import {
   useMasterchef,
   useSousChef,
@@ -24,19 +25,10 @@ const useStake = (pid: number) => {
   const masterChefContract = useMasterchef();
   const masterChefGaslessContract = useMasterchefGasless();
 
-  let isMetaTransactionEnabled = false;
-  const metaTransactionCheck = window.localStorage.getItem("metatransaction");
-
-  if (typeof metaTransactionCheck === null) {
-    isMetaTransactionEnabled = false;
-  } else if (metaTransactionCheck === "true") {
-    isMetaTransactionEnabled = true;
-  } else {
-    isMetaTransactionEnabled = false;
-  }
+  const { metaTranscation } = useProfile();
   const handleStake = useCallback(
     async (amount: string) => {
-      if (isMetaTransactionEnabled) {
+      if (metaTranscation) {
         const txHash = await GaslessStake(
           masterChefGaslessContract,
           pid,
@@ -57,7 +49,7 @@ const useStake = (pid: number) => {
       masterChefGaslessContract,
       masterChefContract,
       pid,
-      isMetaTransactionEnabled,
+      metaTranscation,
     ]
   );
 

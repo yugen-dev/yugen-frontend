@@ -140,18 +140,7 @@ const Farms: React.FC = () => {
   const truevaraible = true;
   const falsevaraible = false;
   const [stackedOnly, setStackedOnly] = useState(false);
-  const [metaTransactionOnly, setmetaTransactionOnly] = useState(false);
 
-  let metaTransactionCheck = window.localStorage.getItem("metatransaction");
-
-  if (typeof metaTransactionCheck === null) {
-    metaTransactionCheck = "false";
-  } else {
-    if (metaTransactionCheck === "true") {
-      console.log("hldsaflkjdlfjalkfsjl");
-    }
-    console.log(metaTransactionCheck);
-  }
   const activeFarms = farmsLP.filter((farm) => farm.multiplier !== "0X");
   const inactiveFarms = farmsLP.filter((farm) => farm.multiplier === "0X");
   // samarth
@@ -436,31 +425,6 @@ const Farms: React.FC = () => {
               />
               <Text> {TranslateString(1116, "Staked only")}</Text>
             </ToggleWrapper>
-            {metaTransactionCheck === "true" ? (
-              <ToggleWrapper>
-                <Toggle
-                  checked={truevaraible}
-                  onChange={() => {
-                    setmetaTransactionOnly(!truevaraible);
-                    window.localStorage.setItem("metatransaction", "false");
-                  }}
-                  scale="sm"
-                />
-                <Text> {TranslateString(1116, "Meta Trandaction")}</Text>
-              </ToggleWrapper>
-            ) : (
-              <ToggleWrapper>
-                <Toggle
-                  checked={falsevaraible}
-                  onChange={() => {
-                    setmetaTransactionOnly(!falsevaraible);
-                    window.localStorage.setItem("metatransaction", "true");
-                  }}
-                  scale="sm"
-                />
-                <Text> {TranslateString(1116, "Meta Trandaction")}</Text>
-              </ToggleWrapper>
-            )}
 
             <FarmTabButtons />
           </ViewControls>
