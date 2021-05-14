@@ -1,5 +1,6 @@
 import React, { useEffect, lazy } from "react";
 import { Router, Redirect, Route, Switch } from "react-router-dom";
+import { ApolloProvider } from "@apollo/client";
 import { ResetCSS } from "cryption-uikit";
 import BigNumber from "bignumber.js";
 import useEagerConnect from "hooks/useEagerConnect";
@@ -8,6 +9,7 @@ import {
   useFetchProfile,
   useFetchPublicData,
 } from "state/hooks";
+import { useApollo } from "apollo/index";
 import useGetDocumentTitlePrice from "./hooks/useGetDocumentTitlePrice";
 import GlobalStyle from "./style/Global";
 import Menu from "./components/Menu";
@@ -51,66 +53,68 @@ const App: React.FC = () => {
   useFetchProfile();
   useFetchPriceList();
   useGetDocumentTitlePrice();
-
+  const client = useApollo();
   return (
-    <Router history={history}>
-      <ResetCSS />
-      <GlobalStyle />
-      <Menu>
-        <SuspenseWithChunkError fallback={<PageLoader />}>
-          <Switch>
-            <Route path="/" exact>
-              <Home />
-            </Route>
-            <Route path="/farms">
-              <Farms />
-            </Route>
-            <Route path="/pools">
-              <Pools />
-            </Route>
-            <Route path="/migrate">
-              <Migrate />
-            </Route>
-            <Route path="/cntbar">
-              <CNTBar />
-            </Route>
-            {/* <Route path="/lottery">
+    <ApolloProvider client={client}>
+      <Router history={history}>
+        <ResetCSS />
+        <GlobalStyle />
+        <Menu>
+          <SuspenseWithChunkError fallback={<PageLoader />}>
+            <Switch>
+              <Route path="/" exact>
+                <Home />
+              </Route>
+              <Route path="/farms">
+                <Farms />
+              </Route>
+              <Route path="/pools">
+                <Pools />
+              </Route>
+              <Route path="/migrate">
+                <Migrate />
+              </Route>
+              <Route path="/cntbar">
+                <CNTBar />
+              </Route>
+              {/* <Route path="/lottery">
               <Lottery />
             </Route> */}
-            {/* <Route path="/ifo">
+              {/* <Route path="/ifo">
               <Ifos />
             </Route> */}
-            {/* <Route path="/collectibles">
+              {/* <Route path="/collectibles">
               <Collectibles />
             </Route> */}
-            {/* <Route exact path="/teams">
+              {/* <Route exact path="/teams">
               <Teams />
             </Route> */}
-            {/* <Route path="/teams/:id">
+              {/* <Route path="/teams/:id">
               <Team />
             </Route> */}
-            {/* <Route path="/profile">
+              {/* <Route path="/profile">
               <Profile />
             </Route> */}
-            {/* Redirect */}
-            <Route path="/staking">
-              <Redirect to="/pools" />
-            </Route>
-            <Route path="/syrup">
-              <Redirect to="/pools" />
-            </Route>
-            <Route path="/nft">
-              <Redirect to="/collectibles" />
-            </Route>
-            {/* 404 */}
-            {/* <Route component={NotFound} /> */}
-          </Switch>
-        </SuspenseWithChunkError>
-      </Menu>
-      <EasterEgg iterations={2} />
-      <ToastListener />
-      <GlobalCheckBullHiccupClaimStatus />
-    </Router>
+              {/* Redirect */}
+              <Route path="/staking">
+                <Redirect to="/pools" />
+              </Route>
+              <Route path="/syrup">
+                <Redirect to="/pools" />
+              </Route>
+              <Route path="/nft">
+                <Redirect to="/collectibles" />
+              </Route>
+              {/* 404 */}
+              {/* <Route component={NotFound} /> */}
+            </Switch>
+          </SuspenseWithChunkError>
+        </Menu>
+        <EasterEgg iterations={2} />
+        <ToastListener />
+        <GlobalCheckBullHiccupClaimStatus />
+      </Router>
+    </ApolloProvider>
   );
 };
 
