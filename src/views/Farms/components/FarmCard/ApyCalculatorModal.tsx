@@ -71,7 +71,7 @@ const ApyCalculatorModal: React.FC<ApyCalculatorModalProps> = ({
           <Text
             fontSize="12px"
             bold
-            color="textSubtle"
+            color="#86878F"
             textTransform="uppercase"
             mb="20px"
           >
@@ -82,7 +82,7 @@ const ApyCalculatorModal: React.FC<ApyCalculatorModalProps> = ({
           <Text
             fontSize="12px"
             bold
-            color="textSubtle"
+            color="#86878F"
             textTransform="uppercase"
             mb="20px"
           >
@@ -93,7 +93,7 @@ const ApyCalculatorModal: React.FC<ApyCalculatorModalProps> = ({
           <Text
             fontSize="12px"
             bold
-            color="textSubtle"
+            color="#86878F"
             textTransform="uppercase"
             mb="20px"
           >
@@ -165,7 +165,7 @@ const ApyCalculatorModal: React.FC<ApyCalculatorModalProps> = ({
           <Text>{cakeEarnedPerThousand365D}</Text>
         </GridItem>
       </Grid>
-      <Description fontSize="12px" color="textSubtle">
+      <Description fontSize="12px" color="#86878F">
         {TranslateString(
           866,
           "Calculated based on current rates. Compounding once daily. Rates are estimates provided for your convenience only, and by no means represent guaranteed returns."

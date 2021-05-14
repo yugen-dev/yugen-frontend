@@ -10,7 +10,6 @@ export interface MultiplierProps {
 }
 
 const MultiplierWrapper = styled.div`
-  margin-top: 10px;
   margin-right: 5px;
   font-size: 20px;
   font-weight: 600;
@@ -26,7 +25,7 @@ const MultiplierWrapper = styled.div`
 const Container = styled.div`
   display: flex;
   align-items: center;
-
+  margin-top: 10px;
   svg {
     margin-left: 14px;
   }
@@ -63,7 +62,7 @@ const Multiplier: React.FunctionComponent<MultiplierProps> = ({
           </div>
         }
       >
-        <HelpIcon color="textSubtle" style={{ marginTop: "10px" }} />
+        <HelpIcon color="#2082E9"/>
       </Tooltip>
     </Container>
   );

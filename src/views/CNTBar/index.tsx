@@ -47,13 +47,11 @@ const CNText = styled.div`
 const StakingContainer = styled.div`
   border-radius: 0.625rem !important;
   padding: 30px 15px;
-  background-color: #161522;
+  background-color: #1E202A;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 0 transparent, 0 0 transparent,
-    0px 50px 250px -47px rgba(39, 176, 230, 0.29) !important;
 `;
 const CustomInputPannel = styled.div`
   margin: 25px 0px;

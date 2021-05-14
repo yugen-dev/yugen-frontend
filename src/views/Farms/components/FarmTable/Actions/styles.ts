@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const ActionContainer = styled.div`
-  padding: 16px;
+  padding: 25px;
   border-radius: 14px;
   flex-grow: 1;
   flex-basis: 0;
@@ -12,14 +12,12 @@ export const ActionContainer = styled.div`
     margin-left: 12px;
     margin-right: 12px;
     margin-bottom: 0;
-    max-height: 100px;
   }
 
   ${({ theme }) => theme.mediaQueries.xl} {
     margin-left: 48px;
     margin-right: 0;
     margin-bottom: 0;
-    max-height: 100px;
   }
   box-shadow: 1px 1px 0 2px #2082e9, -1px -1px 0 2px #9208fe;
 `;
@@ -27,7 +25,7 @@ export const ActionContainer = styled.div`
 export const ActionTitles = styled.div`
   font-weight: 600;
   font-size: 12px;
-  margin-bottom: 8px;
+  margin-bottom: 15px;
 `;
 
 export const Title = styled.span`

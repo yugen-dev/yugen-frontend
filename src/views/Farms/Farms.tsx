@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React, { useEffect, useCallback, useState } from "react";
 import { Route, useRouteMatch, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -6,8 +7,6 @@ import { useWeb3React } from "@web3-react/core";
 import { Image, Heading, RowType, Toggle, Text } from "cryption-uikit";
 import styled from "styled-components";
 import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CAKE_POOL_PID } from "config";
-import FlexLayout from "components/layout/Flex";
-import Page from "components/layout/Page";
 import {
   useFarms,
   usePriceBnbBusd,
@@ -30,6 +29,64 @@ import ToggleView from "./components/ToggleView/ToggleView";
 import { DesktopColumnSchema, ViewMode } from "./components/types";
 import Select, { OptionProps } from "./components/Select/Select";
 
+const Header = styled.div`
+  padding: 32px 0px;
+  background: #1a1b23;
+
+  padding-left: 16px;
+  padding-right: 16px;
+
+  ${({ theme }) => theme.mediaQueries.sm} {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+`;
+const FlexLayout = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 25px;
+  & > * {
+    min-width: 280px;
+    max-width: 31.5%;
+    width: 100%;
+    margin: 0 8px;
+    margin-bottom: 32px;
+  }
+`;
+const Container = styled.div`
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1200px;
+  padding-left: 16px;
+  padding-right: 16px;
+
+  ${({ theme }) => theme.mediaQueries.sm} {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+`;
+const StyledImage = styled(Image)`
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 58px;
+`;
+const Page = styled(Container)`
+  min-height: calc(100vh - 64px);
+  padding-top: 16px;
+  padding-bottom: 16px;
+
+  ${({ theme }) => theme.mediaQueries.sm} {
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+
+  ${({ theme }) => theme.mediaQueries.lg} {
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+`;
+
 const ControlContainer = styled.div`
   display: flex;
   width: 100%;
@@ -42,10 +99,9 @@ const ControlContainer = styled.div`
   ${({ theme }) => theme.mediaQueries.sm} {
     flex-direction: row;
     flex-wrap: wrap;
-    padding: 16px 32px;
+    padding: 16px 0px;
   }
 `;
-
 const ToggleWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -55,25 +111,6 @@ const ToggleWrapper = styled.div`
     margin-left: 8px;
   }
 `;
-
-const LabelWrapper = styled.div`
-  > ${Text} {
-    font-size: 12px;
-  }
-`;
-
-const FilterContainer = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 8px 0px;
-
-  ${({ theme }) => theme.mediaQueries.sm} {
-    width: auto;
-    padding: 0;
-  }
-`;
-
 const ViewControls = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
@@ -94,23 +131,24 @@ const ViewControls = styled.div`
     }
   }
 `;
-
-const StyledImage = styled(Image)`
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 58px;
-`;
-
-const Header = styled.div`
-  padding: 32px 0px;
-  background: #1a1b23;
-
-  padding-left: 16px;
-  padding-right: 16px;
+const FilterContainer = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 8px 0px;
 
   ${({ theme }) => theme.mediaQueries.sm} {
-    padding-left: 24px;
-    padding-right: 24px;
+    width: auto;
+    padding: 0;
+  }
+`;
+const LabelWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  > ${Text} {
+    font-size: 15px;
+    margin-right: 15px;
   }
 `;
 
@@ -183,7 +221,7 @@ const Farms: React.FC = () => {
     (farmsToDisplay): FarmWithStakedValue[] => {
       const cakePriceVsBNB = new BigNumber(
         farmsLP.find((farm) => farm.pid === CAKE_POOL_PID)?.tokenPriceVsQuote ||
-          0
+        0
       );
       let farmsToDisplayWithAPY: FarmWithStakedValue[] = farmsToDisplay.map(
         (farm) => {
@@ -454,18 +492,24 @@ const Farms: React.FC = () => {
                 onChange={handleSortOptionChange}
               />
             </LabelWrapper>
-            <LabelWrapper style={{ marginLeft: 16 }}>
+            <LabelWrapper style={{ marginLeft: 20 }}>
               <Text>SEARCH</Text>
               <SearchInput onChange={handleChangeQuery} value={query} />
             </LabelWrapper>
           </FilterContainer>
         </ControlContainer>
         {renderContent()}
-        <StyledImage
+        {/* <StyledImage
           src="/images/3dpan.png"
           alt="Swapcafe illustration"
           width={120}
           height={103}
+        /> */}
+        <div
+          dangerouslySetInnerHTML={{
+            __html:
+              '<lottie-player src="https://assets3.lottiefiles.com/packages/lf20_r71cen62.json"  background="transparent"  speed="1" style="height: 350px;" loop  autoplay></lottie-player>',
+          }}
         />
       </Page>
     </>

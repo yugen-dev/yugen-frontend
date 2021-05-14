@@ -6,6 +6,7 @@ import { LanguageContext } from "contexts/Localisation/languageContext";
 import useTheme from "hooks/useTheme";
 import useAuth from "hooks/useAuth";
 import { usePriceCakeBusd, useProfile } from "state/hooks";
+import LogoIcon from 'images/PolyDEX White Text (2).svg';
 import config from "./config";
 
 const Menu = (props) => {
@@ -22,6 +23,7 @@ const Menu = (props) => {
       account={account}
       login={login}
       logout={logout}
+      logoIcon={LogoIcon}
       isDark={isDark}
       toggleTheme={toggleTheme}
       currentLang={selectedLanguage && selectedLanguage.code}

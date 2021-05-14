@@ -21,7 +21,7 @@ export interface ActionPanelProps {
 }
 
 const Container = styled.div`
-  background: #1e202a;
+  background: #252836;
   display: flex;
   width: 100%;
   flex-direction: column-reverse;
@@ -29,13 +29,13 @@ const Container = styled.div`
 
   ${({ theme }) => theme.mediaQueries.lg} {
     flex-direction: row;
-    padding: 16px 32px;
+    padding: 32px;
   }
 `;
 
 const StyledLinkExternal = styled(LinkExternal)`
   font-weight: 400;
-  color: #3869ee;
+  color: #2082E9;
 `;
 
 const StakeContainer = styled.div`
@@ -140,7 +140,7 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
           </StyledLinkExternal>
         </StakeContainer>
         <StyledLinkExternal href={bsc}>
-          {TranslateString(999, "BscScan")}
+          {TranslateString(999, "MaticExplorer")}
         </StyledLinkExternal>
         <StyledLinkExternal href={info}>
           {TranslateString(999, "Info Site")}

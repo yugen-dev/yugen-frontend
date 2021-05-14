@@ -83,14 +83,14 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
         <Text
           bold
           textTransform="uppercase"
-          color="secondary"
+          color="#2082E9"
           fontSize="12px"
-          pr="3px"
+          pr="5px"
         >
           {/* TODO: Is there a way to get a dynamic value here from useFarmFromSymbol? */}
           CAKE
         </Text>
-        <Text bold textTransform="uppercase" color="textSubtle" fontSize="12px">
+        <Text bold textTransform="uppercase" color="#86878F" fontSize="12px" mb="10px">
           {TranslateString(1072, "Earned")}
         </Text>
       </Flex>
@@ -99,13 +99,13 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
         <Text
           bold
           textTransform="uppercase"
-          color="secondary"
+          color="#2082E9"
           fontSize="12px"
-          pr="3px"
+          pr="5px"
         >
           {lpName}
         </Text>
-        <Text bold textTransform="uppercase" color="textSubtle" fontSize="12px">
+        <Text bold textTransform="uppercase" color="#86878F" fontSize="12px" mb="10px">
           {TranslateString(1074, "Staked")}
         </Text>
       </Flex>

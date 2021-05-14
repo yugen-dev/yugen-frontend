@@ -49,7 +49,7 @@ const TotalValueLockedCard = () => {
 };
 
 const CNValueHeading = styled.div`
-  font-size: 24px;
+  font-size: 30px;
   font-weight: bold;
   text-transform: capitalize;
   color: white;

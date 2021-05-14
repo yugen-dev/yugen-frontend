@@ -18,7 +18,7 @@ const Wrapper = styled(Flex)`
 `;
 
 const MultiplierTag = styled(Tag)`
-  margin-left: 4px;
+  margin-left: 10px;
   background: linear-gradient(161.46deg, #2a76eb 12.56%, #9702ff 90.36%);
 `;
 
@@ -38,7 +38,7 @@ const CardHeading: React.FC<ExpandableSectionProps> = ({
         height={64}
       />
       <Flex flexDirection="column" alignItems="flex-end">
-        <Heading mb="4px">{lpLabel}</Heading>
+        <Heading mb="15px">{lpLabel}</Heading>
         <Flex justifyContent="center">
           {isCommunityFarm ? <CommunityTag /> : <CoreTag />}
           <MultiplierTag variant="secondary">{multiplier}</MultiplierTag>

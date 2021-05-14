@@ -18,7 +18,7 @@ const Wrapper = styled.div`
 const StyledLinkExternal = styled(LinkExternal)`
   text-decoration: none;
   font-weight: normal;
-  color: #3869ee;
+  color: #2082E9;
   display: flex;
   align-items: center;
 
@@ -26,7 +26,7 @@ const StyledLinkExternal = styled(LinkExternal)`
     padding-left: 4px;
     height: 18px;
     width: auto;
-    fill: #3869ee;
+    fill: #2082E9;
   }
 `;
 
@@ -53,7 +53,7 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({
           <Text>{totalValueFormated}</Text>
         </Flex>
       )}
-      <Flex justifyContent="flex-start">
+      <Flex justifyContent="center">
         <Link external href={maticExplorerAddress} bold={false} color="#3869EE">
           {TranslateString(356, "View on MaticExplorer")}
         </Link>
