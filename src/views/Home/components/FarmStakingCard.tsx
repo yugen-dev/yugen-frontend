@@ -11,8 +11,10 @@ import CakeWalletBalance from "./CakeWalletBalance";
 
 const Block = styled.div`
   display: flex;
-  min-width: 100%;
-  justify-content: space-around;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 400px;
+  justify-content: space-between;
   align-items: center;
 `;
 
@@ -61,8 +63,8 @@ const FarmedStakingCard = () => {
         <CardImage
           src="/images/CNLatte.png"
           alt="cake logo"
-          width="40px"
-          height="40px"
+          width="30px"
+          height="30px"
         />
         <CNHeading>{TranslateString(542, "Farms & Staking")}</CNHeading>
       </HeadingSection>
@@ -105,32 +107,28 @@ const CNHeading = styled.div`
   font-size: 30px;
   font-weight: 700;
   text-transform: uppercase;
-  color: #cfcccc;
+  color: white;
 `;
 const HeadingSection = styled.div`
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   max-width: 400px;
+  margin-bottom: 20px;
   width: 100%;
 `;
 const CNCardBody = styled.div`
   text-align: center;
-  max-width: 420px;
+  border-radius: 0.625rem !important;
+  padding: 30px 15px;
+  background-color: #1E202A;
   align-self: center;
-  min-height: 350px;
   display: flex;
+  width: 100%;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid #48494e;
   border-radius: 0.625rem !important;
-  padding: 30px 15px;
-  background: linear-gradient(
-    123.13deg,
-    rgba(255, 253, 253, 0.12) 25.56%,
-    rgba(255, 255, 255, 0.03) 97.77%
-  );
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 

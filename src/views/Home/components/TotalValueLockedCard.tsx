@@ -49,14 +49,14 @@ const TotalValueLockedCard = () => {
 };
 
 const CNValueHeading = styled.div`
-  font-size: 22px;
+  font-size: 24px;
   font-weight: bold;
   text-transform: capitalize;
   color: white;
 `;
 
 const CNText = styled.div`
-  font-size: 14px;
+  font-size: 16px;
   text-align: center;
   font-weight: normal;
   color: #cfcccc;
@@ -64,7 +64,7 @@ const CNText = styled.div`
 
 const CNHeading = styled.div`
   color: #686b7a;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
   text-align: center;
   text-transform: capitalize;
