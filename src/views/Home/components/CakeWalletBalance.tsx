@@ -37,6 +37,7 @@ const CakeWalletBalance = () => {
       <CardValue
         value={getBalanceNumber(cakeBalance)}
         decimals={4}
+        color="#2082E9"
         lineHeight="1.5"
       />
       <CardBusdValue value={busdBalance} />

@@ -5,9 +5,8 @@ import {
   Button,
   Flex,
   Link,
-  // Input, InputProps
+  Input, InputProps
 } from "cryption-uikit";
-import { Input, InputProps } from "@pancakeswap-libs/uikit";
 import useI18n from "../../hooks/useI18n";
 
 interface ModalInputProps {
@@ -32,19 +31,18 @@ const getBoxShadow = ({ isWarning = false, theme }) => {
 const StyledTokenInput = styled.div<InputProps>`
   display: flex;
   flex-direction: column;
-  background-color: ${({ theme }) => theme.colors.input};
+  background-color: rgba(0,0,0,0.71);
   border-radius: 16px;
   box-shadow: ${getBoxShadow};
   color: ${({ theme }) => theme.colors.text};
-  padding: 8px 16px 8px 0;
+  padding: 16px 16px 16px 0px;
   width: 100%;
 `;
 
 const StyledInput = styled(Input)`
   box-shadow: none;
   width: 60px;
-  margin: 0 8px;
-  padding: 0 8px;
+  margin-right: 8px;
 
   ${({ theme }) => theme.mediaQueries.xs} {
     width: 80px;
@@ -56,8 +54,7 @@ const StyledInput = styled(Input)`
 `;
 
 const StyledErrorMessage = styled(Text)`
-  position: absolute;
-  bottom: -22px;
+  margin-top: 8px;
   a {
     display: inline;
   }
@@ -89,8 +86,7 @@ const ModalInput: React.FC<ModalInputProps> = ({
         </Flex>
         <Flex alignItems="flex-end" justifyContent="space-around">
           <StyledInput
-            onChange={onChange}
-            // onInputChange={onChange}
+            onInputChange={onChange}
             placeholder="0"
             value={value}
           />

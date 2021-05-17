@@ -5,9 +5,10 @@ import useI18n from "hooks/useI18n";
 import { useGetStats } from "hooks/api";
 
 const StyledTotalValueLockedCard = styled(Card)`
-  max-height: 225px;
-  padding: 40px;
-  background: #1e202a;
+  height: 100%;
+  border-radius: 0.625rem !important;
+  padding: 30px 15px;
+  background-color: #1E202A;
   box-shadow: 1px 2px 4px 3px rgba(0, 0, 0, 0.16);
   align-items: center;
   display: flex;
@@ -48,14 +49,15 @@ const TotalValueLockedCard = () => {
 };
 
 const CNValueHeading = styled.div`
-  font-size: 40px;
+  font-size: 30px;
   font-weight: bold;
   text-transform: capitalize;
   color: white;
 `;
 
 const CNText = styled.div`
-  font-size: 14px;
+  font-size: 16px;
+  text-align: center;
   font-weight: normal;
   color: #cfcccc;
 `;
@@ -64,13 +66,16 @@ const CNHeading = styled.div`
   color: #686b7a;
   font-size: 20px;
   font-weight: bold;
+  text-align: center;
   text-transform: capitalize;
 `;
 const CNCardBody = styled.div`
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+  align-items: center;
   height: 100%;
+  width: 100%;
 `;
 
 export default TotalValueLockedCard;

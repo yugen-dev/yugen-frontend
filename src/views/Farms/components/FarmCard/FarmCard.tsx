@@ -49,7 +49,7 @@ const StyledCardAccent = styled.div`
   );
   background-size: 300% 300%;
   animation: ${RainbowLight} 2s linear infinite;
-  border-radius: 32px;
+  border-radius: 0.625rem !important;
   filter: blur(6px);
   position: absolute;
   top: -2px;
@@ -62,13 +62,13 @@ const StyledCardAccent = styled.div`
 
 const FCard = styled.div`
   align-self: baseline;
-  background: #1e202a;
-  border-radius: 32px;
+  background: #1E202A;
+  border-radius: 0.625rem !important;
   box-shadow: 1px 2px 4px 3px rgba(0, 0, 0, 0.16);
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  padding: 24px;
+  padding: 30px 15px;
   position: relative;
   text-align: center;
 `;

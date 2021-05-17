@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { Heading, Card, CardBody, Button, useModal } from "cryption-uikit";
@@ -128,12 +129,19 @@ const FarmedStakingCard = () => {
     //     </Actions>
     //   </CardBody>
     // </StyledLotteryCard>
-    <div>
-      <img
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
+      {/* <img
         src="/images/CNBarista.svg"
         alt="Barista"
         height="100%"
+        style={{ maxWidth: '400px' }}
         width="100%"
+      /> */}
+      <div
+        dangerouslySetInnerHTML={{
+          __html:
+            '<lottie-player src="https://assets2.lottiefiles.com/packages/lf20_ZBDdP3/data.json"  background="transparent"  speed="1" style="height: 100%;" loop  autoplay></lottie-player>',
+        }}
       />
     </div>
   );

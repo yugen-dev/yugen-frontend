@@ -16,8 +16,8 @@ import { useFarms, usePriceBnbBusd } from "state/hooks";
 import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CAKE_POOL_PID } from "config";
 
 const StyledFarmStakingCard = styled(Card)`
-  max-height: 225px;
-  padding: 40px;
+  height: 100%;
+  padding: 20px;
   background: #1e202a;
   box-shadow: 1px 2px 4px 3px rgba(0, 0, 0, 0.16);
   margin-left: auto;

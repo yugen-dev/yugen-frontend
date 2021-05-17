@@ -11,12 +11,16 @@ import CakeWalletBalance from "./CakeWalletBalance";
 
 const Block = styled.div`
   display: flex;
-  min-width: 100%;
-  justify-content: space-around;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 400px;
+  justify-content: space-between;
   align-items: center;
 `;
 
-const CardImage = styled.img``;
+const CardImage = styled.img`
+  margin-right: 20px;
+`;
 
 const Label = styled.div`
   color: white;
@@ -55,13 +59,15 @@ const FarmedStakingCard = () => {
 
   return (
     <CNCardBody>
-      <CNHeading>{TranslateString(542, "Farms & Staking")}</CNHeading>
-      <CardImage
-        src="/images/CNLatte.png"
-        alt="cake logo"
-        width={64}
-        height={64}
-      />
+      <HeadingSection>
+        <CardImage
+          src="/images/CNLatte.png"
+          alt="cake logo"
+          width="30px"
+          height="30px"
+        />
+        <CNHeading>{TranslateString(542, "Farms & Staking")}</CNHeading>
+      </HeadingSection>
       <Block>
         <Label>
           {TranslateString(544, "CAKE to Harvest")} {`  `}:
@@ -85,9 +91,9 @@ const FarmedStakingCard = () => {
             {pendingTx
               ? TranslateString(548, "Collecting CAKE")
               : TranslateString(
-                  532,
-                  `Harvest all (${balancesWithValue.length})`
-                )}
+                532,
+                `Harvest all (${balancesWithValue.length})`
+              )}
           </Button>
         ) : (
           <UnlockButton />
@@ -101,25 +107,28 @@ const CNHeading = styled.div`
   font-size: 30px;
   font-weight: 700;
   text-transform: uppercase;
-  color: #cfcccc;
+  color: white;
 `;
-
+const HeadingSection = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 400px;
+  margin-bottom: 20px;
+  width: 100%;
+`;
 const CNCardBody = styled.div`
   text-align: center;
-  padding: 40px;
-  min-width: 400px;
-  min-height: 350px;
+  border-radius: 0.625rem !important;
+  padding: 30px 15px;
+  background-color: #1E202A;
+  align-self: center;
   display: flex;
+  width: 100%;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  border: 2px solid #48494e;
-  border-radius: 27px;
-  background: linear-gradient(
-    123.13deg,
-    rgba(255, 253, 253, 0.12) 25.56%,
-    rgba(255, 255, 255, 0.03) 97.77%
-  );
+  border-radius: 0.625rem !important;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 

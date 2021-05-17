@@ -36,9 +36,8 @@ const ApyButton: React.FC<ApyButtonProps> = ({
       variant="text"
       scale="sm"
       ml="4px"
-      style={{ marginTop: "10px" }}
     >
-      <CalculateIcon width="18px" />
+      <CalculateIcon width="18px" color="#2082E9" />
     </IconButton>
   );
 };

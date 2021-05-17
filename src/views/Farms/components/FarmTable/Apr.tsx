@@ -23,14 +23,14 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   color: ${({ theme }) => theme.colors.text};
-
+  margin-top: 10px;
   button {
     width: 20px;
     height: 20px;
 
     svg {
       path {
-        fill: ${({ theme }) => theme.colors.textSubtle};
+        fill: #2082E9;
       }
     }
   }
@@ -39,7 +39,6 @@ const Container = styled.div`
 const AprWrapper = styled.div`
   min-width: 60px;
   text-align: left;
-  margin-top: 10px;
   font-size: 20px;
   font-weight: 600;
   color: #86878f;

@@ -23,7 +23,6 @@ import CompoundModal from "./CompoundModal";
 import CardTitle from "./CardTitle";
 import Card from "./Card";
 import OldSyrupTitle from "./OldSyrupTitle";
-import HarvestButton from "./HarvestButton";
 import CardFooter from "./CardFooter";
 
 interface HarvestProps {
@@ -138,54 +137,61 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   return (
     <Card isActive={isCardActive} isFinished={isFinished && sousId !== 0}>
       {isFinished && sousId !== 0 && <PoolFinishedSash />}
+      <div style={{ borderBottom: '1px solid #524B63' }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: 'space-between', padding: "24px" }}>
+          <CardTitle isFinished={isFinished && sousId !== 0}>
+            {isOldSyrup && "[OLD]"} {tokenName} {TranslateString(348, "Pool")}
+          </CardTitle>
+          <Image
+            src={`/images/tokens/${image || tokenName}.png`}
+            width={64}
+            height={64}
+            alt={tokenName}
+          />
+        </div>
+      </div>
       <div style={{ padding: "24px" }}>
-        <CardTitle isFinished={isFinished && sousId !== 0}>
-          {isOldSyrup && "[OLD]"} {tokenName} {TranslateString(348, "Pool")}
-        </CardTitle>
         <div
-          style={{ marginBottom: "8px", display: "flex", alignItems: "center" }}
+          style={{ marginBottom: "8px" }}
         >
-          <div style={{ flex: 1 }}>
-            <Image
-              src={`/images/tokens/${image || tokenName}.png`}
-              width={64}
-              height={64}
-              alt={tokenName}
-            />
+          <div style={{ width: '100%', maxWidth: '400px', margin: '20px 0px' }}>
+            {account && harvest && !isOldSyrup && (
+              <Button
+                disabled={!earnings.toNumber() || pendingTx}
+                style={{ width: '100%', maxWidth: '400px' }}
+                onClick={async () => {
+                  setPendingTx(true);
+                  await onReward();
+                  setPendingTx(false);
+                }}
+              >
+                {pendingTx ? "Collecting" : "Harvest"}
+              </Button>
+            )}
           </div>
-          {account && harvest && !isOldSyrup && (
-            <HarvestButton
-              disabled={!earnings.toNumber() || pendingTx}
-              text={pendingTx ? "Collecting" : "Harvest"}
-              onClick={async () => {
-                setPendingTx(true);
-                await onReward();
-                setPendingTx(false);
-              }}
-            />
+          {!isOldSyrup ? (
+            <BalanceAndCompound>
+              <Balance
+                value={getBalanceNumber(earnings, tokenDecimals)}
+                isDisabled={isFinished}
+              />
+              {sousId === 0 && account && harvest && (
+                <Button
+                  disabled={!earnings.toNumber() || pendingTx}
+                  onClick={onPresentCompound}
+                >
+                  {
+                    pendingTx
+                      ? TranslateString(999, "Compounding")
+                      : TranslateString(704, "Compound")
+                  }
+                </Button>
+              )}
+            </BalanceAndCompound>
+          ) : (
+            <OldSyrupTitle hasBalance={accountHasStakedBalance} />
           )}
         </div>
-        {!isOldSyrup ? (
-          <BalanceAndCompound>
-            <Balance
-              value={getBalanceNumber(earnings, tokenDecimals)}
-              isDisabled={isFinished}
-            />
-            {sousId === 0 && account && harvest && (
-              <HarvestButton
-                disabled={!earnings.toNumber() || pendingTx}
-                text={
-                  pendingTx
-                    ? TranslateString(999, "Compounding")
-                    : TranslateString(704, "Compound")
-                }
-                onClick={onPresentCompound}
-              />
-            )}
-          </BalanceAndCompound>
-        ) : (
-          <OldSyrupTitle hasBalance={accountHasStakedBalance} />
-        )}
         <Label
           isFinished={isFinished && sousId !== 0}
           text={TranslateString(330, `${tokenName} earned`)}
@@ -210,10 +216,10 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                   onClick={
                     isOldSyrup
                       ? async () => {
-                          setPendingTx(true);
-                          await onUnstake("0", stakingTokenDecimals);
-                          setPendingTx(false);
-                        }
+                        setPendingTx(true);
+                        await onUnstake("0", stakingTokenDecimals);
+                        setPendingTx(false);
+                      }
                       : onPresentWithdraw
                   }
                 >
@@ -306,6 +312,7 @@ const StyledDetails = styled.div`
   justify-content: space-between;
   align-items: center;
   font-size: 14px;
+  color: #86878f;
 `;
 
 export default PoolCard;

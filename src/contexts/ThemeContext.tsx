@@ -5,14 +5,15 @@ import { light, dark } from "cryption-uikit";
 const CACHE_KEY = "IS_DARK";
 
 const ThemeContext = React.createContext({
-  isDark: null,
+  isDark: true,
   toggleTheme: () => null,
 });
 
 const ThemeContextProvider = ({ children }) => {
   const [isDark, setIsDark] = useState(() => {
-    const isDarkUserSetting = localStorage.getItem(CACHE_KEY);
-    return isDarkUserSetting ? JSON.parse(isDarkUserSetting) : false;
+    // const isDarkUserSetting = localStorage.getItem(CACHE_KEY);
+    // return isDarkUserSetting ? JSON.parse(isDarkUserSetting) : false;
+    return true;
   });
 
   const toggleTheme = () => {

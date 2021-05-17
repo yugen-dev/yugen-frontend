@@ -6,7 +6,7 @@ const CardBusdValue: React.FC<CardValueProps> = (props) => {
     <CardValue
       fontSize="14px"
       lineHeight="1.1"
-      color="textSubtle"
+      color="#86878f"
       prefix="~$"
       bold={false}
       decimals={2}
