@@ -4,55 +4,55 @@ import { FarmConfig, QuoteToken } from "./types";
 const farms: FarmConfig[] = [
   {
     pid: 0,
-    lpSymbol: "CNT-MATIC LP",
+    lpSymbol: "CNT",
     lpAddresses: {
       97: "0xe70b7523f4bffa1f2e88d2ba709afd026030f412",
       56: "0xA527a61703D82139F8a06Bc30097cC9CAA2df5A6",
-      80001: "0x545f3927Cb5bbbaF41AF1160Df924B31aAeA21D1",
+      80001: "0x24C331CbC7517D93f0E8Cd03da9f3D36bF3DD564",
     },
     tokenSymbol: "CNT",
     tokenAddresses: {
       97: "0xe9e7cea3dedca5984780bafc599bd69add087d56",
       56: "0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82",
-      80001: "0x9822C1FBe8e9669a36CA2621430eC717336630a7",
+      80001: "0x24C331CbC7517D93f0E8Cd03da9f3D36bF3DD564",
     },
     quoteTokenSymbol: QuoteToken.BNB,
     quoteTokenAdresses: contracts.wbnb,
   },
-  {
-    pid: 1,
-    lpSymbol: "ETH-MATIC LP",
-    lpAddresses: {
-      97: "0xE66790075ad839978fEBa15D4d8bB2b415556a1D",
-      56: "0x70D8929d04b60Af4fb9B58713eBcf18765aDE422",
-      80001: "0xACA57886800bd7F0957232492eF007dD80877596",
-    },
-    tokenSymbol: "ETH",
-    tokenAddresses: {
-      97: "0xE02dF9e3e622DeBdD69fb838bB799E3F168902c5",
-      56: "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
-      80001: "0xb7946d4Acc7C31D0a4ae0E8746b1C0664734B81D",
-    },
-    quoteTokenSymbol: QuoteToken.BNB,
-    quoteTokenAdresses: contracts.wbnb,
-  },
-  {
-    pid: 2,
-    lpSymbol: "MUSD-MATIC LP",
-    lpAddresses: {
-      97: "0x2f7682b64b88149ba3250aee32db712964de5fa9",
-      56: "0x1b96b92314c44b159149f7e0303511fb2fc4774f",
-      80001: "0xc96399502384E5007e5510f3dE094CC5d002E59e",
-    },
-    tokenSymbol: "MUSD",
-    tokenAddresses: {
-      97: "0xe9e7cea3dedca5984780bafc599bd69add087d56",
-      56: "0xe9e7cea3dedca5984780bafc599bd69add087d56",
-      80001: "0xd9CC4b889f1391C66D873d2dEbb4338C6A717fA2",
-    },
-    quoteTokenSymbol: QuoteToken.BNB,
-    quoteTokenAdresses: contracts.wbnb,
-  },
+  // {
+  //   pid: 1,
+  //   lpSymbol: "ETH-MATIC LP",
+  //   lpAddresses: {
+  //     97: "0xE66790075ad839978fEBa15D4d8bB2b415556a1D",
+  //     56: "0x70D8929d04b60Af4fb9B58713eBcf18765aDE422",
+  //     80001: "0xACA57886800bd7F0957232492eF007dD80877596",
+  //   },
+  //   tokenSymbol: "ETH",
+  //   tokenAddresses: {
+  //     97: "0xE02dF9e3e622DeBdD69fb838bB799E3F168902c5",
+  //     56: "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
+  //     80001: "0xb7946d4Acc7C31D0a4ae0E8746b1C0664734B81D",
+  //   },
+  //   quoteTokenSymbol: QuoteToken.BNB,
+  //   quoteTokenAdresses: contracts.wbnb,
+  // },
+  // {
+  //   pid: 2,
+  //   lpSymbol: "MUSD-MATIC LP",
+  //   lpAddresses: {
+  //     97: "0x2f7682b64b88149ba3250aee32db712964de5fa9",
+  //     56: "0x1b96b92314c44b159149f7e0303511fb2fc4774f",
+  //     80001: "0xc96399502384E5007e5510f3dE094CC5d002E59e",
+  //   },
+  //   tokenSymbol: "MUSD",
+  //   tokenAddresses: {
+  //     97: "0xe9e7cea3dedca5984780bafc599bd69add087d56",
+  //     56: "0xe9e7cea3dedca5984780bafc599bd69add087d56",
+  //     80001: "0xd9CC4b889f1391C66D873d2dEbb4338C6A717fA2",
+  //   },
+  //   quoteTokenSymbol: QuoteToken.BNB,
+  //   quoteTokenAdresses: contracts.wbnb,
+  // },
   // {
   //   pid: 90,
   //   lpSymbol: 'BELT-BNB LP',

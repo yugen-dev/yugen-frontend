@@ -73,6 +73,7 @@ export interface PoolsState {
 
 export interface ProfileState {
   isInitialized: boolean;
+  metaTranscation?: boolean;
   isLoading: boolean;
   hasRegistered: boolean;
   data: Profile;

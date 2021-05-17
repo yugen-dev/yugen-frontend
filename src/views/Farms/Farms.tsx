@@ -18,7 +18,7 @@ import { fetchFarmUserDataAsync } from "state/actions";
 import { QuoteToken } from "config/constants/types";
 import useI18n from "hooks/useI18n";
 import { getBalanceNumber } from "utils/formatBalance";
-import { orderBy } from "lodash";
+import { orderBy, stubFalse } from "lodash";
 
 import FarmCard, { FarmWithStakedValue } from "./components/FarmCard/FarmCard";
 import Table from "./components/FarmTable/FarmTable";
@@ -161,7 +161,7 @@ const Farms: React.FC = () => {
   console.log(cakePrice.toNumber());
   const bnbPrice = usePriceBnbBusd();
   const [query, setQuery] = useState("");
-  const [viewMode, setViewMode] = useState(ViewMode.TABLE);
+  const [viewMode, setViewMode] = useState(ViewMode.CARD);
   const ethPriceUsd = usePriceEthBusd();
   // console.log(ethPriceUsd.toNumber());
   const { account } = useWeb3React();
@@ -175,6 +175,8 @@ const Farms: React.FC = () => {
     }
   }, [account, dispatch, fastRefresh]);
 
+  const truevaraible = true;
+  const falsevaraible = false;
   const [stackedOnly, setStackedOnly] = useState(false);
 
   const activeFarms = farmsLP.filter((farm) => farm.multiplier !== "0X");
@@ -461,6 +463,7 @@ const Farms: React.FC = () => {
               />
               <Text> {TranslateString(1116, "Staked only")}</Text>
             </ToggleWrapper>
+
             <FarmTabButtons />
           </ViewControls>
           <FilterContainer>

@@ -32,7 +32,7 @@ const CardHeading: React.FC<ExpandableSectionProps> = ({
   return (
     <Wrapper justifyContent="space-between" alignItems="center" mb="12px">
       <Image
-        src="/images/CNLatte.png"
+        src={`/images/farms/${farmImage}.png`}
         alt={tokenSymbol}
         width={64}
         height={64}

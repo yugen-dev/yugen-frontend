@@ -6,21 +6,51 @@ import {
   updateUserStakedBalance,
   updateUserBalance,
 } from "state/actions";
-import { stake, sousStake, sousStakeBnb } from "utils/callHelpers";
-import { useMasterchef, useSousChef } from "./useContract";
+import {
+  stake,
+  sousStake,
+  sousStakeBnb,
+  GaslessStake,
+} from "utils/callHelpers";
+import { useProfile } from "state/hooks";
+import {
+  useMasterchef,
+  useSousChef,
+  useMasterchefGasless,
+} from "./useContract";
 
 const useStake = (pid: number) => {
   const dispatch = useDispatch();
   const { account } = useWeb3React();
   const masterChefContract = useMasterchef();
+  const masterChefGaslessContract = useMasterchefGasless();
 
+  const { metaTranscation } = useProfile();
   const handleStake = useCallback(
     async (amount: string) => {
-      const txHash = await stake(masterChefContract, pid, amount, account);
-      dispatch(fetchFarmUserDataAsync(account));
-      console.info(txHash);
+      if (metaTranscation) {
+        const txHash = await GaslessStake(
+          masterChefGaslessContract,
+          pid,
+          amount,
+          account
+        );
+        console.log(txHash);
+        dispatch(fetchFarmUserDataAsync(account));
+      } else {
+        const txHash = await stake(masterChefContract, pid, amount, account);
+        dispatch(fetchFarmUserDataAsync(account));
+        console.info(txHash);
+      }
     },
-    [account, dispatch, masterChefContract, pid]
+    [
+      account,
+      dispatch,
+      masterChefGaslessContract,
+      masterChefContract,
+      pid,
+      metaTranscation,
+    ]
   );
 
   return { onStake: handleStake };
