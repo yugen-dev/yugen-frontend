@@ -41,7 +41,7 @@ const StyledDetailsButton = styled.button`
   align-items: center;
   background-color: transparent;
   border: 0;
-  color: ${(props) => props.theme.colors.primary};
+  color: #2082E9;
   cursor: pointer;
   display: inline-flex;
   font-size: 16px;
@@ -76,7 +76,7 @@ const Label = styled.div`
 const TokenLink = styled.a`
   font-size: 14px;
   text-decoration: none;
-  color: ${(props) => props.theme.colors.primary};
+  color: #2082E9;
   cursor: pointer;
 `;
 
@@ -161,7 +161,7 @@ const CardFooter: React.FC<Props> = ({
               />
             </Row>
           )}
-          <Flex mb="4px">
+          <Flex mb="5px" mt="10px" justifyContent="center">
             <TokenLink
               onClick={() =>
                 registerToken(tokenAddress, tokenName, tokenDecimals, imageSrc)
@@ -171,9 +171,11 @@ const CardFooter: React.FC<Props> = ({
             </TokenLink>
             <MetamaskIcon height={15} width={15} ml="4px" />
           </Flex>
-          <TokenLink href={projectLink} target="_blank">
-            {TranslateString(412, "View project site")}
-          </TokenLink>
+          <Flex mb="5px" mt="10px" justifyContent="center">
+            <TokenLink href={projectLink} target="_blank">
+              {TranslateString(412, "View project site")}
+            </TokenLink>
+          </Flex>
         </Details>
       )}
     </StyledFooter>

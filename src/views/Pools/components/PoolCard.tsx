@@ -1,14 +1,16 @@
 import BigNumber from "bignumber.js";
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
+import { ethers } from "ethers";
 import styled from "styled-components";
 import { Button, IconButton, useModal, AddIcon, Image } from "cryption-uikit";
 import { useWeb3React } from "@web3-react/core";
 import UnlockButton from "components/UnlockButton";
 import Label from "components/Label";
-import { useERC20 } from "hooks/useContract";
-import { useApproveStaking } from "hooks/useApprove";
+import { getContract } from "utils/contractHelpers";
+import { getAddress } from "utils/addressHelpers";
 import useI18n from "hooks/useI18n";
 import { useSousStake } from "hooks/useStake";
+import useWeb3 from "hooks/useWeb3";
 import { useSousUnstake } from "hooks/useUnstake";
 import { getBalanceNumber } from "utils/formatBalance";
 import { getPoolApy } from "utils/apy";
@@ -17,6 +19,7 @@ import Balance from "components/Balance";
 import { QuoteToken, PoolCategory } from "config/constants/types";
 import { Pool } from "state/types";
 import { useGetApiPrice } from "state/hooks";
+import cakeAbi from "config/abi/cake.json";
 import DepositModal from "./DepositModal";
 import WithdrawModal from "./WithdrawModal";
 import CompoundModal from "./CompoundModal";
@@ -37,6 +40,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     tokenAddress,
     stakingTokenName,
     stakingTokenAddress,
+    contractAddress,
     stakingTokenDecimals,
     projectLink,
     harvest,
@@ -53,7 +57,6 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   const isBnbPool = poolCategory === PoolCategory.BINANCE;
   const TranslateString = useI18n();
   const { account } = useWeb3React();
-  const { onApprove } = useApproveStaking();
   /*  const {onEnter} = useEnter();
   const {onLeave} = useLeave(); */
   const { onStake } = useSousStake(sousId, isBnbPool);
@@ -69,7 +72,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     getBalanceNumber(pool.totalStaked, stakingTokenDecimals),
     parseFloat(pool.tokenPerBlock)
   );
-
+  const web3 = useWeb3();
   const [requestedApproval, setRequestedApproval] = useState(false);
   const [pendingTx, setPendingTx] = useState(false);
 
@@ -121,19 +124,21 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     />
   );
 
-  const handleApprove = useCallback(async () => {
+  const handleApprove = async () => {
     try {
+      const contract = await getContract(cakeAbi, tokenAddress, web3);
       setRequestedApproval(true);
-      const txHash = await onApprove();
+      const txHash = await contract.methods
+        .approve(getAddress(contractAddress), ethers.constants.MaxUint256)
+        .send({ from: account });
       // user rejected tx or didn't go thru
       if (!txHash) {
         setRequestedApproval(false);
       }
     } catch (e) {
-      console.error(e);
+      console.error('error is', e);
     }
-  }, [onApprove, setRequestedApproval]);
-
+  };
   return (
     <Card isActive={isCardActive} isFinished={isFinished && sousId !== 0}>
       {isFinished && sousId !== 0 && <PoolFinishedSash />}
@@ -311,7 +316,8 @@ const StyledDetails = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 14px;
+  margin-bottom: 10px;
+  font-size: 16px;
   color: #86878f;
 `;
 
