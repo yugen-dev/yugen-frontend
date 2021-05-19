@@ -13,6 +13,7 @@ export const approve = async (lpContract, masterChefContract, account) => {
     .approve(masterChefContract.options.address, ethers.constants.MaxUint256)
     .send({ from: account });
 };
+
 export const getSignatureParameters = (signature) => {
   if (!ethers.utils.isHexString(signature)) {
     throw new Error(
