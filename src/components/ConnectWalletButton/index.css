@@ -1,0 +1,10 @@
+.button-style {
+    background: linear-gradient(58.88deg, #2082E9 -1.8%, #9900FF 89.9%);
+    border-radius: 17px;
+    font-weight: 600;
+    font-size: 18px;
+    text-align: center;
+    letter-spacing: -0.015em;
+    text-transform: capitalize;
+    color: #FFFFFF;
+}

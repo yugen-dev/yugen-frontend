@@ -312,7 +312,6 @@ const CNTBar = () => {
             lg={6}
             xl={6}
             style={{ display: "flex", flexDirection: "column" }}
-            justify="space-between"
           >
             <StakingInfo>
               <Flex justifyContent="space-between">
