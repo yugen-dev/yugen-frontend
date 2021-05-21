@@ -37,7 +37,7 @@ const HarvestAction: React.FunctionComponent<FarmWithStakedValue> = ({
   }
 
   const [pendingTx, setPendingTx] = useState(false);
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const { onReward } = useHarvest(pid);
   const TranslateString = useI18n();
 

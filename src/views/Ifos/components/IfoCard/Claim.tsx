@@ -42,7 +42,7 @@ const Claim: React.FC<ClaimProps> = ({
   setIsClaimed,
 }) => {
   const TranslateString = useI18n();
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const didContribute = userInfo.amount.gt(0);
   const canClaim = !userInfo.claimed;
   const contributedBalance = getBalanceNumber(userInfo.amount);

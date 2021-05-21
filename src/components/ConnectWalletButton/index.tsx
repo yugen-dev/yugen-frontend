@@ -7,7 +7,7 @@ import './index.css';
 
 const UnlockButton: React.FC<ButtonProps> = (props) => {
   const TranslateString = useI18n()
-  const { account, activate, deactivate } = useWeb3React()
+  const { account, activate, deactivate } = useWeb3React('web3')
 
   const handleLogin = (connectorId: ConnectorNames) => {
     const connector = connectorsByName[connectorId]

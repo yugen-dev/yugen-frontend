@@ -52,7 +52,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   // Pools using native BNB behave differently than pools using a token
   const isBnbPool = poolCategory === PoolCategory.BINANCE;
   const TranslateString = useI18n();
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const { onApprove } = useApproveStaking();
   /*  const {onEnter} = useEnter();
   const {onLeave} = useLeave(); */

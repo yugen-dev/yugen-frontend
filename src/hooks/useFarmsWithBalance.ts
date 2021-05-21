@@ -16,7 +16,7 @@ const useFarmsWithBalance = () => {
   const [farmsWithBalances, setFarmsWithBalances] = useState<FarmWithBalance[]>(
     []
   );
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const { fastRefresh } = useRefresh();
 
   useEffect(() => {

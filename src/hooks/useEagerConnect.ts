@@ -3,7 +3,7 @@ import { connectorLocalStorageKey, ConnectorNames } from "cryption-uikit";
 import useAuth from "hooks/useAuth";
 
 const useEagerConnect = () => {
-  const { login } = useAuth();
+  const { loginEther } = useAuth();
 
   useEffect(() => {
     const connectorId = window.localStorage.getItem(
@@ -14,9 +14,9 @@ const useEagerConnect = () => {
     // into the Window object in time causing it to throw an error
     // TODO: Figure out an elegant way to listen for when the BinanceChain object is ready
     if (connectorId && connectorId !== ConnectorNames.BSC) {
-      login(connectorId);
+      loginEther(connectorId);
     }
-  }, [login]);
+  }, [loginEther]);
 };
 
 export default useEagerConnect;

@@ -20,7 +20,7 @@ const Block = styled.div``;
 
 const CakeHarvestBalance = () => {
   const TranslateString = useI18n();
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const allEarnings = useAllEarnings();
   const earningsSum = allEarnings.reduce((accum, earning) => {
     return (

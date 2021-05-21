@@ -12,7 +12,7 @@ import LogoIcon from 'images/PolyDEX White Text (2).svg';
 import config from "./config";
 
 const Menu = (props) => {
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const dispatch = useDispatch();
   const [checkedState, toggleChecked] = React.useState(false);
   const { login, logout } = useAuth();

@@ -6,7 +6,7 @@ import { getLibrary } from "utils/web3React";
 import getLibraryEther from "utils/getLibraryEther";
 // import { LanguageContextProvider } from "contexts/Localisation/languageContext";
 import { ThemeContextProvider } from "contexts/ThemeContext";
-// import { RefreshContextProvider } from "contexts/RefreshContext";
+import { RefreshContextProvider } from "contexts/RefreshContext";
 import store from "state";
 import { NetworkContextName } from './constants'
 

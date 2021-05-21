@@ -43,7 +43,7 @@ const StartPage: React.FC<StartPageProps> = ({
     profile.isActive ? numberCakeToUpdate : numberCakeToReactivate
   );
   const TranslateString = useI18n();
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const cakeContract = useCake();
   const cost = profile.isActive ? numberCakeToUpdate : numberCakeToReactivate;
 

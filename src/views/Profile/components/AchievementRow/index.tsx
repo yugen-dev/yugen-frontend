@@ -45,7 +45,7 @@ const AchievementRow: React.FC<AchievementRowProps> = ({
   const [isCollecting, setIsCollecting] = useState(false);
   const TranslateString = useI18n();
   const pointCenterContract = usePointCenterIfoContract();
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const { toastError, toastSuccess } = useToast();
 
   const handleCollectPoints = () => {

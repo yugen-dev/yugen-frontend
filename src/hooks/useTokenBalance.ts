@@ -8,7 +8,7 @@ import useRefresh from "./useRefresh";
 
 const useTokenBalance = (tokenAddress: string) => {
   const [balance, setBalance] = useState(new BigNumber(0));
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const web3 = useWeb3();
   // console.log(useWeb3React('web3'));
   // const web3ReactContext = getWeb3ReactContext("web3");

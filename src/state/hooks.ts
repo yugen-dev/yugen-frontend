@@ -198,7 +198,7 @@ export const useToast = () => {
 // Profile
 
 export const useFetchProfile = () => {
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -252,7 +252,7 @@ export const useTeams = () => {
 // Achievements
 
 export const useFetchAchievements = () => {
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const dispatch = useDispatch();
 
   useEffect(() => {

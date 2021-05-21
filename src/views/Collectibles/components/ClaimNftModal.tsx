@@ -29,7 +29,7 @@ const ClaimNftModal: React.FC<ClaimNftModalProps> = ({
 }) => {
   const [isConfirming, setIsConfirming] = useState(false);
   const TranslateString = useI18n();
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const { toastError, toastSuccess } = useToast();
   const bunnySpecialContract = useBunnySpecialContract();
 
