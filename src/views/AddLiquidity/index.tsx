@@ -98,9 +98,6 @@ const biconomy = new Biconomy(new Web3.providers.HttpProvider(maticProvider), {
   debug: true,
 });
 const getWeb3 = new Web3(biconomy);
-biconomy.onEvent(biconomy.READY, () => {
-  console.log("Mexa is Ready");
-});
 
 export default function AddLiquidity({
   match: {

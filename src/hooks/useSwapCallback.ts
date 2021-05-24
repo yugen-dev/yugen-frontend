@@ -38,17 +38,12 @@ import useENS from "./useENS";
 
 const contractAddress = ROUTER_ADDRESS;
 const maticProvider = process.env.REACT_APP_NETWORK_URL;
-console.log(maticProvider);
 // @ts-ignore
 const biconomy = new Biconomy(new Web3.providers.HttpProvider(maticProvider), {
   apiKey: biconomyAPIKey,
   debug: true,
 });
-console.log(biconomy);
 const getWeb3 = new Web3(biconomy);
-biconomy.onEvent(biconomy.READY, () => {
-  console.log("Mexa is Ready");
-});
 
 enum SwapCallbackState {
   INVALID,
