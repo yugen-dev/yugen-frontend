@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { JSBI, Pair, Percent } from '@pancakeswap-libs/sdk'
-import { Button, Card as UIKitCard, CardBody, Text } from 'cryption-uikit'
+import { Button, Card as ToolKitCard, Text } from 'cryption-uikit'
 import { darken } from 'polished'
 import { ChevronDown, ChevronUp } from 'react-feather'
 import { Link } from 'react-router-dom'
@@ -28,7 +28,11 @@ export const HoverCard = styled(Card)`
     border: 1px solid ${({ theme }) => darken(0.06, theme.colors.invertedContrast)};
   }
 `
-
+const UIKitCard = styled(ToolKitCard)`
+  background: #353547;
+  padding: 20px;
+  margin-top: 20px;
+`;
 interface PositionCardProps {
   pair: Pair
   // eslint-disable-next-line react/no-unused-prop-types

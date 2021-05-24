@@ -1,7 +1,8 @@
 /* eslint-disable no-nested-ternary */
 import { Currency, ETHER, JSBI, TokenAmount } from '@pancakeswap-libs/sdk'
 import React, { useCallback, useEffect, useState } from 'react'
-import { Button, ChevronDownIcon, AddIcon, CardBody, Text } from 'cryption-uikit'
+import { Button, ChevronDownIcon, AddIcon, CardBody, Text, Card } from 'cryption-uikit'
+import styled from 'styled-components'
 import CardNav from 'components/CardNav'
 import { LightCard } from 'components/Card'
 import { AutoColumn, ColumnCenter } from 'components/Column'
@@ -16,13 +17,23 @@ import { useTokenBalance } from 'state/wallet/hooks'
 import { StyledInternalLink } from 'components/Shared'
 import { currencyId } from 'utils/currencyId'
 import useI18n from 'hooks/useI18n'
-import AppBody from '../../AppBody';
 import { Dots } from '../Pool/styleds'
 
 enum Fields {
   TOKEN0 = 0,
   TOKEN1 = 1,
 }
+
+const ContainerCard = styled(Card)`
+  border-radius: 0.625rem !important;
+  padding: 30px;
+  background-color: #1E202A;
+  display: flex;
+  margin-top: 70px;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+`;
 
 export default function PoolFinder() {
   const { account } = useActiveWeb3React()
@@ -81,9 +92,13 @@ export default function PoolFinder() {
   )
 
   return (
-    <>
+    <div style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}>
+      <ContainerCard>
       <CardNav activeIndex={1} />
-      <AppBody>
         <FindPoolTabs />
         <CardBody>
           <AutoColumn gap="md">
@@ -177,7 +192,7 @@ export default function PoolFinder() {
             selectedCurrency={(activeField === Fields.TOKEN0 ? currency1 : currency0) ?? undefined}
           />
         </CardBody>
-      </AppBody>
-    </>
+    </ContainerCard>
+    </div>
   )
 }

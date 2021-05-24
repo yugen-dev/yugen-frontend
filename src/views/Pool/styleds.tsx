@@ -9,7 +9,7 @@ export const ClickableText = styled(Text)`
   :hover {
     cursor: pointer;
   }
-  color: ${({ theme }) => theme.colors.primary};
+  color: #2082E9;
 `
 
 export const Dots = styled.span`

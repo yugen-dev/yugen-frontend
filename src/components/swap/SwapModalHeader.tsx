@@ -17,7 +17,7 @@ const PriceInfoText = styled(Text)`
   line-height: 1.3;
 
   span {
-    color: ${({ theme }) => theme.colors.primary};
+    color: #2082E9;
     font-weight: 600;
   }
 `
@@ -63,7 +63,7 @@ export default function SwapModalHeader({
         </RowFixed>
       </RowBetween>
       <RowFixed>
-        <ArrowDown size="16" color={theme.colors.textSubtle} style={{ marginLeft: '4px', minWidth: '16px' }} />
+        <ArrowDown size="16" color="#2082E9" style={{ marginLeft: '4px', minWidth: '16px' }} />
       </RowFixed>
       <RowBetween align="flex-end">
         <RowFixed gap="0px">
