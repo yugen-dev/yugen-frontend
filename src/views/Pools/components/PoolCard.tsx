@@ -136,15 +136,22 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
         setRequestedApproval(false);
       }
     } catch (e) {
-      console.error('error is', e);
+      console.error("error is", e);
     }
   };
   return (
-    <Card isActive={isCardActive} isFinished={isFinished && sousId !== 0}>
-      {isFinished && sousId !== 0 && <PoolFinishedSash />}
-      <div style={{ borderBottom: '1px solid #524B63' }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: 'space-between', padding: "24px" }}>
-          <CardTitle isFinished={isFinished && sousId !== 0}>
+    <Card isActive={isCardActive} isFinished={isFinished}>
+      {isFinished && <PoolFinishedSash />}
+      <div style={{ borderBottom: "1px solid #524B63" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "24px",
+          }}
+        >
+          <CardTitle isFinished={isFinished}>
             {isOldSyrup && "[OLD]"} {tokenName} {TranslateString(348, "Pool")}
           </CardTitle>
           <Image
@@ -156,14 +163,12 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
         </div>
       </div>
       <div style={{ padding: "24px" }}>
-        <div
-          style={{ marginBottom: "8px" }}
-        >
-          <div style={{ width: '100%', maxWidth: '400px', margin: '20px 0px' }}>
+        <div style={{ marginBottom: "8px" }}>
+          <div style={{ width: "100%", maxWidth: "400px", margin: "20px 0px" }}>
             {account && harvest && !isOldSyrup && (
               <Button
                 disabled={!earnings.toNumber() || pendingTx}
-                style={{ width: '100%', maxWidth: '400px' }}
+                style={{ width: "100%", maxWidth: "400px" }}
                 onClick={async () => {
                   setPendingTx(true);
                   await onReward();
@@ -180,7 +185,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                 value={getBalanceNumber(earnings, tokenDecimals)}
                 isDisabled={isFinished}
               />
-              {sousId === 0 && account && harvest && (
+              {/* {sousId === 0 && account && harvest && (
                 <Button
                   disabled={!earnings.toNumber() || pendingTx}
                   onClick={onPresentCompound}
@@ -191,14 +196,14 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                       : TranslateString(704, "Compound")
                   }
                 </Button>
-              )}
+              )} */}
             </BalanceAndCompound>
           ) : (
             <OldSyrupTitle hasBalance={accountHasStakedBalance} />
           )}
         </div>
         <Label
-          isFinished={isFinished && sousId !== 0}
+          isFinished={isFinished}
           text={TranslateString(330, `${tokenName} earned`)}
         />
         <StyledCardActions>
@@ -221,10 +226,10 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                   onClick={
                     isOldSyrup
                       ? async () => {
-                        setPendingTx(true);
-                        await onUnstake("0", stakingTokenDecimals);
-                        setPendingTx(false);
-                      }
+                          setPendingTx(true);
+                          await onUnstake("0", stakingTokenDecimals);
+                          setPendingTx(false);
+                        }
                       : onPresentWithdraw
                   }
                 >
@@ -232,10 +237,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                 </Button>
                 <StyledActionSpacer />
                 {!isOldSyrup && (
-                  <IconButton
-                    disabled={isFinished && sousId !== 0}
-                    onClick={onPresentDeposit}
-                  >
+                  <IconButton disabled={isFinished} onClick={onPresentDeposit}>
                     <AddIcon color="white" />
                   </IconButton>
                 )}

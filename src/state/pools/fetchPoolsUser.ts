@@ -17,7 +17,7 @@ const nonBnbPools = poolsConfig.filter(
 const bnbPools = poolsConfig.filter(
   (p) => p.stakingTokenName === QuoteToken.BNB
 );
-const nonMasterPools = poolsConfig.filter((p) => p.sousId !== 0);
+const nonMasterPools = poolsConfig;
 const web3 = getWeb3NoAccount();
 const masterChefContract = new web3.eth.Contract(
   masterChefABI as unknown as AbiItem,

@@ -59,14 +59,14 @@ const useStake = (pid: number) => {
 export const useSousStake = (sousId, isUsingBnb = false) => {
   const dispatch = useDispatch();
   const { account } = useWeb3React();
-  const masterChefContract = useMasterchef();
   const sousChefContract = useSousChef(sousId);
 
   const handleStake = useCallback(
     async (amount: string, decimals: number) => {
-      if (sousId === 0) {
-        await stake(masterChefContract, 0, amount, account);
-      } else if (isUsingBnb) {
+      // if (sousId === 0) {
+      //   await stake(masterChefContract, 0, amount, account);
+      // } else
+      if (isUsingBnb) {
         await sousStakeBnb(sousChefContract, amount, account);
       } else {
         await sousStake(sousChefContract, amount, decimals, account);
@@ -74,14 +74,7 @@ export const useSousStake = (sousId, isUsingBnb = false) => {
       dispatch(updateUserStakedBalance(sousId, account));
       dispatch(updateUserBalance(sousId, account));
     },
-    [
-      account,
-      dispatch,
-      isUsingBnb,
-      masterChefContract,
-      sousChefContract,
-      sousId,
-    ]
+    [account, dispatch, isUsingBnb, sousChefContract, sousId]
   );
 
   return { onStake: handleStake };
