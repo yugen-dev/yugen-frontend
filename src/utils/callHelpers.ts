@@ -189,7 +189,7 @@ export const sousUnstake = async (
     .withdraw(
       new BigNumber(amount).times(new BigNumber(10).pow(decimals)).toString()
     )
-    .send({ from: account, gas: 200000 })
+    .send({ from: account })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });

@@ -1,27 +1,50 @@
 /* eslint-disable react/no-danger */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { Route, useRouteMatch } from "react-router-dom";
 import BigNumber from "bignumber.js";
+import orderBy from 'lodash/orderBy'
 import Container from "@material-ui/core/Container";
+import partition from 'lodash/partition'
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
 import { useWeb3React } from "@web3-react/core";
-import { Heading } from "@pancakeswap-libs/uikit";
 import { getBalanceNumber } from "utils/formatBalance";
+import { usePools, useBlock } from 'state/hooks'
 import useI18n from "hooks/useI18n";
-import FlexLayout from "components/layout/Flex";
 import { getCakeContract, getCoffeeTableContract } from "utils/contractHelpers";
-import pools from "config/constants/pools";
+import PoolTabButtons from './components/PoolTabButtons'
+// import FlexLayout from "components/layout/Flex";
+// import pools from "config/constants/pools";
 import PoolCard from "./components/PoolCard";
 import StakeCNT from "./components/StakeCNT";
 import UnstakeXCNT from "./components/UnstakeXCNT";
 
+const NUMBER_OF_POOLS_VISIBLE = 12
 const Farm: React.FC = () => {
+  const loadMoreRef = useRef<HTMLDivElement>(null)
   const { path } = useRouteMatch();
   const TranslateString = useI18n();
   const cake = getCakeContract();
+  const { account } = useWeb3React();
+  const pools = usePools(account);
+  const [numberOfPoolsVisible, setNumberOfPoolsVisible] = useState(NUMBER_OF_POOLS_VISIBLE)
+  const [observerIsSet, setObserverIsSet] = useState(false)
+  const [stakedOnly, setStakedOnly] = useState(false);
+  const currentBlock = useBlock()
   const [totalSupply, setTotalSupply] = useState<BigNumber>();
-
+  const [finishedPools, openPools] = useMemo(
+    () => partition(pools, (pool) => pool.isFinished || parseInt(currentBlock.toString(), 10) > pool.endBlock),
+    [currentBlock, pools],
+  )
+  const stakedOnlyFinishedPools = useMemo(
+    () => finishedPools.filter((pool) => pool.userData && new BigNumber(pool.userData.stakedBalance).isGreaterThan(0)),
+    [finishedPools],
+  )
+  const stakedOnlyOpenPools = useMemo(
+    () => openPools.filter((pool) => pool.userData && new BigNumber(pool.userData.stakedBalance).isGreaterThan(0)),
+    [openPools],
+  )
+  const hasStakeInFinishedPools = stakedOnlyFinishedPools.length > 0
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -35,7 +58,22 @@ const Farm: React.FC = () => {
     if (cake) {
       fetchTotalSupply();
     }
-  }, [cake, setTotalSupply]);
+    const showMorePools = (entries) => {
+      const [entry] = entries
+      if (entry.isIntersecting) {
+        setNumberOfPoolsVisible((poolsCurrentlyVisible) => poolsCurrentlyVisible + NUMBER_OF_POOLS_VISIBLE)
+      }
+    }
+
+    if (!observerIsSet) {
+      const loadMoreObserver = new IntersectionObserver(showMorePools, {
+        rootMargin: '0px',
+        threshold: 1,
+      })
+      loadMoreObserver.observe(loadMoreRef.current)
+      setObserverIsSet(true)
+    }
+  }, [cake, observerIsSet, setTotalSupply]);
 
   return (
     <div>
@@ -88,19 +126,39 @@ const Farm: React.FC = () => {
         </Container>
       </Hero>
       <Container maxWidth="lg">
+        <PoolTabButtons
+          stackedOnly={stakedOnly}
+          setStackedOnly={setStakedOnly}
+        />
         <Route exact path={`${path}`}>
-          <Grid container spacing={3} style={{margin: '30px 0px'}}>
-            {
-              pools.map((pool) => (
-                <Grid item xs={12} md={6} lg={4} xl={4}>
-                  <PoolCard key={pool.sousId} pool={pool} />
-                </Grid>
-              ))
-            }
+          <Grid container spacing={3} style={{ margin: '30px 0px' }}>
+            {stakedOnly
+              ? orderBy(stakedOnlyOpenPools, ['sortOrder'])
+                .slice(0, numberOfPoolsVisible)
+                .map((pool) => <Grid item xs={12} md={6} lg={4} xl={4}><PoolCard key={pool.sousId} pool={pool} /> </Grid>)
+              : orderBy(openPools, ['sortOrder'])
+                .slice(0, numberOfPoolsVisible)
+                .map((pool) => <Grid item xs={12} md={6} lg={4} xl={4}><PoolCard key={pool.sousId} pool={pool} /> </Grid>)}
           </Grid>
           {/* <StakeCNT /> */}
           {/* <UnstakeXCNT /> */}
         </Route>
+        <Route path={`${path}/history`}>
+          {stakedOnly
+            ? orderBy(stakedOnlyFinishedPools, ['sortOrder'])
+              .slice(0, numberOfPoolsVisible)
+              .map((pool) => <PoolCard key={pool.sousId} pool={pool} />)
+            : orderBy(finishedPools, ['sortOrder'])
+              .slice(0, numberOfPoolsVisible)
+              .map((pool) => <PoolCard key={pool.sousId} pool={pool} />)}
+        </Route>
+        <div ref={loadMoreRef} />
+        <div
+          dangerouslySetInnerHTML={{
+            __html:
+              '<lottie-player src="https://assets3.lottiefiles.com/packages/lf20_r71cen62.json"  background="transparent"  speed="1" style="height: 350px;" loop  autoplay></lottie-player>',
+          }}
+        />
       </Container>
     </div>
   );

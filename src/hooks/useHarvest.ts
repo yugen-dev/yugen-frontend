@@ -71,26 +71,19 @@ export const useSousHarvest = (sousId, isUsingBnb = false) => {
   const dispatch = useDispatch();
   const { account } = useWeb3React();
   const sousChefContract = useSousChef(sousId);
-  const masterChefContract = useMasterchef();
 
   const handleHarvest = useCallback(async () => {
-    if (sousId === 0) {
-      await harvest(masterChefContract, 0, account);
-    } else if (isUsingBnb) {
+    // if (sousId === 0) {
+    //   await harvest(masterChefContract, 0, account);
+    // } else
+    if (isUsingBnb) {
       await soushHarvestBnb(sousChefContract, account);
     } else {
       await soushHarvest(sousChefContract, account);
     }
     dispatch(updateUserPendingReward(sousId, account));
     dispatch(updateUserBalance(sousId, account));
-  }, [
-    account,
-    dispatch,
-    isUsingBnb,
-    masterChefContract,
-    sousChefContract,
-    sousId,
-  ]);
+  }, [account, dispatch, isUsingBnb, sousChefContract, sousId]);
 
   return { onReward: handleHarvest };
 };

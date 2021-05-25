@@ -36,8 +36,9 @@ import coffeeTable from "config/abi/coffeeTable.json";
 import sousChef from "config/abi/sousChef.json";
 import sousChefBnb from "config/abi/sousChefBnb.json";
 import claimRefundAbi from "config/abi/claimRefund.json";
+// import prToken from "config/abi/claimRefund.json";
 
-const getContract = (abi: any, address: string, web3?: Web3) => {
+export const getContract = (abi: any, address: string, web3?: Web3) => {
   const _web3 = web3 ?? web3NoAccount;
   return new _web3.eth.Contract(abi as unknown as AbiItem, address);
 };

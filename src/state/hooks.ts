@@ -111,6 +111,7 @@ export const usePoolFromPid = (sousId): Pool => {
   const pool = useSelector((state: State) =>
     state.pools.data.find((p) => p.sousId === sousId)
   );
+
   return pool;
 };
 
