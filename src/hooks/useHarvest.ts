@@ -21,7 +21,7 @@ import {
 
 export const useHarvest = (farmPid: number) => {
   const dispatch = useDispatch();
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const masterChefContract = useMasterchef();
   const masterChefGaslessContract = useMasterchefGasless();
   const { metaTranscation } = useProfile();
@@ -53,7 +53,7 @@ export const useHarvest = (farmPid: number) => {
 };
 
 export const useAllHarvest = (farmPids: number[]) => {
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const masterChefContract = useMasterchef();
 
   const handleHarvest = useCallback(async () => {
@@ -69,7 +69,7 @@ export const useAllHarvest = (farmPids: number[]) => {
 
 export const useSousHarvest = (sousId, isUsingBnb = false) => {
   const dispatch = useDispatch();
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const sousChefContract = useSousChef(sousId);
 
   const handleHarvest = useCallback(async () => {

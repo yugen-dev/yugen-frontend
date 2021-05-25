@@ -8,7 +8,7 @@ import useRefresh from "./useRefresh";
 
 const useAllEarnings = () => {
   const [balances, setBalance] = useState([]);
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const { fastRefresh } = useRefresh();
 
   useEffect(() => {

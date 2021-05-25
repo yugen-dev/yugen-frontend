@@ -7,7 +7,7 @@ import { leave } from "utils/callHelpers";
 import { useCake, useCoffeeTable } from "./useContract";
 
 const useLeave = () => {
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const cake = useCake();
   const coffeeTable = useCoffeeTable();
 

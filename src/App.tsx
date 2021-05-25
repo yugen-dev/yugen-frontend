@@ -13,6 +13,8 @@ import { useApollo } from "apollo/index";
 import useGetDocumentTitlePrice from "./hooks/useGetDocumentTitlePrice";
 import GlobalStyle from "./style/Global";
 import Menu from "./components/Menu";
+import { RedirectDuplicateTokenIds, RedirectOldAddLiquidityPathStructure } from './views/AddLiquidity/redirects';
+import { RedirectOldRemoveLiquidityPathStructure } from './views/RemoveLiquidity/redirects'
 import SuspenseWithChunkError from "./components/SuspenseWithChunkError";
 import ToastListener from "./components/ToastListener";
 import PageLoader from "./components/PageLoader";
@@ -27,6 +29,12 @@ const Home = lazy(() => import("./views/Home"));
 const Farms = lazy(() => import("./views/Farms"));
 const Migrate = lazy(() => import("./views/Migrate"));
 const CNTBar = lazy(() => import("./views/CNTBar"));
+const Swap = lazy(() => import("./views/Swap"));
+const AddLiquidity = lazy(() => import("./views/AddLiquidity"));
+const Pool = lazy(() => import("./views/Pool"));
+const PoolFinder = lazy(() => import("./views/PoolFinder"));
+const RemoveLiquidity = lazy(() => import("./views/RemoveLiquidity"));
+
 // const Lottery = lazy(() => import("./views/Lottery"));
 // const Ifos = lazy(() => import("./views/Ifos"));
 // const NotFound = lazy(() => import("./views/NotFound"));
@@ -77,6 +85,17 @@ const App: React.FC = () => {
               <Route path="/cntbar">
                 <CNTBar />
               </Route>
+              <Route exact strict path="/swap" component={Swap} />
+              <Route exact strict path="/find" component={PoolFinder} />
+              <Route exact strict path="/pool" component={Pool} />
+              <Route exact path="/add" component={AddLiquidity} />
+              <Route exact strict path="/remove/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
+
+              {/* Redirection: These old routes are still used in the code base */}
+              <Route exact path="/add/:currencyIdA" component={RedirectOldAddLiquidityPathStructure} />
+              <Route exact path="/add/:currencyIdA/:currencyIdB" component={RedirectDuplicateTokenIds} />
+              <Route exact strict path="/remove/:tokens" component={RedirectOldRemoveLiquidityPathStructure} />
+
               {/* <Route path="/lottery">
               <Lottery />
             </Route> */}

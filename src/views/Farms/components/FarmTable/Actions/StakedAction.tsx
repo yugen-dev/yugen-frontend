@@ -45,7 +45,7 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({
   tokenAddresses,
 }) => {
   const TranslateString = useI18n();
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const [requestedApproval, setRequestedApproval] = useState(false);
   const { allowance, tokenBalance, stakedBalance } = useFarmUser(pid);
   const { onStake } = useStake(pid);

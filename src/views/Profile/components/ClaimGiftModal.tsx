@@ -19,7 +19,7 @@ interface ClaimGiftProps extends InjectedModalProps {
 export const useCanClaim = () => {
   const [canClaim, setCanClaim] = useState(false);
   const [refresh, setRefresh] = useState(1);
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
 
   const checkClaimStatus = useCallback(() => {
     setRefresh((prevRefresh) => prevRefresh + 1);
@@ -44,7 +44,7 @@ export const useCanClaim = () => {
 
 const ClaimGift: React.FC<ClaimGiftProps> = ({ onSuccess, onDismiss }) => {
   const [isConfirming, setIsConfirming] = useState(false);
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const TranslateString = useI18n();
   const { canClaim } = useCanClaim();
   const claimRefundContract = useClaimRefundContract();

@@ -164,7 +164,7 @@ const Farms: React.FC = () => {
   const [viewMode, setViewMode] = useState(ViewMode.CARD);
   const ethPriceUsd = usePriceEthBusd();
   // console.log(ethPriceUsd.toNumber());
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const [sortOption, setSortOption] = useState("hot");
 
   const dispatch = useDispatch();

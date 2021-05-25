@@ -48,7 +48,7 @@ const TransferNftModal: React.FC<TransferNftModalProps> = ({
   const [value, setValue] = useState("");
   const [error, setError] = useState(null);
   const TranslateString = useI18n();
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const pancakeRabbitsContract = usePancakeRabbits();
   const { toastSuccess } = useToast();
 

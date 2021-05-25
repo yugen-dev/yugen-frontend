@@ -21,7 +21,7 @@ import {
 
 const useStake = (pid: number) => {
   const dispatch = useDispatch();
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const masterChefContract = useMasterchef();
   const masterChefGaslessContract = useMasterchefGasless();
 
@@ -58,7 +58,8 @@ const useStake = (pid: number) => {
 
 export const useSousStake = (sousId, isUsingBnb = false) => {
   const dispatch = useDispatch();
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
+  const masterChefContract = useMasterchef();
   const sousChefContract = useSousChef(sousId);
 
   const handleStake = useCallback(

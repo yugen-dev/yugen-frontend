@@ -13,7 +13,7 @@ import {
 
 const useTickets = (lotteryNumber = null) => {
   const [tickets, setTickets] = useState([]);
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const ticketsContract = useLotteryTicket();
   const lotteryContract = useLottery();
   const { fastRefresh } = useRefresh();
@@ -59,7 +59,7 @@ export const useTotalRewards = () => {
 export const useTotalClaim = () => {
   const [claimAmount, setClaimAmount] = useState(new BigNumber(0));
   const [claimLoading, setClaimLoading] = useState(false);
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const ticketsContract = useLotteryTicket();
   const lotteryContract = useLottery();
 

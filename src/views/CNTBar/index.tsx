@@ -119,7 +119,7 @@ const CNTBar = () => {
     handleTokenAmount('');
     setIndex(newIndex)
   };
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const tokenBalance = useTokenBalance(contracts.cake[80001]);
   const xCNTBalance = useTokenBalance(contracts.coffeeTable[80001]);
   const [pendingTx, setPendingTx] = useState(false);
@@ -312,7 +312,6 @@ const CNTBar = () => {
             lg={6}
             xl={6}
             style={{ display: "flex", flexDirection: "column" }}
-            justify="space-between"
           >
             <StakingInfo>
               <Flex justifyContent="space-between">

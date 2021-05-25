@@ -22,7 +22,7 @@ import {
 
 const useUnstake = (pid: number) => {
   const dispatch = useDispatch();
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const masterChefContract = useMasterchef();
   const masterChefGaslessContract = useMasterchefGasless();
   const { metaTranscation } = useProfile();
@@ -62,8 +62,8 @@ const SYRUPIDS = [];
 
 export const useSousUnstake = (sousId) => {
   const dispatch = useDispatch();
-  const { account } = useWeb3React();
-
+  const { account } = useWeb3React('web3');
+  // const masterChefContract = useMasterchef();
   const sousChefContract = useSousChef(sousId);
   const isOldSyrup = SYRUPIDS.includes(sousId);
 

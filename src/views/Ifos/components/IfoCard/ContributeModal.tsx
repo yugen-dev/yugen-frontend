@@ -27,7 +27,7 @@ const ContributeModal: React.FC<Props> = ({
   onSuccess,
 }) => {
   const [value, setValue] = useState("");
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const raisingTokenContract = useERC20(currencyAddress);
   const balance = getBalanceNumber(useTokenBalance(currencyAddress));
   const TranslateString = useI18n();

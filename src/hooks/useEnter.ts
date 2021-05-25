@@ -7,11 +7,13 @@ import { enter } from "utils/callHelpers";
 import { useCoffeeTable } from "./useContract";
 
 const useEnter = () => {
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
+  console.log('check this', useWeb3React('web3'), useWeb3React('web3'))
   const coffeeTable = useCoffeeTable();
 
   const handle = useCallback(
     async (amount: string) => {
+      console.log({ coffeeTable }, { amount }, { account });
       const txHash = await enter(coffeeTable, amount, account);
       console.log(txHash);
     },

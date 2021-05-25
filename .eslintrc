@@ -25,6 +25,8 @@
         ]
       }
     ],
+    
+    "react/require-default-props": 0,
     "no-plusplus": 0,
     "prefer-destructuring": [
       "warn",

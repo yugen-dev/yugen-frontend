@@ -1,0 +1,30 @@
+.app-body {
+  background: #1E202A;
+  border-radius: 20px;
+}
+
+.app-container {
+  background: #222430;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.info-container {
+  background: #1E202A;
+  border-radius: 30px;
+  padding: 20px;
+  margin-top: 25px;
+  width: 100%;
+}
+
+.info-item {
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: -0.015em;
+  text-transform: capitalize;
+  color: #676767;
+  display: flex;
+  margin-bottom: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
