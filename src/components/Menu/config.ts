@@ -70,7 +70,7 @@ const config: MenuEntry[] = [
   //   ],
   // },
   {
-    label: "Info",
+    label: "Analytics",
     icon: "InfoIcon",
     items: [
       {
@@ -106,7 +106,7 @@ const config: MenuEntry[] = [
       },
       {
         label: "Github",
-        href: "https://github.com/pancakeswap",
+        href: "https://github.com/cryption-network",
       },
       {
         label: "Docs",
@@ -114,7 +114,7 @@ const config: MenuEntry[] = [
       },
       {
         label: "Blog",
-        href: "https://pancakeswap.medium.com",
+        href: "https://blog.cryption.network/",
       },
     ],
   },

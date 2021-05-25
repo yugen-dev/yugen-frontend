@@ -27,7 +27,7 @@ function Nav({ activeIndex = 0 }: { activeIndex?: number }) {
         <ButtonMenuItem style={{ minWidth: "150px" }} id="pool-nav-link" to="/pool" as={Link}>
           {TranslateString(262, 'Liquidity')}
         </ButtonMenuItem>
-        <ButtonMenuItem
+        {/* <ButtonMenuItem
           id="pool-nav-link"
           as="a"
           style={{ minWidth: "150px" }}
@@ -36,7 +36,7 @@ function Nav({ activeIndex = 0 }: { activeIndex?: number }) {
           rel="noreferrer noopener"
         >
           Bridge
-        </ButtonMenuItem>
+        </ButtonMenuItem> */}
       </ButtonMenu>
     </CustomContainer>
   )
