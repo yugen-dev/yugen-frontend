@@ -9,6 +9,7 @@ import {
   Trade,
   TradeType,
 } from "@pancakeswap-libs/sdk";
+import { useProfile } from "state/hooks";
 import { Biconomy } from "@biconomy/mexa";
 import Web3 from "web3";
 import { useMemo } from "react";
@@ -38,12 +39,17 @@ import useENS from "./useENS";
 
 const contractAddress = ROUTER_ADDRESS;
 const maticProvider = process.env.REACT_APP_NETWORK_URL;
+console.log(maticProvider);
 // @ts-ignore
 const biconomy = new Biconomy(new Web3.providers.HttpProvider(maticProvider), {
   apiKey: biconomyAPIKey,
   debug: true,
 });
+console.log(biconomy);
 const getWeb3 = new Web3(biconomy);
+biconomy.onEvent(biconomy.READY, () => {
+  console.log("Mexa is Ready");
+});
 
 enum SwapCallbackState {
   INVALID,
@@ -146,7 +152,7 @@ export function useSwapCallback(
   error: string | null;
 } {
   const { account, chainId, library } = useActiveWeb3React();
-
+  const { metaTranscation } = useProfile();
   const swapCalls = useSwapCallArguments(
     trade,
     allowedSlippage,
@@ -155,7 +161,8 @@ export function useSwapCallback(
   );
 
   const addTransaction = useTransactionAdder();
-
+  // @ts-ignore
+  // const { metaTranscation } = useProfile();
   const { address: recipientAddress } = useENS(recipientAddressOrName);
   const recipient =
     recipientAddressOrName === null ? account : recipientAddress;
@@ -261,10 +268,11 @@ export function useSwapCallback(
           },
           gasEstimate,
         } = successfulEstimation;
+
         if (
           methodName === "swapExactETHForTokens" ||
           methodName === "swapETHForExactTokens" ||
-          META_TXN_DISABLED
+          !metaTranscation
         ) {
           return contract[methodName](...args, {
             gasLimit: calculateGasMargin(gasEstimate),
@@ -309,7 +317,7 @@ export function useSwapCallback(
         }
 
         const bicomony_contract = new getWeb3.eth.Contract(
-          (abi as unknown) as AbiItem,
+          abi as unknown as AbiItem,
           contractAddress
         );
         console.log(bicomony_contract);
@@ -422,6 +430,7 @@ export function useSwapCallback(
     recipientAddressOrName,
     swapCalls,
     addTransaction,
+    metaTranscation,
   ]);
 }
 

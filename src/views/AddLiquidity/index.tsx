@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import React, { useCallback, useState } from "react";
 import { BigNumber } from "@ethersproject/bignumber";
-import styled from 'styled-components'
+import styled from "styled-components";
 import { TransactionResponse } from "@ethersproject/providers";
 import {
   Currency,
@@ -10,6 +10,7 @@ import {
   TokenAmount,
   WETH,
 } from "@pancakeswap-libs/sdk";
+import { useProfile } from "state/hooks";
 import { Biconomy } from "@biconomy/mexa";
 import Web3 from "web3";
 import {
@@ -76,7 +77,7 @@ import "./index.css";
 const ContainerCard = styled(Card)`
   border-radius: 0.625rem !important;
   padding: 30px;
-  background-color: #1E202A;
+  background-color: #1e202a;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -106,14 +107,15 @@ export default function AddLiquidity({
   history,
 }: RouteComponentProps<{ currencyIdA?: string; currencyIdB?: string }>) {
   const { account, chainId, library } = useActiveWeb3React();
+  const { metaTranscation } = useProfile();
   const currencyA = useCurrency(currencyIdA);
   const currencyB = useCurrency(currencyIdB);
   const TranslateString = useI18n();
 
   const oneCurrencyIsWETH = Boolean(
     chainId &&
-    ((currencyA && currencyEquals(currencyA, WETH[chainId])) ||
-      (currencyB && currencyEquals(currencyB, WETH[chainId])))
+      ((currencyA && currencyEquals(currencyA, WETH[chainId])) ||
+        (currencyB && currencyEquals(currencyB, WETH[chainId])))
   );
   const expertMode = useIsExpertMode();
 
@@ -210,7 +212,7 @@ export default function AddLiquidity({
     };
 
     const bicomony_contract = new getWeb3.eth.Contract(
-      (abi as unknown) as AbiItem,
+      abi as unknown as AbiItem,
       contractAddress
     );
     const biconomy_nonce = await bicomony_contract.methods
@@ -260,7 +262,8 @@ export default function AddLiquidity({
       ];
       value = null;
     }
-    if (methodName === "addLiquidityETH" || META_TXN_DISABLED) {
+
+    if (methodName === "addLiquidityETH" || !metaTranscation) {
       setAttemptingTxn(true);
       // const aa = await estimate(...args, value ? { value } : {})
       console.log("s", ...args);
@@ -391,8 +394,9 @@ export default function AddLiquidity({
         <LightCard mt="20px" borderRadius="20px">
           <RowFlat>
             <UIKitText fontSize="48px" mr="8px">
-              {`${currencies[Field.CURRENCY_A]?.symbol}/${currencies[Field.CURRENCY_B]?.symbol
-                }`}
+              {`${currencies[Field.CURRENCY_A]?.symbol}/${
+                currencies[Field.CURRENCY_B]?.symbol
+              }`}
             </UIKitText>
             <DoubleCurrencyLogo
               currency0={currencies[Field.CURRENCY_A]}
@@ -416,8 +420,9 @@ export default function AddLiquidity({
         </RowFlat>
         <Row>
           <UIKitText fontSize="24px">
-            {`${currencies[Field.CURRENCY_A]?.symbol}/${currencies[Field.CURRENCY_B]?.symbol
-              } Pool Tokens`}
+            {`${currencies[Field.CURRENCY_A]?.symbol}/${
+              currencies[Field.CURRENCY_B]?.symbol
+            } Pool Tokens`}
           </UIKitText>
         </Row>
         <UIKitText
@@ -426,8 +431,9 @@ export default function AddLiquidity({
           padding="8px 0 0 0 "
           style={{ fontStyle: "italic" }}
         >
-          {`Output is estimated. If the price changes by more than ${allowedSlippage / 100
-            }% your transaction will revert.`}
+          {`Output is estimated. If the price changes by more than ${
+            allowedSlippage / 100
+          }% your transaction will revert.`}
         </UIKitText>
       </AutoColumn>
     );
@@ -448,9 +454,11 @@ export default function AddLiquidity({
 
   const pendingText = `Supplying ${parsedAmounts[
     Field.CURRENCY_A
-  ]?.toSignificant(6)} ${currencies[Field.CURRENCY_A]?.symbol
-    } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencies[Field.CURRENCY_B]?.symbol
-    }`;
+  ]?.toSignificant(6)} ${
+    currencies[Field.CURRENCY_A]?.symbol
+  } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${
+    currencies[Field.CURRENCY_B]?.symbol
+  }`;
 
   const handleCurrencyASelect = useCallback(
     (currA: Currency) => {
@@ -489,12 +497,14 @@ export default function AddLiquidity({
   }, [onFieldAInput, txHash]);
 
   return (
-    <div style={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop: '70px'
-    }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: "70px",
+      }}
+    >
       <ContainerCard>
         <TransactionConfirmationModal
           isOpen={showConfirm}
@@ -577,7 +587,7 @@ export default function AddLiquidity({
         {currencies[Field.CURRENCY_A] &&
           currencies[Field.CURRENCY_B] &&
           pairState !== PairState.INVALID && (
-            <div style={{ width: '100%', marginBottom: '20px' }}>
+            <div style={{ width: "100%", marginBottom: "20px" }}>
               <UIKitText
                 style={{ textTransform: "uppercase", fontWeight: 600 }}
                 color="#9d9fa8"
@@ -620,9 +630,7 @@ export default function AddLiquidity({
                       }
                       style={{
                         width:
-                          approvalB !== ApprovalState.APPROVED
-                            ? "48%"
-                            : "100%",
+                          approvalB !== ApprovalState.APPROVED ? "48%" : "100%",
                       }}
                     >
                       {approvalA === ApprovalState.PENDING ? (
@@ -645,9 +653,7 @@ export default function AddLiquidity({
                       }
                       style={{
                         width:
-                          approvalA !== ApprovalState.APPROVED
-                            ? "48%"
-                            : "100%",
+                          approvalA !== ApprovalState.APPROVED ? "48%" : "100%",
                       }}
                     >
                       {approvalB === ApprovalState.PENDING ? (
@@ -671,8 +677,8 @@ export default function AddLiquidity({
               }}
               className={
                 !isValid ||
-                  approvalA !== ApprovalState.APPROVED ||
-                  approvalB !== ApprovalState.APPROVED
+                approvalA !== ApprovalState.APPROVED ||
+                approvalB !== ApprovalState.APPROVED
                   ? "button-disabled"
                   : "button-style"
               }
@@ -683,8 +689,8 @@ export default function AddLiquidity({
               }
               variant={
                 !isValid &&
-                  !!parsedAmounts[Field.CURRENCY_A] &&
-                  !!parsedAmounts[Field.CURRENCY_B]
+                !!parsedAmounts[Field.CURRENCY_A] &&
+                !!parsedAmounts[Field.CURRENCY_B]
                   ? "danger"
                   : "primary"
               }
@@ -696,7 +702,10 @@ export default function AddLiquidity({
         )}
         {pair && !noLiquidity && pairState !== PairState.INVALID ? (
           <AutoColumn style={{ minWidth: "20rem", marginTop: "1rem" }}>
-            <MinimalPositionCard showUnwrapped={oneCurrencyIsWETH} pair={pair} />
+            <MinimalPositionCard
+              showUnwrapped={oneCurrencyIsWETH}
+              pair={pair}
+            />
           </AutoColumn>
         ) : null}
       </ContainerCard>

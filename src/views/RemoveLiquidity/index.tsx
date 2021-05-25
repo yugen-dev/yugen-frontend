@@ -6,6 +6,7 @@ import styled, { ThemeContext } from "styled-components";
 import { splitSignature } from "@ethersproject/bytes";
 import { Contract } from "@ethersproject/contracts";
 import { TransactionResponse } from "@ethersproject/providers";
+import { useProfile } from "state/hooks";
 import {
   Currency,
   currencyEquals,
@@ -36,10 +37,7 @@ import { RowBetween, RowFixed } from "../../components/Row";
 
 import Slider from "../../components/Slider";
 import CurrencyLogo from "../../components/CurrencyLogo";
-import {
-  ROUTER_ADDRESS,
-  biconomyAPIKey,
-} from "../../constants";
+import { ROUTER_ADDRESS, biconomyAPIKey } from "../../constants";
 import { useActiveWeb3React } from "../../hooks";
 import { useCurrency } from "../../hooks/Tokens";
 import { usePairContract } from "../../hooks/useContract";
@@ -81,13 +79,13 @@ const OutlineCard = styled.div`
 const ContainerCard = styled(Card)`
   border-radius: 0.625rem !important;
   padding: 30px;
-  background-color: #1E202A;
+  background-color: #1e202a;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
   max-width: 600px;
-    width: 100%;
+  width: 100%;
 `;
 
 const contractAddress = ROUTER_ADDRESS;
@@ -110,6 +108,7 @@ export default function RemoveLiquidity({
     useCurrency(currencyIdB) ?? undefined,
   ];
   const { account, chainId, library } = useActiveWeb3React();
+  const { metaTranscation } = useProfile();
   const TranslateString = useI18n();
   const [tokenA, tokenB] = useMemo(
     () => [
@@ -146,8 +145,8 @@ export default function RemoveLiquidity({
     )
       ? "0"
       : parsedAmounts[Field.LIQUIDITY_PERCENT].lessThan(new Percent("1", "100"))
-        ? "<1"
-        : parsedAmounts[Field.LIQUIDITY_PERCENT].toFixed(0),
+      ? "<1"
+      : parsedAmounts[Field.LIQUIDITY_PERCENT].toFixed(0),
     [Field.LIQUIDITY]:
       independentField === Field.LIQUIDITY
         ? typedValue
@@ -172,12 +171,13 @@ export default function RemoveLiquidity({
   );
 
   // allowance handling
-  const [signatureData, setSignatureData] = useState<{
-    v: number;
-    r: string;
-    s: string;
-    deadline: number;
-  } | null>(null);
+  const [signatureData, setSignatureData] =
+    useState<{
+      v: number;
+      r: string;
+      s: string;
+      deadline: number;
+    } | null>(null);
   const [approval, approveCallback] = useApproveCallback(
     parsedAmounts[Field.LIQUIDITY],
     ROUTER_ADDRESS
@@ -285,7 +285,7 @@ export default function RemoveLiquidity({
     const router = getRouterContract(chainId, library, account);
 
     const bicomony_contract = new getWeb3.eth.Contract(
-      (abi as unknown) as AbiItem,
+      abi as unknown as AbiItem,
       contractAddress
     );
 
@@ -420,7 +420,7 @@ export default function RemoveLiquidity({
     // all estimations failed...
     if (indexOfSuccessfulEstimation === -1) {
       console.error("This transaction would fail. Please contact support.");
-    } else {
+    } else if (metaTranscation) {
       const methodName = methodNames[indexOfSuccessfulEstimation];
       const safeGasEstimate = safeGasEstimates[indexOfSuccessfulEstimation];
       console.log(safeGasEstimate);
@@ -483,36 +483,38 @@ export default function RemoveLiquidity({
         });
 
         setTxHash(response.hash);
+        return;
       } catch (e) {
         setAttemptingTxn(false);
         // we only care if the error is something _other_ than the user rejected the tx
         console.error(e);
+        // return;
       }
-      // const methodName = methodNames[indexOfSuccessfulEstimation];
-      // const safeGasEstimate = safeGasEstimates[indexOfSuccessfulEstimation];
+    } else {
+      const methodName = methodNames[indexOfSuccessfulEstimation];
+      const safeGasEstimate = safeGasEstimates[indexOfSuccessfulEstimation];
+      setAttemptingTxn(true);
+      await router[methodName](...args, {
+        gasLimit: safeGasEstimate,
+      })
+        .then((response: TransactionResponse) => {
+          setAttemptingTxn(false);
 
-      // setAttemptingTxn(true);
-      // await router[methodName](...args, {
-      //   gasLimit: safeGasEstimate,
-      // })
-      //   .then((response: TransactionResponse) => {
-      //     setAttemptingTxn(false);
+          addTransaction(response, {
+            summary: `Remove ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(
+              3
+            )} ${currencyA?.symbol} and ${parsedAmounts[
+              Field.CURRENCY_B
+            ]?.toSignificant(3)} ${currencyB?.symbol}`,
+          });
 
-      //     addTransaction(response, {
-      //       summary: `Remove ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(
-      //         3
-      //       )} ${currencyA?.symbol} and ${parsedAmounts[
-      //         Field.CURRENCY_B
-      //       ]?.toSignificant(3)} ${currencyB?.symbol}`,
-      //     });
-
-      //     setTxHash(response.hash);
-      //   })
-      //   .catch((e: Error) => {
-      //     setAttemptingTxn(false);
-      //     // we only care if the error is something _other_ than the user rejected the tx
-      //     console.error(e);
-      //   });
+          setTxHash(response.hash);
+        })
+        .catch((e: Error) => {
+          setAttemptingTxn(false);
+          // we only care if the error is something _other_ than the user rejected the tx
+          console.error(e);
+        });
     }
   }
 
@@ -552,8 +554,9 @@ export default function RemoveLiquidity({
           padding="12px 0 0 0"
           style={{ fontStyle: "italic" }}
         >
-          {`Output is estimated. If the price changes by more than ${allowedSlippage / 100
-            }% your transaction will revert.`}
+          {`Output is estimated. If the price changes by more than ${
+            allowedSlippage / 100
+          }% your transaction will revert.`}
         </Text>
       </AutoColumn>
     );
@@ -623,8 +626,8 @@ export default function RemoveLiquidity({
   const oneCurrencyIsETH = currencyA === ETHER || currencyB === ETHER;
   const oneCurrencyIsWETH = Boolean(
     chainId &&
-    ((currencyA && currencyEquals(WETH[chainId], currencyA)) ||
-      (currencyB && currencyEquals(WETH[chainId], currencyB)))
+      ((currencyA && currencyEquals(WETH[chainId], currencyA)) ||
+        (currencyB && currencyEquals(WETH[chainId], currencyB)))
   );
 
   const handleSelectCurrencyA = useCallback(
@@ -659,21 +662,21 @@ export default function RemoveLiquidity({
     setTxHash("");
   }, [onUserInput, txHash]);
 
-  const [
-    innerLiquidityPercentage,
-    setInnerLiquidityPercentage,
-  ] = useDebouncedChangeHandler(
-    Number.parseInt(parsedAmounts[Field.LIQUIDITY_PERCENT].toFixed(0)),
-    liquidityPercentChangeCallback
-  );
+  const [innerLiquidityPercentage, setInnerLiquidityPercentage] =
+    useDebouncedChangeHandler(
+      Number.parseInt(parsedAmounts[Field.LIQUIDITY_PERCENT].toFixed(0)),
+      liquidityPercentChangeCallback
+    );
 
   return (
-    <div style={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop: '70px'
-    }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: "70px",
+      }}
+    >
       <ContainerCard>
         <AddRemoveTabs adding={false} />
         <TransactionConfirmationModal
@@ -691,7 +694,7 @@ export default function RemoveLiquidity({
           )}
           pendingText={pendingText}
         />
-        <AutoColumn gap="md" style={{ width: '100%', marginTop: '20px' }}>
+        <AutoColumn gap="md" style={{ width: "100%", marginTop: "20px" }}>
           <OutlineCard>
             <AutoColumn>
               <RowBetween>
@@ -709,7 +712,7 @@ export default function RemoveLiquidity({
               <Flex justifyContent="start" mt="15px">
                 <Text fontSize="30px">
                   {formattedAmounts[Field.LIQUIDITY_PERCENT]}%
-                    </Text>
+                </Text>
               </Flex>
               {!showDetailed && (
                 <>
@@ -723,30 +726,24 @@ export default function RemoveLiquidity({
                     <Button
                       variant="tertiary"
                       scale="sm"
-                      onClick={() =>
-                        onUserInput(Field.LIQUIDITY_PERCENT, "25")
-                      }
+                      onClick={() => onUserInput(Field.LIQUIDITY_PERCENT, "25")}
                     >
                       25%
-                        </Button>
+                    </Button>
                     <Button
                       variant="tertiary"
                       scale="sm"
-                      onClick={() =>
-                        onUserInput(Field.LIQUIDITY_PERCENT, "50")
-                      }
+                      onClick={() => onUserInput(Field.LIQUIDITY_PERCENT, "50")}
                     >
                       50%
-                        </Button>
+                    </Button>
                     <Button
                       variant="tertiary"
                       scale="sm"
-                      onClick={() =>
-                        onUserInput(Field.LIQUIDITY_PERCENT, "75")
-                      }
+                      onClick={() => onUserInput(Field.LIQUIDITY_PERCENT, "75")}
                     >
                       75%
-                        </Button>
+                    </Button>
                     <Button
                       variant="tertiary"
                       scale="sm"
@@ -777,10 +774,7 @@ export default function RemoveLiquidity({
                         currency={currencyA}
                         style={{ marginRight: "12px" }}
                       />
-                      <Text
-                        fontSize="24px"
-                        id="remove-liquidity-tokena-symbol"
-                      >
+                      <Text fontSize="24px" id="remove-liquidity-tokena-symbol">
                         {currencyA?.symbol}
                       </Text>
                     </RowFixed>
@@ -794,10 +788,7 @@ export default function RemoveLiquidity({
                         currency={currencyB}
                         style={{ marginRight: "12px" }}
                       />
-                      <Text
-                        fontSize="24px"
-                        id="remove-liquidity-tokenb-symbol"
-                      >
+                      <Text fontSize="24px" id="remove-liquidity-tokenb-symbol">
                         {currencyB?.symbol}
                       </Text>
                     </RowFixed>
@@ -806,27 +797,31 @@ export default function RemoveLiquidity({
                     <RowBetween style={{ justifyContent: "flex-end" }}>
                       {oneCurrencyIsETH ? (
                         <StyledInternalLink
-                          to={`/remove/${currencyA === ETHER
-                            ? WETH[chainId].address
-                            : currencyIdA
-                            }/${currencyB === ETHER
+                          to={`/remove/${
+                            currencyA === ETHER
+                              ? WETH[chainId].address
+                              : currencyIdA
+                          }/${
+                            currencyB === ETHER
                               ? WETH[chainId].address
                               : currencyIdB
-                            }`}
+                          }`}
                         >
                           {TranslateString(1188, "Receive WBNB")}
                         </StyledInternalLink>
                       ) : oneCurrencyIsWETH ? (
                         <StyledInternalLink
-                          to={`/remove/${currencyA &&
+                          to={`/remove/${
+                            currencyA &&
                             currencyEquals(currencyA, WETH[chainId])
-                            ? "BNB"
-                            : currencyIdA
-                            }/${currencyB &&
-                              currencyEquals(currencyB, WETH[chainId])
+                              ? "BNB"
+                              : currencyIdA
+                          }/${
+                            currencyB &&
+                            currencyEquals(currencyB, WETH[chainId])
                               ? "BNB"
                               : currencyIdB
-                            }`}
+                          }`}
                         >
                           {TranslateString(1190, "Receive BNB")}
                         </StyledInternalLink>
@@ -885,7 +880,7 @@ export default function RemoveLiquidity({
             <div style={{ padding: "24px" }}>
               <Flex justifyContent="space-between" mb="8px">
                 Price:
-                    <div>
+                <div>
                   1 {currencyA?.symbol} ={" "}
                   {tokenA ? pair.priceOf(tokenA).toSignificant(6) : "-"}{" "}
                   {currencyB?.symbol}
@@ -910,7 +905,7 @@ export default function RemoveLiquidity({
                   onClick={onAttemptToApprove}
                   variant={
                     approval === ApprovalState.APPROVED ||
-                      signatureData !== null
+                    signatureData !== null
                       ? "success"
                       : "primary"
                   }
@@ -941,8 +936,8 @@ export default function RemoveLiquidity({
                   }
                   variant={
                     !isValid &&
-                      !!parsedAmounts[Field.CURRENCY_A] &&
-                      !!parsedAmounts[Field.CURRENCY_B]
+                    !!parsedAmounts[Field.CURRENCY_A] &&
+                    !!parsedAmounts[Field.CURRENCY_B]
                       ? "danger"
                       : "primary"
                   }
@@ -955,7 +950,10 @@ export default function RemoveLiquidity({
         </AutoColumn>
         {pair ? (
           <AutoColumn style={{ minWidth: "20rem", marginTop: "1rem" }}>
-            <MinimalPositionCard showUnwrapped={oneCurrencyIsWETH} pair={pair} />
+            <MinimalPositionCard
+              showUnwrapped={oneCurrencyIsWETH}
+              pair={pair}
+            />
           </AutoColumn>
         ) : null}
       </ContainerCard>

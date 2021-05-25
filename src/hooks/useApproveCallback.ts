@@ -10,7 +10,7 @@ import { Biconomy } from "@biconomy/mexa";
 import { splitSignature } from "@ethersproject/bytes";
 import Web3 from "web3";
 import { AbiItem } from "web3-utils";
-
+import { useProfile } from "state/hooks";
 import { useCallback, useMemo } from "react";
 import {
   ROUTER_ADDRESS,
@@ -51,6 +51,7 @@ export function useApproveCallback(
   spender?: string
 ): [ApprovalState, () => Promise<void>] {
   const { chainId, library, account } = useActiveWeb3React();
+  const { metaTranscation } = useProfile();
   const token =
     amountToApprove instanceof TokenAmount ? amountToApprove.token : undefined;
   const currentAllowance = useTokenAllowance(
@@ -116,10 +117,9 @@ export function useApproveCallback(
 
     if (
       META_TXN_SUPPORTED_TOKENS[token.address.toLowerCase()] &&
-      !META_TXN_DISABLED
+      metaTranscation
     ) {
       const metaToken = META_TXN_SUPPORTED_TOKENS[token.address.toLowerCase()];
-      window.alert(token.address);
 
       const biconomyContract = new getWeb3.eth.Contract(
         metaToken.abi,
@@ -195,7 +195,7 @@ export function useApproveCallback(
             });
         });
     }
-    window.alert("hello");
+
     let useExact = false;
 
     // eslint-disable-next-line consistent-return
@@ -227,6 +227,7 @@ export function useApproveCallback(
     chainId,
     library,
     account,
+    metaTranscation,
   ]);
 
   return [approvalState, approve];
