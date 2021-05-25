@@ -20,19 +20,19 @@ import burn from './burn/reducer'
 import multicall from './multicall/reducer'
 import { getThemeCache } from '../utils/theme'
 
-// type MergedState = {
-//   user: {
-//     [key: string]: any
-//   }
-//   transactions: {
-//     [key: string]: any
-//   }
-// }
-// const PERSISTED_KEYS: string[] = ['user', 'transactions']
-// const loadedState = load({ states: PERSISTED_KEYS }) as MergedState
-// if (loadedState.user) {
-//   loadedState.user.userDarkMode = getThemeCache()
-// }
+type MergedState = {
+  user: {
+    [key: string]: any
+  }
+  transactions: {
+    [key: string]: any
+  }
+}
+const PERSISTED_KEYS: string[] = ['user', 'transactions']
+const loadedState = load({ states: PERSISTED_KEYS }) as MergedState
+if (loadedState.user) {
+  loadedState.user.userDarkMode = getThemeCache()
+}
 
 const store = configureStore({
   devTools: process.env.NODE_ENV !== "production",
@@ -54,6 +54,8 @@ const store = configureStore({
     multicall,
     lists,
   },
+  middleware: [...getDefaultMiddleware({ thunk: true }), save({ states: PERSISTED_KEYS })],
+  preloadedState: loadedState,
 });
 
 store.dispatch(updateVersion())
