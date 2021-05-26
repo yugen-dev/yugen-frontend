@@ -9,25 +9,33 @@ import BigNumber from "bignumber.js";
 
 export const fetchPoolsBlockLimits = async () => {
   const poolsWithEnd = poolsConfig;
-  const callsStartBlock = poolsWithEnd.map((poolConfig) => {
+
+  const callsFarmInfo = poolsWithEnd.map((poolConfig) => {
     return {
       address: getAddress(poolConfig.contractAddress),
-      name: "startBlock",
-    };
-  });
-  const callsEndBlock = poolsWithEnd.map((poolConfig) => {
-    return {
-      address: getAddress(poolConfig.contractAddress),
-      name: "bonusEndBlock",
+      name: "farmInfo",
     };
   });
 
-  const starts = await multicall(sousChefABI, callsStartBlock);
-  const ends = await multicall(sousChefABI, callsEndBlock);
+  // const callsStartBlock = poolsWithEnd.map((poolConfig) => {
+  //   return {
+  //     address: getAddress(poolConfig.contractAddress),
+  //     name: "startBlock",
+  //   };
+  // });
+  // const callsEndBlock = poolsWithEnd.map((poolConfig) => {
+  //   return {
+  //     address: getAddress(poolConfig.contractAddress),
+  //     name: "bonusEndBlock",
+  //   };
+  // });
+
+  const starts = await multicall(sousChefABI, callsFarmInfo);
+  const ends = await multicall(sousChefABI, callsFarmInfo);
 
   return poolsWithEnd.map((cakePoolConfig, index) => {
-    const startBlock = starts[index];
-    const endBlock = ends[index];
+    const startBlock = starts[index].startBlock._hex;
+    const endBlock = ends[index].bonusEndBlock._hex;
     return {
       sousId: cakePoolConfig.sousId,
       startBlock: new BigNumber(startBlock).toJSON(),
