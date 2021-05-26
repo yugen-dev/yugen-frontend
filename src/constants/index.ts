@@ -141,6 +141,9 @@ export const META_TXN_SUPPORTED_TOKENS: any = {
   "0x40ccd55b789fdee8d434915dc2aa6bd938506a92": { abi: tokenABI },
   "0xa79e0bfc579c709819f4a0e95d4597f03093b011": { abi: tokenABI },
   "0xcda600560dbfb638d1acd860e0a33d57874931e9": { abi: tokenABI },
+  "0xba6fc2c28844c129c4e5b9116095881fe4f5584c": { abi: tokenABI },
+  "0x6ca0ad12bb5191823cb0b44199db6341b971976b": { abi: tokenABI },
+  "0xf2def4fd74149231a45d6d5ddc4e5b38f7584e26": { abi: tokenABI },
 };
 
 export const NetworkContextName = "NETWORK";
