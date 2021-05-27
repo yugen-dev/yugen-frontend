@@ -38,7 +38,6 @@ export default function Updater(): null {
     if (!library || !chainId || !windowVisible) return undefined;
 
     setState({ chainId, blockNumber: null });
-    console.log("check getBlockNumber", { library });
     library
       .getBlockNumber()
       .then(blockNumberCallback)

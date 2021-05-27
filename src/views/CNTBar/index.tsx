@@ -164,7 +164,7 @@ const CNTBar = () => {
         setRequestedApproval(false);
       }
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   }, [onApprove, setRequestedApproval]);
   const [onPresentDeposit] = useModal(

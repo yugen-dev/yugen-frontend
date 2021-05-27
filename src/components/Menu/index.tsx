@@ -78,7 +78,7 @@ const Menu = (props) => {
       account={accountId}
       showGasslessTranscationTab={!!accountId}
       gaslessTranscationChecked={checkedState}
-      gasslessTranscationLabel="Meta Trandaction"
+      gasslessTranscationLabel="Gassless Modes"
       toggleTranscationState={handleMetaToggle}
       login={
         ["/swap", "/find", "/pool", "/add"].includes(location.pathname)

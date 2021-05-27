@@ -1,5 +1,5 @@
-import BigNumber from "bignumber.js";
 import React, { useState } from "react";
+import BigNumber from "bignumber.js";
 import { ethers } from "ethers";
 import styled from "styled-components";
 import { Button, IconButton, useModal, AddIcon, Image } from "cryption-uikit";
@@ -88,9 +88,8 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   const isOldSyrup = stakingTokenName === QuoteToken.SYRUP;
   const accountHasStakedBalance = stakedBalance?.toNumber() > 0;
   const needsApproval =
-    !accountHasStakedBalance && !allowance.toNumber() && !isBnbPool;
+    !accountHasStakedBalance && !allowance.toNumber();
   const isCardActive = isFinished && accountHasStakedBalance;
-
   const convertedLimit = new BigNumber(stakingLimit).multipliedBy(
     new BigNumber(10).pow(tokenDecimals)
   );
@@ -142,7 +141,8 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     } catch (e) {
       console.error("error is", e);
     }
-  };
+  }
+  
   return (
     <Card isActive={isCardActive} isFinished={isFinished}>
       {isFinished && <PoolFinishedSash />}
@@ -230,10 +230,10 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                   onClick={
                     isOldSyrup
                       ? async () => {
-                          setPendingTx(true);
-                          await onUnstake("0", stakingTokenDecimals);
-                          setPendingTx(false);
-                        }
+                        setPendingTx(true);
+                        await onUnstake("0", stakingTokenDecimals);
+                        setPendingTx(false);
+                      }
                       : onPresentWithdraw
                   }
                 >

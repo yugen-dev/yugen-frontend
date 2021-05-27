@@ -90,7 +90,7 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({
       await onApprove();
       setRequestedApproval(false);
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   }, [onApprove]);
 

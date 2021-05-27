@@ -25,7 +25,7 @@ const Farm: React.FC = () => {
   const { path } = useRouteMatch();
   const TranslateString = useI18n();
   const cake = getCakeContract();
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const pools = usePools(account);
   const [numberOfPoolsVisible, setNumberOfPoolsVisible] = useState(NUMBER_OF_POOLS_VISIBLE)
   const [observerIsSet, setObserverIsSet] = useState(false)

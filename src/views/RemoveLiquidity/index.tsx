@@ -289,14 +289,11 @@ export default function RemoveLiquidity({
       contractAddress
     );
 
-    console.log(bicomony_contract);
     // account
 
     const biconomy_nonce = await bicomony_contract.methods
       .getNonce(account)
       .call();
-    console.log("biconomy_nonce::", biconomy_nonce);
-
     const amountsMin = {
       [Field.CURRENCY_A]: calculateSlippageAmount(
         currencyAmountA,

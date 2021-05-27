@@ -33,7 +33,6 @@ const Container = styled.div`
 `;
 
 const Liquidity: React.FunctionComponent<LiquidityProps> = ({ liquidity }) => {
-  console.log("liquidity", liquidity);
   const displayLiquidity = liquidity
     ? `$${Number(liquidity).toLocaleString(undefined, {
         maximumFractionDigits: 0,

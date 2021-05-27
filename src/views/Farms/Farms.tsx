@@ -158,12 +158,10 @@ const Farms: React.FC = () => {
   const TranslateString = useI18n();
   const farmsLP = useFarms();
   const cakePrice = usePriceCakeBusd();
-  console.log(cakePrice.toNumber());
   const bnbPrice = usePriceBnbBusd();
   const [query, setQuery] = useState("");
   const [viewMode, setViewMode] = useState(ViewMode.CARD);
   const ethPriceUsd = usePriceEthBusd();
-  // console.log(ethPriceUsd.toNumber());
   const { account } = useWeb3React('web3');
   const [sortOption, setSortOption] = useState("hot");
 
@@ -368,7 +366,6 @@ const Farms: React.FC = () => {
   });
 
   const renderContent = (): JSX.Element => {
-    console.log({ bnbPrice }, { cakePrice }, { ethPriceUsd });
     if (viewMode === ViewMode.TABLE && rowData.length) {
       const columnSchema = DesktopColumnSchema;
 

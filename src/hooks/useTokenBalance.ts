@@ -18,10 +18,9 @@ const useTokenBalance = (tokenAddress: string) => {
       try {
         const contract = getBep20Contract(tokenAddress, web3);
         const res = await contract.methods.balanceOf(account).call();
-        console.log({ res });
         setBalance(new BigNumber(res));
       } catch (error) {
-        console.log({ error });
+        console.error({ error });
       }
     };
 

@@ -266,7 +266,6 @@ export default function AddLiquidity({
     if (methodName === "addLiquidityETH" || !metaTranscation) {
       setAttemptingTxn(true);
       // const aa = await estimate(...args, value ? { value } : {})
-      console.log("s", ...args);
       await estimate(...args, value ? { value } : {})
         .then((estimatedGasLimit) =>
           method(...args, {
@@ -335,18 +334,6 @@ export default function AddLiquidity({
         ]);
         const signature = await splitSignature(sig);
         const { v, r, s } = signature;
-        console.log(
-          "account: ",
-          account,
-          "res: ",
-          res,
-          "r: ",
-          r,
-          "s: ",
-          s,
-          "v: ",
-          v
-        );
         try {
           // ts-ignore
           const response: TransactionResponse = await bicomony_contract.methods

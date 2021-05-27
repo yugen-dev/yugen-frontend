@@ -258,7 +258,6 @@ export const enter = async (contract, amount, account) => {
     .enter(new BigNumber(amount).times(new BigNumber(10).pow(18)).toString())
     .send({ from: account })
     .on("transactionHash", (tx) => {
-      console.log(tx);
       return tx.transactionHash;
     });
 };
@@ -276,7 +275,6 @@ export const leave = async (contract, amount, account) => {
     .leave(new BigNumber(amount).times(new BigNumber(10).pow(18)).toString())
     .send({ from: account })
     .on("transactionHash", (tx) => {
-      console.log(tx);
       return tx.transactionHash;
     });
 };
@@ -322,11 +320,10 @@ const executeMetaTransaction = async (
       },
       async function (error, response) {
         if (error) {
-          console.log(error);
+          console.error(error);
           return error;
         }
         const { r, s, v } = getSignatureParameters(response.result);
-        console.log({ r, s, v });
         const gasLimit = await contract.methods
           .executeMetaTransaction(account, functionSignature, r, s, v)
           .estimateGas({ from: account });
@@ -344,7 +341,7 @@ const executeMetaTransaction = async (
       }
     );
   } catch (e) {
-    console.log("error");
+    console.error("error");
   }
 };
 
@@ -389,11 +386,10 @@ export const executeMetaTransactionBar = async (
       },
       async function (error, response) {
         if (error) {
-          console.log(error);
+          console.error(error);
           return error;
         }
         const { r, s, v } = getSignatureParameters(response.result);
-        console.log({ r, s, v });
         const gasLimit = await contract.methods
           .executeMetaTransaction(account, functionSignature, r, s, v)
           .estimateGas({ from: account });
@@ -411,6 +407,6 @@ export const executeMetaTransactionBar = async (
       }
     );
   } catch (e) {
-    console.log("error");
+    console.error("error");
   }
 };

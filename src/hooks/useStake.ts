@@ -29,13 +29,12 @@ const useStake = (pid: number) => {
   const handleStake = useCallback(
     async (amount: string) => {
       if (metaTranscation) {
-        const txHash = await GaslessStake(
+        await GaslessStake(
           masterChefGaslessContract,
           pid,
           amount,
           account
         );
-        console.log(txHash);
         dispatch(fetchFarmUserDataAsync(account));
       } else {
         const txHash = await stake(masterChefContract, pid, amount, account);

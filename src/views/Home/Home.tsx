@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useRef, useCallback } from "react";
 import styled from "styled-components";
+import BigNumber from "bignumber.js";
+import { QuoteToken } from "config/constants/types";
 import { ParentSize } from "@visx/responsive";
 import Grid from "@material-ui/core/Grid";
+import orderBy from "lodash/orderBy";
 import { useQuery } from "@apollo/client";
 import Container from "@material-ui/core/Container";
 import useI18n from "hooks/useI18n";
@@ -9,6 +12,10 @@ import useInterval from "hooks/useInterval";
 import { dayDatasQuery } from "apollo/queries";
 import { getDayData } from "apollo/exchange";
 import { getApollo } from "apollo/index";
+import pools from "config/constants/pools";
+import { Pool } from "state/types";
+import { useFarms, usePriceBnbBusd } from "state/hooks";
+import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CAKE_POOL_PID } from "config";
 import FarmStakingCard from "views/Home/components/FarmStakingCard";
 import LotteryCard from "views/Home/components/LotteryCard";
 // import CakeStats from "views/Home/components/CakeStats";
@@ -34,7 +41,80 @@ const Card = styled.div`
 
 const Home: React.FC = () => {
 
+  const farmsLP = useFarms();
+  const bnbPrice = usePriceBnbBusd();
+  const maxAPY = useRef(Number.MIN_VALUE);
   const TranslateString = useI18n();
+  const activeNonCakePools = pools.filter(
+    (pool) => !pool.isFinished
+  );
+  const latestPools: Pool[] = orderBy(
+    activeNonCakePools,
+    ["sortOrder", "pid"],
+    ["desc", "desc"]
+  ).slice(0, 3);
+  // Always include CAKE
+  const assets = [...latestPools.map((pool) => pool.tokenName)].join(
+    ", "
+  );
+  const getHighestAPY = () => {
+    const activeFarms = farmsLP.filter(
+      (farm) => farm.multiplier !== "0X"
+    );
+    calculateAPY(activeFarms);
+    return (maxAPY.current * 100).toLocaleString("en-US").slice(0, -1);
+  };
+  const calculateAPY = useCallback(
+    (farmsToDisplay) => {
+      const cakePriceVsBNB = new BigNumber(
+        farmsLP.find((farm) => farm.pid === CAKE_POOL_PID)?.tokenPriceVsQuote ||
+        0
+      );
+
+      farmsToDisplay.map((farm) => {
+        if (
+          !farm.tokenAmount ||
+          !farm.lpTotalInQuoteToken ||
+          !farm.lpTotalInQuoteToken
+        ) {
+          return farm;
+        }
+        const cakeRewardPerBlock = CAKE_PER_BLOCK.times(farm.poolWeight);
+        const cakeRewardPerYear = cakeRewardPerBlock.times(BLOCKS_PER_YEAR);
+
+        let apy = cakePriceVsBNB
+          .times(cakeRewardPerYear)
+          .div(farm.lpTotalInQuoteToken);
+        if (farm.quoteTokenSymbol === QuoteToken.BUSD) {
+          apy = cakePriceVsBNB
+            .times(cakeRewardPerYear)
+            .div(farm.lpTotalInQuoteToken)
+            .times(bnbPrice);
+        } else if (farm.quoteTokenSymbol === QuoteToken.CAKE) {
+          apy = cakeRewardPerYear.div(farm.lpTotalInQuoteToken);
+        } else if (farm.dual) {
+          const cakeApy =
+            farm &&
+            cakePriceVsBNB
+              .times(cakeRewardPerBlock)
+              .times(BLOCKS_PER_YEAR)
+              .div(farm.lpTotalInQuoteToken);
+          const dualApy =
+            farm.tokenPriceVsQuote &&
+            new BigNumber(farm.tokenPriceVsQuote)
+              .times(farm.dual.rewardPerBlock)
+              .times(BLOCKS_PER_YEAR)
+              .div(farm.lpTotalInQuoteToken);
+
+          apy = cakeApy && dualApy && cakeApy.plus(dualApy);
+        }
+        if (maxAPY.current < apy.toNumber()) maxAPY.current = apy.toNumber();
+
+        return apy;
+      });
+    },
+    [bnbPrice, farmsLP]
+  );
   const dayDatas = useQuery(dayDatasQuery);
   useInterval(
     () =>
@@ -62,9 +142,8 @@ const Home: React.FC = () => {
         [[], []]
       );
   }
-
   return (
-    <Container maxWidth="lg" style={{ marginTop: '50px' }}>
+    <Container maxWidth="lg" style={{ marginTop: '50px', marginBottom: '80px' }}>
       <Grid container spacing={5} justify="center">
         <Grid item xs={12} md={6} lg={6} xl={6}>
           <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
@@ -119,17 +198,33 @@ const Home: React.FC = () => {
               <TotalValueLockedCard />
             </Grid>
             <Grid item xs={12} md={6} lg={6} xl={6}>
-              <EarnAssetCard />
+              <EarnAssetCard
+                topTitle="Earn up to"
+                description={getHighestAPY() ? `${getHighestAPY()}%}` : "0%"}
+                descriptionColor="#29bb89"
+                bottomTitle="APR in farms"
+                redirectLink="/farms"
+              />
             </Grid>
           </Grid>
         </Grid>
         <Grid item xs={12} md={6} lg={6} xl={6}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={6} xl={6}>
-              <EarnAssetCard />
+              <EarnAssetCard
+                topTitle="Earn"
+                bottomTitle="in Pools"
+                description={assets}
+                redirectLink="/pools"
+              />
             </Grid>
             <Grid item xs={12} md={6} lg={6} xl={6}>
-              <EarnAssetCard />
+              <EarnAssetCard
+                topTitle="Earn"
+                description="8.63%"
+                bottomTitle="on staking CNT"
+                redirectLink="/cntbar"
+              />
             </Grid>
           </Grid>
         </Grid>
