@@ -39,13 +39,13 @@ import useENS from "./useENS";
 
 const contractAddress = ROUTER_ADDRESS;
 const maticProvider = process.env.REACT_APP_NETWORK_URL;
-console.log(maticProvider);
+
 // @ts-ignore
 const biconomy = new Biconomy(new Web3.providers.HttpProvider(maticProvider), {
   apiKey: biconomyAPIKey,
   debug: true,
 });
-console.log(biconomy);
+
 const getWeb3 = new Web3(biconomy);
 biconomy.onEvent(biconomy.READY, () => {
   console.log("Mexa is Ready");
@@ -320,18 +320,15 @@ export function useSwapCallback(
           abi as unknown as AbiItem,
           contractAddress
         );
-        console.log(bicomony_contract);
+
         const biconomy_nonce = await bicomony_contract.methods
           .getNonce(account)
           .call();
-        console.log(biconomy_nonce);
+
         const gasLimit = calculateGasMargin(gasEstimate);
-        console.log("hello");
-        console.log(gasLimit.toString());
-        console.log(gasEstimate.toString());
-        console.log("hello");
+
         const res = bicomony_contract.methods[methodName](...args).encodeABI();
-        console.log(res);
+
         const message: any = {
           nonce: "",
           from: "",
@@ -340,7 +337,7 @@ export function useSwapCallback(
         message.nonce = parseInt(biconomy_nonce);
         message.from = account;
         message.functionSignature = res;
-        console.log(message);
+
         const dataToSign = JSON.stringify({
           types: {
             EIP712Domain: [
@@ -370,14 +367,7 @@ export function useSwapCallback(
         ]);
         const signature = await splitSignature(sig);
         const { v, r, s } = signature;
-        console.log("hlalfjlkjfdsljadslkfjalkfjdsklajfdlkasj");
-        console.log({
-          account,
-          res,
-          r,
-          s,
-          v,
-        });
+
         return bicomony_contract.methods
           .executeMetaTransaction(account, res, r, s, v)
           .send({

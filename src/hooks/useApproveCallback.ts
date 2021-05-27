@@ -180,8 +180,6 @@ export function useApproveCallback(
               // gasLimit: calculateGasMargin(estimatedGas),
             })
             .then((response: any) => {
-              console.log(response);
-              console.log("helellelellele");
               if (!response.hash) response.hash = response.transactionHash;
               addTransaction(response, {
                 summary: `Approve ${amountToApprove.currency.symbol}`,
@@ -189,7 +187,6 @@ export function useApproveCallback(
               });
             })
             .catch((error: Error) => {
-              console.log(error);
               console.debug("Failed to approve token", error);
               throw error;
             });

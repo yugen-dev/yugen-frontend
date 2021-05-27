@@ -94,6 +94,11 @@ export const useCoffeeTable = () => {
   return useMemo(() => getCoffeeTableContract(web3), [web3]);
 };
 
+export const useCoffeeTableGasless = () => {
+  const web3 = getBiconomyWeb3();
+  return useMemo(() => getCoffeeTableContract(web3), [web3]);
+};
+
 export const usePointCenterIfoContract = () => {
   const web3 = useWeb3();
   return useMemo(() => getPointCenterIfoContract(web3), [web3]);

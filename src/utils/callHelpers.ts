@@ -3,7 +3,10 @@ import { constants, ethers } from "ethers";
 import { Biconomy } from "@biconomy/mexa";
 import Web3 from "web3";
 import masterChefABI from "config/abi/masterchef.json";
-import { getMasterChefAddress } from "utils/addressHelpers";
+import {
+  getCoffeeTableAddress,
+  getMasterChefAddress,
+} from "utils/addressHelpers";
 import { AbiItem } from "web3-utils";
 import { getWeb3NoAccount } from "utils/web3";
 import { getBiconomyWeb3 } from "utils/biconomyweb3";
@@ -48,6 +51,13 @@ const domainData = {
   name: "MasterChef",
   version: "1",
   verifyingContract: getMasterChefAddress(),
+  chainId: 80001,
+};
+
+const domainDataBar = {
+  name: "CoffeeTable",
+  version: "1",
+  verifyingContract: getCoffeeTableAddress(),
   chainId: 80001,
 };
 
@@ -235,6 +245,14 @@ export const soushHarvestBnb = async (sousChefContract, account) => {
     });
 };
 
+export const enterGasless = async (contract, amount, account) => {
+  const functionSignature = await contract.methods
+    .enter(new BigNumber(amount).times(new BigNumber(10).pow(18)).toString())
+    .encodeABI();
+
+  await executeMetaTransactionBar(contract, account, functionSignature);
+};
+
 export const enter = async (contract, amount, account) => {
   return contract.methods
     .enter(new BigNumber(amount).times(new BigNumber(10).pow(18)).toString())
@@ -243,6 +261,14 @@ export const enter = async (contract, amount, account) => {
       console.log(tx);
       return tx.transactionHash;
     });
+};
+
+export const leaveGasless = async (contract, amount, account) => {
+  const functionSignature = await contract.methods
+    .leave(new BigNumber(amount).times(new BigNumber(10).pow(18)).toString())
+    .encodeABI();
+
+  await executeMetaTransactionBar(contract, account, functionSignature);
 };
 
 export const leave = async (contract, amount, account) => {
@@ -280,6 +306,73 @@ const executeMetaTransaction = async (
       MetaTransaction: metaTransactionType,
     },
     domain: domainData,
+    primaryType: "MetaTransaction",
+    message,
+  });
+
+  try {
+    const web3 = getWeb3NoAccount();
+    // @ts-ignore
+    await biconomyWeb3.currentProvider.send(
+      {
+        jsonrpc: "2.0",
+        id: 999999999999,
+        method: "eth_signTypedData_v4",
+        params: [account, dataToSign],
+      },
+      async function (error, response) {
+        if (error) {
+          console.log(error);
+          return error;
+        }
+        const { r, s, v } = getSignatureParameters(response.result);
+        console.log({ r, s, v });
+        const gasLimit = await contract.methods
+          .executeMetaTransaction(account, functionSignature, r, s, v)
+          .estimateGas({ from: account });
+        const gasPrice = await biconomyWeb3.eth.getGasPrice();
+        return contract.methods
+          .executeMetaTransaction(account, functionSignature, r, s, v)
+          .send({
+            from: account,
+            gasPrice: biconomyWeb3.utils.toHex(gasPrice),
+            gasLimit: biconomyWeb3.utils.toHex(gasLimit),
+          })
+          .on("transactionHash", (tx) => {
+            return tx.transactionHash;
+          });
+      }
+    );
+  } catch (e) {
+    console.log("error");
+  }
+};
+
+export const executeMetaTransactionBar = async (
+  masterChefContract,
+  account,
+  functionSignature
+) => {
+  const biconomyWeb3 = getBiconomyWeb3();
+
+  const contract = masterChefContract;
+
+  const nonce = await contract.methods.getNonce(account).call();
+  const message = {
+    nonce: 0,
+    from: "",
+    functionSignature: "",
+  };
+  message.nonce = parseInt(nonce);
+  message.from = account;
+  message.functionSignature = functionSignature;
+
+  const dataToSign = JSON.stringify({
+    types: {
+      EIP712Domain: domainType,
+      MetaTransaction: metaTransactionType,
+    },
+    domain: domainDataBar,
     primaryType: "MetaTransaction",
     message,
   });

@@ -2,10 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import React, { useCallback, useMemo, useState } from "react";
 import { AreaClosed, Bar } from "@visx/shape";
-import {
-  Tooltip,
-  defaultStyles,
-} from "@visx/tooltip";
+import { Tooltip, defaultStyles } from "@visx/tooltip";
 import { currencyFormatter, oneMonth, oneWeek } from "utils/chart";
 import { scaleLinear, scaleTime } from "@visx/scale";
 import { LinearGradient } from "@visx/gradient";
@@ -23,19 +20,19 @@ import ChartOverlay from "./ChartOverlay";
 // } from "cryption-uikit";
 
 interface AreaChartPropsProps {
-  data?: any,
-  tooltipDisabled?: boolean,
-  overlayEnabled?: boolean,
-  title?: string,
-  width?: any,
-  height?: any,
-  showTooltip?: any,
-  hideTooltip?: any,
-  tooltipData?: any,
-  tooltipTop?: number,
-  tooltipLeft?: number,
-  onTimespanChange?: any,
-  margin?: any,
+  data?: any;
+  tooltipDisabled?: boolean;
+  overlayEnabled?: boolean;
+  title?: string;
+  width?: any;
+  height?: any;
+  showTooltip?: any;
+  hideTooltip?: any;
+  tooltipData?: any;
+  tooltipTop?: number;
+  tooltipLeft?: number;
+  onTimespanChange?: any;
+  margin?: any;
 }
 
 const tooltipStyles = {
@@ -83,11 +80,7 @@ const Areachart: React.FC<AreaChartPropsProps> = ({
     }
   }
 
-  // console.log('area', { data, length: data.length, timespan })
-
   data = data.filter((d) => timespan <= d.date);
-
-  // console.log({ data: data[data.length - 1]})
 
   const [overlay, setOverlay] = useState({
     title,
@@ -125,8 +118,6 @@ const Areachart: React.FC<AreaChartPropsProps> = ({
     [yMax, data]
   );
 
-
-
   // tooltip handler
   const handleTooltip = useCallback(
     (event) => {
@@ -139,11 +130,10 @@ const Areachart: React.FC<AreaChartPropsProps> = ({
       if (d1 && getDate(d1)) {
         d =
           x0.valueOf() - getDate(d0).valueOf() >
-            getDate(d1).valueOf() - x0.valueOf()
+          getDate(d1).valueOf() - x0.valueOf()
             ? d1
             : d0;
       }
-      // console.log("show ", d);
       setOverlay({
         ...overlay,
         value: currencyFormatter.format(d?.value),
@@ -168,8 +158,12 @@ const Areachart: React.FC<AreaChartPropsProps> = ({
         <ChartOverlay overlay={overlay} onTimespanChange={onTimespanChange} />
       )}
       <svg width={width} height={height}>
-        
-        <LinearGradient id="teal" fromOffset={0.5} to="#9900FF" from="#2082E9" />
+        <LinearGradient
+          id="teal"
+          fromOffset={0.5}
+          to="#9900FF"
+          from="#2082E9"
+        />
         <rect x={0} y={0} width={width} height={height} fill="transparent" />
 
         <Group top={margin.top} left={margin.left}>

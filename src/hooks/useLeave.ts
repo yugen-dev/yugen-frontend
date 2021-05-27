@@ -2,21 +2,28 @@ import { useCallback } from "react";
 
 import { useWeb3React } from "@web3-react/core";
 
-import { leave } from "utils/callHelpers";
+import { leave, leaveGasless } from "utils/callHelpers";
 
-import { useCake, useCoffeeTable } from "./useContract";
+import { useProfile } from "state/hooks";
+
+import { useCake, useCoffeeTable, useCoffeeTableGasless } from "./useContract";
 
 const useLeave = () => {
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
+  const { metaTranscation } = useProfile();
   const cake = useCake();
   const coffeeTable = useCoffeeTable();
+  const coffeeTableGasless = useCoffeeTableGasless();
 
   const handle = useCallback(
     async (amount: string) => {
-      const txHash = await leave(coffeeTable, amount, account);
-      console.log(txHash);
+      if (metaTranscation) {
+        const txHash = await leaveGasless(coffeeTableGasless, amount, account);
+      } else {
+        const txHash = await leave(coffeeTable, amount, account);
+      }
     },
-    [account, coffeeTable]
+    [account, coffeeTable, coffeeTableGasless, metaTranscation]
   );
 
   return { onLeave: handle };

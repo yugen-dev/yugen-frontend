@@ -16,7 +16,7 @@ export default {
   coffeeTable: {
     97: "",
     56: "",
-    80001: "0x4f6600520AFBd3e4823a1Fe1046bc71b30704bfc",
+    80001: "0x01cB7180a55216Ea070dd5BFd31D1DDc4a5E6f2B",
   },
   sousChef: {
     97: "0xd3af5fe61dbaf8f73149bfcfa9fb653ff096029a",

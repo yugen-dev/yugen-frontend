@@ -38,6 +38,7 @@ export enum QuoteToken {
   "MUSD" = "MUSD",
   "MATIC" = "MATIC",
   "PR" = "PR",
+  "TEST1" = "TEST1",
 }
 
 export enum PoolCategory {
