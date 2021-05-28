@@ -12,16 +12,18 @@ import {
   soushHarvestBnb,
   harvest,
   GaslessHarvest,
+  soushHarvestGasless,
 } from "utils/callHelpers";
 import {
   useMasterchef,
   useSousChef,
+  useSousChefGasless,
   useMasterchefGasless,
 } from "./useContract";
 
 export const useHarvest = (farmPid: number) => {
   const dispatch = useDispatch();
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const masterChefContract = useMasterchef();
   const masterChefGaslessContract = useMasterchefGasless();
   const { metaTranscation } = useProfile();
@@ -53,7 +55,7 @@ export const useHarvest = (farmPid: number) => {
 };
 
 export const useAllHarvest = (farmPids: number[]) => {
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const masterChefContract = useMasterchef();
 
   const handleHarvest = useCallback(async () => {
@@ -69,21 +71,30 @@ export const useAllHarvest = (farmPids: number[]) => {
 
 export const useSousHarvest = (sousId, isUsingBnb = false) => {
   const dispatch = useDispatch();
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const sousChefContract = useSousChef(sousId);
-
+  const sousChefContractGasless = useSousChefGasless(sousId);
+  const { metaTranscation } = useProfile();
   const handleHarvest = useCallback(async () => {
-    // if (sousId === 0) {
-    //   await harvest(masterChefContract, 0, account);
-    // } else
     if (isUsingBnb) {
       await soushHarvestBnb(sousChefContract, account);
+    } else if (metaTranscation) {
+      await soushHarvestGasless(sousChefContractGasless, account, sousId);
     } else {
       await soushHarvest(sousChefContract, account);
     }
+
     dispatch(updateUserPendingReward(sousId, account));
     dispatch(updateUserBalance(sousId, account));
-  }, [account, dispatch, isUsingBnb, sousChefContract, sousId]);
+  }, [
+    account,
+    dispatch,
+    isUsingBnb,
+    sousChefContract,
+    sousChefContractGasless,
+    metaTranscation,
+    sousId,
+  ]);
 
   return { onReward: handleHarvest };
 };
