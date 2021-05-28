@@ -2,7 +2,7 @@ import { PoolConfig, QuoteToken, PoolCategory } from "./types";
 
 const pools: PoolConfig[] = [
   {
-    sousId: 0,
+    sousId: 1,
     tokenName: "TEST1 TOKEN",
     tokenAddress: "0x7d09158A4489D278e0E19732A8A40e07832f934B",
     stakingTokenName: QuoteToken.TEST1,

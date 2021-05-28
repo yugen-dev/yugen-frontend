@@ -89,6 +89,11 @@ export const useSousChef = (id) => {
   return useMemo(() => getSouschefContract(id, web3), [id, web3]);
 };
 
+export const useSousChefGasless = (id) => {
+  const web3 = getBiconomyWeb3();
+  return useMemo(() => getSouschefContract(id, web3), [id, web3]);
+};
+
 export const useCoffeeTable = () => {
   const web3 = useWeb3();
   return useMemo(() => getCoffeeTableContract(web3), [web3]);
