@@ -420,7 +420,6 @@ export default function RemoveLiquidity({
     } else if (metaTranscation) {
       const methodName = methodNames[indexOfSuccessfulEstimation];
       const safeGasEstimate = safeGasEstimates[indexOfSuccessfulEstimation];
-      console.log(safeGasEstimate);
       setAttemptingTxn(true);
       const res = bicomony_contract.methods[methodName](...args).encodeABI();
       const message: any = {

@@ -44,6 +44,12 @@ export const lockup = from([
     uri: "https://api.thegraph.com/subgraphs/name/matthewlilley/lockup",
   }),
 ]);
+export const burn = from([
+  new RetryLink(),
+  new HttpLink({
+    uri: "https://api.thegraph.com/subgraphs/name/gulshanvas/cntsubgraph",
+  }),
+]);
 
 export default split(
   (operation) => {
@@ -65,7 +71,13 @@ export default split(
           return operation.getContext().clientName === "lockup";
         },
         lockup,
-        exchange
+        split(
+          (operation) => {
+            return operation.getContext().clientName === "burn";
+          },
+          burn,
+          exchange
+        )
       )
     )
   )

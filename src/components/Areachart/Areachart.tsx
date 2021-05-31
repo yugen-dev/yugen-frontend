@@ -68,7 +68,7 @@ const Areachart: React.FC<AreaChartPropsProps> = ({
     right: 0,
   },
 }) => {
-  const [timespan, setTimespan] = useState(oneMonth());
+  const [timespan, setTimespan] = useState(62802180);
 
   function onTimespanChange(e) {
     if (e.currentTarget.value === "ALL") {

@@ -22,3 +22,44 @@ export const dayDatasQuery = gql`
   }
   ${dayDataFieldsQuery}
 `;
+export const burnQuery = gql`
+  {
+    burns(first: 5) {
+      id
+      amount
+    }  
+  } 
+`;
+
+export const barQuery = gql`
+  query barQuery($id: String! = "0x9ff41ababb732cec16abd247c53035941cdf6e93") {
+    bar(id: $id) {
+      id
+      totalSupply
+      ratio
+      xSushiMinted
+      xSushiBurned
+      sushiStaked
+      sushiStakedUSD
+      sushiHarvested
+      sushiHarvestedUSD
+      xSushiAge
+      xSushiAgeDestroyed
+      # histories(first: 1000) {
+      #   id
+      #   date
+      #   timeframe
+      #   sushiStaked
+      #   sushiStakedUSD
+      #   sushiHarvested
+      #   sushiHarvestedUSD
+      #   xSushiAge
+      #   xSushiAgeDestroyed
+      #   xSushiMinted
+      #   xSushiBurned
+      #   xSushiSupply
+      #   ratio
+      # }
+    }
+  }
+`;

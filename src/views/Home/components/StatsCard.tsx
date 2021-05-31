@@ -1,29 +1,16 @@
 import React from "react";
-import { createStyles, withStyles, Theme } from '@material-ui/core/styles';
 import Grid from "@material-ui/core/Grid";
-import LinearProgress from '@material-ui/core/LinearProgress';
 import styled from "styled-components";
 import { Text } from "cryption-uikit";
 
-const BorderLinearProgress = withStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      height: 4,
-      borderRadius: 2,
-    },
-    colorPrimary: {
-      backgroundColor: theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
-    },
-    bar: {
-      borderRadius: 2,
-      background: 'linear-gradient(101.01deg ,#9900FF 41.86%,#2082E9 88.75%)'
-    },
-  }),
-)(LinearProgress);
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface CardValueProps {
   totalSuply?: number;
+  burnedSupply?: number;
   circulatingSupply?: number;
+  totalFees?: string
+  stakerFees?: string
+  lpFees?: string
+  burnerFees?: string
 }
 const Card = styled.div`
     border-radius: 0.625rem !important;
@@ -47,13 +34,57 @@ const ProgressItemText = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const CardValue: React.FC<CardValueProps> = ({ totalSuply, circulatingSupply }) => {
+
+const BarParent = styled.div`
+  overflow: hidden;
+  position: relative;
+  margin-top: 10px;
+  height: 4px;
+  border-radius: 2px;
+  background-color: #eeeeee;
+`;
+const RedbBar = styled.div<{ progressVal: number, marginVal: number  }>`
+  background: #f55c47;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  border-bottom-left-radius: 0px;
+  transition: transform .4s linear;
+  top: 0;
+  left: ${({ marginVal }) => `${marginVal}%`};
+  width: ${({ progressVal }) => `${progressVal}%`};;
+  bottom: 0;
+  position: absolute;
+  transition: transform 0.2s linear;
+  transform-origin: left;
+`;
+const BlueBar = styled.div<{ progressVal: number }>`
+  background: #2082E9;
+  border-radius: 2px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 2px;  
+  transition: transform .4s linear;
+  top: 0;
+  left: 0px;
+  width: ${({ progressVal }) => `${progressVal}%`};;
+  bottom: 0;
+  position: absolute;
+  transition: transform 0.2s linear;
+  transform-origin: left;
+`;
+const CardValue: React.FC<CardValueProps> = ({ totalSuply, circulatingSupply, burnedSupply, totalFees, stakerFees, lpFees, burnerFees }) => {
   const numberWithCommas = (number) => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
   let progressBar = 0;
   if (totalSuply && circulatingSupply && totalSuply > 0 && circulatingSupply > 0) {
     progressBar = (100 * circulatingSupply) / totalSuply;
+  }
+  let burnedProgress = 0;
+  if (totalSuply && burnedSupply && totalSuply > 0 && burnedSupply > 0) {
+    burnedProgress = (100 * burnedSupply) / totalSuply;
   }
   return (
     <Card>
@@ -75,6 +106,14 @@ const CardValue: React.FC<CardValueProps> = ({ totalSuply, circulatingSupply }) 
         </ProgressItemText>
         <ProgressItemText>
           <Text color="#9d9fa8" fontSize="15px">
+            Total Burned
+            </Text>
+          <Text color="#f55c47" fontSize="22px" fontWeight="700" style={{ display: 'flex', alignItems: 'center' }}>
+            {numberWithCommas(burnedSupply)}  <Text color="#C1C5CB" fontSize="15px" ml="8px"> CNT </Text>
+          </Text>
+        </ProgressItemText>
+        <ProgressItemText>
+          <Text color="#9d9fa8" fontSize="15px">
             Total Supply
             </Text>
           <Text color="white" fontSize="22px" fontWeight="700" style={{ display: 'flex', alignItems: 'center' }}>
@@ -82,7 +121,10 @@ const CardValue: React.FC<CardValueProps> = ({ totalSuply, circulatingSupply }) 
           </Text>
         </ProgressItemText>
       </ProgressText>
-      <BorderLinearProgress variant="determinate" value={progressBar} />
+      <BarParent>
+        <BlueBar progressVal={progressBar} />
+        <RedbBar progressVal={burnedProgress} marginVal={progressBar} />
+      </BarParent>
       <Grid container spacing={5} style={{ marginTop: '20px' }}>
         <Grid item xs={12} md={6} lg={6} xl={6} style={{ borderRight: '1px solid #524B63' }}>
           <TextAlignMent>
@@ -123,24 +165,38 @@ const CardValue: React.FC<CardValueProps> = ({ totalSuply, circulatingSupply }) 
         </Grid>
         <Grid item xs={12} md={6} lg={6} xl={6}>
           <TextAlignMent>
-            <ProgressText>
-              <Text color="#9d9fa8" fontSize="16px">
-                CNT Price
-            </Text>
-              <Text color="#2082E9" fontSize="16px" fontWeight="700"> $122 </Text>
-            </ProgressText>
-            <ProgressText>
-              <Text color="#9d9fa8" fontSize="16px">
-                Fees
-            </Text>
-              <Text color="white" fontSize="16px" fontWeight="700"> $1312.23 </Text>
-            </ProgressText>
-            <ProgressText>
-              <Text color="#C1C5CB" fontSize="16px">
-                Pairs
-            </Text>
-              <Text color="white" fontSize="16px" fontWeight="700"> 42 </Text>
-            </ProgressText>
+            {totalFees &&
+              <ProgressText>
+                <Text color="#9d9fa8" fontSize="15px">
+                  Total Fees (24 Hrs)
+                </Text>
+                <Text color="#2082E9" fontSize="15px" fontWeight="700"> ${totalFees} </Text>
+              </ProgressText>
+            }
+            {lpFees &&
+              <ProgressText>
+                <Text color="#9d9fa8" fontSize="15px">
+                  Lp fees
+                </Text>
+                <Text color="white" fontSize="15px" fontWeight="700"> ${lpFees} </Text>
+              </ProgressText>
+            }
+            {stakerFees &&
+              <ProgressText>
+                <Text color="#C1C5CB" fontSize="15x">
+                  Staker Fees
+                </Text>
+                <Text color="white" fontSize="15px" fontWeight="700"> ${stakerFees} </Text>
+              </ProgressText>
+            }
+            {burnerFees &&
+              <ProgressText>
+                <Text color="#C1C5CB" fontSize="15px">
+                  Burner Fees
+                </Text>
+                <Text color="white" fontSize="15px" fontWeight="700"> ${burnerFees} </Text>
+              </ProgressText>
+            }
           </TextAlignMent>
         </Grid>
       </Grid>
