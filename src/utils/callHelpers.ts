@@ -374,7 +374,7 @@ const executeMetaTransaction = async (
     primaryType: "MetaTransaction",
     message,
   });
-  console.log("helellele");
+
   try {
     const web3 = getWeb3NoAccount();
     // @ts-ignore
