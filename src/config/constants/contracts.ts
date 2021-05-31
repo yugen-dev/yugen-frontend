@@ -2,7 +2,7 @@ export default {
   cake: {
     97: "0xa35062141Fa33BCA92Ce69FeD37D0E8908868AAe",
     56: "0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82",
-    80001: "0x24C331CbC7517D93f0E8Cd03da9f3D36bF3DD564",
+    80001: "0xCda600560dBFb638D1acd860e0A33d57874931E9",
   },
   syrup: {
     97: "0xfE1e507CeB712BDe086f3579d2c03248b2dB77f9",
@@ -11,7 +11,7 @@ export default {
   masterChef: {
     97: "0x1d32c2945C8FDCBc7156c553B7cEa4325a17f4f9",
     56: "0x73feaa1eE314F8c655E354234017bE2193C9E24E",
-    80001: "0xb10e12C89Aa2DFdaa8E155D60AAA063847ede1d2",
+    80001: "0x4935c098Ebe778c164C4C4dD01fF5769941da1ce",
   },
   coffeeTable: {
     97: "",
@@ -43,8 +43,9 @@ export default {
     80001: "0x27A9fca03eD753f0729E3A86a6123d8C5c90b8e2",
   },
   busd: {
-    56: "0xe9e7cea3dedca5984780bafc599bd69add087d56",
+    56: "",
     97: "",
+    80001: "0xBA6fc2C28844c129c4e5b9116095881fE4f5584c",
   },
   ust: {
     56: "0x23396cF899Ca06c4472205fC903bDB4de249D6fC",
