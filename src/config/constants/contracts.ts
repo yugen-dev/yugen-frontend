@@ -11,7 +11,7 @@ export default {
   masterChef: {
     97: "0x1d32c2945C8FDCBc7156c553B7cEa4325a17f4f9",
     56: "0x73feaa1eE314F8c655E354234017bE2193C9E24E",
-    80001: "0x4935c098Ebe778c164C4C4dD01fF5769941da1ce",
+    80001: "0xC04c845a10B08A0A17A8be8d7c08E450A3cdDaBd",
   },
   coffeeTable: {
     97: "",
