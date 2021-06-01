@@ -10,7 +10,7 @@ const pools: PoolConfig[] = [
     contractAddress: {
       97: "",
       56: "",
-      80001: "0x4E305bd1F2f6F0f4A67aA6455781708243AD6387",
+      80001: "0xFd0Cba19cbD23A0680Aad1229b96b0565BC0e4e6",
     },
     poolCategory: PoolCategory.CORE,
     projectLink: "https://pancakeswap.finance/",
