@@ -255,7 +255,7 @@ const Home: React.FC = () => {
             <Grid item xs={12} md={6} lg={6} xl={6}>
               <EarnAssetCard
                 topTitle="Earn up to"
-                description={getHighestAPY() ? `${getHighestAPY()}%}` : "0%"}
+                description={getHighestAPY() ? `${getHighestAPY()}%` : "0%"}
                 descriptionColor="#29bb89"
                 bottomTitle="APR in farms"
                 redirectLink="/farms"
