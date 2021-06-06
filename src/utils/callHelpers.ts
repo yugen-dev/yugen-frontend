@@ -150,7 +150,6 @@ export const sousStakeGasless = async (
   souspid
 ) => {
   const pooladdress = getSouschefContract(souspid);
-  console.log(pooladdress);
   const functionSignature = await sousChefContract.methods
     .deposit(
       new BigNumber(amount).times(new BigNumber(10).pow(decimals)).toString()
@@ -198,7 +197,6 @@ export const sousUnstakeGasless = async (
   souspid
 ) => {
   const pooladdress = getSouschefContract(souspid);
-  console.log(pooladdress);
   const functionSignature = await sousChefContract.methods
     .withdraw(
       new BigNumber(amount).times(new BigNumber(10).pow(decimals)).toString()
@@ -290,7 +288,6 @@ export const soushHarvestGasless = async (
   souspid
 ) => {
   const pooladdress = getSouschefContract(souspid);
-  console.log(pooladdress);
   const functionSignature = await sousChefContract.methods
     .deposit("0")
     .encodeABI();

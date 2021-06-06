@@ -14,7 +14,7 @@ import useTheme from "hooks/useTheme";
 import useAuth from "hooks/useAuth";
 import { toggleMetaTranscationState } from "state/actions";
 import { usePriceCakeBusd, useProfile } from "state/hooks";
-import LogoIcon from "images/PolyDEX White Text (2).svg";
+// import LogoIcon from "images/PolyDEX White Text (2).svg";
 import config from "./config";
 
 const Menu = (props) => {
@@ -90,7 +90,7 @@ const Menu = (props) => {
           ? logoutEther
           : logout
       }
-      logoIcon={LogoIcon}
+      // logoIcon={LogoIcon}
       isDark={isDark}
       toggleTheme={toggleTheme}
       currentLang={selectedLanguage && selectedLanguage.code}

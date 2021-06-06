@@ -74,7 +74,6 @@ const LanguageContextProvider = ({ children }) => {
         .then(() => setTranslatedLanguage(selectedLanguage))
         .catch((e) => {
           setTranslations([]);
-          console.error("Error while loading translations", e);
         });
     }
   }, [selectedLanguage, setTranslations]);
