@@ -146,8 +146,25 @@ const FarmCard: React.FC<FarmCardProps> = ({
   const lpLabel =
     farm.lpSymbol && farm.lpSymbol.toUpperCase().replace("PANCAKE", "");
   const earnLabel = farm.dual ? farm.dual.earnLabel : "CNT";
-  const poolHarvestInterval = farm.poolHarvestInterval
-    ? (farm.poolHarvestInterval / 3600).toFixed(2)
+
+  let isDaysGreater = false;
+  let isHoursGreater = false;
+  const poolHarvestIntervalInDays = farm.poolHarvestInterval
+    ? (farm.poolHarvestInterval / 86400).toFixed(0)
+    : 0;
+
+  if (poolHarvestIntervalInDays > 0) {
+    isDaysGreater = true;
+  }
+  const poolHarvestIntervalinHours = farm.poolHarvestInterval
+    ? (farm.poolHarvestInterval / 3600).toFixed(0)
+    : 0;
+  if (poolHarvestIntervalinHours > 0) {
+    isHoursGreater = true;
+  }
+
+  const poolHarvestIntervalinMinutes = farm.poolHarvestInterval
+    ? (farm.poolHarvestInterval / 60).toFixed(0)
     : 0;
 
   const farmAPY =
@@ -201,7 +218,17 @@ const FarmCard: React.FC<FarmCardProps> = ({
       </Flex>
       <Flex justifyContent="space-between">
         <Text>{TranslateString(318, "Harvest Lock Interval")}:</Text>
-        <Text bold>{poolHarvestInterval} Hrs</Text>
+        <Text bold>
+          {poolHarvestIntervalInDays > 0
+            ? `${poolHarvestIntervalInDays.toString()} Days`
+            : ""}
+          {!isDaysGreater && poolHarvestIntervalinHours > 0
+            ? `${poolHarvestIntervalinHours.toString()} Hours`
+            : ""}
+          {!isDaysGreater && !isHoursGreater && poolHarvestIntervalinMinutes > 0
+            ? `${poolHarvestIntervalinMinutes.toString()} Minutes`
+            : ""}
+        </Text>
       </Flex>
 
       <CardActionsContainer

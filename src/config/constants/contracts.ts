@@ -45,7 +45,7 @@ export default {
   busd: {
     56: "",
     97: "",
-    80001: "0xBA6fc2C28844c129c4e5b9116095881fE4f5584c",
+    80001: "0x955C46C42e681A22F3f1AaC83d15f069aC92E00A",
   },
   ust: {
     56: "0x23396cF899Ca06c4472205fC903bDB4de249D6fC",

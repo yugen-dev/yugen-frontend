@@ -76,3 +76,41 @@ export const fetchFarmUserEarnings = async (account: string) => {
   });
   return parsedEarnings;
 };
+
+export const fetchFarmUserCanHarvestPendingReward = async (account: string) => {
+  const masterChefAdress = getMasterChefAddress();
+
+  const calls = farmsConfig.map((farm) => {
+    return {
+      address: masterChefAdress,
+      name: "canHarvest",
+      params: [farm.pid, account],
+    };
+  });
+
+  const rawCanHarvest = await multicall(masterchefABI, calls);
+  const parsedRawCanHarvest = rawCanHarvest.map((canHarvestReward) => {
+    return canHarvestReward[0];
+  });
+  return parsedRawCanHarvest;
+};
+
+export const fetchFarmUserHarvestInterval = async (account: string) => {
+  const masterChefAdress = getMasterChefAddress();
+
+  const calls = farmsConfig.map((farm) => {
+    return {
+      address: masterChefAdress,
+      name: "getHarvestUntil",
+      params: [farm.pid, account],
+    };
+  });
+
+  const rawHarvestInterval = await multicall(masterchefABI, calls);
+  const parsedRawHarvestInterval = rawHarvestInterval.map(
+    (HarvestIntervalReward) => {
+      return new BigNumber(HarvestIntervalReward[0]._hex).toJSON();
+    }
+  );
+  return parsedRawHarvestInterval;
+};

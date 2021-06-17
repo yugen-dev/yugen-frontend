@@ -89,6 +89,10 @@ export const useFarmUser = (pid) => {
     earnings: farm.userData
       ? new BigNumber(farm.userData.earnings)
       : new BigNumber(0),
+    canHarvest: farm.userData ? farm.userData.canHarvest : false,
+    harvestInterval: farm.userData
+      ? new BigNumber(farm.userData.harvestInterval)
+      : new BigNumber(0),
   };
 };
 

@@ -53,6 +53,24 @@ const farms: FarmConfig[] = [
     quoteTokenSymbol: QuoteToken.CAKE,
     quoteTokenAdresses: contracts.cake,
   },
+  {
+    pid: 3,
+    lpSymbol: "USDT",
+    lpAddresses: {
+      97: "0x2f7682b64b88149ba3250aee32db712964de5fa9",
+      56: "0x1b96b92314c44b159149f7e0303511fb2fc4774f",
+      80001: "0x955C46C42e681A22F3f1AaC83d15f069aC92E00A",
+    },
+    tokenSymbol: "USDT",
+    tokenAddresses: {
+      97: "0xe9e7cea3dedca5984780bafc599bd69add087d56",
+      56: "0xe9e7cea3dedca5984780bafc599bd69add087d56",
+      80001: "0x955C46C42e681A22F3f1AaC83d15f069aC92E00A",
+    },
+    quoteTokenSymbol: QuoteToken.BUSD,
+    quoteTokenAdresses: contracts.busd,
+  },
+
   // {
   //   pid: 90,
   //   lpSymbol: 'BELT-BNB LP',
