@@ -62,7 +62,7 @@ const StyledCardAccent = styled.div`
 
 const FCard = styled.div`
   align-self: baseline;
-  background: #1E202A;
+  background: #1e202a;
   border-radius: 0.625rem !important;
   box-shadow: 1px 2px 4px 3px rgba(0, 0, 0, 0.16);
   display: flex;
@@ -146,6 +146,9 @@ const FarmCard: React.FC<FarmCardProps> = ({
   const lpLabel =
     farm.lpSymbol && farm.lpSymbol.toUpperCase().replace("PANCAKE", "");
   const earnLabel = farm.dual ? farm.dual.earnLabel : "CNT";
+  const poolHarvestInterval = farm.poolHarvestInterval
+    ? (farm.poolHarvestInterval / 3600).toFixed(2)
+    : 0;
 
   const farmAPY =
     farm.apy &&
@@ -196,6 +199,11 @@ const FarmCard: React.FC<FarmCardProps> = ({
         <Text>{TranslateString(318, "Earn")}:</Text>
         <Text bold>{earnLabel}</Text>
       </Flex>
+      <Flex justifyContent="space-between">
+        <Text>{TranslateString(318, "Harvest Lock Interval")}:</Text>
+        <Text bold>{poolHarvestInterval} Hrs</Text>
+      </Flex>
+
       <CardActionsContainer
         farm={farm}
         account={account}
