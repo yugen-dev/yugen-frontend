@@ -100,7 +100,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     return isApproved ? (
       <div>
         <Flex justifyContent="space-between">
-          <Text>{TranslateString(318, "you can harvest after")}:</Text>
+          <Text>{TranslateString(318, "Next Harvest in :")}:</Text>
           <Text bold>
             {/* {isgreater && parseFloat(day.toNumber()) > 0
               ? parseFloat(day.toNumber()).toFixed(0)
