@@ -3,7 +3,7 @@ import { ChainId, JSBI, Percent, Token, WETH } from "@pancakeswap-libs/sdk";
 import tokenABI from "./abis/token.json";
 import usdcABI from "./abis/usdc.json";
 
-export const ROUTER_ADDRESS = "0x3fd7a9b75154471a7A7c24103BcBb54485eEA345";
+export const ROUTER_ADDRESS = "0xE86A68cd5A994D94BB7049acE481e9a6b5Fd94d6";
 
 export const biconomyAPIKey = "b8dPfq5r9.4828e19b-d67b-454b-823d-da8c44e83da4";
 export const META_TXN_DISABLED = false;
@@ -95,8 +95,8 @@ export const PINNED_PAIRS: {
         "Cryption Network Token"
       ),
       new Token(
-        ChainId.MAINNET,
-        "0x608b868Cc04cb70447eCAE7C12A847A4b8cB6Ec8",
+        ChainId.MATICTESTNET,
+        "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
         18,
         "WMATIC",
         "Wrapped Matic"
