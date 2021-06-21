@@ -62,6 +62,7 @@ export interface FarmConfig {
   quoteTokenSymbol: QuoteToken;
   quoteTokenAdresses: Address;
   multiplier?: string;
+  poolHarvestInterval?: number;
   isCommunity?: boolean;
   dual?: {
     rewardPerBlock: number;

@@ -3,9 +3,9 @@ import { ChainId, JSBI, Percent, Token, WETH } from "@pancakeswap-libs/sdk";
 import tokenABI from "./abis/token.json";
 import usdcABI from "./abis/usdc.json";
 
-export const ROUTER_ADDRESS = "0x3fd7a9b75154471a7A7c24103BcBb54485eEA345";
+export const ROUTER_ADDRESS = "0xE86A68cd5A994D94BB7049acE481e9a6b5Fd94d6";
 
-export const biconomyAPIKey = "b8dPfq5r9.4828e19b-d67b-454b-823d-da8c44e83da4";
+export const biconomyAPIKey = "5IJrOQxzG.cbc81ad9-974a-45d5-b3f3-bbc7c9fd2c6c";
 export const META_TXN_DISABLED = false;
 
 // a list of tokens by chain
@@ -95,8 +95,8 @@ export const PINNED_PAIRS: {
         "Cryption Network Token"
       ),
       new Token(
-        ChainId.MAINNET,
-        "0x608b868Cc04cb70447eCAE7C12A847A4b8cB6Ec8",
+        ChainId.MATICTESTNET,
+        "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
         18,
         "WMATIC",
         "Wrapped Matic"
@@ -140,10 +140,10 @@ export const META_TXN_SUPPORTED_TOKENS: any = {
   "0xf6f85b3f9fd581c2ee717c404f7684486f057f95": { abi: tokenABI },
   "0x40ccd55b789fdee8d434915dc2aa6bd938506a92": { abi: tokenABI },
   "0xa79e0bfc579c709819f4a0e95d4597f03093b011": { abi: tokenABI },
-  "0xcda600560dbfb638d1acd860e0a33d57874931e9": { abi: tokenABI },
-  "0xba6fc2c28844c129c4e5b9116095881fe4f5584c": { abi: tokenABI },
-  "0x6ca0ad12bb5191823cb0b44199db6341b971976b": { abi: tokenABI },
-  "0xf2def4fd74149231a45d6d5ddc4e5b38f7584e26": { abi: tokenABI },
+  "0x766f03e47674608cccf7414f6c4ddf3d963ae394": { abi: tokenABI },
+  "0xd89a2e56b778aefe719fc86e122b7db752bb6b41": { abi: tokenABI },
+  "0x23092a832ecb8474f81b63f718b7bcecd13012c9": { abi: tokenABI },
+  "0x2b5db7d98669be1242f62469214048cfe35d1a17": { abi: tokenABI },
 };
 
 export const NetworkContextName = "NETWORK";

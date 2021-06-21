@@ -86,6 +86,8 @@ const fetchFarms = async () => {
       ]);
 
       const allocPoint = new BigNumber(info.allocPoint._hex);
+      const poolHarvestInterval = new BigNumber(info.harvestInterval._hex);
+      console.log(poolHarvestInterval.toString());
       const poolWeight = allocPoint.div(new BigNumber(totalAllocPoint));
 
       return {
@@ -96,6 +98,7 @@ const fetchFarms = async () => {
         tokenPriceVsQuote: quoteTokenAmount.div(tokenAmount).toJSON(),
         poolWeight: poolWeight.toJSON(),
         multiplier: `${allocPoint.div(100).toString()}X`,
+        poolHarvestInterval: poolHarvestInterval.toString(),
       };
     })
   );

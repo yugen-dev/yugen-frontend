@@ -111,9 +111,9 @@ export function tryParseAmount(
 }
 
 const BAD_RECIPIENT_ADDRESSES: string[] = [
-  "0xDC716908dE1593b8817074490454EBC77cc82128", // v2 factory
-  "0x3fd7a9b75154471a7A7c24103BcBb54485eEA345", // v2 router 01
-  "0x3fd7a9b75154471a7A7c24103BcBb54485eEA345", // v2 router 02
+  "0x2a77B0fDd2715653372aeb7d2e2b3E64374dBae0", // v2 factory
+  "0xE86A68cd5A994D94BB7049acE481e9a6b5Fd94d6", // v2 router 01
+  "0xE86A68cd5A994D94BB7049acE481e9a6b5Fd94d6", // v2 router 02
 ];
 
 /**
@@ -259,7 +259,8 @@ function parseIndependentFieldURLParameter(urlParam: any): Field {
     : Field.INPUT;
 }
 
-const ENS_NAME_REGEX = /^[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)?$/;
+const ENS_NAME_REGEX =
+  /^[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)?$/;
 const ADDRESS_REGEX = /^0x[a-fA-F0-9]{40}$/;
 function validatedRecipient(recipient: any): string | null {
   if (typeof recipient !== "string") return null;
@@ -306,13 +307,14 @@ export function useDefaultsFromURLSearch():
   const { chainId } = useActiveWeb3React();
   const dispatch = useDispatch<AppDispatch>();
   const parsedQs = useParsedQueryString();
-  const [result, setResult] = useState<
-    | {
-        inputCurrencyId: string | undefined;
-        outputCurrencyId: string | undefined;
-      }
-    | undefined
-  >();
+  const [result, setResult] =
+    useState<
+      | {
+          inputCurrencyId: string | undefined;
+          outputCurrencyId: string | undefined;
+        }
+      | undefined
+    >();
 
   useEffect(() => {
     if (!chainId) return;

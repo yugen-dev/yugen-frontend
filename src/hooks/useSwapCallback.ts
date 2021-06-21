@@ -350,7 +350,7 @@ export function useSwapCallback(
             ],
           },
           domain: {
-            name: "UniswapV2Router02",
+            name: "PolydexRouter",
             version: "1",
             verifyingContract: contractAddress,
             chainId,

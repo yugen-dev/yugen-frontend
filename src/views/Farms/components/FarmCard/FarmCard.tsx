@@ -62,7 +62,7 @@ const StyledCardAccent = styled.div`
 
 const FCard = styled.div`
   align-self: baseline;
-  background: #1E202A;
+  background: #1e202a;
   border-radius: 0.625rem !important;
   box-shadow: 1px 2px 4px 3px rgba(0, 0, 0, 0.16);
   display: flex;
@@ -147,6 +147,26 @@ const FarmCard: React.FC<FarmCardProps> = ({
     farm.lpSymbol && farm.lpSymbol.toUpperCase().replace("PANCAKE", "");
   const earnLabel = farm.dual ? farm.dual.earnLabel : "CNT";
 
+  let isDaysGreater = false;
+  let isHoursGreater = false;
+  const poolHarvestIntervalInDays = farm.poolHarvestInterval
+    ? (farm.poolHarvestInterval / 86400).toFixed(0)
+    : 0;
+
+  if (poolHarvestIntervalInDays > 0) {
+    isDaysGreater = true;
+  }
+  const poolHarvestIntervalinHours = farm.poolHarvestInterval
+    ? (farm.poolHarvestInterval / 3600).toFixed(0)
+    : 0;
+  if (poolHarvestIntervalinHours > 0) {
+    isHoursGreater = true;
+  }
+
+  const poolHarvestIntervalinMinutes = farm.poolHarvestInterval
+    ? (farm.poolHarvestInterval / 60).toFixed(0)
+    : 0;
+
   const farmAPY =
     farm.apy &&
     farm.apy
@@ -196,6 +216,21 @@ const FarmCard: React.FC<FarmCardProps> = ({
         <Text>{TranslateString(318, "Earn")}:</Text>
         <Text bold>{earnLabel}</Text>
       </Flex>
+      <Flex justifyContent="space-between">
+        <Text>{TranslateString(318, "Harvest Lock Interval")}:</Text>
+        <Text bold>
+          {poolHarvestIntervalInDays > 0
+            ? `${poolHarvestIntervalInDays.toString()} Days`
+            : ""}
+          {!isDaysGreater && poolHarvestIntervalinHours > 0
+            ? `${poolHarvestIntervalinHours.toString()} Hours`
+            : ""}
+          {!isDaysGreater && !isHoursGreater && poolHarvestIntervalinMinutes > 0
+            ? `${poolHarvestIntervalinMinutes.toString()} Minutes`
+            : ""}
+        </Text>
+      </Flex>
+
       <CardActionsContainer
         farm={farm}
         account={account}

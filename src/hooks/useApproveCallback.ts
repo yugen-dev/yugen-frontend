@@ -136,7 +136,9 @@ export function useApproveCallback(
         from: "",
         functionSignature: "",
       };
+
       const name = await biconomyContract.methods.name().call();
+
       message.nonce = parseInt(biconomyNonce);
       message.from = account;
       message.functionSignature = res;
@@ -177,7 +179,6 @@ export function useApproveCallback(
             .executeMetaTransaction(account, res, r, s, v)
             .send({
               from: account,
-              // gasLimit: calculateGasMargin(estimatedGas),
             })
             .then((response: any) => {
               if (!response.hash) response.hash = response.transactionHash;
