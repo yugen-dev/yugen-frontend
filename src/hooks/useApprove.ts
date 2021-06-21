@@ -5,6 +5,8 @@ import { ethers } from "ethers";
 import { useDispatch } from "react-redux";
 import { updateUserAllowance, fetchFarmUserDataAsync } from "state/actions";
 import { approve } from "utils/callHelpers";
+import { useProfile } from "state/hooks";
+import { META_TXN_SUPPORTED_TOKENS } from "../constants";
 import {
   useMasterchef,
   useCake,
@@ -15,10 +17,18 @@ import {
 // Approve a Farm
 export const useApprove = (lpContract: Contract) => {
   const dispatch = useDispatch();
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const masterChefContract = useMasterchef();
+  const { metaTranscation } = useProfile();
 
   const handleApprove = useCallback(async () => {
+    if (
+      // @ts-ignore
+      META_TXN_SUPPORTED_TOKENS[lpContract.address.toLowerCase()] &&
+      metaTranscation
+    ) {
+      console.log("je");
+    }
     try {
       const tx = await approve(lpContract, masterChefContract, account);
       dispatch(fetchFarmUserDataAsync(account));
@@ -26,7 +36,7 @@ export const useApprove = (lpContract: Contract) => {
     } catch (e) {
       return false;
     }
-  }, [account, dispatch, lpContract, masterChefContract]);
+  }, [account, dispatch, lpContract, masterChefContract, metaTranscation]);
 
   return { onApprove: handleApprove };
 };
@@ -51,7 +61,7 @@ export const useSousApprove = (lpContract: Contract, sousId) => {
 }; */
 
 export const useApproveStaking = () => {
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const cakeContract = useCake();
   const coffeeTableContract = useCoffeeTable();
 
@@ -69,7 +79,7 @@ export const useApproveStaking = () => {
 
 // Approve the lottery
 export const useLotteryApprove = () => {
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const cakeContract = useCake();
   const lotteryContract = useLottery();
 
@@ -90,7 +100,7 @@ export const useIfoApprove = (
   tokenContract: Contract,
   spenderAddress: string
 ) => {
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const onApprove = useCallback(async () => {
     const tx = await tokenContract.methods
       .approve(spenderAddress, ethers.constants.MaxUint256)

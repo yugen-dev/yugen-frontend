@@ -45,8 +45,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     canHarvest,
     harvestInterval,
   } = useFarmUser(pid);
-  console.log("hello 1");
-  console.log(harvestInterval.toString());
+
   // let isgreater = false;
   const timeleft = harvestInterval.toNumber() - Math.floor(Date.now() / 1000);
   // let day;
@@ -100,7 +99,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     return isApproved ? (
       <div>
         <Flex justifyContent="space-between">
-          <Text>{TranslateString(318, "Next Harvest in :")}:</Text>
+          <Text>{TranslateString(318, "Next Harvest in :")}</Text>
           <Text bold>
             {/* {isgreater && parseFloat(day.toNumber()) > 0
               ? parseFloat(day.toNumber()).toFixed(0)

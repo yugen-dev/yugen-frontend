@@ -8,7 +8,7 @@ const StyledTotalValueLockedCard = styled(Card)`
   height: 100%;
   border-radius: 0.625rem !important;
   padding: 30px 15px;
-  background-color: #1E202A;
+  background-color: #1e202a;
   box-shadow: 1px 2px 4px 3px rgba(0, 0, 0, 0.16);
   align-items: center;
   display: flex;
@@ -24,7 +24,7 @@ const TotalValueLockedCard = () => {
         maximumFractionDigits: 0,
       })
     : null;
-
+  console.log(data);
   return (
     <StyledTotalValueLockedCard>
       <CNCardBody>

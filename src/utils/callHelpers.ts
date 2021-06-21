@@ -50,7 +50,7 @@ const metaTransactionType = [
 ];
 
 const domainData = {
-  name: "MasterChef",
+  name: "Farm",
   version: "1",
   verifyingContract: getMasterChefAddress(),
   chainId: 80001,
