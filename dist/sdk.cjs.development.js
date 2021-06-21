@@ -421,8 +421,8 @@ var Currency =
 /**
  * The only instance of the base class `Currency`.
  */
-
-Currency.ETHER = /*#__PURE__*/ new Currency(18, "ETH", "Ether");
+// samarth
+Currency.ETHER = /*#__PURE__*/ new Currency(18, "Matic", "Matic");
 var ETHER = Currency.ETHER;
 
 var _WETH;
