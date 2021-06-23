@@ -21,6 +21,7 @@ import {
   getSouschefContract,
   getCoffeeTableContract,
   getClaimRefundContract,
+  getPolydexMigratorContract,
 } from "utils/contractHelpers";
 import ENS_ABI from "../constants/abis/ens-registrar.json";
 import ENS_PUBLIC_RESOLVER_ABI from "../constants/abis/ens-public-resolver.json";
@@ -203,3 +204,7 @@ export function useMulticallContract(): Contract | null {
     false
   );
 }
+export const usePolydexMigratorContract = () => {
+  const web3 = useWeb3();
+  return useMemo(() => getPolydexMigratorContract(web3), [web3]);
+};

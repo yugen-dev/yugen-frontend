@@ -202,19 +202,8 @@ export function useSwapCallback(
                 };
               })
               .catch((gasError) => {
-                console.info(
-                  "Gas estimate failed, trying eth_call to extract error",
-                  call
-                );
-
                 return contract.callStatic[methodName](...args, options)
                   .then((result) => {
-                    console.info(
-                      "Unexpected successful call after failed estimate gas",
-                      call,
-                      gasError,
-                      result
-                    );
                     return {
                       call,
                       error: new Error(
@@ -223,7 +212,7 @@ export function useSwapCallback(
                     };
                   })
                   .catch((callError) => {
-                    console.info("Call threw error", call, callError);
+                    console.error("Call threw error", call, callError);
                     let errorMessage: string;
                     switch (callError.reason) {
                       case "UniswapV2Router: INSUFFICIENT_OUTPUT_AMOUNT":

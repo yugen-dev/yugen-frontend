@@ -34,9 +34,8 @@ const useStake = (pid: number) => {
         await GaslessStake(masterChefGaslessContract, pid, amount, account);
         dispatch(fetchFarmUserDataAsync(account));
       } else {
-        const txHash = await stake(masterChefContract, pid, amount, account);
+        await stake(masterChefContract, pid, amount, account);
         dispatch(fetchFarmUserDataAsync(account));
-        console.info(txHash);
       }
     },
     [

@@ -18,6 +18,7 @@ import {
   getMasterChefAddress,
   getPointCenterIfoAddress,
   getClaimRefundAddress,
+  getPolydexMigratorAddress,
 } from "utils/addressHelpers";
 
 // ABI
@@ -36,6 +37,7 @@ import coffeeTable from "config/abi/coffeeTable.json";
 import sousChef from "config/abi/sousChef.json";
 import sousChefBnb from "config/abi/sousChefBnb.json";
 import claimRefundAbi from "config/abi/claimRefund.json";
+import polydexMigrator from "config/abi/polydexMigrator.json";
 // import prToken from "config/abi/claimRefund.json";
 
 export const getContract = (abi: any, address: string, web3?: Web3) => {
@@ -87,4 +89,7 @@ export const getMasterchefContract = (web3?: Web3) => {
 };
 export const getClaimRefundContract = (web3?: Web3) => {
   return getContract(claimRefundAbi, getClaimRefundAddress(), web3);
+};
+export const getPolydexMigratorContract = (web3?: Web3) => {
+  return getContract(polydexMigrator, getPolydexMigratorAddress(), web3);
 };

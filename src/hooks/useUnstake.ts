@@ -31,20 +31,17 @@ const useUnstake = (pid: number) => {
   const handleUnstake = useCallback(
     async (amount: string) => {
       if (metaTranscation) {
-        const txHash = await GaslessUnStake(
+        await GaslessUnStake(
           masterChefGaslessContract,
           pid,
           amount,
           account
         );
         dispatch(fetchFarmUserDataAsync(account));
-        console.info(txHash);
       } else {
-        const txHash = await unstake(masterChefContract, pid, amount, account);
+        await unstake(masterChefContract, pid, amount, account);
         dispatch(fetchFarmUserDataAsync(account));
-        console.info(txHash);
         dispatch(fetchFarmUserDataAsync(account));
-        console.info(txHash);
       }
     },
     [
@@ -73,14 +70,13 @@ export const useSousUnstake = (sousId) => {
   const handleUnstake = useCallback(
     async (amount: string, decimals: number) => {
       if (isOldSyrup) {
-        const txHash = await sousEmegencyUnstake(
+        await sousEmegencyUnstake(
           sousChefContract,
           amount,
           account
         );
-        console.info(txHash);
       } else if (metaTranscation) {
-        const txHash = await sousUnstakeGasless(
+        await sousUnstakeGasless(
           sousChefContractsGasless,
           amount,
           decimals,
@@ -88,13 +84,12 @@ export const useSousUnstake = (sousId) => {
           sousId
         );
       } else {
-        const txHash = await sousUnstake(
+        await sousUnstake(
           sousChefContract,
           amount,
           decimals,
           account
         );
-        console.info(txHash);
       }
       dispatch(updateUserStakedBalance(sousId, account));
       dispatch(updateUserBalance(sousId, account));

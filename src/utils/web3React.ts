@@ -1,31 +1,45 @@
-import { InjectedConnector } from "@web3-react/injected-connector";
-import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
-import { BscConnector } from "@binance-chain/bsc-connector";
-import { ConnectorNames } from "cryption-uikit";
-import Web3 from "web3";
-import getNodeUrl from "./getRpcUrl";
+import { ConnectorNames } from '@pancakeswap-libs/uikit'
+import { Web3Provider } from '@ethersproject/providers'
+import { InjectedConnector } from '@web3-react/injected-connector'
+import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
+import { WalletLinkConnector } from '@web3-react/walletlink-connector'
+import { BscConnector } from '@binance-chain/bsc-connector'
+import { NetworkConnector } from './NetworkConnector'
 
-const POLLING_INTERVAL = 12000;
-const rpcUrl = getNodeUrl();
-const chainId = parseInt(process.env.REACT_APP_CHAIN_ID, 10);
+const NETWORK_URL = process.env.REACT_APP_NETWORK_URL
 
-const injected = new InjectedConnector({ supportedChainIds: [chainId] });
+export const NETWORK_CHAIN_ID: number = parseInt(process.env.REACT_APP_CHAIN_ID ?? '56')
 
-const walletconnect = new WalletConnectConnector({
-  rpc: { [chainId]: rpcUrl },
-  bridge: "https://bridge.walletconnect.org",
+if (typeof NETWORK_URL === 'undefined') {
+  throw new Error(`REACT_APP_NETWORK_URL must be a defined environment variable`)
+}
+
+export const network = new NetworkConnector({
+  urls: { [NETWORK_CHAIN_ID]: NETWORK_URL },
+})
+
+let networkLibrary: Web3Provider | undefined
+export function getNetworkLibrary(): Web3Provider {
+  // eslint-disable-next-line no-return-assign
+  return (networkLibrary = networkLibrary ?? new Web3Provider(network.provider as any))
+}
+
+export const injected = new InjectedConnector({
+  supportedChainIds: [NETWORK_CHAIN_ID],
+})
+
+export const bscConnector = new BscConnector({ supportedChainIds: [NETWORK_CHAIN_ID] })
+
+// mainnet only
+export const walletconnect = new WalletConnectConnector({
+  rpc: { [NETWORK_CHAIN_ID]: NETWORK_URL },
+  bridge: 'https://bridge.walletconnect.org',
   qrcode: true,
-  pollingInterval: POLLING_INTERVAL,
-});
-
-const bscConnector = new BscConnector({ supportedChainIds: [chainId] });
+  pollingInterval: 15000,
+})
 
 export const connectorsByName: { [connectorName in ConnectorNames]: any } = {
   [ConnectorNames.Injected]: injected,
   [ConnectorNames.WalletConnect]: walletconnect,
   [ConnectorNames.BSC]: bscConnector,
-};
-
-export const getLibrary = (provider): Web3 => {
-  return provider;
-};
+}
