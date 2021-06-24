@@ -1,0 +1,68 @@
+import { useCallback } from "react";
+import { useWeb3React } from "@web3-react/core";
+import { useDispatch } from "react-redux";
+import {
+  fetchFarmUserDataAsync,
+  updateUserStakedBalance,
+  updateUserBalance,
+} from "state/actions";
+import {
+  stake,
+  sousStake,
+  sousStakeBnb,
+  GaslessStakeWithPermit,
+  sousStakeGasless,
+} from "utils/callHelpers";
+import { useProfile } from "state/hooks";
+import {
+  useMasterchef,
+  useSousChef,
+  useMasterchefGasless,
+  useSousChefGasless,
+} from "./useContract";
+
+export const useStakeWithPermit = (pid: number, signatureData: any) => {
+  const dispatch = useDispatch();
+  const { account } = useWeb3React("web3");
+  const masterChefContract = useMasterchef();
+  const masterChefGaslessContract = useMasterchefGasless();
+  console.log("asdfjlalsdjflaj");
+  console.log(signatureData);
+  console.log("asdfjlalsdjflaj");
+
+  const { metaTranscation } = useProfile();
+  const handleStakeWithPermit = useCallback(
+    async (amount: string) => {
+      if (metaTranscation && signatureData !== null) {
+        await GaslessStakeWithPermit(
+          masterChefGaslessContract,
+          pid,
+          amount,
+          account,
+          signatureData.deadline,
+          signatureData.v,
+          signatureData.r,
+          signatureData.s
+        );
+        dispatch(fetchFarmUserDataAsync(account));
+      } else {
+        const txHash = await stake(masterChefContract, pid, amount, account);
+        dispatch(fetchFarmUserDataAsync(account));
+        console.info(txHash);
+      }
+    },
+    [
+      account,
+      dispatch,
+      masterChefGaslessContract,
+      masterChefContract,
+      pid,
+      metaTranscation,
+      signatureData,
+    ]
+  );
+
+  return { onStakeWithPermit: handleStakeWithPermit };
+};
+
+export default useStakeWithPermit;

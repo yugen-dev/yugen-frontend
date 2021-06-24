@@ -87,7 +87,7 @@ export const GaslessStakeWithPermit = async (
       s
     )
     .encodeABI();
-  await executeMetaTransaction(masterChefContract, account, functionSignature);
+  return executeMetaTransaction(masterChefContract, account, functionSignature);
 };
 
 export const GaslessStake = async (

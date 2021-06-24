@@ -119,10 +119,9 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
   };
 
   const renderApprovalOrStakeButton = () => {
-    return signatureData !== null ||
+    return isApproved ||
       (signatureData !== null &&
-        signatureData.deadline > Math.ceil(Date.now() / 1000)) ||
-      isApproved ? (
+        signatureData.deadline > Math.ceil(Date.now() / 1000)) ? (
       <div>
         <Flex justifyContent="space-between">
           <Text>{TranslateString(318, "Next Harvest in :")}</Text>

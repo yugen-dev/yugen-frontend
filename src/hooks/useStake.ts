@@ -52,37 +52,6 @@ export const useStake = (pid: number) => {
   return { onStake: handleStake };
 };
 
-export const useStakeWithPermit = (pid: number) => {
-  const dispatch = useDispatch();
-  const { account } = useWeb3React("web3");
-  const masterChefContract = useMasterchef();
-  const masterChefGaslessContract = useMasterchefGasless();
-
-  const { metaTranscation } = useProfile();
-  const handleStakeWithPermit = useCallback(
-    async (amount: string) => {
-      if (metaTranscation) {
-        await GaslessStake(masterChefGaslessContract, pid, amount, account);
-        dispatch(fetchFarmUserDataAsync(account));
-      } else {
-        const txHash = await stake(masterChefContract, pid, amount, account);
-        dispatch(fetchFarmUserDataAsync(account));
-        console.info(txHash);
-      }
-    },
-    [
-      account,
-      dispatch,
-      masterChefGaslessContract,
-      masterChefContract,
-      pid,
-      metaTranscation,
-    ]
-  );
-
-  return { onStakeWithPermit: handleStakeWithPermit };
-};
-
 export const useSousStake = (sousId, isUsingBnb = false) => {
   const dispatch = useDispatch();
   const { account } = useWeb3React("web3");
@@ -122,4 +91,4 @@ export const useSousStake = (sousId, isUsingBnb = false) => {
   return { onStake: handleStake };
 };
 
-export default { useStake, useStakeWithPermit };
+export default useStake;
