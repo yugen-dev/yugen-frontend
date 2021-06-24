@@ -7,7 +7,7 @@ import { getAddress } from "utils/addressHelpers";
 import { getBep20Contract } from "utils/contractHelpers";
 import { Button, Flex, Text } from "cryption-uikit";
 import { Farm } from "state/types";
-import { useFarmFromSymbol, useFarmUser } from "state/hooks";
+import { useFarmFromSymbol, useFarmUser, useProfile } from "state/hooks";
 import useI18n from "hooks/useI18n";
 import useWeb3 from "hooks/useWeb3";
 import { useApprove } from "hooks/useApprove";
@@ -69,17 +69,40 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
 
   const lpContract = getBep20Contract(lpAddress, web3);
 
+  const { metaTranscation } = useProfile();
+
+  const [signatureData, setSignatureData] =
+    useState<{
+      v: number;
+      r: string;
+      s: string;
+      deadline: number;
+    } | null>(null);
+
   const { onApprove } = useApprove(lpContract);
 
   const handleApprove = useCallback(async () => {
     try {
       setRequestedApproval(true);
-      await onApprove();
+      if (metaTranscation) {
+        const { v, r, s, deadlineForSignature } = await onApprove();
+        console.log("hello");
+        console.log({ v, r, s, deadlineForSignature });
+        setSignatureData({
+          v,
+          r,
+          s,
+          deadline: deadlineForSignature,
+        });
+        console.log("hello");
+      } else {
+        await onApprove();
+      }
       setRequestedApproval(false);
     } catch (e) {
       console.error(e);
     }
-  }, [onApprove]);
+  }, [onApprove, metaTranscation]);
 
   const Renderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
@@ -96,7 +119,10 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
   };
 
   const renderApprovalOrStakeButton = () => {
-    return isApproved ? (
+    return signatureData !== null ||
+      (signatureData !== null &&
+        signatureData.deadline > Math.ceil(Date.now() / 1000)) ||
+      isApproved ? (
       <div>
         <Flex justifyContent="space-between">
           <Text>{TranslateString(318, "Next Harvest in :")}</Text>
@@ -116,12 +142,14 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
             />
           </Text>
         </Flex>
+
         <StakeAction
           stakedBalance={stakedBalance}
           tokenBalance={tokenBalance}
           tokenName={lpName}
           pid={pid}
           addLiquidityUrl={addLiquidityUrl}
+          signatureData={signatureData}
         />
       </div>
     ) : (

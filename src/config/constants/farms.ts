@@ -38,23 +38,6 @@ const farms: FarmConfig[] = [
   },
   {
     pid: 2,
-    lpSymbol: "CNT-USDT LP",
-    lpAddresses: {
-      97: "0x2f7682b64b88149ba3250aee32db712964de5fa9",
-      56: "0x1b96b92314c44b159149f7e0303511fb2fc4774f",
-      80001: "0x099c36F2c11a237DDBf3ea93EFC844e310Ea52A8",
-    },
-    tokenSymbol: "CNT",
-    tokenAddresses: {
-      97: "0xe9e7cea3dedca5984780bafc599bd69add087d56",
-      56: "0xe9e7cea3dedca5984780bafc599bd69add087d56",
-      80001: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
-    },
-    quoteTokenSymbol: QuoteToken.CAKE,
-    quoteTokenAdresses: contracts.cake,
-  },
-  {
-    pid: 3,
     lpSymbol: "CNT-USDT LP v2",
     lpAddresses: {
       97: "0x2f7682b64b88149ba3250aee32db712964de5fa9",

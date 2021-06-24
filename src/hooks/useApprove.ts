@@ -4,39 +4,119 @@ import { Contract } from "web3-eth-contract";
 import { ethers } from "ethers";
 import { useDispatch } from "react-redux";
 import { updateUserAllowance, fetchFarmUserDataAsync } from "state/actions";
-import { approve } from "utils/callHelpers";
+import { approve, GaslessStakeWithPermit } from "utils/callHelpers";
 import { useProfile } from "state/hooks";
-import { META_TXN_SUPPORTED_TOKENS } from "../constants";
+import { splitSignature } from "@ethersproject/bytes";
+import {
+  getCoffeeTableAddress,
+  getMasterChefAddress,
+  getSouschefContract,
+} from "utils/addressHelpers";
 import {
   useMasterchef,
   useCake,
   useCoffeeTable,
   useLottery,
+  useMasterchefGasless,
+  usePairContract,
 } from "./useContract";
+import { useUserDeadline } from "../state/user/hooks";
 
 // Approve a Farm
 export const useApprove = (lpContract: Contract) => {
   const dispatch = useDispatch();
-  const { account } = useWeb3React("web3");
+  const { account, chainId, library } = useWeb3React("web3");
   const masterChefContract = useMasterchef();
+  const useMasterchefGaslesscontract = useMasterchefGasless();
   const { metaTranscation } = useProfile();
+  const [deadline] = useUserDeadline();
 
   const handleApprove = useCallback(async () => {
-    if (
-      // @ts-ignore
-      META_TXN_SUPPORTED_TOKENS[lpContract.address.toLowerCase()] &&
-      metaTranscation
-    ) {
-      console.log("je");
+    if (metaTranscation) {
+      try {
+        // try to gather a signature for permission
+        // @ts-ignore
+        // window.alert(lpContract.options.address);
+        const noncee = await lpContract.methods.nonces(account).call();
+        const nonce = await ethers.utils.parseUnits(noncee.toString(), "0");
+        console.log(nonce);
+        // window.alert(chainId);
+        // window.alert(lpContract.options.address);
+        // window.alert(getMasterChefAddress());
+        const deadlineForSignature: number =
+          Math.ceil(Date.now() / 1000) + deadline;
+        // window.alert(deadline);
+        // window.alert(deadlineForSignature);
+        const EIP712Domain = [
+          { name: "name", type: "string" },
+          { name: "version", type: "string" },
+          { name: "chainId", type: "uint256" },
+          { name: "verifyingContract", type: "address" },
+        ];
+        const domain = {
+          name: "Polydex LP Token",
+          version: "1",
+          chainId,
+          // @ts-ignore
+          verifyingContract: lpContract.options.address.toString(),
+        };
+
+        const Permit = [
+          { name: "owner", type: "address" },
+          { name: "spender", type: "address" },
+          { name: "value", type: "uint256" },
+          { name: "nonce", type: "uint256" },
+          { name: "deadline", type: "uint256" },
+        ];
+        console.log(nonce._hex);
+        const message = {
+          owner: account,
+          spender: getMasterChefAddress(),
+          value: ethers.constants.MaxUint256.toString(),
+          nonce: nonce._hex,
+          deadline: deadlineForSignature,
+        };
+        const data = JSON.stringify({
+          types: {
+            EIP712Domain,
+            Permit,
+          },
+          domain,
+          primaryType: "Permit",
+          message,
+        });
+
+        const sig = await library.send("eth_signTypedData_v4", [account, data]);
+        console.log(sig);
+        const signature = await splitSignature(sig.result);
+        console.log(signature);
+        const { r, s, v } = signature;
+        console.log({ v, r, s });
+
+        return { v, r, s, deadlineForSignature };
+      } catch (e) {
+        console.log(e);
+        return false;
+      }
+    } else {
+      try {
+        const tx = await approve(lpContract, masterChefContract, account);
+        dispatch(fetchFarmUserDataAsync(account));
+        return tx;
+      } catch (e) {
+        return false;
+      }
     }
-    try {
-      const tx = await approve(lpContract, masterChefContract, account);
-      dispatch(fetchFarmUserDataAsync(account));
-      return tx;
-    } catch (e) {
-      return false;
-    }
-  }, [account, dispatch, lpContract, masterChefContract, metaTranscation]);
+  }, [
+    account,
+    dispatch,
+    lpContract,
+    masterChefContract,
+    metaTranscation,
+    deadline,
+    chainId,
+    library,
+  ]);
 
   return { onApprove: handleApprove };
 };
