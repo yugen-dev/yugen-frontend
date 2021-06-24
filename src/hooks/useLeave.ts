@@ -6,14 +6,14 @@ import { leave, leaveGasless } from "utils/callHelpers";
 
 import { useProfile } from "state/hooks";
 
-import { useCake, useCoffeeTable, useCoffeeTableGasless } from "./useContract";
+import { useCake, useCNTStaker, useCNTStakerGasless } from "./useContract";
 
 const useLeave = () => {
   const { account } = useWeb3React("web3");
   const { metaTranscation } = useProfile();
   const cake = useCake();
-  const coffeeTable = useCoffeeTable();
-  const coffeeTableGasless = useCoffeeTableGasless();
+  const coffeeTable = useCNTStaker();
+  const coffeeTableGasless = useCNTStakerGasless();
 
   const handle = useCallback(
     async (amount: string) => {

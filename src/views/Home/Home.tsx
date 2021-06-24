@@ -13,7 +13,7 @@ import Container from "@material-ui/core/Container";
 import useI18n from "hooks/useI18n";
 import useInterval from "hooks/useInterval";
 import { useTotalSupply } from "hooks/useTokenBalance";
-import { dayDatasQuery, burnQuery, barQuery } from "apollo/queries";
+import { dayDatasQuery, burnQuery, cntStakerQuery } from "apollo/queries";
 import { getDayData } from "apollo/exchange";
 import pools from "config/constants/pools";
 import { Pool } from "state/types";
@@ -139,7 +139,7 @@ const Home: React.FC = () => {
     [bnbPrice, farmsLP]
   );
   const dayDatas = useQuery(dayDatasQuery);
-  const getBarInfo = useQuery(barQuery, {
+  const getBarInfo = useQuery(cntStakerQuery, {
     context: {
       clientName: "bar",
     },

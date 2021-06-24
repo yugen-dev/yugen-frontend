@@ -4,8 +4,8 @@ import { Biconomy } from "@biconomy/mexa";
 import Web3 from "web3";
 import masterChefABI from "config/abi/masterchef.json";
 import {
-  getCoffeeTableAddress,
-  getMasterChefAddress,
+  getCNTStakerAddress,
+  getFarmAddress,
   getSouschefContract,
 } from "utils/addressHelpers";
 import { usePoolFromPid } from "state/hooks";
@@ -50,16 +50,16 @@ const metaTransactionType = [
 ];
 
 const domainData = {
-  name: "MasterChef",
+  name: "Farm",
   version: "1",
-  verifyingContract: getMasterChefAddress(),
+  verifyingContract: getFarmAddress(),
   chainId: 80001,
 };
 
 const domainDataBar = {
-  name: "CoffeeTable",
+  name: "CNTStaker",
   version: "1",
-  verifyingContract: getCoffeeTableAddress(),
+  verifyingContract: getCNTStakerAddress(),
   chainId: 80001,
 };
 

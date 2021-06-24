@@ -24,7 +24,7 @@ import contracts from "config/constants/contracts";
 import useTokenBalance from "hooks/useTokenBalance";
 import UnlockButton from "components/UnlockButton";
 import { getBalanceNumber } from "utils/formatBalance";
-import { getCakeContract, getCoffeeTableContract } from "utils/contractHelpers";
+import { getCakeContract, getCNTStakerContract } from "utils/contractHelpers";
 import DepositModal from "../Pools/components/DepositModal";
 import WithdrawModal from "../Pools/components/WithdrawModal";
 
@@ -121,7 +121,7 @@ const CNTBar = () => {
   };
   const { account } = useWeb3React('web3');
   const tokenBalance = useTokenBalance(contracts.cake[80001]);
-  const xCNTBalance = useTokenBalance(contracts.coffeeTable[80001]);
+  const xCNTBalance = useTokenBalance(contracts.cntStaker[80001]);
   const [pendingTx, setPendingTx] = useState(false);
   const [pendingDepositTx, setPendingDepositTx] = useState(false);
   let tokenBal = tokenBalance;
@@ -136,7 +136,7 @@ const CNTBar = () => {
   }
   useEffect(() => {
     async function fetchTotalSupply() {
-      const xCNTContract = getCoffeeTableContract();
+      const xCNTContract = getCNTStakerContract();
       const supply = await xCNTContract.methods.totalSupply().call();
       setTotalSupply(new BigNumber(supply));
     }

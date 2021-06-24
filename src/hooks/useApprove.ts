@@ -8,7 +8,7 @@ import { approve } from "utils/callHelpers";
 import {
   useMasterchef,
   useCake,
-  useCoffeeTable,
+  useCNTStaker,
   useLottery,
 } from "./useContract";
 
@@ -53,7 +53,7 @@ export const useSousApprove = (lpContract: Contract, sousId) => {
 export const useApproveStaking = () => {
   const { account } = useWeb3React('web3');
   const cakeContract = useCake();
-  const coffeeTableContract = useCoffeeTable();
+  const coffeeTableContract = useCNTStaker();
 
   const handleApprove = useCallback(async () => {
     try {

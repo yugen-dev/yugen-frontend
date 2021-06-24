@@ -40,7 +40,7 @@ const UnstakeXCNT: React.FC = () => {
               onMouseOut={() => isHovering(false)}
             >
               <Value value={getBalanceNumber(xCNTBalance)} />
-              <Label text="xCNT (CoffeeTable) Available" />
+              <Label text="xCNT (CNTStaker) Available" />
             </StyledCardHeader>
             <StyledCardActions>
               <Button

@@ -11,7 +11,7 @@ import { useWeb3React } from "@web3-react/core";
 import { getBalanceNumber } from "utils/formatBalance";
 import { usePools, useBlock } from 'state/hooks'
 import useI18n from "hooks/useI18n";
-import { getCakeContract, getCoffeeTableContract } from "utils/contractHelpers";
+import { getCakeContract, getCNTStakerContract } from "utils/contractHelpers";
 import PoolTabButtons from './components/PoolTabButtons'
 // import FlexLayout from "components/layout/Flex";
 // import pools from "config/constants/pools";
@@ -51,7 +51,7 @@ const Farm: React.FC = () => {
 
   useEffect(() => {
     async function fetchTotalSupply() {
-      const xCNTContract = getCoffeeTableContract();
+      const xCNTContract = getCNTStakerContract();
       const supply = await xCNTContract.methods.totalSupply().call();
       setTotalSupply(new BigNumber(supply));
     }
