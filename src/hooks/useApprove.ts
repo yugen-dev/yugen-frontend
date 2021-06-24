@@ -3,22 +3,17 @@ import { useWeb3React } from "@web3-react/core";
 import { Contract } from "web3-eth-contract";
 import { ethers } from "ethers";
 import { useDispatch } from "react-redux";
-import { updateUserAllowance, fetchFarmUserDataAsync } from "state/actions";
-import { approve, GaslessStakeWithPermit } from "utils/callHelpers";
+import { fetchFarmUserDataAsync } from "state/actions";
+import { approve } from "utils/callHelpers";
 import { useProfile } from "state/hooks";
 import { splitSignature } from "@ethersproject/bytes";
-import {
-  getCoffeeTableAddress,
-  getMasterChefAddress,
-  getSouschefContract,
-} from "utils/addressHelpers";
+import { getMasterChefAddress } from "utils/addressHelpers";
 import {
   useMasterchef,
   useCake,
   useCoffeeTable,
   useLottery,
   useMasterchefGasless,
-  usePairContract,
 } from "./useContract";
 import { useUserDeadline } from "../state/user/hooks";
 
@@ -34,19 +29,13 @@ export const useApprove = (lpContract: Contract) => {
   const handleApprove = useCallback(async () => {
     if (metaTranscation) {
       try {
-        // try to gather a signature for permission
         // @ts-ignore
-        // window.alert(lpContract.options.address);
         const noncee = await lpContract.methods.nonces(account).call();
         const nonce = await ethers.utils.parseUnits(noncee.toString(), "0");
-        console.log(nonce);
-        // window.alert(chainId);
-        // window.alert(lpContract.options.address);
-        // window.alert(getMasterChefAddress());
+
         const deadlineForSignature: number =
           Math.ceil(Date.now() / 1000) + deadline;
-        // window.alert(deadline);
-        // window.alert(deadlineForSignature);
+
         const EIP712Domain = [
           { name: "name", type: "string" },
           { name: "version", type: "string" },
@@ -68,7 +57,7 @@ export const useApprove = (lpContract: Contract) => {
           { name: "nonce", type: "uint256" },
           { name: "deadline", type: "uint256" },
         ];
-        console.log(nonce._hex);
+
         const message = {
           owner: account,
           spender: getMasterChefAddress(),
@@ -87,12 +76,9 @@ export const useApprove = (lpContract: Contract) => {
         });
 
         const sig = await library.send("eth_signTypedData_v4", [account, data]);
-        console.log(sig);
-        const signature = await splitSignature(sig.result);
-        console.log(signature);
-        const { r, s, v } = signature;
-        console.log({ v, r, s });
 
+        const signature = await splitSignature(sig.result);
+        const { r, s, v } = signature;
         return { v, r, s, deadlineForSignature };
       } catch (e) {
         console.log(e);

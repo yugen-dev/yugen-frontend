@@ -46,22 +46,8 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     harvestInterval,
   } = useFarmUser(pid);
 
-  // let isgreater = false;
   const timeleft = harvestInterval.toNumber() - Math.floor(Date.now() / 1000);
-  // let day;
-  // let hours;
-  // let minute;
-  // let seconds;
-  // if (timeleft > 0) {
-  //   isgreater = true;
 
-  //   day = new BigNumber(timeleft).div(new BigNumber(86400));
-  //   hours = new BigNumber(timeleft).div(new BigNumber(3600));
-  //   minute = new BigNumber(timeleft).div(new BigNumber(60));
-  //   seconds = new BigNumber(timeleft);
-  // } else {
-  //   isgreater = false;
-  // }
   const lpAddress = getAddress(lpAddresses);
   const lpName = farm.lpSymbol.toUpperCase();
   const isApproved = account && allowance && allowance.isGreaterThan(0);
@@ -86,15 +72,12 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
       setRequestedApproval(true);
       if (metaTranscation) {
         const { v, r, s, deadlineForSignature } = await onApprove();
-        console.log("hello");
-        console.log({ v, r, s, deadlineForSignature });
         setSignatureData({
           v,
           r,
           s,
           deadline: deadlineForSignature,
         });
-        console.log("hello");
       } else {
         await onApprove();
       }
@@ -126,15 +109,6 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
         <Flex justifyContent="space-between">
           <Text>{TranslateString(318, "Next Harvest in :")}</Text>
           <Text bold>
-            {/* {isgreater && parseFloat(day.toNumber()) > 0
-              ? parseFloat(day.toNumber()).toFixed(0)
-              : ""}{" "}
-            D
-            {isgreater && hours.toNumber() > 0
-              ? parseFloat(hours.toNumber()).toFixed(0)
-              : ""}{" "}
-            M{isgreater && minute.toNumber() > 0 ? minute.toNumber() : ""} Min
-            {isgreater && seconds.toNumber() > 0 ? seconds.toNumber() : ""} */}
             <Countdown
               date={harvestInterval.toNumber() * 1000}
               renderer={Renderer}
