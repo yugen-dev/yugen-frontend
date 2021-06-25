@@ -35,7 +35,7 @@ const Actions = styled.div`
 
 const FarmedStakingCard = () => {
   const [pendingTx, setPendingTx] = useState(false);
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const TranslateString = useI18n();
   const farmsWithBalance = useFarmsWithBalance();
   const balancesWithValue = farmsWithBalance.filter(
@@ -70,13 +70,13 @@ const FarmedStakingCard = () => {
       </HeadingSection>
       <Block>
         <Label>
-          {TranslateString(544, "CAKE to Harvest")} {`  `}:
+          {TranslateString(544, "CNT to Harvest")} {`  `}:
         </Label>
         <CakeHarvestBalance />
       </Block>
       <Block>
         <Label>
-          {TranslateString(546, "CAKE in Wallet")} {` `}:
+          {TranslateString(546, "CNT in Wallet")} {` `}:
         </Label>
         <CakeWalletBalance />
       </Block>
@@ -91,9 +91,9 @@ const FarmedStakingCard = () => {
             {pendingTx
               ? TranslateString(548, "Collecting CAKE")
               : TranslateString(
-                532,
-                `Harvest all (${balancesWithValue.length})`
-              )}
+                  532,
+                  `Harvest all (${balancesWithValue.length})`
+                )}
           </Button>
         ) : (
           <UnlockButton />
@@ -121,7 +121,7 @@ const CNCardBody = styled.div`
   text-align: center;
   border-radius: 0.625rem !important;
   padding: 30px 15px;
-  background-color: #1E202A;
+  background-color: #1e202a;
   align-self: center;
   display: flex;
   width: 100%;

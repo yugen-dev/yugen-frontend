@@ -133,7 +133,7 @@ export const usePriceBnbBusd = (): BigNumber => {
 export const usePriceCakeBusd = (): BigNumber => {
   const pid = 0; // CNT-MATIC LP ,CAKE-BNB LP
   const bnbPriceUSD = usePriceBnbBusd();
-  // window.alert(bnbPriceUSD.toNumber());
+
   const farm = useFarmFromPid(pid);
   return farm.tokenPriceVsQuote
     ? bnbPriceUSD.times(farm.tokenPriceVsQuote)

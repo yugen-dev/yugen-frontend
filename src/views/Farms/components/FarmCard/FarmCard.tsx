@@ -139,7 +139,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
 
   const totalValueFormated = totalValue
     ? `$${Number(totalValue).toLocaleString(undefined, {
-        maximumFractionDigits: 0,
+        maximumFractionDigits: 2,
       })}`
     : "-";
 

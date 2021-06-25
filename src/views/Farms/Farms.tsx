@@ -143,9 +143,9 @@ const FilterContainer = styled.div`
   }
 `;
 const LabelWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   > ${Text} {
     font-size: 15px;
     margin-right: 15px;
@@ -162,7 +162,7 @@ const Farms: React.FC = () => {
   const [query, setQuery] = useState("");
   const [viewMode, setViewMode] = useState(ViewMode.CARD);
   const ethPriceUsd = usePriceEthBusd();
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const [sortOption, setSortOption] = useState("hot");
 
   const dispatch = useDispatch();
@@ -221,7 +221,7 @@ const Farms: React.FC = () => {
     (farmsToDisplay): FarmWithStakedValue[] => {
       const cakePriceVsBNB = new BigNumber(
         farmsLP.find((farm) => farm.pid === CAKE_POOL_PID)?.tokenPriceVsQuote ||
-        0
+          0
       );
       let farmsToDisplayWithAPY: FarmWithStakedValue[] = farmsToDisplay.map(
         (farm) => {

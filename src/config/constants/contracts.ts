@@ -2,7 +2,7 @@ export default {
   cake: {
     97: "0xa35062141Fa33BCA92Ce69FeD37D0E8908868AAe",
     56: "0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82",
-    80001: "0xCda600560dBFb638D1acd860e0A33d57874931E9",
+    80001: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
   },
   syrup: {
     97: "0xfE1e507CeB712BDe086f3579d2c03248b2dB77f9",
@@ -11,7 +11,7 @@ export default {
   masterChef: {
     97: "0x1d32c2945C8FDCBc7156c553B7cEa4325a17f4f9",
     56: "0x73feaa1eE314F8c655E354234017bE2193C9E24E",
-    80001: "0x93996A8a7f9b45C02762B5D632454d5d8cf86C61",
+    80001: "0x3e74C77446CAb24f1F74Ddacf2F4f98d7019bDc1",
   },
   coffeeTable: {
     97: "",
@@ -45,11 +45,12 @@ export default {
   busd: {
     56: "",
     97: "",
-    80001: "0x955C46C42e681A22F3f1AaC83d15f069aC92E00A",
+    80001: "0xD89a2E56B778AEfe719fc86E122B7db752Bb6B41",
   },
   ust: {
     56: "0x23396cF899Ca06c4472205fC903bDB4de249D6fC",
     97: "",
+    80001: "0xD89a2E56B778AEfe719fc86E122B7db752Bb6B41",
   },
   pancakeProfile: {
     56: "0xDf4dBf6536201370F95e06A0F8a7a70fE40E388a",
@@ -69,6 +70,7 @@ export default {
   eth: {
     56: "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
     97: "",
+    80001: "0x2b5db7D98669be1242F62469214048cFe35d1a17",
   },
   claimRefund: {
     56: "0xE7e53A7e9E3Cf6b840f167eF69519175c497e149",
