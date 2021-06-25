@@ -189,7 +189,7 @@ export default function RemoveLiquidity({
     if (!liquidityAmount) throw new Error("missing liquidity amount");
     // try to gather a signature for permission
     const nonce = await pairContract.nonces(account);
-    window.alert(deadline);
+
     const deadlineForSignature: number =
       Math.ceil(Date.now() / 1000) + deadline;
 
@@ -212,9 +212,7 @@ export default function RemoveLiquidity({
       { name: "nonce", type: "uint256" },
       { name: "deadline", type: "uint256" },
     ];
-    console.log(nonce);
-    console.log(nonce.toHexString());
-    console.log(liquidityAmount.raw.toString());
+
     const message = {
       owner: account,
       spender: ROUTER_ADDRESS,
@@ -236,7 +234,6 @@ export default function RemoveLiquidity({
       .send("eth_signTypedData_v4", [account, data])
       .then(splitSignature)
       .then((signature) => {
-        console.log(signature);
         setSignatureData({
           v: signature.v,
           r: signature.r,

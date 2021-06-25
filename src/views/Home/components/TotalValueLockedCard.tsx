@@ -24,7 +24,7 @@ const TotalValueLockedCard = () => {
         maximumFractionDigits: 0,
       })
     : null;
-  console.log(data);
+
   return (
     <StyledTotalValueLockedCard>
       <CNCardBody>
