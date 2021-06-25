@@ -8,7 +8,7 @@ const farms: FarmConfig[] = [
     lpAddresses: {
       97: "0xe70b7523f4bffa1f2e88d2ba709afd026030f412",
       56: "0xA527a61703D82139F8a06Bc30097cC9CAA2df5A6",
-      80001: "0x8A0D27eAA343346023b84D5B4F7c2672Ebfab786",
+      80001: "0xb46F190E6073028DBE144aC4C25941FB121892C3",
     },
     tokenSymbol: "CNT",
     tokenAddresses: {
@@ -25,7 +25,7 @@ const farms: FarmConfig[] = [
     lpAddresses: {
       97: "0xE66790075ad839978fEBa15D4d8bB2b415556a1D",
       56: "0x70D8929d04b60Af4fb9B58713eBcf18765aDE422",
-      80001: "0x96891eBB4C207c3B355Dd9054B7490983F07b13C",
+      80001: "0x1Ccd6F823A18847ed72695a08836EB09a1043156",
     },
     tokenSymbol: "USDT",
     tokenAddresses: {
@@ -42,7 +42,7 @@ const farms: FarmConfig[] = [
     lpAddresses: {
       97: "0x2f7682b64b88149ba3250aee32db712964de5fa9",
       56: "0x1b96b92314c44b159149f7e0303511fb2fc4774f",
-      80001: "0x336f943E2fA01236DAe97236ee0387EF8EedE96F",
+      80001: "0xCA751724e47CD3F7488b2daD690Fd5CbfbcFeB88",
     },
     tokenSymbol: "CNT",
     tokenAddresses: {
