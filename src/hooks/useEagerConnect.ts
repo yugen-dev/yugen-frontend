@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { connectorLocalStorageKey, ConnectorNames } from "cryption-uikit";
+import { ETHERJS_PATHS } from 'config';
 // import { useLocation } from "react-router-dom";
 import useAuth from "hooks/useAuth";
 
@@ -15,7 +16,7 @@ const useEagerConnect = () => {
     // into the Window object in time causing it to throw an error
     // TODO: Figure out an elegant way to listen for when the BinanceChain object is ready
     if (connectorId && connectorId) {
-      if (["/swap", "/find", "/pool", "/add"].includes(location.pathname)) {
+      if (ETHERJS_PATHS.includes(location.pathname)) {
         loginEther(connectorId);
       } else {
         login(connectorId);

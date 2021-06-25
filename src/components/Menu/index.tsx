@@ -14,15 +14,15 @@ import useTheme from "hooks/useTheme";
 import useAuth from "hooks/useAuth";
 import { toggleMetaTranscationState } from "state/actions";
 import { usePriceCakeBusd, useProfile } from "state/hooks";
+import { ETHERJS_PATHS } from 'config';
 // import LogoIcon from "images/PolyDEX White Text (2).svg";
 import config from "./config";
 
 const Menu = (props) => {
   const { login, logout, loginEther, logoutEther } = useAuth();
   const location = useLocation();
-
   let accountId = "";
-  if (["/swap", "/find", "/pool", "/add"].includes(location.pathname)) {
+  if (ETHERJS_PATHS.includes(location.pathname)) {
     accountId = useWeb3React().account;
   } else {
     accountId = useWeb3React("web3").account;
@@ -37,7 +37,7 @@ const Menu = (props) => {
       // into the Window object in time causing it to throw an error
       // TODO: Figure out an elegant way to listen for when the BinanceChain object is ready
       if (connectorId && connectorId) {
-        if (["/swap", "/find", "/pool", "/add"].includes(location.pathname)) {
+        if (ETHERJS_PATHS.includes(location.pathname)) {
           loginEther(connectorId);
         } else {
           login(connectorId);
@@ -81,12 +81,12 @@ const Menu = (props) => {
       gasslessTranscationLabel="Gassless Modes"
       toggleTranscationState={handleMetaToggle}
       login={
-        ["/swap", "/find", "/pool", "/add"].includes(location.pathname)
+        ETHERJS_PATHS.includes(location.pathname)
           ? loginEther
           : login
       }
       logout={
-        ["/swap", "/find", "/pool", "/add"].includes(location.pathname)
+        ETHERJS_PATHS.includes(location.pathname)
           ? logoutEther
           : logout
       }

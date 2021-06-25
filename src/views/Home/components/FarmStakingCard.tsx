@@ -35,7 +35,7 @@ const Actions = styled.div`
 
 const FarmedStakingCard = () => {
   const [pendingTx, setPendingTx] = useState(false);
-  const { account } = useWeb3React();
+  const { account } = useWeb3React('web3');
   const TranslateString = useI18n();
   const farmsWithBalance = useFarmsWithBalance();
   const balancesWithValue = farmsWithBalance.filter(

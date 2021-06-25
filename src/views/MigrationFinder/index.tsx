@@ -1,8 +1,8 @@
 /* eslint-disable no-nested-ternary */
 import { Currency, ETHER, JSBI, TokenAmount } from '@pancakeswap-libs/sdk'
 import React, { useCallback, useEffect, useState } from 'react'
-import { Button, ChevronDownIcon, AddIcon, CardBody, Text, Card } from 'cryption-uikit'
 import styled from 'styled-components'
+import { Button, ChevronDownIcon, AddIcon, CardBody, Text, Card } from 'cryption-uikit'
 import CardNav from 'components/CardNav'
 import { LightCard } from 'components/Card'
 import { AutoColumn, ColumnCenter } from 'components/Column'
@@ -10,7 +10,7 @@ import CurrencyLogo from 'components/CurrencyLogo'
 import { FindPoolTabs } from 'components/NavigationTabs'
 import { MinimalPositionCard } from 'components/PositionCard'
 import CurrencySearchModal from 'components/SearchModal/CurrencySearchModal'
-import { PairState, usePair } from 'data/Reserves'
+import { PairState, useMigrationPair } from 'data/Reserves'
 import { useActiveWeb3React } from 'hooks'
 import { usePairAdder } from 'state/user/hooks'
 import { useTokenBalance } from 'state/wallet/hooks'
@@ -24,28 +24,16 @@ enum Fields {
   TOKEN1 = 1,
 }
 
-const ContainerCard = styled(Card)`
-  border-radius: 0.625rem !important;
-  padding: 30px;
-  background-color: #1E202A;
-  display: flex;
-  margin-top: 70px;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-`;
-
 export default function PoolFinder() {
   const { account } = useActiveWeb3React()
-
+  console.log({account});
   const [showSearch, setShowSearch] = useState<boolean>(false)
   const [activeField, setActiveField] = useState<number>(Fields.TOKEN1)
 
   const [currency0, setCurrency0] = useState<Currency | null>(ETHER)
   const [currency1, setCurrency1] = useState<Currency | null>(null)
 
-  const [pairState, pair] = usePair(currency0 ?? undefined, currency1 ?? undefined)
-  console.log({ pairState }, { pair });
+  const [pairState, pair] = useMigrationPair(currency0 ?? undefined, currency1 ?? undefined)
   const addPair = usePairAdder()
 
   const TranslateString = useI18n()
@@ -55,7 +43,7 @@ export default function PoolFinder() {
     }
   }, [pair, addPair])
 
-  const validPairNoLiquidity: boolean =
+  const validPairNoLiquidity =
     pairState === PairState.NOT_EXISTS ||
     Boolean(
       pairState === PairState.EXISTS &&
@@ -99,7 +87,6 @@ export default function PoolFinder() {
       alignItems: 'center',
     }}>
       <ContainerCard>
-        <CardNav activeIndex={1} />
         <FindPoolTabs />
         <CardBody>
           <AutoColumn gap="md">
@@ -197,3 +184,13 @@ export default function PoolFinder() {
     </div>
   )
 }
+const ContainerCard = styled(Card)`
+  border-radius: 0.625rem !important;
+  padding: 30px;
+  background-color: #1E202A;
+  display: flex;
+  margin-top: 70px;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+`;

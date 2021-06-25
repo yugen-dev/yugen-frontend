@@ -6,6 +6,7 @@ import { useWeb3React } from '@web3-react/core'
 import { Button, ButtonProps, useWalletModal, ConnectorNames } from 'cryption-uikit'
 import { connectorsByName } from 'connectors'
 import useI18n from 'hooks/useI18n'
+import { ETHERJS_PATHS } from 'config';
 import './index.css';
 
 const UnlockButton: React.FC<ButtonProps> = (props) => {
@@ -15,7 +16,7 @@ const UnlockButton: React.FC<ButtonProps> = (props) => {
   accountId = useWeb3React('web3').account;
   let { activate } = useWeb3React('web3');
   let { deactivate } = useWeb3React('web3');
-  if (["/swap", "/find", "/pool", "/add"].includes(location.pathname)) {
+  if (ETHERJS_PATHS.includes(location.pathname)) {
     accountId = useWeb3React().account;
     activate = useWeb3React().activate;
     deactivate = useWeb3React().deactivate;

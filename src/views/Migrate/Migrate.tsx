@@ -99,7 +99,7 @@ const Migrate = () => {
           }
           <Text fontSize="14px" style={{ padding: '.5rem 0 .5rem 0' }} color="#86878F">
             Don't see a pool you joined?{'  '}
-            <StyledInternalLink id="import-pool-link" to="/find" color="#2082E9" style={{ color: '#2082E9' }}>
+            <StyledInternalLink id="import-pool-link" to="/migratefind" color="#2082E9" style={{ color: '#2082E9' }}>
               Import it.
             </StyledInternalLink>
           </Text>

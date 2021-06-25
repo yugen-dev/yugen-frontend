@@ -21,8 +21,11 @@ import {
   getSouschefContract,
   getCoffeeTableContract,
   getClaimRefundContract,
-  getPolydexMigratorContract,
 } from "utils/contractHelpers";
+import {
+  getPolydexMigratorAddress,
+} from "utils/addressHelpers";
+import polydexMigrator from "config/abi/polydexMigrator.json";
 import ENS_ABI from "../constants/abis/ens-registrar.json";
 import ENS_PUBLIC_RESOLVER_ABI from "../constants/abis/ens-public-resolver.json";
 import { ERC20_BYTES32_ABI } from "../constants/abis/erc20";
@@ -205,6 +208,8 @@ export function useMulticallContract(): Contract | null {
   );
 }
 export const usePolydexMigratorContract = () => {
-  const web3 = useWeb3();
-  return useMemo(() => getPolydexMigratorContract(web3), [web3]);
+  return useContract(getPolydexMigratorAddress(), polydexMigrator, true);
+};
+export const useFactoryContract = (factoryAddress, ABI, withSignerIfPossible) => {
+  return useContract(factoryAddress, ABI, withSignerIfPossible);
 };

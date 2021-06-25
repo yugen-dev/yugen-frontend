@@ -16,7 +16,7 @@ import { useTotalSupply } from 'data/TotalSupply'
 import useWeb3 from "hooks/useWeb3";
 import cakeAbi from "config/abi/cake.json";
 import { getPolydexMigratorAddress } from 'utils/addressHelpers'
-import { usePolydexMigratorContract } from "hooks/useContract";
+import { usePolydexMigratorContract, useTokenContract } from "hooks/useContract";
 import { useToast } from "state/hooks";
 import { approve } from "utils/callHelpers";
 
@@ -28,6 +28,7 @@ export default function MigrationCard({
   pair,
 }: ModalProps) {
   const pairAddress = pair.liquidityToken.address;
+  console.log({ pairAddress });
   const token1Address = pair.token0.address;
   const token2Address = pair.token1.address
   const token1Symbol = pair.token0.symbol;
@@ -43,10 +44,9 @@ export default function MigrationCard({
   const [allowence, setallowence] = useState('');
   const web3 = useWeb3();
   const { account } = useWeb3React();
-  const pairContract = new web3.eth.Contract(cakeAbi as unknown as AbiItem, pairAddress);
+  const pairContract = useTokenContract(pairAddress, true);
   const polydexMigrator = usePolydexMigratorContract();
   const polydexMigratorAddress = getPolydexMigratorAddress();
-
   const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken)
   const totalPoolTokens = useTotalSupply(pair.liquidityToken);
   const poolTokenPercentage =
@@ -72,7 +72,8 @@ export default function MigrationCard({
     const utcMilllisecondsSinceEpoch = now.getTime();
     const utcSecondsSinceEpoch = Math.round(utcMilllisecondsSinceEpoch / 1000) + 1200;
     try {
-      const txHash = await polydexMigrator.methods.migrate(token1Address, token2Address, balance, 1, 1, utcSecondsSinceEpoch).send({ from: account })
+      console.log({ token1Address }, { token2Address }, { balance }, { utcSecondsSinceEpoch });
+      const txHash = await polydexMigrator.functions.migrate(token1Address, token2Address, balance, 1, 1, utcSecondsSinceEpoch);
       if (txHash) {
         toastSuccess("Success", "Lp Tokens Succfully Migrated");
         setMigrateLoading(false);
@@ -85,30 +86,32 @@ export default function MigrationCard({
   const onApprove = async () => {
     setApproveLoading(true);
     try {
-      const txHash = await pairContract.methods.approve(polydexMigrator.options.address, ethers.constants.MaxUint256).send({ from: account });
-      // const txHash = await approve(pairContract, polydexMigrator, account);
+      const txHash = await pairContract.approve(polydexMigratorAddress, ethers.constants.MaxUint256);
       if (txHash) {
         toastSuccess("Success", "Account successfully approved");
         setApproveLoading(false);
+        getBalance();
       }
     } catch (error) {
       setApproveLoading(false);
       console.log('error is', error);
     }
   };
+  const getBalance = async () => {
+    let lpBalance = await pairContract.balanceOf(account);
+    const checkAllowence = await pairContract.allowance(account, polydexMigratorAddress);
+    setBal(lpBalance.toString());
+    lpBalance = web3.utils.fromWei(lpBalance.toString(), 'ether');
+    lpBalance = parseFloat(lpBalance).toFixed(3).toString();
+    console.log(checkAllowence.toString(), { lpBalance });
+    setallowence(checkAllowence.toString());
+    setLpbal(lpBalance);
+  }
   useEffect(() => {
-    async function getBalance() {
-      let lpBalance = await pairContract.methods.balanceOf(account).call();
-      const checkAllowence = await pairContract.methods.allowance(account, polydexMigratorAddress).call();
-      setBal(lpBalance);
-      lpBalance = web3.utils.fromWei(lpBalance, 'ether');
-      lpBalance = parseFloat(lpBalance).toFixed(3).toString();
-      setallowence(checkAllowence);
-      setLpbal(lpBalance);
-    }
     if (account) getBalance();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [web3.eth.Contract])
+  console.log({ polydexMigrator });
   return (
     <MigrationRow>
       <RowData onClick={() => toggleDetails(!showDetails)} >
