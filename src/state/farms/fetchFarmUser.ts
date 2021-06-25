@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 import erc20ABI from "config/abi/erc20.json";
-import masterchefABI from "config/abi/masterchef.json";
+import farmABI from "config/abi/farm.json";
 import multicall from "utils/multicall";
 import farmsConfig from "config/constants/farms";
 import { getAddress, getFarmAddress } from "utils/addressHelpers";
@@ -52,7 +52,7 @@ export const fetchFarmUserStakedBalances = async (account: string) => {
     };
   });
 
-  const rawStakedBalances = await multicall(masterchefABI, calls);
+  const rawStakedBalances = await multicall(farmABI, calls);
   const parsedStakedBalances = rawStakedBalances.map((stakedBalance) => {
     return new BigNumber(stakedBalance[0]._hex).toJSON();
   });
@@ -70,7 +70,7 @@ export const fetchFarmUserEarnings = async (account: string) => {
     };
   });
 
-  const rawEarnings = await multicall(masterchefABI, calls);
+  const rawEarnings = await multicall(farmABI, calls);
   const parsedEarnings = rawEarnings.map((earnings) => {
     return new BigNumber(earnings).toJSON();
   });
@@ -88,7 +88,7 @@ export const fetchFarmUserCanHarvestPendingReward = async (account: string) => {
     };
   });
 
-  const rawCanHarvest = await multicall(masterchefABI, calls);
+  const rawCanHarvest = await multicall(farmABI, calls);
   const parsedRawCanHarvest = rawCanHarvest.map((canHarvestReward) => {
     return canHarvestReward[0];
   });
@@ -106,7 +106,7 @@ export const fetchFarmUserHarvestInterval = async (account: string) => {
     };
   });
 
-  const rawHarvestInterval = await multicall(masterchefABI, calls);
+  const rawHarvestInterval = await multicall(farmABI, calls);
   const parsedRawHarvestInterval = rawHarvestInterval.map(
     (HarvestIntervalReward) => {
       return new BigNumber(HarvestIntervalReward[0]._hex).toJSON();

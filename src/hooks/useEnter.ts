@@ -11,19 +11,19 @@ import { useCNTStaker, useCNTStakerGasless } from "./useContract";
 
 const useEnter = () => {
   const { account } = useWeb3React("web3");
-  const coffeeTable = useCNTStaker();
-  const coffeeTableGasless = useCNTStakerGasless();
+  const cntStaker = useCNTStaker();
+  const cntStakerGasless = useCNTStakerGasless();
   const { metaTranscation } = useProfile();
 
   const handle = useCallback(
     async (amount: string) => {
       if (metaTranscation) {
-        const txHash = await enterGasless(coffeeTableGasless, amount, account);
+        const txHash = await enterGasless(cntStakerGasless, amount, account);
       } else {
-        const txHash = await enter(coffeeTable, amount, account);
+        const txHash = await enter(cntStaker, amount, account);
       }
     },
-    [account, coffeeTable, coffeeTableGasless, metaTranscation]
+    [account, cntStaker, cntStakerGasless, metaTranscation]
   );
 
   return { onEnter: handle };

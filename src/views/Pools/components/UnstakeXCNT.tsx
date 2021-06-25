@@ -13,7 +13,7 @@ import { getBalanceNumber } from "../../../utils/formatBalance";
 import WithdrawModal from "./WithdrawModal";
 
 const UnstakeXCNT: React.FC = () => {
-  const xCNTBalance = useTokenBalance(contracts.coffeeTable[80001]);
+  const xCNTBalance = useTokenBalance(contracts.cntStaker[80001]);
   const [pendingTx, setPendingTx] = useState(false);
   const [mouseOver, isHovering] = useState(false);
 

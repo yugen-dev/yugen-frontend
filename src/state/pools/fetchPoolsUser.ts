@@ -1,6 +1,6 @@
 import { AbiItem } from "web3-utils";
 import poolsConfig from "config/constants/pools";
-import masterChefABI from "config/abi/masterchef.json";
+import farmABI from "config/abi/farm.json";
 import sousChefABI from "config/abi/sousChef.json";
 import erc20ABI from "config/abi/erc20.json";
 import { QuoteToken } from "config/constants/types";
@@ -20,7 +20,7 @@ const bnbPools = poolsConfig.filter(
 const nonMasterPools = poolsConfig;
 const web3 = getWeb3NoAccount();
 const masterChefContract = new web3.eth.Contract(
-  masterChefABI as unknown as AbiItem,
+  farmABI as unknown as AbiItem,
   getFarmAddress()
 );
 

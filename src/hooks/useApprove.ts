@@ -53,16 +53,16 @@ export const useSousApprove = (lpContract: Contract, sousId) => {
 export const useApproveStaking = () => {
   const { account } = useWeb3React('web3');
   const cakeContract = useCake();
-  const coffeeTableContract = useCNTStaker();
+  const cntStakerContract = useCNTStaker();
 
   const handleApprove = useCallback(async () => {
     try {
-      const tx = await approve(cakeContract, coffeeTableContract, account);
+      const tx = await approve(cakeContract, cntStakerContract, account);
       return tx;
     } catch (e) {
       return false;
     }
-  }, [account, cakeContract, coffeeTableContract]);
+  }, [account, cakeContract, cntStakerContract]);
 
   return { onApprove: handleApprove };
 };

@@ -2,7 +2,7 @@ import BigNumber from "bignumber.js";
 import { constants, ethers } from "ethers";
 import { Biconomy } from "@biconomy/mexa";
 import Web3 from "web3";
-import masterChefABI from "config/abi/masterchef.json";
+import farmABI from "config/abi/farm.json";
 import {
   getCNTStakerAddress,
   getFarmAddress,

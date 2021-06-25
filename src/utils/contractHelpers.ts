@@ -31,8 +31,8 @@ import ifoAbi from "config/abi/ifo.json";
 import pointCenterIfo from "config/abi/pointCenterIfo.json";
 import lotteryAbi from "config/abi/lottery.json";
 import lotteryTicketAbi from "config/abi/lotteryNft.json";
-import farm from "config/abi/masterchef.json";
-import coffeeTable from "config/abi/coffeeTable.json";
+import farmABI from "config/abi/farm.json";
+import cntStaker from "config/abi/cntStaker.json";
 import sousChef from "config/abi/sousChef.json";
 import sousChefBnb from "config/abi/sousChefBnb.json";
 import claimRefundAbi from "config/abi/claimRefund.json";
@@ -56,7 +56,7 @@ export const getSouschefContract = (id: number, web3?: Web3) => {
   return getContract(abi, getAddress(config.contractAddress), web3);
 };
 export const getCNTStakerContract = (web3?: Web3) => {
-  return getContract(coffeeTable, getCNTStakerAddress(), web3);
+  return getContract(cntStaker, getCNTStakerAddress(), web3);
 };
 export const getPointCenterIfoContract = (web3?: Web3) => {
   return getContract(pointCenterIfo, getPointCenterIfoAddress(), web3);
@@ -83,7 +83,7 @@ export const getLotteryTicketContract = (web3?: Web3) => {
   return getContract(lotteryTicketAbi, getLotteryTicketAddress(), web3);
 };
 export const getMasterchefContract = (web3?: Web3) => {
-  return getContract(farm, getFarmAddress(), web3);
+  return getContract(farmABI, getFarmAddress(), web3);
 };
 export const getClaimRefundContract = (web3?: Web3) => {
   return getContract(claimRefundAbi, getClaimRefundAddress(), web3);
