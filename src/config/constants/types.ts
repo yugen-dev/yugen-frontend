@@ -85,6 +85,8 @@ export interface PoolConfig {
   projectLink: string;
   tokenPerBlock: string;
   sortOrder?: number;
+  multiReward?: string[];
+  multiRewardTokenPerBlock?: string[];
   harvest?: boolean;
   isFinished?: boolean;
   tokenDecimals: number;

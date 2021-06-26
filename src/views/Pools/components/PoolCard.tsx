@@ -3,13 +3,14 @@ import BigNumber from "bignumber.js";
 import { ethers } from "ethers";
 import styled from "styled-components";
 import { Button, IconButton, useModal, AddIcon, Image } from "cryption-uikit";
-import InfoIcon from '@material-ui/icons/Info';
+import InfoIcon from "@material-ui/icons/Info";
 import { useWeb3React } from "@web3-react/core";
 import UnlockButton from "components/UnlockButton";
 import Label from "components/Label";
 import { getContract } from "utils/contractHelpers";
 import { getAddress } from "utils/addressHelpers";
 import useI18n from "hooks/useI18n";
+// import { GetPoolPendingReward } from "hooks/GetPoolPendingReward";
 import { useSousStake } from "hooks/useStake";
 import useWeb3 from "hooks/useWeb3";
 import { useSousUnstake } from "hooks/useUnstake";
@@ -56,9 +57,9 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   } = pool;
   // Pools using native BNB behave differently than pools using a token
   const isBnbPool = poolCategory === PoolCategory.BINANCE;
-  const [show, setShow] = useState(false)
+  const [show, setShow] = useState(false);
   const TranslateString = useI18n();
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   // const { onApprove } = useApproveStaking();
   /*  const {onEnter} = useEnter();
   const {onLeave} = useLeave(); */
@@ -68,16 +69,38 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
 
   // APY
   // const rewardTokenPrice = useGetApiPrice(tokenName);
-  const rewardTokenPrice = Number(10000000000000);
-  // const stakingTokenPrice = useGetApiPrice(stakingTokenName);
-  const stakingTokenPrice = Number(100000000000000);
 
-  const apy = getPoolApy(
-    stakingTokenPrice,
-    rewardTokenPrice,
-    getBalanceNumber(pool.totalStaked, stakingTokenDecimals),
-    parseFloat(pool.tokenPerBlock)
-  );
+  // const stakingTokenPrice = useGetApiPrice(stakingTokenName);
+  const stakingTokenPrice = Number(1);
+  let apy = 0;
+  let apyString = "";
+  const apyArray = [];
+  const pendingRewardArray = [];
+
+  pool.multiRewardTokenPerBlock.forEach(async (element, i) => {
+    console.log(pool.multiReward[i]);
+    const rewardTokenPrice = Number(1);
+    const currentTokenApy = getPoolApy(
+      stakingTokenPrice,
+      rewardTokenPrice,
+      getBalanceNumber(pool.totalStaked, stakingTokenDecimals),
+      parseFloat(pool.tokenPerBlock)
+    );
+    // const pendingrewardofpool = await GetPoolPendingReward(sousId, account, i);
+    // console.log(pendingrewardofpool);
+    // pendingRewardArray.push(pendingrewardofpool)
+
+    apyString += `${currentTokenApy}% ${pool.multiReward[i]} `;
+    apy += currentTokenApy;
+    apyArray.push(currentTokenApy);
+  });
+
+  //  apy = getPoolApy(
+  //   stakingTokenPrice,
+  //   rewardTokenPrice,
+  //   getBalanceNumber(pool.totalStaked, stakingTokenDecimals),
+  //   parseFloat(pool.tokenPerBlock)
+  // );
   const web3 = useWeb3();
   const [requestedApproval, setRequestedApproval] = useState(false);
   const [pendingTx, setPendingTx] = useState(false);
@@ -89,8 +112,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
 
   const isOldSyrup = stakingTokenName === QuoteToken.SYRUP;
   const accountHasStakedBalance = stakedBalance?.toNumber() > 0;
-  const needsApproval =
-    !accountHasStakedBalance && !allowance.toNumber();
+  const needsApproval = !accountHasStakedBalance && !allowance.toNumber();
   const isCardActive = isFinished && accountHasStakedBalance;
   const convertedLimit = new BigNumber(stakingLimit).multipliedBy(
     new BigNumber(10).pow(tokenDecimals)
@@ -143,9 +165,9 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     } catch (e) {
       console.error("error is", e);
     }
-  }
-  const open = useCallback(() => setShow(true), [setShow])
-  const close = useCallback(() => setShow(false), [setShow])
+  };
+  const open = useCallback(() => setShow(true), [setShow]);
+  const close = useCallback(() => setShow(false), [setShow]);
   return (
     <Card isActive={isCardActive} isFinished={isFinished}>
       {isFinished && <PoolFinishedSash />}
@@ -175,15 +197,14 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
             <StyledDetails>
               <APRText onMouseEnter={open} onMouseLeave={close}>
                 APR :
-                <Tooltip
-                  show={show}
-                  text="125% CNT + 100% MAHA + 100% DCNT"
-                >
-                  <InfoIcon style={{
-                    color: "#86878f",
-                    fontSize: '15px',
-                    margin: '4px 4px 0px 4px'
-                  }} />
+                <Tooltip show={show} text={apyString}>
+                  <InfoIcon
+                    style={{
+                      color: "#86878f",
+                      fontSize: "15px",
+                      margin: "4px 4px 0px 4px",
+                    }}
+                  />
                 </Tooltip>
               </APRText>
               {isFinished || isOldSyrup || !apy ? (
@@ -227,57 +248,24 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
               <TitleText>Rewards Earned</TitleText>
             </RewardTitle>
             <RewardDetails>
-              <RewardItem>
-                {!isOldSyrup ? (
-                  <BalanceAndCompound>
-                    <Balance
-                      fontSize="22px"
-                      value={getBalanceNumber(earnings, tokenDecimals)}
-                      isDisabled={isFinished}
-                    />
-                  </BalanceAndCompound>
-                ) : (
-                  <OldSyrupTitle hasBalance={accountHasStakedBalance} />
-                )}
-                <Label
-                  isFinished={isFinished}
-                  text={tokenName}
-                />
-              </RewardItem>
-              <RewardItem>
-                {!isOldSyrup ? (
-                  <BalanceAndCompound>
-                    <Balance
-                      fontSize="22px"
-                      value={getBalanceNumber(earnings, tokenDecimals)}
-                      isDisabled={isFinished}
-                    />
-                  </BalanceAndCompound>
-                ) : (
-                  <OldSyrupTitle hasBalance={accountHasStakedBalance} />
-                )}
-                <Label
-                  isFinished={isFinished}
-                  text={tokenName}
-                />
-              </RewardItem>
-              <RewardItem>
-                {!isOldSyrup ? (
-                  <BalanceAndCompound>
-                    <Balance
-                      fontSize="22px"
-                      value={getBalanceNumber(earnings, tokenDecimals)}
-                      isDisabled={isFinished}
-                    />
-                  </BalanceAndCompound>
-                ) : (
-                  <OldSyrupTitle hasBalance={accountHasStakedBalance} />
-                )}
-                <Label
-                  isFinished={isFinished}
-                  text={tokenName}
-                />
-              </RewardItem>
+              {pool.multiReward.map((element, i) => {
+                return (
+                  <RewardItem>
+                    {!isOldSyrup ? (
+                      <BalanceAndCompound>
+                        <Balance
+                          fontSize="22px"
+                          value={getBalanceNumber(earnings, tokenDecimals)}
+                          isDisabled={isFinished}
+                        />
+                      </BalanceAndCompound>
+                    ) : (
+                      <OldSyrupTitle hasBalance={accountHasStakedBalance} />
+                    )}
+                    <Label isFinished={isFinished} text={element} />
+                  </RewardItem>
+                );
+              })}
             </RewardDetails>
           </RewardsSection>
         </div>
@@ -301,10 +289,10 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                   onClick={
                     isOldSyrup
                       ? async () => {
-                        setPendingTx(true);
-                        await onUnstake("0", stakingTokenDecimals);
-                        setPendingTx(false);
-                      }
+                          setPendingTx(true);
+                          await onUnstake("0", stakingTokenDecimals);
+                          setPendingTx(false);
+                        }
                       : onPresentWithdraw
                   }
                 >
@@ -390,25 +378,25 @@ const RewardItem = styled.div`
   text-align: center;
 `;
 const RewardTitle = styled.div`
-  width:100%;
-  text-align:center; 
-  position: relative;  
+  width: 100%;
+  text-align: center;
+  position: relative;
   &:after {
-   content:'';
-   position: absolute;
-   left: 0;
-   right: 0;
-   top: 50%;
-   height: 1px;
-   background: rgb(82, 75, 99);
-   z-index:0;
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    background: rgb(82, 75, 99);
+    z-index: 0;
   }
 `;
 const TitleText = styled.div`
-  position:relative; 
-  padding:10px; 
-  color: #EAE2FC;
-  background: #1E202A;
+  position: relative;
+  padding: 10px;
+  color: #eae2fc;
+  background: #1e202a;
   font-weight: 600;
   font-size: 22px;
   line-height: 1.1;

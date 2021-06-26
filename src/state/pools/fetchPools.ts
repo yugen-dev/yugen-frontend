@@ -35,7 +35,7 @@ export const fetchPoolsBlockLimits = async () => {
 
   return poolsWithEnd.map((cakePoolConfig, index) => {
     const startBlock = starts[index].startBlock._hex;
-    const endBlock = ends[index].bonusEndBlock._hex;
+    const endBlock = ends[index].endBlock._hex;
     return {
       sousId: cakePoolConfig.sousId,
       startBlock: new BigNumber(startBlock).toJSON(),
@@ -54,9 +54,8 @@ export const fetchPoolsTotalStatking = async () => {
 
   const callsNonBnbPools = nonBnbPools.map((poolConfig) => {
     return {
-      address: poolConfig.stakingTokenAddress,
-      name: "balanceOf",
-      params: [getAddress(poolConfig.contractAddress)],
+      address: getAddress(poolConfig.contractAddress),
+      name: "totalInputTokensStaked",
     };
   });
 
@@ -68,7 +67,7 @@ export const fetchPoolsTotalStatking = async () => {
     };
   });
 
-  const nonBnbPoolsTotalStaked = await multicall(cakeABI, callsNonBnbPools);
+  const nonBnbPoolsTotalStaked = await multicall(sousChefABI, callsNonBnbPools);
   const bnbPoolsTotalStaked = await multicall(wbnbABI, callsBnbPools);
 
   return [
