@@ -1,9 +1,9 @@
 /* eslint-disable react/require-default-props */
-import React from 'react'
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-import { ButtonMenu, ButtonMenuItem } from 'cryption-uikit'
-import useI18n from 'hooks/useI18n'
+import React from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { ButtonMenu, ButtonMenuItem } from "cryption-uikit";
+import useI18n from "hooks/useI18n";
 
 const CustomContainer = styled.div`
   margin-bottom: 0px;
@@ -11,21 +11,32 @@ const CustomContainer = styled.div`
 function Nav({ activeIndex = 0 }: { activeIndex?: number }) {
   const [index, setIndex] = React.useState(activeIndex);
   const handleClick = (newIndex) => {
-    setIndex(newIndex)
+    setIndex(newIndex);
   };
-  const TranslateString = useI18n()
+  const TranslateString = useI18n();
   return (
     <CustomContainer>
       <ButtonMenu
         activeIndex={index}
         scale="md"
         variant="primary"
-        onItemClick={handleClick}>
-        <ButtonMenuItem style={{ minWidth: "150px" }} id="swap-nav-link" to="/swap" as={Link}>
-          {TranslateString(1142, 'Swap')}
+        onItemClick={handleClick}
+      >
+        <ButtonMenuItem
+          style={{ minWidth: "150px" }}
+          id="swap-nav-link"
+          to="/swap"
+          as={Link}
+        >
+          {TranslateString(1142, "Swap")}
         </ButtonMenuItem>
-        <ButtonMenuItem style={{ minWidth: "150px" }} id="pool-nav-link" to="/pool" as={Link}>
-          {TranslateString(262, 'Liquidity')}
+        <ButtonMenuItem
+          style={{ minWidth: "150px" }}
+          id="pool-nav-link"
+          to="/pool"
+          as={Link}
+        >
+          {TranslateString(262, "Liquidity")}
         </ButtonMenuItem>
         {/* <ButtonMenuItem
           id="pool-nav-link"
@@ -39,7 +50,7 @@ function Nav({ activeIndex = 0 }: { activeIndex?: number }) {
         </ButtonMenuItem> */}
       </ButtonMenu>
     </CustomContainer>
-  )
+  );
 }
 
-export default Nav
+export default Nav;

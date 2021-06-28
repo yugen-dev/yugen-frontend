@@ -25,7 +25,7 @@ const IfoCardActions: React.FC<Props> = ({ ifo, publicIfoData }) => {
     addUserContributedAmount,
     setIsClaimed,
   } = useGetWalletIfoData(ifo);
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
 
   if (!account) {
     return <UnlockButton />;

@@ -1,4 +1,4 @@
-import { Card as UiCard} from "cryption-uikit";
+import { Card as UiCard } from "cryption-uikit";
 import styled from "styled-components";
 
 interface StyledTitleProps {

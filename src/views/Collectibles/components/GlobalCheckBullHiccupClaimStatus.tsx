@@ -21,7 +21,7 @@ const GlobalCheckBullHiccupClaimStatus = () => {
       isHiccupClaimable={isHiccupClaimable}
     />
   );
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const { pathname } = useLocation();
 
   useEffect(() => {

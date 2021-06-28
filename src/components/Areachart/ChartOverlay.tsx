@@ -27,13 +27,13 @@ export default function ChartOverlay({ overlay, onTimespanChange }) {
   return (
     <>
       <div style={{ position: "absolute", top: 24, left: 24 }}>
-        <Typography variant="subtitle2" style={{color: 'white'}}>
+        <Typography variant="subtitle2" style={{ color: "white" }}>
           {title}
         </Typography>
-        <Typography variant="h5" style={{color: 'white'}} >
+        <Typography variant="h5" style={{ color: "white" }}>
           {value}
         </Typography>
-        <Typography variant="subtitle1" style={{color: 'white'}}>
+        <Typography variant="subtitle1" style={{ color: "white" }}>
           {formatDate(date * 1e3)}
         </Typography>
       </div>
@@ -49,7 +49,7 @@ export default function ChartOverlay({ overlay, onTimespanChange }) {
             onClick={onTimespanChange}
           >
             1W
-            </Button>
+          </Button>
           <Button
             type="button"
             value="1M"
@@ -60,7 +60,7 @@ export default function ChartOverlay({ overlay, onTimespanChange }) {
             onClick={onTimespanChange}
           >
             1M
-            </Button>
+          </Button>
           <Button
             type="button"
             value="ALL"
@@ -71,7 +71,7 @@ export default function ChartOverlay({ overlay, onTimespanChange }) {
             onClick={onTimespanChange}
           >
             ALL
-            </Button>
+          </Button>
         </div>
       </div>
     </>

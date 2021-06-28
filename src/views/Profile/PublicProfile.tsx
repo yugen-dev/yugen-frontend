@@ -78,7 +78,7 @@ const Section = styled.div`
 `;
 
 const PublicProfile = () => {
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const { profile } = useProfile();
   const TranslateString = useI18n();
 

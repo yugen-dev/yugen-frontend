@@ -24,16 +24,16 @@ export const dayDatasQuery = gql`
 `;
 export const burnQuery = gql`
   {
-    burns(first: 5) {
+    cntBurns(first: 5) {
       id
       amount
-    }  
-  } 
+    }
+  }
 `;
 
 //  Value of `id` must not be checksummed.
 export const cntStakerQuery = gql`
-  query cntStaker($id: String! = "0x5da1f601486252ca41d04e6caa49b19dd0bfa888") { 
+  query cntStaker($id: String! = "0x5da1f601486252ca41d04e6caa49b19dd0bfa888") {
     cntstaker(id: $id) {
       id
       totalSupply

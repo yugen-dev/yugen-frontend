@@ -9,7 +9,7 @@ import useRefresh from "./useRefresh";
 // Retrieve lottery allowance
 export const useLotteryAllowance = () => {
   const [allowance, setAllowance] = useState(new BigNumber(0));
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const cakeContract = useCake();
   const { fastRefresh } = useRefresh();
 
@@ -31,7 +31,7 @@ export const useLotteryAllowance = () => {
 
 export const useStakingAllowance = () => {
   const [allowance, setAllowance] = useState(new BigNumber(0));
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const cakeContract = useCake();
   const { fastRefresh } = useRefresh();
 
@@ -57,7 +57,7 @@ export const useIfoAllowance = (
   spenderAddress: string,
   dependency?: any
 ): BigNumber => {
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const [allowance, setAllowance] = useState(new BigNumber(0));
 
   useEffect(() => {

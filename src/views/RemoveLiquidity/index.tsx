@@ -171,13 +171,12 @@ export default function RemoveLiquidity({
   );
 
   // allowance handling
-  const [signatureData, setSignatureData] =
-    useState<{
-      v: number;
-      r: string;
-      s: string;
-      deadline: number;
-    } | null>(null);
+  const [signatureData, setSignatureData] = useState<{
+    v: number;
+    r: string;
+    s: string;
+    deadline: number;
+  } | null>(null);
   const [approval, approveCallback] = useApproveCallback(
     parsedAmounts[Field.LIQUIDITY],
     ROUTER_ADDRESS

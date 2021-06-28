@@ -27,7 +27,7 @@ export const farm = from([
 export const exchange = from([
   new RetryLink(),
   new HttpLink({
-    uri: "https://api.thegraph.com/subgraphs/name/gulshanvas/cntdexcandles",
+    uri: "https://api.thegraph.com/subgraphs/name/gulshanvas/c-exchange",
   }),
 ]);
 

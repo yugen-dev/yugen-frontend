@@ -38,7 +38,7 @@ const TicketCard: React.FC<{
   const [onPresentMyTickets] = useModal(
     <MyTicketsModal myTicketNumbers={tickets} from="buy" />
   );
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
 
   if (!account) {
     return (

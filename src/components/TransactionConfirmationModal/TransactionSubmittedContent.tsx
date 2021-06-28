@@ -1,31 +1,45 @@
-import { ChainId } from '@pancakeswap-libs/sdk'
-import React, { useContext } from 'react'
-import { ThemeContext } from 'styled-components'
-import { Button, LinkExternal } from 'cryption-uikit'
-import { ArrowUpCircle } from 'react-feather'
-import { AutoColumn } from '../Column'
-import { getMaticExplorerLink } from '../../utils'
-import { Wrapper, Section, ConfirmedIcon, ContentHeader } from './helpers'
+import { ChainId } from "@pancakeswap-libs/sdk";
+import React, { useContext } from "react";
+import { ThemeContext } from "styled-components";
+import { Button, LinkExternal } from "cryption-uikit";
+import { ArrowUpCircle } from "react-feather";
+import { AutoColumn } from "../Column";
+import { getMaticExplorerLink } from "../../utils";
+import { Wrapper, Section, ConfirmedIcon, ContentHeader } from "./helpers";
 
 type TransactionSubmittedContentProps = {
-  onDismiss: () => void
-  hash: string | undefined
-  chainId: ChainId
-}
+  onDismiss: () => void;
+  hash: string | undefined;
+  chainId: ChainId;
+};
 
-const TransactionSubmittedContent = ({ onDismiss, chainId, hash }: TransactionSubmittedContentProps) => {
-  const theme = useContext(ThemeContext)
+const TransactionSubmittedContent = ({
+  onDismiss,
+  chainId,
+  hash,
+}: TransactionSubmittedContentProps) => {
+  const theme = useContext(ThemeContext);
 
   return (
     <Wrapper>
       <Section>
-        <ContentHeader onDismiss={onDismiss}>Transaction submitted</ContentHeader>
+        <ContentHeader onDismiss={onDismiss}>
+          Transaction submitted
+        </ContentHeader>
         <ConfirmedIcon>
-          <ArrowUpCircle strokeWidth={0.5} size={97} color={theme.colors.primary} />
+          <ArrowUpCircle
+            strokeWidth={0.5}
+            size={97}
+            color={theme.colors.primary}
+          />
         </ConfirmedIcon>
         <AutoColumn gap="8px" justify="center">
           {chainId && hash && (
-            <LinkExternal href={getMaticExplorerLink(chainId, hash, 'transaction')}>View on MaticExplorer</LinkExternal>
+            <LinkExternal
+              href={getMaticExplorerLink(chainId, hash, "transaction")}
+            >
+              View on MaticExplorer
+            </LinkExternal>
           )}
           <Button onClick={onDismiss} mt="20px">
             Close
@@ -33,7 +47,7 @@ const TransactionSubmittedContent = ({ onDismiss, chainId, hash }: TransactionSu
         </AutoColumn>
       </Section>
     </Wrapper>
-  )
-}
+  );
+};
 
-export default TransactionSubmittedContent
+export default TransactionSubmittedContent;

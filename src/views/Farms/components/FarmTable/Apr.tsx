@@ -30,7 +30,7 @@ const Container = styled.div`
 
     svg {
       path {
-        fill: #2082E9;
+        fill: #2082e9;
       }
     }
   }

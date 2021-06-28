@@ -36,7 +36,7 @@ const ProfilePicture: React.FC = () => {
   const TranslateString = useI18n();
   const { isLoading, nfts: nftsInWallet } = useGetWalletNfts();
   const pancakeRabbitsContract = usePancakeRabbits();
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const { toastError } = useToast();
   const bunnyIds = Object.keys(nftsInWallet).map((nftWalletItem) =>
     Number(nftWalletItem)

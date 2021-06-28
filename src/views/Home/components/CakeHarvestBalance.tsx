@@ -20,7 +20,7 @@ const Block = styled.div``;
 
 const CakeHarvestBalance = () => {
   const TranslateString = useI18n();
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const allEarnings = useAllEarnings();
   const earningsSum = allEarnings.reduce((accum, earning) => {
     return (
@@ -37,7 +37,12 @@ const CakeHarvestBalance = () => {
 
   return (
     <Block>
-      <CardValue value={earningsSum} lineHeight="1.5" decimals={4} color="#2082E9" />
+      <CardValue
+        value={earningsSum}
+        lineHeight="1.5"
+        decimals={4}
+        color="#2082E9"
+      />
       <CardBusdValue value={earningsBusd} />
     </Block>
   );
