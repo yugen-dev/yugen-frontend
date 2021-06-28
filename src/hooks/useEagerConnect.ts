@@ -14,7 +14,7 @@ const useEagerConnect = () => {
     // Disable eager connect for BSC Wallet. Currently the BSC Wallet extension does not inject BinanceChain
     // into the Window object in time causing it to throw an error
     // TODO: Figure out an elegant way to listen for when the BinanceChain object is ready
-    if (connectorId && connectorId !== ConnectorNames.BSC) {
+    if (connectorId && connectorId) {
       if (["/swap", "/find", "/pool", "/add"].includes(location.pathname)) {
         loginEther(connectorId);
       } else {
