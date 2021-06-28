@@ -97,8 +97,9 @@ export const fetchUserPendingRewards = async (account) => {
   const calls = nonMasterPools.map((p) => ({
     address: getAddress(p.contractAddress),
     name: "pendingReward",
-    params: [account],
+    params: [account, "0"],
   }));
+
   const res = await multicall(sousChefABI, calls);
   const pendingRewards = nonMasterPools.reduce(
     (acc, pool, index) => ({
