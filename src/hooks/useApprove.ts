@@ -7,7 +7,7 @@ import { fetchFarmUserDataAsync } from "state/actions";
 import { approve } from "utils/callHelpers";
 import { useProfile } from "state/hooks";
 import { splitSignature } from "@ethersproject/bytes";
-import { getMasterChefAddress } from "utils/addressHelpers";
+import { getFarmAddress } from "utils/addressHelpers";
 import {
   useMasterchef,
   useCake,
@@ -60,7 +60,7 @@ export const useApprove = (lpContract: Contract) => {
 
         const message = {
           owner: account,
-          spender: getMasterChefAddress(),
+          spender: getFarmAddress(),
           value: ethers.constants.MaxUint256.toString(),
           nonce: nonce._hex,
           deadline: deadlineForSignature,
