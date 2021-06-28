@@ -62,7 +62,7 @@ const Farm: React.FC = () => {
       ),
     [openPools]
   );
-  const hasStakeInFinishedPools = stakedOnlyFinishedPools.length > 0;
+  // const hasStakeInFinishedPools = stakedOnlyFinishedPools.length > 0;
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
