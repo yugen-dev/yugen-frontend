@@ -111,8 +111,10 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
       getBalanceNumber(pool.totalStaked, stakingTokenDecimals),
       parseFloat(element)
     );
-    if (currentTokenApy) {
-      apyString += `${currentTokenApy.toFixed(2)}% ${pool.multiReward[i]} `;
+    if (currentTokenApy && pool.multiRewardTokenPerBlock.length === i + 1) {
+      apyString += `${currentTokenApy.toFixed(2)}% ${pool.multiReward[i]}`;
+    } else if (currentTokenApy) {
+      apyString += `${currentTokenApy.toFixed(2)}% ${pool.multiReward[i]} + `;
     } else {
       apyString += `100% ${pool.multiReward[i]} `;
     }
