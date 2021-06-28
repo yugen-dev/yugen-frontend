@@ -27,7 +27,7 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({
   const [pendingTx, setPendingTx] = useState(false);
   const TranslateString = useI18n();
   useEffect(() => {
-    setVal(tokenAmount || '');
+    setVal(tokenAmount || "");
   }, [tokenAmount]);
   const fullBalance = useMemo(() => {
     return getFullDisplayBalance(max, stakingTokenDecimals);

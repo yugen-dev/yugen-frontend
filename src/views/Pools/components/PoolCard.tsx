@@ -62,7 +62,6 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   const isBnbPool = poolCategory === PoolCategory.BINANCE;
   const [show, setShow] = useState(false);
   const TranslateString = useI18n();
-
   // const { onApprove } = useApproveStaking();
   /*  const {onEnter} = useEnter();
   const {onLeave} = useLeave(); */

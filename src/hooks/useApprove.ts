@@ -7,11 +7,11 @@ import { fetchFarmUserDataAsync } from "state/actions";
 import { approve } from "utils/callHelpers";
 import { useProfile } from "state/hooks";
 import { splitSignature } from "@ethersproject/bytes";
-import { getMasterChefAddress } from "utils/addressHelpers";
+import { getFarmAddress } from "utils/addressHelpers";
 import {
   useMasterchef,
   useCake,
-  useCoffeeTable,
+  useCNTStaker,
   useLottery,
   useMasterchefGasless,
 } from "./useContract";
@@ -60,7 +60,7 @@ export const useApprove = (lpContract: Contract) => {
 
         const message = {
           owner: account,
-          spender: getMasterChefAddress(),
+          spender: getFarmAddress(),
           value: ethers.constants.MaxUint256.toString(),
           nonce: nonce._hex,
           deadline: deadlineForSignature,
@@ -129,16 +129,16 @@ export const useSousApprove = (lpContract: Contract, sousId) => {
 export const useApproveStaking = () => {
   const { account } = useWeb3React("web3");
   const cakeContract = useCake();
-  const coffeeTableContract = useCoffeeTable();
+  const cntStakerContract = useCNTStaker();
 
   const handleApprove = useCallback(async () => {
     try {
-      const tx = await approve(cakeContract, coffeeTableContract, account);
+      const tx = await approve(cakeContract, cntStakerContract, account);
       return tx;
     } catch (e) {
       return false;
     }
-  }, [account, cakeContract, coffeeTableContract]);
+  }, [account, cakeContract, cntStakerContract]);
 
   return { onApprove: handleApprove };
 };

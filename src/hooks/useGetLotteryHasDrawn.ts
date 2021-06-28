@@ -10,7 +10,7 @@ import { getLotteryStatus } from "utils/lotteryUtils";
  */
 const useGetLotteryHasDrawn = () => {
   const [lotteryHasDrawn, setLotteryHasDrawn] = useState(true);
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const lotteryContract = useLottery();
 
   useEffect(() => {

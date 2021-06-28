@@ -57,13 +57,12 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
 
   const { metaTranscation } = useProfile();
 
-  const [signatureData, setSignatureData] =
-    useState<{
-      v: number;
-      r: string;
-      s: string;
-      deadline: number;
-    } | null>(null);
+  const [signatureData, setSignatureData] = useState<{
+    v: number;
+    r: string;
+    s: string;
+    deadline: number;
+  } | null>(null);
 
   const { onApprove } = useApprove(lpContract);
 

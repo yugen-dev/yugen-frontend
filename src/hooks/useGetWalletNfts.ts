@@ -54,7 +54,7 @@ const reducer = (state: State, action: Action) => {
 
 const useGetWalletNfts = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const { lastUpdated } = state;
 
   useEffect(() => {

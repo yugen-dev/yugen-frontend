@@ -1,25 +1,24 @@
-import React, { ReactNode } from 'react'
-import styled from 'styled-components'
-import { Heading, IconButton, CloseIcon } from 'cryption-uikit'
-import { AutoColumn, ColumnCenter } from '../Column'
-
+import React, { ReactNode } from "react";
+import styled from "styled-components";
+import { Heading, IconButton, CloseIcon } from "cryption-uikit";
+import { AutoColumn, ColumnCenter } from "../Column";
 
 export const Wrapper = styled.div`
   width: 100%;
   overflow-y: auto;
-`
+`;
 export const Section = styled(AutoColumn)`
   padding: 24px;
-`
+`;
 
 export const ConfirmedIcon = styled(ColumnCenter)`
   padding: 40px 0;
-`
+`;
 
 export const BottomSection = styled(Section)`
   background-color: #353547;
   border-radius: 20px;
-`
+`;
 
 /**
  * TODO: Remove this when modal system from the UI Kit is implemented
@@ -31,12 +30,12 @@ const StyledContentHeader = styled.div`
   & > ${Heading} {
     flex: 1;
   }
-`
+`;
 
 type ContentHeaderProps = {
-  children: ReactNode
-  onDismiss: () => void
-}
+  children: ReactNode;
+  onDismiss: () => void;
+};
 
 export const ContentHeader = ({ children, onDismiss }: ContentHeaderProps) => (
   <StyledContentHeader>
@@ -45,4 +44,4 @@ export const ContentHeader = ({ children, onDismiss }: ContentHeaderProps) => (
       <CloseIcon color="#2082E9" />
     </IconButton>
   </StyledContentHeader>
-)
+);

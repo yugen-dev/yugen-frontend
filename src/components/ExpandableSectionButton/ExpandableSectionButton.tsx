@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   cursor: pointer;
 
   svg {
-    fill: #2082E9;
+    fill: #2082e9;
   }
 `;
 

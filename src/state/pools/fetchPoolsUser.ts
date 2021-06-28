@@ -1,11 +1,11 @@
 import { AbiItem } from "web3-utils";
 import poolsConfig from "config/constants/pools";
-import masterChefABI from "config/abi/masterchef.json";
+import farmABI from "config/abi/farm.json";
 import sousChefABI from "config/abi/sousChef.json";
 import erc20ABI from "config/abi/erc20.json";
 import { QuoteToken } from "config/constants/types";
 import multicall from "utils/multicall";
-import { getAddress, getMasterChefAddress } from "utils/addressHelpers";
+import { getAddress, getFarmAddress } from "utils/addressHelpers";
 import { getWeb3NoAccount } from "utils/web3";
 import BigNumber from "bignumber.js";
 
@@ -20,8 +20,8 @@ const bnbPools = poolsConfig.filter(
 const nonMasterPools = poolsConfig;
 const web3 = getWeb3NoAccount();
 const masterChefContract = new web3.eth.Contract(
-  masterChefABI as unknown as AbiItem,
-  getMasterChefAddress()
+  farmABI as unknown as AbiItem,
+  getFarmAddress()
 );
 
 export const fetchPoolsAllowance = async (account) => {
