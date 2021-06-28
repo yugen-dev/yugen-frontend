@@ -1,6 +1,6 @@
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
-import { BscConnector } from "@binance-chain/bsc-connector";
+// import { BscConnector } from "@binance-chain/bsc-connector";
 import { ConnectorNames } from "cryption-uikit";
 import Web3 from "web3";
 import getNodeUrl from "./getRpcUrl";

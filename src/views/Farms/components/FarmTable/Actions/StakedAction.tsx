@@ -17,7 +17,7 @@ import { getBep20Contract } from "utils/contractHelpers";
 import { BASE_ADD_LIQUIDITY_URL } from "config";
 import getLiquidityUrlPathParts from "utils/getLiquidityUrlPathParts";
 import { getBalanceNumber } from "utils/formatBalance";
-import useStake from "hooks/useStake";
+import { useStake } from "hooks/useStake";
 import useUnstake from "hooks/useUnstake";
 import useWeb3 from "hooks/useWeb3";
 
@@ -45,7 +45,7 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({
   tokenAddresses,
 }) => {
   const TranslateString = useI18n();
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const [requestedApproval, setRequestedApproval] = useState(false);
   const { allowance, tokenBalance, stakedBalance } = useFarmUser(pid);
   const { onStake } = useStake(pid);

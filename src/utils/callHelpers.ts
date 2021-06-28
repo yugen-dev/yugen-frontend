@@ -63,6 +63,33 @@ const domainDataBar = {
   chainId: 80001,
 };
 
+export const GaslessStakeWithPermit = async (
+  masterChefContract,
+  pid,
+  amount,
+  account,
+  deadline,
+  v,
+  r,
+  s
+) => {
+  const biconomyWeb3 = getBiconomyWeb3();
+
+  const contract = masterChefContract;
+
+  const functionSignature = await contract.methods
+    .depositWithPermit(
+      pid,
+      new BigNumber(amount).times(new BigNumber(10).pow(18)).toString(),
+      deadline,
+      v,
+      r,
+      s
+    )
+    .encodeABI();
+  return executeMetaTransaction(masterChefContract, account, functionSignature);
+};
+
 export const GaslessStake = async (
   masterChefContract,
   pid,

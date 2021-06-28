@@ -7,7 +7,7 @@ import { getAddress } from "utils/addressHelpers";
 import { getBep20Contract } from "utils/contractHelpers";
 import { Button, Flex, Text } from "cryption-uikit";
 import { Farm } from "state/types";
-import { useFarmFromSymbol, useFarmUser } from "state/hooks";
+import { useFarmFromSymbol, useFarmUser, useProfile } from "state/hooks";
 import useI18n from "hooks/useI18n";
 import useWeb3 from "hooks/useWeb3";
 import { useApprove } from "hooks/useApprove";
@@ -45,24 +45,9 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     canHarvest,
     harvestInterval,
   } = useFarmUser(pid);
-  console.log("hello 1");
-  console.log(harvestInterval.toString());
-  // let isgreater = false;
-  const timeleft = harvestInterval.toNumber() - Math.floor(Date.now() / 1000);
-  // let day;
-  // let hours;
-  // let minute;
-  // let seconds;
-  // if (timeleft > 0) {
-  //   isgreater = true;
 
-  //   day = new BigNumber(timeleft).div(new BigNumber(86400));
-  //   hours = new BigNumber(timeleft).div(new BigNumber(3600));
-  //   minute = new BigNumber(timeleft).div(new BigNumber(60));
-  //   seconds = new BigNumber(timeleft);
-  // } else {
-  //   isgreater = false;
-  // }
+  const timeleft = harvestInterval.toNumber() - Math.floor(Date.now() / 1000);
+
   const lpAddress = getAddress(lpAddresses);
   const lpName = farm.lpSymbol.toUpperCase();
   const isApproved = account && allowance && allowance.isGreaterThan(0);
@@ -70,17 +55,37 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
 
   const lpContract = getBep20Contract(lpAddress, web3);
 
+  const { metaTranscation } = useProfile();
+
+  const [signatureData, setSignatureData] =
+    useState<{
+      v: number;
+      r: string;
+      s: string;
+      deadline: number;
+    } | null>(null);
+
   const { onApprove } = useApprove(lpContract);
 
   const handleApprove = useCallback(async () => {
     try {
       setRequestedApproval(true);
-      await onApprove();
+      if (metaTranscation) {
+        const { v, r, s, deadlineForSignature } = await onApprove();
+        setSignatureData({
+          v,
+          r,
+          s,
+          deadline: deadlineForSignature,
+        });
+      } else {
+        await onApprove();
+      }
       setRequestedApproval(false);
     } catch (e) {
       console.error(e);
     }
-  }, [onApprove]);
+  }, [onApprove, metaTranscation]);
 
   const Renderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
@@ -97,32 +102,27 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
   };
 
   const renderApprovalOrStakeButton = () => {
-    return isApproved ? (
+    return isApproved ||
+      (signatureData !== null &&
+        signatureData.deadline > Math.ceil(Date.now() / 1000)) ? (
       <div>
         <Flex justifyContent="space-between">
-          <Text>{TranslateString(318, "Next Harvest in :")}:</Text>
+          <Text>{TranslateString(318, "Next Harvest in :")}</Text>
           <Text bold>
-            {/* {isgreater && parseFloat(day.toNumber()) > 0
-              ? parseFloat(day.toNumber()).toFixed(0)
-              : ""}{" "}
-            D
-            {isgreater && hours.toNumber() > 0
-              ? parseFloat(hours.toNumber()).toFixed(0)
-              : ""}{" "}
-            M{isgreater && minute.toNumber() > 0 ? minute.toNumber() : ""} Min
-            {isgreater && seconds.toNumber() > 0 ? seconds.toNumber() : ""} */}
             <Countdown
               date={harvestInterval.toNumber() * 1000}
               renderer={Renderer}
             />
           </Text>
         </Flex>
+
         <StakeAction
           stakedBalance={stakedBalance}
           tokenBalance={tokenBalance}
           tokenName={lpName}
           pid={pid}
           addLiquidityUrl={addLiquidityUrl}
+          signatureData={signatureData}
         />
       </div>
     ) : (

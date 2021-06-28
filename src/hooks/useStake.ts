@@ -21,7 +21,7 @@ import {
   useSousChefGasless,
 } from "./useContract";
 
-const useStake = (pid: number) => {
+export const useStake = (pid: number) => {
   const dispatch = useDispatch();
   const { account } = useWeb3React("web3");
   const masterChefContract = useMasterchef();

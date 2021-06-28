@@ -87,7 +87,7 @@ const fetchFarms = async () => {
 
       const allocPoint = new BigNumber(info.allocPoint._hex);
       const poolHarvestInterval = new BigNumber(info.harvestInterval._hex);
-      console.log(poolHarvestInterval.toString());
+
       const poolWeight = allocPoint.div(new BigNumber(totalAllocPoint));
 
       return {

@@ -45,11 +45,12 @@ export default {
   busd: {
     56: "",
     97: "",
-    80001: "0x955C46C42e681A22F3f1AaC83d15f069aC92E00A",
+    80001: "0xD89a2E56B778AEfe719fc86E122B7db752Bb6B41",
   },
   ust: {
     56: "0x23396cF899Ca06c4472205fC903bDB4de249D6fC",
     97: "",
+    80001: "0xD89a2E56B778AEfe719fc86E122B7db752Bb6B41",
   },
   pancakeProfile: {
     56: "0xDf4dBf6536201370F95e06A0F8a7a70fE40E388a",
@@ -69,6 +70,7 @@ export default {
   eth: {
     56: "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
     97: "",
+    80001: "0x2b5db7D98669be1242F62469214048cFe35d1a17",
   },
   claimRefund: {
     56: "0xE7e53A7e9E3Cf6b840f167eF69519175c497e149",

@@ -14,7 +14,7 @@ const farms: FarmConfig[] = [
     tokenAddresses: {
       97: "0xe9e7cea3dedca5984780bafc599bd69add087d56",
       56: "0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82",
-      80001: "0xCda600560dBFb638D1acd860e0A33d57874931E9",
+      80001: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
     },
     quoteTokenSymbol: QuoteToken.BNB,
     quoteTokenAdresses: contracts.wbnb,
@@ -31,14 +31,14 @@ const farms: FarmConfig[] = [
     tokenAddresses: {
       97: "0xE02dF9e3e622DeBdD69fb838bB799E3F168902c5",
       56: "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
-      80001: "0xBA6fc2C28844c129c4e5b9116095881fE4f5584c",
+      80001: "0xD89a2E56B778AEfe719fc86E122B7db752Bb6B41",
     },
-    quoteTokenSymbol: QuoteToken.BUSD,
-    quoteTokenAdresses: contracts.busd,
+    quoteTokenSymbol: QuoteToken.BNB,
+    quoteTokenAdresses: contracts.wbnb,
   },
   {
     pid: 2,
-    lpSymbol: "CNT-USDT LP",
+    lpSymbol: "CNT-USDT LP v2",
     lpAddresses: {
       97: "0x2f7682b64b88149ba3250aee32db712964de5fa9",
       56: "0x1b96b92314c44b159149f7e0303511fb2fc4774f",
@@ -48,28 +48,28 @@ const farms: FarmConfig[] = [
     tokenAddresses: {
       97: "0xe9e7cea3dedca5984780bafc599bd69add087d56",
       56: "0xe9e7cea3dedca5984780bafc599bd69add087d56",
-      80001: "0xCda600560dBFb638D1acd860e0A33d57874931E9",
+      80001: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
     },
     quoteTokenSymbol: QuoteToken.CAKE,
     quoteTokenAdresses: contracts.cake,
   },
-  {
-    pid: 3,
-    lpSymbol: "USDT",
-    lpAddresses: {
-      97: "0x2f7682b64b88149ba3250aee32db712964de5fa9",
-      56: "0x1b96b92314c44b159149f7e0303511fb2fc4774f",
-      80001: "0x955C46C42e681A22F3f1AaC83d15f069aC92E00A",
-    },
-    tokenSymbol: "USDT",
-    tokenAddresses: {
-      97: "0xe9e7cea3dedca5984780bafc599bd69add087d56",
-      56: "0xe9e7cea3dedca5984780bafc599bd69add087d56",
-      80001: "0x955C46C42e681A22F3f1AaC83d15f069aC92E00A",
-    },
-    quoteTokenSymbol: QuoteToken.BUSD,
-    quoteTokenAdresses: contracts.busd,
-  },
+  // {
+  //   pid: 3,
+  //   lpSymbol: "USDT",
+  //   lpAddresses: {
+  //     97: "0x2f7682b64b88149ba3250aee32db712964de5fa9",
+  //     56: "0x1b96b92314c44b159149f7e0303511fb2fc4774f",
+  //     80001: "0x955C46C42e681A22F3f1AaC83d15f069aC92E00A",
+  //   },
+  //   tokenSymbol: "USDT",
+  //   tokenAddresses: {
+  //     97: "0xe9e7cea3dedca5984780bafc599bd69add087d56",
+  //     56: "0xe9e7cea3dedca5984780bafc599bd69add087d56",
+  //     80001: "0x955C46C42e681A22F3f1AaC83d15f069aC92E00A",
+  //   },
+  //   quoteTokenSymbol: QuoteToken.BUSD,
+  //   quoteTokenAdresses: contracts.busd,
+  // },
 
   // {
   //   pid: 90,

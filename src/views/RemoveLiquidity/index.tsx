@@ -212,6 +212,7 @@ export default function RemoveLiquidity({
       { name: "nonce", type: "uint256" },
       { name: "deadline", type: "uint256" },
     ];
+
     const message = {
       owner: account,
       spender: ROUTER_ADDRESS,
