@@ -10,7 +10,7 @@ import Label from "components/Label";
 import { getContract } from "utils/contractHelpers";
 import { getAddress } from "utils/addressHelpers";
 import useI18n from "hooks/useI18n";
-import { GetPoolPendingReward } from "hooks/GetPoolPendingReward";
+// import { GetPoolPendingReward } from "hooks/GetPoolPendingReward";
 import { useSousStake } from "hooks/useStake";
 import useWeb3 from "hooks/useWeb3";
 import { useSousUnstake } from "hooks/useUnstake";
@@ -58,28 +58,6 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   } = pool;
   const { account } = useWeb3React("web3");
 
-  // useEffect(() => {
-  //   const a = async () => {
-  //     const x = await GetPoolPendingReward(sousId, account);
-  //     console.log("hello");
-  //     console.log(account);
-  //     console.log(sousId);
-  //     console.log(x);
-  //     let aa;
-  //     if (x) {
-  //       aa = Object.values(x);
-  //       console.log(aa);
-  //     }
-  //     SetpendingMultiRewards(aa);
-  //     console.log("hello");
-  //   };
-  //   try {
-  //     a();
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // }, [sousId, account]);
-
   // Pools using native BNB behave differently than pools using a token
   const isBnbPool = poolCategory === PoolCategory.BINANCE;
   const [show, setShow] = useState(false);
@@ -100,7 +78,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   let apy = 0;
   let apyString = "";
   const apyArray = [];
-  const pendingRewardArray = [];
+  // const pendingRewardArray = [];
 
   pool.multiRewardTokenPerBlock.forEach(async (element, i) => {
     const rewardTokenPrice = Number(1);

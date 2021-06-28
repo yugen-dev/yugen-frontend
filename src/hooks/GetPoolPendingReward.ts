@@ -1,4 +1,3 @@
-import { useSousChef } from "hooks/useContract";
 import poolsConfig from "config/constants/pools";
 import { getAddress } from "utils/addressHelpers";
 import sousChefABI from "config/abi/sousChef.json";
@@ -8,7 +7,6 @@ import BigNumber from "bignumber.js";
 export const GetPoolPendingReward = async (poolid, account) => {
   try {
     const config = poolsConfig.find((pool) => pool.sousId === poolid);
-    console.log(config.multiReward);
     const calls = config.multiReward.map((p, id) => ({
       address: getAddress(config.contractAddress),
       name: "pendingReward",
