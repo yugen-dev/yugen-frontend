@@ -1,22 +1,26 @@
 /* eslint-disable no-nested-ternary */
 import { Currency, ETHER, JSBI, TokenAmount } from '@pancakeswap-libs/sdk'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState, useMemo } from 'react'
 import styled from 'styled-components'
 import { Button, ChevronDownIcon, AddIcon, CardBody, Text, Card } from 'cryption-uikit'
 import CardNav from 'components/CardNav'
 import { LightCard } from 'components/Card'
 import { AutoColumn, ColumnCenter } from 'components/Column'
 import CurrencyLogo from 'components/CurrencyLogo'
+import { usePolydexMigratorContract, useTokenContract, useFactoryContract } from "hooks/useContract";
 import { FindPoolTabs } from 'components/NavigationTabs'
-import { MinimalPositionCard } from 'components/PositionCard'
+import { MinimalPositionCard } from 'components/MigratiolnImport'
 import CurrencySearchModal from 'components/SearchModal/CurrencySearchModal'
 import { PairState, useMigrationPair } from 'data/Reserves'
 import { useActiveWeb3React } from 'hooks'
 import { usePairAdder } from 'state/user/hooks'
-import { useTokenBalance } from 'state/wallet/hooks'
+import { useTokenBalances } from 'state/wallet/hooks'
 import { StyledInternalLink } from 'components/Shared'
 import { currencyId } from 'utils/currencyId'
 import useI18n from 'hooks/useI18n'
+
+import FactoryAbi from "config/abi/FactoryAbi.json";
+import { wrappedCurrency } from "utils/wrappedCurrency";
 import { Dots } from '../Pool/styleds'
 
 enum Fields {
@@ -25,44 +29,59 @@ enum Fields {
 }
 
 export default function PoolFinder() {
-  const { account } = useActiveWeb3React()
-  console.log({account});
+  const { account, chainId } = useActiveWeb3React()
   const [showSearch, setShowSearch] = useState<boolean>(false)
+  const [pairAddresses, setPairAddresses] = useState(null);
+  const [isValidPair, setValidPair] = useState(false);
+  const [pairLoading, setPairLoading] = useState(false);
   const [activeField, setActiveField] = useState<number>(Fields.TOKEN1)
 
   const [currency0, setCurrency0] = useState<Currency | null>(ETHER)
   const [currency1, setCurrency1] = useState<Currency | null>(null)
 
-  const [pairState, pair] = useMigrationPair(currency0 ?? undefined, currency1 ?? undefined)
-  const addPair = usePairAdder()
+  // const addPair = usePairAdder()
+  const factoryContract = useFactoryContract("0x2A59Dcd63A4F7a23d4fF0d2542ab44870199dA17", FactoryAbi, true);
+  const TranslateString = useI18n();
 
-  const TranslateString = useI18n()
-  useEffect(() => {
-    if (pair) {
-      addPair(pair)
+  const getPairAddress = async (token1, token2) => {
+    setPairLoading(true);
+    if (token1 && token2 && !token1.equals(token2)) {
+      const pairAddress = await factoryContract.getPair(token1.address, token2.address);
+      setPairAddresses(pairAddress);
+      setValidPair(true)
+      setPairLoading(false);
+    } else {
+      setValidPair(false);
+      setPairLoading(false)
     }
-  }, [pair, addPair])
-
-  const validPairNoLiquidity =
-    pairState === PairState.NOT_EXISTS ||
-    Boolean(
-      pairState === PairState.EXISTS &&
-      pair &&
-      JSBI.equal(pair.reserve0.raw, JSBI.BigInt(0)) &&
-      JSBI.equal(pair.reserve1.raw, JSBI.BigInt(0))
-    )
-
-  const position: TokenAmount | undefined = useTokenBalance(account ?? undefined, pair?.liquidityToken)
-  const hasPosition = Boolean(position && JSBI.greaterThan(position.raw, JSBI.BigInt(0)))
+  }
+  // const [pairState, pair] = useMigrationPair(currency0 ?? undefined, currency1 ?? undefined, pairAddresses);
+  // console.log({ pairState }, { pair });
+  // useEffect(() => {
+  //   if (pair) {
+  //     addPair(pair)
+  //   }
+  // }, [pair, addPair])
+  // const validPairNoLiquidity =
+  //   pairState === PairState.NOT_EXISTS ||
+  //   Boolean(
+  //     pairState === PairState.EXISTS &&
+  //     pair &&
+  //     JSBI.equal(pair.reserve0.raw, JSBI.BigInt(0)) &&
+  //     JSBI.equal(pair.reserve1.raw, JSBI.BigInt(0))
+  //   )
 
   const handleCurrencySelect = useCallback(
     (currency: Currency) => {
       if (activeField === Fields.TOKEN0) {
         setCurrency0(currency)
+        getPairAddress(currency, currency1);
       } else {
         setCurrency1(currency)
+        getPairAddress(currency0, currency);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [activeField]
   )
 
@@ -118,7 +137,7 @@ export default function PoolFinder() {
               {currency1 ? currency1.symbol : TranslateString(82, 'Select a Token')}
             </Button>
 
-            {hasPosition && (
+            {isValidPair && pairAddresses && (
               <ColumnCenter
                 style={{ justifyItems: 'center', backgroundColor: '', padding: '12px 0px', borderRadius: '12px' }}
               >
@@ -127,37 +146,17 @@ export default function PoolFinder() {
             )}
 
             {currency0 && currency1 ? (
-              pairState === PairState.EXISTS ? (
-                hasPosition && pair ? (
-                  <MinimalPositionCard pair={pair} />
-                ) : (
-                  <LightCard padding="45px 10px">
-                    <AutoColumn gap="sm" justify="center">
-                      <Text style={{ textAlign: 'center' }}>
-                        {TranslateString(212, 'You don’t have liquidity in this pool yet.')}
-                      </Text>
-                      <StyledInternalLink to={`/add/${currencyId(currency0)}/${currencyId(currency1)}`}>
-                        <Text style={{ textAlign: 'center' }}>{TranslateString(168, 'Add Liquidity')}</Text>
-                      </StyledInternalLink>
-                    </AutoColumn>
-                  </LightCard>
+              isValidPair ? (
+                isValidPair && pairAddresses && (
+                  <MinimalPositionCard pairAddress={pairAddresses} token0={currency0} token1={currency1} />
                 )
-              ) : validPairNoLiquidity ? (
-                <LightCard padding="45px 10px">
-                  <AutoColumn gap="sm" justify="center">
-                    <Text style={{ textAlign: 'center' }}>{TranslateString(214, 'No pool found.')}</Text>
-                    <StyledInternalLink to={`/add/${currencyId(currency0)}/${currencyId(currency1)}`}>
-                      Create pool.
-                    </StyledInternalLink>
-                  </AutoColumn>
-                </LightCard>
-              ) : pairState === PairState.INVALID ? (
+              ): !isValidPair ? (
                 <LightCard padding="45px 10px">
                   <AutoColumn gap="sm" justify="center">
                     <Text style={{ textAlign: 'center' }}>{TranslateString(136, 'Invalid pair.')}</Text>
                   </AutoColumn>
                 </LightCard>
-              ) : pairState === PairState.LOADING ? (
+              ) : pairLoading ? (
                 <LightCard padding="45px 10px">
                   <AutoColumn gap="sm" justify="center">
                     <Text style={{ textAlign: 'center' }}>

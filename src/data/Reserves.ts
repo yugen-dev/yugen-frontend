@@ -9,6 +9,7 @@ import { useMultipleContractSingleData } from "../state/multicall/hooks";
 import { wrappedCurrency } from "../utils/wrappedCurrency";
 
 const PAIR_INTERFACE = new Interface(IUniswapV2PairABI);
+const NEW_PAIR_INTERFACE = new Interface(FactoryAbi);
 
 export enum PairState {
   LOADING,
@@ -80,10 +81,11 @@ export function usePair(
 }
 
 export function useMigrationPairs(
-  currencies: [Currency | undefined, Currency | undefined][]
+  currencies: [Currency | undefined, Currency | undefined][],
+  pairAddresses
 ): [PairState, Pair | null][] {
   const { chainId } = useActiveWeb3React();
-
+  console.log({ pairAddresses });
   const tokens = useMemo(
     () =>
       currencies.map(([currencyA, currencyB]) => [
@@ -92,21 +94,21 @@ export function useMigrationPairs(
       ]),
     [chainId, currencies]
   );
-  const factoryContract = useFactoryContract(
-    "0x2A59Dcd63A4F7a23d4fF0d2542ab44870199dA17",
-    FactoryAbi,
-    true
-  );
-  console.log({ factoryContract });
-  const getPair = async (token1, token2) => {
-    if (factoryContract) {
-      const check = await factoryContract.getPair(token1, token2);
-      console.log({ check });
-      return check;
-    }
-    return undefined;
-  };
-  const pairAddresses = useMemo(
+  // const factoryContract = useFactoryContract(
+  //   "0x2A59Dcd63A4F7a23d4fF0d2542ab44870199dA17",
+  //   FactoryAbi,
+  //   true
+  // );
+  // console.log({ factoryContract });
+  // const getPair = async (token1, token2) => {
+  //   if (factoryContract) {
+  //     const check = await factoryContract.getPair(token1, token2);
+  //     console.log({ check });
+  //     return check;
+  //   }
+  //   return undefined;
+  // };
+  const pairAddressesCustom = useMemo(
     () =>
       tokens.map(([tokenA, tokenB]) => {
         return tokenA && tokenB && !tokenA.equals(tokenB)
@@ -116,21 +118,30 @@ export function useMigrationPairs(
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [tokens]
   );
-  Promise.all(
-    tokens.map(async ([tokenA, tokenB]) => {
-      if (tokenA && tokenB && !tokenA.equals(tokenB)) {
-        const resp = await getPair(tokenA.address, tokenB.address);
-        return resp;
-      }
-      return null;
-    })
-  ).then((result) => console.log({ result }));
+  // Promise.all(
+  //   tokens.map(async ([tokenA, tokenB]) => {
+  //     if (tokenA && tokenB && !tokenA.equals(tokenB)) {
+  //       const resp = await getPair(tokenA.address, tokenB.address);
+  //       return resp;
+  //     }
+  //     return null;
+  //   })
+  // ).then((result) => console.log({ result }));
   const results = useMultipleContractSingleData(
-    pairAddresses,
+    pairAddressesCustom,
     PAIR_INTERFACE,
     "getReserves"
   );
-
+  // if (pairAddresses && pairAddresses.length > 0) {
+  //   // eslint-disable-next-line react-hooks/rules-of-hooks
+  //   const results2 = useMultipleContractSingleData(
+  //     pairAddresses,
+  //     PAIR_INTERFACE,
+  //     "getReserves"
+  //   );
+  //   console.log({ results2 });
+  // }
+  console.log({ results });
   return useMemo(() => {
     return results.map((result, i) => {
       const { result: reserves, loading } = result;
@@ -157,7 +168,8 @@ export function useMigrationPairs(
 }
 export function useMigrationPair(
   tokenA?: Currency,
-  tokenB?: Currency
+  tokenB?: Currency,
+  pairAddresses?
 ): [PairState, Pair | null] {
-  return useMigrationPairs([[tokenA, tokenB]])[0];
+  return useMigrationPairs([[tokenA, tokenB]], pairAddresses)[0];
 }
