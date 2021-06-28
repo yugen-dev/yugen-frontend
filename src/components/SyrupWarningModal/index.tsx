@@ -1,10 +1,10 @@
-import React, { useCallback, useState } from 'react'
-import styled from 'styled-components'
-import { Button, Text } from 'cryption-uikit'
-import { AlertTriangle } from 'react-feather'
-import Modal from '../Modal'
-import { AutoRow, RowBetween } from '../Row'
-import { AutoColumn } from '../Column'
+import React, { useCallback, useState } from "react";
+import styled from "styled-components";
+import { Button, Text } from "cryption-uikit";
+import { AlertTriangle } from "react-feather";
+import Modal from "../Modal";
+import { AutoRow, RowBetween } from "../Row";
+import { AutoColumn } from "../Column";
 
 const WarningContainer = styled.div`
   max-width: 420px;
@@ -14,25 +14,28 @@ const WarningContainer = styled.div`
   border: 1px solid #f3841e;
   border-radius: 20px;
   overflow: auto;
-`
+`;
 
 const StyledWarningIcon = styled(AlertTriangle)`
   stroke: ${({ theme }) => theme.colors.failure};
-`
+`;
 
 export default function SyrupWarningModal({
   isOpen,
   transactionType,
   onConfirm,
 }: {
-  isOpen: boolean
-  transactionType: string
-  onConfirm: () => void
+  isOpen: boolean;
+  transactionType: string;
+  onConfirm: () => void;
 }) {
-  const [understandChecked, setUnderstandChecked] = useState(false)
-  const toggleUnderstand = useCallback(() => setUnderstandChecked((uc) => !uc), [])
+  const [understandChecked, setUnderstandChecked] = useState(false);
+  const toggleUnderstand = useCallback(
+    () => setUnderstandChecked((uc) => !uc),
+    []
+  );
 
-  const handleDismiss = useCallback(() => null, [])
+  const handleDismiss = useCallback(() => null, []);
   return (
     <Modal isOpen={isOpen} onDismiss={handleDismiss} maxHeight={90}>
       <WarningContainer className="token-warning-container">
@@ -41,38 +44,41 @@ export default function SyrupWarningModal({
             <StyledWarningIcon />
             <Text color="failure">Syrup Warning</Text>
           </AutoRow>
-          {transactionType !== '' && (
+          {transactionType !== "" && (
             <>
               <Text color="failure">
                 Please be careful when <strong>{transactionType}</strong> SYRUP.
               </Text>
               <Text color="failure">
-                {transactionType === 'Buying'
-                  ? 'You will not receive CAKE rewards for holding purchased SYRUP.'
-                  : 'You will need to buy back the same amount of SYRUP to be able to convert back to CAKE.'}
+                {transactionType === "Buying"
+                  ? "You will not receive CAKE rewards for holding purchased SYRUP."
+                  : "You will need to buy back the same amount of SYRUP to be able to convert back to CAKE."}
               </Text>
             </>
           )}
           <RowBetween>
             <div>
-              <label htmlFor="understand-checkbox" style={{ cursor: 'pointer', userSelect: 'none' }}>
+              <label
+                htmlFor="understand-checkbox"
+                style={{ cursor: "pointer", userSelect: "none" }}
+              >
                 <input
                   id="understand-checkbox"
                   type="checkbox"
                   className="understand-checkbox"
                   checked={understandChecked}
                   onChange={toggleUnderstand}
-                />{' '}
+                />{" "}
                 <Text as="span">I understand</Text>
               </label>
             </div>
             <Button
               disabled={!understandChecked}
               variant="danger"
-              style={{ width: '140px' }}
+              style={{ width: "140px" }}
               onClick={() => {
-                setUnderstandChecked(false)
-                onConfirm()
+                setUnderstandChecked(false);
+                onConfirm();
               }}
             >
               Continue
@@ -81,5 +87,5 @@ export default function SyrupWarningModal({
         </AutoColumn>
       </WarningContainer>
     </Modal>
-  )
+  );
 }

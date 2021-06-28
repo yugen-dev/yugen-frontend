@@ -56,7 +56,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   // Pools using native BNB behave differently than pools using a token
   const isBnbPool = poolCategory === PoolCategory.BINANCE;
   const TranslateString = useI18n();
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   // const { onApprove } = useApproveStaking();
   /*  const {onEnter} = useEnter();
   const {onLeave} = useLeave(); */
@@ -87,8 +87,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
 
   const isOldSyrup = stakingTokenName === QuoteToken.SYRUP;
   const accountHasStakedBalance = stakedBalance?.toNumber() > 0;
-  const needsApproval =
-    !accountHasStakedBalance && !allowance.toNumber();
+  const needsApproval = !accountHasStakedBalance && !allowance.toNumber();
   const isCardActive = isFinished && accountHasStakedBalance;
   const convertedLimit = new BigNumber(stakingLimit).multipliedBy(
     new BigNumber(10).pow(tokenDecimals)
@@ -141,8 +140,8 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     } catch (e) {
       console.error("error is", e);
     }
-  }
-  
+  };
+
   return (
     <Card isActive={isCardActive} isFinished={isFinished}>
       {isFinished && <PoolFinishedSash />}
@@ -230,10 +229,10 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                   onClick={
                     isOldSyrup
                       ? async () => {
-                        setPendingTx(true);
-                        await onUnstake("0", stakingTokenDecimals);
-                        setPendingTx(false);
-                      }
+                          setPendingTx(true);
+                          await onUnstake("0", stakingTokenDecimals);
+                          setPendingTx(false);
+                        }
                       : onPresentWithdraw
                   }
                 >

@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 
 const Lottery: React.FC = () => {
   const lotteryContract = useLottery();
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const TranslateString = useI18n();
   const [activeIndex, setActiveIndex] = useState(0);
   const [historyData, setHistoryData] = useState([]);

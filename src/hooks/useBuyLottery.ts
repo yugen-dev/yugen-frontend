@@ -4,7 +4,7 @@ import { useLottery, useLotteryTicket } from "hooks/useContract";
 import { multiClaim, getMax, multiBuy } from "../utils/lotteryUtils";
 
 export const useMultiClaimLottery = () => {
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const lotteryContract = useLottery();
   const lotteryTicketContract = useLotteryTicket();
 
@@ -25,7 +25,7 @@ export const useMultiClaimLottery = () => {
 };
 
 export const useMultiBuyLottery = () => {
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const lotteryContract = useLottery();
 
   const handleBuy = useCallback(

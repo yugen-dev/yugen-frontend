@@ -31,12 +31,7 @@ const useUnstake = (pid: number) => {
   const handleUnstake = useCallback(
     async (amount: string) => {
       if (metaTranscation) {
-        await GaslessUnStake(
-          masterChefGaslessContract,
-          pid,
-          amount,
-          account
-        );
+        await GaslessUnStake(masterChefGaslessContract, pid, amount, account);
         dispatch(fetchFarmUserDataAsync(account));
       } else {
         await unstake(masterChefContract, pid, amount, account);
@@ -70,11 +65,7 @@ export const useSousUnstake = (sousId) => {
   const handleUnstake = useCallback(
     async (amount: string, decimals: number) => {
       if (isOldSyrup) {
-        await sousEmegencyUnstake(
-          sousChefContract,
-          amount,
-          account
-        );
+        await sousEmegencyUnstake(sousChefContract, amount, account);
       } else if (metaTranscation) {
         await sousUnstakeGasless(
           sousChefContractsGasless,
@@ -84,12 +75,7 @@ export const useSousUnstake = (sousId) => {
           sousId
         );
       } else {
-        await sousUnstake(
-          sousChefContract,
-          amount,
-          decimals,
-          account
-        );
+        await sousUnstake(sousChefContract, amount, decimals, account);
       }
       dispatch(updateUserStakedBalance(sousId, account));
       dispatch(updateUserBalance(sousId, account));

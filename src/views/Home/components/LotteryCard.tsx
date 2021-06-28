@@ -15,7 +15,7 @@ import { useApproval } from "hooks/useApproval";
 import PurchaseWarningModal from "views/Lottery/components/TicketCard/PurchaseWarningModal";
 import CakeWinnings from "./CakeWinnings";
 import LotteryJackpot from "./LotteryJackpot";
-import MascotImage from '../../../images/cntmascot.png';
+import MascotImage from "../../../images/cntmascot.png";
 
 const StyledLotteryCard = styled(Card)`
   background-image: url("/images/ticket-bg.svg");
@@ -130,12 +130,19 @@ const FarmedStakingCard = () => {
     //     </Actions>
     //   </CardBody>
     // </StyledLotteryCard>
-    <div style={{ display: 'flex', justifyContent: 'center', height: '100%', alignItems: 'center' }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        height: "100%",
+        alignItems: "center",
+      }}
+    >
       <img
         src={MascotImage}
         alt="Plydex"
         height="100%"
-        style={{ maxWidth: '400px' }}
+        style={{ maxWidth: "400px" }}
         width="100%"
       />
       {/* <div

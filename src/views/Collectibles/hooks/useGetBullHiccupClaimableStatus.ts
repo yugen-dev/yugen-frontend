@@ -13,7 +13,7 @@ const useGetBullHiccupClaimableStatus = () => {
     [BULL_NFT]: false,
     [HICCUP_NFT]: false,
   });
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
 
   useEffect(() => {
     const checkClaimableStatus = async () => {

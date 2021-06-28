@@ -27,8 +27,8 @@ export const burnQuery = gql`
     burns(first: 5) {
       id
       amount
-    }  
-  } 
+    }
+  }
 `;
 
 export const barQuery = gql`

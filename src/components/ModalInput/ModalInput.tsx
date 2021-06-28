@@ -1,12 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  Text,
-  Button,
-  Flex,
-  Link,
-  Input, InputProps
-} from "cryption-uikit";
+import { Text, Button, Flex, Link, Input, InputProps } from "cryption-uikit";
 import useI18n from "../../hooks/useI18n";
 
 interface ModalInputProps {
@@ -31,7 +25,7 @@ const getBoxShadow = ({ isWarning = false, theme }) => {
 const StyledTokenInput = styled.div<InputProps>`
   display: flex;
   flex-direction: column;
-  background-color: rgba(0,0,0,0.71);
+  background-color: rgba(0, 0, 0, 0.71);
   border-radius: 16px;
   box-shadow: ${getBoxShadow};
   color: ${({ theme }) => theme.colors.text};
@@ -85,11 +79,7 @@ const ModalInput: React.FC<ModalInputProps> = ({
           </Text>
         </Flex>
         <Flex alignItems="flex-end" justifyContent="space-around">
-          <StyledInput
-            onInputChange={onChange}
-            placeholder="0"
-            value={value}
-          />
+          <StyledInput onInputChange={onChange} placeholder="0" value={value} />
           <Button scale="sm" onClick={onSelectMax} mr="8px">
             {TranslateString(452, "Max")}
           </Button>

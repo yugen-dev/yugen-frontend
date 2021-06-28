@@ -14,7 +14,7 @@ import useTheme from "hooks/useTheme";
 import useAuth from "hooks/useAuth";
 import { toggleMetaTranscationState } from "state/actions";
 import { usePriceCakeBusd, useProfile } from "state/hooks";
-import { ETHERJS_PATHS } from 'config';
+import { ETHERJS_PATHS } from "config";
 // import LogoIcon from "images/PolyDEX White Text (2).svg";
 import config from "./config";
 
@@ -80,16 +80,8 @@ const Menu = (props) => {
       gaslessTranscationChecked={checkedState}
       gasslessTranscationLabel="Gassless Modes"
       toggleTranscationState={handleMetaToggle}
-      login={
-        ETHERJS_PATHS.includes(location.pathname)
-          ? loginEther
-          : login
-      }
-      logout={
-        ETHERJS_PATHS.includes(location.pathname)
-          ? logoutEther
-          : logout
-      }
+      login={ETHERJS_PATHS.includes(location.pathname) ? loginEther : login}
+      logout={ETHERJS_PATHS.includes(location.pathname) ? logoutEther : logout}
       // logoIcon={LogoIcon}
       isDark={isDark}
       toggleTheme={toggleTheme}

@@ -26,7 +26,7 @@ const CakeWalletBalance = () => {
   const busdBalance = new BigNumber(getBalanceNumber(cakeBalance))
     .multipliedBy(usePriceCakeBusd())
     .toNumber();
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
 
   if (!account) {
     return <CNText>{TranslateString(298, "Locked")}</CNText>;

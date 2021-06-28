@@ -15,7 +15,7 @@ import {
 // Approve a Farm
 export const useApprove = (lpContract: Contract) => {
   const dispatch = useDispatch();
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const masterChefContract = useMasterchef();
 
   const handleApprove = useCallback(async () => {
@@ -51,7 +51,7 @@ export const useSousApprove = (lpContract: Contract, sousId) => {
 }; */
 
 export const useApproveStaking = () => {
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const cakeContract = useCake();
   const coffeeTableContract = useCoffeeTable();
 
@@ -69,7 +69,7 @@ export const useApproveStaking = () => {
 
 // Approve the lottery
 export const useLotteryApprove = () => {
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const cakeContract = useCake();
   const lotteryContract = useLottery();
 
@@ -90,7 +90,7 @@ export const useIfoApprove = (
   tokenContract: Contract,
   spenderAddress: string
 ) => {
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const onApprove = useCallback(async () => {
     const tx = await tokenContract.methods
       .approve(spenderAddress, ethers.constants.MaxUint256)

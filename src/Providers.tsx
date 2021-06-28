@@ -8,10 +8,10 @@ import getLibraryEther from "utils/getLibraryEther";
 import { ThemeContextProvider } from "contexts/ThemeContext";
 // import { RefreshContextProvider } from "contexts/RefreshContext";
 import store from "state";
-import { NetworkContextName } from './constants'
+import { NetworkContextName } from "./constants";
 
-const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
-const Web3Provider = createWeb3ReactRoot('web3')
+const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName);
+const Web3Provider = createWeb3ReactRoot("web3");
 const Providers: React.FC = ({ children }) => {
   return (
     <Web3ReactProvider getLibrary={getLibraryEther}>

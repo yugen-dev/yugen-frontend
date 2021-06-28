@@ -15,4 +15,11 @@ export const BASE_ADD_LIQUIDITY_URL = `${BASE_EXCHANGE_URL}/#/add`;
 export const BASE_LIQUIDITY_POOL_URL = `${BASE_EXCHANGE_URL}/#/pool`;
 export const LOTTERY_MAX_NUMBER_OF_TICKETS = 50;
 export const LOTTERY_TICKET_PRICE = 1;
-export const ETHERJS_PATHS = ["/swap", "/find", "/pool", "/add", '/migrate', '/migratefind'];
+export const ETHERJS_PATHS = [
+  "/swap",
+  "/find",
+  "/pool",
+  "/add",
+  "/migrate",
+  "/migratefind",
+];

@@ -13,7 +13,7 @@ import {
   Flex,
   Input,
   Text,
-  useModal
+  useModal,
 } from "cryption-uikit";
 import Grid from "@material-ui/core/Grid";
 import useEnter from "hooks/useEnter";
@@ -47,7 +47,7 @@ const CNText = styled.div`
 const StakingContainer = styled.div`
   border-radius: 0.625rem !important;
   padding: 30px 15px;
-  background-color: #1E202A;
+  background-color: #1e202a;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -114,12 +114,12 @@ const CNTBar = () => {
   const [index, setIndex] = React.useState(0);
   const { onEnter } = useEnter();
   const [requestedApproval, setRequestedApproval] = useState(false);
-  const [tokenAmount, handleTokenAmount] = useState('');
+  const [tokenAmount, handleTokenAmount] = useState("");
   const handleClick = (newIndex) => {
-    handleTokenAmount('');
-    setIndex(newIndex)
+    handleTokenAmount("");
+    setIndex(newIndex);
   };
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const tokenBalance = useTokenBalance(contracts.cake[80001]);
   const xCNTBalance = useTokenBalance(contracts.coffeeTable[80001]);
   const [pendingTx, setPendingTx] = useState(false);
@@ -145,16 +145,16 @@ const CNTBar = () => {
     }
   }, [cake, setTotalSupply]);
 
-  const onChange = event => {
-    handleTokenAmount(event.target.value)
-  }
+  const onChange = (event) => {
+    handleTokenAmount(event.target.value);
+  };
   const onSelectMax = () => {
     if (index === 0) {
-      handleTokenAmount(getBalanceNumber(tokenBalance).toString())
+      handleTokenAmount(getBalanceNumber(tokenBalance).toString());
     } else {
-      handleTokenAmount(getBalanceNumber(xCNTBalance).toString())
+      handleTokenAmount(getBalanceNumber(xCNTBalance).toString());
     }
-  }
+  };
   const handleApprove = useCallback(async () => {
     try {
       setRequestedApproval(true);
@@ -185,15 +185,19 @@ const CNTBar = () => {
   );
   const renderBottomButtons = () => {
     if (!account) {
-      return <UnlockButton mt="8px" width="100%" />
+      return <UnlockButton mt="8px" width="100%" />;
     }
     if (index === 0) {
       if (!allowance.toNumber()) {
         return (
-          <Button disabled={requestedApproval} onClick={handleApprove} style={{ maxWidth: "400px", width: "100%" }}>
+          <Button
+            disabled={requestedApproval}
+            onClick={handleApprove}
+            style={{ maxWidth: "400px", width: "100%" }}
+          >
             Approve CNT
           </Button>
-        )
+        );
       }
       return (
         <Button
@@ -205,9 +209,9 @@ const CNTBar = () => {
           }}
           style={{ maxWidth: "400px", width: "100%" }}
         >
-          {pendingDepositTx ? 'Converting to xCNT' : 'Convert to xCNT'}
+          {pendingDepositTx ? "Converting to xCNT" : "Convert to xCNT"}
         </Button>
-      )
+      );
     }
     return (
       <Button
@@ -220,8 +224,8 @@ const CNTBar = () => {
       >
         {pendingTx ? "Converting to CNT" : "Convert to CNT"}
       </Button>
-    )
-  }
+    );
+  };
   return (
     <PoolsContainer>
       <Container maxWidth="lg">
@@ -268,13 +272,15 @@ const CNTBar = () => {
                   style={{ whiteSpace: "nowrap" }}
                   fontSize="18px"
                 >
-                  {index === 0 ? 'Stake CNT' : 'UnStake CNT'}
+                  {index === 0 ? "Stake CNT" : "UnStake CNT"}
                 </Text>
-                {totalSupply &&
+                {totalSupply && (
                   <ConversionInfo>
-                    {`There are currently ${getBalanceNumber(totalSupply).toFixed(2)} xCNT`}
+                    {`There are currently ${getBalanceNumber(
+                      totalSupply
+                    ).toFixed(2)} xCNT`}
                   </ConversionInfo>
-                }
+                )}
               </InfoDiv>
               <CustomInputPannel>
                 <InputWrapper>
@@ -294,10 +300,7 @@ const CNTBar = () => {
                   >
                     Balance: {getBalanceNumber(tokenBal).toFixed(2)}
                   </Text>
-                  <Button
-                    scale="sm"
-                    onClick={onSelectMax}
-                  >
+                  <Button scale="sm" onClick={onSelectMax}>
                     Max
                   </Button>
                 </Flex>
@@ -362,8 +365,13 @@ const CNTBar = () => {
                 Balances
               </Text>
               <InfoDiv>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <img src="/images/CNT.png" alt="CNT" width="24px" style={{ marginRight: '10px' }} />
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <img
+                    src="/images/CNT.png"
+                    alt="CNT"
+                    width="24px"
+                    style={{ marginRight: "10px" }}
+                  />
                   <Text
                     bold
                     color="#9d9fa8"
@@ -374,8 +382,13 @@ const CNTBar = () => {
                     CNT: {getBalanceNumber(tokenBalance).toFixed(2)}
                   </Text>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <img src="/images/CNT.png" alt="CNT" width="24px" style={{ marginRight: '10px' }} />
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <img
+                    src="/images/CNT.png"
+                    alt="CNT"
+                    width="24px"
+                    style={{ marginRight: "10px" }}
+                  />
                   <Text
                     bold
                     color="#9d9fa8"
@@ -391,7 +404,7 @@ const CNTBar = () => {
           </Grid>
         </Grid>
       </Container>
-    </PoolsContainer >
+    </PoolsContainer>
   );
 };
 

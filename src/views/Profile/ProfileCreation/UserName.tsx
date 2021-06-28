@@ -68,7 +68,7 @@ const UserName: React.FC = () => {
   const { teamId, tokenId, userName, actions, minimumCakeRequired, allowance } =
     useProfileCreation();
   const TranslateString = useI18n();
-  const { account, library } = useWeb3React('web3');
+  const { account, library } = useWeb3React("web3");
   const { toastError } = useToast();
   const web3 = useWeb3();
   const [existingUserState, setExistingUserState] = useState<ExistingUserState>(

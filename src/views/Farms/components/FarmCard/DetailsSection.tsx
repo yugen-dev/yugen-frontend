@@ -18,7 +18,7 @@ const Wrapper = styled.div`
 const StyledLinkExternal = styled(LinkExternal)`
   text-decoration: none;
   font-weight: normal;
-  color: #2082E9;
+  color: #2082e9;
   display: flex;
   align-items: center;
 
@@ -26,7 +26,7 @@ const StyledLinkExternal = styled(LinkExternal)`
     padding-left: 4px;
     height: 18px;
     width: auto;
-    fill: #2082E9;
+    fill: #2082e9;
   }
 `;
 

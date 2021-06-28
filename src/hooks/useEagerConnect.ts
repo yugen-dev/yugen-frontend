@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { connectorLocalStorageKey, ConnectorNames } from "cryption-uikit";
-import { ETHERJS_PATHS } from 'config';
+import { ETHERJS_PATHS } from "config";
 // import { useLocation } from "react-router-dom";
 import useAuth from "hooks/useAuth";
 

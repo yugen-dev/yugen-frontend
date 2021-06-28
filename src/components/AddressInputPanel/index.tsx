@@ -1,13 +1,13 @@
-import React, { useCallback } from 'react'
-import styled from 'styled-components'
-import { Text } from 'cryption-uikit'
-import useI18n from 'hooks/useI18n'
-import useENS from '../../hooks/useENS'
-import { useActiveWeb3React } from '../../hooks'
-import { ExternalLink } from '../Shared'
-import { AutoColumn } from '../Column'
-import { RowBetween } from '../Row'
-import { getMaticExplorerLink } from '../../utils'
+import React, { useCallback } from "react";
+import styled from "styled-components";
+import { Text } from "cryption-uikit";
+import useI18n from "hooks/useI18n";
+import useENS from "../../hooks/useENS";
+import { useActiveWeb3React } from "../../hooks";
+import { ExternalLink } from "../Shared";
+import { AutoColumn } from "../Column";
+import { RowBetween } from "../Row";
+import { getMaticExplorerLink } from "../../utils";
 
 const InputPanel = styled.div`
   display: flex;
@@ -17,23 +17,26 @@ const InputPanel = styled.div`
   background-color: #202231;
   z-index: 1;
   width: 100%;
-`
+`;
 
 const ContainerRow = styled.div<{ error: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 1.25rem;
-  border: 1px solid ${({ error, theme }) => (error ? theme.colors.failure : theme.colors.invertedContrast)};
-  transition: border-color 300ms ${({ error }) => (error ? 'step-end' : 'step-start')},
-    color 500ms ${({ error }) => (error ? 'step-end' : 'step-start')};
+  border: 1px solid
+    ${({ error, theme }) =>
+      error ? theme.colors.failure : theme.colors.invertedContrast};
+  transition: border-color 300ms
+      ${({ error }) => (error ? "step-end" : "step-start")},
+    color 500ms ${({ error }) => (error ? "step-end" : "step-start")};
   background-color: #202231;
-`
+`;
 
 const InputContainer = styled.div`
   flex: 1;
   padding: 1rem;
-`
+`;
 
 const Input = styled.input<{ error?: boolean }>`
   font-size: 1.25rem;
@@ -42,8 +45,8 @@ const Input = styled.input<{ error?: boolean }>`
   flex: 1 1 auto;
   width: 0;
   background-color: #202231;
-  transition: color 300ms ${({ error }) => (error ? 'step-end' : 'step-start')};
-  color: ${({ error, theme }) => (error ? theme.colors.failure : '#2082E9')};
+  transition: color 300ms ${({ error }) => (error ? "step-end" : "step-start")};
+  color: ${({ error, theme }) => (error ? theme.colors.failure : "#2082E9")};
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: 500;
@@ -66,33 +69,33 @@ const Input = styled.input<{ error?: boolean }>`
   ::placeholder {
     color: ${({ theme }) => theme.colors.textDisabled};
   }
-`
+`;
 
 export default function AddressInputPanel({
   id,
   value,
   onChange,
 }: {
-  id?: string
+  id?: string;
   // the typed string value
-  value: string
+  value: string;
   // triggers whenever the typed value changes
-  onChange: (value: string) => void
+  onChange: (value: string) => void;
 }) {
-  const { chainId } = useActiveWeb3React()
-  const TranslateString = useI18n()
-  const { address, loading, name } = useENS(value)
+  const { chainId } = useActiveWeb3React();
+  const TranslateString = useI18n();
+  const { address, loading, name } = useENS(value);
 
   const handleInput = useCallback(
     (event) => {
-      const input = event.target.value
-      const withoutSpaces = input.replace(/\s+/g, '')
-      onChange(withoutSpaces)
+      const input = event.target.value;
+      const withoutSpaces = input.replace(/\s+/g, "");
+      onChange(withoutSpaces);
     },
     [onChange]
-  )
+  );
 
-  const error = Boolean(value.length > 0 && !loading && !address)
+  const error = Boolean(value.length > 0 && !loading && !address);
 
   return (
     <InputPanel id={id}>
@@ -101,11 +104,18 @@ export default function AddressInputPanel({
           <AutoColumn gap="md">
             <RowBetween>
               <Text color="#2082E9" fontWeight={500} fontSize="14px">
-                {TranslateString(1138, 'Recipient')}
+                {TranslateString(1138, "Recipient")}
               </Text>
               {address && chainId && (
-                <ExternalLink href={getMaticExplorerLink(chainId, name ?? address, 'address')} style={{ fontSize: '14px' }}>
-                  {TranslateString(116, '(View on MaticExplorer)')}
+                <ExternalLink
+                  href={getMaticExplorerLink(
+                    chainId,
+                    name ?? address,
+                    "address"
+                  )}
+                  style={{ fontSize: "14px" }}
+                >
+                  {TranslateString(116, "(View on MaticExplorer)")}
                 </ExternalLink>
               )}
             </RowBetween>
@@ -116,7 +126,7 @@ export default function AddressInputPanel({
               autoCorrect="off"
               autoCapitalize="off"
               spellCheck="false"
-              placeholder={TranslateString(1140, 'Wallet Address or ENS name')}
+              placeholder={TranslateString(1140, "Wallet Address or ENS name")}
               error={error}
               pattern="^(0x[a-fA-F0-9]{40})$"
               onChange={handleInput}
@@ -126,5 +136,5 @@ export default function AddressInputPanel({
         </InputContainer>
       </ContainerRow>
     </InputPanel>
-  )
+  );
 }

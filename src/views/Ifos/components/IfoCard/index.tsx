@@ -54,7 +54,7 @@ const getRibbonComponent = (
 const IfoCard: React.FC<IfoCardProps> = ({ ifo }) => {
   const { id, name, subTitle } = ifo;
   const publicIfoData = useGetPublicIfoData(ifo);
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const TranslateString = useI18n();
   const Ribbon = getRibbonComponent(publicIfoData.status, TranslateString);
 
