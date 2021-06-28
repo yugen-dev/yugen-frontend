@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import BigNumber from "bignumber.js";
 import { ethers } from "ethers";
 import styled from "styled-components";
@@ -10,7 +10,7 @@ import Label from "components/Label";
 import { getContract } from "utils/contractHelpers";
 import { getAddress } from "utils/addressHelpers";
 import useI18n from "hooks/useI18n";
-// import { GetPoolPendingReward } from "hooks/GetPoolPendingReward";
+import { GetPoolPendingReward } from "hooks/GetPoolPendingReward";
 import { useSousStake } from "hooks/useStake";
 import useWeb3 from "hooks/useWeb3";
 import { useSousUnstake } from "hooks/useUnstake";
@@ -35,6 +35,7 @@ interface HarvestProps {
 }
 
 const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
+  // const [pendingMultiRewards, SetpendingMultiRewards] = useState(null);
   const {
     sousId,
     image,
@@ -55,11 +56,35 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     userData,
     stakingLimit,
   } = pool;
+  const { account } = useWeb3React("web3");
+
+  // useEffect(() => {
+  //   const a = async () => {
+  //     const x = await GetPoolPendingReward(sousId, account);
+  //     console.log("hello");
+  //     console.log(account);
+  //     console.log(sousId);
+  //     console.log(x);
+  //     let aa;
+  //     if (x) {
+  //       aa = Object.values(x);
+  //       console.log(aa);
+  //     }
+  //     SetpendingMultiRewards(aa);
+  //     console.log("hello");
+  //   };
+  //   try {
+  //     a();
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // }, [sousId, account]);
+
   // Pools using native BNB behave differently than pools using a token
   const isBnbPool = poolCategory === PoolCategory.BINANCE;
   const [show, setShow] = useState(false);
   const TranslateString = useI18n();
-  const { account } = useWeb3React("web3");
+
   // const { onApprove } = useApproveStaking();
   /*  const {onEnter} = useEnter();
   const {onLeave} = useLeave(); */
@@ -78,29 +103,24 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   const pendingRewardArray = [];
 
   pool.multiRewardTokenPerBlock.forEach(async (element, i) => {
-    console.log(pool.multiReward[i]);
     const rewardTokenPrice = Number(1);
+
     const currentTokenApy = getPoolApy(
       stakingTokenPrice,
       rewardTokenPrice,
       getBalanceNumber(pool.totalStaked, stakingTokenDecimals),
-      parseFloat(pool.tokenPerBlock)
+      parseFloat(element)
     );
-    // const pendingrewardofpool = await GetPoolPendingReward(sousId, account, i);
-    // console.log(pendingrewardofpool);
-    // pendingRewardArray.push(pendingrewardofpool)
+    if (currentTokenApy) {
+      apyString += `${currentTokenApy.toFixed(2)}% ${pool.multiReward[i]} `;
+    } else {
+      apyString += `100% ${pool.multiReward[i]} `;
+    }
 
-    apyString += `${currentTokenApy}% ${pool.multiReward[i]} `;
     apy += currentTokenApy;
     apyArray.push(currentTokenApy);
   });
 
-  //  apy = getPoolApy(
-  //   stakingTokenPrice,
-  //   rewardTokenPrice,
-  //   getBalanceNumber(pool.totalStaked, stakingTokenDecimals),
-  //   parseFloat(pool.tokenPerBlock)
-  // );
   const web3 = useWeb3();
   const [requestedApproval, setRequestedApproval] = useState(false);
   const [pendingTx, setPendingTx] = useState(false);
@@ -184,7 +204,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
             {isOldSyrup && "[OLD]"} {tokenName} {TranslateString(348, "Pool")}
           </CardTitle>
           <Image
-            src={`/images/tokens/${image || tokenName}.png`}
+            src={`/images/tokens/${image || tokenName.toLowerCase()}.png`}
             width={64}
             height={64}
             alt={tokenName}
@@ -255,7 +275,12 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                       <BalanceAndCompound>
                         <Balance
                           fontSize="22px"
-                          value={getBalanceNumber(earnings, tokenDecimals)}
+                          value={getBalanceNumber(
+                            earnings.multipliedBy(
+                              new BigNumber(pool.multiRewardTokenPerBlock[i])
+                            ),
+                            tokenDecimals
+                          )}
                           isDisabled={isFinished}
                         />
                       </BalanceAndCompound>
@@ -296,7 +321,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                       : onPresentWithdraw
                   }
                 >
-                  Unstake Rewards
+                  Unstake {tokenName}
                 </Button>
                 <StyledActionSpacer />
                 {!isOldSyrup && (

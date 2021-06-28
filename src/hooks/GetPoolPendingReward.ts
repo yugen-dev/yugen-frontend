@@ -1,14 +1,33 @@
 import { useSousChef } from "hooks/useContract";
+import poolsConfig from "config/constants/pools";
+import { getAddress } from "utils/addressHelpers";
+import sousChefABI from "config/abi/sousChef.json";
+import multicall from "utils/multicall";
 import BigNumber from "bignumber.js";
 
-export const GetPoolPendingReward = async (poolid, account, rewardPosition) => {
-  const contract = useSousChef(poolid);
+export const GetPoolPendingReward = async (poolid, account) => {
+  try {
+    const config = poolsConfig.find((pool) => pool.sousId === poolid);
+    console.log(config.multiReward);
+    const calls = config.multiReward.map((p, id) => ({
+      address: getAddress(config.contractAddress),
+      name: "pendingReward",
+      params: [account, id],
+    }));
+    const res = await multicall(sousChefABI, calls);
 
-  const pendingreward = await contract.methods
-    .pendingReward(account, rewardPosition)
-    .call();
+    const pendingRewards = config.multiReward.reduce(
+      (acc, pool, index) => ({
+        ...acc,
+        [index]: new BigNumber(res[index]).toJSON(),
+      }),
+      {}
+    );
 
-  return new BigNumber(pendingreward).div(new BigNumber(10).pow(18));
+    return { ...pendingRewards };
+  } catch (e) {
+    return null;
+  }
 };
 
 export default { GetPoolPendingReward };

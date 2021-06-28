@@ -3,7 +3,7 @@ import { PoolConfig, QuoteToken, PoolCategory } from "./types";
 const pools: PoolConfig[] = [
   {
     sousId: 1,
-    tokenName: "Cryption Network Token",
+    tokenName: "CNT",
     tokenAddress: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
     stakingTokenName: QuoteToken.CNT,
     stakingTokenAddress: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
