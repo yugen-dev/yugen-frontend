@@ -41,9 +41,8 @@ const Farm: React.FC = () => {
       partition(
         pools,
         (pool) =>
-          pool.poolCategory === PoolCategory.COMMUNITY &&
-          (pool.isFinished ||
-            parseInt(currentBlock.toString(), 10) > pool.endBlock)
+          pool.isFinished ||
+          parseInt(currentBlock.toString(), 10) > pool.endBlock
       ),
     [currentBlock, pools]
   );
@@ -53,7 +52,6 @@ const Farm: React.FC = () => {
       finishedPools.filter(
         (pool) =>
           pool.userData &&
-          pool.poolCategory === PoolCategory.COMMUNITY &&
           new BigNumber(pool.userData.stakedBalance).isGreaterThan(0)
       ),
     [finishedPools]
@@ -64,7 +62,6 @@ const Farm: React.FC = () => {
       openPools.filter(
         (pool) =>
           pool.userData &&
-          pool.poolCategory === PoolCategory.COMMUNITY &&
           new BigNumber(pool.userData.stakedBalance).isGreaterThan(0)
       ),
     [openPools]
@@ -166,18 +163,24 @@ const Farm: React.FC = () => {
             {stakedOnly
               ? orderBy(stakedOnlyOpenPools, ["sortOrder"])
                   .slice(0, numberOfPoolsVisible)
-                  .map((pool) => (
-                    <Grid item xs={12} md={6} lg={4} xl={4}>
-                      <PoolCard key={pool.sousId} pool={pool} />{" "}
-                    </Grid>
-                  ))
+                  .map(
+                    (pool) =>
+                      pool.poolCategory === PoolCategory.COMMUNITY && (
+                        <Grid item xs={12} md={6} lg={4} xl={4}>
+                          <PoolCard key={pool.sousId} pool={pool} />{" "}
+                        </Grid>
+                      )
+                  )
               : orderBy(openPools, ["sortOrder"])
                   .slice(0, numberOfPoolsVisible)
-                  .map((pool) => (
-                    <Grid item xs={12} md={6} lg={4} xl={4}>
-                      <PoolCard key={pool.sousId} pool={pool} />{" "}
-                    </Grid>
-                  ))}
+                  .map(
+                    (pool) =>
+                      pool.poolCategory === PoolCategory.COMMUNITY && (
+                        <Grid item xs={12} md={6} lg={4} xl={4}>
+                          <PoolCard key={pool.sousId} pool={pool} />{" "}
+                        </Grid>
+                      )
+                  )}
           </Grid>
           {/* <StakeCNT /> */}
           {/* <UnstakeXCNT /> */}

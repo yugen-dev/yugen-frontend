@@ -2,7 +2,7 @@ import { PoolConfig, QuoteToken, PoolCategory } from "./types";
 
 const pools: PoolConfig[] = [
   {
-    sousId: 1,
+    sousId: 0,
     tokenName: "CNT",
     tokenAddress: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
     stakingTokenName: QuoteToken.CNT,
@@ -12,7 +12,7 @@ const pools: PoolConfig[] = [
       56: "",
       80001: "0xaB1B7E4DF70e35e02d989dFC5add4142692F4Bb8",
     },
-    poolCategory: PoolCategory.CORE,
+    poolCategory: PoolCategory.COMMUNITY,
     projectLink: "https://cryption.network/",
     multiReward: ["MAHA", "ARTH", "CNT"],
     multiRewardTokenPerBlock: ["0.1", "0.1", "0.2"],
