@@ -17,29 +17,39 @@ export const fetchPoolsBlockLimits = async () => {
     };
   });
 
-  // const callsStartBlock = poolsWithEnd.map((poolConfig) => {
-  //   return {
-  //     address: getAddress(poolConfig.contractAddress),
-  //     name: "startBlock",
-  //   };
-  // });
-  // const callsEndBlock = poolsWithEnd.map((poolConfig) => {
-  //   return {
-  //     address: getAddress(poolConfig.contractAddress),
-  //     name: "bonusEndBlock",
-  //   };
-  // });
-
   const starts = await multicall(sousChefABI, callsFarmInfo);
   const ends = await multicall(sousChefABI, callsFarmInfo);
 
   return poolsWithEnd.map((cakePoolConfig, index) => {
     const startBlock = starts[index].startBlock._hex;
     const endBlock = ends[index].endBlock._hex;
+    const poolHarvestIntervall = starts[index].harvestInterval._hex;
     return {
       sousId: cakePoolConfig.sousId,
       startBlock: new BigNumber(startBlock).toJSON(),
       endBlock: new BigNumber(endBlock).toJSON(),
+      poolHarvestInterval: new BigNumber(poolHarvestIntervall).toJSON(),
+    };
+  });
+};
+
+export const fetchPoolsHarvestInterval = async () => {
+  const poolsWithEnd = poolsConfig;
+
+  const callsFarmInfo = poolsWithEnd.map((poolConfig) => {
+    return {
+      address: getAddress(poolConfig.contractAddress),
+      name: "farmInfo",
+    };
+  });
+
+  const starts = await multicall(sousChefABI, callsFarmInfo);
+
+  return poolsWithEnd.map((cakePoolConfig, index) => {
+    const poolHarvestIntervall = starts[index].harvestInterval._hex;
+    return {
+      sousId: cakePoolConfig.sousId,
+      poolHarvestInterval: new BigNumber(poolHarvestIntervall).toJSON(),
     };
   });
 };

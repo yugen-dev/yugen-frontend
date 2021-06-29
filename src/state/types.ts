@@ -36,6 +36,7 @@ export interface Farm extends FarmConfig {
 
 export interface Pool extends PoolConfig {
   totalStaked?: BigNumber;
+  poolHarvestInterval?: number;
   startBlock?: number;
   endBlock?: number;
   userData?: {
@@ -43,6 +44,8 @@ export interface Pool extends PoolConfig {
     stakingTokenBalance: BigNumber;
     stakedBalance: BigNumber;
     pendingReward: BigNumber;
+    canHarvest: boolean;
+    harvestInterval: BigNumber;
   };
 }
 

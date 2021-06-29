@@ -1,12 +1,18 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from "@reduxjs/toolkit";
 import poolsConfig from "config/constants/pools";
-import { fetchPoolsBlockLimits, fetchPoolsTotalStatking } from "./fetchPools";
+import {
+  fetchPoolsBlockLimits,
+  fetchPoolsTotalStatking,
+  fetchPoolsHarvestInterval,
+} from "./fetchPools";
 import {
   fetchPoolsAllowance,
   fetchUserBalances,
   fetchUserStakeBalances,
   fetchUserPendingRewards,
+  fetchPoolUserHarvestInterval,
+  fetchPoolUserCanHarvestPendingReward,
 } from "./fetchPoolsUser";
 import { PoolsState, Pool } from "../types";
 
@@ -54,12 +60,15 @@ export const fetchPoolsPublicDataAsync = () => async (dispatch) => {
   const blockLimits = await fetchPoolsBlockLimits();
 
   const totalStakings = await fetchPoolsTotalStatking();
-
+  const poolHarvestIntervals = await fetchPoolsHarvestInterval();
   const liveData = poolsConfig.map((pool) => {
     const blockLimit = blockLimits.find(
       (entry) => entry.sousId === pool.sousId
     );
     const totalStaking = totalStakings.find(
+      (entry) => entry.sousId === pool.sousId
+    );
+    const poolHarvestInterval = poolHarvestIntervals.find(
       (entry) => entry.sousId === pool.sousId
     );
     return {
@@ -76,6 +85,8 @@ export const fetchPoolsUserDataAsync = (account) => async (dispatch) => {
   const stakingTokenBalances = await fetchUserBalances(account);
   const stakedBalances = await fetchUserStakeBalances(account);
   const pendingRewards = await fetchUserPendingRewards(account);
+  const userCanHarvest = await fetchPoolUserCanHarvestPendingReward(account);
+  const harvestInterval = await fetchPoolUserHarvestInterval(account);
 
   const userData = poolsConfig.map((pool) => ({
     sousId: pool.sousId,
@@ -83,6 +94,8 @@ export const fetchPoolsUserDataAsync = (account) => async (dispatch) => {
     stakingTokenBalance: stakingTokenBalances[pool.sousId],
     stakedBalance: stakedBalances[pool.sousId],
     pendingReward: pendingRewards[pool.sousId],
+    canHarvest: userCanHarvest[pool.sousId],
+    harvestInterval: harvestInterval[pool.sousId],
   }));
 
   dispatch(setPoolsUserData(userData));
