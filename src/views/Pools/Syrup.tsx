@@ -4,6 +4,7 @@ import { Route, useRouteMatch } from "react-router-dom";
 import BigNumber from "bignumber.js";
 import orderBy from "lodash/orderBy";
 import Container from "@material-ui/core/Container";
+import { QuoteToken, PoolCategory } from "config/constants/types";
 import partition from "lodash/partition";
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
@@ -27,6 +28,7 @@ const Farm: React.FC = () => {
   const cake = getCakeContract();
   const { account } = useWeb3React("web3");
   const pools = usePools(account);
+  // console.log(pools);
   const [numberOfPoolsVisible, setNumberOfPoolsVisible] = useState(
     NUMBER_OF_POOLS_VISIBLE
   );
@@ -39,29 +41,35 @@ const Farm: React.FC = () => {
       partition(
         pools,
         (pool) =>
-          pool.isFinished ||
-          parseInt(currentBlock.toString(), 10) > pool.endBlock
+          pool.poolCategory === PoolCategory.COMMUNITY &&
+          (pool.isFinished ||
+            parseInt(currentBlock.toString(), 10) > pool.endBlock)
       ),
     [currentBlock, pools]
   );
+  // console.log(openPools);
   const stakedOnlyFinishedPools = useMemo(
     () =>
       finishedPools.filter(
         (pool) =>
           pool.userData &&
+          pool.poolCategory === PoolCategory.COMMUNITY &&
           new BigNumber(pool.userData.stakedBalance).isGreaterThan(0)
       ),
     [finishedPools]
   );
+  // console.log(stakedOnlyFinishedPools);
   const stakedOnlyOpenPools = useMemo(
     () =>
       openPools.filter(
         (pool) =>
           pool.userData &&
+          pool.poolCategory === PoolCategory.COMMUNITY &&
           new BigNumber(pool.userData.stakedBalance).isGreaterThan(0)
       ),
     [openPools]
   );
+
   // const hasStakeInFinishedPools = stakedOnlyFinishedPools.length > 0;
   useEffect(() => {
     window.scrollTo(0, 0);

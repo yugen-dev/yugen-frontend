@@ -5,6 +5,7 @@ import BigNumber from "bignumber.js";
 import orderBy from "lodash/orderBy";
 import Container from "@material-ui/core/Container";
 import partition from "lodash/partition";
+import { QuoteToken, PoolCategory } from "config/constants/types";
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
 import { useWeb3React } from "@web3-react/core";
@@ -39,16 +40,19 @@ const Farm: React.FC = () => {
       partition(
         pools,
         (pool) =>
-          pool.isFinished ||
-          parseInt(currentBlock.toString(), 10) > pool.endBlock
+          (pool.isFinished ||
+            parseInt(currentBlock.toString(), 10) > pool.endBlock) &&
+          pool.poolCategory === PoolCategory.CORE
       ),
     [currentBlock, pools]
   );
+
   const stakedOnlyFinishedPools = useMemo(
     () =>
       finishedPools.filter(
         (pool) =>
           pool.userData &&
+          pool.poolCategory === PoolCategory.CORE &&
           new BigNumber(pool.userData.stakedBalance).isGreaterThan(0)
       ),
     [finishedPools]
@@ -58,6 +62,7 @@ const Farm: React.FC = () => {
       openPools.filter(
         (pool) =>
           pool.userData &&
+          pool.poolCategory === PoolCategory.CORE &&
           new BigNumber(pool.userData.stakedBalance).isGreaterThan(0)
       ),
     [openPools]

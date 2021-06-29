@@ -2,9 +2,19 @@ import React, { useState, useEffect, useCallback } from "react";
 import BigNumber from "bignumber.js";
 import { ethers } from "ethers";
 import styled from "styled-components";
-import { Button, IconButton, useModal, AddIcon, Image } from "cryption-uikit";
+import {
+  Button,
+  IconButton,
+  useModal,
+  AddIcon,
+  Image,
+  Flex,
+  Text,
+  Skeleton,
+} from "cryption-uikit";
 import InfoIcon from "@material-ui/icons/Info";
 import { useWeb3React } from "@web3-react/core";
+import Countdown from "react-countdown";
 import UnlockButton from "components/UnlockButton";
 import Label from "components/Label";
 import { getContract } from "utils/contractHelpers";
@@ -55,6 +65,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     isFinished,
     userData,
     stakingLimit,
+    poolHarvestInterval,
   } = pool;
   const { account } = useWeb3React("web3");
 
@@ -68,6 +79,29 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   const { onStake } = useSousStake(sousId, isBnbPool);
   const { onUnstake } = useSousUnstake(sousId);
   const { onReward } = useSousHarvest(sousId, isBnbPool);
+
+  /// harvest interval
+
+  let isDaysGreater = false;
+  let isHoursGreater = false;
+  const poolHarvestIntervalInDays = poolHarvestInterval
+    ? (poolHarvestInterval / 86400).toFixed(0)
+    : 0;
+
+  if (poolHarvestIntervalInDays > 0) {
+    isDaysGreater = true;
+  }
+  const poolHarvestIntervalinHours = poolHarvestInterval
+    ? (poolHarvestInterval / 3600).toFixed(0)
+    : 0;
+  if (poolHarvestIntervalinHours > 0) {
+    isHoursGreater = true;
+  }
+
+  const poolHarvestIntervalinMinutes = poolHarvestInterval
+    ? (poolHarvestInterval / 60).toFixed(0)
+    : 0;
+  ///
 
   // APY
   // const rewardTokenPrice = useGetApiPrice(tokenName);
@@ -108,10 +142,30 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   const stakingTokenBalance = new BigNumber(userData?.stakingTokenBalance || 0);
   const stakedBalance = new BigNumber(userData?.stakedBalance || 0);
   const earnings = new BigNumber(userData?.pendingReward || 0);
+  const canHarvest = userData?.canHarvest || false;
+  const harvestInterval = userData?.harvestInterval
+    ? new BigNumber(userData?.harvestInterval)
+    : new BigNumber(0);
 
+  const Renderer = ({ days, hours, minutes, seconds, completed }) => {
+    if (completed) {
+      return "now";
+    }
+    return (
+      <div>
+        {days > 0 ? `${days.toString()} days ` : ""}
+        {hours > 0 ? `${hours.toString()} Hr ` : ""}
+        {minutes > 0 ? `${minutes.toString()} min ` : ""}
+        {seconds > 0 ? `${seconds.toString()} sec` : ""}
+      </div>
+    );
+  };
+  // console.log(harvestInterval.toNumber());
+  // console.log(canHarvest);
   const isOldSyrup = stakingTokenName === QuoteToken.SYRUP;
   const accountHasStakedBalance = stakedBalance?.toNumber() > 0;
   const needsApproval = !accountHasStakedBalance && !allowance.toNumber();
+
   const isCardActive = isFinished && accountHasStakedBalance;
   const convertedLimit = new BigNumber(stakingLimit).multipliedBy(
     new BigNumber(10).pow(tokenDecimals)
@@ -132,6 +186,20 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
       stakingTokenDecimals={stakingTokenDecimals}
     />
   );
+  // console.log(harvestInterval.toNumber());
+  // const renderNextHarvestIntervalIn = () => {
+  //   return (
+  //     <Flex justifyContent="space-between">
+  //       <Text>{TranslateString(318, "Next Harvest in :")}</Text>
+  //       <Text bold>
+  //         <Countdown
+  //           date={harvestInterval.toNumber() * 1000}
+  //           renderer={Renderer}
+  //         />
+  //       </Text>
+  //     </Flex>
+  //   );
+  // };
 
   const [onPresentCompound] = useModal(
     <CompoundModal
@@ -226,9 +294,26 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                 value={getBalanceNumber(stakedBalance, stakingTokenDecimals)}
               />
             </StyledDetails>
+            <Flex justifyContent="space-between">
+              <Text>{TranslateString(318, "Harvest Lock Interval")}:</Text>
+              <Text bold>
+                {poolHarvestIntervalInDays > 0
+                  ? `${poolHarvestIntervalInDays.toString()} Days`
+                  : ""}
+                {!isDaysGreater && poolHarvestIntervalinHours > 0
+                  ? `${poolHarvestIntervalinHours.toString()} Hours`
+                  : ""}
+                {!isDaysGreater &&
+                !isHoursGreater &&
+                poolHarvestIntervalinMinutes > 0
+                  ? `${poolHarvestIntervalinMinutes.toString()} Minutes`
+                  : ""}
+              </Text>
+            </Flex>
+            {/* canHarvest */}
             {account && harvest && !isOldSyrup && (
               <Button
-                disabled={!earnings.toNumber() || pendingTx}
+                disabled={!canHarvest || !earnings.toNumber() || pendingTx}
                 style={{ width: "100%", maxWidth: "400px" }}
                 onClick={async () => {
                   setPendingTx(true);
@@ -273,6 +358,18 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
             </RewardDetails>
           </RewardsSection>
         </div>
+        {account && harvestInterval.toNumber() > 0 && (
+          <Flex justifyContent="space-between">
+            <Text>{TranslateString(318, "Next Harvest in :")}</Text>
+            <Text bold>
+              <Countdown
+                date={harvestInterval.toNumber() * 1000}
+                renderer={Renderer}
+              />
+            </Text>
+          </Flex>
+        )}
+
         <StyledCardActions>
           {!account && <UnlockButton />}
           {account &&
