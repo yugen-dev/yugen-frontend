@@ -1,5 +1,5 @@
 import React, { useRef, useCallback, useEffect, useState } from "react";
-import Web3 from 'web3';
+import Web3 from "web3";
 import styled from "styled-components";
 import BigNumber from "bignumber.js";
 import { QuoteToken } from "config/constants/types";
@@ -13,7 +13,7 @@ import Container from "@material-ui/core/Container";
 import useI18n from "hooks/useI18n";
 import useInterval from "hooks/useInterval";
 import { useTotalSupply } from "hooks/useTokenBalance";
-import { dayDatasQuery, burnQuery, barQuery } from "apollo/queries";
+import { dayDatasQuery, burnQuery, cntStakerQuery } from "apollo/queries";
 import { getDayData } from "apollo/exchange";
 import pools from "config/constants/pools";
 import { Pool } from "state/types";
@@ -23,7 +23,7 @@ import FarmStakingCard from "views/Home/components/FarmStakingCard";
 import LotteryCard from "views/Home/components/LotteryCard";
 // import CakeStats from "views/Home/components/CakeStats";
 import StatsCard from "views/Home/components/StatsCard";
-import Areachart from 'components/Areachart';
+import Areachart from "components/Areachart";
 import TotalValueLockedCard from "views/Home/components/TotalValueLockedCard";
 import EarnAssetCard from "views/Home/components/EarnAssetCard";
 // import WinCard from "views/Home/components/WinCard";
@@ -37,21 +37,29 @@ const Hero = styled.div`
 `;
 
 const Card = styled.div`
-    border-radius: 0.625rem !important;
-    padding: 30px 15px;
-    background-color: #1E202A;
+  border-radius: 0.625rem !important;
+  padding: 30px 15px;
+  background-color: #1e202a;
 `;
 
 const Home: React.FC = () => {
   const [treasuryBal, setTreasuryBal] = useState(0);
   useEffect(() => {
-    const web3Provider = new Web3(new Web3.providers.HttpProvider(process.env.REACT_APP_ETH_PROVIDER_LINK));
-    const contract = new web3Provider.eth.Contract(cakeABI as unknown as AbiItem, process.env.REACT_APP_TREAURY_CONTRACT_ADDRESS);
-    contract.methods.balanceOf(process.env.REACT_APP_TREAURY_WALLET_AFFRESS).call().then((balance) => {
-      let totalTressury = parseFloat(balance);
-      totalTressury /= 10 ** 18;
-      setTreasuryBal(totalTressury);
-    });
+    const web3Provider = new Web3(
+      new Web3.providers.HttpProvider(process.env.REACT_APP_ETH_PROVIDER_LINK)
+    );
+    const contract = new web3Provider.eth.Contract(
+      cakeABI as unknown as AbiItem,
+      process.env.REACT_APP_TREAURY_CONTRACT_ADDRESS
+    );
+    contract.methods
+      .balanceOf(process.env.REACT_APP_TREAURY_WALLET_AFFRESS)
+      .call()
+      .then((balance) => {
+        let totalTressury = parseFloat(balance);
+        totalTressury /= 10 ** 18;
+        setTreasuryBal(totalTressury);
+      });
   }, []);
   const cakePriceUsd = usePriceCakeBusd();
   const farmsLP = useFarms();
@@ -59,31 +67,25 @@ const Home: React.FC = () => {
   let totalBurned = 0;
   let liquidity = [];
   let ciculatingSupply = 0;
-  let totalFees = '';
-  let stakerFees = '';
-  let lpFees = '';
-  let burnerFees = '';
+  let totalFees = "";
+  let stakerFees = "";
+  let lpFees = "";
+  let burnerFees = "";
   const bnbPrice = usePriceBnbBusd();
   let cntStakingRatio = 0.0;
   const totalSupply = useTotalSupply();
   const maxAPY = useRef(Number.MIN_VALUE);
   const TranslateString = useI18n();
-  const activeNonCakePools = pools.filter(
-    (pool) => !pool.isFinished
-  );
+  const activeNonCakePools = pools.filter((pool) => !pool.isFinished);
   const latestPools: Pool[] = orderBy(
     activeNonCakePools,
     ["sortOrder", "pid"],
     ["desc", "desc"]
   ).slice(0, 3);
   // Always include CAKE
-  const assets = [...latestPools.map((pool) => pool.tokenName)].join(
-    ", "
-  );
+  const assets = [...latestPools.map((pool) => pool.tokenName)].join(", ");
   const getHighestAPY = () => {
-    const activeFarms = farmsLP.filter(
-      (farm) => farm.multiplier !== "0X"
-    );
+    const activeFarms = farmsLP.filter((farm) => farm.multiplier !== "0X");
     calculateAPY(activeFarms);
     return (maxAPY.current * 100).toLocaleString("en-US").slice(0, -1);
   };
@@ -139,13 +141,26 @@ const Home: React.FC = () => {
     [bnbPrice, farmsLP]
   );
   const dayDatas = useQuery(dayDatasQuery);
-  const getBarInfo = useQuery(barQuery, {
+  const getCNTStakerInfo = useQuery(cntStakerQuery, {
     context: {
-      clientName: "bar",
+      clientName: "cntstaker",
     },
   });
-  if (getBarInfo && getBarInfo.data && getBarInfo.data.bar && getBarInfo.data.bar.length > 0 && dayDatas && dayDatas.data && dayDatas.data.dayDatas && cakePriceUsd) {
-    cntStakingRatio = (parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.05 / parseFloat(getBarInfo.data.bar.totalSupply) * 365) / (parseFloat(getBarInfo.data.bar.ratio) * parseFloat(cakePriceUsd.toString()));
+  if (
+    getCNTStakerInfo &&
+    getCNTStakerInfo.data &&
+    getCNTStakerInfo.data.cntstaker &&
+    dayDatas &&
+    dayDatas.data &&
+    dayDatas.data.dayDatas &&
+    cakePriceUsd
+  ) {
+    cntStakingRatio =
+      (((parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.05) /
+        parseFloat(getCNTStakerInfo.data.cntstaker.totalSupply)) *
+        365) /
+      (parseFloat(getCNTStakerInfo.data.cntstaker.ratio) *
+        parseFloat(cakePriceUsd.toString()));
   }
   const burnData = useQuery(burnQuery, {
     context: {
@@ -153,11 +168,16 @@ const Home: React.FC = () => {
     },
   });
   if (totalSupply) {
-    totalSupplyVal = parseFloat(totalSupply.toString())
+    totalSupplyVal = parseFloat(totalSupply.toString());
     totalSupplyVal /= 10 ** 18;
   }
-  if (burnData && burnData.data && burnData.data.burns && burnData.data.burns.length > 0) {
-    totalBurned = parseFloat(burnData.data.burns[0].amount);
+  if (
+    burnData &&
+    burnData.data &&
+    burnData.data.cntBurns &&
+    burnData.data.cntBurns.length > 0
+  ) {
+    totalBurned = parseFloat(burnData.data.cntBurns[0].amount);
     totalBurned /= 10 ** 18;
   }
   if (treasuryBal && treasuryBal > 0 && totalSupplyVal > 0 && totalBurned > 0) {
@@ -180,23 +200,34 @@ const Home: React.FC = () => {
         },
         [[], []]
       );
-    totalFees = (parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.05).toFixed(10);
-    stakerFees = (parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.025).toFixed(10);
-    lpFees = (parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.25).toFixed(10);
-    burnerFees = (parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.025).toFixed(10);
+    totalFees = (
+      parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.05
+    ).toFixed(10);
+    stakerFees = (
+      parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.025
+    ).toFixed(10);
+    lpFees = (parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.25).toFixed(
+      10
+    );
+    burnerFees = (
+      parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.025
+    ).toFixed(10);
   }
-  useInterval(
-    () =>
-      Promise.all([
-        getDayData,
-      ]),
-    60000
-  );
+  useInterval(() => Promise.all([getDayData]), 60000);
   return (
-    <Container maxWidth="lg" style={{ marginTop: '50px', marginBottom: '80px' }}>
+    <Container
+      maxWidth="lg"
+      style={{ marginTop: "50px", marginBottom: "80px" }}
+    >
       <Grid container spacing={5} justify="center">
         <Grid item xs={12} md={6} lg={6} xl={6}>
-          <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              flexDirection: "column",
+            }}
+          >
             <Hero>
               <CNHeading>{TranslateString(576, "PolyDex")}</CNHeading>
               <CNText>
@@ -276,7 +307,7 @@ const Home: React.FC = () => {
             <Grid item xs={12} md={6} lg={6} xl={6}>
               <EarnAssetCard
                 topTitle="Earn"
-                description={`${cntStakingRatio}%`}
+                description={`${cntStakingRatio.toFixed(7)}%`}
                 bottomTitle="on staking CNT"
                 redirectLink="/cntbar"
               />

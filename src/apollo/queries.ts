@@ -24,27 +24,28 @@ export const dayDatasQuery = gql`
 `;
 export const burnQuery = gql`
   {
-    burns(first: 5) {
+    cntBurns(first: 5) {
       id
       amount
-    }  
-  } 
+    }
+  }
 `;
 
-export const barQuery = gql`
-  query barQuery($id: String! = "0x9ff41ababb732cec16abd247c53035941cdf6e93") {
-    bar(id: $id) {
+//  Value of `id` must not be checksummed.
+export const cntStakerQuery = gql`
+  query cntStaker($id: String! = "0x5da1f601486252ca41d04e6caa49b19dd0bfa888") {
+    cntstaker(id: $id) {
       id
       totalSupply
       ratio
-      xSushiMinted
-      xSushiBurned
-      sushiStaked
-      sushiStakedUSD
-      sushiHarvested
-      sushiHarvestedUSD
-      xSushiAge
-      xSushiAgeDestroyed
+      xCNTMinted
+      xCNTBurned
+      CNTStaked
+      cntStakedUSD
+      cntHarvested
+      cntHarvestedUSD
+      xCNTAge
+      xCNTAgeDestroyed
       # histories(first: 1000) {
       #   id
       #   date

@@ -59,7 +59,7 @@ const ExpandingWrapper = styled.div<{ showFooter: boolean }>`
 
 const TotalPrizesCard = () => {
   const TranslateString = useI18n();
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const [showFooter, setShowFooter] = useState(false);
   const lotteryPrizeAmount = +getBalanceNumber(useTotalRewards()).toFixed(0);
   const lotteryPrizeWithCommaSeparators = lotteryPrizeAmount.toLocaleString();

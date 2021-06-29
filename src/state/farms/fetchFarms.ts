@@ -1,8 +1,8 @@
 import BigNumber from "bignumber.js";
 import erc20 from "config/abi/erc20.json";
-import masterchefABI from "config/abi/masterchef.json";
+import farmABI from "config/abi/farm.json";
 import multicall from "utils/multicall";
-import { getAddress, getMasterChefAddress } from "utils/addressHelpers";
+import { getAddress, getFarmAddress } from "utils/addressHelpers";
 import farmsConfig from "config/constants/farms";
 
 const fetchFarms = async () => {
@@ -26,7 +26,7 @@ const fetchFarms = async () => {
         {
           address: lpAdress,
           name: "balanceOf",
-          params: [getMasterChefAddress()],
+          params: [getFarmAddress()],
         },
         // Total supply of LP tokens
         {
@@ -73,14 +73,14 @@ const fetchFarms = async () => {
         .div(new BigNumber(10).pow(quoteTokenDecimals))
         .times(lpTokenRatio);
 
-      const [info, totalAllocPoint] = await multicall(masterchefABI, [
+      const [info, totalAllocPoint] = await multicall(farmABI, [
         {
-          address: getMasterChefAddress(),
+          address: getFarmAddress(),
           name: "poolInfo",
           params: [farmConfig.pid],
         },
         {
-          address: getMasterChefAddress(),
+          address: getFarmAddress(),
           name: "totalAllocPoint",
         },
       ]);

@@ -1,10 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import {
-  Card,
-  Flex,
-  ArrowForwardIcon,
-} from "cryption-uikit";
+import { Card, Flex, ArrowForwardIcon } from "cryption-uikit";
 import { NavLink } from "react-router-dom";
 
 interface EarnAssestsProps {
@@ -54,8 +50,8 @@ const StyledCardAccent = styled.div`
   /* */
 `;
 
-const StyledFarmStakingCard = styled(Card) <{ redirectLink?: boolean }>`
-  background-color: #1E202A;
+const StyledFarmStakingCard = styled(Card)<{ redirectLink?: boolean }>`
+  background-color: #1e202a;
   overflow: initial;
   position: relative;
   border-radius: 0.625rem !important;
@@ -68,18 +64,19 @@ const StyledFarmStakingCard = styled(Card) <{ redirectLink?: boolean }>`
   height: 100%;
   width: 100%;
   :hover {
-    cursor: ${({ redirectLink }) => (redirectLink ? 'pointer' : 'auto')};
-    background-color: ${({ redirectLink }) => (redirectLink ? '#262626' : '#1E202A')};
-    ${StyledCardAccent}{
-      visibility: ${({ redirectLink }) => (redirectLink && 'visible')};
+    cursor: ${({ redirectLink }) => (redirectLink ? "pointer" : "auto")};
+    background-color: ${({ redirectLink }) =>
+      redirectLink ? "#262626" : "#1E202A"};
+    ${StyledCardAccent} {
+      visibility: ${({ redirectLink }) => redirectLink && "visible"};
     }
   }
 `;
 const CardMidContent = styled.div<{ descriptionColor?: string }>`
   font-size: 30px;
   font-weight: bold;
-  width:100%;
-  color: ${({ descriptionColor }) => (descriptionColor || '#2082E9;')};
+  width: 100%;
+  color: ${({ descriptionColor }) => descriptionColor || "#2082E9;"};
   margin: 20px 0px;
   text-align: left;
   text-transform: capitalize;
@@ -99,24 +96,35 @@ const CNBottomHeader = styled.div`
   color: #cfcccc;
 `;
 
-const EarnAssetCard: React.FC<EarnAssestsProps> = ({ topTitle, bottomTitle, redirectLink, description, descriptionColor }) => {
-  const handleNavigation = event => {
+const EarnAssetCard: React.FC<EarnAssestsProps> = ({
+  topTitle,
+  bottomTitle,
+  redirectLink,
+  description,
+  descriptionColor,
+}) => {
+  const handleNavigation = (event) => {
     if (redirectLink === null || redirectLink === undefined) {
       event.preventDefault();
     }
-  }
+  };
   return (
-    <NavLink exact activeClassName="active" to={redirectLink || ''} onClick={handleNavigation}>
+    <NavLink
+      exact
+      activeClassName="active"
+      to={redirectLink || ""}
+      onClick={handleNavigation}
+    >
       <StyledFarmStakingCard redirectLink={!!redirectLink}>
         <StyledCardAccent />
         <CNCardBody>
-          <CNHeading>{topTitle || 'Earn'}</CNHeading>
-          <CardMidContent descriptionColor={descriptionColor}>{description}</CardMidContent>
-          <Flex justifyContent={redirectLink ? 'space-between' : 'center'}>
-            <CNBottomHeader>{bottomTitle || 'in Pools'}</CNBottomHeader>
-            {redirectLink &&
-              <ArrowForwardIcon color="#2082E9" />
-            }
+          <CNHeading>{topTitle || "Earn"}</CNHeading>
+          <CardMidContent descriptionColor={descriptionColor}>
+            {description}
+          </CardMidContent>
+          <Flex justifyContent={redirectLink ? "space-between" : "center"}>
+            <CNBottomHeader>{bottomTitle || "in Pools"}</CNBottomHeader>
+            {redirectLink && <ArrowForwardIcon color="#2082E9" />}
           </Flex>
         </CNCardBody>
       </StyledFarmStakingCard>

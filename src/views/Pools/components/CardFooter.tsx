@@ -41,7 +41,7 @@ const StyledDetailsButton = styled.button`
   align-items: center;
   background-color: transparent;
   border: 0;
-  color: #2082E9;
+  color: #2082e9;
   cursor: pointer;
   display: inline-flex;
   font-size: 16px;
@@ -76,7 +76,7 @@ const Label = styled.div`
 const TokenLink = styled.a`
   font-size: 14px;
   text-decoration: none;
-  color: #2082E9;
+  color: #2082e9;
   cursor: pointer;
 `;
 

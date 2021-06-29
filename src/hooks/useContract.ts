@@ -19,7 +19,7 @@ import {
   getMasterchefContract,
   getPointCenterIfoContract,
   getSouschefContract,
-  getCoffeeTableContract,
+  getCNTStakerContract,
   getClaimRefundContract,
 } from "utils/contractHelpers";
 import ENS_ABI from "../constants/abis/ens-registrar.json";
@@ -94,14 +94,14 @@ export const useSousChefGasless = (id) => {
   return useMemo(() => getSouschefContract(id, web3), [id, web3]);
 };
 
-export const useCoffeeTable = () => {
+export const useCNTStaker = () => {
   const web3 = useWeb3();
-  return useMemo(() => getCoffeeTableContract(web3), [web3]);
+  return useMemo(() => getCNTStakerContract(web3), [web3]);
 };
 
-export const useCoffeeTableGasless = () => {
+export const useCNTStakerGasless = () => {
   const web3 = getBiconomyWeb3();
-  return useMemo(() => getCoffeeTableContract(web3), [web3]);
+  return useMemo(() => getCNTStakerContract(web3), [web3]);
 };
 
 export const usePointCenterIfoContract = () => {

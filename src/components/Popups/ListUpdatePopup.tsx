@@ -1,13 +1,13 @@
-import React, { useCallback, useMemo } from 'react'
-import { diffTokenLists, TokenList } from '@uniswap/token-lists'
-import { Button, Text } from 'cryption-uikit'
-import { useDispatch } from 'react-redux'
-import { AppDispatch } from '../../state'
-import { useRemovePopup } from '../../state/application/hooks'
-import { acceptListUpdate } from '../../state/lists/actions'
-import listVersionLabel from '../../utils/listVersionLabel'
-import { AutoColumn } from '../Column'
-import { AutoRow } from '../Row'
+import React, { useCallback, useMemo } from "react";
+import { diffTokenLists, TokenList } from "@uniswap/token-lists";
+import { Button, Text } from "cryption-uikit";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../state";
+import { useRemovePopup } from "../../state/application/hooks";
+import { acceptListUpdate } from "../../state/lists/actions";
+import listVersionLabel from "../../utils/listVersionLabel";
+import { AutoColumn } from "../Column";
+import { AutoRow } from "../Row";
 
 export default function ListUpdatePopup({
   popKey,
@@ -16,45 +16,57 @@ export default function ListUpdatePopup({
   newList,
   auto,
 }: {
-  popKey: string
-  listUrl: string
-  oldList: TokenList
-  newList: TokenList
-  auto: boolean
+  popKey: string;
+  listUrl: string;
+  oldList: TokenList;
+  newList: TokenList;
+  auto: boolean;
 }) {
-  const removePopup = useRemovePopup()
-  const removeThisPopup = useCallback(() => removePopup(popKey), [popKey, removePopup])
-  const dispatch = useDispatch<AppDispatch>()
+  const removePopup = useRemovePopup();
+  const removeThisPopup = useCallback(
+    () => removePopup(popKey),
+    [popKey, removePopup]
+  );
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleAcceptUpdate = useCallback(() => {
-    if (auto) return
-    dispatch(acceptListUpdate(listUrl))
-    removeThisPopup()
-  }, [auto, dispatch, listUrl, removeThisPopup])
+    if (auto) return;
+    dispatch(acceptListUpdate(listUrl));
+    removeThisPopup();
+  }, [auto, dispatch, listUrl, removeThisPopup]);
 
-  const { added: tokensAdded, changed: tokensChanged, removed: tokensRemoved } = useMemo(() => {
-    return diffTokenLists(oldList.tokens, newList.tokens)
-  }, [newList.tokens, oldList.tokens])
+  const {
+    added: tokensAdded,
+    changed: tokensChanged,
+    removed: tokensRemoved,
+  } = useMemo(() => {
+    return diffTokenLists(oldList.tokens, newList.tokens);
+  }, [newList.tokens, oldList.tokens]);
   const numTokensChanged = useMemo(
     () =>
-      Object.keys(tokensChanged).reduce((memo, chainId: any) => memo + Object.keys(tokensChanged[chainId]).length, 0),
+      Object.keys(tokensChanged).reduce(
+        (memo, chainId: any) =>
+          memo + Object.keys(tokensChanged[chainId]).length,
+        0
+      ),
     [tokensChanged]
-  )
+  );
 
   return (
     <AutoRow>
-      <AutoColumn style={{ flex: '1' }} gap="8px">
+      <AutoColumn style={{ flex: "1" }} gap="8px">
         {auto ? (
           <Text>
-            The token list &quot;{oldList.name}&quot; has been updated to{' '}
+            The token list &quot;{oldList.name}&quot; has been updated to{" "}
             <strong>{listVersionLabel(newList.version)}</strong>.
           </Text>
         ) : (
           <>
             <div>
               <Text fontSize="14px">
-                An update is available for the token list &quot;{oldList.name}&quot; (
-                {listVersionLabel(oldList.version)} to {listVersionLabel(newList.version)}).
+                An update is available for the token list &quot;{oldList.name}
+                &quot; ({listVersionLabel(oldList.version)} to{" "}
+                {listVersionLabel(newList.version)}).
               </Text>
               <ul>
                 {tokensAdded.length > 0 ? (
@@ -62,9 +74,9 @@ export default function ListUpdatePopup({
                     {tokensAdded.map((token, i) => (
                       <React.Fragment key={`${token.chainId}-${token.address}`}>
                         <strong title={token.address}>{token.symbol}</strong>
-                        {i === tokensAdded.length - 1 ? null : ', '}
+                        {i === tokensAdded.length - 1 ? null : ", "}
                       </React.Fragment>
-                    ))}{' '}
+                    ))}{" "}
                     added
                   </li>
                 ) : null}
@@ -73,13 +85,15 @@ export default function ListUpdatePopup({
                     {tokensRemoved.map((token, i) => (
                       <React.Fragment key={`${token.chainId}-${token.address}`}>
                         <strong title={token.address}>{token.symbol}</strong>
-                        {i === tokensRemoved.length - 1 ? null : ', '}
+                        {i === tokensRemoved.length - 1 ? null : ", "}
                       </React.Fragment>
-                    ))}{' '}
+                    ))}{" "}
                     removed
                   </li>
                 ) : null}
-                {numTokensChanged > 0 ? <li>{numTokensChanged} tokens updated</li> : null}
+                {numTokensChanged > 0 ? (
+                  <li>{numTokensChanged} tokens updated</li>
+                ) : null}
               </ul>
             </div>
             <AutoRow>
@@ -94,5 +108,5 @@ export default function ListUpdatePopup({
         )}
       </AutoColumn>
     </AutoRow>
-  )
+  );
 }

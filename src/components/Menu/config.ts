@@ -31,7 +31,7 @@ const config: MenuEntry[] = [
     href: "/pools",
   },
   {
-    label: "CNT Bar",
+    label: "CNT Staker",
     icon: "PoolIcon",
     href: "/cntbar",
   },

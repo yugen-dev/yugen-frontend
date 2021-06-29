@@ -1,14 +1,22 @@
 /* eslint-disable react/require-default-props */
-import React, { ReactNode } from 'react'
-import styled from 'styled-components'
-import { Heading, IconButton, Text, Flex, useModal, CogIcon, Svg } from 'cryption-uikit'
-import SettingsModal from './SettingsModal'
-import RecentTransactionsModal from './RecentTransactionsModal'
+import React, { ReactNode } from "react";
+import styled from "styled-components";
+import {
+  Heading,
+  IconButton,
+  Text,
+  Flex,
+  useModal,
+  CogIcon,
+  Svg,
+} from "cryption-uikit";
+import SettingsModal from "./SettingsModal";
+import RecentTransactionsModal from "./RecentTransactionsModal";
 
 interface PageHeaderProps {
-  title: ReactNode
-  description?: ReactNode
-  children?: ReactNode
+  title: ReactNode;
+  description?: ReactNode;
+  children?: ReactNode;
 }
 
 const HistoryIcon = () => (
@@ -18,21 +26,21 @@ const HistoryIcon = () => (
       fill="#2B76EC"
     />
   </Svg>
-)
+);
 
 const StyledPageHeader = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderColor};
   padding: 24px;
   width: 100%;
-`
+`;
 
 const Details = styled.div`
   flex: 1;
-`
+`;
 
 const PageHeader = ({ title, description, children }: PageHeaderProps) => {
-  const [onPresentSettings] = useModal(<SettingsModal />)
-  const [onPresentRecentTransactions] = useModal(<RecentTransactionsModal />)
+  const [onPresentSettings] = useModal(<SettingsModal />);
+  const [onPresentRecentTransactions] = useModal(<RecentTransactionsModal />);
 
   return (
     <StyledPageHeader>
@@ -48,13 +56,17 @@ const PageHeader = ({ title, description, children }: PageHeaderProps) => {
         <IconButton variant="text" onClick={onPresentSettings} title="Settings">
           <CogIcon width="24px" color="#2B76EC" />
         </IconButton>
-        <IconButton variant="text" onClick={onPresentRecentTransactions} title="Recent transactions">
+        <IconButton
+          variant="text"
+          onClick={onPresentRecentTransactions}
+          title="Recent transactions"
+        >
           <HistoryIcon />
         </IconButton>
       </Flex>
       {children && <Text mt="16px">{children}</Text>}
     </StyledPageHeader>
-  )
-}
+  );
+};
 
-export default PageHeader
+export default PageHeader;

@@ -11,7 +11,7 @@ interface DepositModalProps {
   onConfirm: (amount: string, decimals: number) => void;
   onDismiss?: () => void;
   tokenName?: string;
-  tokenAmount?:string;
+  tokenAmount?: string;
   stakingTokenDecimals?: number;
 }
 
@@ -23,11 +23,11 @@ const DepositModal: React.FC<DepositModalProps> = ({
   tokenAmount,
   stakingTokenDecimals = 18,
 }) => {
-  const [val, setVal] = useState(tokenAmount || '');
+  const [val, setVal] = useState(tokenAmount || "");
   const [pendingTx, setPendingTx] = useState(false);
   const TranslateString = useI18n();
   useEffect(() => {
-    setVal(tokenAmount || '');
+    setVal(tokenAmount || "");
   }, [tokenAmount]);
   const fullBalance = useMemo(() => {
     return getFullDisplayBalance(max, stakingTokenDecimals);

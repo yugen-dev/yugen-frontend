@@ -39,10 +39,7 @@ export const profileSlice = createSlice({
     addPoints: (state, action: PayloadAction<number>) => {
       state.data.points += action.payload;
     },
-    toggleMetaTranscationState: (
-      state,
-      action
-    ) => {
+    toggleMetaTranscationState: (state, action) => {
       return {
         ...state,
         metaTranscation: action.payload,

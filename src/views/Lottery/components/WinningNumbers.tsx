@@ -7,7 +7,7 @@ import useI18n from "hooks/useI18n";
 import useGetLotteryHasDrawn from "hooks/useGetLotteryHasDrawn";
 
 const WinningNumbers: React.FC = () => {
-  const { account } = useWeb3React('web3');
+  const { account } = useWeb3React("web3");
   const winNumbers = useWinningNumbers();
   const lotteryHasDrawn = useGetLotteryHasDrawn();
   const MatchedNumber4 = useMatchingRewardLength(4);
