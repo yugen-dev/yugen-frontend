@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import BigNumber from "bignumber.js";
 import { ethers } from "ethers";
 import styled from "styled-components";
@@ -24,7 +24,7 @@ import cakeAbi from "config/abi/cake.json";
 import Tooltip from "components/Tooltip";
 import DepositModal from "./DepositModal";
 import WithdrawModal from "./WithdrawModal";
-import CompoundModal from "./CompoundModal";
+// import CompoundModal from "./CompoundModal";
 import CardTitle from "./CardTitle";
 import Card from "./Card";
 import OldSyrupTitle from "./OldSyrupTitle";
@@ -42,7 +42,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     tokenName,
     tokenAddress,
     stakingTokenName,
-    stakingTokenAddress,
+    // stakingTokenAddress,
     contractAddress,
     stakingTokenDecimals,
     projectLink,
@@ -133,13 +133,13 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     />
   );
 
-  const [onPresentCompound] = useModal(
-    <CompoundModal
-      earnings={earnings}
-      onConfirm={onStake}
-      tokenName={stakingTokenName}
-    />
-  );
+  // const [onPresentCompound] = useModal(
+  //   <CompoundModal
+  //     earnings={earnings}
+  //     onConfirm={onStake}
+  //     tokenName={stakingTokenName}
+  //   />
+  // );
 
   const [onPresentWithdraw] = useModal(
     <WithdrawModal

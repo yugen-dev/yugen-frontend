@@ -18,9 +18,9 @@ const useEnter = () => {
   const handle = useCallback(
     async (amount: string) => {
       if (metaTranscation) {
-        const txHash = await enterGasless(cntStakerGasless, amount, account);
+        await enterGasless(cntStakerGasless, amount, account);
       } else {
-        const txHash = await enter(cntStaker, amount, account);
+        await enter(cntStaker, amount, account);
       }
     },
     [account, cntStaker, cntStakerGasless, metaTranscation]

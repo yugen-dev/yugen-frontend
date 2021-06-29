@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { Heading, Card, CardBody, Button } from "cryption-uikit";
@@ -60,12 +61,12 @@ const FarmedStakingCard = () => {
   return (
     <CNCardBody>
       <HeadingSection>
-        <CardImage
+        {/* <CardImage
           src="/images/CNLatte.png"
           alt="cake logo"
           width="30px"
           height="30px"
-        />
+        /> */}
         <CNHeading>{TranslateString(542, "Farms & Staking")}</CNHeading>
       </HeadingSection>
       <Block>
@@ -80,7 +81,7 @@ const FarmedStakingCard = () => {
         </Label>
         <CakeWalletBalance />
       </Block>
-      <Actions>
+      {/* <Actions>
         {account ? (
           <Button
             id="harvest-all"
@@ -98,7 +99,7 @@ const FarmedStakingCard = () => {
         ) : (
           <UnlockButton />
         )}
-      </Actions>
+      </Actions> */}
     </CNCardBody>
   );
 };
@@ -106,7 +107,7 @@ const FarmedStakingCard = () => {
 const CNHeading = styled.div`
   font-size: 30px;
   font-weight: 700;
-  text-transform: uppercase;
+
   color: white;
 `;
 const HeadingSection = styled.div`

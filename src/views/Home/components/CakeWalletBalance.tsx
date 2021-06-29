@@ -1,5 +1,4 @@
 import React from "react";
-import { Text } from "cryption-uikit";
 import { useWeb3React } from "@web3-react/core";
 import useTokenBalance from "hooks/useTokenBalance";
 import useI18n from "hooks/useI18n";

@@ -1,16 +1,10 @@
 import BigNumber from "bignumber.js";
-import { constants, ethers } from "ethers";
-import { Biconomy } from "@biconomy/mexa";
-import Web3 from "web3";
-import farmABI from "config/abi/farm.json";
+import { ethers } from "ethers";
 import {
   getCNTStakerAddress,
   getFarmAddress,
   getSouschefContract,
 } from "utils/addressHelpers";
-import { usePoolFromPid } from "state/hooks";
-import { AbiItem } from "web3-utils";
-import { getWeb3NoAccount } from "utils/web3";
 import { getBiconomyWeb3 } from "utils/biconomyweb3";
 
 export const approve = async (lpContract, masterChefContract, account) => {
@@ -73,10 +67,7 @@ export const GaslessStakeWithPermit = async (
   r,
   s
 ) => {
-  const biconomyWeb3 = getBiconomyWeb3();
-
   const contract = masterChefContract;
-
   const functionSignature = await contract.methods
     .depositWithPermit(
       pid,
@@ -96,10 +87,7 @@ export const GaslessStake = async (
   amount,
   account
 ) => {
-  const biconomyWeb3 = getBiconomyWeb3();
-
   const contract = masterChefContract;
-
   const functionSignature = await contract.methods
     .deposit(
       pid,
@@ -115,10 +103,7 @@ export const GaslessUnStake = async (
   amount,
   account
 ) => {
-  const biconomyWeb3 = getBiconomyWeb3();
-
   const contract = masterChefContract;
-
   const functionSignature = await contract.methods
     .withdraw(
       pid,
@@ -130,10 +115,7 @@ export const GaslessUnStake = async (
 };
 
 export const GaslessHarvest = async (masterChefContract, pid, account) => {
-  const biconomyWeb3 = getBiconomyWeb3();
-
   const contract = masterChefContract;
-
   const functionSignature = await contract.methods
     .deposit(pid, "0")
     .encodeABI();
@@ -400,7 +382,6 @@ const executeMetaTransaction = async (
   });
 
   try {
-    const web3 = getWeb3NoAccount();
     // @ts-ignore
     await biconomyWeb3.currentProvider.send(
       {
@@ -409,7 +390,7 @@ const executeMetaTransaction = async (
         method: "eth_signTypedData_v4",
         params: [account, dataToSign],
       },
-      async function (error, response) {
+      async (error, response) => {
         if (error) {
           console.error(error);
           return error;
@@ -466,7 +447,6 @@ export const executeMetaTransactionBar = async (
   });
 
   try {
-    const web3 = getWeb3NoAccount();
     // @ts-ignore
     await biconomyWeb3.currentProvider.send(
       {
@@ -475,7 +455,7 @@ export const executeMetaTransactionBar = async (
         method: "eth_signTypedData_v4",
         params: [account, dataToSign],
       },
-      async function (error, response) {
+      async (error, response) => {
         if (error) {
           console.error(error);
           return error;
@@ -540,7 +520,6 @@ export const executeMetaTransactionPools = async (
   });
 
   try {
-    const web3 = getWeb3NoAccount();
     // @ts-ignore
     await biconomyWeb3.currentProvider.send(
       {
@@ -549,7 +528,7 @@ export const executeMetaTransactionPools = async (
         method: "eth_signTypedData_v4",
         params: [account, dataToSign],
       },
-      async function (error, response) {
+      async (error, response) => {
         if (error) {
           console.error(error);
           return error;

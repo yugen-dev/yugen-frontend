@@ -13,8 +13,8 @@ const QuestionWrapper = styled.div`
   outline: none;
   cursor: default;
   border-radius: 36px;
-  background-color: ${({ theme }) => theme.colors.invertedContrast};
-  color: #2082e9;
+  background-color: transperant;
+  color: #9d9fa8;
 
   :hover,
   :focus {

@@ -5,21 +5,14 @@ import { Currency, Pair } from "@pancakeswap-libs/sdk";
 import Grid from "@material-ui/core/Grid";
 import { Button, ChevronDownIcon, Text, Flex, Input } from "cryption-uikit";
 import styled from "styled-components";
-import { darken } from "polished";
 import useI18n from "hooks/useI18n";
 import { useCurrencyBalance } from "../../state/wallet/hooks";
 import CurrencySearchModal from "../SearchModal/CurrencySearchModal";
 import CurrencyLogo from "../CurrencyLogo";
 import DoubleCurrencyLogo from "../DoubleLogo";
-import { RowBetween } from "../Row";
 // import { Input as NumericalInput } from '../NumericalInput'
 import { useActiveWeb3React } from "../../hooks";
 
-const InputRow = styled.div<{ selected: boolean }>`
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-`;
 const CustomInputPannel = styled.div`
   width: 100%;
   max-width: 400px;
@@ -54,18 +47,6 @@ const CurrencySelect = styled.button<{ selected: boolean }>`
   cursor: pointer;
   user-select: none;
   border: none;
-`;
-const LabelRow = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  color: ${({ theme }) => theme.colors.text};
-  font-size: 0.75rem;
-  line-height: 1rem;
-  span:hover {
-    cursor: pointer;
-    color: ${({ theme }) => darken(0.2, theme.colors.textSubtle)};
-  }
 `;
 const Aligner = styled.span`
   display: flex;

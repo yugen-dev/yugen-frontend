@@ -45,9 +45,6 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     canHarvest,
     harvestInterval,
   } = useFarmUser(pid);
-
-  const timeleft = harvestInterval.toNumber() - Math.floor(Date.now() / 1000);
-
   const lpAddress = getAddress(lpAddresses);
   const lpName = farm.lpSymbol.toUpperCase();
   const isApproved = account && allowance && allowance.isGreaterThan(0);
