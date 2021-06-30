@@ -509,7 +509,7 @@ export const executeMetaTransactionPools = async (
   pooladdress
 ) => {
   const domainDataPool = {
-    name: "Farm01",
+    name: "StakingPool",
     version: "1",
     verifyingContract: pooladdress,
     chainId: 80001,
