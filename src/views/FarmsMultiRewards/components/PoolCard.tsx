@@ -142,7 +142,9 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   const stakingTokenBalance = new BigNumber(userData?.stakingTokenBalance || 0);
   const stakedBalance = new BigNumber(userData?.stakedBalance || 0);
   const earnings = new BigNumber(userData?.pendingReward || 0);
-  const canHarvest = userData?.canHarvest || false;
+  const canHarvest = userData?.canHarvest ? userData?.canHarvest : false;
+  console.log(canHarvest);
+  // console.log(`can harvest ${userData?.canHarvest}`);
   const harvestInterval = userData?.harvestInterval
     ? new BigNumber(userData?.harvestInterval)
     : new BigNumber(0);
@@ -311,7 +313,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
               </Text>
             </Flex>
             {/* canHarvest */}
-            {account && harvest && !isOldSyrup && (
+            {account && harvest && canHarvest && !isOldSyrup && (
               <Button
                 disabled={!canHarvest || !earnings.toNumber() || pendingTx}
                 style={{ width: "100%", maxWidth: "400px" }}
@@ -320,6 +322,14 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                   await onReward();
                   setPendingTx(false);
                 }}
+              >
+                {pendingTx ? "Collecting" : "Harvest"}
+              </Button>
+            )}
+            {!canHarvest && (
+              <Button
+                disabled={!canHarvest}
+                style={{ width: "100%", maxWidth: "400px" }}
               >
                 {pendingTx ? "Collecting" : "Harvest"}
               </Button>

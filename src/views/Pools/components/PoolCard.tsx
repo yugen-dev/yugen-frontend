@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import BigNumber from "bignumber.js";
 import { ethers } from "ethers";
+import { MaxUint256 } from "@ethersproject/constants";
+import { splitSignature } from "@ethersproject/bytes";
 import styled from "styled-components";
 import {
   Button,
@@ -18,11 +20,13 @@ import Countdown from "react-countdown";
 import UnlockButton from "components/UnlockButton";
 import Label from "components/Label";
 import { getContract } from "utils/contractHelpers";
+import { getBiconomyWeb3 } from "utils/biconomyweb3";
 import { getAddress } from "utils/addressHelpers";
 import useI18n from "hooks/useI18n";
 // import { GetPoolPendingReward } from "hooks/GetPoolPendingReward";
 import { useSousStake } from "hooks/useStake";
 import useWeb3 from "hooks/useWeb3";
+import { useProfile } from "state/hooks";
 import { useSousUnstake } from "hooks/useUnstake";
 import { getBalanceNumber } from "utils/formatBalance";
 import { getPoolApy } from "utils/apy";
@@ -32,6 +36,7 @@ import { QuoteToken, PoolCategory } from "config/constants/types";
 import { Pool } from "state/types";
 import cakeAbi from "config/abi/cake.json";
 import Tooltip from "components/Tooltip";
+import { META_TXN_SUPPORTED_TOKENS } from "../../../constants";
 import DepositModal from "./DepositModal";
 import WithdrawModal from "./WithdrawModal";
 import CompoundModal from "./CompoundModal";
@@ -67,8 +72,8 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     stakingLimit,
     poolHarvestInterval,
   } = pool;
-  const { account } = useWeb3React("web3");
-
+  const { account, chainId, library } = useWeb3React("web3");
+  const { metaTranscation } = useProfile();
   // Pools using native BNB behave differently than pools using a token
   const isBnbPool = poolCategory === PoolCategory.BINANCE;
   const [show, setShow] = useState(false);
@@ -142,7 +147,10 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   const stakingTokenBalance = new BigNumber(userData?.stakingTokenBalance || 0);
   const stakedBalance = new BigNumber(userData?.stakedBalance || 0);
   const earnings = new BigNumber(userData?.pendingReward || 0);
-  const canHarvest = userData?.canHarvest || false;
+  const canHarvest =
+    userData?.canHarvest === true ? userData?.canHarvest : false;
+  // console.log(canHarvest);
+
   const harvestInterval = userData?.harvestInterval
     ? new BigNumber(userData?.harvestInterval)
     : new BigNumber(0);
@@ -217,9 +225,84 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
       stakingTokenDecimals={stakingTokenDecimals}
     />
   );
-
+  // eslint-disable-next-line consistent-return
   const handleApprove = async () => {
     try {
+      if (META_TXN_SUPPORTED_TOKENS[tokenAddress.toLowerCase()] && metaTranscation) {
+        setRequestedApproval(true);
+        const metaToken = META_TXN_SUPPORTED_TOKENS[tokenAddress.toLowerCase()];
+        const biconomyweb3 = getBiconomyWeb3();
+        const biconomyContract = new biconomyweb3.eth.Contract(
+          metaToken.abi,
+          tokenAddress
+        );
+        const nonceMethod =
+          biconomyContract.methods.getNonce || biconomyContract.methods.nonces;
+        const biconomyNonce = await nonceMethod(account).call();
+        const res = biconomyContract.methods
+          .approve(getAddress(contractAddress), MaxUint256.toString())
+          .encodeABI();
+        const message: any = {
+          nonce: "",
+          from: "",
+          functionSignature: "",
+        };
+
+        const name = await biconomyContract.methods.name().call();
+
+        message.nonce = parseInt(biconomyNonce);
+        message.from = account;
+        message.functionSignature = res;
+
+        const dataToSign = JSON.stringify({
+          types: {
+            EIP712Domain: [
+              { name: "name", type: "string" },
+              { name: "version", type: "string" },
+              { name: "verifyingContract", type: "address" },
+              { name: "salt", type: "bytes32" },
+            ],
+            MetaTransaction: [
+              { name: "nonce", type: "uint256" },
+              { name: "from", type: "address" },
+              { name: "functionSignature", type: "bytes" },
+            ],
+          },
+          domain: {
+            name,
+            version: "1",
+            verifyingContract: tokenAddress,
+            // @ts-ignore
+            salt: `0x${chainId.toString(16).padStart(64, "0")}`,
+          },
+          primaryType: "MetaTransaction",
+          message,
+        });
+
+        const sig = await library.send("eth_signTypedData_v4", [
+          account,
+          dataToSign,
+        ]);
+
+        const signature = await splitSignature(sig.result);
+        const { v, r, s } = signature;
+
+        return biconomyContract.methods
+          .executeMetaTransaction(account, res, r, s, v)
+          .send({
+            from: account,
+          })
+          .then((response: any) => {
+            if (!response.hash) {
+              setRequestedApproval(false);
+            }
+            return response.hash;
+          })
+          .catch((error: Error) => {
+            console.debug("Failed to approve token", error);
+            throw error;
+          });
+      }
       const contract = await getContract(cakeAbi, tokenAddress, web3);
       setRequestedApproval(true);
       const txHash = await contract.methods
@@ -311,15 +394,23 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
               </Text>
             </Flex>
             {/* canHarvest */}
-            {account && harvest && !isOldSyrup && (
+            {account && harvest && !isOldSyrup && canHarvest && (
               <Button
-                disabled={!canHarvest || !earnings.toNumber() || pendingTx}
+                disabled={!earnings.toNumber() || pendingTx}
                 style={{ width: "100%", maxWidth: "400px" }}
                 onClick={async () => {
                   setPendingTx(true);
                   await onReward();
                   setPendingTx(false);
                 }}
+              >
+                {pendingTx ? "Collecting" : "Harvest"}
+              </Button>
+            )}
+            {!canHarvest && (
+              <Button
+                disabled={!canHarvest}
+                style={{ width: "100%", maxWidth: "400px" }}
               >
                 {pendingTx ? "Collecting" : "Harvest"}
               </Button>

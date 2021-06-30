@@ -126,13 +126,15 @@ export const fetchPoolUserCanHarvestPendingReward = async (account) => {
   }));
 
   const res = await multicall(sousChefABI, calls);
+  console.log(res);
   const userCanHarvest = nonMasterPools.reduce(
     (acc, pool, index) => ({
       ...acc,
-      [pool.sousId]: new BigNumber(res[index]).toJSON(),
+      [pool.sousId]: res[index][0],
     }),
     {}
   );
+  console.log(userCanHarvest);
 
   return { ...userCanHarvest };
 };
