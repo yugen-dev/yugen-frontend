@@ -11,6 +11,7 @@ export interface CardValueProps {
   stakerFees?: string;
   lpFees?: string;
   burnerFees?: string;
+  devFees?: string;
 }
 const Card = styled.div`
   border-radius: 0.625rem !important;
@@ -82,6 +83,7 @@ const CardValue: React.FC<CardValueProps> = ({
   stakerFees,
   lpFees,
   burnerFees,
+  devFees,
 }) => {
   const numberWithCommas = (number) => {
     const parts = number.toString().split(".");
@@ -283,6 +285,17 @@ const CardValue: React.FC<CardValueProps> = ({
                 <Text color="white" fontSize="15px" fontWeight="700">
                   {" "}
                   ${burnerFees}{" "}
+                </Text>
+              </ProgressText>
+            )}
+              {devFees && (
+              <ProgressText>
+                <Text color="#C1C5CB" fontSize="15px">
+                  Dev Fees
+                </Text>
+                <Text color="white" fontSize="15px" fontWeight="700">
+                  {" "}
+                  ${devFees}{" "}
                 </Text>
               </ProgressText>
             )}

@@ -114,8 +114,8 @@ export default function CurrencyInputPanel({
   return (
     <InputPanel id={id}>
       <Container hideInput={hideInput}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6} lg={6} xl={6}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={5} lg={5} xl={5}>
             <CurrencyContainer>
               <div style={{ marginRight: "10px" }}>
                 {pair ? (
@@ -176,9 +176,9 @@ export default function CurrencyInputPanel({
           <Grid
             item
             xs={12}
-            md={6}
-            lg={6}
-            xl={6}
+            md={7}
+            lg={7}
+            xl={7}
             style={{ display: "flex", justifyContent: "center" }}
           >
             {!hideInput && (

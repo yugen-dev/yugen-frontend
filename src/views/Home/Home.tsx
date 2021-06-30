@@ -62,6 +62,7 @@ const Home: React.FC = () => {
   let totalBurned = 0;
   let liquidity = [];
   let totalFees = "";
+  let devFees = "";
   let stakerFees = "";
   let lpFees = "";
   let burnerFees = "";
@@ -194,14 +195,17 @@ const Home: React.FC = () => {
     totalFees = (
       parseFloat(dayDatas.data.dayDatas[0].volumeUSD)
     ).toFixed(10);
-    stakerFees = (
-      parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.25
-    ).toFixed(10);
     lpFees = (parseFloat(dayDatas.data.dayDatas[0].volumeUSD) / 6).toFixed(
       10
     );
+    stakerFees = (
+      parseFloat(lpFees) * 0.25
+    ).toFixed(10);
     burnerFees = (
-      parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.65
+      parseFloat(lpFees) * 0.65
+    ).toFixed(10);
+    devFees = (
+      parseFloat(lpFees) * 0.10
     ).toFixed(10);
   }
   useInterval(() => Promise.all([getDayData]), 60000);
@@ -243,6 +247,7 @@ const Home: React.FC = () => {
             burnedSupply={totalBurned}
             circulatingSupply={ciculatingSupply}
             totalFees={totalFees}
+            devFees={devFees}
             stakerFees={stakerFees}
             lpFees={lpFees}
             burnerFees={burnerFees}
