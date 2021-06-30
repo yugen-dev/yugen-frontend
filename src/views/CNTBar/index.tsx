@@ -31,9 +31,10 @@ import WithdrawModal from "../Pools/components/WithdrawModal";
 const CNHeading = styled.div`
   font-size: 23px;
   font-weight: bold;
-  text-align: center;
+  text-align: left;
   color: white;
   margin-bottom: 20px;
+  padding: 0px 10px;
 `;
 const PoolsContainer = styled.div`
   margin-top: 50px;
@@ -41,8 +42,9 @@ const PoolsContainer = styled.div`
 const CNText = styled.div`
   font-size: 17px;
   font-weight: normal;
-  text-align: center;
+  text-align: left;
   color: #9d9fa8;
+  padding: 0px 10px;
 `;
 const StakingContainer = styled.div`
   border-radius: 0.625rem !important;
@@ -109,6 +111,22 @@ const StakingInfo = styled.div`
   margin-bottom: 20px;
   border-radius: 0.625rem !important;
 `;
+
+const HeaderGrid = styled(Grid)`
+  align-items: center;
+  background: #383357;
+  color: ${({ theme }) => theme.colors.primary};
+  margin: 20px;
+  border-radius: 10px;
+  img {
+    height: auto;
+    max-width: 100%;
+  }
+  @media (min-width: 576px) {
+    max-width: none;
+  }
+`;
+
 const CNTBar = () => {
   const tokenName = "CNT";
   const [index, setIndex] = React.useState(0);
@@ -229,7 +247,7 @@ const CNTBar = () => {
   return (
     <PoolsContainer>
       <Container maxWidth="lg">
-        <Grid container spacing={3}>
+        <HeaderGrid container spacing={3}>
           <Grid item xs={12} md={6} lg={6} xl={6}>
             <CNHeading>Maximize yield by staking CNT</CNHeading>
             <CNText>
@@ -247,7 +265,7 @@ const CNTBar = () => {
               }}
             />
           </Grid>
-        </Grid>
+        </HeaderGrid>
         <Grid container spacing={3} style={{ marginTop: "30px" }}>
           <Grid item xs={12} md={6} lg={6} xl={6}>
             <StakingContainer>
