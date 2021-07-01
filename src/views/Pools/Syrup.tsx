@@ -129,12 +129,9 @@ const Farm: React.FC = () => {
                 width={410}
                 height={191}
               /> */}
-              <div
-                dangerouslySetInnerHTML={{
-                  __html:
-                    '<lottie-player src="https://assets7.lottiefiles.com/packages/lf20_0cvczw8l.json"  background="transparent"  speed="1" style="height: 200px;" loop  autoplay></lottie-player>',
-                }}
-              />
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <img src={cntMascot} alt="Cryption Netwrok" width="250px" />
+              </div>
             </Grid>
           </Grid>
         </Container>
@@ -181,9 +178,6 @@ const Farm: React.FC = () => {
               '<lottie-player src="https://assets3.lottiefiles.com/packages/lf20_r71cen62.json"  background="transparent"  speed="1" style="height: 350px;" loop  autoplay></lottie-player>',
           }}
         /> */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <img src={cntMascot} alt="Cryption Netwrok" width="300px" />
-        </div>
       </Container>
     </div>
   );

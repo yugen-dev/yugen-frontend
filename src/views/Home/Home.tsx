@@ -11,7 +11,7 @@ import useI18n from "hooks/useI18n";
 import useInterval from "hooks/useInterval";
 import { useTotalSupply } from "hooks/useTokenBalance";
 import { dayDatasQuery, burnQuery, cntStakerQuery } from "apollo/queries";
-import { CNT_CIRCULATING_SUPPLY_LINK , BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CAKE_POOL_PID } from "config";
+import { CNT_CIRCULATING_SUPPLY_LINK, BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CAKE_POOL_PID } from "config";
 import { getDayData } from "apollo/exchange";
 import pools from "config/constants/pools";
 import { Pool } from "state/types";
@@ -43,18 +43,18 @@ const Card = styled.div`
 
 const Home: React.FC = () => {
   const [ciculatingSupply, setciculatingSupply] = useState(0);
-    const getCirculatingSupply = async () => {
+  const getCirculatingSupply = async () => {
     try {
       const res = await fetch(CNT_CIRCULATING_SUPPLY_LINK);
       const data = await res.json();
       setciculatingSupply(parseFloat(data.toFixed(3)))
     } catch {
       // eslint-disable-next-line no-console
-      console.log("Failed to get CNT price in USD");
+      console.log("Failed to get Circulating supply");
     }
   }
   useEffect(() => {
-      getCirculatingSupply();
+    getCirculatingSupply();
   }, []);
   const { valueOfCNTinUSD } = useCNTprice();
   const farmsLP = useFarms();
@@ -194,19 +194,19 @@ const Home: React.FC = () => {
       );
     totalFees = (
       parseFloat(dayDatas.data.dayDatas[0].volumeUSD)
-    ).toFixed(10);
+    ).toFixed(4);
     lpFees = (parseFloat(dayDatas.data.dayDatas[0].volumeUSD) / 6).toFixed(
-      10
+      4
     );
     stakerFees = (
       parseFloat(lpFees) * 0.25
-    ).toFixed(10);
+    ).toFixed(4);
     burnerFees = (
       parseFloat(lpFees) * 0.65
-    ).toFixed(10);
+    ).toFixed(4);
     devFees = (
       parseFloat(lpFees) * 0.10
-    ).toFixed(10);
+    ).toFixed(4);
   }
   useInterval(() => Promise.all([getDayData]), 60000);
   return (
@@ -257,8 +257,8 @@ const Home: React.FC = () => {
           // Grapht Card
         }
         <Grid item xs={12} md={6} lg={6} xl={6}>
-          <Card style={{ height: 345 }}>
-            <ParentSize>
+          <Card style={{ height: 373 }}>
+            {liquidity && liquidity.length > 0 && <ParentSize>
               {({ width, height }) => (
                 <Areachart
                   title="Liquidity"
@@ -270,7 +270,7 @@ const Home: React.FC = () => {
                   overlayEnabled
                 />
               )}
-            </ParentSize>
+            </ParentSize>}
           </Card>
         </Grid>
 

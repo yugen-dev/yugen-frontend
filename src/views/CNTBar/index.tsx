@@ -25,7 +25,7 @@ import { useApproveStaking } from "hooks/useApprove";
 import contracts from "config/constants/contracts";
 import useTokenBalance from "hooks/useTokenBalance";
 import UnlockButton from "components/UnlockButton";
-import useCNTprice from "hooks/useCNTprice";
+import getCntPrice from "utils/getCntPrice";
 import { getBalanceNumber } from "utils/formatBalance";
 import { getCakeContract, getCNTStakerContract } from "utils/contractHelpers";
 import DepositModal from "../Pools/components/DepositModal";
@@ -130,8 +130,21 @@ const HeaderGrid = styled(Grid)`
   }
 `;
 
+const DescriptionTextLi = styled.li`
+  font-size: 17px;
+  font-weight: normal;
+  text-align: left;
+  margin-bottom: 10px !important;
+  color: white;
+`;
+
+const StyledOl = styled.ol`
+  list-style-position: outside;
+  padding-left: 16px;
+`;
 const CNTBar = () => {
   const tokenName = "CNT";
+  const [valueOfCNTinUSD, setCNTVal] = useState(0);
   const [index, setIndex] = React.useState(0);
   const { onEnter } = useEnter();
   const [requestedApproval, setRequestedApproval] = useState(false);
@@ -152,7 +165,6 @@ const CNTBar = () => {
   const [totalSupply, setTotalSupply] = useState<BigNumber>();
   const xTokenName = "xCNT";
   const { onLeave } = useLeave();
-  const { valueOfCNTinUSD } = useCNTprice();
   let cntStakingRatio = 0.0;
   if (index === 1) {
     tokenBal = xCNTBalance;
@@ -163,9 +175,14 @@ const CNTBar = () => {
       const supply = await xCNTContract.methods.totalSupply().call();
       setTotalSupply(new BigNumber(supply));
     }
+    const getPrice = async () => {
+      const apiResp = await getCntPrice();
+      setCNTVal(apiResp);
+    }
     if (cake) {
       fetchTotalSupply();
     }
+    getPrice();
   }, [cake, setTotalSupply]);
   const dayDatas = useQuery(dayDatasQuery);
   const getCNTStakerInfo = useQuery(cntStakerQuery, {
@@ -253,7 +270,7 @@ const CNTBar = () => {
           }}
           style={{ maxWidth: "400px", width: "100%" }}
         >
-          {pendingDepositTx ? "Converting to xCNT" : "Convert to xCNT"}
+          {pendingDepositTx ? "Staking CNT..." : "Stake CNT"}
         </Button>
       );
     }
@@ -276,15 +293,19 @@ const CNTBar = () => {
         <HeaderGrid container spacing={3}>
           <Grid item xs={12} md={6} lg={6} xl={6}>
             <CNHeading>Maximize yield by staking CNT</CNHeading>
-            <CNText>
-              Stake CNT to earn more CNT.
-              <br />
-              You will earn a portion of the swaps fees based on the amount of
-              xCNT held relative the weight of the staking.
-              <br />
-              xCNT can be minted by staking CNT To redeem CNT staked plus swap
-              fees convert xCNT back to CNT.
-            </CNText>
+            <StyledOl>
+              <DescriptionTextLi>
+                Stake CNT to earn more CNT.
+              </DescriptionTextLi>
+              <DescriptionTextLi>
+                You will earn a portion of the swaps fees based on the amount of
+                xCNT held relative the weight of the staking.
+              </DescriptionTextLi>
+              <DescriptionTextLi>
+                xCNT can be minted by staking CNT To redeem CNT staked plus swap
+                fees convert xCNT back to CNT.
+              </DescriptionTextLi>
+            </StyledOl>
           </Grid>
           <Grid item xs={12} md={6} lg={6} xl={6}>
             <div

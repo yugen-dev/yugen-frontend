@@ -6,6 +6,7 @@ import BigNumber from "bignumber.js";
 import { useWeb3React } from "@web3-react/core";
 import { RowType, Toggle, Text } from "cryption-uikit";
 import styled from "styled-components";
+import Grid from "@material-ui/core/Grid";
 import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CAKE_POOL_PID } from "config";
 import {
   useFarms,
@@ -19,7 +20,7 @@ import { QuoteToken } from "config/constants/types";
 import useI18n from "hooks/useI18n";
 import { getBalanceNumber } from "utils/formatBalance";
 import { orderBy } from "lodash";
-import cntMascot from 'images/cntmascotWithName.png';
+import cntMascot from 'images/Cryption Network Mascot Farming.png';
 import FarmCard, { FarmWithStakedValue } from "./components/FarmCard/FarmCard";
 import Table from "./components/FarmTable/FarmTable";
 import FarmTabButtons from "./components/FarmTabButtons";
@@ -433,7 +434,18 @@ const Farms: React.FC = () => {
           {TranslateString(999, "Stake Liquidity Pool (LP) tokens to earn.")}
         </Heading> 
       </Header> */}
-      <CNHeading>Core Farms</CNHeading>
+      <Container>
+        <Grid container spacing={3} alignItems="center">
+          <Grid item xs={12} md={6} lg={6} xl={6}>
+            <CNHeading>Core Farms</CNHeading>
+          </Grid>
+          <Grid item xs={12} md={6} lg={6} xl={6}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <img src={cntMascot} alt="Cryption Netwrok" width="250px" />
+            </div>
+          </Grid>
+        </Grid>
+      </Container>
       <Page>
         <ControlContainer>
           <ViewControls>
@@ -494,9 +506,6 @@ const Farms: React.FC = () => {
           width={120}
           height={103}
         /> */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <img src={cntMascot} alt="Cryption Netwrok" width="300px" />
-        </div>
       </Page>
     </>
   );
