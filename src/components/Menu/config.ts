@@ -60,28 +60,11 @@ const config: MenuEntry[] = [
   //     },
   //   ],
   // },
-  // {
-  //   label: "Analytics",
-  //   icon: "InfoIcon",
-  //   items: [
-  //     {
-  //       label: "Overview",
-  //       href: "https://pancakeswap.info",
-  //     },
-  //     {
-  //       label: "Tokens",
-  //       href: "https://pancakeswap.info/tokens",
-  //     },
-  //     {
-  //       label: "Pairs",
-  //       href: "https://pancakeswap.info/pairs",
-  //     },
-  //     {
-  //       label: "Accounts",
-  //       href: "https://pancakeswap.info/accounts",
-  //     },
-  //   ],
-  // },
+  {
+    label: "Analytics (Coming Soon)",
+    icon: "InfoIcon",
+    items: [],
+  },
   // {
   //   label: 'IFO',
   //   icon: 'IfoIcon',
@@ -99,10 +82,11 @@ const config: MenuEntry[] = [
         label: "Github",
         href: "https://github.com/cryption-network",
       },
-      {
-        label: "Docs",
-        href: "https://docs.pancakeswap.finance",
-      },
+      // hiding bcoz Menu bar will highlight if pointed to home otherwise
+      // {
+      //   label: "Docs",
+      //   href: "/docs",
+      // },
       {
         label: "Blog",
         href: "https://blog.cryption.network/",
