@@ -279,9 +279,11 @@ const CNTBar = () => {
             <CNText>
               Stake CNT to earn more CNT.
               <br />
-              You will earn a portion of the swaps fees based on the amount of xCNT held relative the weight of the staking.
+              You will earn a portion of the swaps fees based on the amount of
+              xCNT held relative the weight of the staking.
               <br />
-              xCNT can be minted by staking CNT To redeem CNT staked plus swap fees convert xCNT back to CNT.
+              xCNT can be minted by staking CNT To redeem CNT staked plus swap
+              fees convert xCNT back to CNT.
             </CNText>
           </Grid>
           <Grid item xs={12} md={6} lg={6} xl={6}>
