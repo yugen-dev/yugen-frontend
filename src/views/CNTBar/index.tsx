@@ -16,6 +16,8 @@ import {
   useModal,
 } from "cryption-uikit";
 import Grid from "@material-ui/core/Grid";
+import { useQuery } from "@apollo/client";
+import { dayDatasQuery, cntStakerQuery } from "apollo/queries";
 import useEnter from "hooks/useEnter";
 import useLeave from "hooks/useLeave";
 import { useStakingAllowance } from "hooks/useAllowance";
@@ -23,6 +25,7 @@ import { useApproveStaking } from "hooks/useApprove";
 import contracts from "config/constants/contracts";
 import useTokenBalance from "hooks/useTokenBalance";
 import UnlockButton from "components/UnlockButton";
+import useCNTprice from "hooks/useCNTprice";
 import { getBalanceNumber } from "utils/formatBalance";
 import { getCakeContract, getCNTStakerContract } from "utils/contractHelpers";
 import DepositModal from "../Pools/components/DepositModal";
@@ -56,7 +59,7 @@ const StakingContainer = styled.div`
 const CustomInputPannel = styled.div`
   margin: 25px 0px;
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
   background-color: #202231;
   display: flex;
   padding: 0px 15px;
@@ -80,7 +83,7 @@ const InfoDiv = styled.div`
   margin-top: 25px;
   justify-content: space-between;
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
   display: flex;
   align-items: center;
 `;
@@ -104,7 +107,7 @@ const ConversionInfo = styled.div`
 `;
 
 const StakingInfo = styled.div`
-  background: #6e5538;
+  background: #383357;
   padding: 20px;
   margin-bottom: 20px;
   border-radius: 0.625rem !important;
@@ -131,6 +134,8 @@ const CNTBar = () => {
   const [totalSupply, setTotalSupply] = useState<BigNumber>();
   const xTokenName = "xCNT";
   const { onLeave } = useLeave();
+  const { valueOfCNTinUSD } = useCNTprice();
+  let cntStakingRatio = 0.0;
   if (index === 1) {
     tokenBal = xCNTBalance;
   }
@@ -144,7 +149,28 @@ const CNTBar = () => {
       fetchTotalSupply();
     }
   }, [cake, setTotalSupply]);
-
+  const dayDatas = useQuery(dayDatasQuery);
+  const getCNTStakerInfo = useQuery(cntStakerQuery, {
+    context: {
+      clientName: "cntstaker",
+    },
+  });
+  if (
+    getCNTStakerInfo &&
+    getCNTStakerInfo.data &&
+    getCNTStakerInfo.data.cntstaker &&
+    dayDatas &&
+    dayDatas.data &&
+    dayDatas.data.dayDatas &&
+    valueOfCNTinUSD
+  ) {
+    cntStakingRatio =
+      (((parseFloat(dayDatas.data.dayDatas[1].volumeUSD) * 0.05) /
+        parseFloat(getCNTStakerInfo.data.cntstaker.totalSupply)) *
+        365) /
+      (parseFloat(getCNTStakerInfo.data.cntstaker.ratio) *
+        parseFloat(valueOfCNTinUSD.toString()));
+  }
   const onChange = (event) => {
     handleTokenAmount(event.target.value);
   };
@@ -233,10 +259,11 @@ const CNTBar = () => {
           <Grid item xs={12} md={6} lg={6} xl={6}>
             <CNHeading>Maximize yield by staking CNT</CNHeading>
             <CNText>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras
-              luctus sem nulla, id commodo tellus posuere nec. Quisque pulvinar
-              lacus sed congue gravida. Duis dignissim dolor sit amet tortor
-              pulvinar suscipit. Aliquam erat volutpat
+              Stake CNT to earn more CNT.
+              <br />
+              You will earn a portion of the swaps fees based on the amount of xCNT held relative the weight of the staking.
+              <br />
+              xCNT can be minted by staking CNT To redeem CNT staked plus swap fees convert xCNT back to CNT.
             </CNText>
           </Grid>
           <Grid item xs={12} md={6} lg={6} xl={6}>
@@ -261,7 +288,7 @@ const CNTBar = () => {
                   Stake
                 </ButtonMenuItem>
                 <ButtonMenuItem style={{ minWidth: "150px" }}>
-                  UnStake
+                  Unstake
                 </ButtonMenuItem>
               </ButtonMenu>
               <InfoDiv>
@@ -272,7 +299,7 @@ const CNTBar = () => {
                   style={{ whiteSpace: "nowrap" }}
                   fontSize="18px"
                 >
-                  {index === 0 ? "Stake CNT" : "UnStake CNT"}
+                  {index === 0 ? "Stake CNT" : "Unstake CNT"}
                 </Text>
                 {totalSupply && (
                   <ConversionInfo>
@@ -329,10 +356,10 @@ const CNTBar = () => {
                   >
                     Staking APR
                   </Text>
-                  <Button variant="secondary" scale="sm">
+                  {/* <Button variant="secondary" scale="sm">
                     {" "}
                     View Stats
-                  </Button>
+                  </Button> */}
                 </div>
                 <div>
                   <Text
@@ -342,7 +369,7 @@ const CNTBar = () => {
                     style={{ whiteSpace: "nowrap" }}
                     fontSize="24px"
                   >
-                    8.63%
+                    {cntStakingRatio.toFixed(2)}%
                   </Text>
                   <Text
                     color="#9d9fa8"
@@ -392,7 +419,6 @@ const CNTBar = () => {
                   <Text
                     bold
                     color="#9d9fa8"
-                    textTransform="uppercase"
                     style={{ whiteSpace: "nowrap" }}
                     fontSize="18px"
                   >

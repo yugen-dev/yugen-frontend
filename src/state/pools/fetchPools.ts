@@ -1,6 +1,5 @@
 import poolsConfig from "config/constants/pools";
 import sousChefABI from "config/abi/sousChef.json";
-import cakeABI from "config/abi/cake.json";
 import wbnbABI from "config/abi/weth.json";
 import { QuoteToken } from "config/constants/types";
 import multicall from "utils/multicall";

@@ -1,101 +1,13 @@
 /* eslint-disable react/no-danger */
-import React, { useState, useCallback } from "react";
-import styled from "styled-components";
-import { Heading, Card, CardBody, Button, useModal } from "cryption-uikit";
-import { getCakeAddress } from "utils/addressHelpers";
-import { getBalanceNumber } from "utils/formatBalance";
-import useI18n from "hooks/useI18n";
-import useGetLotteryHasDrawn from "hooks/useGetLotteryHasDrawn";
-import useTokenBalance from "hooks/useTokenBalance";
-import { useMultiClaimLottery } from "hooks/useBuyLottery";
-import { useTotalClaim } from "hooks/useTickets";
-import BuyModal from "views/Lottery/components/TicketCard/BuyTicketModal";
-import { useLotteryAllowance } from "hooks/useAllowance";
-import { useApproval } from "hooks/useApproval";
-import PurchaseWarningModal from "views/Lottery/components/TicketCard/PurchaseWarningModal";
-import CakeWinnings from "./CakeWinnings";
-import LotteryJackpot from "./LotteryJackpot";
+import React from "react";
 import MascotImage from "../../../images/cntmascot.png";
 
-const StyledLotteryCard = styled(Card)`
-  background-image: url("/images/ticket-bg.svg");
-  background-repeat: no-repeat;
-  background-position: top right;
-  min-height: 376px;
-`;
 
-const Block = styled.div`
-  margin-bottom: 16px;
-`;
 
-const CardImage = styled.img`
-  margin-bottom: 16px;
-`;
 
-const Label = styled.div`
-  color: ${({ theme }) => theme.colors.textSubtle};
-  font-size: 14px;
-`;
 
-const Actions = styled.div`
-  display: flex;
-  margin-top: 24px;
-  button {
-    flex: 1 0 50%;
-  }
-`;
 
 const FarmedStakingCard = () => {
-  const lotteryHasDrawn = useGetLotteryHasDrawn();
-  const [requesteClaim, setRequestedClaim] = useState(false);
-  const TranslateString = useI18n();
-  const allowance = useLotteryAllowance();
-  const [onPresentApprove] = useModal(<PurchaseWarningModal />);
-  const { claimAmount } = useTotalClaim();
-  const { onMultiClaim } = useMultiClaimLottery();
-  const cakeBalance = useTokenBalance(getCakeAddress());
-  const { handleApprove, requestedApproval } = useApproval(onPresentApprove);
-
-  const handleClaim = useCallback(async () => {
-    try {
-      setRequestedClaim(true);
-      const txHash = await onMultiClaim();
-      // user rejected tx or didn't go thru
-      if (txHash) {
-        setRequestedClaim(false);
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  }, [onMultiClaim, setRequestedClaim]);
-
-  const renderLotteryTicketButtonBuyOrApprove = () => {
-    if (!allowance.toNumber()) {
-      return (
-        <Button
-          width="100%"
-          disabled={requestedApproval}
-          onClick={handleApprove}
-        >
-          {TranslateString(494, "Approve CAKE")}
-        </Button>
-      );
-    }
-    return (
-      <Button
-        id="dashboard-buy-tickets"
-        variant="secondary"
-        onClick={onPresentBuy}
-        disabled={lotteryHasDrawn}
-      >
-        {TranslateString(558, "Buy Tickets")}
-      </Button>
-    );
-  };
-
-  const [onPresentBuy] = useModal(
-    <BuyModal max={cakeBalance} tokenName="CAKE" />
-  );
 
   return (
     // <StyledLotteryCard>
@@ -142,7 +54,7 @@ const FarmedStakingCard = () => {
         src={MascotImage}
         alt="Plydex"
         height="100%"
-        style={{ maxWidth: "400px" }}
+        style={{ maxWidth: "500px" }}
         width="100%"
       />
       {/* <div

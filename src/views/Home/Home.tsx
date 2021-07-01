@@ -1,24 +1,23 @@
 import React, { useRef, useCallback, useEffect, useState } from "react";
-import Web3 from "web3";
 import styled from "styled-components";
 import BigNumber from "bignumber.js";
 import { QuoteToken } from "config/constants/types";
 import { ParentSize } from "@visx/responsive";
 import Grid from "@material-ui/core/Grid";
-import { AbiItem } from "web3-utils";
 import orderBy from "lodash/orderBy";
-import cakeABI from "config/abi/cake.json";
 import { useQuery } from "@apollo/client";
 import Container from "@material-ui/core/Container";
 import useI18n from "hooks/useI18n";
 import useInterval from "hooks/useInterval";
 import { useTotalSupply } from "hooks/useTokenBalance";
 import { dayDatasQuery, burnQuery, cntStakerQuery } from "apollo/queries";
+import { CNT_CIRCULATING_SUPPLY_LINK , BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CAKE_POOL_PID } from "config";
 import { getDayData } from "apollo/exchange";
 import pools from "config/constants/pools";
 import { Pool } from "state/types";
-import { useFarms, usePriceBnbBusd, usePriceCakeBusd } from "state/hooks";
-import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CAKE_POOL_PID } from "config";
+import useCNTprice from "hooks/useCNTprice";
+import { useFarms, usePriceBnbBusd } from "state/hooks";
+
 import FarmStakingCard from "views/Home/components/FarmStakingCard";
 import LotteryCard from "views/Home/components/LotteryCard";
 // import CakeStats from "views/Home/components/CakeStats";
@@ -43,31 +42,27 @@ const Card = styled.div`
 `;
 
 const Home: React.FC = () => {
-  const [treasuryBal, setTreasuryBal] = useState(0);
+  const [ciculatingSupply, setciculatingSupply] = useState(0);
+    const getCirculatingSupply = async () => {
+    try {
+      const res = await fetch(CNT_CIRCULATING_SUPPLY_LINK);
+      const data = await res.json();
+      setciculatingSupply(parseFloat(data.toFixed(3)))
+    } catch {
+      // eslint-disable-next-line no-console
+      console.log("Failed to get CNT price in USD");
+    }
+  }
   useEffect(() => {
-    const web3Provider = new Web3(
-      new Web3.providers.HttpProvider(process.env.REACT_APP_ETH_PROVIDER_LINK)
-    );
-    const contract = new web3Provider.eth.Contract(
-      cakeABI as unknown as AbiItem,
-      process.env.REACT_APP_TREAURY_CONTRACT_ADDRESS
-    );
-    contract.methods
-      .balanceOf(process.env.REACT_APP_TREAURY_WALLET_AFFRESS)
-      .call()
-      .then((balance) => {
-        let totalTressury = parseFloat(balance);
-        totalTressury /= 10 ** 18;
-        setTreasuryBal(totalTressury);
-      });
+      getCirculatingSupply();
   }, []);
-  const cakePriceUsd = usePriceCakeBusd();
+  const { valueOfCNTinUSD } = useCNTprice();
   const farmsLP = useFarms();
   let totalSupplyVal = 0;
   let totalBurned = 0;
   let liquidity = [];
-  let ciculatingSupply = 0;
   let totalFees = "";
+  let devFees = "";
   let stakerFees = "";
   let lpFees = "";
   let burnerFees = "";
@@ -153,14 +148,14 @@ const Home: React.FC = () => {
     dayDatas &&
     dayDatas.data &&
     dayDatas.data.dayDatas &&
-    cakePriceUsd
+    valueOfCNTinUSD
   ) {
     cntStakingRatio =
-      (((parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.05) /
+      (((parseFloat(dayDatas.data.dayDatas[1].volumeUSD) * 0.05) /
         parseFloat(getCNTStakerInfo.data.cntstaker.totalSupply)) *
         365) /
       (parseFloat(getCNTStakerInfo.data.cntstaker.ratio) *
-        parseFloat(cakePriceUsd.toString()));
+        parseFloat(valueOfCNTinUSD.toString()));
   }
   const burnData = useQuery(burnQuery, {
     context: {
@@ -180,9 +175,6 @@ const Home: React.FC = () => {
     totalBurned = parseFloat(burnData.data.cntBurns[0].amount);
     totalBurned /= 10 ** 18;
   }
-  if (treasuryBal && treasuryBal > 0 && totalSupplyVal > 0 && totalBurned > 0) {
-    ciculatingSupply = totalSupplyVal - treasuryBal - totalBurned;
-  }
   if (dayDatas && dayDatas.data && dayDatas.data.dayDatas) {
     [liquidity] = dayDatas.data.dayDatas
       .filter((d) => d.liquidityUSD !== "0")
@@ -201,16 +193,19 @@ const Home: React.FC = () => {
         [[], []]
       );
     totalFees = (
-      parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.05
+      parseFloat(dayDatas.data.dayDatas[0].volumeUSD)
     ).toFixed(10);
-    stakerFees = (
-      parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.025
-    ).toFixed(10);
-    lpFees = (parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.25).toFixed(
+    lpFees = (parseFloat(dayDatas.data.dayDatas[0].volumeUSD) / 6).toFixed(
       10
     );
+    stakerFees = (
+      parseFloat(lpFees) * 0.25
+    ).toFixed(10);
     burnerFees = (
-      parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.025
+      parseFloat(lpFees) * 0.65
+    ).toFixed(10);
+    devFees = (
+      parseFloat(lpFees) * 0.10
     ).toFixed(10);
   }
   useInterval(() => Promise.all([getDayData]), 60000);
@@ -229,13 +224,13 @@ const Home: React.FC = () => {
             }}
           >
             <Hero>
-              <CNHeading>{TranslateString(576, "PolyDex")}</CNHeading>
-              <CNText>
+              <CNHeading>{TranslateString(576, "PolyDEX")}</CNHeading>
+              {/* <CNText>
                 {TranslateString(
                   578,
                   "The #1 AMM and yield farm on Matic BlockChain."
                 )}
-              </CNText>
+              </CNText> */}
             </Hero>
             <FarmStakingCard />
           </div>
@@ -252,6 +247,7 @@ const Home: React.FC = () => {
             burnedSupply={totalBurned}
             circulatingSupply={ciculatingSupply}
             totalFees={totalFees}
+            devFees={devFees}
             stakerFees={stakerFees}
             lpFees={lpFees}
             burnerFees={burnerFees}
@@ -327,10 +323,10 @@ const CNHeading = styled.div`
   margin-bottom: 20px;
 `;
 
-const CNText = styled.div`
-  font-size: 20px;
-  font-weight: normal;
-  text-align: center;
-  color: #9d9fa8;
-`;
+// const CNText = styled.div`
+//   font-size: 20px;
+//   font-weight: normal;
+//   text-align: center;
+//   color: #9d9fa8;
+// `;
 export default Home;

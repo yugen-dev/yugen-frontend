@@ -182,7 +182,10 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
           </RewardTitle>
           <RewardDetails>
             <RewardItem>
-              <Heading color={rawEarningsBalance === 0 ? "textDisabled" : "text"} style={{ fontSize: '22px' }}>
+              <Heading
+                color={rawEarningsBalance === 0 ? "textDisabled" : "text"}
+                style={{ fontSize: "22px" }}
+              >
                 {displayBalance}
               </Heading>
               <Text
@@ -196,7 +199,9 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
               </Text>
             </RewardItem>
             <RewardItem>
-              <Heading color={rawEarningsBalance === 0 ? "textDisabled" : "text"}>
+              <Heading
+                color={rawEarningsBalance === 0 ? "textDisabled" : "text"}
+              >
                 {displayBalance}
               </Heading>
               <Text

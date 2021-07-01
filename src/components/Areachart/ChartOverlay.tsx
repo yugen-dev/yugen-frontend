@@ -3,11 +3,9 @@ import {
   Button,
   Typography,
   makeStyles,
-  useMediaQuery,
 } from "@material-ui/core";
 import { timeFormat } from "d3-time-format";
 
-import { useTheme } from "@material-ui/core/styles";
 
 const formatDate = timeFormat("%b %d, '%y");
 const useStyles = makeStyles((theme) => ({
@@ -21,9 +19,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function ChartOverlay({ overlay, onTimespanChange }) {
   const { title, value, date } = overlay;
-  const theme = useTheme();
   const classes = useStyles();
-  const matches = useMediaQuery(theme.breakpoints.up("sm"));
   return (
     <>
       <div style={{ position: "absolute", top: 24, left: 24 }}>

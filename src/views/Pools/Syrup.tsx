@@ -11,20 +11,17 @@ import Grid from "@material-ui/core/Grid";
 import { useWeb3React } from "@web3-react/core";
 import { getBalanceNumber } from "utils/formatBalance";
 import { usePools, useBlock } from "state/hooks";
-import useI18n from "hooks/useI18n";
 import { getCakeContract, getCNTStakerContract } from "utils/contractHelpers";
+import cntMascot from "images/cntmascotWithName.png";
 import PoolTabButtons from "./components/PoolTabButtons";
 // import FlexLayout from "components/layout/Flex";
 // import pools from "config/constants/pools";
 import PoolCard from "./components/PoolCard";
-import StakeCNT from "./components/StakeCNT";
-import UnstakeXCNT from "./components/UnstakeXCNT";
 
 const NUMBER_OF_POOLS_VISIBLE = 12;
 const Farm: React.FC = () => {
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const { path } = useRouteMatch();
-  const TranslateString = useI18n();
   const cake = getCakeContract();
   const { account } = useWeb3React("web3");
   const pools = usePools(account);
@@ -107,34 +104,29 @@ const Farm: React.FC = () => {
         <Container maxWidth="lg">
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={6} xl={6}>
-              <HeadingTex>{TranslateString(738, "Syrup Pool")}</HeadingTex>
-              <ul style={{ color: "#86878f" }}>
+              <HeadingTex>Staking Pool</HeadingTex>
+              <StyledOl>
                 <DescriptionTextLi>
-                  {TranslateString(580, "Stake CNT to earn more CNT.")}
+                  Stake CNT to earn more CNT.
                 </DescriptionTextLi>
                 <DescriptionTextLi>
-                  {TranslateString(
-                    486,
-                    "ℹ️️ You will earn a portion of the swaps fees based on the amount of xCNT held relative the weight of the staking."
-                  )}
+                  You will earn a portion of the swaps fees based on the amount
+                  of xCNT held relative the weight of the staking.
                 </DescriptionTextLi>
                 <DescriptionTextLi>
-                  {TranslateString(406, "xCNT can be minted by staking CNT")}
+                  xCNT can be minted by staking CNT
                 </DescriptionTextLi>
                 <DescriptionTextLi>
-                  {TranslateString(
-                    406,
-                    "To redeem CNT staked plus swap fees convert xCNT back to CNT."
-                  )}
+                  To redeem CNT staked plus swap fees convert xCNT back to CNT.
                 </DescriptionTextLi>
-                <DescriptionTextLi>
-                  {totalSupply
-                    ? `There are currently ${getBalanceNumber(
-                        totalSupply
-                      )} xCNT in existence.`
-                    : ""}
-                </DescriptionTextLi>
-              </ul>
+                {totalSupply && (
+                  <DescriptionTextLi>
+                    {`There are currently ${getBalanceNumber(
+                      totalSupply
+                    ).toFixed(3)} xCNT in existence.`}
+                  </DescriptionTextLi>
+                )}
+              </StyledOl>
             </Grid>
             <Grid item xs={12} md={6} lg={6} xl={6}>
               {/* <img
@@ -159,7 +151,12 @@ const Farm: React.FC = () => {
           setStackedOnly={setStakedOnly}
         />
         <Route exact path={`${path}`}>
-          <Grid container spacing={3} style={{ margin: "30px 0px" }}>
+          <Grid
+            container
+            spacing={3}
+            style={{ margin: "30px 0px" }}
+            justify="center"
+          >
             {stakedOnly
               ? orderBy(stakedOnlyOpenPools, ["sortOrder"])
                   .slice(0, numberOfPoolsVisible)
@@ -195,12 +192,21 @@ const Farm: React.FC = () => {
                 .map((pool) => <PoolCard key={pool.sousId} pool={pool} />)}
         </Route>
         <div ref={loadMoreRef} />
-        <div
+        {/* <div
           dangerouslySetInnerHTML={{
             __html:
               '<lottie-player src="https://assets3.lottiefiles.com/packages/lf20_r71cen62.json"  background="transparent"  speed="1" style="height: 350px;" loop  autoplay></lottie-player>',
           }}
-        />
+        /> */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <img src={cntMascot} alt="Cryption Netwrok" width="300px" />
+        </div>
       </Container>
     </div>
   );
@@ -243,6 +249,12 @@ const DescriptionTextLi = styled.li`
   font-weight: normal;
   text-align: left;
   margin-bottom: 10px !important;
-  color: #9d9fa8;
+  color: white;
 `;
+
+const StyledOl = styled.ol`
+  list-style-position: outside;
+  padding-left: 16px;
+`;
+
 export default Farm;

@@ -153,9 +153,9 @@ export default function Pool() {
                 <Text
                   fontSize="14px"
                   style={{ padding: ".5rem 0 .5rem 0" }}
-                  color="#86878F"
+                  color="white"
                 >
-                  {TranslateString(106, "Don't see a pool you joined?")}{" "}
+                  {TranslateString(106, "Don't see a Syrup Pool you joined?")}{" "}
                   <StyledInternalLink
                     id="import-pool-link"
                     to="/find"
@@ -168,7 +168,7 @@ export default function Pool() {
                 <Text
                   fontSize="14px"
                   style={{ padding: ".5rem 0 .5rem 0" }}
-                  color="#86878F"
+                  color="white"
                 >
                   {TranslateString(
                     1172,

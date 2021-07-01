@@ -9,16 +9,13 @@ import {
 import { Biconomy } from "@biconomy/mexa";
 import { splitSignature } from "@ethersproject/bytes";
 import Web3 from "web3";
-import { AbiItem } from "web3-utils";
 import { useProfile } from "state/hooks";
 import { useCallback, useMemo } from "react";
 import {
   ROUTER_ADDRESS,
   biconomyAPIKey,
-  META_TXN_DISABLED,
   META_TXN_SUPPORTED_TOKENS,
 } from "../constants";
-import tokenABI from "../constants/abis/token.json";
 import { useTokenAllowance } from "../data/Allowances";
 import { Field } from "../state/swap/actions";
 import {
@@ -30,7 +27,6 @@ import { calculateGasMargin } from "../utils";
 import { useTokenContract } from "./useContract";
 import { useActiveWeb3React } from "./index";
 
-const contractAddress = ROUTER_ADDRESS;
 const maticProvider = process.env.REACT_APP_NETWORK_URL;
 // @ts-ignore
 const biconomy = new Biconomy(new Web3.providers.HttpProvider(maticProvider), {
@@ -188,7 +184,7 @@ export function useApproveCallback(
               });
             })
             .catch((error: Error) => {
-              console.debug("Failed to approve token", error);
+              console.error("Failed to approve token", error);
               throw error;
             });
         });

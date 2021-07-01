@@ -1,5 +1,4 @@
 import React from "react";
-import { Text } from "cryption-uikit";
 import { useWeb3React } from "@web3-react/core";
 import BigNumber from "bignumber.js";
 import useI18n from "hooks/useI18n";

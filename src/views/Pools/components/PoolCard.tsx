@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import BigNumber from "bignumber.js";
 import { ethers } from "ethers";
 import { MaxUint256 } from "@ethersproject/constants";
@@ -39,7 +39,7 @@ import Tooltip from "components/Tooltip";
 import { META_TXN_SUPPORTED_TOKENS } from "../../../constants";
 import DepositModal from "./DepositModal";
 import WithdrawModal from "./WithdrawModal";
-import CompoundModal from "./CompoundModal";
+// import CompoundModal from "./CompoundModal";
 import CardTitle from "./CardTitle";
 import Card from "./Card";
 import OldSyrupTitle from "./OldSyrupTitle";
@@ -57,7 +57,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     tokenName,
     tokenAddress,
     stakingTokenName,
-    stakingTokenAddress,
+    // stakingTokenAddress,
     contractAddress,
     stakingTokenDecimals,
     projectLink,
@@ -209,13 +209,13 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   //   );
   // };
 
-  const [onPresentCompound] = useModal(
-    <CompoundModal
-      earnings={earnings}
-      onConfirm={onStake}
-      tokenName={stakingTokenName}
-    />
-  );
+  // const [onPresentCompound] = useModal(
+  //   <CompoundModal
+  //     earnings={earnings}
+  //     onConfirm={onStake}
+  //     tokenName={stakingTokenName}
+  //   />
+  // );
 
   const [onPresentWithdraw] = useModal(
     <WithdrawModal

@@ -15,7 +15,6 @@ import { Biconomy } from "@biconomy/mexa";
 import Web3 from "web3";
 import {
   Button,
-  CardBody,
   AddIcon,
   Card,
   Text as UIKitText,
@@ -69,7 +68,6 @@ import { ConfirmAddModalBottom } from "./ConfirmAddModalBottom";
 import { PoolPriceBar } from "./PoolPriceBar";
 import {
   ROUTER_ADDRESS,
-  META_TXN_DISABLED,
   biconomyAPIKey,
 } from "../../constants";
 import "./index.css";

@@ -12,15 +12,16 @@ import { allLanguages } from "config/localisation/languageCodes";
 import { LanguageContext } from "contexts/Localisation/languageContext";
 import useTheme from "hooks/useTheme";
 import useAuth from "hooks/useAuth";
+import useCNTprice from "hooks/useCNTprice";
 import { toggleMetaTranscationState } from "state/actions";
-import { usePriceCakeBusd, useProfile } from "state/hooks";
+import { useProfile } from "state/hooks";
 // import LogoIcon from "images/PolyDEX White Text (2).svg";
 import config from "./config";
 
 const Menu = (props) => {
   const { login, logout, loginEther, logoutEther } = useAuth();
   const location = useLocation();
-
+  const { valueOfCNTinUSD } = useCNTprice();
   let accountId = "";
   if (["/swap", "/find", "/pool", "/add"].includes(location.pathname)) {
     accountId = useWeb3React().account;
@@ -49,8 +50,6 @@ const Menu = (props) => {
   const [checkedState, toggleChecked] = React.useState(false);
   const { selectedLanguage, setSelectedLanguage } = useContext(LanguageContext);
   const { isDark, toggleTheme } = useTheme();
-  const cakePriceUsd = usePriceCakeBusd();
-
   const { profile } = useProfile();
   const handleMetaToggle = (checked) => {
     toggleChecked(checked);
@@ -96,7 +95,7 @@ const Menu = (props) => {
       currentLang={selectedLanguage && selectedLanguage.code}
       langs={allLanguages}
       setLang={setSelectedLanguage}
-      cakePriceUsd={cakePriceUsd.toNumber()}
+      cakePriceUsd={valueOfCNTinUSD}
       links={config}
       profile={{
         username: profile?.username,
