@@ -35,11 +35,11 @@ const config: MenuEntry[] = [
     icon: "PoolIcon",
     href: "/cntbar",
   },
-  {
-    label: "Migrate",
-    icon: "PoolIcon",
-    href: "/migrate",
-  },
+  // {
+  //   label: "Migrate",
+  //   icon: "PoolIcon",
+  //   href: "/migrate",
+  // },
   // {
   //   label: 'Lottery',
   //   icon: 'TicketIcon',
