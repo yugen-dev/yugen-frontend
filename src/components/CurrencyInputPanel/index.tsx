@@ -195,8 +195,9 @@ export default function CurrencyInputPanel({
                 {account && currency && showMaxButton && label !== "To" && (
                   <Flex alignItems="center">
                     <Text
+                      bold
                       color="#9d9fa8"
-                      fontSize="10px"
+                      fontSize="15px"
                       mr="10px"
                       style={{ whiteSpace: "nowrap" }}
                     >
