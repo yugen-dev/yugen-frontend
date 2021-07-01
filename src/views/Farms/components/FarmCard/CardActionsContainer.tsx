@@ -175,49 +175,18 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
 
   return (
     <Action>
-      <div style={{ marginBottom: "8px" }}>
-        <RewardsSection>
-          <RewardTitle>
-            <TitleText>Rewards Earned</TitleText>
-          </RewardTitle>
-          <RewardDetails>
-            <RewardItem>
-              <Heading
-                color={rawEarningsBalance === 0 ? "textDisabled" : "text"}
-                style={{ fontSize: "22px" }}
-              >
-                {displayBalance}
-              </Heading>
-              <Text
-                bold
-                textTransform="uppercase"
-                color="#86878f"
-                fontSize="14px"
-              >
-                {/* TODO: Is there a way to get a dynamic value here from useFarmFromSymbol? */}
-                CNT
-              </Text>
-            </RewardItem>
-            <RewardItem>
-              <Heading
-                color={rawEarningsBalance === 0 ? "textDisabled" : "text"}
-              >
-                {displayBalance}
-              </Heading>
-              <Text
-                bold
-                textTransform="uppercase"
-                color="#86878f"
-                fontSize="14px"
-              >
-                {/* TODO: Is there a way to get a dynamic value here from useFarmFromSymbol? */}
-                MATIC
-              </Text>
-            </RewardItem>
-          </RewardDetails>
-        </RewardsSection>
-        <HarvestAction earnings={earnings} canHarvest={canHarvest} pid={pid} />
-        {/* <Text
+      <Flex>
+        <Text
+          bold
+          textTransform="uppercase"
+          color="#2082E9"
+          fontSize="12px"
+          pr="5px"
+        >
+          {/* TODO: Is there a way to get a dynamic value here from useFarmFromSymbol? */}
+          CNT
+        </Text>
+        <Text
           bold
           textTransform="uppercase"
           color="#86878F"
@@ -225,8 +194,11 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
           mb="10px"
         >
           {TranslateString(1072, "Earned")}
-        </Text> */}
-      </div>
+        </Text>
+      </Flex>
+
+      <HarvestAction earnings={earnings} canHarvest={canHarvest} pid={pid} />
+
       <Flex>
         <Text
           bold

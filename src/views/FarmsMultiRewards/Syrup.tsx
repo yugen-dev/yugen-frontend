@@ -12,6 +12,7 @@ import { useWeb3React } from "@web3-react/core";
 import { getBalanceNumber } from "utils/formatBalance";
 import { usePools, useBlock } from "state/hooks";
 import useI18n from "hooks/useI18n";
+import { CNTinUSDLink } from "config";
 import { getCakeContract, getCNTStakerContract } from "utils/contractHelpers";
 import PoolTabButtons from "./components/PoolTabButtons";
 // import FlexLayout from "components/layout/Flex";
@@ -23,6 +24,7 @@ import UnstakeXCNT from "./components/UnstakeXCNT";
 const NUMBER_OF_POOLS_VISIBLE = 12;
 const Farm: React.FC = () => {
   const loadMoreRef = useRef<HTMLDivElement>(null);
+  const [valueOfCNTinUSD, setCntPrice] = useState(0);
   const { path } = useRouteMatch();
   const TranslateString = useI18n();
   const cake = getCakeContract();
@@ -67,6 +69,17 @@ const Farm: React.FC = () => {
   // const hasStakeInFinishedPools = stakedOnlyFinishedPools.length > 0;
   useEffect(() => {
     window.scrollTo(0, 0);
+    const fetchData = async () => {
+      try {
+        const response = await fetch(CNTinUSDLink);
+        const res = await response.json();
+        setCntPrice(res);
+      } catch (error) {
+        console.error("Unable to fetch price data:", error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -100,56 +113,9 @@ const Farm: React.FC = () => {
 
   return (
     <div>
-      <Hero>
-        <Container maxWidth="lg">
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={6} xl={6}>
-              <HeadingTex>{TranslateString(738, "Syrup Pool")}</HeadingTex>
-              <ul style={{ color: "#86878f" }}>
-                <DescriptionTextLi>
-                  {TranslateString(580, "Stake CNT to earn more CNT.")}
-                </DescriptionTextLi>
-                <DescriptionTextLi>
-                  {TranslateString(
-                    486,
-                    "ℹ️️ You will earn a portion of the swaps fees based on the amount of xCNT held relative the weight of the staking."
-                  )}
-                </DescriptionTextLi>
-                <DescriptionTextLi>
-                  {TranslateString(406, "xCNT can be minted by staking CNT")}
-                </DescriptionTextLi>
-                <DescriptionTextLi>
-                  {TranslateString(
-                    406,
-                    "To redeem CNT staked plus swap fees convert xCNT back to CNT."
-                  )}
-                </DescriptionTextLi>
-                <DescriptionTextLi>
-                  {totalSupply
-                    ? `There are currently ${getBalanceNumber(
-                        totalSupply
-                      )} xCNT in existence.`
-                    : ""}
-                </DescriptionTextLi>
-              </ul>
-            </Grid>
-            <Grid item xs={12} md={6} lg={6} xl={6}>
-              {/* <img
-                src="../../../public/images/syrup.png"
-                alt="SYRUP POOL icon"
-                width={410}
-                height={191}
-              /> */}
-              <div
-                dangerouslySetInnerHTML={{
-                  __html:
-                    '<lottie-player src="https://assets7.lottiefiles.com/packages/lf20_0cvczw8l.json"  background="transparent"  speed="1" style="height: 200px;" loop  autoplay></lottie-player>',
-                }}
-              />
-            </Grid>
-          </Grid>
-        </Container>
-      </Hero>
+      <Container maxWidth="lg">
+        <CNHeading>Mutli-Rewards Farms</CNHeading>
+      </Container>
       <Container maxWidth="lg">
         <PoolTabButtons
           stackedOnly={stakedOnly}
@@ -159,25 +125,25 @@ const Farm: React.FC = () => {
           <Grid container spacing={3} style={{ margin: "30px 0px" }}>
             {stakedOnly
               ? orderBy(stakedOnlyOpenPools, ["sortOrder"])
-                  .slice(0, numberOfPoolsVisible)
-                  .map(
-                    (pool) =>
-                      pool.poolCategory === PoolCategory.CORE && (
-                        <Grid item xs={12} md={6} lg={4} xl={4}>
-                          <PoolCard key={pool.sousId} pool={pool} />{" "}
-                        </Grid>
-                      )
-                  )
+                .slice(0, numberOfPoolsVisible)
+                .map(
+                  (pool) =>
+                    pool.poolCategory === PoolCategory.CORE && (
+                      <Grid item xs={12} md={6} lg={4} xl={4}>
+                        <PoolCard key={pool.sousId} pool={pool} valueOfCNTinUSD={valueOfCNTinUSD} />{" "}
+                      </Grid>
+                    )
+                )
               : orderBy(openPools, ["sortOrder"])
-                  .slice(0, numberOfPoolsVisible)
-                  .map(
-                    (pool) =>
-                      pool.poolCategory === PoolCategory.CORE && (
-                        <Grid item xs={12} md={6} lg={4} xl={4}>
-                          <PoolCard key={pool.sousId} pool={pool} />{" "}
-                        </Grid>
-                      )
-                  )}
+                .slice(0, numberOfPoolsVisible)
+                .map(
+                  (pool) =>
+                    pool.poolCategory === PoolCategory.CORE && (
+                      <Grid item xs={12} md={6} lg={4} xl={4}>
+                        <PoolCard key={pool.sousId} pool={pool} valueOfCNTinUSD={valueOfCNTinUSD} />{" "}
+                      </Grid>
+                    )
+                )}
           </Grid>
           {/* <StakeCNT /> */}
           {/* <UnstakeXCNT /> */}
@@ -185,11 +151,11 @@ const Farm: React.FC = () => {
         <Route path={`${path}/history`}>
           {stakedOnly
             ? orderBy(stakedOnlyFinishedPools, ["sortOrder"])
-                .slice(0, numberOfPoolsVisible)
-                .map((pool) => <PoolCard key={pool.sousId} pool={pool} />)
+              .slice(0, numberOfPoolsVisible)
+              .map((pool) => <PoolCard key={pool.sousId} pool={pool} valueOfCNTinUSD={valueOfCNTinUSD} />)
             : orderBy(finishedPools, ["sortOrder"])
-                .slice(0, numberOfPoolsVisible)
-                .map((pool) => <PoolCard key={pool.sousId} pool={pool} />)}
+              .slice(0, numberOfPoolsVisible)
+              .map((pool) => <PoolCard key={pool.sousId} pool={pool} valueOfCNTinUSD={valueOfCNTinUSD} />)}
         </Route>
         <div ref={loadMoreRef} />
         <div
@@ -227,19 +193,11 @@ const Hero = styled.div`
     max-width: none;
   }
 `;
-const HeadingTex = styled.div`
-  font-size: 23px;
+const CNHeading = styled.div`
+  font-size: 45px;
   font-weight: bold;
-  text-align: left;
+  text-align: center;
   color: white;
   margin-bottom: 20px;
-`;
-
-const DescriptionTextLi = styled.li`
-  font-size: 17px;
-  font-weight: normal;
-  text-align: left;
-  margin-bottom: 10px !important;
-  color: #9d9fa8;
 `;
 export default Farm;

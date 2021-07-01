@@ -32,6 +32,7 @@ import { QuoteToken, PoolCategory } from "config/constants/types";
 import { Pool } from "state/types";
 import cakeAbi from "config/abi/cake.json";
 import Tooltip from "components/Tooltip";
+import CardHeading from "./CardHeading";
 import DepositModal from "./DepositModal";
 import WithdrawModal from "./WithdrawModal";
 import CompoundModal from "./CompoundModal";
@@ -39,12 +40,14 @@ import CardTitle from "./CardTitle";
 import Card from "./Card";
 import OldSyrupTitle from "./OldSyrupTitle";
 import CardFooter from "./CardFooter";
+import ApyButton from "../../Farms/components/FarmCard/ApyButton";
 
 interface HarvestProps {
   pool: Pool;
+  valueOfCNTinUSD?: number;
 }
 
-const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
+const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
   // const [pendingMultiRewards, SetpendingMultiRewards] = useState(null);
   const {
     sousId,
@@ -143,7 +146,6 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   const stakedBalance = new BigNumber(userData?.stakedBalance || 0);
   const earnings = new BigNumber(userData?.pendingReward || 0);
   const canHarvest = userData?.canHarvest ? userData?.canHarvest : false;
-  console.log(canHarvest);
   // console.log(`can harvest ${userData?.canHarvest}`);
   const harvestInterval = userData?.harvestInterval
     ? new BigNumber(userData?.harvestInterval)
@@ -241,7 +243,8 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     <Card isActive={isCardActive} isFinished={isFinished}>
       {isFinished && <PoolFinishedSash />}
       <div style={{ borderBottom: "1px solid #524B63" }}>
-        <div
+        <div style={{ padding: '20px' }}>
+          {/* <div
           style={{
             display: "flex",
             alignItems: "center",
@@ -258,45 +261,44 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
             height={64}
             alt={tokenName}
           />
+        </div> */}
+          <CardHeading
+            lpLabel={`${tokenName} Pool`}
+            farmImage={`/images/tokens/${image || tokenName.toLowerCase()}.png`}
+            tokenSymbol={tokenName}
+          />
         </div>
       </div>
       <div style={{ padding: "24px" }}>
         <div style={{ marginBottom: "8px" }}>
           <div style={{ width: "100%", maxWidth: "400px", margin: "10px 0px" }}>
+            <Flex justifyContent="space-between" alignItems="center">
+              <Text>{TranslateString(736, "APR")}:</Text>
+              <Text bold style={{ display: "flex", alignItems: "center" }}>
+                {apy ? (
+                  <>
+                    <ApyButton
+                      lpLabel={tokenName}
+                      addLiquidityUrl="addLiquidityUrl"
+                      cakePrice={new BigNumber(valueOfCNTinUSD || 0)}
+                      apy={new BigNumber(apy || 0)}
+                    />
+                    {apy}%
+              </>
+                ) : (
+                  <Skeleton height={24} width={80} />
+                )}
+              </Text>
+            </Flex>
             <StyledDetails>
-              <APRText onMouseEnter={open} onMouseLeave={close}>
-                APR :
-                <Tooltip show={show} text={apyString}>
-                  <InfoIcon
-                    style={{
-                      color: "#86878f",
-                      fontSize: "15px",
-                      margin: "4px 4px 0px 4px",
-                    }}
-                  />
-                </Tooltip>
-              </APRText>
-              {isFinished || isOldSyrup || !apy ? (
-                "-"
-              ) : (
-                <Balance
-                  fontSize="16px"
-                  isDisabled={isFinished}
-                  value={apy}
-                  decimals={2}
-                  unit="%"
-                />
-              )}
-            </StyledDetails>
-            <StyledDetails>
-              <div>{TranslateString(384, "Your Stake")}:</div>
+              <Text>{TranslateString(384, "Your Stake")}:</Text>
               <Balance
                 fontSize="16px"
                 isDisabled={isFinished}
                 value={getBalanceNumber(stakedBalance, stakingTokenDecimals)}
               />
             </StyledDetails>
-            <Flex justifyContent="space-between">
+            <Flex justifyContent="space-between" mb="15px">
               <Text>{TranslateString(318, "Harvest Lock Interval")}:</Text>
               <Text bold>
                 {poolHarvestIntervalInDays > 0
@@ -306,8 +308,8 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                   ? `${poolHarvestIntervalinHours.toString()} Hours`
                   : ""}
                 {!isDaysGreater &&
-                !isHoursGreater &&
-                poolHarvestIntervalinMinutes > 0
+                  !isHoursGreater &&
+                  poolHarvestIntervalinMinutes > 0
                   ? `${poolHarvestIntervalinMinutes.toString()} Minutes`
                   : ""}
               </Text>
@@ -400,10 +402,10 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                   onClick={
                     isOldSyrup
                       ? async () => {
-                          setPendingTx(true);
-                          await onUnstake("0", stakingTokenDecimals);
-                          setPendingTx(false);
-                        }
+                        setPendingTx(true);
+                        await onUnstake("0", stakingTokenDecimals);
+                        setPendingTx(false);
+                      }
                       : onPresentWithdraw
                   }
                 >

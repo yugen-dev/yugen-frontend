@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import BigNumber from "bignumber.js";
-import { Button, Flex } from "cryption-uikit";
+import { Button, Flex, Heading } from "cryption-uikit";
 import useI18n from "hooks/useI18n";
 import { useHarvest } from "hooks/useHarvest";
 import { getBalanceNumber } from "utils/formatBalance";
@@ -21,13 +21,16 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({
   const { onReward } = useHarvest(pid);
 
   const rawEarningsBalance = getBalanceNumber(earnings);
+  const displayBalance = rawEarningsBalance.toLocaleString();
 
   return (
     <Flex mb="8px" justifyContent="space-between" alignItems="center">
+      <Heading color={rawEarningsBalance === 0 ? "textDisabled" : "text"}>
+        {displayBalance}
+      </Heading>
       {canHarvest ? (
         <Button
           disabled={rawEarningsBalance === 0 || pendingTx}
-          style={{ width: "100%", maxWidth: "400px" }}
           onClick={async () => {
             setPendingTx(true);
             await onReward();
@@ -39,7 +42,6 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({
       ) : (
         <Button
           disabled={!canHarvest}
-          style={{ width: "100%", maxWidth: "400px" }}
           onClick={async () => {
             setPendingTx(true);
             await onReward();

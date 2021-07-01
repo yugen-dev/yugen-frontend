@@ -4,9 +4,9 @@ import styled from "styled-components";
 import { getBalanceNumber } from "utils/formatBalance";
 import useI18n from "hooks/useI18n";
 import { ChevronDown, ChevronUp } from "react-feather";
-import { Flex, MetamaskIcon } from "cryption-uikit";
+import { Flex, MetamaskIcon, Text } from "cryption-uikit";
 import Balance from "components/Balance";
-import { CommunityTag, CoreTag, BinanceTag } from "components/Tags";
+import { CommunityTag, BinanceTag } from "components/Tags";
 import { useBlock } from "state/hooks";
 import { PoolCategory } from "config/constants/types";
 import { registerToken } from "utils/wallet";
@@ -14,7 +14,6 @@ import { BASE_URL } from "config";
 
 const tags = {
   [PoolCategory.BINANCE]: BinanceTag,
-  [PoolCategory.CORE]: CoreTag,
   [PoolCategory.COMMUNITY]: CommunityTag,
 };
 
@@ -65,6 +64,7 @@ const Details = styled.div`
 
 const Row = styled(Flex)`
   align-items: center;
+  justify-content: center;
 `;
 
 const FlexFull = styled.div`
@@ -108,9 +108,6 @@ const CardFooter: React.FC<Props> = ({
   return (
     <StyledFooter isFinished={isFinished}>
       <Row>
-        <FlexFull>
-          <Tag />
-        </FlexFull>
         <StyledDetailsButton onClick={handleClick}>
           {isOpen
             ? TranslateString(1066, "Hide")
@@ -122,28 +119,27 @@ const CardFooter: React.FC<Props> = ({
         <Details>
           <Row mb="4px">
             <FlexFull>
-              <Label>
-                <span role="img" aria-label="syrup">
-                  🥞{" "}
-                </span>
+              <Text>
                 {TranslateString(408, "Total")}
-              </Label>
+              </Text>
             </FlexFull>
             <Balance
-              fontSize="14px"
+              fontSize="16px"
               isDisabled={isFinished}
+              color="#3869EE"
               value={getBalanceNumber(totalStaked, decimals)}
             />
           </Row>
           {blocksUntilStart > 0 && (
             <Row mb="4px">
               <FlexFull>
-                <Label>{TranslateString(410, "Start")}:</Label>
+                <Text>{TranslateString(410, "Start")}:</Text>
               </FlexFull>
               <Balance
-                fontSize="14px"
+                fontSize="16px"
                 isDisabled={isFinished}
                 value={blocksUntilStart}
+                color="#3869EE"
                 decimals={0}
               />
             </Row>
@@ -151,10 +147,10 @@ const CardFooter: React.FC<Props> = ({
           {blocksUntilStart === 0 && blocksRemaining > 0 && (
             <Row mb="4px">
               <FlexFull>
-                <Label>{TranslateString(410, "End")}:</Label>
+                <Text>{TranslateString(410, "End")}:</Text>
               </FlexFull>
               <Balance
-                fontSize="14px"
+                fontSize="16px"
                 isDisabled={isFinished}
                 value={blocksRemaining}
                 decimals={0}
