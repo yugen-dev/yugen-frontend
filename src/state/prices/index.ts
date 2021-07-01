@@ -12,7 +12,7 @@ const initialState: PriceState = {
 export const fetchPrices = createAsyncThunk<PriceApiResponse>(
   "prices/fetch",
   async () => {
-    const response = await fetch("https://api.pancakeswap.com/api/v1/price");
+    const response = await fetch("");
     const data = (await response.json()) as PriceApiResponse;
 
     // Return normalized token names
