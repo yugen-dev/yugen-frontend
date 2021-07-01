@@ -560,7 +560,7 @@ const Swap = () => {
                     });
                   }
                 }}
-                style={{ width: "48%" }}
+                style={{ width: "48%", color: "white" }}
                 id="swap-button"
                 disabled={
                   !isValid ||
@@ -602,7 +602,7 @@ const Swap = () => {
                   ? "danger"
                   : "primary"
               }
-              style={{ maxWidth: "400px", width: "100%" }}
+              style={{ maxWidth: "400px", width: "100%", color: "white" }}
             >
               {swapInputError ||
                 (priceImpactSeverity > 3 && !isExpertMode
