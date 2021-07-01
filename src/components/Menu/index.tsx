@@ -97,6 +97,7 @@ const Menu = (props) => {
       langs={allLanguages}
       setLang={setSelectedLanguage}
       cakePriceUsd={cakePriceUsd.toNumber()}
+      logoSize="53px"
       links={config}
       profile={{
         username: profile?.username,
