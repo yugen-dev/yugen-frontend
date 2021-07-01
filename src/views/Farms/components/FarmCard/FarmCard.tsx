@@ -180,7 +180,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
     quoteTokenSymbol,
     tokenAddresses,
   });
-  const addLiquidityUrl = `${BASE_ADD_LIQUIDITY_URL}/${liquidityUrlPathParts}`;
+  const addLiquidityUrl = `add/${liquidityUrlPathParts}`;
 
   return (
     <FCard>

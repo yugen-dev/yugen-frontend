@@ -198,8 +198,12 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
       </Flex>
 
       <HarvestAction earnings={earnings} canHarvest={canHarvest} pid={pid} />
-
-      <Flex>
+      {!account ? (
+        <UnlockButton mt="8px" width="100%" />
+      ) : (
+        renderApprovalOrStakeButton()
+      )}
+      <Flex mt="15px">
         <Text
           bold
           textTransform="uppercase"
@@ -219,12 +223,6 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
           {TranslateString(1074, "Staked")}
         </Text>
       </Flex>
-
-      {!account ? (
-        <UnlockButton mt="8px" width="100%" />
-      ) : (
-        renderApprovalOrStakeButton()
-      )}
     </Action>
   );
 };

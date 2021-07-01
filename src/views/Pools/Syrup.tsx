@@ -136,11 +136,14 @@ const Farm: React.FC = () => {
                 height={191}
               /> */}
               <div
-                dangerouslySetInnerHTML={{
-                  __html:
-                    '<lottie-player src="https://assets7.lottiefiles.com/packages/lf20_0cvczw8l.json"  background="transparent"  speed="1" style="height: 200px;" loop  autoplay></lottie-player>',
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
-              />
+              >
+                <img src={cntMascot} alt="Cryption Netwrok" width="250px" />
+              </div>
             </Grid>
           </Grid>
         </Container>

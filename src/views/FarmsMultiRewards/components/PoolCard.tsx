@@ -43,7 +43,7 @@ import ApyButton from "../../Farms/components/FarmCard/ApyButton";
 
 interface HarvestProps {
   pool: Pool;
-  valueOfCNTinUSD?: number;
+  valueOfCNTinUSD?: BigNumber;
 }
 
 const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
@@ -196,19 +196,19 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
     />
   );
   // console.log(harvestInterval.toNumber());
-  // const renderNextHarvestIntervalIn = () => {
-  //   return (
-  //     <Flex justifyContent="space-between">
-  //       <Text>{TranslateString(318, "Next Harvest in :")}</Text>
-  //       <Text bold>
-  //         <Countdown
-  //           date={harvestInterval.toNumber() * 1000}
-  //           renderer={Renderer}
-  //         />
-  //       </Text>
-  //     </Flex>
-  //   );
-  // };
+  const renderNextHarvestIntervalIn = () => {
+    return (
+      <Flex justifyContent="space-between">
+        <Text>{TranslateString(318, "Next Harvest in :")}</Text>
+        <Text bold>
+          <Countdown
+            date={harvestInterval.toNumber() * 1000}
+            renderer={Renderer}
+          />
+        </Text>
+      </Flex>
+    );
+  };
 
   const [onPresentCompound] = useModal(
     <CompoundModal
@@ -269,7 +269,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
         </div> */}
           <CardHeading
             lpLabel={`${tokenName} Pool`}
-            farmImage={`/images/tokens/${image || tokenName.toLowerCase()}.png`}
+            farmImage={image || tokenName.toLowerCase()}
             tokenSymbol={tokenName}
           />
         </div>
@@ -285,7 +285,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
                     <ApyButton
                       lpLabel={tokenName}
                       addLiquidityUrl="addLiquidityUrl"
-                      cakePrice={new BigNumber(valueOfCNTinUSD || 0)}
+                      cakePrice={valueOfCNTinUSD}
                       apy={new BigNumber(apy || 0)}
                     />
                     {apy}%

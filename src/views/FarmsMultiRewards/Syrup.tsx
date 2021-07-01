@@ -10,7 +10,7 @@ import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
 import { useWeb3React } from "@web3-react/core";
 import { getBalanceNumber } from "utils/formatBalance";
-import { usePools, useBlock } from "state/hooks";
+import { usePools, useBlock, usePriceCakeBusd } from "state/hooks";
 import useI18n from "hooks/useI18n";
 import { CNTinUSDLink } from "config";
 import { getCakeContract, getCNTStakerContract } from "utils/contractHelpers";
@@ -25,6 +25,7 @@ const NUMBER_OF_POOLS_VISIBLE = 12;
 const Farm: React.FC = () => {
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const [valueOfCNTinUSD, setCntPrice] = useState(0);
+  const cntPrice = usePriceCakeBusd();
   const { path } = useRouteMatch();
   const TranslateString = useI18n();
   const cake = getCakeContract();
@@ -125,25 +126,33 @@ const Farm: React.FC = () => {
           <Grid container spacing={3} style={{ margin: "30px 0px" }}>
             {stakedOnly
               ? orderBy(stakedOnlyOpenPools, ["sortOrder"])
-                .slice(0, numberOfPoolsVisible)
-                .map(
-                  (pool) =>
-                    pool.poolCategory === PoolCategory.CORE && (
-                      <Grid item xs={12} md={6} lg={4} xl={4}>
-                        <PoolCard key={pool.sousId} pool={pool} valueOfCNTinUSD={valueOfCNTinUSD} />{" "}
-                      </Grid>
-                    )
-                )
+                  .slice(0, numberOfPoolsVisible)
+                  .map(
+                    (pool) =>
+                      pool.poolCategory === PoolCategory.CORE && (
+                        <Grid item xs={12} md={6} lg={4} xl={4}>
+                          <PoolCard
+                            key={pool.sousId}
+                            pool={pool}
+                            valueOfCNTinUSD={cntPrice}
+                          />{" "}
+                        </Grid>
+                      )
+                  )
               : orderBy(openPools, ["sortOrder"])
-                .slice(0, numberOfPoolsVisible)
-                .map(
-                  (pool) =>
-                    pool.poolCategory === PoolCategory.CORE && (
-                      <Grid item xs={12} md={6} lg={4} xl={4}>
-                        <PoolCard key={pool.sousId} pool={pool} valueOfCNTinUSD={valueOfCNTinUSD} />{" "}
-                      </Grid>
-                    )
-                )}
+                  .slice(0, numberOfPoolsVisible)
+                  .map(
+                    (pool) =>
+                      pool.poolCategory === PoolCategory.CORE && (
+                        <Grid item xs={12} md={6} lg={4} xl={4}>
+                          <PoolCard
+                            key={pool.sousId}
+                            pool={pool}
+                            valueOfCNTinUSD={cntPrice}
+                          />{" "}
+                        </Grid>
+                      )
+                  )}
           </Grid>
           {/* <StakeCNT /> */}
           {/* <UnstakeXCNT /> */}
@@ -151,11 +160,23 @@ const Farm: React.FC = () => {
         <Route path={`${path}/history`}>
           {stakedOnly
             ? orderBy(stakedOnlyFinishedPools, ["sortOrder"])
-              .slice(0, numberOfPoolsVisible)
-              .map((pool) => <PoolCard key={pool.sousId} pool={pool} valueOfCNTinUSD={valueOfCNTinUSD} />)
+                .slice(0, numberOfPoolsVisible)
+                .map((pool) => (
+                  <PoolCard
+                    key={pool.sousId}
+                    pool={pool}
+                    valueOfCNTinUSD={cntPrice}
+                  />
+                ))
             : orderBy(finishedPools, ["sortOrder"])
-              .slice(0, numberOfPoolsVisible)
-              .map((pool) => <PoolCard key={pool.sousId} pool={pool} valueOfCNTinUSD={valueOfCNTinUSD} />)}
+                .slice(0, numberOfPoolsVisible)
+                .map((pool) => (
+                  <PoolCard
+                    key={pool.sousId}
+                    pool={pool}
+                    valueOfCNTinUSD={cntPrice}
+                  />
+                ))}
         </Route>
         <div ref={loadMoreRef} />
         <div
