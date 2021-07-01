@@ -178,7 +178,7 @@ const CNTBar = () => {
     const getPrice = async () => {
       const apiResp = await getCntPrice();
       setCNTVal(apiResp);
-    }
+    };
     if (cake) {
       fetchTotalSupply();
     }
@@ -294,9 +294,7 @@ const CNTBar = () => {
           <Grid item xs={12} md={6} lg={6} xl={6}>
             <CNHeading>Maximize yield by staking CNT</CNHeading>
             <StyledOl>
-              <DescriptionTextLi>
-                Stake CNT to earn more CNT.
-              </DescriptionTextLi>
+              <DescriptionTextLi>Stake CNT to earn more CNT.</DescriptionTextLi>
               <DescriptionTextLi>
                 You will earn a portion of the swaps fees based on the amount of
                 xCNT held relative the weight of the staking.
@@ -452,8 +450,8 @@ const CNTBar = () => {
                 </div>
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <img
-                    src="/images/CNT.png"
-                    alt="CNT"
+                    src="/images/xCNT.png"
+                    alt="xCNT"
                     width="24px"
                     style={{ marginRight: "10px" }}
                   />
