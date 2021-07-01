@@ -26,11 +26,11 @@ const config: MenuEntry[] = [
     icon: "TicketIcon",
     href: "/cntbar",
   },
-  {
-    label: "Migrate",
-    icon: "NftIcon",
-    href: "/migrate",
-  },
+  // {
+  //   label: "Migrate",
+  //   icon: "NftIcon",
+  //   href: "/migrate",
+  // },
   // {
   //   label: 'Lottery',
   //   icon: 'TicketIcon',
