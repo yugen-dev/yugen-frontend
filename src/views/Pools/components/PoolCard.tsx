@@ -23,10 +23,9 @@ import { getContract } from "utils/contractHelpers";
 import { getBiconomyWeb3 } from "utils/biconomyweb3";
 import { getAddress } from "utils/addressHelpers";
 import useI18n from "hooks/useI18n";
-// import { GetPoolPendingReward } from "hooks/GetPoolPendingReward";
 import { useSousStake } from "hooks/useStake";
 import useWeb3 from "hooks/useWeb3";
-import { useProfile } from "state/hooks";
+import { useGetApiPrice, usePriceOfCrypto, useProfile } from "state/hooks";
 import { useSousUnstake } from "hooks/useUnstake";
 import { getBalanceNumber } from "utils/formatBalance";
 import { getPoolApy } from "utils/apy";
@@ -72,6 +71,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     stakingLimit,
     poolHarvestInterval,
   } = pool;
+
   const { account, chainId, library } = useWeb3React("web3");
   const { metaTranscation } = useProfile();
   // Pools using native BNB behave differently than pools using a token
@@ -109,21 +109,22 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   ///
 
   // APY
-  // const rewardTokenPrice = useGetApiPrice(tokenName);
+  const rewardTokenPrice = usePriceOfCrypto("MahaDAO");
 
-  // const stakingTokenPrice = useGetApiPrice(stakingTokenName);
-  const stakingTokenPrice = Number(1);
+  const stakingTokenPrice = usePriceOfCrypto("cryption-network");
+  // console.log(rewardTokenPrice.toString());
+  // console.log(stakingTokenPrice.toString());
+  // const stakingTokenPrice = Number(1);
+  // const rewardTokenPrice = Number(1);
   let apy = 0;
   let apyString = "";
   const apyArray = [];
   // const pendingRewardArray = [];
 
   pool.multiRewardTokenPerBlock.forEach(async (element, i) => {
-    const rewardTokenPrice = Number(1);
-
     const currentTokenApy = getPoolApy(
-      stakingTokenPrice,
-      rewardTokenPrice,
+      stakingTokenPrice.toNumber(),
+      rewardTokenPrice.toNumber(),
       getBalanceNumber(pool.totalStaked, stakingTokenDecimals),
       parseFloat(element)
     );
@@ -228,7 +229,10 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   // eslint-disable-next-line consistent-return
   const handleApprove = async () => {
     try {
-      if (META_TXN_SUPPORTED_TOKENS[tokenAddress.toLowerCase()] && metaTranscation) {
+      if (
+        META_TXN_SUPPORTED_TOKENS[tokenAddress.toLowerCase()] &&
+        metaTranscation
+      ) {
         setRequestedApproval(true);
         const metaToken = META_TXN_SUPPORTED_TOKENS[tokenAddress.toLowerCase()];
         const biconomyweb3 = getBiconomyWeb3();

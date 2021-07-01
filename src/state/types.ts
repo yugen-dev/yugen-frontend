@@ -39,6 +39,10 @@ export interface Pool extends PoolConfig {
   poolHarvestInterval?: number;
   startBlock?: number;
   endBlock?: number;
+  tokenAmount?: BigNumber;
+  quoteTokenAmount?: BigNumber;
+  lpTotalInQuoteToken?: BigNumber;
+  tokenPriceVsQuote?: BigNumber;
   userData?: {
     allowance: BigNumber;
     stakingTokenBalance: BigNumber;

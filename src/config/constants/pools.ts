@@ -4,6 +4,7 @@ const pools: PoolConfig[] = [
   {
     sousId: 0,
     tokenName: "CNT",
+    tokenAdressInLp: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
     tokenAddress: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
     stakingTokenName: QuoteToken.CNT,
     stakingTokenAddress: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
@@ -24,10 +25,11 @@ const pools: PoolConfig[] = [
   },
   {
     sousId: 1,
-    tokenName: "MAHA-CNT LP",
-    tokenAddress: "0xE6e0f6Ae6419D45109Af6c4630EF468F407eD28f",
+    tokenName: "MAHA-CNT",
+    tokenAdressInLp: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
+    tokenAddress: "0xE6e0f6Ae6419D45109Af6c4630EF468F407eD28f", // maha
     stakingTokenName: QuoteToken.LP,
-    stakingTokenAddress: "0xE6e0f6Ae6419D45109Af6c4630EF468F407eD28f",
+    stakingTokenAddress: "0xE6e0f6Ae6419D45109Af6c4630EF468F407eD28f", // lp
     contractAddress: {
       97: "",
       56: "",

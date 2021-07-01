@@ -5,6 +5,7 @@ import {
   fetchPoolsBlockLimits,
   fetchPoolsTotalStatking,
   fetchPoolsHarvestInterval,
+  fetchPoolsLpData,
 } from "./fetchPools";
 import {
   fetchPoolsAllowance,
@@ -61,6 +62,8 @@ export const fetchPoolsPublicDataAsync = () => async (dispatch) => {
 
   const totalStakings = await fetchPoolsTotalStatking();
   const poolHarvestIntervals = await fetchPoolsHarvestInterval();
+  const PoolLpDatas = await fetchPoolsLpData();
+
   const liveData = poolsConfig.map((pool) => {
     const blockLimit = blockLimits.find(
       (entry) => entry.sousId === pool.sousId
@@ -68,12 +71,14 @@ export const fetchPoolsPublicDataAsync = () => async (dispatch) => {
     const totalStaking = totalStakings.find(
       (entry) => entry.sousId === pool.sousId
     );
-    const poolHarvestInterval = poolHarvestIntervals.find(
+    const PoolLpData = PoolLpDatas.find(
       (entry) => entry.sousId === pool.sousId
     );
+
     return {
       ...blockLimit,
       ...totalStaking,
+      ...PoolLpData,
     };
   });
 

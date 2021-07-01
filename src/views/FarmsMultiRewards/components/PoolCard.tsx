@@ -20,7 +20,6 @@ import Label from "components/Label";
 import { getContract } from "utils/contractHelpers";
 import { getAddress } from "utils/addressHelpers";
 import useI18n from "hooks/useI18n";
-// import { GetPoolPendingReward } from "hooks/GetPoolPendingReward";
 import { useSousStake } from "hooks/useStake";
 import useWeb3 from "hooks/useWeb3";
 import { useSousUnstake } from "hooks/useUnstake";
@@ -69,7 +68,12 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
     userData,
     stakingLimit,
     poolHarvestInterval,
+    tokenAmount,
+    quoteTokenAmount,
+    lpTotalInQuoteToken,
+    tokenPriceVsQuote,
   } = pool;
+
   const { account } = useWeb3React("web3");
 
   // Pools using native BNB behave differently than pools using a token
@@ -120,7 +124,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
     const rewardTokenPrice = Number(1);
 
     const currentTokenApy = getPoolApy(
-      stakingTokenPrice,
+      rewardTokenPrice,
       rewardTokenPrice,
       getBalanceNumber(pool.totalStaked, stakingTokenDecimals),
       parseFloat(element)
@@ -146,6 +150,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
   const stakedBalance = new BigNumber(userData?.stakedBalance || 0);
   const earnings = new BigNumber(userData?.pendingReward || 0);
   const canHarvest = userData?.canHarvest ? userData?.canHarvest : false;
+  // console.log(canHarvest);
   // console.log(`can harvest ${userData?.canHarvest}`);
   const harvestInterval = userData?.harvestInterval
     ? new BigNumber(userData?.harvestInterval)
@@ -243,7 +248,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
     <Card isActive={isCardActive} isFinished={isFinished}>
       {isFinished && <PoolFinishedSash />}
       <div style={{ borderBottom: "1px solid #524B63" }}>
-        <div style={{ padding: '20px' }}>
+        <div style={{ padding: "20px" }}>
           {/* <div
           style={{
             display: "flex",
@@ -256,9 +261,9 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
             {isOldSyrup && "[OLD]"} {tokenName} {TranslateString(348, "Pool")}
           </CardTitle>
           <Image
-            src={`/images/tokens/${image || tokenName.toLowerCase()}.png`}
-            width={64}
-            height={64}
+            src={`/images/farms/${image || tokenName.toLowerCase()}.png`}
+            width={100}
+            height={94}
             alt={tokenName}
           />
         </div> */}
@@ -284,7 +289,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
                       apy={new BigNumber(apy || 0)}
                     />
                     {apy}%
-              </>
+                  </>
                 ) : (
                   <Skeleton height={24} width={80} />
                 )}
@@ -308,8 +313,8 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
                   ? `${poolHarvestIntervalinHours.toString()} Hours`
                   : ""}
                 {!isDaysGreater &&
-                  !isHoursGreater &&
-                  poolHarvestIntervalinMinutes > 0
+                !isHoursGreater &&
+                poolHarvestIntervalinMinutes > 0
                   ? `${poolHarvestIntervalinMinutes.toString()} Minutes`
                   : ""}
               </Text>
@@ -402,10 +407,10 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
                   onClick={
                     isOldSyrup
                       ? async () => {
-                        setPendingTx(true);
-                        await onUnstake("0", stakingTokenDecimals);
-                        setPendingTx(false);
-                      }
+                          setPendingTx(true);
+                          await onUnstake("0", stakingTokenDecimals);
+                          setPendingTx(false);
+                        }
                       : onPresentWithdraw
                   }
                 >
