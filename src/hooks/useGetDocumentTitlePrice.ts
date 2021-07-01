@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import { usePriceCakeBusd } from "state/hooks";
+import useCNTprice from "hooks/useCNTprice";
 
 const useGetDocumentTitlePrice = () => {
-  const cakePriceUsd = usePriceCakeBusd();
+  const { valueOfCNTinUSD } = useCNTprice();
   useEffect(() => {
-    document.title = `PolyDex - $${Number(cakePriceUsd).toLocaleString(
+    document.title = `PolyDex - $${Number(valueOfCNTinUSD).toLocaleString(
       undefined,
       {
         minimumFractionDigits: 3,

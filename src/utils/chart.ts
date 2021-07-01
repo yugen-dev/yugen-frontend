@@ -1,4 +1,3 @@
-import { timeFormat } from "d3-time-format";
 import { getUnixTime, startOfDay, subMonths, subWeeks } from "date-fns";
 
 const locales = ["en-US"];

@@ -13,7 +13,6 @@ import {
   useCake,
   useCNTStaker,
   useLottery,
-  useMasterchefGasless,
 } from "./useContract";
 import { useUserDeadline } from "../state/user/hooks";
 
@@ -22,7 +21,6 @@ export const useApprove = (lpContract: Contract) => {
   const dispatch = useDispatch();
   const { account, chainId, library } = useWeb3React("web3");
   const masterChefContract = useMasterchef();
-  const useMasterchefGaslesscontract = useMasterchefGasless();
   const { metaTranscation } = useProfile();
   const [deadline] = useUserDeadline();
 
@@ -81,7 +79,7 @@ export const useApprove = (lpContract: Contract) => {
         const { r, s, v } = signature;
         return { v, r, s, deadlineForSignature };
       } catch (e) {
-        console.log(e);
+        console.error(e);
         return false;
       }
     } else {

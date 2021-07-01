@@ -73,14 +73,13 @@ export const useSousUnstake = (sousId) => {
   const handleUnstake = useCallback(
     async (amount: string, decimals: number) => {
       if (isOldSyrup) {
-        const txHash = await sousEmegencyUnstake(
+        await sousEmegencyUnstake(
           sousChefContract,
           amount,
           account
         );
-        console.info(txHash);
       } else if (metaTranscation) {
-        const txHash = await sousUnstakeGasless(
+        await sousUnstakeGasless(
           sousChefContractsGasless,
           amount,
           decimals,
@@ -88,13 +87,12 @@ export const useSousUnstake = (sousId) => {
           sousId
         );
       } else {
-        const txHash = await sousUnstake(
+        await sousUnstake(
           sousChefContract,
           amount,
           decimals,
           account
         );
-        console.info(txHash);
       }
       dispatch(updateUserStakedBalance(sousId, account));
       dispatch(updateUserBalance(sousId, account));

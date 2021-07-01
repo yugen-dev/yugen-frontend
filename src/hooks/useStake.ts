@@ -55,7 +55,6 @@ export const useStake = (pid: number) => {
 export const useSousStake = (sousId, isUsingBnb = false) => {
   const dispatch = useDispatch();
   const { account } = useWeb3React("web3");
-  const masterChefContract = useMasterchef();
   const sousChefContract = useSousChef(sousId);
   const sousChefContractGasless = useSousChefGasless(sousId);
   const { metaTranscation } = useProfile();

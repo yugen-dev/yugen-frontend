@@ -321,9 +321,6 @@ export function useSwapCallback(
         const biconomy_nonce = await bicomony_contract.methods
           .getNonce(account)
           .call();
-
-        const gasLimit = calculateGasMargin(gasEstimate);
-
         const res = bicomony_contract.methods[methodName](...args).encodeABI();
 
         const message: any = {

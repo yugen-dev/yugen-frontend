@@ -1,23 +1,21 @@
 /* eslint-disable no-nested-ternary */
-import { CurrencyAmount, JSBI, Token, Trade } from "@pancakeswap-libs/sdk";
 import React, {
   useCallback,
-  useContext,
   useEffect,
   useMemo,
   useState,
 } from "react";
 import { ArrowDown } from "react-feather";
+import { CurrencyAmount, JSBI, Token, Trade } from "@pancakeswap-libs/sdk";
 import {
   ArrowDownIcon,
   Button,
   IconButton,
   Text,
-  HelpIcon,
   Card,
   Flex,
 } from "cryption-uikit";
-import styled, { ThemeContext } from "styled-components";
+import styled  from "styled-components";
 import AddressInputPanel from "components/AddressInputPanel";
 import { GreyCard } from "components/Card";
 import ConfirmSwapModal from "components/swap/ConfirmSwapModal";
@@ -68,6 +66,8 @@ import "./index.css";
 
 const ContainerCard = styled(Card)`
   border-radius: 0.625rem !important;
+  max-width: 700px;
+  width: 100%;
   padding: 30px;
   background-color: #1e202a;
   display: flex;
@@ -120,10 +120,7 @@ const Swap = () => {
   }, []);
 
   const { account } = useActiveWeb3React();
-  const theme = useContext(ThemeContext);
-
   const [isExpertMode] = useExpertModeManager();
-
   // get custom setting values for user
   const [deadline] = useUserDeadline();
   const [allowedSlippage] = useUserSlippageTolerance();
@@ -618,47 +615,6 @@ const Swap = () => {
           ) : null}
         </BottomGrouping>
         <AdvancedSwapDetailsDropdown trade={trade} />
-        <div className="info-container">
-          <div className="info-item">
-            <Text fontSize="15px" color="#9d9fa8">
-              Minimum received
-              <HelpIcon
-                color="#9d9fa8"
-                width="16px"
-                style={{ marginLeft: "5px", cursor: "pointer" }}
-              />
-            </Text>
-            <Text fontSize="18px" color="#2082E9">
-              1.323 DOT
-            </Text>
-          </div>
-          <div className="info-item">
-            <Text fontSize="15px" color="#9d9fa8">
-              Price Impact
-              <HelpIcon
-                color="#9d9fa8"
-                width="16px"
-                style={{ marginLeft: "5px", cursor: "pointer" }}
-              />
-            </Text>
-            <Text fontSize="18px" color="#2082E9">
-              0.10%
-            </Text>
-          </div>
-          <div className="info-item">
-            <Text fontSize="15px" color="#9d9fa8">
-              Liquidity provider fee
-              <HelpIcon
-                color="#9d9fa8"
-                width="16px"
-                style={{ marginLeft: "5px", cursor: "pointer" }}
-              />
-            </Text>
-            <Text fontSize="18px" color="#2082E9">
-              0.0004 BNB
-            </Text>
-          </div>
-        </div>
       </ContainerCard>
     </div>
   );

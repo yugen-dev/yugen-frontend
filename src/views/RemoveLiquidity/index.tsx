@@ -419,7 +419,6 @@ export default function RemoveLiquidity({
       console.error("This transaction would fail. Please contact support.");
     } else if (metaTranscation) {
       const methodName = methodNames[indexOfSuccessfulEstimation];
-      const safeGasEstimate = safeGasEstimates[indexOfSuccessfulEstimation];
       setAttemptingTxn(true);
       const res = bicomony_contract.methods[methodName](...args).encodeABI();
       const message: any = {

@@ -2,10 +2,6 @@ import React, { useState } from "react";
 import { Input } from "cryption-uikit";
 import styled from "styled-components";
 
-const StyledInput = styled(Input)`
-  border-radius: 16px;
-  margin-left: auto;
-`;
 
 const InputWrapper = styled.div`
   position: relative;

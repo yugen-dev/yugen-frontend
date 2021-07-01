@@ -7,18 +7,9 @@ const config: MenuEntry[] = [
     href: "/",
   },
   {
-    label: "Trade",
+    label: "Exchange",
     icon: "TradeIcon",
-    items: [
-      {
-        label: "Exchange",
-        href: "/swap",
-      },
-      {
-        label: "Liquidity",
-        href: "/pool",
-      },
-    ],
+    href: "/swap",
   },
   {
     label: "Farms",
@@ -32,14 +23,14 @@ const config: MenuEntry[] = [
   },
   {
     label: "CNT Staker",
-    icon: "PoolIcon",
+    icon: "TicketIcon",
     href: "/cntbar",
   },
-  // {
-  //   label: "Migrate",
-  //   icon: "PoolIcon",
-  //   href: "/migrate",
-  // },
+  {
+    label: "Migrate",
+    icon: "NftIcon",
+    href: "/migrate",
+  },
   // {
   //   label: 'Lottery',
   //   icon: 'TicketIcon',
@@ -69,28 +60,28 @@ const config: MenuEntry[] = [
   //     },
   //   ],
   // },
-  {
-    label: "Analytics",
-    icon: "InfoIcon",
-    items: [
-      {
-        label: "Overview",
-        href: "https://pancakeswap.info",
-      },
-      {
-        label: "Tokens",
-        href: "https://pancakeswap.info/tokens",
-      },
-      {
-        label: "Pairs",
-        href: "https://pancakeswap.info/pairs",
-      },
-      {
-        label: "Accounts",
-        href: "https://pancakeswap.info/accounts",
-      },
-    ],
-  },
+  // {
+  //   label: "Analytics",
+  //   icon: "InfoIcon",
+  //   items: [
+  //     {
+  //       label: "Overview",
+  //       href: "https://pancakeswap.info",
+  //     },
+  //     {
+  //       label: "Tokens",
+  //       href: "https://pancakeswap.info/tokens",
+  //     },
+  //     {
+  //       label: "Pairs",
+  //       href: "https://pancakeswap.info/pairs",
+  //     },
+  //     {
+  //       label: "Accounts",
+  //       href: "https://pancakeswap.info/accounts",
+  //     },
+  //   ],
+  // },
   // {
   //   label: 'IFO',
   //   icon: 'IfoIcon',
@@ -100,10 +91,10 @@ const config: MenuEntry[] = [
     label: "More",
     icon: "MoreIcon",
     items: [
-      {
-        label: "Voting",
-        href: "https://voting.pancakeswap.finance",
-      },
+      // {
+      //   label: "Voting",
+      //   href: "https://voting.pancakeswap.finance",
+      // },
       {
         label: "Github",
         href: "https://github.com/cryption-network",

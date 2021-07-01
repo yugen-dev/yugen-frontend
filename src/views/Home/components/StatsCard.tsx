@@ -11,6 +11,7 @@ export interface CardValueProps {
   stakerFees?: string;
   lpFees?: string;
   burnerFees?: string;
+  devFees?: string;
 }
 const Card = styled.div`
   border-radius: 0.625rem !important;
@@ -82,9 +83,12 @@ const CardValue: React.FC<CardValueProps> = ({
   stakerFees,
   lpFees,
   burnerFees,
+  devFees,
 }) => {
   const numberWithCommas = (number) => {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const parts = number.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
   };
   let progressBar = 0;
   if (
@@ -103,7 +107,7 @@ const CardValue: React.FC<CardValueProps> = ({
     <Card>
       <ProgressText style={{ marginBottom: "15px" }}>
         <Text color="white" fontSize="18px" fontWeight="700">
-          CNt & Summary
+          CNT & Summary
         </Text>
         <Text color="#C1C5CB" fontSize="12px" ml="5px">
           * Amount allocated through mining is distributed every second
@@ -254,7 +258,7 @@ const CardValue: React.FC<CardValueProps> = ({
             {lpFees && (
               <ProgressText>
                 <Text color="#9d9fa8" fontSize="15px">
-                  Lp fees
+                  LP Fees
                 </Text>
                 <Text color="white" fontSize="15px" fontWeight="700">
                   {" "}
@@ -265,7 +269,7 @@ const CardValue: React.FC<CardValueProps> = ({
             {stakerFees && (
               <ProgressText>
                 <Text color="#C1C5CB" fontSize="15x">
-                  Staker Fees
+                  Staker Distrubution
                 </Text>
                 <Text color="white" fontSize="15px" fontWeight="700">
                   {" "}
@@ -276,11 +280,22 @@ const CardValue: React.FC<CardValueProps> = ({
             {burnerFees && (
               <ProgressText>
                 <Text color="#C1C5CB" fontSize="15px">
-                  Burner Fees
+                  CNT Burned
                 </Text>
                 <Text color="white" fontSize="15px" fontWeight="700">
                   {" "}
                   ${burnerFees}{" "}
+                </Text>
+              </ProgressText>
+            )}
+              {devFees && (
+              <ProgressText>
+                <Text color="#C1C5CB" fontSize="15px">
+                  Dev Fees
+                </Text>
+                <Text color="white" fontSize="15px" fontWeight="700">
+                  {" "}
+                  ${devFees}{" "}
                 </Text>
               </ProgressText>
             )}

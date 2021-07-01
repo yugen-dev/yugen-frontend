@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import styled from "styled-components";
 import { useWeb3React } from "@web3-react/core";
 import { Button } from "cryption-uikit";
 import BigNumber from "bignumber.js";
