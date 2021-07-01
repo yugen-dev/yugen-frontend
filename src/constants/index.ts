@@ -1,8 +1,16 @@
 import { ChainId, JSBI, Percent, Token, WETH } from "@pancakeswap-libs/sdk";
-
+import Web3 from "web3";
 import tokenABI from "./abis/token.json";
 import usdcABI from "./abis/usdc.json";
 
+declare global {
+  interface Window {
+    web3: any;
+    ethereum: any;
+  }
+}
+
+const web3 = new Web3(window.ethereum);
 export const ROUTER_ADDRESS = "0xE86A68cd5A994D94BB7049acE481e9a6b5Fd94d6";
 
 export const biconomyAPIKey = "5IJrOQxzG.cbc81ad9-974a-45d5-b3f3-bbc7c9fd2c6c";
@@ -15,35 +23,35 @@ type ChainTokenList = {
 
 export const DAI = new Token(
   ChainId.MAINNET,
-  "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3",
+  web3.utils.toChecksumAddress("0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3"),
   18,
   "DAI",
   "Dai Stablecoin"
 );
 export const BUSD = new Token(
   ChainId.MAINNET,
-  "0xe9e7cea3dedca5984780bafc599bd69add087d56",
+  web3.utils.toChecksumAddress("0xe9e7cea3dedca5984780bafc599bd69add087d56"),
   18,
   "BUSD",
   "Binance USD"
 );
 export const USDT = new Token(
   ChainId.MAINNET,
-  "0x55d398326f99059ff775485246999027b3197955",
+  web3.utils.toChecksumAddress("0x55d398326f99059ff775485246999027b3197955"),
   18,
   "USDT",
   "Tether USD"
 );
 export const UST = new Token(
   ChainId.MAINNET,
-  "0x23396cf899ca06c4472205fc903bdb4de249d6fc",
+  web3.utils.toChecksumAddress("0x23396cf899ca06c4472205fc903bdb4de249d6fc"),
   18,
   "UST",
   "Wrapped UST Token"
 );
 export const ETH = new Token(
   ChainId.MAINNET,
-  "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
+  web3.utils.toChecksumAddress("0x2170ed0880ac9a755fd29b2688956bd959f933f8"),
   18,
   "ETH",
   "Binance-Peg Ethereum Token"
