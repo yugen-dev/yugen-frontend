@@ -1,6 +1,6 @@
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
-// import { BscConnector } from "@binance-chain/bsc-connector";
+import { TorusConnector } from "@web3-react/torus-connector";
 import { ConnectorNames } from "cryption-uikit";
 import Web3 from "web3";
 import getNodeUrl from "./getRpcUrl";
@@ -18,12 +18,70 @@ const walletconnect = new WalletConnectConnector({
   pollingInterval: POLLING_INTERVAL,
 });
 
-// const bscConnector = new BscConnector({ supportedChainIds: [chainId] });
+const googleConnect = new TorusConnector({
+  chainId,
+  loginOptions: {
+    verifier: "google",
+  },
+});
+const facebookConnect = new TorusConnector({
+  chainId,
+  loginOptions: {
+    verifier: "facebook",
+  },
+});
+const discordConnect = new TorusConnector({
+  chainId,
+  loginOptions: {
+    verifier: "discord",
+  },
+});
+
+const twitterConnect = new TorusConnector({
+  chainId,
+  loginOptions: {
+    verifier: "torus-auth0-twitter",
+  },
+});
+
+const redditConnect = new TorusConnector({
+  chainId,
+  loginOptions: {
+    verifier: "reddit",
+  },
+});
+
+const emailConnect = new TorusConnector({
+  chainId,
+  initOptions: {
+    whiteLabel: {
+      theme: {
+        isDark: true,
+        colors: {
+          torusBrand1: "#2082e9",
+        },
+      },
+    },
+    enabledVerifiers: {
+      google: false,
+      facebook: false,
+      discord: false,
+      twitch: false,
+      reddit: false,
+      "torus-auth0-twitter": false,
+    },
+  },
+});
 
 export const connectorsByName: { [connectorName in ConnectorNames]: any } = {
   [ConnectorNames.Injected]: injected,
   [ConnectorNames.WalletConnect]: walletconnect,
-  // [ConnectorNames.BSC]: bscConnector,
+  [ConnectorNames.GoogleTorusConnector]: googleConnect,
+  [ConnectorNames.FacebookTorusConnector]: facebookConnect,
+  [ConnectorNames.TwitterTorusConnector]: twitterConnect,
+  [ConnectorNames.RedditTorusConnector]: redditConnect,
+  [ConnectorNames.DiscordTorusConnector]: discordConnect,
+  [ConnectorNames.EmailTorusConnector]: emailConnect,
 };
 
 export const getLibrary = (provider): Web3 => {
