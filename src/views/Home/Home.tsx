@@ -87,7 +87,7 @@ const Home: React.FC = () => {
   const getHighestAPY = () => {
     const activeFarms = farmsLP.filter((farm) => farm.multiplier !== "0X");
     calculateAPY(activeFarms);
-    return (maxAPY.current * 100).toLocaleString("en-US").slice(0, -1);
+    return ((maxAPY.current * 100).toLocaleString("en-US").slice(0, -1));
   };
   const calculateAPY = useCallback(
     (farmsToDisplay) => {
@@ -300,7 +300,7 @@ const Home: React.FC = () => {
             <Grid item xs={12} md={6} lg={6} xl={6}>
               <EarnAssetCard
                 topTitle="Earn"
-                description={`${cntStakingRatio.toFixed(7)}%`}
+                description={`${cntStakingRatio.toFixed(2)}%`}
                 bottomTitle="on staking CNT"
                 descriptionColor="#29bb89"
                 redirectLink="/cntbar"

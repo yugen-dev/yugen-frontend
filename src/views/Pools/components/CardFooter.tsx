@@ -123,9 +123,6 @@ const CardFooter: React.FC<Props> = ({
           <Row mb="4px">
             <FlexFull>
               <Label>
-                <span role="img" aria-label="syrup">
-                  🥞{" "}
-                </span>
                 {TranslateString(408, "Total")}
               </Label>
             </FlexFull>
