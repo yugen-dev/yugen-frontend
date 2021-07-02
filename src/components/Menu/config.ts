@@ -20,7 +20,7 @@ const config: MenuEntry[] = [
         href: "/farms",
       },
       {
-        label: "Multirewards",
+        label: "Multi Reward",
         href: "/multirewards",
       },
     ],
