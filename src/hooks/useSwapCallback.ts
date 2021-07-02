@@ -317,13 +317,11 @@ export function useSwapCallback(
           abi as unknown as AbiItem,
           contractAddress
         );
-        console.log(bicomony_contract);
-        console.log(account);
+
         const biconomy_nonce = await bicomony_contract.methods
           .getNonce(account)
           .call();
 
-        console.log(biconomy_nonce);
         const res = bicomony_contract.methods[methodName](...args).encodeABI();
 
         const message: any = {
@@ -358,13 +356,12 @@ export function useSwapCallback(
           primaryType: "MetaTransaction",
           message,
         });
-        console.log("sign");
+
         const sig = await library.send("eth_signTypedData_v4", [
           account,
           dataToSign,
         ]);
-        console.log("sign");
-        console.log(sig);
+
         const signature = await splitSignature(sig);
         const { v, r, s } = signature;
 

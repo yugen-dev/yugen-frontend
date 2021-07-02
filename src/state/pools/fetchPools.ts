@@ -180,6 +180,6 @@ export const fetchPoolsLpData = async () => {
       };
     })
   );
-  // console.log(data);
+
   return data;
 };
