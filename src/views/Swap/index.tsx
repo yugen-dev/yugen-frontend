@@ -312,27 +312,13 @@ const Swap = () => {
     setSwapState((prevState) => ({ ...prevState, tradeToConfirm: trade }));
   }, [trade]);
 
-  // This will check to see if the user has selected Syrup to either buy or sell.
-  // If so, they will be alerted with a warning message.
-  const checkForSyrup = useCallback(
-    (selected: string, purchaseType: string) => {
-      if (selected === "syrup") {
-        setIsSyrup(true);
-        setSyrupTransactionType(purchaseType);
-      }
-    },
-    [setIsSyrup, setSyrupTransactionType]
-  );
 
   const handleInputSelect = useCallback(
     (inputCurrency) => {
       setApprovalSubmitted(false); // reset 2 step UI for approvals
       onCurrencySelection(Field.INPUT, inputCurrency);
-      if (inputCurrency.symbol.toLowerCase() === "syrup") {
-        checkForSyrup(inputCurrency.symbol.toLowerCase(), "Selling");
-      }
     },
-    [onCurrencySelection, setApprovalSubmitted, checkForSyrup]
+    [onCurrencySelection, setApprovalSubmitted]
   );
 
   const handleMaxInput = useCallback(() => {
@@ -344,11 +330,8 @@ const Swap = () => {
   const handleOutputSelect = useCallback(
     (outputCurrency) => {
       onCurrencySelection(Field.OUTPUT, outputCurrency);
-      if (outputCurrency.symbol.toLowerCase() === "syrup") {
-        checkForSyrup(outputCurrency.symbol.toLowerCase(), "Buying");
-      }
     },
-    [onCurrencySelection, checkForSyrup]
+    [onCurrencySelection]
   );
 
   return (
@@ -364,11 +347,6 @@ const Swap = () => {
           isOpen={urlLoadedTokens.length > 0 && !dismissTokenWarning}
           tokens={urlLoadedTokens}
           onConfirm={handleConfirmTokenWarning}
-        />
-        <SyrupWarningModal
-          isOpen={isSyrup}
-          transactionType={syrupTransactionType}
-          onConfirm={handleConfirmSyrupWarning}
         />
         <ConfirmSwapModal
           isOpen={showConfirm}
