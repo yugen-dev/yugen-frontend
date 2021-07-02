@@ -285,23 +285,14 @@ export const useFetchPriceList = () => {
   }, [dispatch, slowRefresh]);
 };
 
-export const usePriceOfCrypto = (crypto: string): BigNumber => {
-  const [btbcPrice, setbtbcPrice] = useState(new BigNumber(45000));
-
-  useEffect(() => {
-    const fetchPrice = async () => {
-      const CoinGeckoClient = new CoinGecko();
-      const result = await CoinGeckoClient.coins.fetch(
-        crypto.toLocaleLowerCase(),
-        {}
-      );
-      setbtbcPrice(new BigNumber(result.data?.market_data?.current_price?.usd));
-    };
-
-    fetchPrice();
-  }, [crypto]);
-
-  return btbcPrice;
+export const fetchPrice = async (crypto: string) => {
+  const CoinGeckoClient = new CoinGecko();
+  const result = await CoinGeckoClient.coins.fetch(
+    crypto.toLocaleLowerCase(),
+    {}
+  );
+  const res = new BigNumber(result.data?.market_data?.current_price?.usd);
+  return res;
 };
 
 export const useGetApiPrices = () => {

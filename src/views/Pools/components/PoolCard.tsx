@@ -24,7 +24,7 @@ import { getAddress } from "utils/addressHelpers";
 import useI18n from "hooks/useI18n";
 import { useSousStake } from "hooks/useStake";
 import useWeb3 from "hooks/useWeb3";
-import { usePriceOfCrypto, useProfile } from "state/hooks";
+import { fetchPrice, useProfile } from "state/hooks";
 import { useSousUnstake } from "hooks/useUnstake";
 import { getBalanceNumber } from "utils/formatBalance";
 import { getPoolApy } from "utils/apy";
@@ -108,9 +108,8 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   ///
 
   // APY
-  const rewardTokenPrice = usePriceOfCrypto("MahaDAO");
+  // const rewardTokenPrice = usePriceOfCrypto("MahaDAO");
 
-  const stakingTokenPrice = usePriceOfCrypto("cryption-network");
   // console.log(rewardTokenPrice.toString());
   // console.log(stakingTokenPrice.toString());
   // const stakingTokenPrice = Number(1);
@@ -121,6 +120,11 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   // const pendingRewardArray = [];
 
   pool.multiRewardTokenPerBlock.forEach(async (element, i) => {
+    // const stakingTokenPrice = await fetchPrice(pool.stakingTokenCoinGeckoid);
+    // const rewardTokenPrice = await fetchPrice(pool.coinGeckoIds[i]);
+    const stakingTokenPrice = new BigNumber(1);
+    const rewardTokenPrice = new BigNumber(1);
+    console.log(`reward token price${rewardTokenPrice.toString()}`);
     const currentTokenApy = getPoolApy(
       stakingTokenPrice.toNumber(),
       rewardTokenPrice.toNumber(),

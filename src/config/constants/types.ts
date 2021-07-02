@@ -88,6 +88,8 @@ export interface PoolConfig {
   tokenPerBlock: string;
   sortOrder?: number;
   multiReward?: string[];
+  coinGeckoIds?: string[];
+  stakingTokenCoinGeckoid?: string;
   multiRewardTokenPerBlock?: string[];
   harvest?: boolean;
   isFinished?: boolean;

@@ -25,6 +25,7 @@ import { getBalanceNumber } from "utils/formatBalance";
 import { getPoolApy } from "utils/apy";
 import { useSousHarvest } from "hooks/useHarvest";
 import Balance from "components/Balance";
+import { fetchPrice, useProfile } from "state/hooks";
 import { QuoteToken, PoolCategory } from "config/constants/types";
 import { Pool } from "state/types";
 import cakeAbi from "config/abi/cake.json";
@@ -63,6 +64,10 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
     userData,
     stakingLimit,
     poolHarvestInterval,
+    tokenAmount,
+    quoteTokenAmount,
+    lpTotalInQuoteToken,
+    tokenPriceVsQuote,
   } = pool;
 
   const { account } = useWeb3React("web3");
@@ -103,18 +108,23 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
   // APY
   // const rewardTokenPrice = useGetApiPrice(tokenName);
 
-  // const stakingTokenPrice = useGetApiPrice(stakingTokenName);
+  // const stakingTokenPrice = usePriceOfCrypto(pool.stakingTokenCoinGeckoid);
   let apy = 0;
   let apyString = "";
   const apyArray = [];
   // const pendingRewardArray = [];
 
   pool.multiRewardTokenPerBlock.forEach(async (element, i) => {
-    const rewardTokenPrice = Number(1);
-
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // const rewardTokenPrice = usePriceOfCrypto(pool.coinGeckoIds[i]);
+    const rewardTokenPrice = new BigNumber(1);
+    const priceoflp = new BigNumber(1);
+    // if (tokenPriceVsQuote) {
+    //   priceoflp = tokenPriceVsQuote;
+    // }
     const currentTokenApy = getPoolApy(
-      rewardTokenPrice,
-      rewardTokenPrice,
+      priceoflp.toNumber(),
+      rewardTokenPrice.toNumber(),
       getBalanceNumber(pool.totalStaked, stakingTokenDecimals),
       parseFloat(element)
     );
