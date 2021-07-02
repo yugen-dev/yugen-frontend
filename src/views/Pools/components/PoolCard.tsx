@@ -12,7 +12,6 @@ import {
   Image,
   Flex,
   Text,
-  Skeleton,
 } from "cryption-uikit";
 import InfoIcon from "@material-ui/icons/Info";
 import { useWeb3React } from "@web3-react/core";
@@ -25,7 +24,7 @@ import { getAddress } from "utils/addressHelpers";
 import useI18n from "hooks/useI18n";
 import { useSousStake } from "hooks/useStake";
 import useWeb3 from "hooks/useWeb3";
-import { useGetApiPrice, usePriceOfCrypto, useProfile } from "state/hooks";
+import { usePriceOfCrypto, useProfile } from "state/hooks";
 import { useSousUnstake } from "hooks/useUnstake";
 import { getBalanceNumber } from "utils/formatBalance";
 import { getPoolApy } from "utils/apy";
