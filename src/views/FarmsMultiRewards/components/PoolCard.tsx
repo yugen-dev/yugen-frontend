@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BigNumber from "bignumber.js";
 import { ethers } from "ethers";
 import styled from "styled-components";
@@ -25,6 +25,7 @@ import { getBalanceNumber } from "utils/formatBalance";
 import { getPoolApy } from "utils/apy";
 import { useSousHarvest } from "hooks/useHarvest";
 import Balance from "components/Balance";
+import { fetchPrice, useProfile } from "state/hooks";
 import { QuoteToken, PoolCategory } from "config/constants/types";
 import { Pool } from "state/types";
 import cakeAbi from "config/abi/cake.json";
@@ -43,7 +44,8 @@ interface HarvestProps {
 }
 
 const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
-  // const [pendingMultiRewards, SetpendingMultiRewards] = useState(null);
+  const [tokenprices, Settokenprices] = useState([null]);
+  const [StakingTokenPrice, setStakingTokenPrice] = useState(new BigNumber(1));
   const {
     sousId,
     image,
@@ -63,7 +65,34 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
     userData,
     stakingLimit,
     poolHarvestInterval,
+    tokenAmount,
+    quoteTokenAmount,
+    lpTotalInQuoteToken,
+    tokenPriceVsQuote,
   } = pool;
+
+  useEffect(() => {
+    const pricefunc = async () => {
+      const arrayofprices = [];
+
+      const stakingTokenPrice = await fetchPrice(pool.stakingTokenCoinGeckoid);
+      if (stakingTokenPrice) {
+        setStakingTokenPrice(stakingTokenPrice);
+      }
+
+      pool.coinGeckoIds.forEach(async (element, i) => {
+        let price = await fetchPrice(pool.coinGeckoIds[i]);
+        if (!price) {
+          price = new BigNumber(1);
+        }
+
+        arrayofprices.push(price);
+      });
+
+      Settokenprices(arrayofprices);
+    };
+    pricefunc();
+  }, [pool]);
 
   const { account } = useWeb3React("web3");
 
@@ -98,23 +127,21 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
   const poolHarvestIntervalinMinutes = poolHarvestInterval
     ? (poolHarvestInterval / 60).toFixed(0)
     : 0;
-  ///
 
-  // APY
-  // const rewardTokenPrice = useGetApiPrice(tokenName);
-
-  // const stakingTokenPrice = useGetApiPrice(stakingTokenName);
   let apy = 0;
   let apyString = "";
   const apyArray = [];
-  // const pendingRewardArray = [];
 
   pool.multiRewardTokenPerBlock.forEach(async (element, i) => {
-    const rewardTokenPrice = Number(1);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const rewardTokenPrice = tokenprices[i] ? tokenprices[i] : new BigNumber(1);
+    const priceoflp = tokenPriceVsQuote
+      ? new BigNumber(tokenPriceVsQuote)
+      : new BigNumber(1);
 
     const currentTokenApy = getPoolApy(
-      rewardTokenPrice,
-      rewardTokenPrice,
+      priceoflp.toNumber(),
+      rewardTokenPrice.toNumber(),
       getBalanceNumber(pool.totalStaked, stakingTokenDecimals),
       parseFloat(element)
     );

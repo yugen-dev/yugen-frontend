@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import BigNumber from "bignumber.js";
 import { ethers } from "ethers";
 import { MaxUint256 } from "@ethersproject/constants";
@@ -24,7 +24,7 @@ import { getAddress } from "utils/addressHelpers";
 import useI18n from "hooks/useI18n";
 import { useSousStake } from "hooks/useStake";
 import useWeb3 from "hooks/useWeb3";
-import { usePriceOfCrypto, useProfile } from "state/hooks";
+import { fetchPrice, useProfile } from "state/hooks";
 import { useSousUnstake } from "hooks/useUnstake";
 import { getBalanceNumber } from "utils/formatBalance";
 import { getPoolApy } from "utils/apy";
@@ -48,7 +48,8 @@ interface HarvestProps {
 }
 
 const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
-  // const [pendingMultiRewards, SetpendingMultiRewards] = useState(null);
+  const [tokenprices, Settokenprices] = useState([null]);
+  const [StakingTokenPrice, setStakingTokenPrice] = useState(new BigNumber(1));
   const {
     sousId,
     image,
@@ -70,6 +71,29 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     stakingLimit,
     poolHarvestInterval,
   } = pool;
+
+  useEffect(() => {
+    const pricefunc = async () => {
+      const arrayofprices = [];
+
+      const stakingTokenPrice = await fetchPrice(pool.stakingTokenCoinGeckoid);
+      if (stakingTokenPrice) {
+        setStakingTokenPrice(stakingTokenPrice);
+      }
+
+      pool.coinGeckoIds.forEach(async (element, i) => {
+        let price = await fetchPrice(pool.coinGeckoIds[i]);
+        if (!price) {
+          price = new BigNumber(1);
+        }
+
+        arrayofprices.push(price);
+      });
+
+      Settokenprices(arrayofprices);
+    };
+    pricefunc();
+  }, [pool]);
 
   const { account, chainId, library } = useWeb3React("web3");
   const { metaTranscation } = useProfile();
@@ -107,20 +131,14 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     : 0;
   ///
 
-  // APY
-  const rewardTokenPrice = usePriceOfCrypto("MahaDAO");
-
-  const stakingTokenPrice = usePriceOfCrypto("cryption-network");
-  // console.log(rewardTokenPrice.toString());
-  // console.log(stakingTokenPrice.toString());
-  // const stakingTokenPrice = Number(1);
-  // const rewardTokenPrice = Number(1);
   let apy = 0;
   let apyString = "";
   const apyArray = [];
-  // const pendingRewardArray = [];
 
   pool.multiRewardTokenPerBlock.forEach(async (element, i) => {
+    const stakingTokenPrice = StakingTokenPrice;
+    const rewardTokenPrice = tokenprices[i] ? tokenprices[i] : new BigNumber(1);
+    console.log(rewardTokenPrice.toString());
     const currentTokenApy = getPoolApy(
       stakingTokenPrice.toNumber(),
       rewardTokenPrice.toNumber(),
