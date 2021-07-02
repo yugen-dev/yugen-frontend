@@ -11,7 +11,12 @@ import useI18n from "hooks/useI18n";
 import useInterval from "hooks/useInterval";
 import { useTotalSupply } from "hooks/useTokenBalance";
 import { dayDatasQuery, burnQuery, cntStakerQuery } from "apollo/queries";
-import { CNT_CIRCULATING_SUPPLY_LINK, BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CAKE_POOL_PID } from "config";
+import {
+  CNT_CIRCULATING_SUPPLY_LINK,
+  BLOCKS_PER_YEAR,
+  CAKE_PER_BLOCK,
+  CAKE_POOL_PID,
+} from "config";
 import { getDayData } from "apollo/exchange";
 import pools from "config/constants/pools";
 import { Pool } from "state/types";
@@ -47,12 +52,12 @@ const Home: React.FC = () => {
     try {
       const res = await fetch(CNT_CIRCULATING_SUPPLY_LINK);
       const data = await res.json();
-      setciculatingSupply(parseFloat(data.toFixed(3)))
+      setciculatingSupply(parseFloat(data.toFixed(3)));
     } catch {
       // eslint-disable-next-line no-console
       console.log("Failed to get Circulating supply");
     }
-  }
+  };
   useEffect(() => {
     getCirculatingSupply();
   }, []);
@@ -88,7 +93,7 @@ const Home: React.FC = () => {
     (farmsToDisplay) => {
       const cakePriceVsBNB = new BigNumber(
         farmsLP.find((farm) => farm.pid === CAKE_POOL_PID)?.tokenPriceVsQuote ||
-        0
+          0
       );
 
       farmsToDisplay.map((farm) => {
@@ -192,21 +197,11 @@ const Home: React.FC = () => {
         },
         [[], []]
       );
-    totalFees = (
-      parseFloat(dayDatas.data.dayDatas[0].volumeUSD)
-    ).toFixed(4);
-    lpFees = (parseFloat(dayDatas.data.dayDatas[0].volumeUSD) / 6).toFixed(
-      4
-    );
-    stakerFees = (
-      parseFloat(lpFees) * 0.25
-    ).toFixed(4);
-    burnerFees = (
-      parseFloat(lpFees) * 0.65
-    ).toFixed(4);
-    devFees = (
-      parseFloat(lpFees) * 0.10
-    ).toFixed(4);
+    totalFees = parseFloat(dayDatas.data.dayDatas[0].volumeUSD).toFixed(4);
+    lpFees = (parseFloat(dayDatas.data.dayDatas[0].volumeUSD) / 6).toFixed(4);
+    stakerFees = (parseFloat(lpFees) * 0.25).toFixed(4);
+    burnerFees = (parseFloat(lpFees) * 0.65).toFixed(4);
+    devFees = (parseFloat(lpFees) * 0.1).toFixed(4);
   }
   useInterval(() => Promise.all([getDayData]), 60000);
   return (
@@ -258,19 +253,21 @@ const Home: React.FC = () => {
         }
         <Grid item xs={12} md={6} lg={6} xl={6}>
           <Card style={{ height: 373 }}>
-            {liquidity && liquidity.length > 0 && <ParentSize>
-              {({ width, height }) => (
-                <Areachart
-                  title="Liquidity"
-                  width={width}
-                  height={height}
-                  data={liquidity}
-                  margin={{ top: 125, right: 0, bottom: 0, left: 0 }}
-                  tooltipDisabled
-                  overlayEnabled
-                />
-              )}
-            </ParentSize>}
+            {liquidity && liquidity.length > 0 && (
+              <ParentSize>
+                {({ width, height }) => (
+                  <Areachart
+                    title="Liquidity"
+                    width={width}
+                    height={height}
+                    data={liquidity}
+                    margin={{ top: 125, right: 0, bottom: 0, left: 0 }}
+                    tooltipDisabled
+                    overlayEnabled
+                  />
+                )}
+              </ParentSize>
+            )}
           </Card>
         </Grid>
 
@@ -305,6 +302,7 @@ const Home: React.FC = () => {
                 topTitle="Earn"
                 description={`${cntStakingRatio.toFixed(7)}%`}
                 bottomTitle="on staking CNT"
+                descriptionColor="#29bb89"
                 redirectLink="/cntbar"
               />
             </Grid>
