@@ -111,13 +111,14 @@ const Farm: React.FC = () => {
                 </DescriptionTextLi>
                 <DescriptionTextLi>
                   You will earn a portion of the swaps fees based on the amount
-                  of xCNT held relative the weight of the staking.
+                  of xCNT held relative to the weight of CNT staked.
                 </DescriptionTextLi>
                 <DescriptionTextLi>
-                  xCNT can be minted by staking CNT
+                  xCNT can be minted by staking CNT.
                 </DescriptionTextLi>
                 <DescriptionTextLi>
-                  To redeem CNT staked plus swap fees convert xCNT back to CNT.
+                  To redeem the CNT staked plus swap fees convert xCNT back to
+                  CNT.
                 </DescriptionTextLi>
                 {totalSupply && (
                   <DescriptionTextLi>
