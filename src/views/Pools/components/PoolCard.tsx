@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import BigNumber from "bignumber.js";
 import { ethers } from "ethers";
 import { MaxUint256 } from "@ethersproject/constants";
@@ -48,7 +48,8 @@ interface HarvestProps {
 }
 
 const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
-  // const [pendingMultiRewards, SetpendingMultiRewards] = useState(null);
+  const [tokenprices, Settokenprices] = useState([null]);
+  const [StakingTokenPrice, setStakingTokenPrice] = useState(new BigNumber(1));
   const {
     sousId,
     image,
@@ -70,6 +71,30 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     stakingLimit,
     poolHarvestInterval,
   } = pool;
+
+  useEffect(() => {
+    const pricefunc = async () => {
+      const arrayofprices = [];
+      let i;
+      const stakingTokenPrice = await fetchPrice(pool.stakingTokenCoinGeckoid);
+      if (stakingTokenPrice) {
+        setStakingTokenPrice(stakingTokenPrice);
+      }
+
+      for (i = 0; i < pool.coinGeckoIds.length; i++) {
+        // eslint-disable-next-line  no-await-in-loop
+        let price = await fetchPrice(pool.coinGeckoIds[i]);
+        if (!price) {
+          price = new BigNumber(1);
+        }
+
+        arrayofprices.push(price);
+      }
+
+      Settokenprices(arrayofprices);
+    };
+    pricefunc();
+  }, [pool]);
 
   const { account, chainId, library } = useWeb3React("web3");
   const { metaTranscation } = useProfile();
@@ -122,9 +147,10 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   pool.multiRewardTokenPerBlock.forEach(async (element, i) => {
     // const stakingTokenPrice = await fetchPrice(pool.stakingTokenCoinGeckoid);
     // const rewardTokenPrice = await fetchPrice(pool.coinGeckoIds[i]);
-    const stakingTokenPrice = new BigNumber(1);
-    const rewardTokenPrice = new BigNumber(1);
-    console.log(`reward token price${rewardTokenPrice.toString()}`);
+    const stakingTokenPrice = StakingTokenPrice;
+    const rewardTokenPrice = tokenprices[i] ? tokenprices[i] : new BigNumber(1);
+
+    // console.log(`reward token price${rewardTokenPrice.toString()}`);
     const currentTokenApy = getPoolApy(
       stakingTokenPrice.toNumber(),
       rewardTokenPrice.toNumber(),

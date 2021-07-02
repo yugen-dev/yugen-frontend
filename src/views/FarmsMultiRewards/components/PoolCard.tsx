@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BigNumber from "bignumber.js";
 import { ethers } from "ethers";
 import styled from "styled-components";
@@ -44,7 +44,8 @@ interface HarvestProps {
 }
 
 const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
-  // const [pendingMultiRewards, SetpendingMultiRewards] = useState(null);
+  const [tokenprices, Settokenprices] = useState([null]);
+  const [StakingTokenPrice, setStakingTokenPrice] = useState(new BigNumber(1));
   const {
     sousId,
     image,
@@ -69,6 +70,30 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
     lpTotalInQuoteToken,
     tokenPriceVsQuote,
   } = pool;
+
+  useEffect(() => {
+    const pricefunc = async () => {
+      const arrayofprices = [];
+      let i;
+      const stakingTokenPrice = await fetchPrice(pool.stakingTokenCoinGeckoid);
+      if (stakingTokenPrice) {
+        setStakingTokenPrice(stakingTokenPrice);
+      }
+
+      for (i = 0; i < pool.coinGeckoIds.length; i++) {
+        // eslint-disable-next-line  no-await-in-loop
+        let price = await fetchPrice(pool.coinGeckoIds[i]);
+        if (!price) {
+          price = new BigNumber(1);
+        }
+
+        arrayofprices.push(price);
+      }
+
+      Settokenprices(arrayofprices);
+    };
+    pricefunc();
+  }, [pool]);
 
   const { account } = useWeb3React("web3");
 
@@ -103,25 +128,18 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
   const poolHarvestIntervalinMinutes = poolHarvestInterval
     ? (poolHarvestInterval / 60).toFixed(0)
     : 0;
-  ///
 
-  // APY
-  // const rewardTokenPrice = useGetApiPrice(tokenName);
-
-  // const stakingTokenPrice = usePriceOfCrypto(pool.stakingTokenCoinGeckoid);
   let apy = 0;
   let apyString = "";
   const apyArray = [];
-  // const pendingRewardArray = [];
 
   pool.multiRewardTokenPerBlock.forEach(async (element, i) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    // const rewardTokenPrice = usePriceOfCrypto(pool.coinGeckoIds[i]);
-    const rewardTokenPrice = new BigNumber(1);
-    const priceoflp = new BigNumber(1);
-    // if (tokenPriceVsQuote) {
-    //   priceoflp = tokenPriceVsQuote;
-    // }
+    const rewardTokenPrice = tokenprices[i] ? tokenprices[i] : new BigNumber(1);
+    const priceoflp = tokenPriceVsQuote
+      ? new BigNumber(tokenPriceVsQuote)
+      : new BigNumber(1);
+
     const currentTokenApy = getPoolApy(
       priceoflp.toNumber(),
       rewardTokenPrice.toNumber(),
