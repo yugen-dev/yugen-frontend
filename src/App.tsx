@@ -23,7 +23,6 @@ import ToastListener from "./components/ToastListener";
 import PageLoader from "./components/PageLoader";
 import EasterEgg from "./components/EasterEgg";
 import Pools from "./views/Pools";
-import GlobalCheckBullHiccupClaimStatus from "./views/Collectibles/components/GlobalCheckBullHiccupClaimStatus";
 import history from "./routerHistory";
 
 // Route-based code splitting
@@ -42,7 +41,6 @@ const RemoveLiquidity = lazy(() => import("./views/RemoveLiquidity"));
 // const Lottery = lazy(() => import("./views/Lottery"));
 // const Ifos = lazy(() => import("./views/Ifos"));
 // const NotFound = lazy(() => import("./views/NotFound"));
-// const Collectibles = lazy(() => import("./views/Collectibles"));
 // const Teams = lazy(() => import("./views/Teams"));
 // const Team = lazy(() => import("./views/Teams/Team"));
 // const Profile = lazy(() => import("./views/Profile"));
@@ -156,7 +154,6 @@ const App: React.FC = () => {
         </Menu>
         <EasterEgg iterations={2} />
         <ToastListener />
-        <GlobalCheckBullHiccupClaimStatus />
       </Router>
     </ApolloProvider>
   );
