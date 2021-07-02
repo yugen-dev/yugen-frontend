@@ -14,7 +14,16 @@ const config: MenuEntry[] = [
   {
     label: "Farms",
     icon: "FarmIcon",
-    href: "/farms",
+    items: [
+      {
+        label: "Core",
+        href: "/farms",
+      },
+      {
+        label: "Multirewards",
+        href: "/multirewards",
+      },
+    ],
   },
   {
     label: "Pools",

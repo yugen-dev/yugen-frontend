@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import BigNumber from "bignumber.js";
 import { kebabCase } from "lodash";
 import { useWeb3React } from "@web3-react/core";
@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Team } from "config/constants/types";
 import { getWeb3NoAccount } from "utils/web3";
 import useRefresh from "hooks/useRefresh";
+import CoinGecko from "coingecko-api";
 import {
   fetchFarmsPublicDataAsync,
   fetchPoolsPublicDataAsync,
@@ -282,6 +283,26 @@ export const useFetchPriceList = () => {
   useEffect(() => {
     dispatch(fetchPrices());
   }, [dispatch, slowRefresh]);
+};
+
+export const usePriceOfCrypto = (crypto: string): BigNumber => {
+  const [btbcPrice, setbtbcPrice] = useState(new BigNumber(45000));
+
+  useEffect(() => {
+    const fetchPrice = async () => {
+      const CoinGeckoClient = new CoinGecko();
+      const result = await CoinGeckoClient.coins.fetch(
+        crypto.toLocaleLowerCase(),
+        {}
+      );
+      console.log(result);
+      setbtbcPrice(new BigNumber(result.data?.market_data?.current_price?.usd));
+    };
+
+    fetchPrice();
+  }, [crypto]);
+
+  return btbcPrice;
 };
 
 export const useGetApiPrices = () => {

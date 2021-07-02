@@ -83,6 +83,7 @@
     "chart.js": "^2.9.4",
     "chokidar": "^3.5.2",
     "cids": "^1.0.0",
+    "coingecko-api": "^1.0.10",
     "copy-to-clipboard": "^3.2.0",
     "cryption-uikit": "^0.1.12",
     "d3-array": "^2.12.1",

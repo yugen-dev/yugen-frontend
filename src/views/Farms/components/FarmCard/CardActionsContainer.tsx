@@ -5,18 +5,54 @@ import { provider as ProviderType } from "web3-core";
 import Countdown from "react-countdown";
 import { getAddress } from "utils/addressHelpers";
 import { getBep20Contract } from "utils/contractHelpers";
-import { Button, Flex, Text } from "cryption-uikit";
+import { Button, Flex, Text, Heading } from "cryption-uikit";
 import { Farm } from "state/types";
 import { useFarmFromSymbol, useFarmUser, useProfile } from "state/hooks";
 import useI18n from "hooks/useI18n";
 import useWeb3 from "hooks/useWeb3";
+import { getBalanceNumber } from "utils/formatBalance";
 import { useApprove } from "hooks/useApprove";
 import UnlockButton from "components/UnlockButton";
 import StakeAction from "./StakeAction";
 import HarvestAction from "./HarvestAction";
 
 const Action = styled.div`
-  padding-top: 16px;
+  padding-top: 5px;
+`;
+const RewardsSection = styled.div``;
+const RewardDetails = styled.div`
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 15px;
+`;
+const RewardItem = styled.div`
+  text-align: center;
+`;
+const RewardTitle = styled.div`
+  width: 100%;
+  text-align: center;
+  position: relative;
+  &:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    background: rgb(82, 75, 99);
+    z-index: 0;
+  }
+`;
+const TitleText = styled.div`
+  position: relative;
+  padding: 10px;
+  color: #eae2fc;
+  background: #1e202a;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 1.1;
+  display: inline-block;
+  z-index: 1;
 `;
 export interface FarmWithStakedValue extends Farm {
   apy?: BigNumber;
@@ -45,6 +81,10 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     canHarvest,
     harvestInterval,
   } = useFarmUser(pid);
+
+  const timeleft = harvestInterval.toNumber() - Math.floor(Date.now() / 1000);
+  const rawEarningsBalance = getBalanceNumber(earnings);
+  const displayBalance = rawEarningsBalance.toLocaleString();
   const lpAddress = getAddress(lpAddresses);
   const lpName = farm.lpSymbol.toUpperCase();
   const isApproved = account && allowance && allowance.isGreaterThan(0);
@@ -144,7 +184,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
           pr="5px"
         >
           {/* TODO: Is there a way to get a dynamic value here from useFarmFromSymbol? */}
-          CAKE
+          CNT
         </Text>
         <Text
           bold

@@ -36,13 +36,20 @@ export interface Farm extends FarmConfig {
 
 export interface Pool extends PoolConfig {
   totalStaked?: BigNumber;
+  poolHarvestInterval?: number;
   startBlock?: number;
   endBlock?: number;
+  tokenAmount?: BigNumber;
+  quoteTokenAmount?: BigNumber;
+  lpTotalInQuoteToken?: BigNumber;
+  tokenPriceVsQuote?: BigNumber;
   userData?: {
     allowance: BigNumber;
     stakingTokenBalance: BigNumber;
     stakedBalance: BigNumber;
     pendingReward: BigNumber;
+    canHarvest: boolean;
+    harvestInterval: BigNumber;
   };
 }
 

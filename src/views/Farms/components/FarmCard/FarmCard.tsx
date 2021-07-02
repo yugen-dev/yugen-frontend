@@ -139,8 +139,8 @@ const FarmCard: React.FC<FarmCardProps> = ({
 
   const totalValueFormated = totalValue
     ? `$${Number(totalValue).toLocaleString(undefined, {
-        maximumFractionDigits: 2,
-      })}`
+      maximumFractionDigits: 2,
+    })}`
     : "-";
 
   const lpLabel =
@@ -185,58 +185,61 @@ const FarmCard: React.FC<FarmCardProps> = ({
   return (
     <FCard>
       {farm.tokenSymbol === "CNT" && <StyledCardAccent />}
-      <CardHeading
-        lpLabel={lpLabel}
-        multiplier={farm.multiplier}
-        isCommunityFarm={isCommunityFarm}
-        farmImage={farmImage}
-        tokenSymbol={farm.tokenSymbol}
-      />
-      {!removed && (
-        <Flex justifyContent="space-between" alignItems="center">
-          <Text>{TranslateString(736, "APR")}:</Text>
-          <Text bold style={{ display: "flex", alignItems: "center" }}>
-            {farm.apy ? (
-              <>
-                <ApyButton
-                  lpLabel={lpLabel}
-                  addLiquidityUrl={addLiquidityUrl}
-                  cakePrice={cakePrice}
-                  apy={farm.apy}
-                />
-                {farmAPY}%
+      <div style={{ borderBottom: "1px solid #524B63", paddingBottom: '10px' }}>
+        <CardHeading
+          lpLabel={lpLabel}
+          multiplier={farm.multiplier}
+          isCommunityFarm={isCommunityFarm}
+          farmImage={farmImage}
+          tokenSymbol={farm.tokenSymbol}
+        />
+      </div>
+      <div style={{ borderBottom: "1px solid #524B63", paddingBottom: '20px', margin: '20px 0px' }}>
+        {!removed && (
+          <Flex justifyContent="space-between" alignItems="center">
+            <Text>{TranslateString(736, "APR")}:</Text>
+            <Text bold style={{ display: "flex", alignItems: "center" }}>
+              {farm.apy ? (
+                <>
+                  <ApyButton
+                    lpLabel={lpLabel}
+                    addLiquidityUrl={addLiquidityUrl}
+                    cakePrice={cakePrice}
+                    apy={farm.apy}
+                  />
+                  {farmAPY}%
               </>
-            ) : (
-              <Skeleton height={24} width={80} />
-            )}
+              ) : (
+                <Skeleton height={24} width={80} />
+              )}
+            </Text>
+          </Flex>
+        )}
+        <Flex justifyContent="space-between">
+          <Text>{TranslateString(318, "Earn")}:</Text>
+          <Text bold>{earnLabel}</Text>
+        </Flex>
+        <Flex justifyContent="space-between">
+          <Text>{TranslateString(318, "Harvest Lock Interval")}:</Text>
+          <Text bold>
+            {poolHarvestIntervalInDays > 0
+              ? `${poolHarvestIntervalInDays.toString()} Days`
+              : ""}
+            {!isDaysGreater && poolHarvestIntervalinHours > 0
+              ? `${poolHarvestIntervalinHours.toString()} Hours`
+              : ""}
+            {!isDaysGreater && !isHoursGreater && poolHarvestIntervalinMinutes > 0
+              ? `${poolHarvestIntervalinMinutes.toString()} Minutes`
+              : ""}
           </Text>
         </Flex>
-      )}
-      <Flex justifyContent="space-between">
-        <Text>{TranslateString(318, "Earn")}:</Text>
-        <Text bold>{earnLabel}</Text>
-      </Flex>
-      <Flex justifyContent="space-between">
-        <Text>{TranslateString(318, "Harvest Lock Interval")}:</Text>
-        <Text bold>
-          {poolHarvestIntervalInDays > 0
-            ? `${poolHarvestIntervalInDays.toString()} Days`
-            : ""}
-          {!isDaysGreater && poolHarvestIntervalinHours > 0
-            ? `${poolHarvestIntervalinHours.toString()} Hours`
-            : ""}
-          {!isDaysGreater && !isHoursGreater && poolHarvestIntervalinMinutes > 0
-            ? `${poolHarvestIntervalinMinutes.toString()} Minutes`
-            : ""}
-        </Text>
-      </Flex>
 
-      <CardActionsContainer
-        farm={farm}
-        account={account}
-        addLiquidityUrl={addLiquidityUrl}
-      />
-      <Divider />
+        <CardActionsContainer
+          farm={farm}
+          account={account}
+          addLiquidityUrl={addLiquidityUrl}
+        />
+      </div>
       <ExpandableSectionButton
         onClick={() => setShowExpandableSection(!showExpandableSection)}
         expanded={showExpandableSection}
@@ -244,9 +247,8 @@ const FarmCard: React.FC<FarmCardProps> = ({
       <ExpandingWrapper expanded={showExpandableSection}>
         <DetailsSection
           removed={removed}
-          maticExplorerAddress={`https://explorer-mumbai.maticvigil.com/address/${
-            farm.lpAddresses[process.env.REACT_APP_CHAIN_ID]
-          }`}
+          maticExplorerAddress={`https://explorer-mumbai.maticvigil.com/address/${farm.lpAddresses[process.env.REACT_APP_CHAIN_ID]
+            }`}
           totalValueFormated={totalValueFormated}
           lpLabel={lpLabel}
           addLiquidityUrl={addLiquidityUrl}

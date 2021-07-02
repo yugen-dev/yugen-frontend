@@ -32,6 +32,7 @@ export const fetchPoolsAllowance = async (account) => {
   }));
 
   const allowances = await multicall(erc20ABI, calls);
+
   return nonBnbPools.reduce(
     (acc, pool, index) => ({
       ...acc,
@@ -90,7 +91,7 @@ export const fetchUserStakeBalances = async (account) => {
     .userInfo("0", account)
     .call();
 
-  return { ...stakedBalances, 0: new BigNumber(masterPoolAmount).toJSON() };
+  return { ...stakedBalances };
 };
 
 export const fetchUserPendingRewards = async (account) => {
@@ -114,5 +115,45 @@ export const fetchUserPendingRewards = async (account) => {
     .pendingCNT("0", account)
     .call();
 
-  return { ...pendingRewards, 0: new BigNumber(pendingReward).toJSON() };
+  return { ...pendingRewards };
+};
+
+export const fetchPoolUserCanHarvestPendingReward = async (account) => {
+  const calls = nonMasterPools.map((p) => ({
+    address: getAddress(p.contractAddress),
+    name: "canHarvest",
+    params: [account],
+  }));
+
+  const res = await multicall(sousChefABI, calls);
+  console.log(res);
+  const userCanHarvest = nonMasterPools.reduce(
+    (acc, pool, index) => ({
+      ...acc,
+      [pool.sousId]: res[index][0],
+    }),
+    {}
+  );
+  console.log(userCanHarvest);
+
+  return { ...userCanHarvest };
+};
+
+export const fetchPoolUserHarvestInterval = async (account) => {
+  const calls = nonMasterPools.map((p) => ({
+    address: getAddress(p.contractAddress),
+    name: "getHarvestUntil",
+    params: [account],
+  }));
+
+  const res = await multicall(sousChefABI, calls);
+  const userHarvestInterval = nonMasterPools.reduce(
+    (acc, pool, index) => ({
+      ...acc,
+      [pool.sousId]: new BigNumber(res[index]).toJSON(),
+    }),
+    {}
+  );
+
+  return { ...userHarvestInterval };
 };

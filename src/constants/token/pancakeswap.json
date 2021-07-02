@@ -41,6 +41,22 @@
       "symbol": "CNT",
       "decimals": 18,
       "logoURI": "https://cryption-network.s3.us-east-2.amazonaws.com/Globe+Gradient.png"
+    },
+    {
+      "chainId": 80001,
+      "address": "0xa22DDedE7118de4589FCC580D829ede5354821DA",
+      "name": "MahaDAO",
+      "symbol": "MAHA",
+      "decimals": 18,
+      "logoURI": "https://assets.coingecko.com/coins/images/13404/small/mahadao.jpg?1608373356"
+    },
+    {
+      "chainId": 80001,
+      "address": "0x62683362864B6aF24C520166f4a9F675D7dad1d9",
+      "name": "ARTH",
+      "symbol": "ARTH",
+      "decimals": 18,
+      "logoURI": ""
     }
   ]
 }

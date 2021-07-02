@@ -4,28 +4,33 @@ import { Route, useRouteMatch } from "react-router-dom";
 import BigNumber from "bignumber.js";
 import orderBy from "lodash/orderBy";
 import Container from "@material-ui/core/Container";
-import { QuoteToken, PoolCategory } from "config/constants/types";
 import partition from "lodash/partition";
+import { QuoteToken, PoolCategory } from "config/constants/types";
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
 import { useWeb3React } from "@web3-react/core";
 import { getBalanceNumber } from "utils/formatBalance";
-import { usePools, useBlock } from "state/hooks";
+import { usePools, useBlock, usePriceCakeBusd } from "state/hooks";
+import useI18n from "hooks/useI18n";
+import { CNTinUSDLink } from "config";
 import { getCakeContract, getCNTStakerContract } from "utils/contractHelpers";
-import cntMascot from "images/cntmascotWithName.png";
 import PoolTabButtons from "./components/PoolTabButtons";
 // import FlexLayout from "components/layout/Flex";
 // import pools from "config/constants/pools";
 import PoolCard from "./components/PoolCard";
+import StakeCNT from "./components/StakeCNT";
+import UnstakeXCNT from "./components/UnstakeXCNT";
 
 const NUMBER_OF_POOLS_VISIBLE = 12;
 const Farm: React.FC = () => {
   const loadMoreRef = useRef<HTMLDivElement>(null);
+  const [valueOfCNTinUSD, setCntPrice] = useState(0);
+  const cntPrice = usePriceCakeBusd();
   const { path } = useRouteMatch();
+  const TranslateString = useI18n();
   const cake = getCakeContract();
   const { account } = useWeb3React("web3");
   const pools = usePools(account);
-  // console.log(pools);
   const [numberOfPoolsVisible, setNumberOfPoolsVisible] = useState(
     NUMBER_OF_POOLS_VISIBLE
   );
@@ -43,7 +48,7 @@ const Farm: React.FC = () => {
       ),
     [currentBlock, pools]
   );
-  // console.log(openPools);
+
   const stakedOnlyFinishedPools = useMemo(
     () =>
       finishedPools.filter(
@@ -53,7 +58,6 @@ const Farm: React.FC = () => {
       ),
     [finishedPools]
   );
-  // console.log(stakedOnlyFinishedPools);
   const stakedOnlyOpenPools = useMemo(
     () =>
       openPools.filter(
@@ -63,10 +67,20 @@ const Farm: React.FC = () => {
       ),
     [openPools]
   );
-
   // const hasStakeInFinishedPools = stakedOnlyFinishedPools.length > 0;
   useEffect(() => {
     window.scrollTo(0, 0);
+    const fetchData = async () => {
+      try {
+        const response = await fetch(CNTinUSDLink);
+        const res = await response.json();
+        setCntPrice(res);
+      } catch (error) {
+        console.error("Unable to fetch price data:", error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -100,74 +114,28 @@ const Farm: React.FC = () => {
 
   return (
     <div>
-      <Hero>
-        <Container maxWidth="lg">
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={6} xl={6}>
-              <HeadingTex>Staking Pool</HeadingTex>
-              <StyledOl>
-                <DescriptionTextLi>
-                  Stake CNT to earn more CNT.
-                </DescriptionTextLi>
-                <DescriptionTextLi>
-                  You will earn a portion of the swaps fees based on the amount
-                  of xCNT held relative the weight of the staking.
-                </DescriptionTextLi>
-                <DescriptionTextLi>
-                  xCNT can be minted by staking CNT
-                </DescriptionTextLi>
-                <DescriptionTextLi>
-                  To redeem CNT staked plus swap fees convert xCNT back to CNT.
-                </DescriptionTextLi>
-                {totalSupply && (
-                  <DescriptionTextLi>
-                    {`There are currently ${getBalanceNumber(
-                      totalSupply
-                    ).toFixed(3)} xCNT in existence.`}
-                  </DescriptionTextLi>
-                )}
-              </StyledOl>
-            </Grid>
-            <Grid item xs={12} md={6} lg={6} xl={6}>
-              {/* <img
-                src="../../../public/images/syrup.png"
-                alt="SYRUP POOL icon"
-                width={410}
-                height={191}
-              /> */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <img src={cntMascot} alt="Cryption Netwrok" width="250px" />
-              </div>
-            </Grid>
-          </Grid>
-        </Container>
-      </Hero>
+      <Container maxWidth="lg">
+        <CNHeading>Mutli-Rewards Farms</CNHeading>
+      </Container>
       <Container maxWidth="lg">
         <PoolTabButtons
           stackedOnly={stakedOnly}
           setStackedOnly={setStakedOnly}
         />
         <Route exact path={`${path}`}>
-          <Grid
-            container
-            spacing={3}
-            style={{ margin: "30px 0px" }}
-            justify="center"
-          >
+          <Grid container spacing={3} style={{ margin: "30px 0px" }}>
             {stakedOnly
               ? orderBy(stakedOnlyOpenPools, ["sortOrder"])
                   .slice(0, numberOfPoolsVisible)
                   .map(
                     (pool) =>
-                      pool.poolCategory === PoolCategory.COMMUNITY && (
+                      pool.poolCategory === PoolCategory.CORE && (
                         <Grid item xs={12} md={6} lg={4} xl={4}>
-                          <PoolCard key={pool.sousId} pool={pool} />{" "}
+                          <PoolCard
+                            key={pool.sousId}
+                            pool={pool}
+                            valueOfCNTinUSD={cntPrice}
+                          />{" "}
                         </Grid>
                       )
                   )
@@ -175,9 +143,13 @@ const Farm: React.FC = () => {
                   .slice(0, numberOfPoolsVisible)
                   .map(
                     (pool) =>
-                      pool.poolCategory === PoolCategory.COMMUNITY && (
+                      pool.poolCategory === PoolCategory.CORE && (
                         <Grid item xs={12} md={6} lg={4} xl={4}>
-                          <PoolCard key={pool.sousId} pool={pool} />{" "}
+                          <PoolCard
+                            key={pool.sousId}
+                            pool={pool}
+                            valueOfCNTinUSD={cntPrice}
+                          />{" "}
                         </Grid>
                       )
                   )}
@@ -189,27 +161,30 @@ const Farm: React.FC = () => {
           {stakedOnly
             ? orderBy(stakedOnlyFinishedPools, ["sortOrder"])
                 .slice(0, numberOfPoolsVisible)
-                .map((pool) => <PoolCard key={pool.sousId} pool={pool} />)
+                .map((pool) => (
+                  <PoolCard
+                    key={pool.sousId}
+                    pool={pool}
+                    valueOfCNTinUSD={cntPrice}
+                  />
+                ))
             : orderBy(finishedPools, ["sortOrder"])
                 .slice(0, numberOfPoolsVisible)
-                .map((pool) => <PoolCard key={pool.sousId} pool={pool} />)}
+                .map((pool) => (
+                  <PoolCard
+                    key={pool.sousId}
+                    pool={pool}
+                    valueOfCNTinUSD={cntPrice}
+                  />
+                ))}
         </Route>
         <div ref={loadMoreRef} />
-        {/* <div
+        <div
           dangerouslySetInnerHTML={{
             __html:
               '<lottie-player src="https://assets3.lottiefiles.com/packages/lf20_r71cen62.json"  background="transparent"  speed="1" style="height: 350px;" loop  autoplay></lottie-player>',
           }}
-        /> */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <img src={cntMascot} alt="Cryption Netwrok" width="300px" />
-        </div>
+        />
       </Container>
     </div>
   );
@@ -239,25 +214,11 @@ const Hero = styled.div`
     max-width: none;
   }
 `;
-const HeadingTex = styled.div`
-  font-size: 23px;
+const CNHeading = styled.div`
+  font-size: 45px;
   font-weight: bold;
-  text-align: left;
+  text-align: center;
   color: white;
   margin-bottom: 20px;
 `;
-
-const DescriptionTextLi = styled.li`
-  font-size: 17px;
-  font-weight: normal;
-  text-align: left;
-  margin-bottom: 10px !important;
-  color: white;
-`;
-
-const StyledOl = styled.ol`
-  list-style-position: outside;
-  padding-left: 16px;
-`;
-
 export default Farm;

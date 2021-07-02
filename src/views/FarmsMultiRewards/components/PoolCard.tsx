@@ -1,8 +1,6 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import BigNumber from "bignumber.js";
 import { ethers } from "ethers";
-import { MaxUint256 } from "@ethersproject/constants";
-import { splitSignature } from "@ethersproject/bytes";
 import styled from "styled-components";
 import {
   Button,
@@ -20,12 +18,10 @@ import Countdown from "react-countdown";
 import UnlockButton from "components/UnlockButton";
 import Label from "components/Label";
 import { getContract } from "utils/contractHelpers";
-import { getBiconomyWeb3 } from "utils/biconomyweb3";
 import { getAddress } from "utils/addressHelpers";
 import useI18n from "hooks/useI18n";
 import { useSousStake } from "hooks/useStake";
 import useWeb3 from "hooks/useWeb3";
-import { useGetApiPrice, usePriceOfCrypto, useProfile } from "state/hooks";
 import { useSousUnstake } from "hooks/useUnstake";
 import { getBalanceNumber } from "utils/formatBalance";
 import { getPoolApy } from "utils/apy";
@@ -35,20 +31,22 @@ import { QuoteToken, PoolCategory } from "config/constants/types";
 import { Pool } from "state/types";
 import cakeAbi from "config/abi/cake.json";
 import Tooltip from "components/Tooltip";
-import { META_TXN_SUPPORTED_TOKENS } from "../../../constants";
+import CardHeading from "./CardHeading";
 import DepositModal from "./DepositModal";
 import WithdrawModal from "./WithdrawModal";
-// import CompoundModal from "./CompoundModal";
+import CompoundModal from "./CompoundModal";
 import CardTitle from "./CardTitle";
 import Card from "./Card";
 import OldSyrupTitle from "./OldSyrupTitle";
 import CardFooter from "./CardFooter";
+import ApyButton from "../../Farms/components/FarmCard/ApyButton";
 
 interface HarvestProps {
   pool: Pool;
+  valueOfCNTinUSD?: BigNumber;
 }
 
-const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
+const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
   // const [pendingMultiRewards, SetpendingMultiRewards] = useState(null);
   const {
     sousId,
@@ -56,7 +54,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     tokenName,
     tokenAddress,
     stakingTokenName,
-    // stakingTokenAddress,
+    stakingTokenAddress,
     contractAddress,
     stakingTokenDecimals,
     projectLink,
@@ -70,10 +68,14 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     userData,
     stakingLimit,
     poolHarvestInterval,
+    tokenAmount,
+    quoteTokenAmount,
+    lpTotalInQuoteToken,
+    tokenPriceVsQuote,
   } = pool;
 
-  const { account, chainId, library } = useWeb3React("web3");
-  const { metaTranscation } = useProfile();
+  const { account } = useWeb3React("web3");
+
   // Pools using native BNB behave differently than pools using a token
   const isBnbPool = poolCategory === PoolCategory.BINANCE;
   const [show, setShow] = useState(false);
@@ -109,22 +111,21 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   ///
 
   // APY
-  const rewardTokenPrice = usePriceOfCrypto("MahaDAO");
+  // const rewardTokenPrice = useGetApiPrice(tokenName);
 
-  const stakingTokenPrice = usePriceOfCrypto("cryption-network");
-  // console.log(rewardTokenPrice.toString());
-  // console.log(stakingTokenPrice.toString());
-  // const stakingTokenPrice = Number(1);
-  // const rewardTokenPrice = Number(1);
+  // const stakingTokenPrice = useGetApiPrice(stakingTokenName);
+  const stakingTokenPrice = Number(1);
   let apy = 0;
   let apyString = "";
   const apyArray = [];
   // const pendingRewardArray = [];
 
   pool.multiRewardTokenPerBlock.forEach(async (element, i) => {
+    const rewardTokenPrice = Number(1);
+
     const currentTokenApy = getPoolApy(
-      stakingTokenPrice.toNumber(),
-      rewardTokenPrice.toNumber(),
+      rewardTokenPrice,
+      rewardTokenPrice,
       getBalanceNumber(pool.totalStaked, stakingTokenDecimals),
       parseFloat(element)
     );
@@ -148,10 +149,9 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   const stakingTokenBalance = new BigNumber(userData?.stakingTokenBalance || 0);
   const stakedBalance = new BigNumber(userData?.stakedBalance || 0);
   const earnings = new BigNumber(userData?.pendingReward || 0);
-  const canHarvest =
-    userData?.canHarvest === true ? userData?.canHarvest : false;
+  const canHarvest = userData?.canHarvest ? userData?.canHarvest : false;
   // console.log(canHarvest);
-
+  // console.log(`can harvest ${userData?.canHarvest}`);
   const harvestInterval = userData?.harvestInterval
     ? new BigNumber(userData?.harvestInterval)
     : new BigNumber(0);
@@ -196,27 +196,27 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     />
   );
   // console.log(harvestInterval.toNumber());
-  // const renderNextHarvestIntervalIn = () => {
-  //   return (
-  //     <Flex justifyContent="space-between">
-  //       <Text>{TranslateString(318, "Next Harvest in :")}</Text>
-  //       <Text bold>
-  //         <Countdown
-  //           date={harvestInterval.toNumber() * 1000}
-  //           renderer={Renderer}
-  //         />
-  //       </Text>
-  //     </Flex>
-  //   );
-  // };
+  const renderNextHarvestIntervalIn = () => {
+    return (
+      <Flex justifyContent="space-between">
+        <Text>{TranslateString(318, "Next Harvest in :")}</Text>
+        <Text bold>
+          <Countdown
+            date={harvestInterval.toNumber() * 1000}
+            renderer={Renderer}
+          />
+        </Text>
+      </Flex>
+    );
+  };
 
-  // const [onPresentCompound] = useModal(
-  //   <CompoundModal
-  //     earnings={earnings}
-  //     onConfirm={onStake}
-  //     tokenName={stakingTokenName}
-  //   />
-  // );
+  const [onPresentCompound] = useModal(
+    <CompoundModal
+      earnings={earnings}
+      onConfirm={onStake}
+      tokenName={stakingTokenName}
+    />
+  );
 
   const [onPresentWithdraw] = useModal(
     <WithdrawModal
@@ -226,87 +226,9 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
       stakingTokenDecimals={stakingTokenDecimals}
     />
   );
-  // eslint-disable-next-line consistent-return
+
   const handleApprove = async () => {
     try {
-      if (
-        META_TXN_SUPPORTED_TOKENS[tokenAddress.toLowerCase()] &&
-        metaTranscation
-      ) {
-        setRequestedApproval(true);
-        const metaToken = META_TXN_SUPPORTED_TOKENS[tokenAddress.toLowerCase()];
-        const biconomyweb3 = getBiconomyWeb3();
-        const biconomyContract = new biconomyweb3.eth.Contract(
-          metaToken.abi,
-          tokenAddress
-        );
-        const nonceMethod =
-          biconomyContract.methods.getNonce || biconomyContract.methods.nonces;
-        const biconomyNonce = await nonceMethod(account).call();
-        const res = biconomyContract.methods
-          .approve(getAddress(contractAddress), MaxUint256.toString())
-          .encodeABI();
-        const message: any = {
-          nonce: "",
-          from: "",
-          functionSignature: "",
-        };
-
-        const name = await biconomyContract.methods.name().call();
-
-        message.nonce = parseInt(biconomyNonce);
-        message.from = account;
-        message.functionSignature = res;
-
-        const dataToSign = JSON.stringify({
-          types: {
-            EIP712Domain: [
-              { name: "name", type: "string" },
-              { name: "version", type: "string" },
-              { name: "verifyingContract", type: "address" },
-              { name: "salt", type: "bytes32" },
-            ],
-            MetaTransaction: [
-              { name: "nonce", type: "uint256" },
-              { name: "from", type: "address" },
-              { name: "functionSignature", type: "bytes" },
-            ],
-          },
-          domain: {
-            name,
-            version: "1",
-            verifyingContract: tokenAddress,
-            // @ts-ignore
-            salt: `0x${chainId.toString(16).padStart(64, "0")}`,
-          },
-          primaryType: "MetaTransaction",
-          message,
-        });
-
-        const sig = await library.send("eth_signTypedData_v4", [
-          account,
-          dataToSign,
-        ]);
-
-        const signature = await splitSignature(sig.result);
-        const { v, r, s } = signature;
-
-        return biconomyContract.methods
-          .executeMetaTransaction(account, res, r, s, v)
-          .send({
-            from: account,
-          })
-          .then((response: any) => {
-            if (!response.hash) {
-              setRequestedApproval(false);
-            }
-            return response.hash;
-          })
-          .catch((error: Error) => {
-            console.debug("Failed to approve token", error);
-            throw error;
-          });
-      }
       const contract = await getContract(cakeAbi, tokenAddress, web3);
       setRequestedApproval(true);
       const txHash = await contract.methods
@@ -326,7 +248,8 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     <Card isActive={isCardActive} isFinished={isFinished}>
       {isFinished && <PoolFinishedSash />}
       <div style={{ borderBottom: "1px solid #524B63" }}>
-        <div
+        <div style={{ padding: "20px" }}>
+          {/* <div
           style={{
             display: "flex",
             alignItems: "center",
@@ -338,50 +261,49 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
             {isOldSyrup && "[OLD]"} {tokenName} {TranslateString(348, "Pool")}
           </CardTitle>
           <Image
-            src={`/images/tokens/${image || tokenName.toLowerCase()}.png`}
-            width={64}
-            height={64}
+            src={`/images/farms/${image || tokenName.toLowerCase()}.png`}
+            width={100}
+            height={94}
             alt={tokenName}
+          />
+        </div> */}
+          <CardHeading
+            lpLabel={`${tokenName} Pool`}
+            farmImage={image || tokenName.toLowerCase()}
+            tokenSymbol={tokenName}
           />
         </div>
       </div>
       <div style={{ padding: "24px" }}>
         <div style={{ marginBottom: "8px" }}>
           <div style={{ width: "100%", maxWidth: "400px", margin: "10px 0px" }}>
+            <Flex justifyContent="space-between" alignItems="center">
+              <Text>{TranslateString(736, "APR")}:</Text>
+              <Text bold style={{ display: "flex", alignItems: "center" }}>
+                {apy ? (
+                  <>
+                    <ApyButton
+                      lpLabel={tokenName}
+                      addLiquidityUrl="addLiquidityUrl"
+                      cakePrice={valueOfCNTinUSD}
+                      apy={new BigNumber(apy || 0)}
+                    />
+                    {apy}%
+                  </>
+                ) : (
+                  <Skeleton height={24} width={80} />
+                )}
+              </Text>
+            </Flex>
             <StyledDetails>
-              <APRText onMouseEnter={open} onMouseLeave={close}>
-                APR :
-                <Tooltip show={show} text={apyString}>
-                  <InfoIcon
-                    style={{
-                      color: "#86878f",
-                      fontSize: "15px",
-                      margin: "4px 4px 0px 4px",
-                    }}
-                  />
-                </Tooltip>
-              </APRText>
-              {isFinished || isOldSyrup || !apy ? (
-                "-"
-              ) : (
-                <Balance
-                  fontSize="16px"
-                  isDisabled={isFinished}
-                  value={apy}
-                  decimals={2}
-                  unit="%"
-                />
-              )}
-            </StyledDetails>
-            <StyledDetails>
-              <div>{TranslateString(384, "Your Stake")}:</div>
+              <Text>{TranslateString(384, "Your Stake")}:</Text>
               <Balance
                 fontSize="16px"
                 isDisabled={isFinished}
                 value={getBalanceNumber(stakedBalance, stakingTokenDecimals)}
               />
             </StyledDetails>
-            <Flex justifyContent="space-between">
+            <Flex justifyContent="space-between" mb="15px">
               <Text>{TranslateString(318, "Harvest Lock Interval")}:</Text>
               <Text bold>
                 {poolHarvestIntervalInDays > 0
@@ -398,9 +320,9 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
               </Text>
             </Flex>
             {/* canHarvest */}
-            {account && harvest && !isOldSyrup && canHarvest && (
+            {account && harvest && canHarvest && !isOldSyrup && (
               <Button
-                disabled={!earnings.toNumber() || pendingTx}
+                disabled={!canHarvest || !earnings.toNumber() || pendingTx}
                 style={{ width: "100%", maxWidth: "400px" }}
                 onClick={async () => {
                   setPendingTx(true);

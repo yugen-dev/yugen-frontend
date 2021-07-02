@@ -39,6 +39,7 @@ export enum QuoteToken {
   "MATIC" = "MATIC",
   "PR" = "PR",
   "TEST1" = "TEST1",
+  "LP" = "LP",
 }
 
 export enum PoolCategory {
@@ -75,6 +76,7 @@ export interface PoolConfig {
   sousId: number;
   image?: string;
   tokenName: string;
+  tokenAdressInLp: string;
   tokenAddress: string;
   stakingTokenName: QuoteToken;
   stakingLimit?: number;

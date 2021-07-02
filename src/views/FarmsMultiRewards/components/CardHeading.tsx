@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Tag, Flex, Heading, Image } from "cryption-uikit";
+import { Flex, Heading, Image } from "cryption-uikit";
 import { CommunityTag, CoreTag } from "components/Tags";
 
 export interface ExpandableSectionProps {
@@ -17,15 +17,8 @@ const Wrapper = styled(Flex)`
   }
 `;
 
-const MultiplierTag = styled(Tag)`
-  margin-left: 10px;
-  background: linear-gradient(161.46deg, #2a76eb 12.56%, #9702ff 90.36%);
-`;
-
 const CardHeading: React.FC<ExpandableSectionProps> = ({
   lpLabel,
-  multiplier,
-  isCommunityFarm,
   farmImage,
   tokenSymbol,
 }) => {
@@ -40,8 +33,8 @@ const CardHeading: React.FC<ExpandableSectionProps> = ({
       <Flex flexDirection="column" alignItems="flex-end">
         <Heading mb="15px">{lpLabel}</Heading>
         <Flex justifyContent="center">
-          {isCommunityFarm ? <CommunityTag /> : <CoreTag />}
-          <MultiplierTag variant="secondary">{multiplier}</MultiplierTag>
+          {/* {isCommunityFarm ? <CommunityTag /> : <CoreTag />} */}
+          <CoreTag />
         </Flex>
       </Flex>
     </Wrapper>

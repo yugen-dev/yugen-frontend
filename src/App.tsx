@@ -30,7 +30,8 @@ import history from "./routerHistory";
 // Only pool is included in the main bundle because of it's the most visited page
 const Home = lazy(() => import("./views/Home"));
 const Farms = lazy(() => import("./views/Farms"));
-// const Migrate = lazy(() => import("./views/Migrate"));
+const FarmsMultiRewards = lazy(() => import("./views/FarmsMultiRewards"));
+const Migrate = lazy(() => import("./views/Migrate"));
 const CNTBar = lazy(() => import("./views/CNTBar"));
 const Swap = lazy(() => import("./views/Swap"));
 const AddLiquidity = lazy(() => import("./views/AddLiquidity"));
@@ -78,6 +79,9 @@ const App: React.FC = () => {
               </Route>
               <Route path="/farms">
                 <Farms />
+              </Route>
+              <Route path="/multirewards">
+                <FarmsMultiRewards />
               </Route>
               <Route path="/pools">
                 <Pools />
