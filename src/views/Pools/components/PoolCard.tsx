@@ -132,25 +132,14 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     : 0;
   ///
 
-  // APY
-  // const rewardTokenPrice = usePriceOfCrypto("MahaDAO");
-
-  // console.log(rewardTokenPrice.toString());
-  // console.log(stakingTokenPrice.toString());
-  // const stakingTokenPrice = Number(1);
-  // const rewardTokenPrice = Number(1);
   let apy = 0;
   let apyString = "";
   const apyArray = [];
-  // const pendingRewardArray = [];
 
   pool.multiRewardTokenPerBlock.forEach(async (element, i) => {
-    // const stakingTokenPrice = await fetchPrice(pool.stakingTokenCoinGeckoid);
-    // const rewardTokenPrice = await fetchPrice(pool.coinGeckoIds[i]);
     const stakingTokenPrice = StakingTokenPrice;
     const rewardTokenPrice = tokenprices[i] ? tokenprices[i] : new BigNumber(1);
 
-    // console.log(`reward token price${rewardTokenPrice.toString()}`);
     const currentTokenApy = getPoolApy(
       stakingTokenPrice.toNumber(),
       rewardTokenPrice.toNumber(),

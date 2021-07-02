@@ -4,7 +4,7 @@ import BigNumber from "bignumber.js";
 import { QuoteToken } from "config/constants/types";
 import { ParentSize } from "@visx/responsive";
 import Grid from "@material-ui/core/Grid";
-import orderBy from "lodash/orderBy";
+// import orderBy from "lodash/orderBy";
 import { useQuery } from "@apollo/client";
 import Container from "@material-ui/core/Container";
 import useI18n from "hooks/useI18n";
@@ -18,8 +18,8 @@ import {
   CAKE_POOL_PID,
 } from "config";
 import { getDayData } from "apollo/exchange";
-import pools from "config/constants/pools";
-import { Pool } from "state/types";
+// import pools from "config/constants/pools";
+// import { Pool } from "state/types";
 import useCNTprice from "hooks/useCNTprice";
 import { useFarms, usePriceBnbBusd } from "state/hooks";
 
@@ -76,14 +76,14 @@ const Home: React.FC = () => {
   const totalSupply = useTotalSupply();
   const maxAPY = useRef(Number.MIN_VALUE);
   const TranslateString = useI18n();
-  const activeNonCakePools = pools.filter((pool) => !pool.isFinished);
-  const latestPools: Pool[] = orderBy(
-    activeNonCakePools,
-    ["sortOrder", "pid"],
-    ["desc", "desc"]
-  ).slice(0, 3);
+  // const activeNonCakePools = pools.filter((pool) => !pool.isFinished);
+  // const latestPools: Pool[] = orderBy(
+  //   activeNonCakePools,
+  //   ["sortOrder", "pid"],
+  //   ["desc", "desc"]
+  // ).slice(0, 3);
   // Always include CAKE
-  const assets = [...latestPools.map((pool) => pool.tokenName)].join(", ");
+  // const assets = [...latestPools.map((pool) => pool.tokenName)].join(", ");
   const getHighestAPY = () => {
     const activeFarms = farmsLP.filter((farm) => farm.multiplier !== "0X");
     calculateAPY(activeFarms);
@@ -293,7 +293,7 @@ const Home: React.FC = () => {
               <EarnAssetCard
                 topTitle="Earn"
                 bottomTitle="in Pools"
-                description={assets}
+                description="CNT, MAHA"
                 redirectLink="/pools"
               />
             </Grid>

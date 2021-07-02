@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react/style-prop-object */
 /* eslint-disable react/no-danger */
@@ -28,6 +30,7 @@ import useWeb3 from "hooks/useWeb3";
 import { getBalanceNumber } from "utils/formatBalance";
 import { getCakeContract, getCNTStakerContract, getBep20Contract } from "utils/contractHelpers";
 import { useCNTStaker, useCNTStakerGasless } from "hooks/useContract";
+import { registerToken } from "utils/wallet";
 
 const CNHeading = styled.div`
   font-size: 23px;
@@ -136,6 +139,8 @@ const StyledOl = styled.ol`
 const CNTBar = () => {
   // const tokenName = "CNT";
   const [valueOfCNTinUSD, setCNTVal] = useState(0);
+  const xCNTLogo = 'https://i.ibb.co/zfhRMxc/xCNT.png';
+  const CNTLogo = 'https://i.ibb.co/8D5r4Hp/CNT.png';
   const [index, setIndex] = React.useState(0);
   const [tokenBalance, setTokenBalance] = React.useState(new BigNumber(0));
   const [xCNTBalance, setxCNTBalance] = React.useState(new BigNumber(0));
@@ -469,7 +474,10 @@ const CNTBar = () => {
                     src="/images/CNT.png"
                     alt="CNT"
                     width="24px"
-                    style={{ marginRight: "10px" }}
+                    style={{ marginRight: "10px", cursor: 'pointer' }}
+                    onClick={() =>
+                      registerToken(contracts.cake[80001], 'CNT', 18, CNTLogo)
+                    }
                   />
                   <Text
                     bold
@@ -486,7 +494,10 @@ const CNTBar = () => {
                     src="/images/xCNT.png"
                     alt="xCNT"
                     width="24px"
-                    style={{ marginRight: "10px" }}
+                    onClick={() =>
+                      registerToken(contracts.cntStaker[80001], 'xCNT', 18, xCNTLogo)
+                    }
+                    style={{ marginRight: "10px", cursor: 'pointer' }}
                   />
                   <Text
                     bold
