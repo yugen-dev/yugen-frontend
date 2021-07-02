@@ -75,21 +75,20 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   useEffect(() => {
     const pricefunc = async () => {
       const arrayofprices = [];
-      let i;
+
       const stakingTokenPrice = await fetchPrice(pool.stakingTokenCoinGeckoid);
       if (stakingTokenPrice) {
         setStakingTokenPrice(stakingTokenPrice);
       }
 
-      for (i = 0; i < pool.coinGeckoIds.length; i++) {
-        // eslint-disable-next-line  no-await-in-loop
+      pool.coinGeckoIds.forEach(async (element, i) => {
         let price = await fetchPrice(pool.coinGeckoIds[i]);
         if (!price) {
           price = new BigNumber(1);
         }
 
         arrayofprices.push(price);
-      }
+      });
 
       Settokenprices(arrayofprices);
     };
@@ -139,7 +138,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   pool.multiRewardTokenPerBlock.forEach(async (element, i) => {
     const stakingTokenPrice = StakingTokenPrice;
     const rewardTokenPrice = tokenprices[i] ? tokenprices[i] : new BigNumber(1);
-
+    console.log(rewardTokenPrice.toString());
     const currentTokenApy = getPoolApy(
       stakingTokenPrice.toNumber(),
       rewardTokenPrice.toNumber(),
