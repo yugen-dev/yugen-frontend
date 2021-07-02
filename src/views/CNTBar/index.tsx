@@ -13,23 +13,21 @@ import {
   Flex,
   Input,
   Text,
-  useModal,
 } from "cryption-uikit";
 import Grid from "@material-ui/core/Grid";
 import { useQuery } from "@apollo/client";
 import { dayDatasQuery, cntStakerQuery } from "apollo/queries";
-import useEnter from "hooks/useEnter";
-import useLeave from "hooks/useLeave";
 import { useStakingAllowance } from "hooks/useAllowance";
 import { useApproveStaking } from "hooks/useApprove";
 import contracts from "config/constants/contracts";
-import useTokenBalance from "hooks/useTokenBalance";
+import { useProfile, useToast } from "state/hooks";
+import { enter, enterGasless, leave, leaveGasless } from "utils/callHelpers";
 import UnlockButton from "components/UnlockButton";
 import getCntPrice from "utils/getCntPrice";
+import useWeb3 from "hooks/useWeb3";
 import { getBalanceNumber } from "utils/formatBalance";
-import { getCakeContract, getCNTStakerContract } from "utils/contractHelpers";
-import DepositModal from "../Pools/components/DepositModal";
-import WithdrawModal from "../Pools/components/WithdrawModal";
+import { getCakeContract, getCNTStakerContract, getBep20Contract } from "utils/contractHelpers";
+import { useCNTStaker, useCNTStakerGasless } from "hooks/useContract";
 
 const CNHeading = styled.div`
   font-size: 23px;
@@ -136,10 +134,12 @@ const StyledOl = styled.ol`
   padding-left: 16px;
 `;
 const CNTBar = () => {
-  const tokenName = "CNT";
+  // const tokenName = "CNT";
   const [valueOfCNTinUSD, setCNTVal] = useState(0);
   const [index, setIndex] = React.useState(0);
-  const { onEnter } = useEnter();
+  const [tokenBalance, setTokenBalance] = React.useState(new BigNumber(0));
+  const [xCNTBalance, setxCNTBalance] = React.useState(new BigNumber(0));
+  // const { onEnter } = useEnter();
   const [requestedApproval, setRequestedApproval] = useState(false);
   const [tokenAmount, handleTokenAmount] = useState("");
   const handleClick = (newIndex) => {
@@ -147,8 +147,6 @@ const CNTBar = () => {
     setIndex(newIndex);
   };
   const { account } = useWeb3React("web3");
-  const tokenBalance = useTokenBalance(contracts.cake[80001]);
-  const xCNTBalance = useTokenBalance(contracts.cntStaker[80001]);
   const [pendingTx, setPendingTx] = useState(false);
   const [pendingDepositTx, setPendingDepositTx] = useState(false);
   let tokenBal = tokenBalance;
@@ -156,27 +154,57 @@ const CNTBar = () => {
   const { onApprove } = useApproveStaking();
   const cake = getCakeContract();
   const [totalSupply, setTotalSupply] = useState<BigNumber>();
-  const xTokenName = "xCNT";
-  const { onLeave } = useLeave();
+  // const xTokenName = "xCNT";
+  const web3 = useWeb3();
+  // const { onLeave } = useLeave();
+  const cntStaker = useCNTStaker();
+  const cntStakerGasless = useCNTStakerGasless();
+  const { metaTranscation } = useProfile();
   let cntStakingRatio = 0.0;
+  const { toastSuccess, toastError } = useToast();
   if (index === 1) {
     tokenBal = xCNTBalance;
   }
+  const fetchBalances = async (tokenAddress) => {
+    try {
+      const contract = getBep20Contract(tokenAddress, web3);
+      const res = await contract.methods.balanceOf(account).call();
+      return (new BigNumber(res));
+    } catch (error) {
+      console.error({ error });
+      return (new BigNumber(0));
+    }
+  }
+  const getTokenBalances = async () => {
+    const tokenBalanceResp = await fetchBalances(contracts.cake[80001]);
+    const xCNTBalanceResp = await fetchBalances(contracts.cntStaker[80001]);
+    setTokenBalance(tokenBalanceResp);
+    setxCNTBalance(xCNTBalanceResp)
+  }
+
   useEffect(() => {
     async function fetchTotalSupply() {
       const xCNTContract = getCNTStakerContract();
       const supply = await xCNTContract.methods.totalSupply().call();
       setTotalSupply(new BigNumber(supply));
     }
+    if (cake) {
+      fetchTotalSupply();
+    }
+  }, [cake, setTotalSupply]);
+  useEffect(() => {
     const getPrice = async () => {
       const apiResp = await getCntPrice();
       setCNTVal(apiResp);
     };
-    if (cake) {
-      fetchTotalSupply();
-    }
     getPrice();
-  }, [cake, setTotalSupply]);
+  }, []);
+  useEffect(() => {
+    if (account) {
+      getTokenBalances();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [account]);
   const dayDatas = useQuery(dayDatasQuery);
   const getCNTStakerInfo = useQuery(cntStakerQuery, {
     context: {
@@ -221,22 +249,42 @@ const CNTBar = () => {
       console.error(e);
     }
   }, [onApprove, setRequestedApproval]);
-  const [onPresentDeposit] = useModal(
-    <DepositModal
-      tokenAmount={tokenAmount}
-      max={tokenBalance}
-      onConfirm={onEnter}
-      tokenName={tokenName}
-    />
-  );
-  const [onPresentLeave] = useModal(
-    <WithdrawModal
-      tokenAmount={tokenAmount}
-      max={xCNTBalance}
-      onConfirm={onLeave}
-      tokenName={xTokenName}
-    />
-  );
+  const stakeCnt = async () => {
+    setPendingDepositTx(true);
+    try {
+      if (metaTranscation) {
+        await enterGasless(cntStakerGasless, tokenAmount, account);
+      } else {
+        await enter(cntStaker, tokenAmount, account);
+      }
+      toastSuccess(
+        "Success!",
+        `You have successfully staked ${tokenAmount} CNT !`
+      );
+      await getTokenBalances();
+    } catch (error) {
+      toastError("An error occurred while staking CNT");
+    }
+    setPendingDepositTx(false);
+  }
+  const unstakeCnt = async () => {
+    setPendingTx(true);
+    try {
+      if (metaTranscation) {
+        await leaveGasless(cntStakerGasless, tokenAmount, account);
+      } else {
+        await leave(cntStaker, tokenAmount, account);
+      }
+      toastSuccess(
+        "Success!",
+        `You have successfully unstaked ${tokenAmount} xCNT !`
+      );
+      await getTokenBalances();
+    } catch (error) {
+      toastError("An error occurred while unstaking xCNT");
+    }
+    setPendingTx(false);
+  }
   const renderBottomButtons = () => {
     if (!account) {
       return <UnlockButton mt="8px" width="100%" />;
@@ -255,12 +303,8 @@ const CNTBar = () => {
       }
       return (
         <Button
-          disabled={tokenBalance.eq(new BigNumber(0))}
-          onClick={async () => {
-            setPendingDepositTx(true);
-            await onPresentDeposit();
-            setPendingDepositTx(false);
-          }}
+          disabled={tokenBalance.eq(new BigNumber(0)) || pendingDepositTx}
+          onClick={stakeCnt}
           style={{ maxWidth: "400px", width: "100%" }}
         >
           {pendingDepositTx ? "Staking CNT..." : "Stake CNT"}
@@ -270,13 +314,9 @@ const CNTBar = () => {
     return (
       <Button
         disabled={!xCNTBalance.toNumber() || pendingTx}
-        onClick={async () => {
-          setPendingTx(true);
-          await onPresentLeave();
-          setPendingTx(false);
-        }}
+        onClick={unstakeCnt}
       >
-        {pendingTx ? "Converting to CNT" : "Convert to CNT"}
+        {pendingTx ? "Converting to CNT..." : "Convert to CNT"}
       </Button>
     );
   };

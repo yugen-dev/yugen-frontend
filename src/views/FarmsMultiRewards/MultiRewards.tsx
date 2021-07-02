@@ -9,8 +9,7 @@ import { PoolCategory } from "config/constants/types";
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
 import { useWeb3React } from "@web3-react/core";
-import { usePools, useBlock } from "state/hooks";
-import { CNTinUSDLink } from "config";
+import { usePools, useBlock, usePriceCakeBusd } from "state/hooks";
 import { getCakeContract, getCNTStakerContract } from "utils/contractHelpers";
 import cntMascot from 'images/Cryption Network Mascot Farming.png';
 import PoolTabButtons from "./components/PoolTabButtons";
@@ -21,7 +20,7 @@ import PoolCard from "./components/PoolCard";
 const NUMBER_OF_POOLS_VISIBLE = 12;
 const Farm: React.FC = () => {
   const loadMoreRef = useRef<HTMLDivElement>(null);
-  const [valueOfCNTinUSD, setCntPrice] = useState(0);
+  const cntPrice = usePriceCakeBusd();
   const { path } = useRouteMatch();
   const cake = getCakeContract();
   const { account } = useWeb3React("web3");
@@ -65,17 +64,6 @@ const Farm: React.FC = () => {
   // const hasStakeInFinishedPools = stakedOnlyFinishedPools.length > 0;
   useEffect(() => {
     window.scrollTo(0, 0);
-    const fetchData = async () => {
-      try {
-        const response = await fetch(CNTinUSDLink);
-        const res = await response.json();
-        setCntPrice(res);
-      } catch (error) {
-        console.error("Unable to fetch price data:", error);
-      }
-    };
-
-    fetchData();
   }, []);
 
   useEffect(() => {
@@ -138,7 +126,7 @@ const Farm: React.FC = () => {
                         <PoolCard
                           key={pool.sousId}
                           pool={pool}
-                          valueOfCNTinUSD={new BigNumber(valueOfCNTinUSD || 0) }
+                          valueOfCNTinUSD={cntPrice}
                         />{" "}
                       </Grid>
                     )
@@ -152,7 +140,7 @@ const Farm: React.FC = () => {
                         <PoolCard
                           key={pool.sousId}
                           pool={pool}
-                          valueOfCNTinUSD={new BigNumber(valueOfCNTinUSD || 0) }
+                          valueOfCNTinUSD={cntPrice}
                         />{" "}
                       </Grid>
                     )
@@ -169,7 +157,7 @@ const Farm: React.FC = () => {
                 <PoolCard
                   key={pool.sousId}
                   pool={pool}
-                  valueOfCNTinUSD={new BigNumber(valueOfCNTinUSD || 0) }
+                  valueOfCNTinUSD={cntPrice}
                 />
               ))
             : orderBy(finishedPools, ["sortOrder"])
@@ -178,7 +166,7 @@ const Farm: React.FC = () => {
                 <PoolCard
                   key={pool.sousId}
                   pool={pool}
-                  valueOfCNTinUSD={new BigNumber(valueOfCNTinUSD || 0) }
+                  valueOfCNTinUSD={cntPrice}
                 />
               ))}
         </Route>
