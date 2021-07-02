@@ -6,16 +6,10 @@ import useI18n from "hooks/useI18n";
 import { ChevronDown, ChevronUp } from "react-feather";
 import { Flex, MetamaskIcon, Text } from "cryption-uikit";
 import Balance from "components/Balance";
-import { CommunityTag, BinanceTag } from "components/Tags";
 import { useBlock } from "state/hooks";
 import { PoolCategory } from "config/constants/types";
 import { registerToken } from "utils/wallet";
 import { BASE_URL } from "config";
-
-const tags = {
-  [PoolCategory.BINANCE]: BinanceTag,
-  [PoolCategory.COMMUNITY]: CommunityTag,
-};
 
 interface Props {
   projectLink: string;
@@ -70,9 +64,6 @@ const Row = styled(Flex)`
 const FlexFull = styled.div`
   flex: 1;
 `;
-const Label = styled.div`
-  font-size: 14px;
-`;
 const TokenLink = styled.a`
   font-size: 14px;
   text-decoration: none;
@@ -90,7 +81,6 @@ const CardFooter: React.FC<Props> = ({
   isFinished,
   startBlock,
   endBlock,
-  poolCategory,
 }) => {
   const { blockNumber: currentBlock } = useBlock();
   const [isOpen, setIsOpen] = useState(false);
@@ -98,7 +88,6 @@ const CardFooter: React.FC<Props> = ({
   const Icon = isOpen ? ChevronUp : ChevronDown;
 
   const handleClick = () => setIsOpen(!isOpen);
-  const Tag = tags[poolCategory];
 
   const blocksUntilStart = Math.max(startBlock - currentBlock, 0);
   const blocksRemaining = Math.max(endBlock - currentBlock, 0);

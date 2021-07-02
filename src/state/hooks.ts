@@ -295,7 +295,6 @@ export const usePriceOfCrypto = (crypto: string): BigNumber => {
         crypto.toLocaleLowerCase(),
         {}
       );
-      console.log(result);
       setbtbcPrice(new BigNumber(result.data?.market_data?.current_price?.usd));
     };
 

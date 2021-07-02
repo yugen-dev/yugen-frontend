@@ -42,13 +42,6 @@ const CNHeading = styled.div`
 const PoolsContainer = styled.div`
   margin-top: 50px;
 `;
-const CNText = styled.div`
-  font-size: 17px;
-  font-weight: normal;
-  text-align: left;
-  color: #9d9fa8;
-  padding: 0px 10px;
-`;
 const StakingContainer = styled.div`
   border-radius: 0.625rem !important;
   padding: 30px 15px;

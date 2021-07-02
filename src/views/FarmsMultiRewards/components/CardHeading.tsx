@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Flex, Heading, Image } from "cryption-uikit";
-import { CommunityTag, CoreTag } from "components/Tags";
+import { CoreTag } from "components/Tags";
 
 export interface ExpandableSectionProps {
   lpLabel?: string;

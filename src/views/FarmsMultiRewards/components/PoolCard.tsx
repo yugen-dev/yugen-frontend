@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState } from "react";
 import BigNumber from "bignumber.js";
 import { ethers } from "ethers";
 import styled from "styled-components";
@@ -7,12 +7,10 @@ import {
   IconButton,
   useModal,
   AddIcon,
-  Image,
   Flex,
   Text,
   Skeleton,
 } from "cryption-uikit";
-import InfoIcon from "@material-ui/icons/Info";
 import { useWeb3React } from "@web3-react/core";
 import Countdown from "react-countdown";
 import UnlockButton from "components/UnlockButton";
@@ -30,12 +28,10 @@ import Balance from "components/Balance";
 import { QuoteToken, PoolCategory } from "config/constants/types";
 import { Pool } from "state/types";
 import cakeAbi from "config/abi/cake.json";
-import Tooltip from "components/Tooltip";
 import CardHeading from "./CardHeading";
 import DepositModal from "./DepositModal";
 import WithdrawModal from "./WithdrawModal";
-import CompoundModal from "./CompoundModal";
-import CardTitle from "./CardTitle";
+// import CompoundModal from "./CompoundModal";
 import Card from "./Card";
 import OldSyrupTitle from "./OldSyrupTitle";
 import CardFooter from "./CardFooter";
@@ -54,7 +50,6 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
     tokenName,
     tokenAddress,
     stakingTokenName,
-    stakingTokenAddress,
     contractAddress,
     stakingTokenDecimals,
     projectLink,
@@ -68,17 +63,12 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
     userData,
     stakingLimit,
     poolHarvestInterval,
-    tokenAmount,
-    quoteTokenAmount,
-    lpTotalInQuoteToken,
-    tokenPriceVsQuote,
   } = pool;
 
   const { account } = useWeb3React("web3");
 
   // Pools using native BNB behave differently than pools using a token
   const isBnbPool = poolCategory === PoolCategory.BINANCE;
-  const [show, setShow] = useState(false);
   const TranslateString = useI18n();
   // const { onApprove } = useApproveStaking();
   /*  const {onEnter} = useEnter();
@@ -114,7 +104,6 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
   // const rewardTokenPrice = useGetApiPrice(tokenName);
 
   // const stakingTokenPrice = useGetApiPrice(stakingTokenName);
-  const stakingTokenPrice = Number(1);
   let apy = 0;
   let apyString = "";
   const apyArray = [];
@@ -134,6 +123,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
     } else if (currentTokenApy) {
       apyString += `${currentTokenApy.toFixed(2)}% ${pool.multiReward[i]} + `;
     } else {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       apyString += `100% ${pool.multiReward[i]} `;
     }
 
@@ -196,27 +186,14 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
     />
   );
   // console.log(harvestInterval.toNumber());
-  const renderNextHarvestIntervalIn = () => {
-    return (
-      <Flex justifyContent="space-between">
-        <Text>{TranslateString(318, "Next Harvest in :")}</Text>
-        <Text bold>
-          <Countdown
-            date={harvestInterval.toNumber() * 1000}
-            renderer={Renderer}
-          />
-        </Text>
-      </Flex>
-    );
-  };
 
-  const [onPresentCompound] = useModal(
-    <CompoundModal
-      earnings={earnings}
-      onConfirm={onStake}
-      tokenName={stakingTokenName}
-    />
-  );
+  // const [onPresentCompound] = useModal(
+  //   <CompoundModal
+  //     earnings={earnings}
+  //     onConfirm={onStake}
+  //     tokenName={stakingTokenName}
+  //   />
+  // );
 
   const [onPresentWithdraw] = useModal(
     <WithdrawModal
@@ -242,8 +219,6 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
       console.error("error is", e);
     }
   };
-  const open = useCallback(() => setShow(true), [setShow]);
-  const close = useCallback(() => setShow(false), [setShow]);
   return (
     <Card isActive={isCardActive} isFinished={isFinished}>
       {isFinished && <PoolFinishedSash />}
@@ -480,11 +455,6 @@ const StyledDetails = styled.div`
   margin-bottom: 10px;
   font-size: 16px;
   color: #86878f;
-`;
-const APRText = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 const RewardsSection = styled.div``;
 const RewardDetails = styled.div`

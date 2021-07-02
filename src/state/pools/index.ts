@@ -4,7 +4,6 @@ import poolsConfig from "config/constants/pools";
 import {
   fetchPoolsBlockLimits,
   fetchPoolsTotalStatking,
-  fetchPoolsHarvestInterval,
   fetchPoolsLpData,
 } from "./fetchPools";
 import {
@@ -61,7 +60,6 @@ export const fetchPoolsPublicDataAsync = () => async (dispatch) => {
   const blockLimits = await fetchPoolsBlockLimits();
 
   const totalStakings = await fetchPoolsTotalStatking();
-  const poolHarvestIntervals = await fetchPoolsHarvestInterval();
   const PoolLpDatas = await fetchPoolsLpData();
 
   const liveData = poolsConfig.map((pool) => {

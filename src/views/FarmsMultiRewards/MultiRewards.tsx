@@ -9,8 +9,7 @@ import { PoolCategory } from "config/constants/types";
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
 import { useWeb3React } from "@web3-react/core";
-import { usePools, useBlock, usePriceCakeBusd } from "state/hooks";
-import useI18n from "hooks/useI18n";
+import { usePools, useBlock } from "state/hooks";
 import { CNTinUSDLink } from "config";
 import { getCakeContract, getCNTStakerContract } from "utils/contractHelpers";
 import cntMascot from 'images/Cryption Network Mascot Farming.png';
@@ -24,7 +23,6 @@ const Farm: React.FC = () => {
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const [valueOfCNTinUSD, setCntPrice] = useState(0);
   const { path } = useRouteMatch();
-  const TranslateString = useI18n();
   const cake = getCakeContract();
   const { account } = useWeb3React("web3");
   const pools = usePools(account);
@@ -185,41 +183,11 @@ const Farm: React.FC = () => {
               ))}
         </Route>
         <div ref={loadMoreRef} />
-        <div
-          dangerouslySetInnerHTML={{
-            __html:
-              '<lottie-player src="https://assets3.lottiefiles.com/packages/lf20_r71cen62.json"  background="transparent"  speed="1" style="height: 350px;" loop  autoplay></lottie-player>',
-          }}
-        />
       </Container>
     </div>
   );
 };
 
-const Hero = styled.div`
-  align-items: center;
-  background: #383357;
-  padding: 30px 0px;
-  color: ${({ theme }) => theme.colors.primary};
-  margin: 20px;
-  border-radius: 10px;
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-    font-size: 16px;
-    li {
-      margin-bottom: 4px;
-    }
-  }
-  img {
-    height: auto;
-    max-width: 100%;
-  }
-  @media (min-width: 576px) {
-    max-width: none;
-  }
-`;
 const CNHeading = styled.div`
   font-size: 45px;
   font-weight: bold;

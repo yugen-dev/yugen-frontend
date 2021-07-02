@@ -4,7 +4,7 @@ import { Route, useRouteMatch } from "react-router-dom";
 import BigNumber from "bignumber.js";
 import orderBy from "lodash/orderBy";
 import Container from "@material-ui/core/Container";
-import { QuoteToken, PoolCategory } from "config/constants/types";
+import { PoolCategory } from "config/constants/types";
 import partition from "lodash/partition";
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
@@ -201,15 +201,6 @@ const Farm: React.FC = () => {
               '<lottie-player src="https://assets3.lottiefiles.com/packages/lf20_r71cen62.json"  background="transparent"  speed="1" style="height: 350px;" loop  autoplay></lottie-player>',
           }}
         /> */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <img src={cntMascot} alt="Cryption Netwrok" width="300px" />
-        </div>
       </Container>
     </div>
   );

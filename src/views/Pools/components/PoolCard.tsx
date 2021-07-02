@@ -302,7 +302,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
             return response.hash;
           })
           .catch((error: Error) => {
-            console.debug("Failed to approve token", error);
+            console.error("Failed to approve token", error);
             throw error;
           });
       }

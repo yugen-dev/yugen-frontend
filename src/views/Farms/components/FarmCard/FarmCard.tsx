@@ -8,7 +8,6 @@ import { provider as ProviderType } from "web3-core";
 import useI18n from "hooks/useI18n";
 import ExpandableSectionButton from "components/ExpandableSectionButton";
 import { QuoteToken } from "config/constants/types";
-import { BASE_ADD_LIQUIDITY_URL } from "config";
 import getLiquidityUrlPathParts from "utils/getLiquidityUrlPathParts";
 import DetailsSection from "./DetailsSection";
 import CardHeading from "./CardHeading";
@@ -71,13 +70,6 @@ const FCard = styled.div`
   padding: 30px 15px;
   position: relative;
   text-align: center;
-`;
-
-const Divider = styled.div`
-  background-color: ${({ theme }) => theme.colors.borderColor};
-  height: 1px;
-  margin: 28px auto;
-  width: 100%;
 `;
 
 const ExpandingWrapper = styled.div<{ expanded: boolean }>`
