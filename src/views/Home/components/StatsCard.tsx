@@ -150,7 +150,7 @@ const CardValue: React.FC<CardValueProps> = ({
         </ProgressItemText>
         <ProgressItemText>
           <Text color="#9d9fa8" fontSize="15px">
-            Total Supply
+            Max Supply
           </Text>
           <Text
             color="white"
@@ -182,16 +182,16 @@ const CardValue: React.FC<CardValueProps> = ({
           <TextAlignMent>
             <ProgressText>
               <Text color="#9d9fa8" fontSize="16px">
-                Price
+                Total Supply
               </Text>
               <Text color="white" fontSize="16px" fontWeight="700">
                 {" "}
-                $122{" "}
+                {numberWithCommas(totalSuply - burnedSupply)}
               </Text>
             </ProgressText>
             <ProgressText>
               <Text color="#9d9fa8" fontSize="16px">
-                Daily Allocation
+                CNT rewards per day
               </Text>
               <Text
                 color="white"
@@ -199,7 +199,7 @@ const CardValue: React.FC<CardValueProps> = ({
                 fontWeight="700"
                 style={{ display: "flex", alignItems: "center" }}
               >
-                {numberWithCommas(86400)}
+                {numberWithCommas(34560)}
                 <Text color="#C1C5CB" fontSize="12px" ml="5px">
                   {" "}
                   CNT
@@ -208,7 +208,7 @@ const CardValue: React.FC<CardValueProps> = ({
             </ProgressText>
             <ProgressText>
               <Text color="#9d9fa8" fontSize="16px">
-                Accumulated
+                CNT Rewards per Block
               </Text>
               <Text
                 color="white"
@@ -216,16 +216,16 @@ const CardValue: React.FC<CardValueProps> = ({
                 fontWeight="700"
                 style={{ display: "flex", alignItems: "center" }}
               >
-                {numberWithCommas(86400)}
+                {numberWithCommas(0.75)}
                 <Text color="#C1C5CB" fontSize="12px" ml="5px">
                   {" "}
                   CNT
                 </Text>
               </Text>
             </ProgressText>
-            <ProgressText>
+            {totalFees &&<ProgressText>
               <Text color="#9d9fa8" fontSize="16px">
-                Remaining
+                Total Fees (24 Hrs)
               </Text>
               <Text
                 color="white"
@@ -233,28 +233,13 @@ const CardValue: React.FC<CardValueProps> = ({
                 fontWeight="700"
                 style={{ display: "flex", alignItems: "center" }}
               >
-                {numberWithCommas(86400)}
-                <Text color="#C1C5CB" fontSize="12px" ml="5px">
-                  {" "}
-                  CNT
-                </Text>
+                ${totalFees}{" "}
               </Text>
-            </ProgressText>
+            </ProgressText>}
           </TextAlignMent>
         </Grid>
         <Grid item xs={12} md={6} lg={6} xl={6}>
           <TextAlignMent>
-            {totalFees && (
-              <ProgressText>
-                <Text color="#9d9fa8" fontSize="15px">
-                  Total Fees (24 Hrs)
-                </Text>
-                <Text color="#2082E9" fontSize="15px" fontWeight="700">
-                  {" "}
-                  ${totalFees}{" "}
-                </Text>
-              </ProgressText>
-            )}
             {lpFees && (
               <ProgressText>
                 <Text color="#9d9fa8" fontSize="15px">

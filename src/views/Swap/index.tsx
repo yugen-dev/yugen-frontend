@@ -267,6 +267,8 @@ const Swap = () => {
     }));
     swapCallback()
       .then((hash) => {
+        onUserInput(Field.INPUT, '');
+        onUserInput(Field.OUTPUT, '');
         setSwapState((prevState) => ({
           ...prevState,
           attemptingTxn: false,
@@ -282,7 +284,7 @@ const Swap = () => {
           txHash: undefined,
         }));
       });
-  }, [priceImpactWithoutFee, swapCallback, setSwapState]);
+  }, [priceImpactWithoutFee, swapCallback, setSwapState, onUserInput]);
 
   // errors
   const [showInverted, setShowInverted] = useState<boolean>(false);
@@ -300,6 +302,8 @@ const Swap = () => {
     !(priceImpactSeverity > 3 && !isExpertMode);
 
   const handleConfirmDismiss = useCallback(() => {
+    onUserInput(Field.INPUT, '');
+    onUserInput(Field.OUTPUT, '');
     setSwapState((prevState) => ({ ...prevState, showConfirm: false }));
 
     // if there was a tx hash, we want to clear the input
@@ -333,7 +337,6 @@ const Swap = () => {
     },
     [onCurrencySelection]
   );
-
   return (
     <div
       style={{
