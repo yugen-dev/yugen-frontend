@@ -103,7 +103,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
       (signatureData !== null &&
         signatureData.deadline > Math.ceil(Date.now() / 1000)) ? (
       <div>
-        <Flex justifyContent="space-between">
+        {harvestInterval.toNumber() * 1000 && <Flex justifyContent="space-between">
           <Text>{TranslateString(318, "Next Harvest in :")}</Text>
           <Text bold>
             <Countdown
@@ -111,7 +111,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
               renderer={Renderer}
             />
           </Text>
-        </Flex>
+        </Flex>}
 
         <StakeAction
           stakedBalance={stakedBalance}

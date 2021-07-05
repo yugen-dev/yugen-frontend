@@ -27,6 +27,7 @@ import { enter, enterGasless, leave, leaveGasless } from "utils/callHelpers";
 import UnlockButton from "components/UnlockButton";
 import getCntPrice from "utils/getCntPrice";
 import useWeb3 from "hooks/useWeb3";
+import cntMascot from "images/CRYPTION NETWORK-Mascots-10.png";
 import { getBalanceNumber } from "utils/formatBalance";
 import { getCakeContract, getCNTStakerContract, getBep20Contract } from "utils/contractHelpers";
 import { useCNTStaker, useCNTStakerGasless } from "hooks/useContract";
@@ -345,11 +346,14 @@ const CNTBar = () => {
           </Grid>
           <Grid item xs={12} md={6} lg={6} xl={6}>
             <div
-              dangerouslySetInnerHTML={{
-                __html:
-                  '<lottie-player src="https://assets7.lottiefiles.com/packages/lf20_0cvczw8l.json"  background="transparent"  speed="1" style="height: 200px;" loop  autoplay></lottie-player>',
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
-            />
+            >
+              <img src={cntMascot} alt="Cryption Netwrok" width="250px" />
+            </div>
           </Grid>
         </HeaderGrid>
         <Grid container spacing={3} style={{ marginTop: "30px" }}>
