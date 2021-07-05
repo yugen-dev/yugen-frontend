@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import BigNumber from "bignumber.js";
 import { kebabCase } from "lodash";
 import { useWeb3React } from "@web3-react/core";
@@ -47,7 +47,7 @@ export const useFetchPublicData = () => {
     const interval = setInterval(async () => {
       const blockNumber = await web3.eth.getBlockNumber();
       dispatch(setBlock(blockNumber));
-    }, 6000);
+    }, 30000);
 
     return () => clearInterval(interval);
   }, [dispatch]);

@@ -30,7 +30,7 @@ import history from "./routerHistory";
 const Home = lazy(() => import("./views/Home"));
 const Farms = lazy(() => import("./views/Farms"));
 const FarmsMultiRewards = lazy(() => import("./views/FarmsMultiRewards"));
-const Migrate = lazy(() => import("./views/Migrate"));
+// const Migrate = lazy(() => import("./views/Migrate"));
 const CNTBar = lazy(() => import("./views/CNTBar"));
 const Swap = lazy(() => import("./views/Swap"));
 const AddLiquidity = lazy(() => import("./views/AddLiquidity"));

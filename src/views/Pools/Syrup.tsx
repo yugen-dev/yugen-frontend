@@ -32,7 +32,7 @@ const Farm: React.FC = () => {
   const [observerIsSet, setObserverIsSet] = useState(false);
   const [stakedOnly, setStakedOnly] = useState(false);
   const currentBlock = useBlock();
-  const [totalSupply, setTotalSupply] = useState<BigNumber>();
+  const [totalSupply, setTotalSupply] = useState(null);
   const [finishedPools, openPools] = useMemo(
     () =>
       partition(
@@ -75,7 +75,7 @@ const Farm: React.FC = () => {
       const supply = await xCNTContract.methods.totalSupply().call();
       setTotalSupply(new BigNumber(supply));
     }
-    if (cake) {
+    if (cake && totalSupply !== null) {
       fetchTotalSupply();
     }
     const showMorePools = (entries) => {
@@ -96,8 +96,7 @@ const Farm: React.FC = () => {
       loadMoreObserver.observe(loadMoreRef.current);
       setObserverIsSet(true);
     }
-  }, [cake, observerIsSet, setTotalSupply]);
-
+  }, [cake, observerIsSet, setTotalSupply, totalSupply]);
   return (
     <div>
       <Hero>

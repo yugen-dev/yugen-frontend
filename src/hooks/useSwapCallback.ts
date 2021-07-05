@@ -43,7 +43,7 @@ const maticProvider = process.env.REACT_APP_NETWORK_URL;
 // @ts-ignore
 const biconomy = new Biconomy(new Web3.providers.HttpProvider(maticProvider), {
   apiKey: biconomyAPIKey,
-  debug: true,
+  debug: false,
 });
 
 const getWeb3 = new Web3(biconomy);

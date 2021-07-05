@@ -25,7 +25,7 @@ import { getBalanceNumber } from "utils/formatBalance";
 import { getPoolApy } from "utils/apy";
 import { useSousHarvest } from "hooks/useHarvest";
 import Balance from "components/Balance";
-import { fetchPrice, useProfile } from "state/hooks";
+import { fetchPrice } from "state/hooks";
 import { QuoteToken, PoolCategory } from "config/constants/types";
 import { Pool } from "state/types";
 import cakeAbi from "config/abi/cake.json";
@@ -45,7 +45,7 @@ interface HarvestProps {
 
 const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
   const [tokenprices, Settokenprices] = useState([null]);
-  const [StakingTokenPrice, setStakingTokenPrice] = useState(new BigNumber(1));
+  // const [StakingTokenPrice, setStakingTokenPrice] = useState(new BigNumber(1));
   const {
     sousId,
     image,
@@ -65,9 +65,6 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
     userData,
     stakingLimit,
     poolHarvestInterval,
-    tokenAmount,
-    quoteTokenAmount,
-    lpTotalInQuoteToken,
     tokenPriceVsQuote,
   } = pool;
 
@@ -75,10 +72,10 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
     const pricefunc = async () => {
       const arrayofprices = [];
 
-      const stakingTokenPrice = await fetchPrice(pool.stakingTokenCoinGeckoid);
-      if (stakingTokenPrice) {
-        setStakingTokenPrice(stakingTokenPrice);
-      }
+      // const stakingTokenPrice = await fetchPrice(pool.stakingTokenCoinGeckoid);
+      // if (stakingTokenPrice) {
+      //   setStakingTokenPrice(stakingTokenPrice);
+      // }
 
       pool.coinGeckoIds.forEach(async (element, i) => {
         let price = await fetchPrice(pool.coinGeckoIds[i]);

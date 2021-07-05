@@ -10,7 +10,7 @@ import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
 import { useWeb3React } from "@web3-react/core";
 import { usePools, useBlock, usePriceCakeBusd } from "state/hooks";
-import { getCakeContract, getCNTStakerContract } from "utils/contractHelpers";
+import { getCakeContract } from "utils/contractHelpers";
 import cntMascot from 'images/Cryption Network Mascot Farming.png';
 import PoolTabButtons from "./components/PoolTabButtons";
 // import FlexLayout from "components/layout/Flex";
@@ -31,7 +31,6 @@ const Farm: React.FC = () => {
   const [observerIsSet, setObserverIsSet] = useState(false);
   const [stakedOnly, setStakedOnly] = useState(false);
   const currentBlock = useBlock();
-  const [totalSupply, setTotalSupply] = useState<BigNumber>();
   const [finishedPools, openPools] = useMemo(
     () =>
       partition(
@@ -67,14 +66,6 @@ const Farm: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    async function fetchTotalSupply() {
-      const xCNTContract = getCNTStakerContract();
-      const supply = await xCNTContract.methods.totalSupply().call();
-      setTotalSupply(new BigNumber(supply));
-    }
-    if (cake) {
-      fetchTotalSupply();
-    }
     const showMorePools = (entries) => {
       const [entry] = entries;
       if (entry.isIntersecting) {
@@ -93,7 +84,7 @@ const Farm: React.FC = () => {
       loadMoreObserver.observe(loadMoreRef.current);
       setObserverIsSet(true);
     }
-  }, [cake, observerIsSet, setTotalSupply]);
+  }, [cake, observerIsSet]);
 
   return (
     <div>

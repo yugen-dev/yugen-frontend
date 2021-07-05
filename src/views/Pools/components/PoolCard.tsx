@@ -89,12 +89,10 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
 
         arrayofprices.push(price);
       });
-
       Settokenprices(arrayofprices);
     };
     pricefunc();
   }, [pool]);
-
   const { account, chainId, library } = useWeb3React("web3");
   const { metaTranscation } = useProfile();
   // Pools using native BNB behave differently than pools using a token
@@ -138,7 +136,6 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   pool.multiRewardTokenPerBlock.forEach(async (element, i) => {
     const stakingTokenPrice = StakingTokenPrice;
     const rewardTokenPrice = tokenprices[i] ? tokenprices[i] : new BigNumber(1);
-    console.log(rewardTokenPrice.toString());
     const currentTokenApy = getPoolApy(
       stakingTokenPrice.toNumber(),
       rewardTokenPrice.toNumber(),

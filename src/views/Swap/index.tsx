@@ -31,7 +31,7 @@ import {
 } from "components/swap/styleds";
 import TradePrice from "components/swap/TradePrice";
 import TokenWarningModal from "components/TokenWarningModal";
-import SyrupWarningModal from "components/SyrupWarningModal";
+// import SyrupWarningModal from "components/SyrupWarningModal";
 import ProgressSteps from "components/ProgressSteps";
 
 import { INITIAL_ALLOWED_SLIPPAGE } from "constants/index";
@@ -101,8 +101,8 @@ const Swap = () => {
   ];
   const [dismissTokenWarning, setDismissTokenWarning] =
     useState<boolean>(false);
-  const [isSyrup, setIsSyrup] = useState<boolean>(false);
-  const [syrupTransactionType, setSyrupTransactionType] = useState<string>("");
+  // const [isSyrup, setIsSyrup] = useState<boolean>(false);
+  // const [syrupTransactionType, setSyrupTransactionType] = useState<string>("");
   const urlLoadedTokens: Token[] = useMemo(
     () =>
       [loadedInputCurrency, loadedOutputCurrency]?.filter(
@@ -114,10 +114,10 @@ const Swap = () => {
     setDismissTokenWarning(true);
   }, []);
 
-  const handleConfirmSyrupWarning = useCallback(() => {
-    setIsSyrup(false);
-    setSyrupTransactionType("");
-  }, []);
+  // const handleConfirmSyrupWarning = useCallback(() => {
+  //   setIsSyrup(false);
+  //   setSyrupTransactionType("");
+  // }, []);
 
   const { account } = useActiveWeb3React();
   const [isExpertMode] = useExpertModeManager();
