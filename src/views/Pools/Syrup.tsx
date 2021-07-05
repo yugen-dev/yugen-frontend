@@ -12,7 +12,7 @@ import { useWeb3React } from "@web3-react/core";
 import { getBalanceNumber } from "utils/formatBalance";
 import { usePools, useBlock } from "state/hooks";
 import { getCakeContract, getCNTStakerContract } from "utils/contractHelpers";
-import cntMascot from "images/Cryption Network Mascot-01.png";
+import cntMascot from "images/CNT_Pool.png";
 import PoolTabButtons from "./components/PoolTabButtons";
 // import FlexLayout from "components/layout/Flex";
 // import pools from "config/constants/pools";
