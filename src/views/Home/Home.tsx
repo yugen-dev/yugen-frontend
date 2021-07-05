@@ -240,7 +240,7 @@ const Home: React.FC = () => {
           <StatsCard
             totalSuply={totalSupplyVal > 100000000 ? 100000000 : totalSupplyVal}
             burnedSupply={totalBurned}
-            circulatingSupply={ciculatingSupply}
+            circulatingSupply={7289583 || ciculatingSupply}
             totalFees={totalFees}
             devFees={devFees}
             stakerFees={stakerFees}
