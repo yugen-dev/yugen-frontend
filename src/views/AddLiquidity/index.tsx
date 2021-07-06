@@ -11,8 +11,6 @@ import {
   WETH,
 } from "@pancakeswap-libs/sdk";
 import { useProfile } from "state/hooks";
-import { Biconomy } from "@biconomy/mexa";
-import Web3 from "web3";
 import { Button, AddIcon, Card, Text as UIKitText } from "cryption-uikit";
 import { AbiItem } from "web3-utils";
 import { splitSignature } from "@ethersproject/bytes";
@@ -57,11 +55,12 @@ import { currencyId } from "utils/currencyId";
 import Pane from "components/Pane";
 import ConnectWalletButton from "components/ConnectWalletButton";
 import useI18n from "hooks/useI18n";
+import { getBiconomyWeb3 } from "utils/biconomyweb3";
 import { abi } from "../../constants/abis/gaslessrouter.json";
 import { Dots } from "../Pool/styleds";
 import { ConfirmAddModalBottom } from "./ConfirmAddModalBottom";
 import { PoolPriceBar } from "./PoolPriceBar";
-import { ROUTER_ADDRESS, biconomyAPIKey } from "../../constants";
+import { ROUTER_ADDRESS } from "../../constants";
 import "./index.css";
 
 const ContainerCard = styled(Card)`
@@ -82,12 +81,7 @@ const TrenasferContainer = styled.div`
 `;
 
 const contractAddress = ROUTER_ADDRESS;
-const maticProvider = process.env.REACT_APP_NETWORK_URL;
-// @ts-ignore
-const biconomy = new Biconomy(new Web3.providers.HttpProvider(maticProvider), {
-  apiKey: biconomyAPIKey,
-});
-const getWeb3 = new Web3(biconomy);
+const getWeb3 = getBiconomyWeb3();
 
 export default function AddLiquidity({
   match: {

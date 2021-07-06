@@ -10,8 +10,6 @@ import {
   TradeType,
 } from "@pancakeswap-libs/sdk";
 import { useProfile } from "state/hooks";
-import { Biconomy } from "@biconomy/mexa";
-import Web3 from "web3";
 import { useMemo } from "react";
 import { AbiItem } from "web3-utils";
 import { splitSignature } from "@ethersproject/bytes";
@@ -21,9 +19,9 @@ import {
   DEFAULT_DEADLINE_FROM_NOW,
   INITIAL_ALLOWED_SLIPPAGE,
   ROUTER_ADDRESS,
-  biconomyAPIKey,
   META_TXN_DISABLED,
 } from "../constants";
+import { getBiconomyWeb3 } from "../utils/biconomyweb3";
 import { useTransactionAdder } from "../state/transactions/hooks";
 import {
   calculateGasMargin,
@@ -38,14 +36,7 @@ import useENS from "./useENS";
 // swap, add Liquidity
 
 const contractAddress = ROUTER_ADDRESS;
-const maticProvider = process.env.REACT_APP_NETWORK_URL;
-
-// @ts-ignore
-const biconomy = new Biconomy(new Web3.providers.HttpProvider(maticProvider), {
-  apiKey: biconomyAPIKey,
-});
-
-const getWeb3 = new Web3(biconomy);
+const getWeb3 = getBiconomyWeb3();
 
 enum SwapCallbackState {
   INVALID,

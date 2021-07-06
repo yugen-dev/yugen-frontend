@@ -1,6 +1,5 @@
 import BigNumber from "bignumber.js";
 import { ethers } from "ethers";
-import { getWeb3NoAccount } from "utils/web3";
 import {
   getCNTStakerAddress,
   getFarmAddress,
@@ -395,8 +394,6 @@ const executeMetaTransaction = async (
   functionSignature,
   library
 ) => {
-  const biconomyWeb3 = getBiconomyWeb3();
-  const web3 = getWeb3NoAccount();
   const contract = masterChefContract;
 
   try {
@@ -521,8 +518,6 @@ export const executeMetaTransactionPools = async (
     verifyingContract: pooladdress,
     chainId: 80001,
   };
-
-  const biconomyWeb3 = getBiconomyWeb3();
 
   const contract = masterChefContract;
   try {
