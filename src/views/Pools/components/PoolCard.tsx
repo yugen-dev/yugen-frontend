@@ -165,7 +165,6 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   const earnings = new BigNumber(userData?.pendingReward || 0);
   const canHarvest =
     userData?.canHarvest === true ? userData?.canHarvest : false;
-  // console.log(canHarvest);
 
   const harvestInterval = userData?.harvestInterval
     ? new BigNumber(userData?.harvestInterval)
@@ -184,8 +183,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
       </div>
     );
   };
-  // console.log(harvestInterval.toNumber());
-  // console.log(canHarvest);
+
   const isOldSyrup = stakingTokenName === QuoteToken.SYRUP;
   const accountHasStakedBalance = stakedBalance?.toNumber() > 0;
   const needsApproval = !accountHasStakedBalance && !allowance.toNumber();
