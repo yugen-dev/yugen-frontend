@@ -104,4 +104,16 @@ const config: MenuEntry[] = [
   },
 ];
 
+export const socials = [
+  {
+    label: "Telegram",
+    icon: "TelegramIcon",
+    href: "https://t.me/CryptionNetwork",
+  },
+  {
+    label: "Twitter",
+    icon: "TwitterIcon",
+    href: "https://twitter.com/Polydex_",
+  },
+];
 export default config;

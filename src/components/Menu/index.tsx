@@ -16,7 +16,7 @@ import useCNTprice from "hooks/useCNTprice";
 import { toggleMetaTranscationState } from "state/actions";
 import { useProfile } from "state/hooks";
 // import LogoIcon from "images/PolyDEX White Text (2).svg";
-import config from "./config";
+import config, {socials} from "./config";
 
 const Menu = (props) => {
   const { login, logout, loginEther, logoutEther } = useAuth();
@@ -99,6 +99,7 @@ const Menu = (props) => {
       cakePriceUsd={valueOfCNTinUSD}
       logoSize="53px"
       links={config}
+      socials={socials}
       profile={{
         username: profile?.username,
         image: profile?.nft
