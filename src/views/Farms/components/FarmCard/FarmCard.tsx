@@ -131,8 +131,8 @@ const FarmCard: React.FC<FarmCardProps> = ({
 
   const totalValueFormated = totalValue
     ? `$${Number(totalValue).toLocaleString(undefined, {
-      maximumFractionDigits: 2,
-    })}`
+        maximumFractionDigits: 2,
+      })}`
     : "-";
 
   const lpLabel =
@@ -177,7 +177,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
   return (
     <FCard>
       {farm.tokenSymbol === "CNT" && <StyledCardAccent />}
-      <div style={{ borderBottom: "1px solid #524B63", paddingBottom: '10px' }}>
+      <div style={{ borderBottom: "1px solid #524B63", paddingBottom: "10px" }}>
         <CardHeading
           lpLabel={lpLabel}
           multiplier={farm.multiplier}
@@ -186,7 +186,13 @@ const FarmCard: React.FC<FarmCardProps> = ({
           tokenSymbol={farm.tokenSymbol}
         />
       </div>
-      <div style={{ borderBottom: "1px solid #524B63", paddingBottom: '20px', margin: '20px 0px' }}>
+      <div
+        style={{
+          borderBottom: "1px solid #524B63",
+          paddingBottom: "20px",
+          margin: "20px 0px",
+        }}
+      >
         {!removed && (
           <Flex justifyContent="space-between" alignItems="center">
             <Text>{TranslateString(736, "APR")}:</Text>
@@ -200,7 +206,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
                     apy={farm.apy}
                   />
                   {farmAPY}%
-              </>
+                </>
               ) : (
                 <Skeleton height={24} width={80} />
               )}
@@ -220,7 +226,9 @@ const FarmCard: React.FC<FarmCardProps> = ({
             {!isDaysGreater && poolHarvestIntervalinHours > 0
               ? `${poolHarvestIntervalinHours.toString()} Hours`
               : ""}
-            {!isDaysGreater && !isHoursGreater && poolHarvestIntervalinMinutes > 0
+            {!isDaysGreater &&
+            !isHoursGreater &&
+            poolHarvestIntervalinMinutes > 0
               ? `${poolHarvestIntervalinMinutes.toString()} Minutes`
               : ""}
           </Text>
@@ -239,8 +247,9 @@ const FarmCard: React.FC<FarmCardProps> = ({
       <ExpandingWrapper expanded={showExpandableSection}>
         <DetailsSection
           removed={removed}
-          maticExplorerAddress={`https://explorer-mumbai.maticvigil.com/address/${farm.lpAddresses[process.env.REACT_APP_CHAIN_ID]
-            }`}
+          maticExplorerAddress={`https://mumbai.polygonscan.com/address/${
+            farm.lpAddresses[process.env.REACT_APP_CHAIN_ID]
+          }`}
           totalValueFormated={totalValueFormated}
           lpLabel={lpLabel}
           addLiquidityUrl={addLiquidityUrl}
