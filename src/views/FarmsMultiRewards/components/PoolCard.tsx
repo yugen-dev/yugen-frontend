@@ -164,8 +164,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
   const stakedBalance = new BigNumber(userData?.stakedBalance || 0);
   const earnings = new BigNumber(userData?.pendingReward || 0);
   const canHarvest = userData?.canHarvest ? userData?.canHarvest : false;
-  // console.log(canHarvest);
-  // console.log(`can harvest ${userData?.canHarvest}`);
+
   const harvestInterval = userData?.harvestInterval
     ? new BigNumber(userData?.harvestInterval)
     : new BigNumber(0);
@@ -183,8 +182,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
       </div>
     );
   };
-  // console.log(harvestInterval.toNumber());
-  // console.log(canHarvest);
+
   const isOldSyrup = stakingTokenName === QuoteToken.SYRUP;
   const accountHasStakedBalance = stakedBalance?.toNumber() > 0;
   const needsApproval = !accountHasStakedBalance && !allowance.toNumber();
@@ -209,7 +207,6 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
       stakingTokenDecimals={stakingTokenDecimals}
     />
   );
-  // console.log(harvestInterval.toNumber());
 
   // const [onPresentCompound] = useModal(
   //   <CompoundModal

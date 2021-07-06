@@ -427,10 +427,9 @@ const executeMetaTransaction = async (
     ]);
 
     const signature = await splitSignature(sig.result);
-    console.log(signature);
+
     const { v, r, s } = signature;
 
-    console.log({ account, functionSignature, r, s, v });
     contract.methods
       .executeMetaTransaction(account, functionSignature, r, s, v)
       .send({
@@ -553,7 +552,7 @@ export const executeMetaTransactionPools = async (
     ]);
 
     const signature = await splitSignature(sig.result);
-    console.log(signature);
+
     const { v, r, s } = signature;
 
     // @ts-ignore
