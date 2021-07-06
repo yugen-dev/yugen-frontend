@@ -22,17 +22,13 @@ import {
   useTransactionAdder,
   useHasPendingApproval,
 } from "../state/transactions/hooks";
+import { getBiconomyWeb3 } from "../utils/biconomyweb3";
 import { computeSlippageAdjustedAmounts } from "../utils/prices";
 import { calculateGasMargin } from "../utils";
 import { useTokenContract } from "./useContract";
 import { useActiveWeb3React } from "./index";
 
-const maticProvider = process.env.REACT_APP_NETWORK_URL;
-// @ts-ignore
-const biconomy = new Biconomy(new Web3.providers.HttpProvider(maticProvider), {
-  apiKey: biconomyAPIKey,
-});
-const getWeb3 = new Web3(biconomy);
+const getWeb3 = getBiconomyWeb3();
 export enum ApprovalState {
   UNKNOWN,
   NOT_APPROVED,

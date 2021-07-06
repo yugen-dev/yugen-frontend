@@ -24,6 +24,7 @@ import {
   biconomyAPIKey,
   META_TXN_DISABLED,
 } from "../constants";
+import { getBiconomyWeb3 } from "../utils/biconomyweb3";
 import { useTransactionAdder } from "../state/transactions/hooks";
 import {
   calculateGasMargin,
@@ -38,14 +39,7 @@ import useENS from "./useENS";
 // swap, add Liquidity
 
 const contractAddress = ROUTER_ADDRESS;
-const maticProvider = process.env.REACT_APP_NETWORK_URL;
-
-// @ts-ignore
-const biconomy = new Biconomy(new Web3.providers.HttpProvider(maticProvider), {
-  apiKey: biconomyAPIKey,
-});
-
-const getWeb3 = new Web3(biconomy);
+const getWeb3 = getBiconomyWeb3();
 
 enum SwapCallbackState {
   INVALID,

@@ -24,6 +24,7 @@ import { RouteComponentProps } from "react-router";
 import { BigNumber } from "@ethersproject/bignumber";
 import ConnectWalletButton from "components/ConnectWalletButton";
 import useI18n from "hooks/useI18n";
+import { getBiconomyWeb3 } from "utils/biconomyweb3";
 import { abi } from "../../constants/abis/gaslessrouter.json";
 import { AutoColumn, ColumnCenter } from "../../components/Column";
 import TransactionConfirmationModal, {
@@ -89,12 +90,8 @@ const ContainerCard = styled(Card)`
 `;
 
 const contractAddress = ROUTER_ADDRESS;
-const maticProvider = process.env.REACT_APP_NETWORK_URL;
-// @ts-ignore
-const biconomy = new Biconomy(new Web3.providers.HttpProvider(maticProvider), {
-  apiKey: biconomyAPIKey,
-});
-const getWeb3 = new Web3(biconomy);
+
+const getWeb3 = getBiconomyWeb3();
 
 export default function RemoveLiquidity({
   history,
