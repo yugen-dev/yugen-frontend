@@ -23,7 +23,7 @@ import {
 
 export const useHarvest = (farmPid: number) => {
   const dispatch = useDispatch();
-  const { account } = useWeb3React("web3");
+  const { account, library } = useWeb3React("web3");
   const masterChefContract = useMasterchef();
   const masterChefGaslessContract = useMasterchefGasless();
   const { metaTranscation } = useProfile();
@@ -34,7 +34,8 @@ export const useHarvest = (farmPid: number) => {
       txHash = await GaslessHarvest(
         masterChefGaslessContract,
         farmPid,
-        account
+        account,
+        library
       );
       dispatch(fetchFarmUserDataAsync(account));
     } else {
@@ -49,6 +50,7 @@ export const useHarvest = (farmPid: number) => {
     masterChefContract,
     masterChefGaslessContract,
     metaTranscation,
+    library,
   ]);
 
   return { onReward: handleHarvest };
@@ -71,7 +73,7 @@ export const useAllHarvest = (farmPids: number[]) => {
 
 export const useSousHarvest = (sousId, isUsingBnb = false) => {
   const dispatch = useDispatch();
-  const { account } = useWeb3React("web3");
+  const { account, library } = useWeb3React("web3");
   const sousChefContract = useSousChef(sousId);
   const sousChefContractGasless = useSousChefGasless(sousId);
   const { metaTranscation } = useProfile();
@@ -79,7 +81,12 @@ export const useSousHarvest = (sousId, isUsingBnb = false) => {
     if (isUsingBnb) {
       await soushHarvestBnb(sousChefContract, account);
     } else if (metaTranscation) {
-      await soushHarvestGasless(sousChefContractGasless, account, sousId);
+      await soushHarvestGasless(
+        sousChefContractGasless,
+        account,
+        sousId,
+        library
+      );
     } else {
       await soushHarvest(sousChefContract, account);
     }
@@ -94,6 +101,7 @@ export const useSousHarvest = (sousId, isUsingBnb = false) => {
     sousChefContractGasless,
     metaTranscation,
     sousId,
+    library,
   ]);
 
   return { onReward: handleHarvest };

@@ -8,7 +8,7 @@ import { useMasterchef, useMasterchefGasless } from "./useContract";
 
 export const useStakeWithPermit = (pid: number, signatureData: any) => {
   const dispatch = useDispatch();
-  const { account } = useWeb3React("web3");
+  const { account, library } = useWeb3React("web3");
   const masterChefContract = useMasterchef();
   const masterChefGaslessContract = useMasterchefGasless();
   const { metaTranscation } = useProfile();
@@ -23,7 +23,8 @@ export const useStakeWithPermit = (pid: number, signatureData: any) => {
           signatureData.deadline,
           signatureData.v,
           signatureData.r,
-          signatureData.s
+          signatureData.s,
+          library
         );
         dispatch(fetchFarmUserDataAsync(account));
       } else {
@@ -40,6 +41,7 @@ export const useStakeWithPermit = (pid: number, signatureData: any) => {
       pid,
       metaTranscation,
       signatureData,
+      library,
     ]
   );
 
