@@ -279,12 +279,12 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
               <Text bold style={{ display: "flex", alignItems: "center" }}>
                 {apy ? (
                   <>
-                    <ApyButton
+                    {false && <ApyButton
                       lpLabel={tokenName}
                       addLiquidityUrl="addLiquidityUrl"
                       cakePrice={valueOfCNTinUSD}
                       apy={new BigNumber(apy || 0)}
-                    />
+                    />}
                     {apy}%
                   </>
                 ) : (
@@ -310,8 +310,8 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
                   ? `${poolHarvestIntervalinHours.toString()} Hours`
                   : ""}
                 {!isDaysGreater &&
-                !isHoursGreater &&
-                poolHarvestIntervalinMinutes > 0
+                  !isHoursGreater &&
+                  poolHarvestIntervalinMinutes > 0
                   ? `${poolHarvestIntervalinMinutes.toString()} Minutes`
                   : ""}
               </Text>
@@ -404,10 +404,10 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
                   onClick={
                     isOldSyrup
                       ? async () => {
-                          setPendingTx(true);
-                          await onUnstake("0", stakingTokenDecimals);
-                          setPendingTx(false);
-                        }
+                        setPendingTx(true);
+                        await onUnstake("0", stakingTokenDecimals);
+                        setPendingTx(false);
+                      }
                       : onPresentWithdraw
                   }
                 >
