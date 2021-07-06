@@ -20,7 +20,7 @@ const UnlockButton: React.FC<ButtonProps> = (props) => {
   accountId = useWeb3React("web3").account;
   let { activate } = useWeb3React("web3");
   let { deactivate } = useWeb3React("web3");
-  if (["/swap", "/find", "/pool", "/add"].includes(location.pathname)) {
+  if (["/swap", "/find", "/pool", "/add"].includes(`/${location.pathname.split('/')[1]}`)) {
     accountId = useWeb3React().account;
     activate = useWeb3React().activate;
     deactivate = useWeb3React().deactivate;

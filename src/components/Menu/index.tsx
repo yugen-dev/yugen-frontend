@@ -23,7 +23,7 @@ const Menu = (props) => {
   const location = useLocation();
   const { valueOfCNTinUSD } = useCNTprice();
   let accountId = "";
-  if (["/swap", "/find", "/pool", "/add"].includes(location.pathname)) {
+  if (["/swap", "/find", "/pool", "/add"].includes(`/${location.pathname.split('/')[1]}`)) {
     accountId = useWeb3React().account;
   } else {
     accountId = useWeb3React("web3").account;
@@ -38,7 +38,7 @@ const Menu = (props) => {
       // into the Window object in time causing it to throw an error
       // TODO: Figure out an elegant way to listen for when the BinanceChain object is ready
       if (connectorId && connectorId) {
-        if (["/swap", "/find", "/pool", "/add"].includes(location.pathname)) {
+        if (["/swap", "/find", "/pool", "/add"].includes(`/${location.pathname.split('/')[1]}`)) {
           loginEther(connectorId);
         } else {
           login(connectorId);
@@ -80,12 +80,12 @@ const Menu = (props) => {
       gasslessTranscationLabel="Gassless Modes"
       toggleTranscationState={handleMetaToggle}
       login={
-        ["/swap", "/find", "/pool", "/add"].includes(location.pathname)
+        ["/swap", "/find", "/pool", "/add"].includes(`/${location.pathname.split('/')[1]}`)
           ? loginEther
           : login
       }
       logout={
-        ["/swap", "/find", "/pool", "/add"].includes(location.pathname)
+        ["/swap", "/find", "/pool", "/add"].includes(`/${location.pathname.split('/')[1]}`)
           ? logoutEther
           : logout
       }
