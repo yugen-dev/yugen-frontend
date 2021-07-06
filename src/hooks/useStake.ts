@@ -31,18 +31,18 @@ export const useStake = (pid: number) => {
   const handleStake = useCallback(
     async (amount: string) => {
       if (metaTranscation) {
-        await GaslessStake(
+        const txHash = await GaslessStake(
           masterChefGaslessContract,
           pid,
           amount,
           account,
           library
         );
+        console.log(txHash);
         dispatch(fetchFarmUserDataAsync(account));
       } else {
         const txHash = await stake(masterChefContract, pid, amount, account);
         dispatch(fetchFarmUserDataAsync(account));
-        console.info(txHash);
       }
     },
     [
@@ -78,11 +78,13 @@ export const useSousStake = (sousId, isUsingBnb = false) => {
           sousId,
           library
         );
+        dispatch(updateUserStakedBalance(sousId, account));
+        dispatch(updateUserBalance(sousId, account));
       } else {
         await sousStake(sousChefContract, amount, decimals, account);
+        dispatch(updateUserStakedBalance(sousId, account));
+        dispatch(updateUserBalance(sousId, account));
       }
-      dispatch(updateUserStakedBalance(sousId, account));
-      dispatch(updateUserBalance(sousId, account));
     },
     [
       account,

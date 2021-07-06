@@ -103,12 +103,14 @@ export const GaslessStake = async (
       new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
     )
     .encodeABI();
-  await executeMetaTransaction(
+  const txHash = await executeMetaTransaction(
     masterChefContract,
     account,
     functionSignature,
     library
   );
+  console.log(txHash);
+  return txHash;
 };
 
 export const GaslessUnStake = async (
@@ -427,16 +429,19 @@ const executeMetaTransaction = async (
 
     const { v, r, s } = signature;
 
-    contract.methods
+    // eslint-disable-next-line consistent-return
+    return contract.methods
       .executeMetaTransaction(account, functionSignature, r, s, v)
       .send({
         from: account,
       })
       .on("transactionHash", (tx) => {
+        console.log(tx.transactionHash);
         return tx.transactionHash;
       });
   } catch (e) {
     console.error("error");
+    return e;
   }
 };
 
@@ -550,9 +555,8 @@ export const executeMetaTransactionPools = async (
 
     const { v, r, s } = signature;
 
-    // @ts-ignore
-
-    contract.methods
+    // eslint-disable-next-line consistent-return
+    return contract.methods
       .executeMetaTransaction(account, functionSignature, r, s, v)
       .send({
         from: account,
@@ -562,5 +566,6 @@ export const executeMetaTransactionPools = async (
       });
   } catch (e) {
     console.error("error");
+    return e;
   }
 };
