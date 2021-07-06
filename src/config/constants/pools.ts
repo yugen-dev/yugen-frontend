@@ -16,6 +16,7 @@ const pools: PoolConfig[] = [
     poolCategory: PoolCategory.COMMUNITY,
     projectLink: "https://cryption.network/",
     multiReward: ["MAHA", "CNT", "ARTH"],
+    metamaskImg: 'https://cryption-network.s3.us-east-2.amazonaws.com/tokens/cnt.png',
     stakingTokenCoinGeckoid: "cryption-network",
     coinGeckoIds: ["MahaDAO", "cryption-network", "MahaDAO"],
     multiRewardTokenPerBlock: ["1", "0.1", "0.2"],
@@ -48,6 +49,7 @@ const pools: PoolConfig[] = [
     sortOrder: 999,
     isFinished: false,
     tokenDecimals: 18,
+    metamaskImg: 'https://cryption-network.s3.us-east-2.amazonaws.com/tokens/maha-cnt.png',
   },
   // {
   //   sousId: 67,

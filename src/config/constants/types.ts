@@ -94,6 +94,7 @@ export interface PoolConfig {
   harvest?: boolean;
   isFinished?: boolean;
   tokenDecimals: number;
+  metamaskImg?: string;
 }
 
 export type Images = {

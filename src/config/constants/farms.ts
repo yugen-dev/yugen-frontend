@@ -21,7 +21,7 @@ const farms: FarmConfig[] = [
   },
   {
     pid: 1,
-    lpSymbol: "USDT-MATIC LP",
+    lpSymbol: "MATIC-USDT",
     lpAddresses: {
       97: "0xE66790075ad839978fEBa15D4d8bB2b415556a1D",
       56: "0x70D8929d04b60Af4fb9B58713eBcf18765aDE422",
@@ -38,7 +38,7 @@ const farms: FarmConfig[] = [
   },
   {
     pid: 2,
-    lpSymbol: "CNT-USDT LP v2",
+    lpSymbol: "CNT-USDT",
     lpAddresses: {
       97: "0x2f7682b64b88149ba3250aee32db712964de5fa9",
       56: "0x1b96b92314c44b159149f7e0303511fb2fc4774f",

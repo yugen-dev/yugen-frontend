@@ -66,6 +66,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
     stakingLimit,
     poolHarvestInterval,
     tokenPriceVsQuote,
+    metamaskImg,
   } = pool;
 
   useEffect(() => {
@@ -436,6 +437,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
         tokenName={tokenName}
         tokenAddress={tokenAddress}
         tokenDecimals={tokenDecimals}
+        metamaskImg={metamaskImg}
       />
     </Card>
   );

@@ -70,6 +70,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     userData,
     stakingLimit,
     poolHarvestInterval,
+    metamaskImg,
   } = pool;
 
   useEffect(() => {
@@ -349,12 +350,12 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
           }}
         >
           <CardTitle isFinished={isFinished}>
-            {isOldSyrup && "[OLD]"} {tokenName} {TranslateString(348, "Pool")}
+          {TranslateString(348, "Stake")} {isOldSyrup && "[OLD]"} {tokenName}
           </CardTitle>
           <Image
             src={`/images/tokens/${image || tokenName.toLowerCase()}.png`}
-            width={64}
-            height={64}
+            width={84}
+            height={84}
             alt={tokenName}
           />
         </div>
@@ -395,7 +396,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                 value={getBalanceNumber(stakedBalance, stakingTokenDecimals)}
               />
             </StyledDetails>
-            <Flex justifyContent="space-between">
+            <Flex justifyContent="space-between" mb="15px">
               <Text>{TranslateString(318, "Harvest Lock Interval")}:</Text>
               <Text bold>
                 {poolHarvestIntervalInDays > 0
@@ -529,6 +530,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
         tokenName={tokenName}
         tokenAddress={tokenAddress}
         tokenDecimals={tokenDecimals}
+        metamaskImg={metamaskImg}
       />
     </Card>
   );

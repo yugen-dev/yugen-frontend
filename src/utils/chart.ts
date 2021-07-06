@@ -5,7 +5,7 @@ const locales = ["en-US"];
 export const currencyFormatter = new Intl.NumberFormat(locales, {
   style: "currency",
   currency: "USD",
-  minimumFractionDigits: 4,
+  minimumFractionDigits: 2,
 });
 
 export function oneMonth() {

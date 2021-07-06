@@ -9,7 +9,6 @@ import Balance from "components/Balance";
 import { useBlock } from "state/hooks";
 import { PoolCategory } from "config/constants/types";
 import { registerToken } from "utils/wallet";
-import { BASE_URL } from "config";
 
 interface Props {
   projectLink: string;
@@ -22,6 +21,7 @@ interface Props {
   endBlock: number;
   isFinished: boolean;
   poolCategory: PoolCategory;
+  metamaskImg?:string
 }
 
 const StyledFooter = styled.div<{ isFinished: boolean }>`
@@ -81,6 +81,7 @@ const CardFooter: React.FC<Props> = ({
   isFinished,
   startBlock,
   endBlock,
+  metamaskImg
 }) => {
   const { blockNumber: currentBlock } = useBlock();
   const [isOpen, setIsOpen] = useState(false);
@@ -91,8 +92,6 @@ const CardFooter: React.FC<Props> = ({
 
   const blocksUntilStart = Math.max(startBlock - currentBlock, 0);
   const blocksRemaining = Math.max(endBlock - currentBlock, 0);
-
-  const imageSrc = `${BASE_URL}/images/tokens/${tokenName.toLowerCase()}.png`;
 
   return (
     <StyledFooter isFinished={isFinished}>
@@ -149,7 +148,7 @@ const CardFooter: React.FC<Props> = ({
           <Flex mb="5px" mt="10px" justifyContent="center">
             <TokenLink
               onClick={() =>
-                registerToken(tokenAddress, tokenName, tokenDecimals, imageSrc)
+                registerToken(tokenAddress, tokenName, tokenDecimals, metamaskImg)
               }
             >
               Add {tokenName} to Metamask

@@ -91,6 +91,7 @@ const Menu = (props) => {
       }
       // logoIcon={LogoIcon}
       isDark={isDark}
+      locationUrl={location && location.pathname ? location.pathname : '/'}
       toggleTheme={toggleTheme}
       currentLang={selectedLanguage && selectedLanguage.code}
       langs={allLanguages}
