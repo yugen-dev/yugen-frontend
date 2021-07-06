@@ -14,8 +14,6 @@ import {
   Percent,
   WETH,
 } from "@pancakeswap-libs/sdk";
-import { Biconomy } from "@biconomy/mexa";
-import Web3 from "web3";
 import { Button, Flex, Text, Card } from "cryption-uikit";
 import { AbiItem } from "web3-utils";
 import { ArrowDown, Plus } from "react-feather";
@@ -38,7 +36,7 @@ import { RowBetween, RowFixed } from "../../components/Row";
 
 import Slider from "../../components/Slider";
 import CurrencyLogo from "../../components/CurrencyLogo";
-import { ROUTER_ADDRESS, biconomyAPIKey } from "../../constants";
+import { ROUTER_ADDRESS } from "../../constants";
 import { useActiveWeb3React } from "../../hooks";
 import { useCurrency } from "../../hooks/Tokens";
 import { usePairContract } from "../../hooks/useContract";

@@ -1,10 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { ArrowDown } from "react-feather";
 import { CurrencyAmount, JSBI, Token, Trade } from "@pancakeswap-libs/sdk";
 import {
@@ -15,7 +10,7 @@ import {
   Card,
   Flex,
 } from "cryption-uikit";
-import styled  from "styled-components";
+import styled from "styled-components";
 import AddressInputPanel from "components/AddressInputPanel";
 import { GreyCard } from "components/Card";
 import ConfirmSwapModal from "components/swap/ConfirmSwapModal";
@@ -267,8 +262,8 @@ const Swap = () => {
     }));
     swapCallback()
       .then((hash) => {
-        onUserInput(Field.INPUT, '');
-        onUserInput(Field.OUTPUT, '');
+        onUserInput(Field.INPUT, "");
+        onUserInput(Field.OUTPUT, "");
         setSwapState((prevState) => ({
           ...prevState,
           attemptingTxn: false,
@@ -302,8 +297,8 @@ const Swap = () => {
     !(priceImpactSeverity > 3 && !isExpertMode);
 
   const handleConfirmDismiss = useCallback(() => {
-    onUserInput(Field.INPUT, '');
-    onUserInput(Field.OUTPUT, '');
+    onUserInput(Field.INPUT, "");
+    onUserInput(Field.OUTPUT, "");
     setSwapState((prevState) => ({ ...prevState, showConfirm: false }));
 
     // if there was a tx hash, we want to clear the input
@@ -315,7 +310,6 @@ const Swap = () => {
   const handleAcceptChanges = useCallback(() => {
     setSwapState((prevState) => ({ ...prevState, tradeToConfirm: trade }));
   }, [trade]);
-
 
   const handleInputSelect = useCallback(
     (inputCurrency) => {

@@ -11,8 +11,6 @@ import {
   WETH,
 } from "@pancakeswap-libs/sdk";
 import { useProfile } from "state/hooks";
-import { Biconomy } from "@biconomy/mexa";
-import Web3 from "web3";
 import { Button, AddIcon, Card, Text as UIKitText } from "cryption-uikit";
 import { AbiItem } from "web3-utils";
 import { splitSignature } from "@ethersproject/bytes";
@@ -62,7 +60,7 @@ import { abi } from "../../constants/abis/gaslessrouter.json";
 import { Dots } from "../Pool/styleds";
 import { ConfirmAddModalBottom } from "./ConfirmAddModalBottom";
 import { PoolPriceBar } from "./PoolPriceBar";
-import { ROUTER_ADDRESS, biconomyAPIKey } from "../../constants";
+import { ROUTER_ADDRESS } from "../../constants";
 import "./index.css";
 
 const ContainerCard = styled(Card)`

@@ -6,16 +6,10 @@ import {
   CurrencyAmount,
   ETHER,
 } from "@pancakeswap-libs/sdk";
-import { Biconomy } from "@biconomy/mexa";
 import { splitSignature } from "@ethersproject/bytes";
-import Web3 from "web3";
 import { useProfile } from "state/hooks";
 import { useCallback, useMemo } from "react";
-import {
-  ROUTER_ADDRESS,
-  biconomyAPIKey,
-  META_TXN_SUPPORTED_TOKENS,
-} from "../constants";
+import { ROUTER_ADDRESS, META_TXN_SUPPORTED_TOKENS } from "../constants";
 import { useTokenAllowance } from "../data/Allowances";
 import { Field } from "../state/swap/actions";
 import {

@@ -10,8 +10,6 @@ import {
   TradeType,
 } from "@pancakeswap-libs/sdk";
 import { useProfile } from "state/hooks";
-import { Biconomy } from "@biconomy/mexa";
-import Web3 from "web3";
 import { useMemo } from "react";
 import { AbiItem } from "web3-utils";
 import { splitSignature } from "@ethersproject/bytes";
@@ -21,7 +19,6 @@ import {
   DEFAULT_DEADLINE_FROM_NOW,
   INITIAL_ALLOWED_SLIPPAGE,
   ROUTER_ADDRESS,
-  biconomyAPIKey,
   META_TXN_DISABLED,
 } from "../constants";
 import { getBiconomyWeb3 } from "../utils/biconomyweb3";
