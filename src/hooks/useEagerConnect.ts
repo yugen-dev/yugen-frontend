@@ -16,7 +16,7 @@ const useEagerConnect = () => {
     // into the Window object in time causing it to throw an error
     // TODO: Figure out an elegant way to listen for when the BinanceChain object is ready
     if (connectorId && connectorId) {
-      if (ETHERJS_PATHS.includes(location.pathname)) {
+      if (ETHERJS_PATHS.includes(`/${location.pathname.split('/')[1]}`)) {
         loginEther(connectorId);
       } else {
         login(connectorId);

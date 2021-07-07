@@ -1,29 +1,18 @@
-import { InjectedConnector } from "@web3-react/injected-connector";
-import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
-import { BscConnector } from "@binance-chain/bsc-connector";
 import { ConnectorNames } from "cryption-uikit";
 import Web3 from "web3";
-import getNodeUrl from "./getRpcUrl";
+import getConnectors from "./web3Connectors";
 
-const POLLING_INTERVAL = 12000;
-const rpcUrl = getNodeUrl();
-const chainId = parseInt(process.env.REACT_APP_CHAIN_ID, 10);
-
-const injected = new InjectedConnector({ supportedChainIds: [chainId] });
-
-const walletconnect = new WalletConnectConnector({
-  rpc: { [chainId]: rpcUrl },
-  bridge: "https://bridge.walletconnect.org",
-  qrcode: true,
-  pollingInterval: POLLING_INTERVAL,
-});
-
-// const bscConnector = new BscConnector({ supportedChainIds: [chainId] });
+const connectors = getConnectors();
 
 export const connectorsByName: { [connectorName in ConnectorNames]: any } = {
-  [ConnectorNames.Injected]: injected,
-  [ConnectorNames.WalletConnect]: walletconnect,
-  // [ConnectorNames.BSC]: bscConnector,
+  [ConnectorNames.Injected]: connectors.injected,
+  [ConnectorNames.WalletConnect]: connectors.walletConnectConnector,
+  [ConnectorNames.GoogleTorusConnector]: connectors.torusGoogleConnector,
+  [ConnectorNames.FacebookTorusConnector]: connectors.torusFacebookConnector,
+  [ConnectorNames.TwitterTorusConnector]: connectors.torusTwitterConnector,
+  [ConnectorNames.RedditTorusConnector]: connectors.torusRedditConnector,
+  [ConnectorNames.DiscordTorusConnector]: connectors.torusDiscordConnector,
+  [ConnectorNames.EmailTorusConnector]: connectors.torusEmailConnector,
 };
 
 export const getLibrary = (provider): Web3 => {

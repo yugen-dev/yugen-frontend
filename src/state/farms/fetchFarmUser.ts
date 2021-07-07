@@ -1,12 +1,12 @@
 import BigNumber from "bignumber.js";
 import erc20ABI from "config/abi/erc20.json";
-import masterchefABI from "config/abi/masterchef.json";
+import farmABI from "config/abi/farm.json";
 import multicall from "utils/multicall";
 import farmsConfig from "config/constants/farms";
-import { getAddress, getMasterChefAddress } from "utils/addressHelpers";
+import { getAddress, getFarmAddress } from "utils/addressHelpers";
 
 export const fetchFarmUserAllowances = async (account: string) => {
-  const masterChefAdress = getMasterChefAddress();
+  const masterChefAdress = getFarmAddress();
 
   const calls = farmsConfig.map((farm) => {
     const lpContractAddress = getAddress(farm.lpAddresses);
@@ -42,7 +42,7 @@ export const fetchFarmUserTokenBalances = async (account: string) => {
 };
 
 export const fetchFarmUserStakedBalances = async (account: string) => {
-  const masterChefAdress = getMasterChefAddress();
+  const masterChefAdress = getFarmAddress();
 
   const calls = farmsConfig.map((farm) => {
     return {
@@ -52,7 +52,7 @@ export const fetchFarmUserStakedBalances = async (account: string) => {
     };
   });
 
-  const rawStakedBalances = await multicall(masterchefABI, calls);
+  const rawStakedBalances = await multicall(farmABI, calls);
   const parsedStakedBalances = rawStakedBalances.map((stakedBalance) => {
     return new BigNumber(stakedBalance[0]._hex).toJSON();
   });
@@ -60,7 +60,7 @@ export const fetchFarmUserStakedBalances = async (account: string) => {
 };
 
 export const fetchFarmUserEarnings = async (account: string) => {
-  const masterChefAdress = getMasterChefAddress();
+  const masterChefAdress = getFarmAddress();
 
   const calls = farmsConfig.map((farm) => {
     return {
@@ -70,9 +70,47 @@ export const fetchFarmUserEarnings = async (account: string) => {
     };
   });
 
-  const rawEarnings = await multicall(masterchefABI, calls);
+  const rawEarnings = await multicall(farmABI, calls);
   const parsedEarnings = rawEarnings.map((earnings) => {
     return new BigNumber(earnings).toJSON();
   });
   return parsedEarnings;
+};
+
+export const fetchFarmUserCanHarvestPendingReward = async (account: string) => {
+  const masterChefAdress = getFarmAddress();
+
+  const calls = farmsConfig.map((farm) => {
+    return {
+      address: masterChefAdress,
+      name: "canHarvest",
+      params: [farm.pid, account],
+    };
+  });
+
+  const rawCanHarvest = await multicall(farmABI, calls);
+  const parsedRawCanHarvest = rawCanHarvest.map((canHarvestReward) => {
+    return canHarvestReward[0];
+  });
+  return parsedRawCanHarvest;
+};
+
+export const fetchFarmUserHarvestInterval = async (account: string) => {
+  const masterChefAdress = getFarmAddress();
+
+  const calls = farmsConfig.map((farm) => {
+    return {
+      address: masterChefAdress,
+      name: "getHarvestUntil",
+      params: [farm.pid, account],
+    };
+  });
+
+  const rawHarvestInterval = await multicall(farmABI, calls);
+  const parsedRawHarvestInterval = rawHarvestInterval.map(
+    (HarvestIntervalReward) => {
+      return new BigNumber(HarvestIntervalReward[0]._hex).toJSON();
+    }
+  );
+  return parsedRawHarvestInterval;
 };

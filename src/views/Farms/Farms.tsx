@@ -4,8 +4,9 @@ import { Route, useRouteMatch, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import BigNumber from "bignumber.js";
 import { useWeb3React } from "@web3-react/core";
-import { Image, Heading, RowType, Toggle, Text } from "cryption-uikit";
+import { RowType, Toggle, Text } from "cryption-uikit";
 import styled from "styled-components";
+import Grid from "@material-ui/core/Grid";
 import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CAKE_POOL_PID } from "config";
 import {
   useFarms,
@@ -18,29 +19,16 @@ import { fetchFarmUserDataAsync } from "state/actions";
 import { QuoteToken } from "config/constants/types";
 import useI18n from "hooks/useI18n";
 import { getBalanceNumber } from "utils/formatBalance";
-import { orderBy, stubFalse } from "lodash";
-
+import { orderBy } from "lodash";
+import cntMascot from 'images/Cryption Network Mascot Farming.png';
 import FarmCard, { FarmWithStakedValue } from "./components/FarmCard/FarmCard";
 import Table from "./components/FarmTable/FarmTable";
 import FarmTabButtons from "./components/FarmTabButtons";
 import SearchInput from "./components/SearchInput";
 import { RowProps } from "./components/FarmTable/Row";
-import ToggleView from "./components/ToggleView/ToggleView";
 import { DesktopColumnSchema, ViewMode } from "./components/types";
 import Select, { OptionProps } from "./components/Select/Select";
 
-const Header = styled.div`
-  padding: 32px 0px;
-  background: #1a1b23;
-
-  padding-left: 16px;
-  padding-right: 16px;
-
-  ${({ theme }) => theme.mediaQueries.sm} {
-    padding-left: 24px;
-    padding-right: 24px;
-  }
-`;
 const FlexLayout = styled.div`
   display: flex;
   justify-content: center;
@@ -65,11 +53,6 @@ const Container = styled.div`
     padding-left: 24px;
     padding-right: 24px;
   }
-`;
-const StyledImage = styled(Image)`
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 58px;
 `;
 const Page = styled(Container)`
   min-height: calc(100vh - 64px);
@@ -151,6 +134,13 @@ const LabelWrapper = styled.div`
     margin-right: 15px;
   }
 `;
+const CNHeading = styled.div`
+  font-size: 45px;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+  margin-bottom: 20px;
+`;
 
 const Farms: React.FC = () => {
   const { path } = useRouteMatch();
@@ -160,6 +150,7 @@ const Farms: React.FC = () => {
   const cakePrice = usePriceCakeBusd();
   const bnbPrice = usePriceBnbBusd();
   const [query, setQuery] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [viewMode, setViewMode] = useState(ViewMode.CARD);
   const ethPriceUsd = usePriceEthBusd();
   const { account } = useWeb3React("web3");
@@ -173,8 +164,6 @@ const Farms: React.FC = () => {
     }
   }, [account, dispatch, fastRefresh]);
 
-  const truevaraible = true;
-  const falsevaraible = false;
   const [stackedOnly, setStackedOnly] = useState(false);
 
   const activeFarms = farmsLP.filter((farm) => farm.multiplier !== "0X");
@@ -437,21 +426,33 @@ const Farms: React.FC = () => {
 
   return (
     <>
-      <Header>
-        {/* <Heading as="h1" size="xxl" color="secondary" mb="24px">
+      {/* <Header>
+        <Heading as="h1" size="xxl" color="secondary" mb="24px">
           {TranslateString(999, "Farms")}
         </Heading>
         <Heading size="lg" color="text">
           {TranslateString(999, "Stake Liquidity Pool (LP) tokens to earn.")}
-        </Heading>  */}
-      </Header>
+        </Heading> 
+      </Header> */}
+      <Container>
+        <Grid container spacing={3} alignItems="center">
+          <Grid item xs={12} md={6} lg={6} xl={6}>
+            <CNHeading>Core Farms</CNHeading>
+          </Grid>
+          <Grid item xs={12} md={6} lg={6} xl={6}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <img src={cntMascot} alt="Cryption Netwrok" width="250px" />
+            </div>
+          </Grid>
+        </Grid>
+      </Container>
       <Page>
         <ControlContainer>
           <ViewControls>
-            <ToggleView
+            {/* <ToggleView
               viewMode={viewMode}
               onToggle={(mode: ViewMode) => setViewMode(mode)}
-            />
+            /> */}
             <ToggleWrapper>
               <Toggle
                 checked={stackedOnly}
@@ -505,12 +506,6 @@ const Farms: React.FC = () => {
           width={120}
           height={103}
         /> */}
-        <div
-          dangerouslySetInnerHTML={{
-            __html:
-              '<lottie-player src="https://assets3.lottiefiles.com/packages/lf20_r71cen62.json"  background="transparent"  speed="1" style="height: 350px;" loop  autoplay></lottie-player>',
-          }}
-        />
       </Page>
     </>
   );

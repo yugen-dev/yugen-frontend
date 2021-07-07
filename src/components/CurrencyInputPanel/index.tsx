@@ -1,25 +1,18 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/require-default-props */
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Currency, Pair } from "@pancakeswap-libs/sdk";
 import Grid from "@material-ui/core/Grid";
 import { Button, ChevronDownIcon, Text, Flex, Input } from "cryption-uikit";
 import styled from "styled-components";
-import { darken } from "polished";
 import useI18n from "hooks/useI18n";
 import { useCurrencyBalance } from "../../state/wallet/hooks";
 import CurrencySearchModal from "../SearchModal/CurrencySearchModal";
 import CurrencyLogo from "../CurrencyLogo";
 import DoubleCurrencyLogo from "../DoubleLogo";
-import { RowBetween } from "../Row";
 // import { Input as NumericalInput } from '../NumericalInput'
 import { useActiveWeb3React } from "../../hooks";
 
-const InputRow = styled.div<{ selected: boolean }>`
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-`;
 const CustomInputPannel = styled.div`
   width: 100%;
   max-width: 400px;
@@ -54,18 +47,6 @@ const CurrencySelect = styled.button<{ selected: boolean }>`
   cursor: pointer;
   user-select: none;
   border: none;
-`;
-const LabelRow = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  color: ${({ theme }) => theme.colors.text};
-  font-size: 0.75rem;
-  line-height: 1rem;
-  span:hover {
-    cursor: pointer;
-    color: ${({ theme }) => darken(0.2, theme.colors.textSubtle)};
-  }
 `;
 const Aligner = styled.span`
   display: flex;
@@ -120,6 +101,7 @@ export default function CurrencyInputPanel({
   showCommonBases,
 }: CurrencyInputPanelProps) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [inputval, setInoutVal] = useState(value);
   const { account } = useActiveWeb3React();
   const selectedCurrencyBalance = useCurrencyBalance(
     account ?? undefined,
@@ -130,11 +112,14 @@ export default function CurrencyInputPanel({
   const handleDismissSearch = useCallback(() => {
     setModalOpen(false);
   }, [setModalOpen]);
+  useEffect(() => {
+    setInoutVal(value)
+  }, [value]);
   return (
     <InputPanel id={id}>
       <Container hideInput={hideInput}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6} lg={6} xl={6}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={5} lg={5} xl={5}>
             <CurrencyContainer>
               <div style={{ marginRight: "10px" }}>
                 {pair ? (
@@ -173,15 +158,15 @@ export default function CurrencyInputPanel({
                         style={{ whiteSpace: "nowrap" }}
                       >
                         {(currency &&
-                        currency.symbol &&
-                        currency.symbol.length > 20
+                          currency.symbol &&
+                          currency.symbol.length > 20
                           ? `${currency.symbol.slice(
-                              0,
-                              4
-                            )}...${currency.symbol.slice(
-                              currency.symbol.length - 5,
-                              currency.symbol.length
-                            )}`
+                            0,
+                            4
+                          )}...${currency.symbol.slice(
+                            currency.symbol.length - 5,
+                            currency.symbol.length
+                          )}`
                           : currency?.symbol) ||
                           TranslateString(1196, "Select a currency")}
                       </Text>
@@ -195,16 +180,16 @@ export default function CurrencyInputPanel({
           <Grid
             item
             xs={12}
-            md={6}
-            lg={6}
-            xl={6}
+            md={7}
+            lg={7}
+            xl={7}
             style={{ display: "flex", justifyContent: "center" }}
           >
             {!hideInput && (
               <CustomInputPannel>
                 <InputWrapper>
                   <Input
-                    value={value}
+                    value={inputval}
                     placeholder="0.0"
                     onInputChange={(event) => {
                       onUserInput(event.target.value);
@@ -214,15 +199,16 @@ export default function CurrencyInputPanel({
                 {account && currency && showMaxButton && label !== "To" && (
                   <Flex alignItems="center">
                     <Text
+                      bold
                       color="#9d9fa8"
-                      fontSize="10px"
+                      fontSize="15px"
                       mr="10px"
                       style={{ whiteSpace: "nowrap" }}
                     >
                       {!hideBalance && !!currency && selectedCurrencyBalance
                         ? `BALANCE: ${selectedCurrencyBalance?.toSignificant(
-                            6
-                          )}`
+                          6
+                        )}`
                         : " -"}
                     </Text>
                     <Button onClick={onMax} scale="sm">

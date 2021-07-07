@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { CurrencyAmount, JSBI, Token, Trade } from "@pancakeswap-libs/sdk";
 import React, {
   useCallback,
@@ -548,7 +549,7 @@ const Swap = () => {
                           });
                         }
                       }}
-                      style={{ width: "48%" }}
+                      style={{ width: "48%", color: "white" }}
                       id="swap-button"
                       disabled={
                         !isValid ||

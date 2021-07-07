@@ -78,7 +78,7 @@ const ModalInput: React.FC<ModalInputProps> = ({
             {displayBalance.toLocaleString()}
           </Text>
         </Flex>
-        <Flex alignItems="flex-end" justifyContent="space-around">
+        <Flex alignItems="center" justifyContent="space-around">
           <StyledInput onInputChange={onChange} placeholder="0" value={value} />
           <Button scale="sm" onClick={onSelectMax} mr="8px">
             {TranslateString(452, "Max")}

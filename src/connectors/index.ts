@@ -2,8 +2,8 @@ import { ConnectorNames } from "cryption-uikit";
 import { Web3Provider } from "@ethersproject/providers";
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
+import { TorusConnector } from "@web3-react/torus-connector";
 import { WalletLinkConnector } from "@web3-react/walletlink-connector";
-import { BscConnector } from "@binance-chain/bsc-connector";
 import { NetworkConnector } from "./NetworkConnector";
 
 const NETWORK_URL = process.env.REACT_APP_NETWORK_URL;
@@ -33,14 +33,67 @@ export const injected = new InjectedConnector({
   supportedChainIds: [137, 80001],
 });
 
-export const bscConnector = new BscConnector({ supportedChainIds: [56] });
-
 // mainnet only
 export const walletconnect = new WalletConnectConnector({
   rpc: { [NETWORK_CHAIN_ID]: NETWORK_URL },
   bridge: "https://bridge.walletconnect.org",
   qrcode: true,
   pollingInterval: 15000,
+});
+
+const googleConnect = new TorusConnector({
+  chainId: NETWORK_CHAIN_ID,
+  loginOptions: {
+    verifier: "google",
+  },
+});
+const facebookConnect = new TorusConnector({
+  chainId: NETWORK_CHAIN_ID,
+  loginOptions: {
+    verifier: "facebook",
+  },
+});
+const discordConnect = new TorusConnector({
+  chainId: NETWORK_CHAIN_ID,
+  loginOptions: {
+    verifier: "discord",
+  },
+});
+
+const twitterConnect = new TorusConnector({
+  chainId: NETWORK_CHAIN_ID,
+  loginOptions: {
+    verifier: "torus-auth0-twitter",
+  },
+});
+
+const redditConnect = new TorusConnector({
+  chainId: NETWORK_CHAIN_ID,
+  loginOptions: {
+    verifier: "reddit",
+  },
+});
+
+const emailConnect = new TorusConnector({
+  chainId: NETWORK_CHAIN_ID,
+  initOptions: {
+    whiteLabel: {
+      theme: {
+        isDark: true,
+        colors: {
+          torusBrand1: "#2082e9",
+        },
+      },
+    },
+    enabledVerifiers: {
+      google: false,
+      facebook: false,
+      discord: false,
+      twitch: false,
+      reddit: false,
+      "torus-auth0-twitter": false,
+    },
+  },
 });
 
 // mainnet only
@@ -54,4 +107,10 @@ export const walletlink = new WalletLinkConnector({
 export const connectorsByName: { [connectorName in ConnectorNames]: any } = {
   [ConnectorNames.Injected]: injected,
   [ConnectorNames.WalletConnect]: walletconnect,
+  [ConnectorNames.GoogleTorusConnector]: googleConnect,
+  [ConnectorNames.FacebookTorusConnector]: facebookConnect,
+  [ConnectorNames.TwitterTorusConnector]: twitterConnect,
+  [ConnectorNames.RedditTorusConnector]: redditConnect,
+  [ConnectorNames.DiscordTorusConnector]: discordConnect,
+  [ConnectorNames.EmailTorusConnector]: emailConnect,
 };

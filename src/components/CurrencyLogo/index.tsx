@@ -57,7 +57,13 @@ export default function CurrencyLogo({
 
   if (currency === ETHER) {
     return (
-      <StyledBnbLogo src="/images/tokens/bnb.png" size={size} style={style} />
+      <StyledBnbLogo src="/images/tokens/matic.png" size={size} style={style} />
+    );
+  }
+
+  if (currency.name === "ARTH") {
+    return (
+      <StyledBnbLogo src="/images/tokens/arthx.png" size={size} style={style} />
     );
   }
 

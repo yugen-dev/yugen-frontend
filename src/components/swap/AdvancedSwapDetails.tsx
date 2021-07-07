@@ -1,6 +1,6 @@
 import React from "react";
 import { Trade, TradeType } from "@pancakeswap-libs/sdk";
-import { Card, CardBody, Text } from "cryption-uikit";
+import { Text } from "cryption-uikit";
 import { Field } from "../../state/swap/actions";
 import { useUserSlippageTolerance } from "../../state/user/hooks";
 import {
@@ -9,7 +9,7 @@ import {
 } from "../../utils/prices";
 import { AutoColumn } from "../Column";
 import QuestionHelper from "../QuestionHelper";
-import { RowBetween, RowFixed } from "../Row";
+import { RowFixed } from "../Row";
 import FormattedPriceImpact from "./FormattedPriceImpact";
 import { SectionBreak } from "./styleds";
 import SwapRoute from "./SwapRoute";
@@ -30,50 +30,42 @@ function TradeSummary({
   );
 
   return (
-    <Card>
-      <CardBody>
-        <RowBetween>
-          <RowFixed>
-            <Text fontSize="14px">
-              {isExactIn ? "Minimum received" : "Maximum sold"}
-            </Text>
-            <QuestionHelper text="Your transaction will revert if there is a large, unfavorable price movement before it is confirmed." />
-          </RowFixed>
-          <RowFixed>
-            <Text fontSize="14px">
-              {isExactIn
-                ? `${slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(4)} ${
-                    trade.outputAmount.currency.symbol
-                  }` ?? "-"
-                : `${slippageAdjustedAmounts[Field.INPUT]?.toSignificant(4)} ${
-                    trade.inputAmount.currency.symbol
-                  }` ?? "-"}
-            </Text>
-          </RowFixed>
-        </RowBetween>
-        <RowBetween>
-          <RowFixed>
-            <Text fontSize="14px">Price Impact</Text>
+    <div className="info-container">
+      <div className="info-item">
+        <Text fontSize="15px" color="#9d9fa8">
+          {isExactIn ? "Minimum received" : "Maximum sold"}
+          <QuestionHelper text="Your transaction will revert if there is a large, unfavorable price movement before it is confirmed." />
+        </Text>
+        <Text fontSize="18px" color="#2082E9">
+          {isExactIn
+            ? `${slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(4)} ${trade.outputAmount.currency.symbol
+            }` ?? "-"
+            : `${slippageAdjustedAmounts[Field.INPUT]?.toSignificant(4)} ${trade.inputAmount.currency.symbol
+            }` ?? "-"}
+        </Text>
+      </div>
+      <div className="info-item">
+        <Text fontSize="15px" color="#9d9fa8">
+          Price Impact
             <QuestionHelper text="The difference between the market price and estimated price due to trade size." />
-          </RowFixed>
+        </Text>
+        <Text fontSize="18px" color="#2082E9">
           <FormattedPriceImpact priceImpact={priceImpactWithoutFee} />
-        </RowBetween>
-
-        <RowBetween>
-          <RowFixed>
-            <Text fontSize="14px">Liquidity Provider Fee</Text>
+        </Text>
+      </div>
+      <div className="info-item">
+        <Text fontSize="15px" color="#9d9fa8">
+          Liquidity provider fee
             <QuestionHelper text="For each trade a 0.3% fee is paid. 0.25% goes to liquidity providers and 0.05% goes to reward the stakers." />
-          </RowFixed>
-          <Text fontSize="14px">
-            {realizedLPFee
-              ? `${realizedLPFee.toSignificant(4)} ${
-                  trade.inputAmount.currency.symbol
-                }`
-              : "-"}
-          </Text>
-        </RowBetween>
-      </CardBody>
-    </Card>
+        </Text>
+        <Text fontSize="18px" color="#2082E9">
+          {realizedLPFee
+            ? `${realizedLPFee.toSignificant(4)} ${trade.inputAmount.currency.symbol
+            }`
+            : "-"}
+        </Text>
+      </div>
+    </div>
   );
 }
 

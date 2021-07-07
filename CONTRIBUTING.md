@@ -1,8 +1,6 @@
-# Contributing to the Swapcafe ecosystem 🥞
+# Contributing to the Polydex ecosystem
 
 Thanks for taking the time to contribute !
-You can start by reading our [Contribution guidelines](https://docs.pancakeswap.finance/code/contributing) first.
-
 ## Setup
 
 Create a `.env.development.local` file at the root of the project. Add the following lines inside :

@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { Contract } from "@ethersproject/contracts";
-import { ChainId, WETH } from "@pancakeswap-libs/sdk";
+import { ChainId } from "@pancakeswap-libs/sdk";
 import { abi as IUniswapV2PairABI } from "@uniswap/v2-core/build/IUniswapV2Pair.json";
 import useWeb3 from "hooks/useWeb3";
 import { getBiconomyWeb3 } from "utils/biconomyweb3";
@@ -19,7 +19,7 @@ import {
   getMasterchefContract,
   getPointCenterIfoContract,
   getSouschefContract,
-  getCoffeeTableContract,
+  getCNTStakerContract,
   getClaimRefundContract,
 } from "utils/contractHelpers";
 import { getPolydexMigratorAddress } from "utils/addressHelpers";
@@ -96,14 +96,14 @@ export const useSousChefGasless = (id) => {
   return useMemo(() => getSouschefContract(id, web3), [id, web3]);
 };
 
-export const useCoffeeTable = () => {
+export const useCNTStaker = () => {
   const web3 = useWeb3();
-  return useMemo(() => getCoffeeTableContract(web3), [web3]);
+  return useMemo(() => getCNTStakerContract(web3), [web3]);
 };
 
-export const useCoffeeTableGasless = () => {
+export const useCNTStakerGasless = () => {
   const web3 = getBiconomyWeb3();
-  return useMemo(() => getCoffeeTableContract(web3), [web3]);
+  return useMemo(() => getCNTStakerContract(web3), [web3]);
 };
 
 export const usePointCenterIfoContract = () => {
@@ -154,7 +154,7 @@ export function useWETHContract(
   withSignerIfPossible?: boolean
 ): Contract | null {
   const { chainId } = useActiveWeb3React();
-  const wethAddress = "0x608b868Cc04cb70447eCAE7C12A847A4b8cB6Ec8";
+  const wethAddress = "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7";
   return useContract(
     chainId ? wethAddress : undefined,
     WETH_ABI,

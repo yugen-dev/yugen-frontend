@@ -83,7 +83,7 @@ function TokenWarningCard({ token }: TokenWarningCardProps) {
             >
               <Text title={token.address}>
                 {shortenAddress(token.address)}{" "}
-                {TranslateString(116, "(View on MaticExplorer)")}
+                {TranslateString(116, "(View on PolygonScan)")}
               </Text>
             </ExternalLink>
           )}

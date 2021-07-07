@@ -96,7 +96,7 @@ export default function Pool() {
           <Button
             id="join-pool-button"
             as={Link}
-            to="/add/ETH"
+            to="/add/0x766F03e47674608cCcF7414f6c4DDF3d963Ae394/0xD89a2E56B778AEfe719fc86E122B7db752Bb6B41"
             className="add-liquidity"
           >
             {TranslateString(168, "Add Liquidity")}
@@ -153,7 +153,7 @@ export default function Pool() {
                 <Text
                   fontSize="14px"
                   style={{ padding: ".5rem 0 .5rem 0" }}
-                  color="#86878F"
+                  color="white"
                 >
                   {TranslateString(106, "Don't see a pool you joined?")}{" "}
                   <StyledInternalLink
@@ -168,7 +168,7 @@ export default function Pool() {
                 <Text
                   fontSize="14px"
                   style={{ padding: ".5rem 0 .5rem 0" }}
-                  color="#86878F"
+                  color="white"
                 >
                   {TranslateString(
                     1172,

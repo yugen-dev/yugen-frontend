@@ -1,24 +1,28 @@
 import React, { useRef, useCallback, useEffect, useState } from "react";
-import Web3 from "web3";
 import styled from "styled-components";
 import BigNumber from "bignumber.js";
 import { QuoteToken } from "config/constants/types";
 import { ParentSize } from "@visx/responsive";
 import Grid from "@material-ui/core/Grid";
-import { AbiItem } from "web3-utils";
-import orderBy from "lodash/orderBy";
-import cakeABI from "config/abi/cake.json";
+// import orderBy from "lodash/orderBy";
 import { useQuery } from "@apollo/client";
 import Container from "@material-ui/core/Container";
 import useI18n from "hooks/useI18n";
 import useInterval from "hooks/useInterval";
 import { useTotalSupply } from "hooks/useTokenBalance";
-import { dayDatasQuery, burnQuery, barQuery } from "apollo/queries";
+import { dayDatasQuery, burnQuery, cntStakerQuery } from "apollo/queries";
+import {
+  CNT_CIRCULATING_SUPPLY_LINK,
+  BLOCKS_PER_YEAR,
+  CAKE_PER_BLOCK,
+  CAKE_POOL_PID,
+} from "config";
 import { getDayData } from "apollo/exchange";
-import pools from "config/constants/pools";
-import { Pool } from "state/types";
-import { useFarms, usePriceBnbBusd, usePriceCakeBusd } from "state/hooks";
-import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CAKE_POOL_PID } from "config";
+// import pools from "config/constants/pools";
+// import { Pool } from "state/types";
+import useCNTprice from "hooks/useCNTprice";
+import { useFarms, usePriceBnbBusd } from "state/hooks";
+
 import FarmStakingCard from "views/Home/components/FarmStakingCard";
 import LotteryCard from "views/Home/components/LotteryCard";
 // import CakeStats from "views/Home/components/CakeStats";
@@ -43,31 +47,27 @@ const Card = styled.div`
 `;
 
 const Home: React.FC = () => {
-  const [treasuryBal, setTreasuryBal] = useState(0);
+  const [ciculatingSupply, setciculatingSupply] = useState(0);
+  const getCirculatingSupply = async () => {
+    try {
+      const res = await fetch(CNT_CIRCULATING_SUPPLY_LINK);
+      const data = await res.json();
+      setciculatingSupply(parseFloat(data.toFixed(3)));
+    } catch {
+      // eslint-disable-next-line no-console
+      console.log("Failed to get Circulating supply");
+    }
+  };
   useEffect(() => {
-    const web3Provider = new Web3(
-      new Web3.providers.HttpProvider(process.env.REACT_APP_ETH_PROVIDER_LINK)
-    );
-    const contract = new web3Provider.eth.Contract(
-      cakeABI as unknown as AbiItem,
-      process.env.REACT_APP_TREAURY_CONTRACT_ADDRESS
-    );
-    contract.methods
-      .balanceOf(process.env.REACT_APP_TREAURY_WALLET_AFFRESS)
-      .call()
-      .then((balance) => {
-        let totalTressury = parseFloat(balance);
-        totalTressury /= 10 ** 18;
-        setTreasuryBal(totalTressury);
-      });
+    getCirculatingSupply();
   }, []);
-  const cakePriceUsd = usePriceCakeBusd();
+  const { valueOfCNTinUSD } = useCNTprice();
   const farmsLP = useFarms();
   let totalSupplyVal = 0;
   let totalBurned = 0;
   let liquidity = [];
-  let ciculatingSupply = 0;
   let totalFees = "";
+  let devFees = "";
   let stakerFees = "";
   let lpFees = "";
   let burnerFees = "";
@@ -76,18 +76,18 @@ const Home: React.FC = () => {
   const totalSupply = useTotalSupply();
   const maxAPY = useRef(Number.MIN_VALUE);
   const TranslateString = useI18n();
-  const activeNonCakePools = pools.filter((pool) => !pool.isFinished);
-  const latestPools: Pool[] = orderBy(
-    activeNonCakePools,
-    ["sortOrder", "pid"],
-    ["desc", "desc"]
-  ).slice(0, 3);
+  // const activeNonCakePools = pools.filter((pool) => !pool.isFinished);
+  // const latestPools: Pool[] = orderBy(
+  //   activeNonCakePools,
+  //   ["sortOrder", "pid"],
+  //   ["desc", "desc"]
+  // ).slice(0, 3);
   // Always include CAKE
-  const assets = [...latestPools.map((pool) => pool.tokenName)].join(", ");
+  // const assets = [...latestPools.map((pool) => pool.tokenName)].join(", ");
   const getHighestAPY = () => {
     const activeFarms = farmsLP.filter((farm) => farm.multiplier !== "0X");
     calculateAPY(activeFarms);
-    return (maxAPY.current * 100).toLocaleString("en-US").slice(0, -1);
+    return ((maxAPY.current * 100).toLocaleString("en-US").slice(0, -1));
   };
   const calculateAPY = useCallback(
     (farmsToDisplay) => {
@@ -141,27 +141,26 @@ const Home: React.FC = () => {
     [bnbPrice, farmsLP]
   );
   const dayDatas = useQuery(dayDatasQuery);
-  const getBarInfo = useQuery(barQuery, {
+  const getCNTStakerInfo = useQuery(cntStakerQuery, {
     context: {
-      clientName: "bar",
+      clientName: "cntstaker",
     },
   });
   if (
-    getBarInfo &&
-    getBarInfo.data &&
-    getBarInfo.data.bar &&
-    getBarInfo.data.bar.length > 0 &&
+    getCNTStakerInfo &&
+    getCNTStakerInfo.data &&
+    getCNTStakerInfo.data.cntstaker &&
     dayDatas &&
     dayDatas.data &&
     dayDatas.data.dayDatas &&
-    cakePriceUsd
+    valueOfCNTinUSD
   ) {
     cntStakingRatio =
-      (((parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.05) /
-        parseFloat(getBarInfo.data.bar.totalSupply)) *
+      (((parseFloat(dayDatas.data.dayDatas[1].volumeUSD) * 0.05) /
+        parseFloat(getCNTStakerInfo.data.cntstaker.totalSupply)) *
         365) /
-      (parseFloat(getBarInfo.data.bar.ratio) *
-        parseFloat(cakePriceUsd.toString()));
+      (parseFloat(getCNTStakerInfo.data.cntstaker.ratio) *
+        parseFloat(valueOfCNTinUSD.toString()));
   }
   const burnData = useQuery(burnQuery, {
     context: {
@@ -175,14 +174,11 @@ const Home: React.FC = () => {
   if (
     burnData &&
     burnData.data &&
-    burnData.data.burns &&
-    burnData.data.burns.length > 0
+    burnData.data.cntBurns &&
+    burnData.data.cntBurns.length > 0
   ) {
-    totalBurned = parseFloat(burnData.data.burns[0].amount);
+    totalBurned = parseFloat(burnData.data.cntBurns[0].amount);
     totalBurned /= 10 ** 18;
-  }
-  if (treasuryBal && treasuryBal > 0 && totalSupplyVal > 0 && totalBurned > 0) {
-    ciculatingSupply = totalSupplyVal - treasuryBal - totalBurned;
   }
   if (dayDatas && dayDatas.data && dayDatas.data.dayDatas) {
     [liquidity] = dayDatas.data.dayDatas
@@ -201,18 +197,11 @@ const Home: React.FC = () => {
         },
         [[], []]
       );
-    totalFees = (
-      parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.05
-    ).toFixed(10);
-    stakerFees = (
-      parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.025
-    ).toFixed(10);
-    lpFees = (parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.25).toFixed(
-      10
-    );
-    burnerFees = (
-      parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.025
-    ).toFixed(10);
+    totalFees = parseFloat(dayDatas.data.dayDatas[0].volumeUSD).toFixed(4);
+    lpFees = (parseFloat(dayDatas.data.dayDatas[0].volumeUSD) / 6).toFixed(4);
+    stakerFees = (parseFloat(lpFees) * 0.25).toFixed(4);
+    burnerFees = (parseFloat(lpFees) * 0.65).toFixed(4);
+    devFees = (parseFloat(lpFees) * 0.1).toFixed(4);
   }
   useInterval(() => Promise.all([getDayData]), 60000);
   return (
@@ -230,13 +219,13 @@ const Home: React.FC = () => {
             }}
           >
             <Hero>
-              <CNHeading>{TranslateString(576, "PolyDex")}</CNHeading>
-              <CNText>
+              <CNHeading>{TranslateString(576, "PolyDEX")}</CNHeading>
+              {/* <CNText>
                 {TranslateString(
                   578,
                   "The #1 AMM and yield farm on Matic BlockChain."
                 )}
-              </CNText>
+              </CNText> */}
             </Hero>
             <FarmStakingCard />
           </div>
@@ -251,8 +240,9 @@ const Home: React.FC = () => {
           <StatsCard
             totalSuply={totalSupplyVal > 100000000 ? 100000000 : totalSupplyVal}
             burnedSupply={totalBurned}
-            circulatingSupply={ciculatingSupply}
+            circulatingSupply={7289583 || ciculatingSupply}
             totalFees={totalFees}
+            devFees={devFees}
             stakerFees={stakerFees}
             lpFees={lpFees}
             burnerFees={burnerFees}
@@ -262,20 +252,22 @@ const Home: React.FC = () => {
           // Grapht Card
         }
         <Grid item xs={12} md={6} lg={6} xl={6}>
-          <Card style={{ height: 345 }}>
-            <ParentSize>
-              {({ width, height }) => (
-                <Areachart
-                  title="Liquidity"
-                  width={width}
-                  height={height}
-                  data={liquidity}
-                  margin={{ top: 125, right: 0, bottom: 0, left: 0 }}
-                  tooltipDisabled
-                  overlayEnabled
-                />
-              )}
-            </ParentSize>
+          <Card style={{ height: 373 }}>
+            {liquidity && liquidity.length > 0 && (
+              <ParentSize>
+                {({ width, height }) => (
+                  <Areachart
+                    title="Liquidity"
+                    width={width}
+                    height={height}
+                    data={liquidity}
+                    margin={{ top: 125, right: 0, bottom: 0, left: 0 }}
+                    tooltipDisabled
+                    overlayEnabled
+                  />
+                )}
+              </ParentSize>
+            )}
           </Card>
         </Grid>
 
@@ -301,15 +293,16 @@ const Home: React.FC = () => {
               <EarnAssetCard
                 topTitle="Earn"
                 bottomTitle="in Pools"
-                description={assets}
+                description="CNT, MAHA"
                 redirectLink="/pools"
               />
             </Grid>
             <Grid item xs={12} md={6} lg={6} xl={6}>
               <EarnAssetCard
                 topTitle="Earn"
-                description={`${cntStakingRatio}%`}
+                description={`${cntStakingRatio.toFixed(2)}%`}
                 bottomTitle="on staking CNT"
+                descriptionColor="#29bb89"
                 redirectLink="/cntbar"
               />
             </Grid>
@@ -328,10 +321,10 @@ const CNHeading = styled.div`
   margin-bottom: 20px;
 `;
 
-const CNText = styled.div`
-  font-size: 20px;
-  font-weight: normal;
-  text-align: center;
-  color: #9d9fa8;
-`;
+// const CNText = styled.div`
+//   font-size: 20px;
+//   font-weight: normal;
+//   text-align: center;
+//   color: #9d9fa8;
+// `;
 export default Home;

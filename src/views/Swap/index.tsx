@@ -1,23 +1,16 @@
 /* eslint-disable no-nested-ternary */
-import { CurrencyAmount, JSBI, Token, Trade } from "@pancakeswap-libs/sdk";
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { ArrowDown } from "react-feather";
+import { CurrencyAmount, JSBI, Token, Trade } from "@pancakeswap-libs/sdk";
 import {
   ArrowDownIcon,
   Button,
   IconButton,
   Text,
-  HelpIcon,
   Card,
   Flex,
 } from "cryption-uikit";
-import styled, { ThemeContext } from "styled-components";
+import styled from "styled-components";
 import AddressInputPanel from "components/AddressInputPanel";
 import { GreyCard } from "components/Card";
 import ConfirmSwapModal from "components/swap/ConfirmSwapModal";
@@ -33,7 +26,7 @@ import {
 } from "components/swap/styleds";
 import TradePrice from "components/swap/TradePrice";
 import TokenWarningModal from "components/TokenWarningModal";
-import SyrupWarningModal from "components/SyrupWarningModal";
+// import SyrupWarningModal from "components/SyrupWarningModal";
 import ProgressSteps from "components/ProgressSteps";
 
 import { INITIAL_ALLOWED_SLIPPAGE } from "constants/index";
@@ -68,6 +61,8 @@ import "./index.css";
 
 const ContainerCard = styled(Card)`
   border-radius: 0.625rem !important;
+  max-width: 700px;
+  width: 100%;
   padding: 30px;
   background-color: #1e202a;
   display: flex;
@@ -101,8 +96,8 @@ const Swap = () => {
   ];
   const [dismissTokenWarning, setDismissTokenWarning] =
     useState<boolean>(false);
-  const [isSyrup, setIsSyrup] = useState<boolean>(false);
-  const [syrupTransactionType, setSyrupTransactionType] = useState<string>("");
+  // const [isSyrup, setIsSyrup] = useState<boolean>(false);
+  // const [syrupTransactionType, setSyrupTransactionType] = useState<string>("");
   const urlLoadedTokens: Token[] = useMemo(
     () =>
       [loadedInputCurrency, loadedOutputCurrency]?.filter(
@@ -114,16 +109,13 @@ const Swap = () => {
     setDismissTokenWarning(true);
   }, []);
 
-  const handleConfirmSyrupWarning = useCallback(() => {
-    setIsSyrup(false);
-    setSyrupTransactionType("");
-  }, []);
+  // const handleConfirmSyrupWarning = useCallback(() => {
+  //   setIsSyrup(false);
+  //   setSyrupTransactionType("");
+  // }, []);
 
   const { account } = useActiveWeb3React();
-  const theme = useContext(ThemeContext);
-
   const [isExpertMode] = useExpertModeManager();
-
   // get custom setting values for user
   const [deadline] = useUserDeadline();
   const [allowedSlippage] = useUserSlippageTolerance();
@@ -270,6 +262,8 @@ const Swap = () => {
     }));
     swapCallback()
       .then((hash) => {
+        onUserInput(Field.INPUT, "");
+        onUserInput(Field.OUTPUT, "");
         setSwapState((prevState) => ({
           ...prevState,
           attemptingTxn: false,
@@ -285,7 +279,7 @@ const Swap = () => {
           txHash: undefined,
         }));
       });
-  }, [priceImpactWithoutFee, swapCallback, setSwapState]);
+  }, [priceImpactWithoutFee, swapCallback, setSwapState, onUserInput]);
 
   // errors
   const [showInverted, setShowInverted] = useState<boolean>(false);
@@ -303,6 +297,8 @@ const Swap = () => {
     !(priceImpactSeverity > 3 && !isExpertMode);
 
   const handleConfirmDismiss = useCallback(() => {
+    onUserInput(Field.INPUT, "");
+    onUserInput(Field.OUTPUT, "");
     setSwapState((prevState) => ({ ...prevState, showConfirm: false }));
 
     // if there was a tx hash, we want to clear the input
@@ -315,27 +311,12 @@ const Swap = () => {
     setSwapState((prevState) => ({ ...prevState, tradeToConfirm: trade }));
   }, [trade]);
 
-  // This will check to see if the user has selected Syrup to either buy or sell.
-  // If so, they will be alerted with a warning message.
-  const checkForSyrup = useCallback(
-    (selected: string, purchaseType: string) => {
-      if (selected === "syrup") {
-        setIsSyrup(true);
-        setSyrupTransactionType(purchaseType);
-      }
-    },
-    [setIsSyrup, setSyrupTransactionType]
-  );
-
   const handleInputSelect = useCallback(
     (inputCurrency) => {
       setApprovalSubmitted(false); // reset 2 step UI for approvals
       onCurrencySelection(Field.INPUT, inputCurrency);
-      if (inputCurrency.symbol.toLowerCase() === "syrup") {
-        checkForSyrup(inputCurrency.symbol.toLowerCase(), "Selling");
-      }
     },
-    [onCurrencySelection, setApprovalSubmitted, checkForSyrup]
+    [onCurrencySelection, setApprovalSubmitted]
   );
 
   const handleMaxInput = useCallback(() => {
@@ -347,13 +328,9 @@ const Swap = () => {
   const handleOutputSelect = useCallback(
     (outputCurrency) => {
       onCurrencySelection(Field.OUTPUT, outputCurrency);
-      if (outputCurrency.symbol.toLowerCase() === "syrup") {
-        checkForSyrup(outputCurrency.symbol.toLowerCase(), "Buying");
-      }
     },
-    [onCurrencySelection, checkForSyrup]
+    [onCurrencySelection]
   );
-
   return (
     <div
       style={{
@@ -367,11 +344,6 @@ const Swap = () => {
           isOpen={urlLoadedTokens.length > 0 && !dismissTokenWarning}
           tokens={urlLoadedTokens}
           onConfirm={handleConfirmTokenWarning}
-        />
-        <SyrupWarningModal
-          isOpen={isSyrup}
-          transactionType={syrupTransactionType}
-          onConfirm={handleConfirmSyrupWarning}
         />
         <ConfirmSwapModal
           isOpen={showConfirm}
@@ -560,7 +532,7 @@ const Swap = () => {
                     });
                   }
                 }}
-                style={{ width: "48%" }}
+                style={{ width: "48%", color: "white" }}
                 id="swap-button"
                 disabled={
                   !isValid ||
@@ -602,7 +574,7 @@ const Swap = () => {
                   ? "danger"
                   : "primary"
               }
-              style={{ maxWidth: "400px", width: "100%" }}
+              style={{ maxWidth: "400px", width: "100%", color: "white" }}
             >
               {swapInputError ||
                 (priceImpactSeverity > 3 && !isExpertMode
@@ -618,47 +590,6 @@ const Swap = () => {
           ) : null}
         </BottomGrouping>
         <AdvancedSwapDetailsDropdown trade={trade} />
-        <div className="info-container">
-          <div className="info-item">
-            <Text fontSize="15px" color="#9d9fa8">
-              Minimum received
-              <HelpIcon
-                color="#9d9fa8"
-                width="16px"
-                style={{ marginLeft: "5px", cursor: "pointer" }}
-              />
-            </Text>
-            <Text fontSize="18px" color="#2082E9">
-              1.323 DOT
-            </Text>
-          </div>
-          <div className="info-item">
-            <Text fontSize="15px" color="#9d9fa8">
-              Price Impact
-              <HelpIcon
-                color="#9d9fa8"
-                width="16px"
-                style={{ marginLeft: "5px", cursor: "pointer" }}
-              />
-            </Text>
-            <Text fontSize="18px" color="#2082E9">
-              0.10%
-            </Text>
-          </div>
-          <div className="info-item">
-            <Text fontSize="15px" color="#9d9fa8">
-              Liquidity provider fee
-              <HelpIcon
-                color="#9d9fa8"
-                width="16px"
-                style={{ marginLeft: "5px", cursor: "pointer" }}
-              />
-            </Text>
-            <Text fontSize="18px" color="#2082E9">
-              0.0004 BNB
-            </Text>
-          </div>
-        </div>
       </ContainerCard>
     </div>
   );

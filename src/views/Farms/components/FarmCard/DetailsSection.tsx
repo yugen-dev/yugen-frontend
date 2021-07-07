@@ -55,7 +55,7 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({
       )}
       <Flex justifyContent="center">
         <Link external href={maticExplorerAddress} bold={false} color="#3869EE">
-          {TranslateString(356, "View on MaticExplorer")}
+          {TranslateString(356, "View on PolygonScan")}
         </Link>
       </Flex>
     </Wrapper>

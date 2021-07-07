@@ -6,7 +6,6 @@ import {
 } from "@pancakeswap-libs/sdk";
 import React from "react";
 import { Button, Text } from "cryption-uikit";
-import { TranslateString } from "utils/translateTextHelpers";
 import { RowBetween, RowFixed } from "../../components/Row";
 import CurrencyLogo from "../../components/CurrencyLogo";
 import { Field } from "../../state/mint/actions";

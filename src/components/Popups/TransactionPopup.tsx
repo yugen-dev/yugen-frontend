@@ -42,7 +42,7 @@ export default function TransactionPopup({
           <ExternalLink
             href={getMaticExplorerLink(chainId, hash, "transaction")}
           >
-            View on maticexplorer
+            View on PolygonScan
           </ExternalLink>
         )}
       </AutoColumn>

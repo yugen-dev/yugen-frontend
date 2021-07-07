@@ -10,8 +10,6 @@ import {
   TradeType,
 } from "@pancakeswap-libs/sdk";
 import { useProfile } from "state/hooks";
-import { Biconomy } from "@biconomy/mexa";
-import Web3 from "web3";
 import { useMemo } from "react";
 import { AbiItem } from "web3-utils";
 import { splitSignature } from "@ethersproject/bytes";
@@ -21,9 +19,9 @@ import {
   DEFAULT_DEADLINE_FROM_NOW,
   INITIAL_ALLOWED_SLIPPAGE,
   ROUTER_ADDRESS,
-  biconomyAPIKey,
   META_TXN_DISABLED,
 } from "../constants";
+import { getBiconomyWeb3 } from "../utils/biconomyweb3";
 import { useTransactionAdder } from "../state/transactions/hooks";
 import {
   calculateGasMargin,
@@ -38,15 +36,7 @@ import useENS from "./useENS";
 // swap, add Liquidity
 
 const contractAddress = ROUTER_ADDRESS;
-const maticProvider = process.env.REACT_APP_NETWORK_URL;
-
-// @ts-ignore
-const biconomy = new Biconomy(new Web3.providers.HttpProvider(maticProvider), {
-  apiKey: biconomyAPIKey,
-  debug: true,
-});
-
-const getWeb3 = new Web3(biconomy);
+const getWeb3 = getBiconomyWeb3();
 
 enum SwapCallbackState {
   INVALID,
@@ -311,8 +301,6 @@ export function useSwapCallback(
           .getNonce(account)
           .call();
 
-        const gasLimit = calculateGasMargin(gasEstimate);
-
         const res = bicomony_contract.methods[methodName](...args).encodeABI();
 
         const message: any = {
@@ -339,7 +327,7 @@ export function useSwapCallback(
             ],
           },
           domain: {
-            name: "UniswapV2Router02",
+            name: "PolydexRouter",
             version: "1",
             verifyingContract: contractAddress,
             chainId,
@@ -347,10 +335,12 @@ export function useSwapCallback(
           primaryType: "MetaTransaction",
           message,
         });
+
         const sig = await library.send("eth_signTypedData_v4", [
           account,
           dataToSign,
         ]);
+
         const signature = await splitSignature(sig);
         const { v, r, s } = signature;
 

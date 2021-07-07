@@ -16,14 +16,14 @@ export const setupNetwork = async () => {
         params: [
           {
             chainId: `0x${chainId.toString(16)}`,
-            chainName: "Binance Smart Chain",
+            chainName: "Matic Testnet",
             nativeCurrency: {
-              name: "BNB",
-              symbol: "BNB",
+              name: "MATIC",
+              symbol: "MATIC",
               decimals: 18,
             },
             rpcUrls: nodes,
-            blockExplorerUrls: ["https://explorer-mumbai.maticvigil.com/"],
+            blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
           },
         ],
       });

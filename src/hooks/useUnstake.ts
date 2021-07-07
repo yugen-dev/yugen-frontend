@@ -24,14 +24,20 @@ import {
 
 const useUnstake = (pid: number) => {
   const dispatch = useDispatch();
-  const { account } = useWeb3React("web3");
+  const { account, library } = useWeb3React("web3");
   const masterChefContract = useMasterchef();
   const masterChefGaslessContract = useMasterchefGasless();
   const { metaTranscation } = useProfile();
   const handleUnstake = useCallback(
     async (amount: string) => {
       if (metaTranscation) {
-        await GaslessUnStake(masterChefGaslessContract, pid, amount, account);
+        const txHash = await GaslessUnStake(
+          masterChefGaslessContract,
+          pid,
+          amount,
+          account,
+          library
+        );
         dispatch(fetchFarmUserDataAsync(account));
       } else {
         await unstake(masterChefContract, pid, amount, account);
@@ -46,6 +52,7 @@ const useUnstake = (pid: number) => {
       masterChefGaslessContract,
       pid,
       metaTranscation,
+      library,
     ]
   );
 
@@ -56,7 +63,7 @@ const SYRUPIDS = [];
 
 export const useSousUnstake = (sousId) => {
   const dispatch = useDispatch();
-  const { account } = useWeb3React("web3");
+  const { account, library } = useWeb3React("web3");
 
   const sousChefContract = useSousChef(sousId);
   const sousChefContractsGasless = useSousChefGasless(sousId);
@@ -72,14 +79,18 @@ export const useSousUnstake = (sousId) => {
           amount,
           decimals,
           account,
-          sousId
+          sousId,
+          library
         );
+        dispatch(updateUserStakedBalance(sousId, account));
+        dispatch(updateUserBalance(sousId, account));
+        dispatch(updateUserPendingReward(sousId, account));
       } else {
         await sousUnstake(sousChefContract, amount, decimals, account);
+        dispatch(updateUserStakedBalance(sousId, account));
+        dispatch(updateUserBalance(sousId, account));
+        dispatch(updateUserPendingReward(sousId, account));
       }
-      dispatch(updateUserStakedBalance(sousId, account));
-      dispatch(updateUserBalance(sousId, account));
-      dispatch(updateUserPendingReward(sousId, account));
     },
     [
       account,
@@ -89,6 +100,7 @@ export const useSousUnstake = (sousId) => {
       sousChefContractsGasless,
       metaTranscation,
       sousId,
+      library,
     ]
   );
 

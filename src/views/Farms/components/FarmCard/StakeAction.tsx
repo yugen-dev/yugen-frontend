@@ -11,7 +11,8 @@ import {
   useModal,
 } from "cryption-uikit";
 import useI18n from "hooks/useI18n";
-import useStake from "hooks/useStake";
+import { useStake } from "hooks/useStake";
+import { useStakeWithPermit } from "hooks/useStakeWithPermit";
 import useUnstake from "hooks/useUnstake";
 import { getBalanceNumber } from "utils/formatBalance";
 import DepositModal from "../DepositModal";
@@ -23,6 +24,7 @@ interface FarmCardActionsProps {
   tokenName?: string;
   pid?: number;
   addLiquidityUrl?: string;
+  signatureData?: any;
 }
 
 const IconButtonWrapper = styled.div`
@@ -38,9 +40,11 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
   tokenName,
   pid,
   addLiquidityUrl,
+  signatureData,
 }) => {
   const TranslateString = useI18n();
   const { onStake } = useStake(pid);
+  const { onStakeWithPermit } = useStakeWithPermit(pid, signatureData);
   const { onUnstake } = useUnstake(pid);
 
   const rawStakedBalance = getBalanceNumber(stakedBalance);
@@ -49,7 +53,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
   const [onPresentDeposit] = useModal(
     <DepositModal
       max={tokenBalance}
-      onConfirm={onStake}
+      onConfirm={signatureData !== null ? onStakeWithPermit : onStake}
       tokenName={tokenName}
       addLiquidityUrl={addLiquidityUrl}
     />

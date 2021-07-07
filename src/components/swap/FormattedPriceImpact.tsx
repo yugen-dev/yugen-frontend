@@ -15,7 +15,7 @@ export default function FormattedPriceImpact({
   priceImpact?: Percent;
 }) {
   return (
-    <ErrorText fontSize="14px" severity={warningSeverity(priceImpact)}>
+    <ErrorText fontSize="18px" severity={warningSeverity(priceImpact)}>
       {priceImpact
         ? priceImpact.lessThan(ONE_BIPS)
           ? "<0.01%"

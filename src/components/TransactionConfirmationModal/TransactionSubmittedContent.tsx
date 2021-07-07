@@ -1,8 +1,7 @@
 import { ChainId } from "@pancakeswap-libs/sdk";
-import React, { useContext } from "react";
-import { ThemeContext } from "styled-components";
+import React from "react";
 import { Button, LinkExternal } from "cryption-uikit";
-import { ArrowUpCircle } from "react-feather";
+import Tick from "images/Tick";
 import { AutoColumn } from "../Column";
 import { getMaticExplorerLink } from "../../utils";
 import { Wrapper, Section, ConfirmedIcon, ContentHeader } from "./helpers";
@@ -18,27 +17,21 @@ const TransactionSubmittedContent = ({
   chainId,
   hash,
 }: TransactionSubmittedContentProps) => {
-  const theme = useContext(ThemeContext);
-
   return (
     <Wrapper>
       <Section>
         <ContentHeader onDismiss={onDismiss}>
-          Transaction submitted
+          Transaction Confirmed
         </ContentHeader>
         <ConfirmedIcon>
-          <ArrowUpCircle
-            strokeWidth={0.5}
-            size={97}
-            color={theme.colors.primary}
-          />
+          <Tick size={100} />
         </ConfirmedIcon>
         <AutoColumn gap="8px" justify="center">
           {chainId && hash && (
             <LinkExternal
               href={getMaticExplorerLink(chainId, hash, "transaction")}
             >
-              View on MaticExplorer
+              View on PolygonScan
             </LinkExternal>
           )}
           <Button onClick={onDismiss} mt="20px">

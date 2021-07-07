@@ -1,4 +1,3 @@
-import { timeFormat } from "d3-time-format";
 import { getUnixTime, startOfDay, subMonths, subWeeks } from "date-fns";
 
 const locales = ["en-US"];
@@ -6,7 +5,7 @@ const locales = ["en-US"];
 export const currencyFormatter = new Intl.NumberFormat(locales, {
   style: "currency",
   currency: "USD",
-  minimumFractionDigits: 4,
+  minimumFractionDigits: 2,
 });
 
 export function oneMonth() {

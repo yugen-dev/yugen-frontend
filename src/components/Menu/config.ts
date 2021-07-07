@@ -7,23 +7,23 @@ const config: MenuEntry[] = [
     href: "/",
   },
   {
-    label: "Trade",
+    label: "Exchange",
     icon: "TradeIcon",
-    items: [
-      {
-        label: "Exchange",
-        href: "/swap",
-      },
-      {
-        label: "Liquidity",
-        href: "/pool",
-      },
-    ],
+    href: "/swap",
   },
   {
     label: "Farms",
     icon: "FarmIcon",
-    href: "/farms",
+    items: [
+      {
+        label: "Core",
+        href: "/farms",
+      },
+      {
+        label: "Multi Reward",
+        href: "/multirewards",
+      },
+    ],
   },
   {
     label: "Pools",
@@ -31,15 +31,15 @@ const config: MenuEntry[] = [
     href: "/pools",
   },
   {
-    label: "CNT Bar",
-    icon: "PoolIcon",
+    label: "CNT Staker",
+    icon: "TicketIcon",
     href: "/cntbar",
   },
-  {
-    label: "Migrate",
-    icon: "PoolIcon",
-    href: "/migrate",
-  },
+  // {
+  //   label: "Migrate",
+  //   icon: "NftIcon",
+  //   href: "/migrate",
+  // },
   // {
   //   label: 'Lottery',
   //   icon: 'TicketIcon',
@@ -70,26 +70,9 @@ const config: MenuEntry[] = [
   //   ],
   // },
   {
-    label: "Analytics",
+    label: "Analytics (Coming Soon)",
     icon: "InfoIcon",
-    items: [
-      {
-        label: "Overview",
-        href: "https://pancakeswap.info",
-      },
-      {
-        label: "Tokens",
-        href: "https://pancakeswap.info/tokens",
-      },
-      {
-        label: "Pairs",
-        href: "https://pancakeswap.info/pairs",
-      },
-      {
-        label: "Accounts",
-        href: "https://pancakeswap.info/accounts",
-      },
-    ],
+    items: [],
   },
   // {
   //   label: 'IFO',
@@ -100,18 +83,19 @@ const config: MenuEntry[] = [
     label: "More",
     icon: "MoreIcon",
     items: [
-      {
-        label: "Voting",
-        href: "https://voting.pancakeswap.finance",
-      },
+      // {
+      //   label: "Voting",
+      //   href: "https://voting.pancakeswap.finance",
+      // },
       {
         label: "Github",
         href: "https://github.com/cryption-network",
       },
-      {
-        label: "Docs",
-        href: "https://docs.pancakeswap.finance",
-      },
+      // hiding bcoz Menu bar will highlight if pointed to home otherwise
+      // {
+      //   label: "Docs",
+      //   href: "/docs",
+      // },
       {
         label: "Blog",
         href: "https://blog.cryption.network/",
@@ -120,4 +104,16 @@ const config: MenuEntry[] = [
   },
 ];
 
+export const socials = [
+  {
+    label: "Telegram",
+    icon: "TelegramIcon",
+    href: "https://t.me/CryptionNetwork",
+  },
+  {
+    label: "Twitter",
+    icon: "TwitterIcon",
+    href: "https://twitter.com/Polydex_",
+  },
+];
 export default config;

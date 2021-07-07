@@ -26,7 +26,7 @@ export function isAddress(value: any): string | false {
 }
 
 const MATICEXPLORER_PREFIXES: { [chainId in ChainId]: string } = {
-  137: "mainnet",
+  137: "",
   80001: "mumbai",
 };
 
@@ -35,9 +35,9 @@ export function getMaticExplorerLink(
   data: string,
   type: "transaction" | "token" | "address"
 ): string {
-  const prefix = `https://explorer-${
+  const prefix = `https://${
     MATICEXPLORER_PREFIXES[chainId] || MATICEXPLORER_PREFIXES[ChainId.MAINNET]
-  }.maticvigil.com`;
+  }.polygonscan.com`;
   switch (type) {
     case "transaction": {
       return `${prefix}/tx/${data}`;

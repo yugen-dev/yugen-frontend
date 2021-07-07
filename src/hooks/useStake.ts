@@ -21,9 +21,9 @@ import {
   useSousChefGasless,
 } from "./useContract";
 
-const useStake = (pid: number) => {
+export const useStake = (pid: number) => {
   const dispatch = useDispatch();
-  const { account } = useWeb3React("web3");
+  const { account, library } = useWeb3React("web3");
   const masterChefContract = useMasterchef();
   const masterChefGaslessContract = useMasterchefGasless();
 
@@ -31,7 +31,13 @@ const useStake = (pid: number) => {
   const handleStake = useCallback(
     async (amount: string) => {
       if (metaTranscation) {
-        await GaslessStake(masterChefGaslessContract, pid, amount, account);
+        const txHash = await GaslessStake(
+          masterChefGaslessContract,
+          pid,
+          amount,
+          account,
+          library
+        );
         dispatch(fetchFarmUserDataAsync(account));
       } else {
         await stake(masterChefContract, pid, amount, account);
@@ -45,6 +51,7 @@ const useStake = (pid: number) => {
       masterChefContract,
       pid,
       metaTranscation,
+      library,
     ]
   );
 
@@ -53,8 +60,7 @@ const useStake = (pid: number) => {
 
 export const useSousStake = (sousId, isUsingBnb = false) => {
   const dispatch = useDispatch();
-  const { account } = useWeb3React("web3");
-  const masterChefContract = useMasterchef();
+  const { account, library } = useWeb3React("web3");
   const sousChefContract = useSousChef(sousId);
   const sousChefContractGasless = useSousChefGasless(sousId);
   const { metaTranscation } = useProfile();
@@ -68,13 +74,16 @@ export const useSousStake = (sousId, isUsingBnb = false) => {
           amount,
           decimals,
           account,
-          sousId
+          sousId,
+          library
         );
+        dispatch(updateUserStakedBalance(sousId, account));
+        dispatch(updateUserBalance(sousId, account));
       } else {
         await sousStake(sousChefContract, amount, decimals, account);
+        dispatch(updateUserStakedBalance(sousId, account));
+        dispatch(updateUserBalance(sousId, account));
       }
-      dispatch(updateUserStakedBalance(sousId, account));
-      dispatch(updateUserBalance(sousId, account));
     },
     [
       account,
@@ -84,6 +93,7 @@ export const useSousStake = (sousId, isUsingBnb = false) => {
       sousChefContractGasless,
       metaTranscation,
       sousId,
+      library,
     ]
   );
 

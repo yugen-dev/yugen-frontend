@@ -111,9 +111,9 @@ export function tryParseAmount(
 }
 
 const BAD_RECIPIENT_ADDRESSES: string[] = [
-  "0xDC716908dE1593b8817074490454EBC77cc82128", // v2 factory
-  "0x3fd7a9b75154471a7A7c24103BcBb54485eEA345", // v2 router 01
-  "0x3fd7a9b75154471a7A7c24103BcBb54485eEA345", // v2 router 02
+  "0x2a77B0fDd2715653372aeb7d2e2b3E64374dBae0", // v2 factory
+  "0xE86A68cd5A994D94BB7049acE481e9a6b5Fd94d6", // v2 router 01
+  "0xE86A68cd5A994D94BB7049acE481e9a6b5Fd94d6", // v2 router 02
 ];
 
 /**

@@ -12,17 +12,23 @@ import { allLanguages } from "config/localisation/languageCodes";
 import { LanguageContext } from "contexts/Localisation/languageContext";
 import useTheme from "hooks/useTheme";
 import useAuth from "hooks/useAuth";
+import useCNTprice from "hooks/useCNTprice";
 import { toggleMetaTranscationState } from "state/actions";
-import { usePriceCakeBusd, useProfile } from "state/hooks";
 import { ETHERJS_PATHS } from "config";
+import { useProfile } from "state/hooks";
 // import LogoIcon from "images/PolyDEX White Text (2).svg";
-import config from "./config";
+import config, { socials } from "./config";
 
 const Menu = (props) => {
   const { login, logout, loginEther, logoutEther } = useAuth();
   const location = useLocation();
+  const { valueOfCNTinUSD } = useCNTprice();
   let accountId = "";
-  if (ETHERJS_PATHS.includes(location.pathname)) {
+  if (
+    ETHERJS_PATHS.includes(
+      `/${location.pathname.split("/")[1]}`
+    )
+  ) {
     accountId = useWeb3React().account;
   } else {
     accountId = useWeb3React("web3").account;
@@ -37,7 +43,11 @@ const Menu = (props) => {
       // into the Window object in time causing it to throw an error
       // TODO: Figure out an elegant way to listen for when the BinanceChain object is ready
       if (connectorId && connectorId) {
-        if (ETHERJS_PATHS.includes(location.pathname)) {
+        if (
+          ETHERJS_PATHS.includes(
+            `/${location.pathname.split("/")[1]}`
+          )
+        ) {
           loginEther(connectorId);
         } else {
           login(connectorId);
@@ -49,8 +59,6 @@ const Menu = (props) => {
   const [checkedState, toggleChecked] = React.useState(false);
   const { selectedLanguage, setSelectedLanguage } = useContext(LanguageContext);
   const { isDark, toggleTheme } = useTheme();
-  const cakePriceUsd = usePriceCakeBusd();
-
   const { profile } = useProfile();
   const handleMetaToggle = (checked) => {
     toggleChecked(checked);
@@ -78,18 +86,33 @@ const Menu = (props) => {
       account={accountId}
       showGasslessTranscationTab={!!accountId}
       gaslessTranscationChecked={checkedState}
-      gasslessTranscationLabel="Gassless Modes"
+      gasslessTranscationLabel="Gasless Mode"
       toggleTranscationState={handleMetaToggle}
-      login={ETHERJS_PATHS.includes(location.pathname) ? loginEther : login}
-      logout={ETHERJS_PATHS.includes(location.pathname) ? logoutEther : logout}
+      login={
+        ETHERJS_PATHS.includes(
+          `/${location.pathname.split("/")[1]}`
+        )
+          ? loginEther
+          : login
+      }
+      logout={
+        ETHERJS_PATHS.includes(
+          `/${location.pathname.split("/")[1]}`
+        )
+          ? logoutEther
+          : logout
+      }
       // logoIcon={LogoIcon}
       isDark={isDark}
+      locationUrl={location && location.pathname ? location.pathname : "/"}
       toggleTheme={toggleTheme}
       currentLang={selectedLanguage && selectedLanguage.code}
       langs={allLanguages}
       setLang={setSelectedLanguage}
-      cakePriceUsd={cakePriceUsd.toNumber()}
+      cakePriceUsd={valueOfCNTinUSD}
+      logoSize="53px"
       links={config}
+      socials={socials}
       profile={{
         username: profile?.username,
         image: profile?.nft

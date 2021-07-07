@@ -8,7 +8,6 @@ import { provider as ProviderType } from "web3-core";
 import useI18n from "hooks/useI18n";
 import ExpandableSectionButton from "components/ExpandableSectionButton";
 import { QuoteToken } from "config/constants/types";
-import { BASE_ADD_LIQUIDITY_URL } from "config";
 import getLiquidityUrlPathParts from "utils/getLiquidityUrlPathParts";
 import DetailsSection from "./DetailsSection";
 import CardHeading from "./CardHeading";
@@ -73,13 +72,6 @@ const FCard = styled.div`
   text-align: center;
 `;
 
-const Divider = styled.div`
-  background-color: ${({ theme }) => theme.colors.borderColor};
-  height: 1px;
-  margin: 28px auto;
-  width: 100%;
-`;
-
 const ExpandingWrapper = styled.div<{ expanded: boolean }>`
   height: ${(props) => (props.expanded ? "100%" : "0px")};
   overflow: hidden;
@@ -139,13 +131,33 @@ const FarmCard: React.FC<FarmCardProps> = ({
 
   const totalValueFormated = totalValue
     ? `$${Number(totalValue).toLocaleString(undefined, {
-        maximumFractionDigits: 0,
+        maximumFractionDigits: 2,
       })}`
     : "-";
 
   const lpLabel =
     farm.lpSymbol && farm.lpSymbol.toUpperCase().replace("PANCAKE", "");
   const earnLabel = farm.dual ? farm.dual.earnLabel : "CNT";
+
+  let isDaysGreater = false;
+  let isHoursGreater = false;
+  const poolHarvestIntervalInDays = farm.poolHarvestInterval
+    ? (farm.poolHarvestInterval / 86400).toFixed(0)
+    : 0;
+
+  if (poolHarvestIntervalInDays > 0) {
+    isDaysGreater = true;
+  }
+  const poolHarvestIntervalinHours = farm.poolHarvestInterval
+    ? (farm.poolHarvestInterval / 3600).toFixed(0)
+    : 0;
+  if (poolHarvestIntervalinHours > 0) {
+    isHoursGreater = true;
+  }
+
+  const poolHarvestIntervalinMinutes = farm.poolHarvestInterval
+    ? (farm.poolHarvestInterval / 60).toFixed(0)
+    : 0;
 
   const farmAPY =
     farm.apy &&
@@ -160,48 +172,74 @@ const FarmCard: React.FC<FarmCardProps> = ({
     quoteTokenSymbol,
     tokenAddresses,
   });
-  const addLiquidityUrl = `${BASE_ADD_LIQUIDITY_URL}/${liquidityUrlPathParts}`;
+  const addLiquidityUrl = `add/${liquidityUrlPathParts}`;
 
   return (
     <FCard>
       {farm.tokenSymbol === "CNT" && <StyledCardAccent />}
-      <CardHeading
-        lpLabel={lpLabel}
-        multiplier={farm.multiplier}
-        isCommunityFarm={isCommunityFarm}
-        farmImage={farmImage}
-        tokenSymbol={farm.tokenSymbol}
-      />
-      {!removed && (
-        <Flex justifyContent="space-between" alignItems="center">
-          <Text>{TranslateString(736, "APR")}:</Text>
-          <Text bold style={{ display: "flex", alignItems: "center" }}>
-            {farm.apy ? (
-              <>
-                <ApyButton
-                  lpLabel={lpLabel}
-                  addLiquidityUrl={addLiquidityUrl}
-                  cakePrice={cakePrice}
-                  apy={farm.apy}
-                />
-                {farmAPY}%
-              </>
-            ) : (
-              <Skeleton height={24} width={80} />
-            )}
+      <div style={{ borderBottom: "1px solid #524B63", paddingBottom: "10px" }}>
+        <CardHeading
+          lpLabel={lpLabel}
+          multiplier={farm.multiplier}
+          isCommunityFarm={isCommunityFarm}
+          farmImage={farmImage}
+          tokenSymbol={farm.tokenSymbol}
+        />
+      </div>
+      <div
+        style={{
+          borderBottom: "1px solid #524B63",
+          paddingBottom: "20px",
+          margin: "20px 0px",
+        }}
+      >
+        {!removed && (
+          <Flex justifyContent="space-between" alignItems="center">
+            <Text>{TranslateString(736, "APR")}:</Text>
+            <Text bold style={{ display: "flex", alignItems: "center" }}>
+              {farm.apy ? (
+                <>
+                  {false && <ApyButton
+                    lpLabel={lpLabel}
+                    addLiquidityUrl={addLiquidityUrl}
+                    cakePrice={cakePrice}
+                    apy={farm.apy}
+                  />}
+                  {farmAPY}%
+                </>
+              ) : (
+                <Skeleton height={24} width={80} />
+              )}
+            </Text>
+          </Flex>
+        )}
+        <Flex justifyContent="space-between">
+          <Text>{TranslateString(318, "Earn")}:</Text>
+          <Text bold>{earnLabel}</Text>
+        </Flex>
+        <Flex justifyContent="space-between">
+          <Text>{TranslateString(318, "Harvest Lock Interval")}:</Text>
+          <Text bold>
+            {poolHarvestIntervalInDays > 0
+              ? `${poolHarvestIntervalInDays.toString()} Days`
+              : ""}
+            {!isDaysGreater && poolHarvestIntervalinHours > 0
+              ? `${poolHarvestIntervalinHours.toString()} Hours`
+              : ""}
+            {!isDaysGreater &&
+            !isHoursGreater &&
+            poolHarvestIntervalinMinutes > 0
+              ? `${poolHarvestIntervalinMinutes.toString()} Minutes`
+              : ""}
           </Text>
         </Flex>
-      )}
-      <Flex justifyContent="space-between">
-        <Text>{TranslateString(318, "Earn")}:</Text>
-        <Text bold>{earnLabel}</Text>
-      </Flex>
-      <CardActionsContainer
-        farm={farm}
-        account={account}
-        addLiquidityUrl={addLiquidityUrl}
-      />
-      <Divider />
+
+        <CardActionsContainer
+          farm={farm}
+          account={account}
+          addLiquidityUrl={addLiquidityUrl}
+        />
+      </div>
       <ExpandableSectionButton
         onClick={() => setShowExpandableSection(!showExpandableSection)}
         expanded={showExpandableSection}
@@ -209,9 +247,8 @@ const FarmCard: React.FC<FarmCardProps> = ({
       <ExpandingWrapper expanded={showExpandableSection}>
         <DetailsSection
           removed={removed}
-          maticExplorerAddress={`https://explorer-mumbai.maticvigil.com/address/${
-            farm.lpAddresses[process.env.REACT_APP_CHAIN_ID]
-          }`}
+          maticExplorerAddress={`https://mumbai.polygonscan.com/address/${farm.lpAddresses[process.env.REACT_APP_CHAIN_ID]
+            }`}
           totalValueFormated={totalValueFormated}
           lpLabel={lpLabel}
           addLiquidityUrl={addLiquidityUrl}

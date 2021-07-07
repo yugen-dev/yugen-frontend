@@ -39,6 +39,7 @@ export enum QuoteToken {
   "MATIC" = "MATIC",
   "PR" = "PR",
   "TEST1" = "TEST1",
+  "LP" = "LP",
 }
 
 export enum PoolCategory {
@@ -62,6 +63,7 @@ export interface FarmConfig {
   quoteTokenSymbol: QuoteToken;
   quoteTokenAdresses: Address;
   multiplier?: string;
+  poolHarvestInterval?: number;
   isCommunity?: boolean;
   dual?: {
     rewardPerBlock: number;
@@ -74,6 +76,7 @@ export interface PoolConfig {
   sousId: number;
   image?: string;
   tokenName: string;
+  tokenAdressInLp: string;
   tokenAddress: string;
   stakingTokenName: QuoteToken;
   stakingLimit?: number;
@@ -84,9 +87,14 @@ export interface PoolConfig {
   projectLink: string;
   tokenPerBlock: string;
   sortOrder?: number;
+  multiReward?: string[];
+  coinGeckoIds?: string[];
+  stakingTokenCoinGeckoid?: string;
+  multiRewardTokenPerBlock?: string[];
   harvest?: boolean;
   isFinished?: boolean;
   tokenDecimals: number;
+  metamaskImg?: string;
 }
 
 export type Images = {

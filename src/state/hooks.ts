@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Team } from "config/constants/types";
 import { getWeb3NoAccount } from "utils/web3";
 import useRefresh from "hooks/useRefresh";
+import CoinGecko from "coingecko-api";
 import {
   fetchFarmsPublicDataAsync,
   fetchPoolsPublicDataAsync,
@@ -46,7 +47,7 @@ export const useFetchPublicData = () => {
     const interval = setInterval(async () => {
       const blockNumber = await web3.eth.getBlockNumber();
       dispatch(setBlock(blockNumber));
-    }, 6000);
+    }, 30000);
 
     return () => clearInterval(interval);
   }, [dispatch]);
@@ -89,6 +90,10 @@ export const useFarmUser = (pid) => {
     earnings: farm.userData
       ? new BigNumber(farm.userData.earnings)
       : new BigNumber(0),
+    canHarvest: farm.userData ? farm.userData.canHarvest : false,
+    harvestInterval: farm.userData
+      ? new BigNumber(farm.userData.harvestInterval)
+      : new BigNumber(0),
   };
 };
 
@@ -129,7 +134,7 @@ export const usePriceBnbBusd = (): BigNumber => {
 export const usePriceCakeBusd = (): BigNumber => {
   const pid = 0; // CNT-MATIC LP ,CAKE-BNB LP
   const bnbPriceUSD = usePriceBnbBusd();
-  // window.alert(bnbPriceUSD.toNumber());
+
   const farm = useFarmFromPid(pid);
   return farm.tokenPriceVsQuote
     ? bnbPriceUSD.times(farm.tokenPriceVsQuote)
@@ -278,6 +283,16 @@ export const useFetchPriceList = () => {
   useEffect(() => {
     dispatch(fetchPrices());
   }, [dispatch, slowRefresh]);
+};
+
+export const fetchPrice = async (crypto: string) => {
+  const CoinGeckoClient = new CoinGecko();
+  const result = await CoinGeckoClient.coins.fetch(
+    crypto.toLocaleLowerCase(),
+    {}
+  );
+  const res = new BigNumber(result.data?.market_data?.current_price?.usd);
+  return res;
 };
 
 export const useGetApiPrices = () => {

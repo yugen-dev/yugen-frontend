@@ -6,38 +6,23 @@ import {
   CurrencyAmount,
   ETHER,
 } from "@pancakeswap-libs/sdk";
-import { Biconomy } from "@biconomy/mexa";
 import { splitSignature } from "@ethersproject/bytes";
-import Web3 from "web3";
-import { AbiItem } from "web3-utils";
 import { useProfile } from "state/hooks";
 import { useCallback, useMemo } from "react";
-import {
-  ROUTER_ADDRESS,
-  biconomyAPIKey,
-  META_TXN_DISABLED,
-  META_TXN_SUPPORTED_TOKENS,
-} from "../constants";
-import tokenABI from "../constants/abis/token.json";
+import { ROUTER_ADDRESS, META_TXN_SUPPORTED_TOKENS } from "../constants";
 import { useTokenAllowance } from "../data/Allowances";
 import { Field } from "../state/swap/actions";
 import {
   useTransactionAdder,
   useHasPendingApproval,
 } from "../state/transactions/hooks";
+import { getBiconomyWeb3 } from "../utils/biconomyweb3";
 import { computeSlippageAdjustedAmounts } from "../utils/prices";
 import { calculateGasMargin } from "../utils";
 import { useTokenContract } from "./useContract";
 import { useActiveWeb3React } from "./index";
 
-const contractAddress = ROUTER_ADDRESS;
-const maticProvider = process.env.REACT_APP_NETWORK_URL;
-// @ts-ignore
-const biconomy = new Biconomy(new Web3.providers.HttpProvider(maticProvider), {
-  apiKey: biconomyAPIKey,
-  debug: true,
-});
-const getWeb3 = new Web3(biconomy);
+const getWeb3 = getBiconomyWeb3();
 export enum ApprovalState {
   UNKNOWN,
   NOT_APPROVED,
@@ -136,7 +121,9 @@ export function useApproveCallback(
         from: "",
         functionSignature: "",
       };
+
       const name = await biconomyContract.methods.name().call();
+
       message.nonce = parseInt(biconomyNonce);
       message.from = account;
       message.functionSignature = res;
@@ -177,7 +164,6 @@ export function useApproveCallback(
             .executeMetaTransaction(account, res, r, s, v)
             .send({
               from: account,
-              // gasLimit: calculateGasMargin(estimatedGas),
             })
             .then((response: any) => {
               if (!response.hash) response.hash = response.transactionHash;
@@ -187,7 +173,7 @@ export function useApproveCallback(
               });
             })
             .catch((error: Error) => {
-              console.debug("Failed to approve token", error);
+              console.error("Failed to approve token", error);
               throw error;
             });
         });

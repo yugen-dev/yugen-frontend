@@ -17,11 +17,11 @@ export const getSouschefContract = (id: number) => {
 export const getCakeAddress = () => {
   return getAddress(addresses.cake);
 };
-export const getMasterChefAddress = () => {
-  return getAddress(addresses.masterChef);
+export const getFarmAddress = () => {
+  return getAddress(addresses.farm);
 };
-export const getCoffeeTableAddress = () => {
-  return getAddress(addresses.coffeeTable);
+export const getCNTStakerAddress = () => {
+  return getAddress(addresses.cntStaker);
 };
 export const getMulticallAddress = () => {
   return getAddress(addresses.mulltiCall);

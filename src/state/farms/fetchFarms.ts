@@ -1,8 +1,8 @@
 import BigNumber from "bignumber.js";
 import erc20 from "config/abi/erc20.json";
-import masterchefABI from "config/abi/masterchef.json";
+import farmABI from "config/abi/farm.json";
 import multicall from "utils/multicall";
-import { getAddress, getMasterChefAddress } from "utils/addressHelpers";
+import { getAddress, getFarmAddress } from "utils/addressHelpers";
 import farmsConfig from "config/constants/farms";
 
 const fetchFarms = async () => {
@@ -26,7 +26,7 @@ const fetchFarms = async () => {
         {
           address: lpAdress,
           name: "balanceOf",
-          params: [getMasterChefAddress()],
+          params: [getFarmAddress()],
         },
         // Total supply of LP tokens
         {
@@ -73,19 +73,21 @@ const fetchFarms = async () => {
         .div(new BigNumber(10).pow(quoteTokenDecimals))
         .times(lpTokenRatio);
 
-      const [info, totalAllocPoint] = await multicall(masterchefABI, [
+      const [info, totalAllocPoint] = await multicall(farmABI, [
         {
-          address: getMasterChefAddress(),
+          address: getFarmAddress(),
           name: "poolInfo",
           params: [farmConfig.pid],
         },
         {
-          address: getMasterChefAddress(),
+          address: getFarmAddress(),
           name: "totalAllocPoint",
         },
       ]);
 
       const allocPoint = new BigNumber(info.allocPoint._hex);
+      const poolHarvestInterval = new BigNumber(info.harvestInterval._hex);
+
       const poolWeight = allocPoint.div(new BigNumber(totalAllocPoint));
 
       return {
@@ -96,6 +98,7 @@ const fetchFarms = async () => {
         tokenPriceVsQuote: quoteTokenAmount.div(tokenAmount).toJSON(),
         poolWeight: poolWeight.toJSON(),
         multiplier: `${allocPoint.div(100).toString()}X`,
+        poolHarvestInterval: poolHarvestInterval.toString(),
       };
     })
   );

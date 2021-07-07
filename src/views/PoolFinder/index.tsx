@@ -55,7 +55,6 @@ export default function PoolFinder() {
     currency0 ?? undefined,
     currency1 ?? undefined
   );
-  console.log({ pairState }, { pair });
   const addPair = usePairAdder();
 
   const TranslateString = useI18n();

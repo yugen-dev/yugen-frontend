@@ -14,8 +14,8 @@ const CoreTag = (props) => (
 
 const CommunityTag = (props) => (
   <Tag
-    color="#2082E9"
-    variant="textSubtle"
+    color="secondary"
+    variant="secondary"
     outline
     startIcon={<CommunityIcon />}
     {...props}
