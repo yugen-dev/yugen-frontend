@@ -31,7 +31,7 @@ const TransactionSubmittedContent = ({
             <LinkExternal
               href={getMaticExplorerLink(chainId, hash, "transaction")}
             >
-              View on MaticExplorer
+              View on PolygonScan
             </LinkExternal>
           )}
           <Button onClick={onDismiss} mt="20px">

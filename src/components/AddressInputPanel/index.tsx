@@ -115,7 +115,7 @@ export default function AddressInputPanel({
                   )}
                   style={{ fontSize: "14px" }}
                 >
-                  {TranslateString(116, "(View on MaticExplorer)")}
+                  {TranslateString(116, "(View on PolygonScan)")}
                 </ExternalLink>
               )}
             </RowBetween>
