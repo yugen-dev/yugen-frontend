@@ -109,7 +109,6 @@ export const GaslessStake = async (
     functionSignature,
     library
   );
-  console.log(txHash);
   return txHash;
 };
 

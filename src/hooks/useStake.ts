@@ -38,7 +38,6 @@ export const useStake = (pid: number) => {
           account,
           library
         );
-        console.log(txHash);
         dispatch(fetchFarmUserDataAsync(account));
       } else {
         const txHash = await stake(masterChefContract, pid, amount, account);
