@@ -16,14 +16,18 @@ import useCNTprice from "hooks/useCNTprice";
 import { toggleMetaTranscationState } from "state/actions";
 import { useProfile } from "state/hooks";
 // import LogoIcon from "images/PolyDEX White Text (2).svg";
-import config, {socials} from "./config";
+import config, { socials } from "./config";
 
 const Menu = (props) => {
   const { login, logout, loginEther, logoutEther } = useAuth();
   const location = useLocation();
   const { valueOfCNTinUSD } = useCNTprice();
   let accountId = "";
-  if (["/swap", "/find", "/pool", "/add"].includes(`/${location.pathname.split('/')[1]}`)) {
+  if (
+    ["/swap", "/find", "/pool", "/add"].includes(
+      `/${location.pathname.split("/")[1]}`
+    )
+  ) {
     accountId = useWeb3React().account;
   } else {
     accountId = useWeb3React("web3").account;
@@ -38,7 +42,11 @@ const Menu = (props) => {
       // into the Window object in time causing it to throw an error
       // TODO: Figure out an elegant way to listen for when the BinanceChain object is ready
       if (connectorId && connectorId) {
-        if (["/swap", "/find", "/pool", "/add"].includes(`/${location.pathname.split('/')[1]}`)) {
+        if (
+          ["/swap", "/find", "/pool", "/add"].includes(
+            `/${location.pathname.split("/")[1]}`
+          )
+        ) {
           loginEther(connectorId);
         } else {
           login(connectorId);
@@ -77,21 +85,25 @@ const Menu = (props) => {
       account={accountId}
       showGasslessTranscationTab={!!accountId}
       gaslessTranscationChecked={checkedState}
-      gasslessTranscationLabel="Gassless Modes"
+      gasslessTranscationLabel="Gasless Mode"
       toggleTranscationState={handleMetaToggle}
       login={
-        ["/swap", "/find", "/pool", "/add"].includes(`/${location.pathname.split('/')[1]}`)
+        ["/swap", "/find", "/pool", "/add"].includes(
+          `/${location.pathname.split("/")[1]}`
+        )
           ? loginEther
           : login
       }
       logout={
-        ["/swap", "/find", "/pool", "/add"].includes(`/${location.pathname.split('/')[1]}`)
+        ["/swap", "/find", "/pool", "/add"].includes(
+          `/${location.pathname.split("/")[1]}`
+        )
           ? logoutEther
           : logout
       }
       // logoIcon={LogoIcon}
       isDark={isDark}
-      locationUrl={location && location.pathname ? location.pathname : '/'}
+      locationUrl={location && location.pathname ? location.pathname : "/"}
       toggleTheme={toggleTheme}
       currentLang={selectedLanguage && selectedLanguage.code}
       langs={allLanguages}

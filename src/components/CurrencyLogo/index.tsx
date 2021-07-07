@@ -61,6 +61,12 @@ export default function CurrencyLogo({
     );
   }
 
+  if (currency.name === "ARTH") {
+    return (
+      <StyledBnbLogo src="/images/tokens/arthx.png" size={size} style={style} />
+    );
+  }
+
   return (currency as any)?.symbol ? (
     <CoinLogo
       size={size}
