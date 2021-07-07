@@ -140,7 +140,7 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
           </StyledLinkExternal>
         </StakeContainer>
         <StyledLinkExternal href={bsc}>
-          {TranslateString(999, "MaticExplorer")}
+          {TranslateString(999, "PolygonScan")}
         </StyledLinkExternal>
         <StyledLinkExternal href={info}>
           {TranslateString(999, "Info Site")}
