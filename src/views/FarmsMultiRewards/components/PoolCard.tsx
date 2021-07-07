@@ -30,7 +30,6 @@ import Tooltip from "components/Tooltip";
 import { useSousApprove } from "hooks/useApprove";
 import { QuoteToken, PoolCategory } from "config/constants/types";
 import { Pool } from "state/types";
-import cakeAbi from "config/abi/cake.json";
 import CardHeading from "./CardHeading";
 import DepositModal from "./DepositModal";
 import WithdrawModal from "./WithdrawModal";
