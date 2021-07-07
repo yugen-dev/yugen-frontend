@@ -216,7 +216,6 @@ const Swap = () => {
     trade,
     allowedSlippage
   );
-
   // check if user has gone through approval process, used to show two step buttons, reset on token change
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false);
 
@@ -226,6 +225,26 @@ const Swap = () => {
       setApprovalSubmitted(true);
     }
   }, [approval, approvalSubmitted]);
+  const [requestedApproval, setRequestedApproval] = useState(false);
+
+  const handleApprove = useCallback(async () => {
+    try {
+      setRequestedApproval(true);
+      const txHashh = await approveCallback();
+      // user rejected tx or didn't go thru
+      // @ts-ignore
+      if (!txHashh) {
+        setApprovalSubmitted(false);
+
+        setRequestedApproval(false);
+      }
+      setRequestedApproval(false);
+    } catch (e) {
+      setApprovalSubmitted(false);
+      setRequestedApproval(false);
+      console.error(e);
+    }
+  }, [approveCallback, setRequestedApproval]);
 
   const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(
     currencyBalances[Field.INPUT]
@@ -499,14 +518,10 @@ const Swap = () => {
           ) : showApproveFlow ? (
             <RowBetween>
               <Button
-                onClick={approveCallback}
-                disabled={
-                  approval !== ApprovalState.NOT_APPROVED || approvalSubmitted
-                }
+                onClick={handleApprove}
+                disabled={requestedApproval}
                 style={{ width: "48%" }}
-                variant={
-                  approval === ApprovalState.APPROVED ? "success" : "primary"
-                }
+                // variant={requestedApproval ? "success" : "primary"}
               >
                 {approval === ApprovalState.PENDING ? (
                   <AutoRow gap="6px" justify="center">
