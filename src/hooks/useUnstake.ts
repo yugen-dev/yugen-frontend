@@ -85,12 +85,15 @@ export const useSousUnstake = (sousId) => {
           sousId,
           library
         );
+        dispatch(updateUserStakedBalance(sousId, account));
+        dispatch(updateUserBalance(sousId, account));
+        dispatch(updateUserPendingReward(sousId, account));
       } else {
         await sousUnstake(sousChefContract, amount, decimals, account);
+        dispatch(updateUserStakedBalance(sousId, account));
+        dispatch(updateUserBalance(sousId, account));
+        dispatch(updateUserPendingReward(sousId, account));
       }
-      dispatch(updateUserStakedBalance(sousId, account));
-      dispatch(updateUserBalance(sousId, account));
-      dispatch(updateUserPendingReward(sousId, account));
     },
     [
       account,

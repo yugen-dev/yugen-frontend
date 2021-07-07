@@ -1,9 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import BigNumber from "bignumber.js";
-import { ethers } from "ethers";
-import { MaxUint256 } from "@ethersproject/constants";
-import { splitSignature } from "@ethersproject/bytes";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 import {
   Button,
   IconButton,
@@ -18,9 +16,7 @@ import { useWeb3React } from "@web3-react/core";
 import Countdown from "react-countdown";
 import UnlockButton from "components/UnlockButton";
 import Label from "components/Label";
-import { getContract } from "utils/contractHelpers";
-import { getBiconomyWeb3 } from "utils/biconomyweb3";
-import { getAddress } from "utils/addressHelpers";
+import { getBep20Contract } from "utils/contractHelpers";
 import useI18n from "hooks/useI18n";
 import { useSousStake } from "hooks/useStake";
 import useWeb3 from "hooks/useWeb3";
@@ -32,12 +28,10 @@ import { useSousHarvest } from "hooks/useHarvest";
 import Balance from "components/Balance";
 import { QuoteToken, PoolCategory } from "config/constants/types";
 import { Pool } from "state/types";
-import cakeAbi from "config/abi/cake.json";
 import Tooltip from "components/Tooltip";
-import { META_TXN_SUPPORTED_TOKENS } from "../../../constants";
+import { useSousApprove } from "hooks/useApprove";
 import DepositModal from "./DepositModal";
 import WithdrawModal from "./WithdrawModal";
-// import CompoundModal from "./CompoundModal";
 import CardTitle from "./CardTitle";
 import Card from "./Card";
 import OldSyrupTitle from "./OldSyrupTitle";
@@ -94,15 +88,10 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     };
     pricefunc();
   }, [pool]);
-  const { account, chainId, library } = useWeb3React("web3");
-  const { metaTranscation } = useProfile();
-  // Pools using native BNB behave differently than pools using a token
+  const { account } = useWeb3React("web3");
   const isBnbPool = poolCategory === PoolCategory.BINANCE;
   const [show, setShow] = useState(false);
   const TranslateString = useI18n();
-  // const { onApprove } = useApproveStaking();
-  /*  const {onEnter} = useEnter();
-  const {onLeave} = useLeave(); */
   const { onStake } = useSousStake(sousId, isBnbPool);
   const { onUnstake } = useSousUnstake(sousId);
   const { onReward } = useSousHarvest(sousId, isBnbPool);
@@ -239,100 +228,23 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
       stakingTokenDecimals={stakingTokenDecimals}
     />
   );
-  // eslint-disable-next-line consistent-return
-  const handleApprove = async () => {
+
+  const tokencontract = getBep20Contract(tokenAddress, web3);
+
+  const { onApprove } = useSousApprove(tokencontract, sousId);
+
+  const handleApprove = useCallback(async () => {
     try {
-      if (
-        META_TXN_SUPPORTED_TOKENS[tokenAddress.toLowerCase()] &&
-        metaTranscation
-      ) {
-        setRequestedApproval(true);
-        const metaToken = META_TXN_SUPPORTED_TOKENS[tokenAddress.toLowerCase()];
-        const biconomyweb3 = getBiconomyWeb3();
-        const biconomyContract = new biconomyweb3.eth.Contract(
-          metaToken.abi,
-          tokenAddress
-        );
-        const nonceMethod =
-          biconomyContract.methods.getNonce || biconomyContract.methods.nonces;
-        const biconomyNonce = await nonceMethod(account).call();
-        const res = biconomyContract.methods
-          .approve(getAddress(contractAddress), MaxUint256.toString())
-          .encodeABI();
-        const message: any = {
-          nonce: "",
-          from: "",
-          functionSignature: "",
-        };
-
-        const name = await biconomyContract.methods.name().call();
-
-        message.nonce = parseInt(biconomyNonce);
-        message.from = account;
-        message.functionSignature = res;
-
-        const dataToSign = JSON.stringify({
-          types: {
-            EIP712Domain: [
-              { name: "name", type: "string" },
-              { name: "version", type: "string" },
-              { name: "verifyingContract", type: "address" },
-              { name: "salt", type: "bytes32" },
-            ],
-            MetaTransaction: [
-              { name: "nonce", type: "uint256" },
-              { name: "from", type: "address" },
-              { name: "functionSignature", type: "bytes" },
-            ],
-          },
-          domain: {
-            name,
-            version: "1",
-            verifyingContract: tokenAddress,
-            // @ts-ignore
-            salt: `0x${chainId.toString(16).padStart(64, "0")}`,
-          },
-          primaryType: "MetaTransaction",
-          message,
-        });
-
-        const sig = await library.send("eth_signTypedData_v4", [
-          account,
-          dataToSign,
-        ]);
-
-        const signature = await splitSignature(sig.result);
-        const { v, r, s } = signature;
-
-        return biconomyContract.methods
-          .executeMetaTransaction(account, res, r, s, v)
-          .send({
-            from: account,
-          })
-          .then((response: any) => {
-            if (!response.hash) {
-              setRequestedApproval(false);
-            }
-            return response.hash;
-          })
-          .catch((error: Error) => {
-            console.error("Failed to approve token", error);
-            throw error;
-          });
-      }
-      const contract = await getContract(cakeAbi, tokenAddress, web3);
       setRequestedApproval(true);
-      const txHash = await contract.methods
-        .approve(getAddress(contractAddress), ethers.constants.MaxUint256)
-        .send({ from: account });
-      // user rejected tx or didn't go thru
-      if (!txHash) {
-        setRequestedApproval(false);
-      }
+
+      await onApprove();
+
+      setRequestedApproval(false);
     } catch (e) {
-      console.error("error is", e);
+      console.error(e);
     }
-  };
+  }, [onApprove]);
+
   const open = useCallback(() => setShow(true), [setShow]);
   const close = useCallback(() => setShow(false), [setShow]);
   return (

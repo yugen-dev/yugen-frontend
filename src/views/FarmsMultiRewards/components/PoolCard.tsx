@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import BigNumber from "bignumber.js";
-import { ethers } from "ethers";
 import styled from "styled-components";
 import {
   Button,
@@ -10,12 +9,13 @@ import {
   Flex,
   Text,
   Skeleton,
+  InfoIcon,
 } from "cryption-uikit";
 import { useWeb3React } from "@web3-react/core";
 import Countdown from "react-countdown";
 import UnlockButton from "components/UnlockButton";
 import Label from "components/Label";
-import { getContract } from "utils/contractHelpers";
+import { getBep20Contract, getContract } from "utils/contractHelpers";
 import { getAddress } from "utils/addressHelpers";
 import useI18n from "hooks/useI18n";
 import { useSousStake } from "hooks/useStake";
@@ -26,9 +26,10 @@ import { getPoolApy } from "utils/apy";
 import { useSousHarvest } from "hooks/useHarvest";
 import Balance from "components/Balance";
 import { fetchPrice } from "state/hooks";
+import Tooltip from "components/Tooltip";
+import { useSousApprove } from "hooks/useApprove";
 import { QuoteToken, PoolCategory } from "config/constants/types";
 import { Pool } from "state/types";
-import cakeAbi from "config/abi/cake.json";
 import CardHeading from "./CardHeading";
 import DepositModal from "./DepositModal";
 import WithdrawModal from "./WithdrawModal";
@@ -93,7 +94,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
   }, [pool]);
 
   const { account } = useWeb3React("web3");
-
+  const [show, setShow] = useState(false);
   // Pools using native BNB behave differently than pools using a token
   const isBnbPool = poolCategory === PoolCategory.BINANCE;
   const TranslateString = useI18n();
@@ -143,6 +144,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
       getBalanceNumber(pool.totalStaked, stakingTokenDecimals),
       parseFloat(element)
     );
+
     if (currentTokenApy && pool.multiRewardTokenPerBlock.length === i + 1) {
       apyString += `${currentTokenApy.toFixed(2)}% ${pool.multiReward[i]}`;
     } else if (currentTokenApy) {
@@ -226,21 +228,21 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
     />
   );
 
-  const handleApprove = async () => {
+  const tokencontract = getBep20Contract(tokenAddress, web3);
+
+  const { onApprove } = useSousApprove(tokencontract, sousId);
+
+  const handleApprove = useCallback(async () => {
     try {
-      const contract = await getContract(cakeAbi, tokenAddress, web3);
       setRequestedApproval(true);
-      const txHash = await contract.methods
-        .approve(getAddress(contractAddress), ethers.constants.MaxUint256)
-        .send({ from: account });
-      // user rejected tx or didn't go thru
-      if (!txHash) {
-        setRequestedApproval(false);
-      }
+      await onApprove();
+      setRequestedApproval(false);
     } catch (e) {
-      console.error("error is", e);
+      console.error(e);
     }
-  };
+  }, [onApprove]);
+  const open = useCallback(() => setShow(true), [setShow]);
+  const close = useCallback(() => setShow(false), [setShow]);
   return (
     <Card isActive={isCardActive} isFinished={isFinished}>
       {isFinished && <PoolFinishedSash />}
@@ -275,16 +277,31 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
         <div style={{ marginBottom: "8px" }}>
           <div style={{ width: "100%", maxWidth: "400px", margin: "10px 0px" }}>
             <Flex justifyContent="space-between" alignItems="center">
-              <Text>{TranslateString(736, "APR")}:</Text>
+              <StyledDetails>
+                <APRText onMouseEnter={open} onMouseLeave={close}>
+                  {TranslateString(736, "APR")}:
+                  <Tooltip show={show} text={apyString}>
+                    <InfoIcon
+                      style={{
+                        color: "#86878f",
+                        fontSize: "15px",
+                        margin: "4px 4px 0px 4px",
+                      }}
+                    />
+                  </Tooltip>
+                </APRText>
+              </StyledDetails>
               <Text bold style={{ display: "flex", alignItems: "center" }}>
                 {apy ? (
                   <>
-                    {false && <ApyButton
-                      lpLabel={tokenName}
-                      addLiquidityUrl="addLiquidityUrl"
-                      cakePrice={valueOfCNTinUSD}
-                      apy={new BigNumber(apy || 0)}
-                    />}
+                    {false && (
+                      <ApyButton
+                        lpLabel={tokenName}
+                        addLiquidityUrl="addLiquidityUrl"
+                        cakePrice={valueOfCNTinUSD}
+                        apy={new BigNumber(apy || 0)}
+                      />
+                    )}
                     {apy}%
                   </>
                 ) : (
@@ -310,8 +327,8 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
                   ? `${poolHarvestIntervalinHours.toString()} Hours`
                   : ""}
                 {!isDaysGreater &&
-                  !isHoursGreater &&
-                  poolHarvestIntervalinMinutes > 0
+                !isHoursGreater &&
+                poolHarvestIntervalinMinutes > 0
                   ? `${poolHarvestIntervalinMinutes.toString()} Minutes`
                   : ""}
               </Text>
@@ -404,10 +421,10 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
                   onClick={
                     isOldSyrup
                       ? async () => {
-                        setPendingTx(true);
-                        await onUnstake("0", stakingTokenDecimals);
-                        setPendingTx(false);
-                      }
+                          setPendingTx(true);
+                          await onUnstake("0", stakingTokenDecimals);
+                          setPendingTx(false);
+                        }
                       : onPresentWithdraw
                   }
                 >
@@ -513,5 +530,10 @@ const TitleText = styled.div`
   line-height: 1.1;
   display: inline-block;
   z-index: 1;
+`;
+const APRText = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 export default PoolCard;

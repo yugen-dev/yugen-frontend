@@ -3,18 +3,21 @@ import { useWeb3React } from "@web3-react/core";
 import { Contract } from "web3-eth-contract";
 import { ethers } from "ethers";
 import { useDispatch } from "react-redux";
-import { fetchFarmUserDataAsync } from "state/actions";
+import { fetchFarmUserDataAsync, updateUserAllowance } from "state/actions";
 import { approve } from "utils/callHelpers";
 import { useProfile } from "state/hooks";
 import { splitSignature } from "@ethersproject/bytes";
-import { getFarmAddress } from "utils/addressHelpers";
+import { getAddress, getFarmAddress } from "utils/addressHelpers";
+import { getBiconomyWeb3 } from "utils/biconomyweb3";
 import {
   useMasterchef,
   useCake,
   useCNTStaker,
   useLottery,
+  useSousChef,
 } from "./useContract";
 import { useUserDeadline } from "../state/user/hooks";
+import { META_TXN_SUPPORTED_TOKENS } from "../constants/index";
 
 // Approve a Farm
 export const useApprove = (lpContract: Contract) => {
@@ -105,24 +108,113 @@ export const useApprove = (lpContract: Contract) => {
   return { onApprove: handleApprove };
 };
 
-/* // Approve a Pool
+// /* // Approve a Pool
 export const useSousApprove = (lpContract: Contract, sousId) => {
   const dispatch = useDispatch();
-  const { account } = useWeb3React('web3');
+  const { account, chainId, library } = useWeb3React("web3");
   const sousChefContract = useSousChef(sousId);
+  const { metaTranscation } = useProfile();
 
   const handleApprove = useCallback(async () => {
     try {
+      if (
+        META_TXN_SUPPORTED_TOKENS[lpContract.options.address.toLowerCase()] &&
+        metaTranscation
+      ) {
+        const metaToken =
+          META_TXN_SUPPORTED_TOKENS[lpContract.options.address.toLowerCase()];
+        const biconomyweb3 = getBiconomyWeb3();
+        const biconomyContract = new biconomyweb3.eth.Contract(
+          metaToken.abi,
+          lpContract.options.address
+        );
+        const nonceMethod =
+          biconomyContract.methods.getNonce || biconomyContract.methods.nonces;
+        const biconomyNonce = await nonceMethod(account).call();
+        const res = biconomyContract.methods
+          .approve(
+            sousChefContract.options.address,
+            ethers.constants.MaxUint256.toString()
+          )
+          .encodeABI();
+        const message: any = {
+          nonce: "",
+          from: "",
+          functionSignature: "",
+        };
+
+        const name = await biconomyContract.methods.name().call();
+
+        message.nonce = parseInt(biconomyNonce);
+        message.from = account;
+        message.functionSignature = res;
+
+        const dataToSign = JSON.stringify({
+          types: {
+            EIP712Domain: [
+              { name: "name", type: "string" },
+              { name: "version", type: "string" },
+              { name: "verifyingContract", type: "address" },
+              { name: "salt", type: "bytes32" },
+            ],
+            MetaTransaction: [
+              { name: "nonce", type: "uint256" },
+              { name: "from", type: "address" },
+              { name: "functionSignature", type: "bytes" },
+            ],
+          },
+          domain: {
+            name,
+            version: "1",
+            verifyingContract: lpContract.options.address,
+            // @ts-ignore
+            salt: `0x${chainId.toString(16).padStart(64, "0")}`,
+          },
+          primaryType: "MetaTransaction",
+          message,
+        });
+
+        const sig = await library.send("eth_signTypedData_v4", [
+          account,
+          dataToSign,
+        ]);
+
+        const signature = await splitSignature(sig.result);
+        const { v, r, s } = signature;
+
+        return biconomyContract.methods
+          .executeMetaTransaction(account, res, r, s, v)
+          .send({
+            from: account,
+          })
+          .then((response: any) => {
+            dispatch(updateUserAllowance(sousId, account));
+            return response.hash;
+          })
+          .catch((error: Error) => {
+            console.error("Failed to approve token", error);
+            throw error;
+          });
+      }
       const tx = await approve(lpContract, sousChefContract, account);
       dispatch(updateUserAllowance(sousId, account));
       return tx;
     } catch (e) {
       return false;
     }
-  }, [account, dispatch, lpContract, sousChefContract, sousId]);
+  }, [
+    account,
+    dispatch,
+    lpContract,
+    sousChefContract,
+    sousId,
+    metaTranscation,
+    chainId,
+    library,
+  ]);
 
   return { onApprove: handleApprove };
-}; */
+};
 
 export const useApproveStaking = () => {
   const { account } = useWeb3React("web3");
