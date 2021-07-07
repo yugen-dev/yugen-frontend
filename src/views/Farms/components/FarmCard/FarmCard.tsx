@@ -199,12 +199,12 @@ const FarmCard: React.FC<FarmCardProps> = ({
             <Text bold style={{ display: "flex", alignItems: "center" }}>
               {farm.apy ? (
                 <>
-                  <ApyButton
+                  {false && <ApyButton
                     lpLabel={lpLabel}
                     addLiquidityUrl={addLiquidityUrl}
                     cakePrice={cakePrice}
                     apy={farm.apy}
-                  />
+                  />}
                   {farmAPY}%
                 </>
               ) : (
