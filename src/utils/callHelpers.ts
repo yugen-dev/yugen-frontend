@@ -435,7 +435,6 @@ const executeMetaTransaction = async (
         from: account,
       })
       .on("transactionHash", (tx) => {
-        console.log(tx.transactionHash);
         return tx.transactionHash;
       });
   } catch (e) {
