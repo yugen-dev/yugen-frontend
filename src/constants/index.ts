@@ -22,39 +22,55 @@ type ChainTokenList = {
 };
 
 export const DAI = new Token(
-  ChainId.MAINNET,
-  web3.utils.toChecksumAddress("0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3"),
+  ChainId.MATICTESTNET,
+  web3.utils.toChecksumAddress("0x23092a832ecB8474F81b63F718b7bcEcd13012c9"),
   18,
   "DAI",
   "Dai Stablecoin"
 );
-export const BUSD = new Token(
-  ChainId.MAINNET,
-  web3.utils.toChecksumAddress("0xe9e7cea3dedca5984780bafc599bd69add087d56"),
-  18,
-  "BUSD",
-  "Binance USD"
-);
+// export const BUSD = new Token(
+//   ChainId.MAINNET,
+//   web3.utils.toChecksumAddress("0xe9e7cea3dedca5984780bafc599bd69add087d56"),
+//   18,
+//   "BUSD",
+//   "Binance USD"
+// );
 export const USDT = new Token(
-  ChainId.MAINNET,
-  web3.utils.toChecksumAddress("0x55d398326f99059ff775485246999027b3197955"),
-  18,
+  ChainId.MATICTESTNET,
+  web3.utils.toChecksumAddress("0xD89a2E56B778AEfe719fc86E122B7db752Bb6B41"),
+  6,
   "USDT",
   "Tether USD"
 );
 export const UST = new Token(
-  ChainId.MAINNET,
-  web3.utils.toChecksumAddress("0x23396cf899ca06c4472205fc903bdb4de249d6fc"),
+  ChainId.MATICTESTNET,
+  web3.utils.toChecksumAddress("0x671b68fb02778D37a885699dA79c13Faf0d3C560"),
   18,
   "UST",
   "Wrapped UST Token"
 );
 export const ETH = new Token(
-  ChainId.MAINNET,
-  web3.utils.toChecksumAddress("0x2170ed0880ac9a755fd29b2688956bd959f933f8"),
+  ChainId.MATICTESTNET,
+  web3.utils.toChecksumAddress("0x2b5db7D98669be1242F62469214048cFe35d1a17"),
   18,
   "ETH",
   "Binance-Peg Ethereum Token"
+);
+
+export const MAHA = new Token(
+  ChainId.MATICTESTNET,
+  web3.utils.toChecksumAddress("0xa22DDedE7118de4589FCC580D829ede5354821DA"),
+  18,
+  "MAHA",
+  "MAHA"
+);
+
+export const CNT = new Token(
+  ChainId.MATICTESTNET,
+  web3.utils.toChecksumAddress("0x766F03e47674608cCcF7414f6c4DDF3d963Ae394"),
+  18,
+  "Cryption Network Token",
+  "CNT"
 );
 
 const WETH_ONLY: ChainTokenList = {
@@ -65,7 +81,15 @@ const WETH_ONLY: ChainTokenList = {
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ...WETH_ONLY,
-  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, BUSD, USDT, UST, ETH],
+  [ChainId.MATICTESTNET]: [
+    ...WETH_ONLY[ChainId.MATICTESTNET],
+    DAI,
+    USDT,
+    UST,
+    ETH,
+    CNT,
+    MAHA,
+  ],
 };
 
 /**
@@ -75,32 +99,34 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
 export const CUSTOM_BASES: {
   [chainId in ChainId]?: { [tokenAddress: string]: Token[] };
 } = {
-  [ChainId.MAINNET]: {},
+  [ChainId.MATICTESTNET]: {},
 };
 
 // used for display in the default list when adding liquidity
 export const SUGGESTED_BASES: ChainTokenList = {
   ...WETH_ONLY,
-  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, BUSD, USDT],
+  [ChainId.MATICTESTNET]: [...WETH_ONLY[ChainId.MATICTESTNET], DAI, USDT, CNT],
 };
 
 // used to construct the list of all pairs we consider by default in the frontend
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   ...WETH_ONLY,
-  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, BUSD, USDT],
+  [ChainId.MATICTESTNET]: [...WETH_ONLY[ChainId.MATICTESTNET], DAI, USDT, CNT],
 };
 
 export const PINNED_PAIRS: {
   readonly [chainId in ChainId]?: [Token, Token][];
 } = {
-  [ChainId.MAINNET]: [
+  [ChainId.MATICTESTNET]: [
     [
       new Token(
-        ChainId.MAINNET,
-        "0xca88C11D7cc8f080a4A96e99E1f02628FAB572D8",
+        ChainId.MATICTESTNET,
+        web3.utils.toChecksumAddress(
+          "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394"
+        ),
         18,
-        "CNT",
-        "Cryption Network Token"
+        "Cryption Network Token",
+        "CNT"
       ),
       new Token(
         ChainId.MATICTESTNET,
@@ -110,7 +136,7 @@ export const PINNED_PAIRS: {
         "Wrapped Matic"
       ),
     ],
-    [BUSD, USDT],
+    [CNT, USDT],
     [DAI, USDT],
   ],
 };
