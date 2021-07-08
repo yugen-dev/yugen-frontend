@@ -154,35 +154,39 @@ export function useApproveCallback(
       });
 
       // @ts-ignore
-      // eslint-disable-next-line consistent-return
-      return library
-        .send("eth_signTypedData_v4", [account, dataToSign])
-        .then(splitSignature)
-        .then(({ v, r, s }) => {
-          // TODO: fix approving delay on UI
-          biconomyContract.methods
-            .executeMetaTransaction(account, res, r, s, v)
-            .send({
-              from: account,
-            })
-            .then((response: any) => {
-              if (!response.hash) response.hash = response.transactionHash;
-              addTransaction(response, {
-                summary: `Approve ${amountToApprove.currency.symbol}`,
-                approval: { tokenAddress: token.address, spender },
-              });
-            })
-            .catch((error: Error) => {
-              console.error("Failed to approve token", error);
-              throw error;
-            });
+
+      const sig = await library.send("eth_signTypedData_v4", [
+        account,
+        dataToSign,
+      ]);
+
+      const signature = await splitSignature(sig);
+
+      const { v, r, s } = signature;
+      try {
+        const response: TransactionResponse = await biconomyContract.methods
+          .executeMetaTransaction(account, res, r, s, v)
+          .send({
+            from: account,
+          });
+        const cloneObj: any = response;
+
+        response.hash = cloneObj.transactionHash;
+        addTransaction(response, {
+          summary: `Approve ${amountToApprove.currency.symbol}`,
+          approval: { tokenAddress: token.address, spender },
         });
+        // eslint-disable-next-line consistent-return
+        return cloneObj.transactionHash;
+      } catch (e) {
+        console.log(e);
+      }
     }
 
     let useExact = false;
 
     // eslint-disable-next-line consistent-return
-    return tokenContract
+    tokenContract
       .approve(
         spender,
         useExact ? amountToApprove.raw.toString() : MaxUint256,

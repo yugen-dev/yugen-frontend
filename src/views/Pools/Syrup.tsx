@@ -25,7 +25,6 @@ const Farm: React.FC = () => {
   const cake = getCakeContract();
   const { account } = useWeb3React("web3");
   const pools = usePools(account);
-  // console.log(pools);
   const [numberOfPoolsVisible, setNumberOfPoolsVisible] = useState(
     NUMBER_OF_POOLS_VISIBLE
   );
