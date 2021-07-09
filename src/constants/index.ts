@@ -134,6 +134,13 @@ export const PINNED_PAIRS: {
   ],
 };
 
+export const PINNED_MIGRATION_PAIRS: {
+  readonly [chainId in ChainId]?: [string][];
+} = {
+  [ChainId.MAINNET]: [],
+  [ChainId.MATICTESTNET]: [],
+};
+
 export const META_TXN_SUPPORTED_TOKENS: any = {
   "0xc2132d05d31c914a87c6611c10748aeb04b58e8f": { abi: tokenABI },
   "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619": { abi: tokenABI },

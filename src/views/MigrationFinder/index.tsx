@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
-import { Currency, ETHER, JSBI, TokenAmount } from "@pancakeswap-libs/sdk";
-import React, { useCallback, useEffect, useState, useMemo } from "react";
+import { Currency, ETHER } from "@pancakeswap-libs/sdk";
+import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import {
   Button,
@@ -10,28 +10,21 @@ import {
   Text,
   Card,
 } from "cryption-uikit";
-import CardNav from "components/CardNav";
 import { LightCard } from "components/Card";
 import { AutoColumn, ColumnCenter } from "components/Column";
 import CurrencyLogo from "components/CurrencyLogo";
 import {
-  usePolydexMigratorContract,
-  useTokenContract,
   useFactoryContract,
 } from "hooks/useContract";
 import { FindPoolTabs } from "components/NavigationTabs";
 import { MinimalPositionCard } from "components/MigratiolnImport";
 import CurrencySearchModal from "components/SearchModal/CurrencySearchModal";
-import { PairState, useMigrationPair } from "data/Reserves";
 import { useActiveWeb3React } from "hooks";
-import { usePairAdder } from "state/user/hooks";
-import { useTokenBalances } from "state/wallet/hooks";
-import { StyledInternalLink } from "components/Shared";
-import { currencyId } from "utils/currencyId";
+import { useMigrationpairAdder } from "state/user/hooks";
+import Select, { OptionProps } from "components/Select/Select";
 import useI18n from "hooks/useI18n";
-
+import migrate from "config/constants/migrate";
 import FactoryAbi from "config/abi/FactoryAbi.json";
-import { wrappedCurrency } from "utils/wrappedCurrency";
 import { Dots } from "../Pool/styleds";
 
 enum Fields {
@@ -43,6 +36,7 @@ export default function PoolFinder() {
   const { account, chainId } = useActiveWeb3React();
   const [showSearch, setShowSearch] = useState<boolean>(false);
   const [pairAddresses, setPairAddresses] = useState(null);
+  const [factoryAddress, setFactoryAddress] = useState(migrate[0].value);
   const [isValidPair, setValidPair] = useState(false);
   const [pairLoading, setPairLoading] = useState(false);
   const [activeField, setActiveField] = useState<number>(Fields.TOKEN1);
@@ -50,21 +44,17 @@ export default function PoolFinder() {
   const [currency0, setCurrency0] = useState<Currency | null>(ETHER);
   const [currency1, setCurrency1] = useState<Currency | null>(null);
 
-  // const addPair = usePairAdder()
-  const factoryContract = useFactoryContract(
-    "0x2A59Dcd63A4F7a23d4fF0d2542ab44870199dA17",
-    FactoryAbi,
-    true
-  );
+  const addPair = useMigrationpairAdder()
   const TranslateString = useI18n();
-
+  const factoryContract = useFactoryContract(factoryAddress, FactoryAbi, true);
   const getPairAddress = async (token1, token2) => {
     setPairLoading(true);
-    if (token1 && token2 && !token1.equals(token2)) {
+    if (token1 && token2 && !token1.equals(token2) && factoryContract) {
       const pairAddress = await factoryContract.getPair(
         token1.address,
         token2.address
       );
+      addPair(chainId, pairAddresses, factoryAddress);
       setPairAddresses(pairAddress);
       setValidPair(true);
       setPairLoading(false);
@@ -73,22 +63,6 @@ export default function PoolFinder() {
       setPairLoading(false);
     }
   };
-  // const [pairState, pair] = useMigrationPair(currency0 ?? undefined, currency1 ?? undefined, pairAddresses);
-  // console.log({ pairState }, { pair });
-  // useEffect(() => {
-  //   if (pair) {
-  //     addPair(pair)
-  //   }
-  // }, [pair, addPair])
-  // const validPairNoLiquidity =
-  //   pairState === PairState.NOT_EXISTS ||
-  //   Boolean(
-  //     pairState === PairState.EXISTS &&
-  //     pair &&
-  //     JSBI.equal(pair.reserve0.raw, JSBI.BigInt(0)) &&
-  //     JSBI.equal(pair.reserve1.raw, JSBI.BigInt(0))
-  //   )
-
   const handleCurrencySelect = useCallback(
     (currency: Currency) => {
       if (activeField === Fields.TOKEN0) {
@@ -102,6 +76,11 @@ export default function PoolFinder() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [activeField]
   );
+
+  const handleSortOptionChange = (option: OptionProps): void => {
+    setFactoryAddress(option.value);
+
+  };
 
   const handleSearchDismiss = useCallback(() => {
     setShowSearch(false);
@@ -127,7 +106,15 @@ export default function PoolFinder() {
     >
       <ContainerCard>
         <FindPoolTabs />
-        <CardBody>
+        <CardBody style={{ width: '100%' }}>
+          <div>
+            <Text textAlign="center">Select Exchange Platform</Text>
+            <Select
+              options={migrate}
+              onChange={handleSortOptionChange}
+            />
+          </div>
+          <Text textAlign="center" mb="10px">Select Pair Tokens</Text>
           <AutoColumn gap="md">
             <Button
               onClick={() => {
@@ -240,6 +227,8 @@ export default function PoolFinder() {
 }
 const ContainerCard = styled(Card)`
   border-radius: 0.625rem !important;
+  width: 100%;
+  max-width: 500px;
   padding: 30px;
   background-color: #1e202a;
   display: flex;

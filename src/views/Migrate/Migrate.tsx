@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react/no-danger */
-import React, { useMemo } from "react";
+import React, { useMemo, useEffect } from "react";
 import styled from "styled-components";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
@@ -8,51 +8,102 @@ import { Card, Text, AutoRenewIcon } from "cryption-uikit";
 import { Pair } from "@pancakeswap-libs/sdk";
 import { useTokenBalancesWithLoadingIndicator } from "state/wallet/hooks";
 import { LightCard } from "components/Card";
+import { useActiveWeb3React } from "hooks";
 import MigrationCard from "components/MigrationCard";
 import { StyledInternalLink } from "components/Shared";
 import UnlockButton from "components/UnlockButton";
 import { useWeb3React } from "@web3-react/core";
 import { usePairs } from "data/Reserves";
-import { toV2LiquidityToken, useTrackedTokenPairs } from "state/user/hooks";
+import { toV2LiquidityToken, useMigrationPairs } from "state/user/hooks";
 import migrate from "config/constants/migrate";
+import { each } from "lodash";
 
 const Migrate = () => {
   const { account } = useWeb3React();
-  const trackedTokenPairs = useTrackedTokenPairs();
-  const tokenPairsWithLiquidityTokens = useMemo(
-    () =>
-      trackedTokenPairs.map((tokens) => ({
-        liquidityToken: toV2LiquidityToken(tokens),
-        tokens,
-      })),
-    [trackedTokenPairs]
-  );
-  const liquidityTokens = useMemo(
-    () => tokenPairsWithLiquidityTokens.map((tpwlt) => tpwlt.liquidityToken),
-    [tokenPairsWithLiquidityTokens]
-  );
-  const [v2PairsBalances, fetchingV2PairBalances] =
-    useTokenBalancesWithLoadingIndicator(account ?? undefined, liquidityTokens);
+  const { chainId } = useActiveWeb3React();
+  const trackedTokenPairs = useMigrationPairs();
+  const allMigrationPairs = useMemo(
+    () => {
+      const pairs = {};
+      Object.keys(trackedTokenPairs).forEach((factoryAddrees) => {
+        const checkIfPresent = migrate.filter(eachFactory => eachFactory.value === factoryAddrees);
+        if (checkIfPresent && checkIfPresent.length > 0) {
+          let pairAddresses = trackedTokenPairs[factoryAddrees];
+          pairAddresses = pairAddresses.filter((item, pos) => {
+            return pairAddresses.indexOf(item) === pos;
+          })
+          pairs[factoryAddrees] = {
+            pairs: pairAddresses,
+            exchangePlatform: checkIfPresent[0].label
+          }
+        }
+      })
+      return pairs;
+    }, [trackedTokenPairs]);
+  // const tokenPairsWithLiquidityTokens = useMemo(
+  //   () =>
+  //     trackedTokenPairs.map((tokens) => ({
+  //       liquidityToken: toV2LiquidityToken(tokens),
+  //       tokens,
+  //     })),
+  //   [trackedTokenPairs]
+  // );
+  // const liquidityTokens = useMemo(
+  //   () => tokenPairsWithLiquidityTokens.map((tpwlt) => tpwlt.liquidityToken),
+  //   [tokenPairsWithLiquidityTokens]
+  // );
+  // const [v2PairsBalances, fetchingV2PairBalances] =
+  //   useTokenBalancesWithLoadingIndicator(account ?? undefined, liquidityTokens);
   // fetch the reserves for all V2 pools in which the user has a balance
-  const liquidityTokensWithBalances = useMemo(
-    () =>
-      tokenPairsWithLiquidityTokens.filter(async ({ liquidityToken }) => {
-        return v2PairsBalances[liquidityToken.address]?.greaterThan("0");
-      }),
-    [tokenPairsWithLiquidityTokens, v2PairsBalances]
-  );
-  const v2Pairs = usePairs(
-    liquidityTokensWithBalances.map(({ tokens }) => tokens)
-  );
-  const v2IsLoading =
-    fetchingV2PairBalances ||
-    v2Pairs?.length < liquidityTokensWithBalances.length ||
-    v2Pairs?.some((V2Pair) => !V2Pair);
-
-  const allV2PairsWithLiquidity = v2Pairs
-    .map(([, pair]) => pair)
-    .filter((v2Pair): v2Pair is Pair => Boolean(v2Pair));
-  console.log({ allV2PairsWithLiquidity }, { v2IsLoading });
+  // const liquidityTokensWithBalances = useMemo(
+  //   () =>
+  //     tokenPairsWithLiquidityTokens.filter(async ({ liquidityToken }) => {
+  //       return v2PairsBalances[liquidityToken.address]?.greaterThan("0");
+  //     }),
+  //   [tokenPairsWithLiquidityTokens, v2PairsBalances]
+  // );
+  // const v2Pairs = usePairs(
+  //   liquidityTokensWithBalances.map(({ tokens }) => tokens)
+  // );
+  const v2IsLoading = false;
+  // const v2IsLoading =
+  //   fetchingV2PairBalances ||
+  //   v2Pairs?.length < liquidityTokensWithBalances.length ||
+  //   v2Pairs?.some((V2Pair) => !V2Pair);
+  const allV2PairsWithLiquidity = [];
+  // const allV2PairsWithLiquidity = v2Pairs
+  //   .map(([, pair]) => pair)
+  //   .filter((v2Pair): v2Pair is Pair => Boolean(v2Pair));
+  const renderCard = () => {
+    migrate.map(eachFacory => {
+      console.log('each', eachFacory);
+      return (
+        <MigrationCard
+          pairAddress="0xE527Cf125826A3EB4a23b79D345FF61C68D8Ffae"
+          key="0xE527Cf125826A3EB4a23b79D345FF61C68D8Ffae"
+          exchangePlatform="Exchange1"
+        />
+      )
+    })
+    // migrate.map(eachFacory => {
+    //   return (
+    //     (<MigrationCard
+    //       pairAddress={allMigrationPairs[eachFacory.value].pairs[0]}
+    //       key={allMigrationPairs[eachFacory.value].pairs[0]}
+    //       exchangePlatform={allMigrationPairs[eachFacory.value].exchangePlatform}
+    //     />)
+    //   )
+    //   if (allMigrationPairs[eachFacory.value].pairs.length > 0) {
+    //     return allMigrationPairs[eachFacory.value].pairs.eachFactory(pairAddresss =>
+    //     (<MigrationCard
+    //       pairAddress={pairAddresss}
+    //       key={pairAddresss}
+    //       exchangePlatform={allMigrationPairs[eachFacory.value].exchangePlatform}
+    //     />))
+    //   }
+    //   return (<div />)
+    // })
+  }
   return (
     <Container maxWidth="lg">
       <MigrationContainer>
@@ -100,14 +151,17 @@ const Migrate = () => {
             </LoadinCard>
           ) : (
             <div style={{ width: "100%" }}>
-              {allV2PairsWithLiquidity && allV2PairsWithLiquidity.length > 0 ? (
+              {allMigrationPairs && Object.keys(allMigrationPairs).length > 0 ? (
                 <div style={{ marginBottom: "20px", width: "100%" }}>
-                  {allV2PairsWithLiquidity.map((eachPair) => (
-                    <MigrationCard
-                      pair={eachPair}
-                      key={eachPair.liquidityToken.address}
-                    />
-                  ))}
+                  {Object.keys(allMigrationPairs).map(eachFacory => {
+                    return allMigrationPairs[eachFacory].pairs.map(eachPair => (
+                      <MigrationCard
+                        pairAddress={eachPair}
+                        key={eachPair}
+                        exchangePlatform={allMigrationPairs[eachFacory].exchangePlatform}
+                      />
+                    ))
+                  })}
                 </div>
               ) : (
                 <LightCard padding="40px">

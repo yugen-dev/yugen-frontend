@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
-import { JSBI, Pair, Percent } from "@pancakeswap-libs/sdk";
-import { AbiItem } from "web3-utils";
 import styled from "styled-components";
 import { useWeb3React } from "@web3-react/core";
 import {
@@ -11,77 +9,44 @@ import {
   Button,
   AutoRenewIcon,
 } from "cryption-uikit";
-import { useTokenBalance } from "state/wallet/hooks";
-import { useTotalSupply } from "data/TotalSupply";
 import useWeb3 from "hooks/useWeb3";
-import cakeAbi from "config/abi/cake.json";
 import { getPolydexMigratorAddress } from "utils/addressHelpers";
 import {
   usePolydexMigratorContract,
-  useTokenContract,
+  usePairContract,
 } from "hooks/useContract";
+import {
+  getBep20Contract
+} from "utils/contractHelpers"
 import { useToast } from "state/hooks";
-import { approve } from "utils/callHelpers";
 
 interface ModalProps {
-  pair: Pair;
+  pairAddress: string;
+  exchangePlatform: string;
 }
 
-export default function MigrationCard({ pair }: ModalProps) {
-  const pairAddress = pair.liquidityToken.address;
-  console.log({ pairAddress });
-  const token1Address = pair.token0.address;
-  const token2Address = pair.token1.address;
-  const token1Symbol = pair.token0.symbol;
-  const token2Symbol = pair.token1.symbol;
-  const pairName = `${token1Symbol}/${token2Symbol}`;
-  const exChangePlatForm = "Exchange1";
+export default function MigrationCard({ pairAddress, exchangePlatform }: ModalProps) {
+  const pairContract = usePairContract(pairAddress, true);
+  // const [totalPoolTokens, setTotalPoolTokens] = useState(null);
+  const [token0Deposited, setToken0Deposited] = useState(null);
+  const [token1Deposited, setToken1Deposited] = useState(null);
+  const [token0Address, setToken0Address] = useState(null);
+  const [token1Address, setToken1Address] = useState(null);
+  const [token0Symbol, setToken0Symbol] = useState(null);
+  const [token1Symbol, setToken1Symbol] = useState(null);
+  const pairName = `${token0Symbol}/${token1Symbol}`;
   const [showDetails, toggleDetails] = useState(false);
   const { toastSuccess } = useToast();
   const [approveLoading, setApproveLoading] = useState(false);
   const [migrateLoading, setMigrateLoading] = useState(false);
   const [lpBal, setLpbal] = useState(0);
   const [balance, setBal] = useState();
-  const [allowence, setallowence] = useState("");
+  const [allowence, setallowence] = useState(null);
   const web3 = useWeb3();
   const { account } = useWeb3React();
-  const pairContract = useTokenContract(pairAddress, true);
   const polydexMigrator = usePolydexMigratorContract();
   const polydexMigratorAddress = getPolydexMigratorAddress();
-  const userPoolBalance = useTokenBalance(
-    account ?? undefined,
-    pair.liquidityToken
-  );
-  const totalPoolTokens = useTotalSupply(pair.liquidityToken);
-  const poolTokenPercentage =
-    !!userPoolBalance &&
-    !!totalPoolTokens &&
-    JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
-      ? new Percent(userPoolBalance.raw, totalPoolTokens.raw)
-      : undefined;
-
-  const [token0Deposited, token1Deposited] =
-    !!pair &&
-    !!totalPoolTokens &&
-    !!userPoolBalance &&
-    // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
-    JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
-      ? [
-          pair.getLiquidityValue(
-            pair.token0,
-            totalPoolTokens,
-            userPoolBalance,
-            false
-          ),
-          pair.getLiquidityValue(
-            pair.token1,
-            totalPoolTokens,
-            userPoolBalance,
-            false
-          ),
-        ]
-      : [undefined, undefined];
-
+  const poolTokenPercentage = 0.21;
   const onMigrateClicked = async () => {
     setMigrateLoading(true);
     const now = new Date();
@@ -89,15 +54,9 @@ export default function MigrationCard({ pair }: ModalProps) {
     const utcSecondsSinceEpoch =
       Math.round(utcMilllisecondsSinceEpoch / 1000) + 1200;
     try {
-      console.log(
-        { token1Address },
-        { token2Address },
-        { balance },
-        { utcSecondsSinceEpoch }
-      );
       const txHash = await polydexMigrator.functions.migrate(
+        token0Address,
         token1Address,
-        token2Address,
         balance,
         1,
         1,
@@ -126,7 +85,6 @@ export default function MigrationCard({ pair }: ModalProps) {
       }
     } catch (error) {
       setApproveLoading(false);
-      console.log("error is", error);
     }
   };
   const getBalance = async () => {
@@ -135,120 +93,141 @@ export default function MigrationCard({ pair }: ModalProps) {
       account,
       polydexMigratorAddress
     );
-    setBal(lpBalance.toString());
+    const getTotalSupply = await pairContract.totalSupply();
+    const getReserves = await pairContract.getReserves();
+    const token0Bal = (parseFloat(lpBalance.toString()) / parseFloat(getTotalSupply.toString())) * parseFloat(getReserves.reserve0.toString());
+    const token1Bal = (parseFloat(lpBalance.toString()) / parseFloat(getTotalSupply.toString())) * parseFloat(getReserves.reserve1.toString());
+    const getToken0Address = await pairContract.token0();
+    const getToken1Address = await pairContract.token1();
+    const token0contract = getBep20Contract(getToken0Address, web3);
+    const token1contract = getBep20Contract(getToken1Address, web3);
+    const gettoken0Symbol = await token0contract.methods.symbol().call();
+    const gettoken1Symbol = await token1contract.methods.symbol().call();
     lpBalance = web3.utils.fromWei(lpBalance.toString(), "ether");
     lpBalance = parseFloat(lpBalance).toFixed(3).toString();
-    console.log(checkAllowence.toString(), { lpBalance });
-    setallowence(checkAllowence.toString());
-    setLpbal(lpBalance);
+    setToken0Symbol(gettoken0Symbol)
+    setToken1Symbol(gettoken1Symbol)
+    setToken0Address(getToken0Address);
+    setToken1Address(getToken1Address);
+    setallowence(parseFloat(checkAllowence.toString()));
+    setToken0Deposited(token0Bal.toFixed(3));
+    setToken1Deposited(token1Bal.toFixed(3));
+    setBal(lpBalance.toString());
+    // setTotalPoolTokens(getTotalSupply.toString());
   };
   useEffect(() => {
     if (account) getBalance();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [web3.eth.Contract]);
-  console.log({ polydexMigrator });
   return (
     <MigrationRow>
-      <RowData onClick={() => toggleDetails(!showDetails)}>
-        <ImageDiv>
-          <img src={`/images/${token1Symbol}.png`} alt="BNB" width="20px" />
-          <img src={`/images/${token2Symbol}.png`} alt="BNB" width="20px" />
-          <Text color="white" fontSize="15px" bold ml="10px">
-            {pairName}
-          </Text>
-        </ImageDiv>
-        {showDetails ? (
+      {token1Address && token0Address ? <div>
+        <RowData onClick={() => toggleDetails(!showDetails)}>
           <ImageDiv>
-            <Text color="#2082E9" fontSize="13px" bold mr="7px">
-              {exChangePlatForm}
+            <img src={`/images/${token0Symbol}.png`} alt="BNB" width="20px" />
+            <img src={`/images/${token1Symbol}.png`} alt="BNB" width="20px" />
+            <Text color="white" fontSize="15px" bold ml="10px">
+              {pairName}
             </Text>
-            <ChevronUpIcon
-              color="white"
-              width="24px"
-              onClick={() => toggleDetails(!showDetails)}
-              style={{ cursor: "pointer" }}
-            />
           </ImageDiv>
-        ) : (
-          <ImageDiv>
-            <Text color="#2082E9" fontSize="13px" bold mr="7px">
-              {exChangePlatForm}
-            </Text>
-            <ChevronDownIcon
-              color="white"
-              width="24px"
-              onClick={() => toggleDetails(!showDetails)}
-              style={{ cursor: "pointer" }}
-            />
-          </ImageDiv>
-        )}
-      </RowData>
-      {showDetails && (
-        <div>
-          <InfoContainer>
-            <InfoDiv>
-              <Text color="#9d9fa8" fontSize="18px">
-                Pooled {token1Symbol}:
+          {showDetails ? (
+            <ImageDiv>
+              <Text color="#2082E9" fontSize="13px" bold mr="7px">
+                {exchangePlatform}
               </Text>
-              <Text fontSize="18px" bold>
-                {token0Deposited?.toSignificant(3)}
+              <ChevronUpIcon
+                color="white"
+                width="24px"
+                onClick={() => toggleDetails(!showDetails)}
+                style={{ cursor: "pointer" }}
+              />
+            </ImageDiv>
+          ) : (
+            <ImageDiv>
+              <Text color="#2082E9" fontSize="13px" bold mr="7px">
+                {exchangePlatform}
               </Text>
-            </InfoDiv>
-            <InfoDiv>
-              <Text color="#9d9fa8" fontSize="18px">
-                Pooled {token2Symbol}:
-              </Text>
-              <Text fontSize="18px" bold>
-                {token1Deposited?.toSignificant(3)}
-              </Text>
-            </InfoDiv>
-            <InfoDiv>
-              <Text color="#9d9fa8" fontSize="18px">
-                Your LP Balance:
-              </Text>
-              <Text fontSize="18px" bold>
-                {lpBal}
-              </Text>
-            </InfoDiv>
-            <InfoDiv>
-              <Text color="#9d9fa8" fontSize="18px">
-                Your LP share:
-              </Text>
-              <Text fontSize="18px" bold>
-                {poolTokenPercentage
-                  ? `${poolTokenPercentage.toFixed(2)}%`
-                  : "-"}
-              </Text>
-            </InfoDiv>
-          </InfoContainer>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            {parseFloat(allowence) !== 0 ? (
-              <Button
-                style={{ maxWidth: "300px", width: "100%", marginTop: "20px" }}
-                scale="md"
-                onClick={onMigrateClicked}
-                isLoading={migrateLoading}
-                disabled={migrateLoading}
-                endIcon={
-                  migrateLoading && <AutoRenewIcon spin color="currentColor" />
-                }
-              >
-                {migrateLoading ? "Processing" : "Migrate Liquidity"}
-              </Button>
-            ) : (
-              <Button
-                onClick={onApprove}
-                isLoading={approveLoading}
-                endIcon={
-                  approveLoading && <AutoRenewIcon spin color="currentColor" />
-                }
-              >
-                {approveLoading ? "Processing" : "Approve"}
-              </Button>
-            )}
+              <ChevronDownIcon
+                color="white"
+                width="24px"
+                onClick={() => toggleDetails(!showDetails)}
+                style={{ cursor: "pointer" }}
+              />
+            </ImageDiv>
+          )}
+        </RowData>
+        {showDetails && (
+          <div>
+            <InfoContainer>
+              <InfoDiv>
+                <Text color="#9d9fa8" fontSize="18px">
+                  Pooled {token0Symbol}:
+                </Text>
+                <Text fontSize="18px" bold>
+                  {token0Deposited}
+                </Text>
+              </InfoDiv>
+              <InfoDiv>
+                <Text color="#9d9fa8" fontSize="18px">
+                  Pooled {token1Symbol}:
+                </Text>
+                <Text fontSize="18px" bold>
+                  {token1Deposited}
+                </Text>
+              </InfoDiv>
+              <InfoDiv>
+                <Text color="#9d9fa8" fontSize="18px">
+                  Your LP Balance:
+                </Text>
+                <Text fontSize="18px" bold>
+                  {lpBal}
+                </Text>
+              </InfoDiv>
+              <InfoDiv>
+                <Text color="#9d9fa8" fontSize="18px">
+                  Your LP share:
+                </Text>
+                <Text fontSize="18px" bold>
+                  {poolTokenPercentage
+                    ? `${poolTokenPercentage.toFixed(2)}%`
+                    : "-"}
+                </Text>
+              </InfoDiv>
+            </InfoContainer>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              {allowence && allowence !== 0 ? (
+                <Button
+                  style={{ maxWidth: "300px", width: "100%", marginTop: "20px" }}
+                  scale="md"
+                  onClick={onMigrateClicked}
+                  isLoading={migrateLoading}
+                  disabled={migrateLoading}
+                  endIcon={
+                    migrateLoading && <AutoRenewIcon spin color="currentColor" />
+                  }
+                >
+                  {migrateLoading ? "Processing" : "Migrate Liquidity"}
+                </Button>
+              ) : (
+                <Button
+                  onClick={onApprove}
+                  isLoading={approveLoading}
+                  endIcon={
+                    approveLoading && <AutoRenewIcon spin color="currentColor" />
+                  }
+                >
+                  {approveLoading ? "Processing" : "Approve"}
+                </Button>
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
+        :
+        <Text color="#9d9fa8" fontSize="18px">
+          Getting Pair Details...
+      </Text>
+      }
     </MigrationRow>
   );
 }

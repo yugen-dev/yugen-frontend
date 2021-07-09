@@ -149,11 +149,6 @@ export type Campaign = {
 };
 
 export interface MigrateConfig {
-  token1Address: string;
-  token2Address: string;
-  pairAddress: string;
-  token1Symbol: string;
-  token2Symbol: string;
-  exChangePlatForm: string;
-  pairName: string;
+  label: string;
+  value: string;
 }
