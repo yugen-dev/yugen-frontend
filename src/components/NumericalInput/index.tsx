@@ -8,7 +8,8 @@ const StyledInput = styled.input<{
   align?: string;
 }>`
   color: #b1b0b0;
-  width: 0;
+  height: 50px;
+  width: 100%;
   position: relative;
   font-weight: 500;
   outline: none;

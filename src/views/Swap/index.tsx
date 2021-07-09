@@ -458,7 +458,7 @@ const Swap = () => {
             </AutoRow>
             <AddressInputPanel
               id="recipient"
-              value="dw"
+              value={recipient}
               onChange={onChangeRecipient}
             />
           </>
