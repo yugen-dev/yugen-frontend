@@ -20,7 +20,7 @@ import { getBep20Contract } from "utils/contractHelpers";
 import useI18n from "hooks/useI18n";
 import { useSousStake } from "hooks/useStake";
 import useWeb3 from "hooks/useWeb3";
-import { fetchPrice, useProfile } from "state/hooks";
+import { fetchPrice, UseGetApiPrice } from "state/hooks";
 import { useSousUnstake } from "hooks/useUnstake";
 import { getBalanceNumber } from "utils/formatBalance";
 import { getPoolApy } from "utils/apy";
@@ -43,14 +43,14 @@ interface HarvestProps {
 
 const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   const [tokenprices, Settokenprices] = useState([null]);
-  const [StakingTokenPrice, setStakingTokenPrice] = useState(new BigNumber(1));
+  // const [StakingTokenPrice, setStakingTokenPrice] = useState(new BigNumber(1));
   const {
     sousId,
     image,
     tokenName,
     tokenAddress,
     stakingTokenName,
-    // stakingTokenAddress,
+    stakingTokenAddress,
     contractAddress,
     stakingTokenDecimals,
     projectLink,
@@ -67,27 +67,6 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     metamaskImg,
   } = pool;
 
-  useEffect(() => {
-    const pricefunc = async () => {
-      const arrayofprices = [];
-
-      const stakingTokenPrice = await fetchPrice(pool.stakingTokenCoinGeckoid);
-      if (stakingTokenPrice) {
-        setStakingTokenPrice(stakingTokenPrice);
-      }
-
-      pool.coinGeckoIds.forEach(async (element, i) => {
-        let price = await fetchPrice(pool.coinGeckoIds[i]);
-        if (!price) {
-          price = new BigNumber(1);
-        }
-
-        arrayofprices.push(price);
-      });
-      Settokenprices(arrayofprices);
-    };
-    pricefunc();
-  }, [pool]);
   const { account } = useWeb3React("web3");
   const isBnbPool = poolCategory === PoolCategory.BINANCE;
   const [show, setShow] = useState(false);
@@ -97,7 +76,9 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   const { onReward } = useSousHarvest(sousId, isBnbPool);
 
   /// harvest interval
+  // const staketokennameprice = useGetApiPrice(stakingTokenAddress.toLowerCase());
 
+  // console.log(staketokennameprice);
   let isDaysGreater = false;
   let isHoursGreater = false;
   const poolHarvestIntervalInDays = poolHarvestInterval
@@ -122,16 +103,26 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   let apy = 0;
   let apyString = "";
   const apyArray = [];
+  const StakingTokenPrice = UseGetApiPrice(
+    pool.stakingTokenAddress.toLowerCase()
+  );
 
   pool.multiRewardTokenPerBlock.forEach(async (element, i) => {
-    const stakingTokenPrice = StakingTokenPrice;
-    const rewardTokenPrice = tokenprices[i] ? tokenprices[i] : new BigNumber(1);
+    const stakingTokenPrice = new BigNumber(StakingTokenPrice);
+    const tokenPrice = UseGetApiPrice(pool.coinGeckoIds[i].toLowerCase());
+    console.log(tokenPrice);
+    // eslint-disable-next-line  no-nested-ternary
+    const rewardTokenPrice = tokenPrice
+      ? new BigNumber(tokenPrice)
+      : new BigNumber(1);
+
     const currentTokenApy = getPoolApy(
       stakingTokenPrice.toNumber(),
       rewardTokenPrice.toNumber(),
       getBalanceNumber(pool.totalStaked, stakingTokenDecimals),
       parseFloat(element)
     );
+
     if (currentTokenApy && pool.multiRewardTokenPerBlock.length === i + 1) {
       apyString += `${currentTokenApy.toFixed(2)}% ${pool.multiReward[i]}`;
     } else if (currentTokenApy) {
@@ -260,7 +251,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
           }}
         >
           <CardTitle isFinished={isFinished}>
-          {TranslateString(348, "Stake")} {isOldSyrup && "[OLD]"} {tokenName}
+            {TranslateString(348, "Stake")} {isOldSyrup && "[OLD]"} {tokenName}
           </CardTitle>
           <Image
             src={`/images/tokens/${image || tokenName.toLowerCase()}.png`}
