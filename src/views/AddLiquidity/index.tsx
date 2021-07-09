@@ -164,7 +164,7 @@ export default function AddLiquidity({
     parsedAmounts[Field.CURRENCY_A],
     ROUTER_ADDRESS
   );
-  console.log({ approvalA });
+
   const [approvalB, approveBCallback] = useApproveCallback(
     parsedAmounts[Field.CURRENCY_B],
     ROUTER_ADDRESS
