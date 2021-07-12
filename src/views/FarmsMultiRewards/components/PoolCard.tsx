@@ -25,7 +25,7 @@ import { getBalanceNumber } from "utils/formatBalance";
 import { getPoolApy } from "utils/apy";
 import { useSousHarvest } from "hooks/useHarvest";
 import Balance from "components/Balance";
-import { fetchPrice } from "state/hooks";
+import { fetchPrice, UseGetApiPrice } from "state/hooks";
 import Tooltip from "components/Tooltip";
 import { useSousApprove } from "hooks/useApprove";
 import { QuoteToken, PoolCategory } from "config/constants/types";
@@ -70,28 +70,28 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
     metamaskImg,
   } = pool;
 
-  useEffect(() => {
-    const pricefunc = async () => {
-      const arrayofprices = [];
+  // useEffect(() => {
+  //   const pricefunc = async () => {
+  //     const arrayofprices = [];
 
-      // const stakingTokenPrice = await fetchPrice(pool.stakingTokenCoinGeckoid);
-      // if (stakingTokenPrice) {
-      //   setStakingTokenPrice(stakingTokenPrice);
-      // }
+  //     // const stakingTokenPrice = await fetchPrice(pool.stakingTokenCoinGeckoid);
+  //     // if (stakingTokenPrice) {
+  //     //   setStakingTokenPrice(stakingTokenPrice);
+  //     // }
 
-      pool.coinGeckoIds.forEach(async (element, i) => {
-        let price = await fetchPrice(pool.coinGeckoIds[i]);
-        if (!price) {
-          price = new BigNumber(1);
-        }
+  //     pool.coinGeckoIds.forEach(async (element, i) => {
+  //       let price = await fetchPrice(pool.coinGeckoIds[i]);
+  //       if (!price) {
+  //         price = new BigNumber(1);
+  //       }
 
-        arrayofprices.push(price);
-      });
+  //       arrayofprices.push(price);
+  //     });
 
-      Settokenprices(arrayofprices);
-    };
-    pricefunc();
-  }, [pool]);
+  //     Settokenprices(arrayofprices);
+  //   };
+  //   pricefunc();
+  // }, [pool]);
 
   const { account } = useWeb3React("web3");
   const [show, setShow] = useState(false);
@@ -133,7 +133,13 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
 
   pool.multiRewardTokenPerBlock.forEach(async (element, i) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const rewardTokenPrice = tokenprices[i] ? tokenprices[i] : new BigNumber(1);
+    const tokenPrice = UseGetApiPrice(pool.coinGeckoIds[i].toLowerCase());
+
+    // eslint-disable-next-line  no-nested-ternary
+    const rewardTokenPrice = tokenPrice
+      ? new BigNumber(tokenPrice)
+      : new BigNumber(1);
+
     const priceoflp = tokenPriceVsQuote
       ? new BigNumber(tokenPriceVsQuote)
       : new BigNumber(1);
@@ -302,7 +308,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
                         apy={new BigNumber(apy || 0)}
                       />
                     )}
-                    {apy}%
+                    {apy.toFixed(2)}%
                   </>
                 ) : (
                   <Skeleton height={24} width={80} />
@@ -372,7 +378,11 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
                           fontSize="22px"
                           value={getBalanceNumber(
                             earnings.multipliedBy(
-                              new BigNumber(pool.multiRewardTokenPerBlock[i])
+                              new BigNumber(
+                                pool.multiRewardTokenPerBlock[i]
+                              ).div(
+                                new BigNumber(pool.multiRewardTokenPerBlock[0])
+                              )
                             ),
                             tokenDecimals
                           )}

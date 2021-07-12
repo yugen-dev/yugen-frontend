@@ -302,7 +302,7 @@ export const useGetApiPrices = () => {
   return prices;
 };
 
-export const useGetApiPrice = (token: string) => {
+export const UseGetApiPrice = (token: string) => {
   const prices = useGetApiPrices();
 
   if (!prices) {
