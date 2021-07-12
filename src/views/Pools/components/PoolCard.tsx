@@ -143,6 +143,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   const stakingTokenBalance = new BigNumber(userData?.stakingTokenBalance || 0);
   const stakedBalance = new BigNumber(userData?.stakedBalance || 0);
   const earnings = new BigNumber(userData?.pendingReward || 0);
+  console.log(earnings);
   const canHarvest =
     userData?.canHarvest === true ? userData?.canHarvest : false;
 
@@ -352,7 +353,11 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                           fontSize="22px"
                           value={getBalanceNumber(
                             earnings.multipliedBy(
-                              new BigNumber(pool.multiRewardTokenPerBlock[i])
+                              new BigNumber(
+                                pool.multiRewardTokenPerBlock[i]
+                              ).div(
+                                new BigNumber(pool.multiRewardTokenPerBlock[0])
+                              )
                             ),
                             tokenDecimals
                           )}
