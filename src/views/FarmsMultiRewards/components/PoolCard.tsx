@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback, useState } from "react";
 import BigNumber from "bignumber.js";
 import styled from "styled-components";
+import InfoIcon from "@material-ui/icons/Info";
 import {
   Button,
   IconButton,
@@ -9,7 +10,6 @@ import {
   Flex,
   Text,
   Skeleton,
-  InfoIcon,
 } from "cryption-uikit";
 import { useWeb3React } from "@web3-react/core";
 import Countdown from "react-countdown";
@@ -152,12 +152,12 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
     );
 
     if (currentTokenApy && pool.multiRewardTokenPerBlock.length === i + 1) {
-      apyString += `${currentTokenApy.toFixed(2)}% ${pool.multiReward[i]}`;
+      apyString += `${currentTokenApy.toFixed(2)}% ${pool.multiReward[i]}\n`;
     } else if (currentTokenApy) {
-      apyString += `${currentTokenApy.toFixed(2)}% ${pool.multiReward[i]} + `;
+      apyString += `${currentTokenApy.toFixed(2)}% ${pool.multiReward[i]} +\n`;
     } else {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      apyString += `100% ${pool.multiReward[i]} `;
+      apyString += `100% ${pool.multiReward[i]}\n`;
     }
 
     apy += currentTokenApy;
@@ -286,7 +286,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
               <StyledDetails>
                 <APRText onMouseEnter={open} onMouseLeave={close}>
                   {TranslateString(736, "APR")}:
-                  <Tooltip show={show} text={apyString}>
+                  <Tooltip show={show} text={apyString} forceToNewLine>
                     <InfoIcon
                       style={{
                         color: "#86878f",

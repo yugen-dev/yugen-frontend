@@ -10,11 +10,34 @@ const TooltipContainer = styled.div`
   font-weight: 400;
 `;
 
+const CustomTooltipContainer = styled.div`
+  width: 100%;
+  padding: 0.6rem 1rem;
+  line-height: 150%;
+  color: #9d9fa8;
+  font-weight: 400;
+`;
+
 interface TooltipProps extends Omit<PopoverProps, "content"> {
   text: string;
+  forceToNewLine?: boolean;
 }
 
-export default function Tooltip({ text, ...rest }: TooltipProps) {
+export default function Tooltip({
+  text,
+  forceToNewLine,
+  ...rest
+}: TooltipProps) {
+  if (forceToNewLine) {
+    const temp = text;
+    const newTemp = temp.split("\n").map((str) => <p>{str}</p>);
+    return (
+      <Popover
+        content={<CustomTooltipContainer>{newTemp}</CustomTooltipContainer>}
+        {...rest}
+      />
+    );
+  }
   return (
     <Popover content={<TooltipContainer>{text}</TooltipContainer>} {...rest} />
   );
