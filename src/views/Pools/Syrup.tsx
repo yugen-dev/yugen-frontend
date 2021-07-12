@@ -9,7 +9,6 @@ import partition from "lodash/partition";
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
 import { useWeb3React } from "@web3-react/core";
-import { getBalanceNumber } from "utils/formatBalance";
 import { usePools, useBlock } from "state/hooks";
 import { getCakeContract, getCNTStakerContract } from "utils/contractHelpers";
 import cntMascot from "images/Cryption Network Mascot-01.png";
@@ -97,55 +96,24 @@ const Farm: React.FC = () => {
   }, [cake, observerIsSet, setTotalSupply, totalSupply]);
   return (
     <div>
-      <Hero>
-        <Container maxWidth="lg">
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={6} xl={6}>
-              <HeadingTex>Staking Pool</HeadingTex>
-              <StyledOl>
-                <DescriptionTextLi>
-                  Stake CNT to earn more CNT.
-                </DescriptionTextLi>
-                <DescriptionTextLi>
-                  You will earn a portion of the swaps fees based on the amount
-                  of xCNT held relative to the weight of CNT staked.
-                </DescriptionTextLi>
-                <DescriptionTextLi>
-                  xCNT can be minted by staking CNT.
-                </DescriptionTextLi>
-                <DescriptionTextLi>
-                  To redeem the CNT staked plus swap fees convert xCNT back to
-                  CNT.
-                </DescriptionTextLi>
-                {totalSupply && (
-                  <DescriptionTextLi>
-                    {`There are currently ${getBalanceNumber(
-                      totalSupply
-                    ).toFixed(3)} xCNT in existence.`}
-                  </DescriptionTextLi>
-                )}
-              </StyledOl>
-            </Grid>
-            <Grid item xs={12} md={6} lg={6} xl={6}>
-              {/* <img
-                src="../../../public/images/syrup.png"
-                alt="SYRUP POOL icon"
-                width={410}
-                height={191}
-              /> */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <img src={cntMascot} alt="Cryption Netwrok" width="250px" />
-              </div>
-            </Grid>
+      <Container>
+        <Grid container spacing={3} alignItems="center">
+          <Grid item xs={12} md={6} lg={6} xl={6}>
+            <CNHeading>Pools</CNHeading>
           </Grid>
-        </Container>
-      </Hero>
+          <Grid item xs={12} md={6} lg={6} xl={6}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <img src={cntMascot} alt="Cryption Netwrok" width="250px" />
+            </div>
+          </Grid>
+        </Grid>
+      </Container>
       <Container maxWidth="lg">
         <PoolTabButtons
           stackedOnly={stakedOnly}
@@ -204,49 +172,12 @@ const Farm: React.FC = () => {
   );
 };
 
-const Hero = styled.div`
-  align-items: center;
-  background: #383357;
-  padding: 30px 0px;
-  color: ${({ theme }) => theme.colors.primary};
-  margin: 20px;
-  border-radius: 10px;
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-    font-size: 16px;
-    li {
-      margin-bottom: 4px;
-    }
-  }
-  img {
-    height: auto;
-    max-width: 100%;
-  }
-  @media (min-width: 576px) {
-    max-width: none;
-  }
-`;
-const HeadingTex = styled.div`
-  font-size: 23px;
+const CNHeading = styled.div`
+  font-size: 45px;
   font-weight: bold;
-  text-align: left;
+  text-align: center;
   color: white;
   margin-bottom: 20px;
-`;
-
-const DescriptionTextLi = styled.li`
-  font-size: 17px;
-  font-weight: normal;
-  text-align: left;
-  margin-bottom: 10px !important;
-  color: white;
-`;
-
-const StyledOl = styled.ol`
-  list-style-position: outside;
-  padding-left: 16px;
 `;
 
 export default Farm;
