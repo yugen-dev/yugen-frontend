@@ -13,7 +13,7 @@ import {
   ETHER,
   Percent,
   WETH,
-} from "@pancakeswap-libs/sdk";
+} from "@cryption-network/polydex-sdk";
 import { Button, Flex, Text, Card } from "cryption-uikit";
 import { AbiItem } from "web3-utils";
 import { ArrowDown, Plus } from "react-feather";

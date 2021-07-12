@@ -5,7 +5,7 @@ import {
   Pair,
   Percent,
   TokenAmount,
-} from "@pancakeswap-libs/sdk";
+} from "@cryption-network/polydex-sdk";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { usePair } from "../../data/Reserves";

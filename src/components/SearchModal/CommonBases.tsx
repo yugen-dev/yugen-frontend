@@ -6,7 +6,7 @@ import {
   currencyEquals,
   ETHER,
   Token,
-} from "@pancakeswap-libs/sdk";
+} from "@cryption-network/polydex-sdk";
 import styled from "styled-components";
 
 import { SUGGESTED_BASES } from "../../constants";

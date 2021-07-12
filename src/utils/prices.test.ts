@@ -7,7 +7,7 @@ import {
   TokenAmount,
   Trade,
   TradeType,
-} from "@pancakeswap-libs/sdk";
+} from "@cryption-network/polydex-sdk";
 import { computeTradePriceBreakdown } from "./prices";
 
 describe("prices", () => {

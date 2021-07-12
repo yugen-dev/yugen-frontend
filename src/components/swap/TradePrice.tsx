@@ -1,6 +1,6 @@
 /* eslint-disable react/require-default-props */
 import React from "react";
-import { Price } from "@pancakeswap-libs/sdk";
+import { Price } from "@cryption-network/polydex-sdk";
 import { SyncAltIcon, Text } from "cryption-uikit";
 import { StyledBalanceMaxMini } from "./styleds";
 

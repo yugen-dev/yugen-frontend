@@ -11,7 +11,6 @@
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
     "format:check": "prettier --check --loglevel error 'src/**/*.{js,jsx,ts,tsx}'",
     "format:write": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'",
-    "postinstall": "rm -rf ./node_modules/@pancakeswap-libs/sdk; cp -r ./dist  ./node_modules/@pancakeswap-libs/sdk",
     "generate:config": "ts-node --compiler-options '{\"module\":\"commonjs\"}' scripts/generateConfig"
   },
   "browserslist": {
@@ -36,7 +35,8 @@
     "@ethersproject/experimental": "^5.0.1",
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
-    "@pancakeswap-libs/sdk": "^1.0.1",
+    "@pancakeswap-libs/pancake-swap-core": "^0.1.0",
+    "@cryption-network/polydex-sdk": "^1.0.1",
     "@pancakeswap-libs/uikit": "^0.14.1",
     "@popperjs/core": "^2.4.4",
     "@reach/dialog": "^0.10.3",
