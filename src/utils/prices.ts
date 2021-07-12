@@ -5,7 +5,7 @@ import {
   Percent,
   TokenAmount,
   Trade,
-} from "@pancakeswap-libs/sdk";
+} from "@cryption-network/polydex-sdk";
 import {
   BLOCKED_PRICE_IMPACT_NON_EXPERT,
   ALLOWED_PRICE_IMPACT_HIGH,

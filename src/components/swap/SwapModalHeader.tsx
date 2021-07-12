@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import React, { useContext, useMemo } from "react";
 import styled, { ThemeContext } from "styled-components";
-import { Trade, TradeType } from "@pancakeswap-libs/sdk";
+import { Trade, TradeType } from "@cryption-network/polydex-sdk";
 import { Button, Text } from "cryption-uikit";
 import { ArrowDown, AlertTriangle } from "react-feather";
 import { Field } from "../../state/swap/actions";

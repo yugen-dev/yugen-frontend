@@ -1,4 +1,10 @@
-import { ChainId, JSBI, Percent, Token, WETH } from "@pancakeswap-libs/sdk";
+import {
+  ChainId,
+  JSBI,
+  Percent,
+  Token,
+  WETH,
+} from "@cryption-network/polydex-sdk";
 import Web3 from "web3";
 import tokenABI from "./abis/token.json";
 import usdcABI from "./abis/usdc.json";

@@ -9,7 +9,7 @@ import {
   ETHER,
   TokenAmount,
   WETH,
-} from "@pancakeswap-libs/sdk";
+} from "@cryption-network/polydex-sdk";
 import { useProfile } from "state/hooks";
 import { Button, AddIcon, Card, Text as UIKitText } from "cryption-uikit";
 import { AbiItem } from "web3-utils";

@@ -6,7 +6,7 @@ import {
   Token,
   TokenAmount,
   WETH,
-} from "@pancakeswap-libs/sdk";
+} from "@cryption-network/polydex-sdk";
 
 export function wrappedCurrency(
   currency: Currency | undefined,

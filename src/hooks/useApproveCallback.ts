@@ -5,7 +5,7 @@ import {
   TokenAmount,
   CurrencyAmount,
   ETHER,
-} from "@pancakeswap-libs/sdk";
+} from "@cryption-network/polydex-sdk";
 import { splitSignature } from "@ethersproject/bytes";
 import { useProfile } from "state/hooks";
 import { useCallback, useMemo } from "react";

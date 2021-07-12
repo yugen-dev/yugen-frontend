@@ -1,4 +1,4 @@
-import { ChainId } from "@pancakeswap-libs/sdk";
+import { ChainId } from "@cryption-network/polydex-sdk";
 import { createStore, Store } from "redux";
 import {
   addTransaction,
