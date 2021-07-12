@@ -378,7 +378,11 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
                           fontSize="22px"
                           value={getBalanceNumber(
                             earnings.multipliedBy(
-                              new BigNumber(pool.multiRewardTokenPerBlock[i])
+                              new BigNumber(
+                                pool.multiRewardTokenPerBlock[i]
+                              ).div(
+                                new BigNumber(pool.multiRewardTokenPerBlock[0])
+                              )
                             ),
                             tokenDecimals
                           )}

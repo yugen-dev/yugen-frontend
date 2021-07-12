@@ -143,7 +143,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   const stakingTokenBalance = new BigNumber(userData?.stakingTokenBalance || 0);
   const stakedBalance = new BigNumber(userData?.stakedBalance || 0);
   const earnings = new BigNumber(userData?.pendingReward || 0);
-  console.log(earnings);
+
   const canHarvest =
     userData?.canHarvest === true ? userData?.canHarvest : false;
 
