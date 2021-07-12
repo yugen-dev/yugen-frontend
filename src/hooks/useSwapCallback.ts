@@ -8,7 +8,7 @@ import {
   SwapParameters,
   Trade,
   TradeType,
-} from "@pancakeswap-libs/sdk";
+} from "@cryption-network/polydex-sdk";
 import { useProfile } from "state/hooks";
 import { useMemo } from "react";
 import { AbiItem } from "web3-utils";

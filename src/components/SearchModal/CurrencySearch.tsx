@@ -1,4 +1,4 @@
-import { Currency, ETHER, Token } from "@pancakeswap-libs/sdk";
+import { Currency, ETHER, Token } from "@cryption-network/polydex-sdk";
 import React, {
   KeyboardEvent,
   RefObject,

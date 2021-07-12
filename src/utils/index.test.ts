@@ -6,7 +6,7 @@ import {
   ChainId,
   Percent,
   JSBI,
-} from "@pancakeswap-libs/sdk";
+} from "@cryption-network/polydex-sdk";
 
 import {
   getMaticExplorerLink,
@@ -41,11 +41,6 @@ describe("utils", () => {
     });
     it("ropsten", () => {
       expect(getMaticExplorerLink(3, "abc", "address")).toEqual(
-        "https://maticexplorer.com/address/abc"
-      );
-    });
-    it("enum", () => {
-      expect(getMaticExplorerLink(ChainId.RINKEBY, "abc", "address")).toEqual(
         "https://maticexplorer.com/address/abc"
       );
     });

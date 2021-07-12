@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/require-default-props */
 import React, { useState, useCallback } from "react";
-import { Currency, Pair } from "@pancakeswap-libs/sdk";
+import { Currency, Pair } from "@cryption-network/polydex-sdk";
 import Grid from "@material-ui/core/Grid";
 import { Button, ChevronDownIcon, Text, Flex } from "cryption-uikit";
 import styled from "styled-components";

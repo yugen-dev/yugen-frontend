@@ -1,7 +1,12 @@
 /* eslint-disable no-nested-ternary */
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { ArrowDown } from "react-feather";
-import { CurrencyAmount, JSBI, Token, Trade } from "@pancakeswap-libs/sdk";
+import {
+  CurrencyAmount,
+  JSBI,
+  Token,
+  Trade,
+} from "@cryption-network/polydex-sdk";
 import {
   ArrowDownIcon,
   Button,

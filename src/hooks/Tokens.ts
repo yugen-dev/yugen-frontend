@@ -1,7 +1,12 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-nested-ternary */
 import { parseBytes32String } from "@ethersproject/strings";
-import { Currency, ETHER, Token, currencyEquals } from "@pancakeswap-libs/sdk";
+import {
+  Currency,
+  ETHER,
+  Token,
+  currencyEquals,
+} from "@cryption-network/polydex-sdk";
 import { useMemo } from "react";
 import { useSelectedTokenList } from "../state/lists/hooks";
 import { NEVER_RELOAD, useSingleCallResult } from "../state/multicall/hooks";

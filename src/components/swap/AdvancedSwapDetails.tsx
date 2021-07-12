@@ -1,5 +1,5 @@
 import React from "react";
-import { Trade, TradeType } from "@pancakeswap-libs/sdk";
+import { Trade, TradeType } from "@cryption-network/polydex-sdk";
 import { Text } from "cryption-uikit";
 import { Field } from "../../state/swap/actions";
 import { useUserSlippageTolerance } from "../../state/user/hooks";
@@ -38,16 +38,18 @@ function TradeSummary({
         </Text>
         <Text fontSize="18px" color="#2082E9">
           {isExactIn
-            ? `${slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(4)} ${trade.outputAmount.currency.symbol
-            }` ?? "-"
-            : `${slippageAdjustedAmounts[Field.INPUT]?.toSignificant(4)} ${trade.inputAmount.currency.symbol
-            }` ?? "-"}
+            ? `${slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(4)} ${
+                trade.outputAmount.currency.symbol
+              }` ?? "-"
+            : `${slippageAdjustedAmounts[Field.INPUT]?.toSignificant(4)} ${
+                trade.inputAmount.currency.symbol
+              }` ?? "-"}
         </Text>
       </div>
       <div className="info-item">
         <Text fontSize="15px" color="#9d9fa8">
           Price Impact
-            <QuestionHelper text="The difference between the market price and estimated price due to trade size." />
+          <QuestionHelper text="The difference between the market price and estimated price due to trade size." />
         </Text>
         <Text fontSize="18px" color="#2082E9">
           <FormattedPriceImpact priceImpact={priceImpactWithoutFee} />
@@ -56,12 +58,13 @@ function TradeSummary({
       <div className="info-item">
         <Text fontSize="15px" color="#9d9fa8">
           Liquidity provider fee
-            <QuestionHelper text="For each trade a 0.3% fee is paid. 0.25% goes to liquidity providers and 0.05% goes to reward the stakers." />
+          <QuestionHelper text="For each trade a 0.3% fee is paid. 0.25% goes to liquidity providers and 0.05% goes to reward the stakers." />
         </Text>
         <Text fontSize="18px" color="#2082E9">
           {realizedLPFee
-            ? `${realizedLPFee.toSignificant(4)} ${trade.inputAmount.currency.symbol
-            }`
+            ? `${realizedLPFee.toSignificant(4)} ${
+                trade.inputAmount.currency.symbol
+              }`
             : "-"}
         </Text>
       </div>
