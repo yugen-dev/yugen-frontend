@@ -11,7 +11,6 @@
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
     "format:check": "prettier --check --loglevel error 'src/**/*.{js,jsx,ts,tsx}'",
     "format:write": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'",
-    "postinstall": "rm -rf ./node_modules/@cryption-network/polydex-sdk; cp -r ./dist  ./node_modules/@cryption-network/polydex-sdk",
     "generate:config": "ts-node --compiler-options '{\"module\":\"commonjs\"}' scripts/generateConfig"
   },
   "browserslist": {
@@ -31,7 +30,6 @@
     "@biconomy/mexa": "^2.0.10",
     "@binance-chain/bsc-connector": "^1.0.0",
     "@crowdin/crowdin-api-client": "^1.10.4",
-    "@cryption-network/polydex-sdk": "^1.0.1",
     "@ethersproject/abi": "^5.0.7",
     "@ethersproject/bytes": "^5.4.0",
     "@ethersproject/experimental": "^5.0.1",
