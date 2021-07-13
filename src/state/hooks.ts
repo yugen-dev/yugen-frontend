@@ -326,7 +326,7 @@ export const useBlock = (): Block => {
 export const useTotalValue = (): BigNumber => {
   const farms = useFarms();
   const pools = usePoolss();
-  console.log(pools);
+
   const bnbPrice = usePriceBnbBusd();
   const cakePrice = usePriceCakeBusd();
   let value = new BigNumber(0);
@@ -351,7 +351,6 @@ export const useTotalValue = (): BigNumber => {
       const balance = getBalanceNumber(pool.totalStaked, pool.tokenDecimals);
       const priceoftoken = UseGetApiPrice(pool.stakingTokenAddress);
       const val = priceoftoken * balance;
-      console.log(val);
       value = value.plus(val);
     }
   }
@@ -359,8 +358,7 @@ export const useTotalValue = (): BigNumber => {
   for (let i = 0; i < pools.length; i++) {
     const pool = pools[i];
     if (pool.poolCategory === PoolCategory.CORE) {
-      console.log(pool.lpTotalInQuoteToken);
-      value = value.plus(pool.lpTotalInQuoteToken);
+      value = value.plus(cakePrice.multipliedBy(pool.lpTotalInQuoteToken));
     }
   }
 
