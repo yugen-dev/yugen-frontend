@@ -4,9 +4,10 @@ import { kebabCase } from "lodash";
 import { useWeb3React } from "@web3-react/core";
 import { Toast, toastTypes } from "cryption-uikit";
 import { useSelector, useDispatch } from "react-redux";
-import { Team } from "config/constants/types";
+import { PoolCategory, QuoteToken, Team } from "config/constants/types";
 import { getWeb3NoAccount } from "utils/web3";
 import useRefresh from "hooks/useRefresh";
+import { getBalanceNumber } from "utils/formatBalance";
 import CoinGecko from "coingecko-api";
 import {
   fetchFarmsPublicDataAsync,
@@ -58,6 +59,11 @@ export const useFetchPublicData = () => {
 export const useFarms = (): Farm[] => {
   const farms = useSelector((state: State) => state.farms.data);
   return farms;
+};
+
+export const usePoolss = (): Pool[] => {
+  const pools = useSelector((state: State) => state.pools.data);
+  return pools;
 };
 
 export const useFarmFromPid = (pid): Farm => {
@@ -315,4 +321,48 @@ export const UseGetApiPrice = (token: string) => {
 // Block
 export const useBlock = (): Block => {
   return useSelector((state: State) => state.block);
+};
+
+export const useTotalValue = (): BigNumber => {
+  const farms = useFarms();
+  const pools = usePoolss();
+  console.log(pools);
+  const bnbPrice = usePriceBnbBusd();
+  const cakePrice = usePriceCakeBusd();
+  let value = new BigNumber(0);
+  for (let i = 0; i < farms.length; i++) {
+    const farm = farms[i];
+    if (farm.lpTotalInQuoteToken) {
+      let val;
+      if (farm.quoteTokenSymbol === QuoteToken.BNB) {
+        val = bnbPrice.times(farm.lpTotalInQuoteToken);
+      } else if (farm.quoteTokenSymbol === QuoteToken.CAKE) {
+        val = cakePrice.times(farm.lpTotalInQuoteToken);
+      } else {
+        val = farm.lpTotalInQuoteToken;
+      }
+      value = value.plus(val);
+    }
+  }
+
+  for (let i = 0; i < pools.length; i++) {
+    const pool = pools[i];
+    if (pool.poolCategory === PoolCategory.COMMUNITY) {
+      const balance = getBalanceNumber(pool.totalStaked, pool.tokenDecimals);
+      const priceoftoken = UseGetApiPrice(pool.stakingTokenAddress);
+      const val = priceoftoken * balance;
+      console.log(val);
+      value = value.plus(val);
+    }
+  }
+
+  for (let i = 0; i < pools.length; i++) {
+    const pool = pools[i];
+    if (pool.poolCategory === PoolCategory.CORE) {
+      console.log(pool.lpTotalInQuoteToken);
+      value = value.plus(pool.lpTotalInQuoteToken);
+    }
+  }
+
+  return value;
 };
