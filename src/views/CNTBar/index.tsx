@@ -29,7 +29,11 @@ import getCntPrice from "utils/getCntPrice";
 import useWeb3 from "hooks/useWeb3";
 import cntMascot from "images/CRYPTION NETWORK-Mascots-10.png";
 import { getBalanceNumber } from "utils/formatBalance";
-import { getCakeContract, getCNTStakerContract, getBep20Contract } from "utils/contractHelpers";
+import {
+  getCakeContract,
+  getCNTStakerContract,
+  getBep20Contract,
+} from "utils/contractHelpers";
 import { useCNTStaker, useCNTStakerGasless } from "hooks/useContract";
 import { registerToken } from "utils/wallet";
 
@@ -140,8 +144,8 @@ const StyledOl = styled.ol`
 const CNTBar = () => {
   // const tokenName = "CNT";
   const [valueOfCNTinUSD, setCNTVal] = useState(0);
-  const xCNTLogo = 'https://i.ibb.co/zfhRMxc/xCNT.png';
-  const CNTLogo = 'https://i.ibb.co/8D5r4Hp/CNT.png';
+  const xCNTLogo = "https://i.ibb.co/zfhRMxc/xCNT.png";
+  const CNTLogo = "https://i.ibb.co/8D5r4Hp/CNT.png";
   const [index, setIndex] = React.useState(0);
   const [tokenBalance, setTokenBalance] = React.useState(new BigNumber(0));
   const [xCNTBalance, setxCNTBalance] = React.useState(new BigNumber(0));
@@ -175,18 +179,18 @@ const CNTBar = () => {
     try {
       const contract = getBep20Contract(tokenAddress, web3);
       const res = await contract.methods.balanceOf(account).call();
-      return (new BigNumber(res));
+      return new BigNumber(res);
     } catch (error) {
       console.error({ error });
-      return (new BigNumber(0));
+      return new BigNumber(0);
     }
-  }
+  };
   const getTokenBalances = async () => {
     const tokenBalanceResp = await fetchBalances(contracts.cake[80001]);
     const xCNTBalanceResp = await fetchBalances(contracts.cntStaker[80001]);
     setTokenBalance(tokenBalanceResp);
-    setxCNTBalance(xCNTBalanceResp)
-  }
+    setxCNTBalance(xCNTBalanceResp);
+  };
 
   useEffect(() => {
     async function fetchTotalSupply() {
@@ -272,7 +276,7 @@ const CNTBar = () => {
       toastError("An error occurred while staking CNT");
     }
     setPendingDepositTx(false);
-  }
+  };
   const unstakeCnt = async () => {
     setPendingTx(true);
     try {
@@ -290,7 +294,7 @@ const CNTBar = () => {
       toastError("An error occurred while unstaking xCNT");
     }
     setPendingTx(false);
-  }
+  };
   const renderBottomButtons = () => {
     if (!account) {
       return <UnlockButton mt="8px" width="100%" />;
@@ -335,12 +339,12 @@ const CNTBar = () => {
             <StyledOl>
               <DescriptionTextLi>Stake CNT to earn more CNT.</DescriptionTextLi>
               <DescriptionTextLi>
-                You will earn a portion of the swaps fees based on the amount of
-                xCNT held relative the weight of the staking.
+                You will earn a portion of the swap fees based on the amount of
+                xCNT held relative to the weight of the staking.
               </DescriptionTextLi>
               <DescriptionTextLi>
-                xCNT can be minted by staking CNT To redeem CNT staked plus swap
-                fees convert xCNT back to CNT.
+                xCNT can be minted by staking CNT. To redeem the CNT staked plus
+                swap fees, convert xCNT back to CNT.
               </DescriptionTextLi>
             </StyledOl>
           </Grid>
@@ -478,9 +482,9 @@ const CNTBar = () => {
                     src="/images/CNT.png"
                     alt="CNT"
                     width="24px"
-                    style={{ marginRight: "10px", cursor: 'pointer' }}
+                    style={{ marginRight: "10px", cursor: "pointer" }}
                     onClick={() =>
-                      registerToken(contracts.cake[80001], 'CNT', 18, CNTLogo)
+                      registerToken(contracts.cake[80001], "CNT", 18, CNTLogo)
                     }
                   />
                   <Text
@@ -499,9 +503,14 @@ const CNTBar = () => {
                     alt="xCNT"
                     width="24px"
                     onClick={() =>
-                      registerToken(contracts.cntStaker[80001], 'xCNT', 18, xCNTLogo)
+                      registerToken(
+                        contracts.cntStaker[80001],
+                        "xCNT",
+                        18,
+                        xCNTLogo
+                      )
                     }
-                    style={{ marginRight: "10px", cursor: 'pointer' }}
+                    style={{ marginRight: "10px", cursor: "pointer" }}
                   />
                   <Text
                     bold

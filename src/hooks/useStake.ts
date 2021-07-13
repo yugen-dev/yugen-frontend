@@ -40,9 +40,8 @@ export const useStake = (pid: number) => {
         );
         dispatch(fetchFarmUserDataAsync(account));
       } else {
-        const txHash = await stake(masterChefContract, pid, amount, account);
+        await stake(masterChefContract, pid, amount, account);
         dispatch(fetchFarmUserDataAsync(account));
-        console.info(txHash);
       }
     },
     [
@@ -78,11 +77,13 @@ export const useSousStake = (sousId, isUsingBnb = false) => {
           sousId,
           library
         );
+        dispatch(updateUserStakedBalance(sousId, account));
+        dispatch(updateUserBalance(sousId, account));
       } else {
         await sousStake(sousChefContract, amount, decimals, account);
+        dispatch(updateUserStakedBalance(sousId, account));
+        dispatch(updateUserBalance(sousId, account));
       }
-      dispatch(updateUserStakedBalance(sousId, account));
-      dispatch(updateUserBalance(sousId, account));
     },
     [
       account,

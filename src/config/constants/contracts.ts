@@ -87,4 +87,9 @@ export default {
     97: "0x7b7b1583De1DeB32Ce6605F6deEbF24A0671c17C",
     80001: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
   },
+  polyDexMigrator: {
+    56: "",
+    97: "",
+    80001: "0xD6F94ED768DB33763C86DcAf29596D7B10861DCD",
+  },
 };

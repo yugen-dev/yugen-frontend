@@ -30,12 +30,13 @@ import history from "./routerHistory";
 const Home = lazy(() => import("./views/Home"));
 const Farms = lazy(() => import("./views/Farms"));
 const FarmsMultiRewards = lazy(() => import("./views/FarmsMultiRewards"));
-// const Migrate = lazy(() => import("./views/Migrate"));
+const Migrate = lazy(() => import("./views/Migrate"));
 const CNTBar = lazy(() => import("./views/CNTBar"));
 const Swap = lazy(() => import("./views/Swap"));
 const AddLiquidity = lazy(() => import("./views/AddLiquidity"));
 const Pool = lazy(() => import("./views/Pool"));
 const PoolFinder = lazy(() => import("./views/PoolFinder"));
+const MigrateFinder = lazy(() => import("./views/MigrationFinder"));
 const RemoveLiquidity = lazy(() => import("./views/RemoveLiquidity"));
 
 // const Lottery = lazy(() => import("./views/Lottery"));
@@ -84,14 +85,20 @@ const App: React.FC = () => {
               <Route path="/pools">
                 <Pools />
               </Route>
-              {/* <Route path="/migrate">
+              <Route path="/migrate">
                 <Migrate />
-              </Route> */}
+              </Route>
               <Route path="/cntbar">
                 <CNTBar />
               </Route>
               <Route exact strict path="/swap" component={Swap} />
               <Route exact strict path="/find" component={PoolFinder} />
+              <Route
+                exact
+                strict
+                path="/migratefind"
+                component={MigrateFinder}
+              />
               <Route exact strict path="/pool" component={Pool} />
               <Route exact path="/add" component={AddLiquidity} />
               <Route

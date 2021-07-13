@@ -39,7 +39,9 @@ const DropDownContainer = styled.div<{
   height: number;
 }>`
   cursor: pointer;
-  width: ${({ width }) => width}px;
+  width: 100%px;
+  margin-bottom: 25px;
+  margin-top: 10px;
   position: relative;
   background: ${({ theme }) => theme.colors.input};
   border-radius: 16px;
@@ -61,6 +63,7 @@ const DropDownContainer = styled.div<{
 
       ${DropDownListContainer} {
         height: auto;
+        width: 100%;
         transform: scaleY(1);
         opacity: 1;
         border: 1px solid ${({ theme }) => theme.colors.inputSecondary};

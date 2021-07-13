@@ -43,7 +43,6 @@ const Farm: React.FC = () => {
       ),
     [currentBlock, pools]
   );
-  // console.log(openPools);
   const stakedOnlyFinishedPools = useMemo(
     () =>
       finishedPools.filter(
@@ -53,7 +52,6 @@ const Farm: React.FC = () => {
       ),
     [finishedPools]
   );
-  // console.log(stakedOnlyFinishedPools);
   const stakedOnlyOpenPools = useMemo(
     () =>
       openPools.filter(
@@ -63,8 +61,6 @@ const Farm: React.FC = () => {
       ),
     [openPools]
   );
-
-  // const hasStakeInFinishedPools = stakedOnlyFinishedPools.length > 0;
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

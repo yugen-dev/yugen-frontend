@@ -31,7 +31,7 @@ const useUnstake = (pid: number) => {
   const handleUnstake = useCallback(
     async (amount: string) => {
       if (metaTranscation) {
-        const txHash = await GaslessUnStake(
+        await GaslessUnStake(
           masterChefGaslessContract,
           pid,
           amount,
@@ -39,13 +39,10 @@ const useUnstake = (pid: number) => {
           library
         );
         dispatch(fetchFarmUserDataAsync(account));
-        console.info(txHash);
       } else {
-        const txHash = await unstake(masterChefContract, pid, amount, account);
+        await unstake(masterChefContract, pid, amount, account);
         dispatch(fetchFarmUserDataAsync(account));
-        console.info(txHash);
         dispatch(fetchFarmUserDataAsync(account));
-        console.info(txHash);
       }
     },
     [
@@ -85,12 +82,15 @@ export const useSousUnstake = (sousId) => {
           sousId,
           library
         );
+        dispatch(updateUserStakedBalance(sousId, account));
+        dispatch(updateUserBalance(sousId, account));
+        dispatch(updateUserPendingReward(sousId, account));
       } else {
         await sousUnstake(sousChefContract, amount, decimals, account);
+        dispatch(updateUserStakedBalance(sousId, account));
+        dispatch(updateUserBalance(sousId, account));
+        dispatch(updateUserPendingReward(sousId, account));
       }
-      dispatch(updateUserStakedBalance(sousId, account));
-      dispatch(updateUserBalance(sousId, account));
-      dispatch(updateUserPendingReward(sousId, account));
     },
     [
       account,

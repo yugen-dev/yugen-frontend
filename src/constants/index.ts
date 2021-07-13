@@ -20,7 +20,6 @@ export const META_TXN_DISABLED = false;
 type ChainTokenList = {
   readonly [chainId in ChainId]: Token[];
 };
-
 export const DAI = new Token(
   ChainId.MAINNET,
   web3.utils.toChecksumAddress("0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3"),
@@ -113,6 +112,33 @@ export const PINNED_PAIRS: {
     [BUSD, USDT],
     [DAI, USDT],
   ],
+  [ChainId.MATICTESTNET]: [
+    [
+      new Token(
+        ChainId.MATICTESTNET,
+        "0x10829fcc9Fed94bBd7CA515150ADe091C8ee4649",
+        18,
+        "CNT",
+        "Cryption Network Token"
+      ),
+      new Token(
+        ChainId.MATICTESTNET,
+        "0x7Bf65345Dec7Cf276A877abd19dC0EC3e54c4e2b",
+        18,
+        "DCNT",
+        "Dummy Cryption Network Token"
+      ),
+    ],
+    [BUSD, USDT],
+    [DAI, USDT],
+  ],
+};
+
+export const PINNED_MIGRATION_PAIRS: {
+  readonly [chainId in ChainId]?: [string][];
+} = {
+  [ChainId.MAINNET]: [],
+  [ChainId.MATICTESTNET]: [],
 };
 
 export const META_TXN_SUPPORTED_TOKENS: any = {

@@ -147,3 +147,8 @@ export type Campaign = {
   description?: TranslatableText;
   badge?: string;
 };
+
+export interface MigrateConfig {
+  label: string;
+  value: string;
+}

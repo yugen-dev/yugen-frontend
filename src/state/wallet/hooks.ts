@@ -72,12 +72,10 @@ export function useTokenBalancesWithLoadingIndicator(
       ) ?? [],
     [tokens]
   );
-
   const validatedTokenAddresses = useMemo(
     () => validatedTokens.map((vt) => vt.address),
     [validatedTokens]
   );
-
   const balances = useMultipleContractSingleData(
     validatedTokenAddresses,
     ERC20_INTERFACE,
@@ -89,7 +87,6 @@ export function useTokenBalancesWithLoadingIndicator(
     () => balances.some((callState) => callState.loading),
     [balances]
   );
-
   return [
     useMemo(
       () =>
