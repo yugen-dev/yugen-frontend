@@ -21,10 +21,8 @@ const useAllEarnings = () => {
       }));
       const poolCalls = [];
       // eslint-disable-next-line array-callback-return
-      poolsConfig.map(function (pool) {
+      poolsConfig.map((pool) => {
         if (pool.multiReward.indexOf("CNT") > -1) {
-          console.log(pool.multiReward.indexOf("CNT"));
-          console.log("hello");
           poolCalls.push({
             address: getAddress(pool.contractAddress),
             name: "pendingReward",
@@ -34,8 +32,6 @@ const useAllEarnings = () => {
       });
 
       const res = await multicall(farmABI, calls);
-      console.log(calls);
-      console.log(poolCalls);
       const resPools = await multicall(sousChefABI, poolCalls);
       const response = res.concat(resPools);
       setBalance(response);

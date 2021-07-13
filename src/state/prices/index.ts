@@ -23,7 +23,6 @@ export const fetchPrices = createAsyncThunk<PriceApiResponse>(
       update_at: data.update_at,
       // @ts-ignore
       prices: Object.keys(data.data).reduce((accum, token) => {
-        console.log({ accum, token });
         return {
           ...accum,
           // @ts-ignore

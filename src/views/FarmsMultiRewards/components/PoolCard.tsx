@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import BigNumber from "bignumber.js";
 import styled from "styled-components";
 import InfoIcon from "@material-ui/icons/Info";
@@ -15,8 +15,7 @@ import { useWeb3React } from "@web3-react/core";
 import Countdown from "react-countdown";
 import UnlockButton from "components/UnlockButton";
 import Label from "components/Label";
-import { getBep20Contract, getContract } from "utils/contractHelpers";
-import { getAddress } from "utils/addressHelpers";
+import { getBep20Contract } from "utils/contractHelpers";
 import useI18n from "hooks/useI18n";
 import { useSousStake } from "hooks/useStake";
 import useWeb3 from "hooks/useWeb3";
@@ -25,7 +24,7 @@ import { getBalanceNumber } from "utils/formatBalance";
 import { getPoolApy } from "utils/apy";
 import { useSousHarvest } from "hooks/useHarvest";
 import Balance from "components/Balance";
-import { fetchPrice, UseGetApiPrice } from "state/hooks";
+import { UseGetApiPrice } from "state/hooks";
 import Tooltip from "components/Tooltip";
 import { useSousApprove } from "hooks/useApprove";
 import { QuoteToken, PoolCategory } from "config/constants/types";
@@ -45,7 +44,7 @@ interface HarvestProps {
 }
 
 const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
-  const [tokenprices, Settokenprices] = useState([null]);
+  // const [tokenprices, Settokenprices] = useState([null]);
   // const [StakingTokenPrice, setStakingTokenPrice] = useState(new BigNumber(1));
   const {
     sousId,
@@ -53,7 +52,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
     tokenName,
     tokenAddress,
     stakingTokenName,
-    contractAddress,
+    // contractAddress,
     stakingTokenDecimals,
     projectLink,
     harvest,

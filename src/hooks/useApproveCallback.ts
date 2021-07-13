@@ -179,7 +179,7 @@ export function useApproveCallback(
         // eslint-disable-next-line consistent-return
         return cloneObj.transactionHash;
       } catch (e) {
-        console.log(e);
+        console.error(e);
       }
     }
 
