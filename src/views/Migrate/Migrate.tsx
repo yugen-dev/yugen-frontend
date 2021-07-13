@@ -1,26 +1,21 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react/no-danger */
-import React, { useMemo, useEffect } from "react";
+import React, { useMemo } from "react";
 import styled from "styled-components";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import { Card, Text, AutoRenewIcon } from "cryption-uikit";
-import { Pair } from "@pancakeswap-libs/sdk";
-import { useTokenBalancesWithLoadingIndicator } from "state/wallet/hooks";
 import { LightCard } from "components/Card";
-import { useActiveWeb3React } from "hooks";
 import MigrationCard from "components/MigrationCard";
 import { StyledInternalLink } from "components/Shared";
 import UnlockButton from "components/UnlockButton";
 import { useWeb3React } from "@web3-react/core";
-import { usePairs } from "data/Reserves";
-import { toV2LiquidityToken, useMigrationPairs } from "state/user/hooks";
+import { useMigrationPairs } from "state/user/hooks";
 import migrate from "config/constants/migrate";
-import { each } from "lodash";
 
 const Migrate = () => {
   const { account } = useWeb3React();
-  const { chainId } = useActiveWeb3React();
+  // const { chainId } = useActiveWeb3React();
   const trackedTokenPairs = useMigrationPairs();
   const allMigrationPairs = useMemo(
     () => {
@@ -32,6 +27,7 @@ const Migrate = () => {
           pairAddresses = pairAddresses.filter((item, pos) => {
             return pairAddresses.indexOf(item) === pos;
           })
+          pairAddresses = pairAddresses.filter(item => item !== null);
           pairs[factoryAddrees] = {
             pairs: pairAddresses,
             exchangePlatform: checkIfPresent[0].label
@@ -40,70 +36,7 @@ const Migrate = () => {
       })
       return pairs;
     }, [trackedTokenPairs]);
-  // const tokenPairsWithLiquidityTokens = useMemo(
-  //   () =>
-  //     trackedTokenPairs.map((tokens) => ({
-  //       liquidityToken: toV2LiquidityToken(tokens),
-  //       tokens,
-  //     })),
-  //   [trackedTokenPairs]
-  // );
-  // const liquidityTokens = useMemo(
-  //   () => tokenPairsWithLiquidityTokens.map((tpwlt) => tpwlt.liquidityToken),
-  //   [tokenPairsWithLiquidityTokens]
-  // );
-  // const [v2PairsBalances, fetchingV2PairBalances] =
-  //   useTokenBalancesWithLoadingIndicator(account ?? undefined, liquidityTokens);
-  // fetch the reserves for all V2 pools in which the user has a balance
-  // const liquidityTokensWithBalances = useMemo(
-  //   () =>
-  //     tokenPairsWithLiquidityTokens.filter(async ({ liquidityToken }) => {
-  //       return v2PairsBalances[liquidityToken.address]?.greaterThan("0");
-  //     }),
-  //   [tokenPairsWithLiquidityTokens, v2PairsBalances]
-  // );
-  // const v2Pairs = usePairs(
-  //   liquidityTokensWithBalances.map(({ tokens }) => tokens)
-  // );
   const v2IsLoading = false;
-  // const v2IsLoading =
-  //   fetchingV2PairBalances ||
-  //   v2Pairs?.length < liquidityTokensWithBalances.length ||
-  //   v2Pairs?.some((V2Pair) => !V2Pair);
-  const allV2PairsWithLiquidity = [];
-  // const allV2PairsWithLiquidity = v2Pairs
-  //   .map(([, pair]) => pair)
-  //   .filter((v2Pair): v2Pair is Pair => Boolean(v2Pair));
-  const renderCard = () => {
-    migrate.map(eachFacory => {
-      console.log('each', eachFacory);
-      return (
-        <MigrationCard
-          pairAddress="0xE527Cf125826A3EB4a23b79D345FF61C68D8Ffae"
-          key="0xE527Cf125826A3EB4a23b79D345FF61C68D8Ffae"
-          exchangePlatform="Exchange1"
-        />
-      )
-    })
-    // migrate.map(eachFacory => {
-    //   return (
-    //     (<MigrationCard
-    //       pairAddress={allMigrationPairs[eachFacory.value].pairs[0]}
-    //       key={allMigrationPairs[eachFacory.value].pairs[0]}
-    //       exchangePlatform={allMigrationPairs[eachFacory.value].exchangePlatform}
-    //     />)
-    //   )
-    //   if (allMigrationPairs[eachFacory.value].pairs.length > 0) {
-    //     return allMigrationPairs[eachFacory.value].pairs.eachFactory(pairAddresss =>
-    //     (<MigrationCard
-    //       pairAddress={pairAddresss}
-    //       key={pairAddresss}
-    //       exchangePlatform={allMigrationPairs[eachFacory.value].exchangePlatform}
-    //     />))
-    //   }
-    //   return (<div />)
-    // })
-  }
   return (
     <Container maxWidth="lg">
       <MigrationContainer>
@@ -213,23 +146,6 @@ const Infodiv = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`;
-
-const ButtonCard = styled.div`
-  width: 100%;
-  padding: 14px;
-  border: 1px solid #686b7a;
-  color: white;
-  margin: 10px 0;
-  border-radius: 14px;
-  display: flex;
-  justify-content: space-between;
-  align-content: flex-start;
-
-  &:hover {
-    border: 1px solid #1a1b23;
-    box-shadow: 1px 1px 0 0 #9900ff, -1px -1px 0 0 #2082e9;
-  }
 `;
 
 const CNHeading = styled.div`

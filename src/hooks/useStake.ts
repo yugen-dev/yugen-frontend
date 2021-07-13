@@ -31,7 +31,7 @@ export const useStake = (pid: number) => {
   const handleStake = useCallback(
     async (amount: string) => {
       if (metaTranscation) {
-        const txHash = await GaslessStake(
+        await GaslessStake(
           masterChefGaslessContract,
           pid,
           amount,

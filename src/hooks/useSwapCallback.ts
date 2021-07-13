@@ -191,9 +191,9 @@ export function useSwapCallback(
                   gasEstimate,
                 };
               })
-              .catch((gasError) => {
+              .catch(() => {
                 return contract.callStatic[methodName](...args, options)
-                  .then((result) => {
+                  .then(() => {
                     return {
                       call,
                       error: new Error(

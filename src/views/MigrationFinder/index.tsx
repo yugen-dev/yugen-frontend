@@ -54,7 +54,7 @@ export default function PoolFinder() {
         token1.address,
         token2.address
       );
-      addPair(chainId, pairAddresses, factoryAddress);
+      addPair(chainId, factoryAddress, pairAddress );
       setPairAddresses(pairAddress);
       setValidPair(true);
       setPairLoading(false);

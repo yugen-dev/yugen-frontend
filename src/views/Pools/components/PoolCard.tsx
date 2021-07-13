@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 import BigNumber from "bignumber.js";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
 import {
   Button,
   IconButton,
@@ -20,7 +19,7 @@ import { getBep20Contract } from "utils/contractHelpers";
 import useI18n from "hooks/useI18n";
 import { useSousStake } from "hooks/useStake";
 import useWeb3 from "hooks/useWeb3";
-import { fetchPrice, useProfile } from "state/hooks";
+import { fetchPrice } from "state/hooks";
 import { useSousUnstake } from "hooks/useUnstake";
 import { getBalanceNumber } from "utils/formatBalance";
 import { getPoolApy } from "utils/apy";
@@ -51,7 +50,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     tokenAddress,
     stakingTokenName,
     // stakingTokenAddress,
-    contractAddress,
+    // contractAddress,
     stakingTokenDecimals,
     projectLink,
     harvest,

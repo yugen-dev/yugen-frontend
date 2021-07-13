@@ -27,7 +27,7 @@ interface ModalProps {
 
 export default function MigrationCard({ pairAddress, exchangePlatform }: ModalProps) {
   const pairContract = usePairContract(pairAddress, true);
-  // const [totalPoolTokens, setTotalPoolTokens] = useState(null);
+  const [totalPoolTokens, setTotalPoolTokens] = useState(null);
   const [token0Deposited, setToken0Deposited] = useState(null);
   const [token1Deposited, setToken1Deposited] = useState(null);
   const [token0Address, setToken0Address] = useState(null);
@@ -39,14 +39,17 @@ export default function MigrationCard({ pairAddress, exchangePlatform }: ModalPr
   const { toastSuccess } = useToast();
   const [approveLoading, setApproveLoading] = useState(false);
   const [migrateLoading, setMigrateLoading] = useState(false);
-  const [lpBal, setLpbal] = useState(0);
   const [balance, setBal] = useState();
   const [allowence, setallowence] = useState(null);
   const web3 = useWeb3();
   const { account } = useWeb3React();
   const polydexMigrator = usePolydexMigratorContract();
   const polydexMigratorAddress = getPolydexMigratorAddress();
-  const poolTokenPercentage = 0.21;
+  let poolTokenPercentage = 0.0;
+  if (totalPoolTokens && balance) {
+    poolTokenPercentage = (parseFloat(balance) * 100) / parseFloat(totalPoolTokens);
+  }
+
   const onMigrateClicked = async () => {
     setMigrateLoading(true);
     const now = new Date();
@@ -79,41 +82,50 @@ export default function MigrationCard({ pairAddress, exchangePlatform }: ModalPr
         ethers.constants.MaxUint256
       );
       if (txHash) {
+        const checkAllowence = await pairContract.allowance(
+          account,
+          polydexMigratorAddress
+        );
         toastSuccess("Success", "Account successfully approved");
         setApproveLoading(false);
-        getBalance();
+        setallowence(parseFloat(checkAllowence.toString()));
       }
     } catch (error) {
       setApproveLoading(false);
     }
   };
   const getBalance = async () => {
-    let lpBalance = await pairContract.balanceOf(account);
-    const checkAllowence = await pairContract.allowance(
-      account,
-      polydexMigratorAddress
-    );
-    const getTotalSupply = await pairContract.totalSupply();
-    const getReserves = await pairContract.getReserves();
-    const token0Bal = (parseFloat(lpBalance.toString()) / parseFloat(getTotalSupply.toString())) * parseFloat(getReserves.reserve0.toString());
-    const token1Bal = (parseFloat(lpBalance.toString()) / parseFloat(getTotalSupply.toString())) * parseFloat(getReserves.reserve1.toString());
-    const getToken0Address = await pairContract.token0();
-    const getToken1Address = await pairContract.token1();
-    const token0contract = getBep20Contract(getToken0Address, web3);
-    const token1contract = getBep20Contract(getToken1Address, web3);
-    const gettoken0Symbol = await token0contract.methods.symbol().call();
-    const gettoken1Symbol = await token1contract.methods.symbol().call();
-    lpBalance = web3.utils.fromWei(lpBalance.toString(), "ether");
-    lpBalance = parseFloat(lpBalance).toFixed(3).toString();
-    setToken0Symbol(gettoken0Symbol)
-    setToken1Symbol(gettoken1Symbol)
-    setToken0Address(getToken0Address);
-    setToken1Address(getToken1Address);
-    setallowence(parseFloat(checkAllowence.toString()));
-    setToken0Deposited(token0Bal.toFixed(3));
-    setToken1Deposited(token1Bal.toFixed(3));
-    setBal(lpBalance.toString());
-    // setTotalPoolTokens(getTotalSupply.toString());
+    if (pairContract) {
+      let lpBalance = await pairContract.balanceOf(account);
+      const checkAllowence = await pairContract.allowance(
+        account,
+        polydexMigratorAddress
+      );
+      const getTotalSupply = await pairContract.totalSupply();
+      const getReserves = await pairContract.getReserves();
+      const getToken0Address = await pairContract.token0();
+      const getToken1Address = await pairContract.token1();
+      const token0contract = getBep20Contract(getToken0Address, web3);
+      const token1contract = getBep20Contract(getToken1Address, web3);
+      const gettoken0Symbol = await token0contract.methods.symbol().call();
+      const gettoken1Symbol = await token1contract.methods.symbol().call();
+      lpBalance = web3.utils.fromWei(lpBalance.toString(), "ether");
+      const totalSupply = web3.utils.fromWei(getTotalSupply.toString(), "ether");
+      const weiReserve1 = web3.utils.fromWei(getReserves.reserve0.toString(), "ether");
+      const weiReserve2 = web3.utils.fromWei(getReserves.reserve1.toString(), "ether");
+      const token0Bal = (parseFloat(lpBalance.toString()) / parseFloat(totalSupply.toString())) * parseFloat(weiReserve1);
+      const token1Bal = (parseFloat(lpBalance.toString()) / parseFloat(totalSupply.toString())) * parseFloat(weiReserve2.toString());
+      lpBalance = parseFloat(lpBalance).toFixed(3).toString();
+      setToken0Symbol(gettoken0Symbol)
+      setToken1Symbol(gettoken1Symbol)
+      setToken0Address(getToken0Address);
+      setToken1Address(getToken1Address);
+      setallowence(parseFloat(checkAllowence.toString()));
+      setToken0Deposited(token0Bal.toFixed(3));
+      setToken1Deposited(token1Bal.toFixed(3));
+      setBal(lpBalance.toString());
+      setTotalPoolTokens(totalSupply.toString());
+    }
   };
   useEffect(() => {
     if (account) getBalance();
@@ -180,7 +192,7 @@ export default function MigrationCard({ pairAddress, exchangePlatform }: ModalPr
                   Your LP Balance:
                 </Text>
                 <Text fontSize="18px" bold>
-                  {lpBal}
+                  {balance}
                 </Text>
               </InfoDiv>
               <InfoDiv>
@@ -188,9 +200,7 @@ export default function MigrationCard({ pairAddress, exchangePlatform }: ModalPr
                   Your LP share:
                 </Text>
                 <Text fontSize="18px" bold>
-                  {poolTokenPercentage
-                    ? `${poolTokenPercentage.toFixed(2)}%`
-                    : "-"}
+                  {`${poolTokenPercentage.toFixed(2)}%`}
                 </Text>
               </InfoDiv>
             </InfoContainer>

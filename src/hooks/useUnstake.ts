@@ -31,7 +31,7 @@ const useUnstake = (pid: number) => {
   const handleUnstake = useCallback(
     async (amount: string) => {
       if (metaTranscation) {
-        const txHash = await GaslessUnStake(
+        await GaslessUnStake(
           masterChefGaslessContract,
           pid,
           amount,

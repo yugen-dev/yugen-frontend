@@ -1,25 +1,15 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect, useMemo } from "react";
-import { JSBI, Pair, Percent } from "@pancakeswap-libs/sdk";
+import React, { useState, useEffect } from "react";
 import { Button, Card as ToolKitCard, Text } from "cryption-uikit";
 import { darken } from "polished";
 import { ChevronDown, ChevronUp } from "react-feather";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { abi as IUniswapV2PairABI } from "@uniswap/v2-core/build/IUniswapV2Pair.json";
-import { Interface } from "@ethersproject/abi";
-import { useMultipleContractSingleData } from "state/multicall/hooks";
 import {
-  usePolydexMigratorContract,
   usePairContract,
-  useFactoryContract,
 } from "hooks/useContract";
-import { getBalanceNumber } from "utils/formatBalance";
-import { getLibrary } from "utils/web3React";
-import { useTotalSupply } from "../../data/TotalSupply";
 
 import { useActiveWeb3React } from "../../hooks";
-import { useTokenBalance } from "../../state/wallet/hooks";
 import { currencyId } from "../../utils/currencyId";
 import { unwrappedToken } from "../../utils/wrappedCurrency";
 import Card from "../Card";
@@ -68,7 +58,7 @@ export function MinimalPositionCard({
   const currency1 = showUnwrapped ? token1 : unwrappedToken(token1);
   const pairContract = usePairContract(pairAddress);
   const [showMore, setShowMore] = useState(false);
-  const PAIR_INTERFACE = new Interface(IUniswapV2PairABI);
+  // const PAIR_INTERFACE = new Interface(IUniswapV2PairABI);
   // const [token0Deposited, token1Deposited] =
   //   !!pair &&
   //     !!totalPoolTokens &&
@@ -81,34 +71,23 @@ export function MinimalPositionCard({
   //     ]
   //     : [undefined, undefined]
   const getBalance = async () => {
-    const getLiquidity = await pairContract.balanceOf(account);
-    const getTotalSupply = await pairContract.totalSupply();
-    const getReserves = await pairContract.getReserves();
-    const token1Bal = (parseFloat(getLiquidity.toString()) / parseFloat(getTotalSupply.toString())) * parseFloat(getReserves.reserve0.toString());
-    const token2Bal = (parseFloat(getLiquidity.toString()) / parseFloat(getTotalSupply.toString())) * parseFloat(getReserves.reserve1.toString());
-    setToken0Deposited(token1Bal);
-    setToken1Deposited(token2Bal);
-    setUserPoolBalance(getLiquidity);
-    setTotalPoolTokens(getTotalSupply);
+    if (pairContract) {
+      const getLiquidity = await pairContract.balanceOf(account);
+      const getTotalSupply = await pairContract.totalSupply();
+      const getReserves = await pairContract.getReserves();
+      const token1Bal = (parseFloat(getLiquidity.toString()) / parseFloat(getTotalSupply.toString())) * parseFloat(getReserves.reserve0.toString());
+      const token2Bal = (parseFloat(getLiquidity.toString()) / parseFloat(getTotalSupply.toString())) * parseFloat(getReserves.reserve1.toString());
+      setToken0Deposited(token1Bal);
+      setToken1Deposited(token2Bal);
+      setUserPoolBalance(getLiquidity);
+      setTotalPoolTokens(getTotalSupply);
+    }
   };
   useEffect(() => {
     getBalance();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account, pairAddress]);
 
-  // const results = useMultipleContractSingleData(
-  //   [pairAddress],
-  //   PAIR_INTERFACE,
-  //   "getReserves"
-  // );
-
-  // useMemo(() => {
-  //   // eslint-disable-next-line array-callback-return
-  //   results.map((result, i) => {
-  //     console.log({ result }, { i });
-  //   });
-  // }, [results]);
-  console.log({ token0Deposited }, { token1Deposited });
   return (
     <>
       {userPoolBalance && (
@@ -171,7 +150,7 @@ export function MinimalPositionCard({
                 </Text>
                 <RowFixed>
                   <Text ml="6px" fontSize="18px" color="#2082E9">
-                    {parseFloat(userPoolBalance.toString()) * 100 / parseFloat(totalPoolTokens.toString())}
+                    {userPoolBalance && totalPoolTokens ? parseFloat(userPoolBalance.toString()) * 100 / parseFloat(totalPoolTokens.toString()) : "-"}
                   </Text>
                 </RowFixed>
               </FixedHeightRow>
@@ -186,7 +165,7 @@ export function MinimalPositionCard({
 export default function FullPositionCard({
   token0,
   token1,
-  showUnwrapped = false,
+  // showUnwrapped = false,
   pairAddress,
 }: PositionCardProps) {
   const { account } = useActiveWeb3React();

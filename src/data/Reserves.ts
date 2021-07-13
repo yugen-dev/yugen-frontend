@@ -2,14 +2,11 @@ import { TokenAmount, Pair, Currency } from "@pancakeswap-libs/sdk";
 import { useMemo } from "react";
 import { abi as IUniswapV2PairABI } from "@uniswap/v2-core/build/IUniswapV2Pair.json";
 import { Interface } from "@ethersproject/abi";
-import { useFactoryContract } from "hooks/useContract";
-import FactoryAbi from "config/abi/FactoryAbi.json";
 import { useActiveWeb3React } from "../hooks";
 import { useMultipleContractSingleData } from "../state/multicall/hooks";
 import { wrappedCurrency } from "../utils/wrappedCurrency";
 
 const PAIR_INTERFACE = new Interface(IUniswapV2PairABI);
-const NEW_PAIR_INTERFACE = new Interface(FactoryAbi);
 
 export enum PairState {
   LOADING,
@@ -81,11 +78,10 @@ export function usePair(
 }
 
 export function useMigrationPairs(
-  currencies: [Currency | undefined, Currency | undefined][],
-  pairAddresses
+  currencies: [Currency | undefined, Currency | undefined][]
 ): [PairState, Pair | null][] {
   const { chainId } = useActiveWeb3React();
-  console.log({ pairAddresses });
+
   const tokens = useMemo(
     () =>
       currencies.map(([currencyA, currencyB]) => [
@@ -141,7 +137,6 @@ export function useMigrationPairs(
   //   );
   //   console.log({ results2 });
   // }
-  console.log({ results });
   return useMemo(() => {
     return results.map((result, i) => {
       const { result: reserves, loading } = result;
@@ -169,7 +164,6 @@ export function useMigrationPairs(
 export function useMigrationPair(
   tokenA?: Currency,
   tokenB?: Currency,
-  pairAddresses?
 ): [PairState, Pair | null] {
-  return useMigrationPairs([[tokenA, tokenB]], pairAddresses)[0];
+  return useMigrationPairs([[tokenA, tokenB]])[0];
 }

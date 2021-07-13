@@ -217,7 +217,6 @@ export function usePairAdder(): (pair: Pair) => void {
 
 export function useMigrationpairAdder(): (chainId, factoryAddress, pairAddress) => void {
   const dispatch = useDispatch<AppDispatch>();
-
   return useCallback(
     (chainId, factoryAddress, pairAddress) => {
       dispatch(addMigrationPair({ chainId, factoryAddress, pairAddress }));
@@ -340,7 +339,6 @@ export function useMigrationPairs() {
     () => (chainId ? PINNED_MIGRATION_PAIRS[chainId] ?? [] : []),
     [chainId]
   );
-  console.log({ pinnedPairs }, { chainId });
   // pairs for every token against every base
   // const generatedPairs: [Token, Token][] = useMemo(
   //   () =>
@@ -382,9 +380,7 @@ export function useMigrationPairs() {
         }
       }
     });
-    console.log({ checkThis });
     return checkThis;
   }, [chainId, savedMigrationPairs, pinnedPairs]);
-
   return userPairs
 }
