@@ -124,11 +124,11 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     );
 
     if (currentTokenApy && pool.multiRewardTokenPerBlock.length === i + 1) {
-      apyString += `${currentTokenApy.toFixed(2)}% ${pool.multiReward[i]}`;
+      apyString += `${currentTokenApy.toFixed(2)}% ${pool.multiReward[i]}\n`;
     } else if (currentTokenApy) {
-      apyString += `${currentTokenApy.toFixed(2)}% ${pool.multiReward[i]} + `;
+      apyString += `${currentTokenApy.toFixed(2)}% ${pool.multiReward[i]} +\n`;
     } else {
-      apyString += `100% ${pool.multiReward[i]} `;
+      apyString += `100% ${pool.multiReward[i]}\n`;
     }
 
     apy += currentTokenApy;
@@ -268,7 +268,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
             <StyledDetails>
               <APRText onMouseEnter={open} onMouseLeave={close}>
                 APR :
-                <Tooltip show={show} text={apyString}>
+                <Tooltip show={show} text={apyString} forceToNewLine>
                   <InfoIcon
                     style={{
                       color: "#86878f",
