@@ -4,7 +4,6 @@ import { Card, Skeleton } from "cryption-uikit";
 import useI18n from "hooks/useI18n";
 import { useTotalValue } from "state/hooks";
 import CardValue from "./CardValue";
-// import { useGetStats } from "hooks/api";
 
 const StyledTotalValueLockedCard = styled(Card)`
   height: 100%;
@@ -20,16 +19,9 @@ const StyledTotalValueLockedCard = styled(Card)`
 
 const TotalValueLockedCard = () => {
   const TranslateString = useI18n();
-  // const data = useGetStats();
   const data = useTotalValue();
   const tvl = data.toNumber();
   console.log(tvl);
-  // const tvl = data
-  //   ? data.total_value_locked_all.toLocaleString("en-US", {
-  //       maximumFractionDigits: 0,
-  //     })
-  //   : null;
-  // const tvl = "128,424,321";
 
   return (
     <StyledTotalValueLockedCard>
