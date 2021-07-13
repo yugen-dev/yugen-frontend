@@ -7,7 +7,7 @@ import { fetchFarmUserDataAsync, updateUserAllowance } from "state/actions";
 import { approve } from "utils/callHelpers";
 import { useProfile } from "state/hooks";
 import { splitSignature } from "@ethersproject/bytes";
-import { getAddress, getFarmAddress } from "utils/addressHelpers";
+import { getFarmAddress } from "utils/addressHelpers";
 import { getBiconomyWeb3 } from "utils/biconomyweb3";
 import {
   useMasterchef,

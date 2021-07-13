@@ -55,7 +55,7 @@ const Home: React.FC = () => {
       setciculatingSupply(parseFloat(data.toFixed(3)));
     } catch {
       // eslint-disable-next-line no-console
-      console.log("Failed to get Circulating supply");
+      console.error("Failed to get Circulating supply");
     }
   };
   useEffect(() => {

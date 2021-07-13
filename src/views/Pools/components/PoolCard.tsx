@@ -1,7 +1,6 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import BigNumber from "bignumber.js";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
 import {
   Button,
   IconButton,
@@ -20,7 +19,7 @@ import { getBep20Contract } from "utils/contractHelpers";
 import useI18n from "hooks/useI18n";
 import { useSousStake } from "hooks/useStake";
 import useWeb3 from "hooks/useWeb3";
-import { fetchPrice, UseGetApiPrice } from "state/hooks";
+import { UseGetApiPrice } from "state/hooks";
 import { useSousUnstake } from "hooks/useUnstake";
 import { getBalanceNumber } from "utils/formatBalance";
 import { getPoolApy } from "utils/apy";
@@ -42,7 +41,7 @@ interface HarvestProps {
 }
 
 const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
-  const [tokenprices, Settokenprices] = useState([null]);
+  // const [tokenprices, Settokenprices] = useState([null]);
   // const [StakingTokenPrice, setStakingTokenPrice] = useState(new BigNumber(1));
   const {
     sousId,
@@ -50,8 +49,8 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     tokenName,
     tokenAddress,
     stakingTokenName,
-    stakingTokenAddress,
-    contractAddress,
+    // stakingTokenAddress,
+    // contractAddress,
     stakingTokenDecimals,
     projectLink,
     harvest,
@@ -168,7 +167,6 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   const isOldSyrup = stakingTokenName === QuoteToken.SYRUP;
   const accountHasStakedBalance = stakedBalance?.toNumber() > 0;
   const needsApproval = !accountHasStakedBalance && !allowance.toNumber();
-
   const isCardActive = isFinished && accountHasStakedBalance;
   const convertedLimit = new BigNumber(stakingLimit).multipliedBy(
     new BigNumber(10).pow(tokenDecimals)

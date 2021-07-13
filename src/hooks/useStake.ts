@@ -31,7 +31,7 @@ export const useStake = (pid: number) => {
   const handleStake = useCallback(
     async (amount: string) => {
       if (metaTranscation) {
-        const txHash = await GaslessStake(
+        await GaslessStake(
           masterChefGaslessContract,
           pid,
           amount,
@@ -40,7 +40,7 @@ export const useStake = (pid: number) => {
         );
         dispatch(fetchFarmUserDataAsync(account));
       } else {
-        const txHash = await stake(masterChefContract, pid, amount, account);
+        await stake(masterChefContract, pid, amount, account);
         dispatch(fetchFarmUserDataAsync(account));
       }
     },

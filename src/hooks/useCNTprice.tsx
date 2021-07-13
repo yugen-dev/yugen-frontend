@@ -12,7 +12,7 @@ const useHarvest = () => {
       setValueOfCNTinUSD(() => value);
     } catch {
       // eslint-disable-next-line no-console
-      console.log("Failed to get CNT price in USD");
+      console.error("Failed to get CNT price in USD");
     }
   };
 

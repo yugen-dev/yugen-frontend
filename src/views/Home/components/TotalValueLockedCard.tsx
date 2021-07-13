@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Card, Skeleton } from "cryption-uikit";
 import useI18n from "hooks/useI18n";
+import { useTotalValue } from "state/hooks";
 // import { useGetStats } from "hooks/api";
 
 const StyledTotalValueLockedCard = styled(Card)`
@@ -19,13 +20,13 @@ const StyledTotalValueLockedCard = styled(Card)`
 const TotalValueLockedCard = () => {
   const TranslateString = useI18n();
   // const data = useGetStats();
-  const data = true;
+  const data = useTotalValue();
   // const tvl = data
   //   ? data.total_value_locked_all.toLocaleString("en-US", {
   //       maximumFractionDigits: 0,
   //     })
   //   : null;
-  const tvl = '128,424,321'
+  // const tvl = "128,424,321";
 
   return (
     <StyledTotalValueLockedCard>
@@ -35,16 +36,14 @@ const TotalValueLockedCard = () => {
         </CNHeading>
         {data ? (
           <>
-            <CNValueHeading>{`$${tvl}`}</CNValueHeading>
+            <CNValueHeading>{`$${data.toNumber().toFixed(0)}`}</CNValueHeading>
           </>
         ) : (
           <>
             <Skeleton height={66} />
           </>
         )}
-        <CNText>
-          {TranslateString(764, "Across all LPs and Pools")}
-        </CNText>
+        <CNText>{TranslateString(764, "Across all LPs and Pools")}</CNText>
       </CNCardBody>
     </StyledTotalValueLockedCard>
   );

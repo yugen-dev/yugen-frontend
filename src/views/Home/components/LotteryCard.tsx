@@ -2,11 +2,6 @@
 import React from "react";
 import MascotImage from "../../../images/cntmascot.png";
 
-
-
-
-
-
 const FarmedStakingCard = () => {
 
   return (

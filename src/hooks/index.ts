@@ -16,6 +16,11 @@ export function useActiveWeb3React(): Web3ReactContextInterface<Web3Provider> & 
 } {
   const context = useWeb3ReactCore<Web3Provider>();
   const contextNetwork = useWeb3ReactCore<Web3Provider>(NetworkContextName);
+  // if (!context.active && !contextNetwork.active) {
+  //   // eslint-disable-next-line react-hooks/rules-of-hooks
+  //   const web3Context = useWeb3ReactCore("web3");
+  //   return web3Context;
+  // }
   return context.active ? context : contextNetwork;
 }
 

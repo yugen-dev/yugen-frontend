@@ -14,6 +14,7 @@ import useTheme from "hooks/useTheme";
 import useAuth from "hooks/useAuth";
 import useCNTprice from "hooks/useCNTprice";
 import { toggleMetaTranscationState } from "state/actions";
+import { ETHERJS_PATHS } from "config";
 import { useProfile } from "state/hooks";
 // import LogoIcon from "images/PolyDEX White Text (2).svg";
 import config, { socials } from "./config";
@@ -24,7 +25,7 @@ const Menu = (props) => {
   const { valueOfCNTinUSD } = useCNTprice();
   let accountId = "";
   if (
-    ["/swap", "/find", "/pool", "/add"].includes(
+    ETHERJS_PATHS.includes(
       `/${location.pathname.split("/")[1]}`
     )
   ) {
@@ -43,7 +44,7 @@ const Menu = (props) => {
       // TODO: Figure out an elegant way to listen for when the BinanceChain object is ready
       if (connectorId && connectorId) {
         if (
-          ["/swap", "/find", "/pool", "/add"].includes(
+          ETHERJS_PATHS.includes(
             `/${location.pathname.split("/")[1]}`
           )
         ) {
@@ -91,14 +92,14 @@ const Menu = (props) => {
       }
       toggleTranscationState={handleMetaToggle}
       login={
-        ["/swap", "/find", "/pool", "/add"].includes(
+        ETHERJS_PATHS.includes(
           `/${location.pathname.split("/")[1]}`
         )
           ? loginEther
           : login
       }
       logout={
-        ["/swap", "/find", "/pool", "/add"].includes(
+        ETHERJS_PATHS.includes(
           `/${location.pathname.split("/")[1]}`
         )
           ? logoutEther

@@ -43,5 +43,16 @@ export const removeSerializedPair = createAction<{
   tokenAAddress: string;
   tokenBAddress: string;
 }>("user/removeSerializedPair");
+
+export const addMigrationPair = createAction<{
+  chainId: number;
+  pairAddress: string;
+  factoryAddress: string;
+}>("user/addMigrationPair");
+export const removeMigrationPair = createAction<{
+  chainId: number;
+  pairAddress: string;
+  factoryAddress: string;
+}>("user/removeMigrationPair");
 export const muteAudio = createAction<void>("user/muteAudio");
 export const unmuteAudio = createAction<void>("user/unmuteAudio");

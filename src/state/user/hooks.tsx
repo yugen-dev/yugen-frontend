@@ -3,7 +3,7 @@ import { ChainId, Pair, Token } from "@cryption-network/polydex-sdk";
 import flatMap from "lodash.flatmap";
 import { useCallback, useMemo } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { BASES_TO_TRACK_LIQUIDITY_FOR, PINNED_PAIRS } from "../../constants";
+import { BASES_TO_TRACK_LIQUIDITY_FOR, PINNED_PAIRS, PINNED_MIGRATION_PAIRS } from "../../constants";
 
 import { useActiveWeb3React } from "../../hooks";
 // eslint-disable-next-line import/no-cycle
@@ -21,6 +21,8 @@ import {
   updateUserSlippageTolerance,
   muteAudio,
   unmuteAudio,
+  addMigrationPair,
+  removeMigrationPair,
 } from "./actions";
 import { setThemeCache } from "../../utils/theme";
 
@@ -213,6 +215,27 @@ export function usePairAdder(): (pair: Pair) => void {
   );
 }
 
+export function useMigrationpairAdder(): (chainId, factoryAddress, pairAddress) => void {
+  const dispatch = useDispatch<AppDispatch>();
+  return useCallback(
+    (chainId, factoryAddress, pairAddress) => {
+      dispatch(addMigrationPair({ chainId, factoryAddress, pairAddress }));
+    },
+    [dispatch]
+  );
+}
+
+export function useMigrationpairRemover(): (chainId, factoryAddress, pairAddress) => void {
+  const dispatch = useDispatch<AppDispatch>();
+
+  return useCallback(
+    (chainId, factoryAddress, pairAddress) => {
+      dispatch(removeMigrationPair({ chainId, factoryAddress, pairAddress }));
+    },
+    [dispatch]
+  );
+}
+
 /**
  * Given two tokens return the liquidity token that represents its liquidity shares
  * @param tokenA one of the two tokens
@@ -246,21 +269,21 @@ export function useTrackedTokenPairs(): [Token, Token][] {
     () =>
       chainId
         ? flatMap(Object.keys(tokens), (tokenAddress) => {
-            const token = tokens[tokenAddress];
-            // for each token on the current chain,
-            return (
-              // loop though all bases on the current chain
-              (BASES_TO_TRACK_LIQUIDITY_FOR[chainId] ?? [])
-                // to construct pairs of the given token with each base
-                .map((base) => {
-                  if (base.address === token.address) {
-                    return null;
-                  }
-                  return [base, token];
-                })
-                .filter((p): p is [Token, Token] => p !== null)
-            );
-          })
+          const token = tokens[tokenAddress];
+          // for each token on the current chain,
+          return (
+            // loop though all bases on the current chain
+            (BASES_TO_TRACK_LIQUIDITY_FOR[chainId] ?? [])
+              // to construct pairs of the given token with each base
+              .map((base) => {
+                if (base.address === token.address) {
+                  return null;
+                }
+                return [base, token];
+              })
+              .filter((p): p is [Token, Token] => p !== null)
+          );
+        })
         : [],
     [tokens, chainId]
   );
@@ -305,4 +328,59 @@ export function useTrackedTokenPairs(): [Token, Token][] {
 
     return Object.keys(keyed).map((key) => keyed[key]);
   }, [combinedList]);
+}
+
+export function useMigrationPairs() {
+  const { chainId } = useActiveWeb3React();
+  // const tokens = useAllTokens();
+
+  // pinned pairs
+  const pinnedPairs = useMemo(
+    () => (chainId ? PINNED_MIGRATION_PAIRS[chainId] ?? [] : []),
+    [chainId]
+  );
+  // pairs for every token against every base
+  // const generatedPairs: [Token, Token][] = useMemo(
+  //   () =>
+  //     chainId
+  //       ? flatMap(Object.keys(tokens), (tokenAddress) => {
+  //           const token = tokens[tokenAddress];
+  //           // for each token on the current chain,
+  //           return (
+  //             // loop though all bases on the current chain
+  //             (BASES_TO_TRACK_LIQUIDITY_FOR[chainId] ?? [])
+  //               // to construct pairs of the given token with each base
+  //               .map((base) => {
+  //                 if (base.address === token.address) {
+  //                   return null;
+  //                 }
+  //                 return [base, token];
+  //               })
+  //               .filter((p): p is [Token, Token] => p !== null)
+  //           );
+  //         })
+  //       : [],
+  //   [tokens, chainId]
+  // );
+
+  // pairs saved by users
+  const savedMigrationPairs = useSelector<AppState, AppState["user"]["migrationPairs"]>(
+    ({ user: { migrationPairs } }) => migrationPairs
+  );
+  const userPairs = useMemo(() => {
+    if (!chainId || !savedMigrationPairs) return {};
+    const forChain = savedMigrationPairs[chainId];
+    if (!forChain) return {};
+    const checkThis = {};
+    Object.keys(forChain).forEach((factoryAddrees) => {
+      checkThis[factoryAddrees] = forChain[factoryAddrees];
+      if (chainId) {
+        if (pinnedPairs[factoryAddrees]) {
+          checkThis[factoryAddrees] = checkThis[factoryAddrees].concat(pinnedPairs[factoryAddrees])
+        }
+      }
+    });
+    return checkThis;
+  }, [chainId, savedMigrationPairs, pinnedPairs]);
+  return userPairs
 }
