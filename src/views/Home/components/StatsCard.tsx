@@ -113,7 +113,13 @@ const CardValue: React.FC<CardValueProps> = ({
           * Amount allocated through mining is distributed every second
         </Text>
       </ProgressText>
-      <ProgressText>
+
+      <ProgressText
+        style={{
+          flexWrap: "wrap",
+          justifyContent: "space-evenly",
+        }}
+      >
         <ProgressItemText>
           <Text color="#9d9fa8" fontSize="15px">
             Circulating Supply
@@ -166,6 +172,7 @@ const CardValue: React.FC<CardValueProps> = ({
           </Text>
         </ProgressItemText>
       </ProgressText>
+
       <BarParent>
         <BlueBar progressVal={progressBar} />
         <RedbBar progressVal={burnedProgress} marginVal={progressBar} />
@@ -223,19 +230,21 @@ const CardValue: React.FC<CardValueProps> = ({
                 </Text>
               </Text>
             </ProgressText>
-            {totalFees &&<ProgressText>
-              <Text color="#9d9fa8" fontSize="16px">
-                Total Fees (24 Hrs)
-              </Text>
-              <Text
-                color="white"
-                fontSize="16px"
-                fontWeight="700"
-                style={{ display: "flex", alignItems: "center" }}
-              >
-                ${totalFees}{" "}
-              </Text>
-            </ProgressText>}
+            {totalFees && (
+              <ProgressText>
+                <Text color="#9d9fa8" fontSize="16px">
+                  Total Fees (24 Hrs)
+                </Text>
+                <Text
+                  color="white"
+                  fontSize="16px"
+                  fontWeight="700"
+                  style={{ display: "flex", alignItems: "center" }}
+                >
+                  ${totalFees}{" "}
+                </Text>
+              </ProgressText>
+            )}
           </TextAlignMent>
         </Grid>
         <Grid item xs={12} md={6} lg={6} xl={6}>
@@ -273,7 +282,7 @@ const CardValue: React.FC<CardValueProps> = ({
                 </Text>
               </ProgressText>
             )}
-              {devFees && (
+            {devFees && (
               <ProgressText>
                 <Text color="#C1C5CB" fontSize="15px">
                   Dev Fees
