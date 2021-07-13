@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import { Currency, ETHER } from "@pancakeswap-libs/sdk";
+import { Currency, ETHER } from "@cryption-network/polydex-sdk";
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import {

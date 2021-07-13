@@ -161,7 +161,7 @@ export const PINNED_PAIRS: {
         "Dummy Cryption Network Token"
       ),
     ],
-    [BUSD, USDT],
+    // [BUSD, USDT],
     [DAI, USDT],
   ],
 };
