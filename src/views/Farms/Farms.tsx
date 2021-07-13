@@ -210,7 +210,7 @@ const Farms: React.FC = () => {
     (farmsToDisplay): FarmWithStakedValue[] => {
       const cakePriceVsBNB = new BigNumber(
         farmsLP.find((farm) => farm.pid === CAKE_POOL_PID)?.tokenPriceVsQuote ||
-        0
+          0
       );
       let farmsToDisplayWithAPY: FarmWithStakedValue[] = farmsToDisplay.map(
         (farm) => {

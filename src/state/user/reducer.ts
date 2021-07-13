@@ -17,6 +17,8 @@ import {
   updateUserExpertMode,
   updateUserSlippageTolerance,
   updateUserDeadline,
+  addMigrationPair,
+  removeMigrationPair,
   muteAudio,
   unmuteAudio,
 } from "./actions";
@@ -50,7 +52,12 @@ export interface UserState {
       [key: string]: SerializedPair;
     };
   };
-
+  migrationPairs: {
+    [chainId: number]: {
+      // keyed by facoryAddress:[token1Address]
+      [key: string]: Array<string>;
+    };
+  };
   timestamp: number;
 
   audioPlay: boolean;
@@ -68,6 +75,7 @@ export const initialState: UserState = {
   userDeadline: DEFAULT_DEADLINE_FROM_NOW,
   tokens: {},
   pairs: {},
+  migrationPairs: {},
   timestamp: currentTimestamp(),
   audioPlay: true,
 };
@@ -86,7 +94,6 @@ export default createReducer(initialState, (builder) =>
       if (typeof state.userDeadline !== "number") {
         state.userDeadline = DEFAULT_DEADLINE_FROM_NOW;
       }
-
       state.lastUpdateVersionTimestamp = currentTimestamp();
     })
     .addCase(updateUserDarkMode, (state, action) => {
@@ -144,6 +151,49 @@ export default createReducer(initialState, (builder) =>
           // just delete both keys if either exists
           delete state.pairs[chainId][pairKey(tokenAAddress, tokenBAddress)];
           delete state.pairs[chainId][pairKey(tokenBAddress, tokenAAddress)];
+        }
+        state.timestamp = currentTimestamp();
+      }
+    )
+    .addCase(
+      addMigrationPair,
+      (state, { payload: { chainId, factoryAddress, pairAddress } }) => {
+        if (state.migrationPairs[chainId]) {
+          if (state.migrationPairs[chainId][factoryAddress]) {
+            const currentPairs = state.migrationPairs[chainId][factoryAddress];
+            if (!currentPairs.includes(pairAddress)) {
+              state.migrationPairs[chainId][factoryAddress] =
+                currentPairs.concat(pairAddress);
+            }
+          } else {
+            state.migrationPairs[chainId][factoryAddress] = [pairAddress];
+          }
+        } else {
+          state.migrationPairs = {
+            [chainId]: {
+              [factoryAddress]: [pairAddress],
+            },
+          };
+        }
+        state.timestamp = currentTimestamp();
+      }
+    )
+    .addCase(
+      removeMigrationPair,
+      (state, { payload: { chainId, factoryAddress, pairAddress } }) => {
+        if (state.migrationPairs[chainId]) {
+          if (
+            state.migrationPairs[chainId][factoryAddress] &&
+            state.migrationPairs[chainId][factoryAddress].includes(pairAddress)
+          ) {
+            let currentPairs = state.migrationPairs[chainId][factoryAddress];
+            currentPairs = currentPairs.filter((x) => x !== pairAddress);
+            if (currentPairs.length > 0) {
+              state.migrationPairs[chainId][factoryAddress] = currentPairs;
+            } else {
+              delete state.migrationPairs[chainId][factoryAddress];
+            }
+          }
         }
         state.timestamp = currentTimestamp();
       }

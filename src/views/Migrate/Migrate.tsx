@@ -1,215 +1,179 @@
-import React, { useState } from "react";
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable react/no-danger */
+import React, { useMemo } from "react";
 import styled from "styled-components";
-import { ChevronRightIcon } from "cryption-uikit";
-import Page from "../../components/layout/Page";
+import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
+import { Card, Text, AutoRenewIcon } from "cryption-uikit";
+import { LightCard } from "components/Card";
+import MigrationCard from "components/MigrationCard";
+import { StyledInternalLink } from "components/Shared";
+import UnlockButton from "components/UnlockButton";
+import { useWeb3React } from "@web3-react/core";
+import { useMigrationPairs } from "state/user/hooks";
+import migrate from "config/constants/migrate";
 
 const Migrate = () => {
+  const { account } = useWeb3React();
+  // const { chainId } = useActiveWeb3React();
+  const trackedTokenPairs = useMigrationPairs();
+  const allMigrationPairs = useMemo(
+    () => {
+      const pairs = {};
+      Object.keys(trackedTokenPairs).forEach((factoryAddrees) => {
+        const checkIfPresent = migrate.filter(eachFactory => eachFactory.value === factoryAddrees);
+        if (checkIfPresent && checkIfPresent.length > 0) {
+          let pairAddresses = trackedTokenPairs[factoryAddrees];
+          pairAddresses = pairAddresses.filter((item, pos) => {
+            return pairAddresses.indexOf(item) === pos;
+          })
+          pairAddresses = pairAddresses.filter(item => item !== null);
+          pairs[factoryAddrees] = {
+            pairs: pairAddresses,
+            exchangePlatform: checkIfPresent[0].label
+          }
+        }
+      })
+      return pairs;
+    }, [trackedTokenPairs]);
+  const v2IsLoading = false;
   return (
-    <>
-      <Page style={{ backgroundColor: "#100C18" }}>
-        <Heading>Migrate Liquidity</Heading>
-        <SubHeading>
-          Migrate your Uniswap LP tokens to SushiSwap LP tokens.
-        </SubHeading>
-        <MigrateCardContainer>
-          <MigrateCard>
-            <MigrateWallet />
-            <MigrateCardHeading>Your Uniswap Liquidity</MigrateCardHeading>
-            <MigrateCardHeading>Amount of Tokens</MigrateCardHeading>
-            <MigrateCardSubCard />
-          </MigrateCard>
-        </MigrateCardContainer>
-      </Page>
-    </>
+    <Container maxWidth="lg">
+      <MigrationContainer>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6} lg={6} xl={6}>
+            <Infodiv>
+              <CNHeading>Migrate Liquidity</CNHeading>
+              <CNText>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sed
+                mi malesuada, malesuada massa placerat, accumsan ligula. Morbi
+                non pulvinar dolor. Aliquam erat volutpat. Nullam laoreet, magna
+                sit amet auctor aliquet, ante augue auctor eros, et elementum
+                arcu ex sit amet nisl. Vivamus lobortis euismod ante sed
+                porttitor. Suspendisse id lectus ut ipsum luctus pharetra
+                fermentum sit amet nisl. Donec id turpis gravida nisi
+                consectetur semper. Vivamus sit amet viverra ligula. Suspendisse
+                vel eros nec mi eleifend feugiat vel id magna.
+              </CNText>
+              <div
+                style={{ maxWidth: "300px", width: "100%", marginTop: "20px" }}
+              >
+                {!account && <UnlockButton mt="25px" width="100%" />}
+              </div>
+            </Infodiv>
+          </Grid>
+          <Grid item xs={12} md={6} lg={6} xl={6}>
+            <div
+              dangerouslySetInnerHTML={{
+                __html:
+                  '<lottie-player src="https://assets7.lottiefiles.com/packages/lf20_pbdrsjah.json"  background="transparent"  speed="1" style="height: 200px;" loop  autoplay></lottie-player>',
+              }}
+            />
+          </Grid>
+        </Grid>
+        <ContainerCard>
+          <Text color="white" textAlign="center" fontSize="20px" mb="20px" bold>
+            Migrate Liquidity
+          </Text>
+          {v2IsLoading ? (
+            <LoadinCard>
+              <Text color="#86878F" textAlign="center" mr="5px">
+                Loading
+              </Text>
+              <AutoRenewIcon spin color="#86878F" />
+            </LoadinCard>
+          ) : (
+            <div style={{ width: "100%" }}>
+              {allMigrationPairs && Object.keys(allMigrationPairs).length > 0 ? (
+                <div style={{ marginBottom: "20px", width: "100%" }}>
+                  {Object.keys(allMigrationPairs).map(eachFacory => {
+                    return allMigrationPairs[eachFacory].pairs.map(eachPair => (
+                      <MigrationCard
+                        pairAddress={eachPair}
+                        key={eachPair}
+                        exchangePlatform={allMigrationPairs[eachFacory].exchangePlatform}
+                      />
+                    ))
+                  })}
+                </div>
+              ) : (
+                <LightCard padding="40px">
+                  <Text color="textDisabled" textAlign="center">
+                    No liquidity found.
+                  </Text>
+                </LightCard>
+              )}
+            </div>
+          )}
+          <Text
+            fontSize="14px"
+            style={{ padding: ".5rem 0 .5rem 0" }}
+            color="#86878F"
+          >
+            Don't see a pool you joined?{"  "}
+            <StyledInternalLink
+              id="import-pool-link"
+              to="/migratefind"
+              color="#2082E9"
+              style={{ color: "#2082E9" }}
+            >
+              Import it.
+            </StyledInternalLink>
+          </Text>
+        </ContainerCard>
+      </MigrationContainer>
+    </Container>
   );
 };
 
-const MigrateWallet = () => {
-  const [nonHardwareWallet, setNonHardwareWallet] = useState(true);
-  const [hardwareWallet, setHardwareWallet] = useState(true);
-
-  return (
-    <>
-      <WalletHeading>Wallet Type</WalletHeading>
-      <>
-        {nonHardwareWallet ? (
-          <DisplayNonHardwareWallet
-            // nonHardwareWallet={nonHardwareWallet}
-            // setNonHardwareWallet={setNonHardwareWallet}
-
-            hardwareWallet={hardwareWallet}
-            setHardwareWallet={setHardwareWallet}
-          />
-        ) : (
-          <></>
-        )}
-      </>
-      <>
-        {hardwareWallet ? (
-          <DisplayHardwareWallet
-            nonHardwareWallet={nonHardwareWallet}
-            setNonHardwareWallet={setNonHardwareWallet}
-
-            // hardwareWallet={hardwareWallet}
-            // setHardwareWallet={setHardwareWallet}
-          />
-        ) : (
-          <></>
-        )}
-      </>
-    </>
-  );
-};
-
-const DisplayNonHardwareWallet = ({ hardwareWallet, setHardwareWallet }) => {
-  return (
-    <>
-      <ButtonCard onClick={() => setHardwareWallet(!hardwareWallet)}>
-        <div>
-          <ButtonCardHeading>Non-Hardware Wallet</ButtonCardHeading>
-          <ButtonCardSubHeading>
-            Migration is done in one-click using your signature(permit).
-          </ButtonCardSubHeading>
-        </div>
-        <div>
-          <ChevronRightIcon color="#2082E9" />
-        </div>
-      </ButtonCard>
-    </>
-  );
-};
-
-const DisplayHardwareWallet = ({ nonHardwareWallet, setNonHardwareWallet }) => {
-  return (
-    <>
-      <ButtonCard onClick={() => setNonHardwareWallet(!nonHardwareWallet)}>
-        <div>
-          <ButtonCardHeading>
-            Hardware Wallet (Trezor, Ledger, etc.)
-          </ButtonCardHeading>
-          <ButtonCardSubHeading>
-            You need to first approve LP tokens and then migrate it.
-          </ButtonCardSubHeading>
-        </div>
-        <div>
-          <ChevronRightIcon color="#2082E9" />
-        </div>
-      </ButtonCard>
-    </>
-  );
-};
-
-const MigrateCardSubCard = () => {
-  return (
-    <>
-      <MigrateSubCard>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            margin: " 0 0 20px 0",
-          }}
-        >
-          <div>SushiSwap LP</div>
-          <div>N/A</div>
-        </div>
-        <div>Migrate Liquidity</div>
-      </MigrateSubCard>
-    </>
-  );
-};
-
-const MigrateSubCard = styled.div`
-  padding: 20px;
-  border: 1px solid #686b7a;
-  border-radius: 14px;
-  color: #cfcccc;
+const MigrationContainer = styled.div`
+  margin-top: 50px;
   display: flex;
-  font-weight: bold;
-  text-align: center;
   justify-content: center;
+  align-items: center;
   flex-direction: column;
 `;
 
-const WalletHeading = styled.div`
-  color: white;
-  font-size: 24px;
-  margin: 0 0 20px 0;
-  font-weight: bold;
+const CNText = styled.div`
+  font-size: 17px;
+  font-weight: normal;
+  text-align: center;
+  color: #9d9fa8;
 `;
 
-const MigrateCardHeading = styled.div`
-  color: #cfcccc;
-  font-size: 24px;
-  margin: 20px 0;
-  font-weight: bold;
-`;
-
-const ButtonCard = styled.div`
-  width: 100%;
-  padding: 14px;
-  border: 1px solid #686b7a;
-  color: white;
-  margin: 10px 0;
-  border-radius: 14px;
+const Infodiv = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-content: flex-start;
-
-  &:hover {
-    border: 1px solid #1a1b23;
-    box-shadow: 1px 1px 0 0 #9900ff, -1px -1px 0 0 #2082e9;
-  }
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
-const ButtonCardHeading = styled.div`
-  font-size: 16px;
+const CNHeading = styled.div`
+  font-size: 23px;
   font-weight: bold;
-  margin: 0 0 5px 0;
+  text-align: center;
   color: white;
+  margin-bottom: 20px;
 `;
 
-const ButtonCardSubHeading = styled.div`
-  font-size: 14px;
-  color: #cfcccc;
-`;
-
-const MigrateCardContainer = styled.div`
-  margin-top: 10px;
+const ContainerCard = styled(Card)`
+  border-radius: 0.625rem !important;
+  padding: 30px;
+  max-width: 500px;
   width: 100%;
+  background-color: #1e202a;
+  display: flex;
+  margin-top: 70px;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const LoadinCard = styled.div`
+  color: #3f4656;
   display: flex;
   justify-content: center;
-`;
-
-const MigrateCard = styled.div`
-  justify-content: center;
-  padding: 40px;
-  border-radius: 27px;
-  height: 100%;
-  margin-bottom: 32px;
-  background: #1e202a;
-  box-shadow: 1px 2px 4px 3px rgba(0, 0, 0, 0.16);
-  min-width: clamp(250px, 100%, 650px);
-`;
-
-const Heading = styled.div`
-  text-align: center;
-  font-size: 54px;
-  font-weight: bold;
-  letter-spacing: -0.015em;
-  text-transform: capitalize;
-  margin-left: 10px;
-  color: white;
-`;
-
-const SubHeading = styled.div`
-  text-align: center;
-  margin: 10px 0 20px 10px;
-  font-size: 20px;
-  font-weight: bold;
-  letter-spacing: -0.015em;
-  text-transform: capitalize;
-  color: #686b7a;
+  align-items: center;
 `;
 
 export default Migrate;

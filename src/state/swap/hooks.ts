@@ -104,7 +104,7 @@ export function tryParseAmount(
     }
   } catch (error) {
     // should fail if the user specifies too many decimal places of precision (or maybe exceed max uint?)
-    console.info(`Failed to parse input amount: "${value}"`, error);
+    console.error(`Failed to parse input amount: "${value}"`, error);
   }
   // necessary for all paths to return a value
   return undefined;
