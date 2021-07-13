@@ -38,7 +38,6 @@ const TotalValueLockedCard = () => {
           {TranslateString(762, "Total Value Locked (TVL)")}
         </CNHeading>
         {data ? (
-          // <>
           <CardValue
             value={data.toNumber()}
             lineHeight="1.5"
@@ -46,7 +45,6 @@ const TotalValueLockedCard = () => {
             color="#2082E9"
           />
         ) : (
-          // </>
           <>
             <Skeleton height={66} />
           </>
