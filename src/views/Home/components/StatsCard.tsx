@@ -192,14 +192,7 @@ const CardValue: React.FC<CardValueProps> = ({
         </Card>
         <br />
         <SubCard>
-          <Grid
-            item
-            xs={12}
-            md={6}
-            lg={6}
-            xl={6}
-            style={{ borderRight: "1px solid #524B63" }}
-          >
+          <Grid item xs={12} md={6} lg={6} xl={6}>
             <TextAlignMent>
               <ProgressText>
                 <Text color="#9d9fa8" fontSize="16px">
