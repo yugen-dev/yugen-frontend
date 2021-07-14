@@ -20,7 +20,7 @@ import { QuoteToken } from "config/constants/types";
 import useI18n from "hooks/useI18n";
 import { getBalanceNumber } from "utils/formatBalance";
 import { orderBy } from "lodash";
-import cntMascot from 'images/Cryption Network Mascot Farming.png';
+import cntMascot from "images/Cryption Network Mascot Farming.png";
 import FarmCard, { FarmWithStakedValue } from "./components/FarmCard/FarmCard";
 import Table from "./components/FarmTable/FarmTable";
 import FarmTabButtons from "./components/FarmTabButtons";
@@ -401,6 +401,23 @@ const Farms: React.FC = () => {
                 removed={false}
               />
             ))}
+
+            {farmsStaked.length === 0 && (
+              <div
+                style={{
+                  width: "100%",
+                  display: "grid",
+                  justifyContent: "center",
+                }}
+              >
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html:
+                      '<lottie-player src="https://assets3.lottiefiles.com/packages/lf20_r71cen62.json"  background="transparent"  speed="1" style="height: 350px;" loop  autoplay></lottie-player>',
+                  }}
+                />
+              </div>
+            )}
           </Route>
           <Route exact path={`${path}/history`}>
             {farmsStaked.map((farm) => (
@@ -440,7 +457,13 @@ const Farms: React.FC = () => {
             <CNHeading>Core Farms</CNHeading>
           </Grid>
           <Grid item xs={12} md={6} lg={6} xl={6}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <img src={cntMascot} alt="Cryption Netwrok" width="250px" />
             </div>
           </Grid>
