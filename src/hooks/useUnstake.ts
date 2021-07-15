@@ -14,7 +14,7 @@ import {
   GaslessUnStake,
   sousUnstakeGasless,
 } from "utils/callHelpers";
-import { useProfile } from "state/hooks";
+import { useProfile, useToast } from "state/hooks";
 import {
   useMasterchef,
   useSousChef,
@@ -28,21 +28,36 @@ const useUnstake = (pid: number) => {
   const masterChefContract = useMasterchef();
   const masterChefGaslessContract = useMasterchefGasless();
   const { metaTranscation } = useProfile();
+  const { toastInfo, toastError, toastSuccess } = useToast();
   const handleUnstake = useCallback(
     async (amount: string) => {
-      if (metaTranscation) {
-        await GaslessUnStake(
-          masterChefGaslessContract,
-          pid,
-          amount,
-          account,
-          library
-        );
-        dispatch(fetchFarmUserDataAsync(account));
-      } else {
-        await unstake(masterChefContract, pid, amount, account);
-        dispatch(fetchFarmUserDataAsync(account));
-        dispatch(fetchFarmUserDataAsync(account));
+      try {
+        toastInfo("Processing...", `You requested to Deposited `);
+        if (metaTranscation) {
+          await GaslessUnStake(
+            masterChefGaslessContract,
+            pid,
+            amount,
+            account,
+            library
+          );
+          toastSuccess("Success", ` Depositeded successfully`);
+          dispatch(fetchFarmUserDataAsync(account));
+        } else {
+          await unstake(masterChefContract, pid, amount, account);
+          toastSuccess("Success", ` Depositeded successfully`);
+          dispatch(fetchFarmUserDataAsync(account));
+        }
+      } catch (e) {
+        if (
+          e.message ===
+          "MetaMask Tx Signature: User denied transaction signature."
+        ) {
+          // toastInfo("canceled...", `cancelled signature `);
+          toastError("canceled", ` signautures rejected`);
+        } else {
+          toastError("Error...", `Failed to Deposit`);
+        }
       }
     },
     [
@@ -53,6 +68,9 @@ const useUnstake = (pid: number) => {
       pid,
       metaTranscation,
       library,
+      toastInfo,
+      toastSuccess,
+      toastError,
     ]
   );
 
@@ -69,27 +87,43 @@ export const useSousUnstake = (sousId) => {
   const sousChefContractsGasless = useSousChefGasless(sousId);
   const isOldSyrup = SYRUPIDS.includes(sousId);
   const { metaTranscation } = useProfile();
+  const { toastInfo, toastError, toastSuccess } = useToast();
   const handleUnstake = useCallback(
     async (amount: string, decimals: number) => {
-      if (isOldSyrup) {
-        await sousEmegencyUnstake(sousChefContract, amount, account);
-      } else if (metaTranscation) {
-        await sousUnstakeGasless(
-          sousChefContractsGasless,
-          amount,
-          decimals,
-          account,
-          sousId,
-          library
-        );
-        dispatch(updateUserStakedBalance(sousId, account));
-        dispatch(updateUserBalance(sousId, account));
-        dispatch(updateUserPendingReward(sousId, account));
-      } else {
-        await sousUnstake(sousChefContract, amount, decimals, account);
-        dispatch(updateUserStakedBalance(sousId, account));
-        dispatch(updateUserBalance(sousId, account));
-        dispatch(updateUserPendingReward(sousId, account));
+      try {
+        toastInfo("Processing...", `You requested to Deposited `);
+        if (isOldSyrup) {
+          await sousEmegencyUnstake(sousChefContract, amount, account);
+        } else if (metaTranscation) {
+          await sousUnstakeGasless(
+            sousChefContractsGasless,
+            amount,
+            decimals,
+            account,
+            sousId,
+            library
+          );
+          toastSuccess("Success", ` Depositeded successfully`);
+          dispatch(updateUserStakedBalance(sousId, account));
+          dispatch(updateUserBalance(sousId, account));
+          dispatch(updateUserPendingReward(sousId, account));
+        } else {
+          await sousUnstake(sousChefContract, amount, decimals, account);
+          toastSuccess("Success", ` Depositeded successfully`);
+          dispatch(updateUserStakedBalance(sousId, account));
+          dispatch(updateUserBalance(sousId, account));
+          dispatch(updateUserPendingReward(sousId, account));
+        }
+      } catch (e) {
+        if (
+          e.message ===
+          "MetaMask Tx Signature: User denied transaction signature."
+        ) {
+          // toastInfo("canceled...", `cancelled signature `);
+          toastError("canceled", ` signautures rejected`);
+        } else {
+          toastError("Error...", `Failed to Deposit`);
+        }
       }
     },
     [
@@ -101,6 +135,9 @@ export const useSousUnstake = (sousId) => {
       metaTranscation,
       sousId,
       library,
+      toastInfo,
+      toastSuccess,
+      toastError,
     ]
   );
 

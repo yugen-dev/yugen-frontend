@@ -355,12 +355,17 @@ export const soushHarvestBnb = async (sousChefContract, account) => {
     });
 };
 
-export const enterGasless = async (contract, amount, account) => {
+export const enterGasless = async (contract, amount, account, library) => {
   const functionSignature = await contract.methods
     .enter(new BigNumber(amount).times(new BigNumber(10).pow(18)).toString())
     .encodeABI();
 
-  await executeMetaTransactionBar(contract, account, functionSignature);
+  await executeMetaTransactionBar(
+    contract,
+    account,
+    functionSignature,
+    library
+  );
 };
 
 export const enter = async (contract, amount, account) => {
@@ -372,12 +377,17 @@ export const enter = async (contract, amount, account) => {
     });
 };
 
-export const leaveGasless = async (contract, amount, account) => {
+export const leaveGasless = async (contract, amount, account, library) => {
   const functionSignature = await contract.methods
     .leave(new BigNumber(amount).times(new BigNumber(10).pow(18)).toString())
     .encodeABI();
 
-  await executeMetaTransactionBar(contract, account, functionSignature);
+  await executeMetaTransactionBar(
+    contract,
+    account,
+    functionSignature,
+    library
+  );
 };
 
 export const leave = async (contract, amount, account) => {
@@ -446,65 +456,54 @@ const executeMetaTransaction = async (
 export const executeMetaTransactionBar = async (
   masterChefContract,
   account,
-  functionSignature
+  functionSignature,
+  library
 ) => {
   const biconomyWeb3 = getBiconomyWeb3();
-
-  const contract = masterChefContract;
-
-  const nonce = await contract.methods.getNonce(account).call();
-  const message = {
-    nonce: 0,
-    from: "",
-    functionSignature: "",
-  };
-  message.nonce = parseInt(nonce);
-  message.from = account;
-  message.functionSignature = functionSignature;
-
-  const dataToSign = JSON.stringify({
-    types: {
-      EIP712Domain: domainType,
-      MetaTransaction: metaTransactionType,
-    },
-    domain: domainDataBar,
-    primaryType: "MetaTransaction",
-    message,
-  });
-
   try {
-    // @ts-ignore
-    await biconomyWeb3.currentProvider.send(
-      {
-        jsonrpc: "2.0",
-        id: 999999999999,
-        method: "eth_signTypedData_v4",
-        params: [account, dataToSign],
+    const contract = masterChefContract;
+
+    const nonce = await contract.methods.getNonce(account).call();
+    const message = {
+      nonce: 0,
+      from: "",
+      functionSignature: "",
+    };
+    message.nonce = parseInt(nonce);
+    message.from = account;
+    message.functionSignature = functionSignature;
+
+    const dataToSign = JSON.stringify({
+      types: {
+        EIP712Domain: domainType,
+        MetaTransaction: metaTransactionType,
       },
-      async (error, response) => {
-        if (error) {
-          console.error(error);
-          return error;
-        }
-        const { r, s, v } = getSignatureParameters(response.result);
-        const gasLimit = await contract.methods
-          .executeMetaTransaction(account, functionSignature, r, s, v)
-          .estimateGas({ from: account });
-        const gasPrice = await biconomyWeb3.eth.getGasPrice();
-        return contract.methods
-          .executeMetaTransaction(account, functionSignature, r, s, v)
-          .send({
-            from: account,
-            gasPrice: biconomyWeb3.utils.toHex(gasPrice),
-            gasLimit: biconomyWeb3.utils.toHex(gasLimit),
-          })
-          .on("transactionHash", (tx) => {
-            return tx.transactionHash;
-          });
-      }
-    );
+      domain: domainDataBar,
+      primaryType: "MetaTransaction",
+      message,
+    });
+
+    const sig = await library.send("eth_signTypedData_v4", [
+      account.toString(),
+      dataToSign,
+    ]);
+
+    const signature = await splitSignature(sig.result);
+
+    const { v, r, s } = signature;
+
+    // eslint-disable-next-line consistent-return
+    return contract.methods
+      .executeMetaTransaction(account, functionSignature, r, s, v)
+      .send({
+        from: account,
+      })
+      .on("transactionHash", (tx) => {
+        return tx.transactionHash;
+      });
   } catch (e) {
     console.error("error");
+    return e;
   }
 };
 

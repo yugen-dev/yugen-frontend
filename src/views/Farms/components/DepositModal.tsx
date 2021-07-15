@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 import React, { useCallback, useMemo, useState } from "react";
-import { Button, Modal, LinkExternal } from "cryption-uikit";
+import { Button, Modal, LinkExternal, AutoRenewIcon } from "cryption-uikit";
 import ModalActions from "components/ModalActions";
 import ModalInput from "components/ModalInput";
 import useI18n from "hooks/useI18n";
@@ -39,6 +39,25 @@ const DepositModal: React.FC<DepositModalProps> = ({
     setVal(fullBalance);
   }, [fullBalance, setVal]);
 
+  const BtnLoadingComp =
+    pendingTx === false ? (
+      <Button
+        width="100%"
+        onClick={async () => {
+          setPendingTx(true);
+          await onConfirm(val);
+          setPendingTx(false);
+          onDismiss();
+        }}
+      >
+        {TranslateString(464, "Confirm")}
+      </Button>
+    ) : (
+      <Button isLoading endIcon={<AutoRenewIcon spin color="currentColor" />}>
+        {TranslateString(488, "Pending Confirmation")}
+      </Button>
+    );
+
   return (
     <Modal
       title={TranslateString(1068, "Stake LP tokens")}
@@ -57,7 +76,7 @@ const DepositModal: React.FC<DepositModalProps> = ({
         <Button variant="secondary" onClick={onDismiss} width="100%">
           {TranslateString(462, "Cancel")}
         </Button>
-        <Button
+        {/* <Button
           width="100%"
           disabled={pendingTx || fullBalance === "0" || val === "0"}
           onClick={async () => {
@@ -70,7 +89,8 @@ const DepositModal: React.FC<DepositModalProps> = ({
           {pendingTx
             ? TranslateString(488, "Pending Confirmation")
             : TranslateString(464, "Confirm")}
-        </Button>
+        </Button> */}
+        {BtnLoadingComp}
       </ModalActions>
       <LinkExternal href={addLiquidityUrl} style={{ alignSelf: "center" }}>
         {TranslateString(999, "Get")} {tokenName}

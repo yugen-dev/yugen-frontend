@@ -77,7 +77,6 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   /// harvest interval
   // const staketokennameprice = useGetApiPrice(stakingTokenAddress.toLowerCase());
 
-  // console.log(staketokennameprice);
   let isDaysGreater = false;
   let isHoursGreater = false;
   const poolHarvestIntervalInDays = poolHarvestInterval
@@ -187,28 +186,6 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
       stakingTokenDecimals={stakingTokenDecimals}
     />
   );
-  // console.log(harvestInterval.toNumber());
-  // const renderNextHarvestIntervalIn = () => {
-  //   return (
-  //     <Flex justifyContent="space-between">
-  //       <Text>{TranslateString(318, "Next Harvest in :")}</Text>
-  //       <Text bold>
-  //         <Countdown
-  //           date={harvestInterval.toNumber() * 1000}
-  //           renderer={Renderer}
-  //         />
-  //       </Text>
-  //     </Flex>
-  //   );
-  // };
-
-  // const [onPresentCompound] = useModal(
-  //   <CompoundModal
-  //     earnings={earnings}
-  //     onConfirm={onStake}
-  //     tokenName={stakingTokenName}
-  //   />
-  // );
 
   const [onPresentWithdraw] = useModal(
     <WithdrawModal
@@ -323,7 +300,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                   setPendingTx(false);
                 }}
               >
-                {pendingTx ? "Collecting" : "Harvest"}
+                {pendingTx ? "Collecting..." : "Harvest"}
               </Button>
             )}
             {!canHarvest && (
@@ -331,7 +308,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                 disabled={!canHarvest}
                 style={{ width: "100%", maxWidth: "400px" }}
               >
-                {pendingTx ? "Collecting" : "Harvest"}
+                {pendingTx ? "Collecting..." : "Harvest"}
               </Button>
             )}
           </div>
