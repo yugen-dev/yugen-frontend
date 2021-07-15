@@ -9,7 +9,7 @@ import { useProfile } from "state/hooks";
 import { useCNTStaker, useCNTStakerGasless } from "./useContract";
 
 const useLeave = () => {
-  const { account } = useWeb3React("web3");
+  const { account, library } = useWeb3React("web3");
   const { metaTranscation } = useProfile();
   const cntStaker = useCNTStaker();
   const cntStakerGasless = useCNTStakerGasless();
@@ -17,12 +17,12 @@ const useLeave = () => {
   const handle = useCallback(
     async (amount: string) => {
       if (metaTranscation) {
-        await leaveGasless(cntStakerGasless, amount, account);
+        await leaveGasless(cntStakerGasless, amount, account, library);
       } else {
         await leave(cntStaker, amount, account);
       }
     },
-    [account, cntStaker, cntStakerGasless, metaTranscation]
+    [account, cntStaker, cntStakerGasless, metaTranscation, library]
   );
 
   return { onLeave: handle };

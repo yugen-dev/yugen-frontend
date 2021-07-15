@@ -10,7 +10,7 @@ import { enter, enterGasless } from "utils/callHelpers";
 import { useCNTStaker, useCNTStakerGasless } from "./useContract";
 
 const useEnter = () => {
-  const { account } = useWeb3React("web3");
+  const { account, library } = useWeb3React("web3");
   const cntStaker = useCNTStaker();
   const cntStakerGasless = useCNTStakerGasless();
   const { metaTranscation } = useProfile();
@@ -18,12 +18,12 @@ const useEnter = () => {
   const handle = useCallback(
     async (amount: string) => {
       if (metaTranscation) {
-        await enterGasless(cntStakerGasless, amount, account);
+        await enterGasless(cntStakerGasless, amount, account, library);
       } else {
         await enter(cntStaker, amount, account);
       }
     },
-    [account, cntStaker, cntStakerGasless, metaTranscation]
+    [account, cntStaker, cntStakerGasless, metaTranscation, library]
   );
 
   return { onEnter: handle };
