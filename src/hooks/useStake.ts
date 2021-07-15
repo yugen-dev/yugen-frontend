@@ -13,7 +13,7 @@ import {
   GaslessStake,
   sousStakeGasless,
 } from "utils/callHelpers";
-import { useProfile } from "state/hooks";
+import { useProfile, useToast } from "state/hooks";
 import {
   useMasterchef,
   useSousChef,
@@ -26,22 +26,38 @@ export const useStake = (pid: number) => {
   const { account, library } = useWeb3React("web3");
   const masterChefContract = useMasterchef();
   const masterChefGaslessContract = useMasterchefGasless();
-
+  const { toastInfo, toastError, toastSuccess } = useToast();
   const { metaTranscation } = useProfile();
+
   const handleStake = useCallback(
     async (amount: string) => {
-      if (metaTranscation) {
-        await GaslessStake(
-          masterChefGaslessContract,
-          pid,
-          amount,
-          account,
-          library
-        );
-        dispatch(fetchFarmUserDataAsync(account));
-      } else {
-        await stake(masterChefContract, pid, amount, account);
-        dispatch(fetchFarmUserDataAsync(account));
+      try {
+        toastInfo("Processing...", `You requested to Deposited `);
+        if (metaTranscation) {
+          await GaslessStake(
+            masterChefGaslessContract,
+            pid,
+            amount,
+            account,
+            library
+          );
+          toastSuccess("Success", ` Depositeded successfully`);
+          dispatch(fetchFarmUserDataAsync(account));
+        } else {
+          await stake(masterChefContract, pid, amount, account);
+          toastSuccess("Success", ` Depositeded successfully`);
+          dispatch(fetchFarmUserDataAsync(account));
+        }
+      } catch (e) {
+        if (
+          e.message ===
+          "MetaMask Tx Signature: User denied transaction signature."
+        ) {
+          // toastInfo("canceled...", `cancelled signature `);
+          toastError("canceled", ` signautures rejected`);
+        } else {
+          toastError("Error...", `Failed to Deposit`);
+        }
       }
     },
     [
@@ -52,6 +68,9 @@ export const useStake = (pid: number) => {
       pid,
       metaTranscation,
       library,
+      toastInfo,
+      toastSuccess,
+      toastError,
     ]
   );
 
@@ -63,26 +82,45 @@ export const useSousStake = (sousId, isUsingBnb = false) => {
   const { account, library } = useWeb3React("web3");
   const sousChefContract = useSousChef(sousId);
   const sousChefContractGasless = useSousChefGasless(sousId);
+  const { toastInfo, toastError, toastSuccess } = useToast();
   const { metaTranscation } = useProfile();
   const handleStake = useCallback(
     async (amount: string, decimals: number) => {
-      if (isUsingBnb) {
-        await sousStakeBnb(sousChefContract, amount, account);
-      } else if (metaTranscation) {
-        await sousStakeGasless(
-          sousChefContractGasless,
-          amount,
-          decimals,
-          account,
-          sousId,
-          library
-        );
-        dispatch(updateUserStakedBalance(sousId, account));
-        dispatch(updateUserBalance(sousId, account));
-      } else {
-        await sousStake(sousChefContract, amount, decimals, account);
-        dispatch(updateUserStakedBalance(sousId, account));
-        dispatch(updateUserBalance(sousId, account));
+      try {
+        toastInfo("Processing...", `You requested to Deposited `);
+        if (isUsingBnb) {
+          await sousStakeBnb(sousChefContract, amount, account);
+          toastSuccess("Success", ` Depositeded successfully`);
+          dispatch(updateUserStakedBalance(sousId, account));
+          dispatch(updateUserBalance(sousId, account));
+        } else if (metaTranscation) {
+          await sousStakeGasless(
+            sousChefContractGasless,
+            amount,
+            decimals,
+            account,
+            sousId,
+            library
+          );
+          toastSuccess("Success", ` Depositeded successfully`);
+          dispatch(updateUserStakedBalance(sousId, account));
+          dispatch(updateUserBalance(sousId, account));
+        } else {
+          await sousStake(sousChefContract, amount, decimals, account);
+          toastSuccess("Success", ` Depositeded successfully`);
+          dispatch(updateUserStakedBalance(sousId, account));
+          dispatch(updateUserBalance(sousId, account));
+        }
+      } catch (e) {
+        if (
+          e.message ===
+          "MetaMask Tx Signature: User denied transaction signature."
+        ) {
+          // toastInfo("canceled...", `cancelled signature `);
+          toastError("canceled", ` signautures rejected`);
+        } else {
+          toastError("Error...", `Failed to Deposit`);
+        }
       }
     },
     [
@@ -94,6 +132,9 @@ export const useSousStake = (sousId, isUsingBnb = false) => {
       metaTranscation,
       sousId,
       library,
+      toastInfo,
+      toastSuccess,
+      toastError,
     ]
   );
 

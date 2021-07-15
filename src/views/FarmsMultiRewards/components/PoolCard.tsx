@@ -349,7 +349,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
                   setPendingTx(false);
                 }}
               >
-                {pendingTx ? "Collecting" : "Harvest"}
+                {pendingTx ? "Collecting..." : "Harvest"}
               </Button>
             )}
             {!canHarvest && (
@@ -357,7 +357,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
                 disabled={!canHarvest}
                 style={{ width: "100%", maxWidth: "400px" }}
               >
-                {pendingTx ? "Collecting" : "Harvest"}
+                {pendingTx ? "Collecting..." : "Harvest"}
               </Button>
             )}
           </div>

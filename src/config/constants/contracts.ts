@@ -90,6 +90,6 @@ export default {
   polyDexMigrator: {
     56: "",
     97: "",
-    80001: "0xD6F94ED768DB33763C86DcAf29596D7B10861DCD",
+    80001: "0x9fBbcBed6a5205411aCe1C01d102194e92A17888",
   },
 };

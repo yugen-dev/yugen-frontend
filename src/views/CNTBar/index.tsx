@@ -15,6 +15,7 @@ import {
   Flex,
   Input,
   Text,
+  AutoRenewIcon,
 } from "cryption-uikit";
 import Grid from "@material-ui/core/Grid";
 import { useQuery } from "@apollo/client";
@@ -149,6 +150,7 @@ const CNTBar = () => {
   const [index, setIndex] = React.useState(0);
   const [tokenBalance, setTokenBalance] = React.useState(new BigNumber(0));
   const [xCNTBalance, setxCNTBalance] = React.useState(new BigNumber(0));
+
   // const { onEnter } = useEnter();
   const [requestedApproval, setRequestedApproval] = useState(false);
   const [tokenAmount, handleTokenAmount] = useState("");
@@ -156,11 +158,12 @@ const CNTBar = () => {
     handleTokenAmount("");
     setIndex(newIndex);
   };
-  const { account } = useWeb3React("web3");
+  const { account, library } = useWeb3React("web3");
   const [pendingTx, setPendingTx] = useState(false);
   const [pendingDepositTx, setPendingDepositTx] = useState(false);
   let tokenBal = tokenBalance;
   const allowance = useStakingAllowance();
+  console.log(allowance.toString());
   const { onApprove } = useApproveStaking();
   const cake = getCakeContract();
   const [totalSupply, setTotalSupply] = useState<BigNumber>();
@@ -185,9 +188,11 @@ const CNTBar = () => {
       return new BigNumber(0);
     }
   };
+
   const getTokenBalances = async () => {
     const tokenBalanceResp = await fetchBalances(contracts.cake[80001]);
     const xCNTBalanceResp = await fetchBalances(contracts.cntStaker[80001]);
+
     setTokenBalance(tokenBalanceResp);
     setxCNTBalance(xCNTBalanceResp);
   };
@@ -263,14 +268,19 @@ const CNTBar = () => {
     setPendingDepositTx(true);
     try {
       if (metaTranscation) {
-        await enterGasless(cntStakerGasless, tokenAmount, account);
+        await enterGasless(cntStakerGasless, tokenAmount, account, library);
+        toastSuccess(
+          "Success!",
+          `You have successfully staked ${tokenAmount} CNT !`
+        );
       } else {
         await enter(cntStaker, tokenAmount, account);
+        toastSuccess(
+          "Success!",
+          `You have successfully staked ${tokenAmount} CNT !`
+        );
       }
-      toastSuccess(
-        "Success!",
-        `You have successfully staked ${tokenAmount} CNT !`
-      );
+
       await getTokenBalances();
     } catch (error) {
       toastError("An error occurred while staking CNT");
@@ -281,20 +291,44 @@ const CNTBar = () => {
     setPendingTx(true);
     try {
       if (metaTranscation) {
-        await leaveGasless(cntStakerGasless, tokenAmount, account);
+        await leaveGasless(cntStakerGasless, tokenAmount, account, library);
+        toastSuccess(
+          "Success!",
+          `You have successfully unstaked ${tokenAmount} xCNT !`
+        );
       } else {
         await leave(cntStaker, tokenAmount, account);
+        toastSuccess(
+          "Success!",
+          `You have successfully unstaked ${tokenAmount} xCNT !`
+        );
       }
-      toastSuccess(
-        "Success!",
-        `You have successfully unstaked ${tokenAmount} xCNT !`
-      );
+
       await getTokenBalances();
     } catch (error) {
       toastError("An error occurred while unstaking xCNT");
     }
     setPendingTx(false);
   };
+
+  const BtnLoadingComp =
+    pendingTx === false ? (
+      <Button
+        width="100%"
+        onClick={async () => {
+          setPendingTx(true);
+          await handleApprove();
+          setPendingTx(false);
+        }}
+      >
+        Approve CNT
+      </Button>
+    ) : (
+      <Button isLoading endIcon={<AutoRenewIcon spin color="currentColor" />}>
+        Approving CNT ...
+      </Button>
+    );
+
   const renderBottomButtons = () => {
     if (!account) {
       return <UnlockButton mt="8px" width="100%" />;
@@ -302,32 +336,94 @@ const CNTBar = () => {
     if (index === 0) {
       if (!allowance.toNumber()) {
         return (
-          <Button
-            disabled={requestedApproval}
-            onClick={handleApprove}
-            style={{ maxWidth: "400px", width: "100%" }}
-          >
-            Approve CNT
-          </Button>
+          // <Button
+          //   disabled={requestedApproval}
+          //   onClick={handleApprove}
+          //   style={{ maxWidth: "400px", width: "100%" }}
+          // >
+          //   Approve CNT
+          // </Button>
+          // <BtnLoadingComp />
+          pendingTx === false ? (
+            <Button
+              style={{ maxWidth: "400px", width: "100%" }}
+              onClick={async () => {
+                setPendingTx(true);
+                await handleApprove();
+                setPendingTx(false);
+              }}
+            >
+              Approve CNT
+            </Button>
+          ) : (
+            <Button
+              isLoading
+              style={{ maxWidth: "400px", width: "100%" }}
+              endIcon={<AutoRenewIcon spin color="currentColor" />}
+            >
+              Approving CNT ...
+            </Button>
+          )
         );
       }
       return (
-        <Button
-          disabled={tokenBalance.eq(new BigNumber(0)) || pendingDepositTx}
-          onClick={stakeCnt}
-          style={{ maxWidth: "400px", width: "100%" }}
-        >
-          {pendingDepositTx ? "Staking CNT..." : "Stake CNT"}
-        </Button>
+        // <Button
+        //   disabled={tokenBalance.eq(new BigNumber(0)) || pendingDepositTx}
+        //   onClick={stakeCnt}
+        //   style={{ maxWidth: "400px", width: "100%" }}
+        // >
+        //   {pendingDepositTx ? "Staking CNT..." : "Stake CNT"}
+        // </Button>
+
+        pendingTx === false ? (
+          <Button
+            style={{ maxWidth: "400px", width: "100%" }}
+            onClick={async () => {
+              setPendingTx(true);
+              await stakeCnt();
+              setPendingTx(false);
+            }}
+          >
+            Stake CNT
+          </Button>
+        ) : (
+          <Button
+            isLoading
+            style={{ maxWidth: "400px", width: "100%" }}
+            endIcon={<AutoRenewIcon spin color="currentColor" />}
+          >
+            Staking CNT...
+          </Button>
+        )
       );
     }
     return (
-      <Button
-        disabled={!xCNTBalance.toNumber() || pendingTx}
-        onClick={unstakeCnt}
-      >
-        {pendingTx ? "Converting to CNT..." : "Convert to CNT"}
-      </Button>
+      // <Button
+      //   disabled={!xCNTBalance.toNumber() || pendingTx}
+      //   onClick={unstakeCnt}
+      // >
+      //   {pendingTx ? "Converting to CNT..." : "Convert to CNT"}
+      // </Button>
+      pendingTx === false ? (
+        <Button
+          style={{ maxWidth: "400px", width: "100%" }}
+          onClick={async () => {
+            setPendingTx(true);
+            await stakeCnt();
+            setPendingTx(false);
+          }}
+        >
+          Convert to CNT
+        </Button>
+      ) : (
+        <Button
+          isLoading
+          style={{ maxWidth: "400px", width: "100%" }}
+          endIcon={<AutoRenewIcon spin color="currentColor" />}
+        >
+          Converting to CNT...
+        </Button>
+      )
     );
   };
   return (
@@ -394,6 +490,7 @@ const CNTBar = () => {
                   </ConversionInfo>
                 )}
               </InfoDiv>
+
               <CustomInputPannel>
                 <InputWrapper>
                   <Input
@@ -417,6 +514,7 @@ const CNTBar = () => {
                   </Button>
                 </Flex>
               </CustomInputPannel>
+
               {renderBottomButtons()}
             </StakingContainer>
           </Grid>
