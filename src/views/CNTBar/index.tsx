@@ -163,7 +163,7 @@ const CNTBar = () => {
   const [pendingDepositTx, setPendingDepositTx] = useState(false);
   let tokenBal = tokenBalance;
   const allowance = useStakingAllowance();
-  console.log(allowance.toString());
+
   const { onApprove } = useApproveStaking();
   const cake = getCakeContract();
   const [totalSupply, setTotalSupply] = useState<BigNumber>();

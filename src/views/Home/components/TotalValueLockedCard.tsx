@@ -21,7 +21,6 @@ const TotalValueLockedCard = () => {
   const TranslateString = useI18n();
   const data = useTotalValue();
   const tvl = data.toNumber();
-  console.log(tvl);
 
   return (
     <StyledTotalValueLockedCard>
