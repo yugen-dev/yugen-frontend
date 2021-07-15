@@ -57,20 +57,13 @@ export default function MigrationCard({
     const utcSecondsSinceEpoch =
       Math.round(utcMilllisecondsSinceEpoch / 1000) + 1200;
     try {
-      console.log({
-        token0Address,
-        token1Address,
-        balance,
-        utcSecondsSinceEpoch,
-      });
-      const txHash = await polydexMigrator.functions.migrateWithDeposit(
+      const txHash = await polydexMigrator.functions.migrate(
         token0Address,
         token1Address,
         balance,
         1,
         1,
-        utcSecondsSinceEpoch.toString(),
-        2
+        utcSecondsSinceEpoch
       );
 
       if (txHash) {
