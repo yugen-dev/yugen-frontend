@@ -145,25 +145,66 @@ const Farm: React.FC = () => {
                       )
                   )}
           </Grid>
-          {/* <StakeCNT /> */}
-          {/* <UnstakeXCNT /> */}
+          {((stakedOnly && stakedOnlyOpenPools.length === 0) ||
+            (!stakedOnly && openPools.length === 0)) && (
+            <div
+              style={{
+                width: "100%",
+                display: "grid",
+                justifyContent: "center",
+              }}
+            >
+              <div
+                dangerouslySetInnerHTML={{
+                  __html:
+                    '<lottie-player src="https://assets3.lottiefiles.com/packages/lf20_r71cen62.json"  background="transparent"  speed="1" style="height: 350px;" loop  autoplay></lottie-player>',
+                }}
+              />
+            </div>
+          )}
         </Route>
         <Route path={`${path}/history`}>
-          {stakedOnly
-            ? orderBy(stakedOnlyFinishedPools, ["sortOrder"])
-                .slice(0, numberOfPoolsVisible)
-                .map((pool) => <PoolCard key={pool.sousId} pool={pool} />)
-            : orderBy(finishedPools, ["sortOrder"])
-                .slice(0, numberOfPoolsVisible)
-                .map((pool) => <PoolCard key={pool.sousId} pool={pool} />)}
+          <Grid
+            container
+            spacing={3}
+            style={{ margin: "30px 0px" }}
+            justify="center"
+          >
+            {stakedOnly
+              ? orderBy(stakedOnlyFinishedPools, ["sortOrder"])
+                  .slice(0, numberOfPoolsVisible)
+                  .map((pool) => (
+                    <Grid item xs={12} md={6} lg={4} xl={4}>
+                      <PoolCard key={pool.sousId} pool={pool} />
+                    </Grid>
+                  ))
+              : orderBy(finishedPools, ["sortOrder"])
+                  .slice(0, numberOfPoolsVisible)
+                  .map((pool) => (
+                    <Grid item xs={12} md={6} lg={4} xl={4}>
+                      <PoolCard key={pool.sousId} pool={pool} />
+                    </Grid>
+                  ))}
+          </Grid>
+          {((stakedOnly && stakedOnlyFinishedPools.length === 0) ||
+            (!stakedOnly && finishedPools.length === 0)) && (
+            <div
+              style={{
+                width: "100%",
+                display: "grid",
+                justifyContent: "center",
+              }}
+            >
+              <div
+                dangerouslySetInnerHTML={{
+                  __html:
+                    '<lottie-player src="https://assets3.lottiefiles.com/packages/lf20_r71cen62.json"  background="transparent"  speed="1" style="height: 350px;" loop  autoplay></lottie-player>',
+                }}
+              />
+            </div>
+          )}
         </Route>
         <div ref={loadMoreRef} />
-        {/* <div
-          dangerouslySetInnerHTML={{
-            __html:
-              '<lottie-player src="https://assets3.lottiefiles.com/packages/lf20_r71cen62.json"  background="transparent"  speed="1" style="height: 350px;" loop  autoplay></lottie-player>',
-          }}
-        /> */}
       </Container>
     </div>
   );

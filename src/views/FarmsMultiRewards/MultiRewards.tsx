@@ -11,7 +11,7 @@ import Grid from "@material-ui/core/Grid";
 import { useWeb3React } from "@web3-react/core";
 import { usePools, useBlock, usePriceCakeBusd } from "state/hooks";
 import { getCakeContract } from "utils/contractHelpers";
-import cntMascot from 'images/Cryption Network Mascot Farming.png';
+import cntMascot from "images/Cryption Network Mascot Farming.png";
 import PoolTabButtons from "./components/PoolTabButtons";
 // import FlexLayout from "components/layout/Flex";
 // import pools from "config/constants/pools";
@@ -94,7 +94,13 @@ const Farm: React.FC = () => {
             <CNHeading>Multi-Rewards Farms</CNHeading>
           </Grid>
           <Grid item xs={12} md={6} lg={6} xl={6}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <img src={cntMascot} alt="Cryption Netwrok" width="250px" />
             </div>
           </Grid>
@@ -106,60 +112,108 @@ const Farm: React.FC = () => {
           setStackedOnly={setStakedOnly}
         />
         <Route exact path={`${path}`}>
-          <Grid container spacing={3} style={{ margin: "30px 0px" }} justify="center">
+          <Grid
+            container
+            spacing={3}
+            style={{ margin: "30px 0px" }}
+            justify="center"
+          >
             {stakedOnly
               ? orderBy(stakedOnlyOpenPools, ["sortOrder"])
-                .slice(0, numberOfPoolsVisible)
-                .map(
-                  (pool) =>
-                    pool.poolCategory === PoolCategory.CORE && (
-                      <Grid item xs={12} md={6} lg={4} xl={4}>
-                        <PoolCard
-                          key={pool.sousId}
-                          pool={pool}
-                          valueOfCNTinUSD={cntPrice}
-                        />{" "}
-                      </Grid>
-                    )
-                )
+                  .slice(0, numberOfPoolsVisible)
+                  .map(
+                    (pool) =>
+                      pool.poolCategory === PoolCategory.CORE && (
+                        <Grid item xs={12} md={6} lg={4} xl={4}>
+                          <PoolCard
+                            key={pool.sousId}
+                            pool={pool}
+                            valueOfCNTinUSD={cntPrice}
+                          />{" "}
+                        </Grid>
+                      )
+                  )
               : orderBy(openPools, ["sortOrder"])
-                .slice(0, numberOfPoolsVisible)
-                .map(
-                  (pool) =>
-                    pool.poolCategory === PoolCategory.CORE && (
-                      <Grid item xs={12} md={6} lg={4} xl={4}>
-                        <PoolCard
-                          key={pool.sousId}
-                          pool={pool}
-                          valueOfCNTinUSD={cntPrice}
-                        />{" "}
-                      </Grid>
-                    )
-                )}
+                  .slice(0, numberOfPoolsVisible)
+                  .map(
+                    (pool) =>
+                      pool.poolCategory === PoolCategory.CORE && (
+                        <Grid item xs={12} md={6} lg={4} xl={4}>
+                          <PoolCard
+                            key={pool.sousId}
+                            pool={pool}
+                            valueOfCNTinUSD={cntPrice}
+                          />{" "}
+                        </Grid>
+                      )
+                  )}
           </Grid>
-          {/* <StakeCNT /> */}
-          {/* <UnstakeXCNT /> */}
+          {((stakedOnly && stakedOnlyOpenPools.length === 0) ||
+            (!stakedOnly && openPools.length === 0)) && (
+            <div
+              style={{
+                width: "100%",
+                display: "grid",
+                justifyContent: "center",
+              }}
+            >
+              <div
+                dangerouslySetInnerHTML={{
+                  __html:
+                    '<lottie-player src="https://assets3.lottiefiles.com/packages/lf20_r71cen62.json"  background="transparent"  speed="1" style="height: 350px;" loop  autoplay></lottie-player>',
+                }}
+              />
+            </div>
+          )}
         </Route>
         <Route path={`${path}/history`}>
-          {stakedOnly
-            ? orderBy(stakedOnlyFinishedPools, ["sortOrder"])
-              .slice(0, numberOfPoolsVisible)
-              .map((pool) => (
-                <PoolCard
-                  key={pool.sousId}
-                  pool={pool}
-                  valueOfCNTinUSD={cntPrice}
-                />
-              ))
-            : orderBy(finishedPools, ["sortOrder"])
-              .slice(0, numberOfPoolsVisible)
-              .map((pool) => (
-                <PoolCard
-                  key={pool.sousId}
-                  pool={pool}
-                  valueOfCNTinUSD={cntPrice}
-                />
-              ))}
+          <Grid
+            container
+            spacing={3}
+            style={{ margin: "30px 0px" }}
+            justify="center"
+          >
+            {stakedOnly
+              ? orderBy(stakedOnlyFinishedPools, ["sortOrder"])
+                  .slice(0, numberOfPoolsVisible)
+                  .map((pool) => (
+                    <Grid item xs={12} md={6} lg={4} xl={4}>
+                      <PoolCard
+                        key={pool.sousId}
+                        pool={pool}
+                        valueOfCNTinUSD={cntPrice}
+                      />
+                    </Grid>
+                  ))
+              : orderBy(finishedPools, ["sortOrder"])
+                  .slice(0, numberOfPoolsVisible)
+                  .map((pool) => (
+                    <Grid item xs={12} md={6} lg={4} xl={4}>
+                      <PoolCard
+                        key={pool.sousId}
+                        pool={pool}
+                        valueOfCNTinUSD={cntPrice}
+                      />
+                    </Grid>
+                  ))}
+          </Grid>
+          {((stakedOnly && stakedOnlyFinishedPools.length === 0) ||
+            (!stakedOnly && finishedPools.length === 0)) && (
+            <div
+              style={{
+                width: "100%",
+                display: "grid",
+                justifyContent: "center",
+              }}
+            >
+              <div
+                dangerouslySetInnerHTML={{
+                  __html:
+                    '<lottie-player src="https://assets3.lottiefiles.com/packages/lf20_r71cen62.json"  background="transparent"  speed="1" style="height: 350px;" loop  autoplay></lottie-player>',
+                }}
+              />
+            </div>
+          )}
         </Route>
         <div ref={loadMoreRef} />
       </Container>

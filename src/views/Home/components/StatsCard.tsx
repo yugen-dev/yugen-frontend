@@ -2,6 +2,7 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import styled from "styled-components";
 import { Text } from "cryption-uikit";
+import { useMedia } from "react-use";
 
 export interface CardValueProps {
   totalSuply?: number;
@@ -16,6 +17,11 @@ export interface CardValueProps {
 const Card = styled.div`
   border-radius: 0.625rem !important;
   padding: 30px 15px;
+  background-color: #1e202a;
+`;
+const SubCard = styled.div`
+  border-radius: 0.625rem !important;
+  padding: 15px 15px;
   background-color: #1e202a;
 `;
 const TextAlignMent = styled.div`
@@ -85,6 +91,7 @@ const CardValue: React.FC<CardValueProps> = ({
   burnerFees,
   devFees,
 }) => {
+  const isInMobileView = useMedia("(max-width: 950px)");
   const numberWithCommas = (number) => {
     const parts = number.toString().split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -102,6 +109,206 @@ const CardValue: React.FC<CardValueProps> = ({
   let burnedProgress = 0;
   if (totalSuply && burnedSupply && totalSuply > 0 && burnedSupply > 0) {
     burnedProgress = (100 * burnedSupply) / totalSuply;
+  }
+
+  if (isInMobileView) {
+    return (
+      <>
+        <Card>
+          <ProgressText
+            style={{ marginBottom: "15px", flexDirection: "column" }}
+          >
+            <Text color="white" fontSize="18px" fontWeight="700">
+              CNT & Summary
+            </Text>
+            <Text color="#C1C5CB" fontSize="12px" ml="5px" textAlign="center">
+              * Amount allocated through mining is distributed every second
+            </Text>
+          </ProgressText>
+
+          <ProgressText
+            style={{
+              flexWrap: "wrap",
+              justifyContent: "space-evenly",
+            }}
+          >
+            <ProgressItemText>
+              <Text color="#9d9fa8" fontSize="15px" textAlign="center">
+                Circulating Supply
+              </Text>
+              <Text
+                color="#2082E9"
+                fontSize="22px"
+                fontWeight="700"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                {numberWithCommas(circulatingSupply)}{" "}
+                <Text color="#C1C5CB" fontSize="15px" ml="8px">
+                  {" "}
+                  CNT{" "}
+                </Text>
+              </Text>
+            </ProgressItemText>
+            <ProgressItemText>
+              <Text color="#9d9fa8" fontSize="15px" textAlign="center">
+                Total Burned
+              </Text>
+              <Text
+                color="#f55c47"
+                fontSize="22px"
+                fontWeight="700"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                {numberWithCommas(burnedSupply)}{" "}
+                <Text color="#C1C5CB" fontSize="15px" ml="8px">
+                  {" "}
+                  CNT{" "}
+                </Text>
+              </Text>
+            </ProgressItemText>
+            <ProgressItemText>
+              <Text color="#9d9fa8" fontSize="15px" textAlign="center">
+                Max Supply
+              </Text>
+              <Text
+                color="white"
+                fontSize="22px"
+                fontWeight="700"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                {numberWithCommas(totalSuply)}{" "}
+                <Text color="#C1C5CB" fontSize="15px" ml="8px">
+                  {" "}
+                  CNT
+                </Text>
+              </Text>
+            </ProgressItemText>
+          </ProgressText>
+
+          <BarParent>
+            <BlueBar progressVal={progressBar} />
+            <RedbBar progressVal={burnedProgress} marginVal={progressBar} />
+          </BarParent>
+        </Card>
+        <br />
+        <SubCard>
+          <Grid item xs={12} md={6} lg={6} xl={6}>
+            <TextAlignMent>
+              <ProgressText>
+                <Text color="#9d9fa8" fontSize="16px">
+                  Total Supply
+                </Text>
+                <Text color="white" fontSize="16px" fontWeight="700">
+                  {" "}
+                  {numberWithCommas(totalSuply - burnedSupply)}
+                </Text>
+              </ProgressText>
+              <ProgressText>
+                <Text color="#9d9fa8" fontSize="16px">
+                  CNT rewards per day
+                </Text>
+                <Text
+                  color="white"
+                  fontSize="16px"
+                  fontWeight="700"
+                  style={{ display: "flex", alignItems: "center" }}
+                >
+                  {numberWithCommas(25920)}
+                  <Text color="#C1C5CB" fontSize="12px" ml="5px">
+                    {" "}
+                    CNT
+                  </Text>
+                </Text>
+              </ProgressText>
+              <ProgressText>
+                <Text color="#9d9fa8" fontSize="16px">
+                  CNT Rewards per Block
+                </Text>
+                <Text
+                  color="white"
+                  fontSize="16px"
+                  fontWeight="700"
+                  style={{ display: "flex", alignItems: "center" }}
+                >
+                  {numberWithCommas(0.75)}
+                  <Text color="#C1C5CB" fontSize="12px" ml="5px">
+                    {" "}
+                    CNT
+                  </Text>
+                </Text>
+              </ProgressText>
+              {totalFees && (
+                <ProgressText>
+                  <Text color="#9d9fa8" fontSize="16px">
+                    Total Fees (24 Hrs)
+                  </Text>
+                  <Text
+                    color="white"
+                    fontSize="16px"
+                    fontWeight="700"
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    ${totalFees}{" "}
+                  </Text>
+                </ProgressText>
+              )}
+            </TextAlignMent>
+          </Grid>
+        </SubCard>
+        <br />
+        <SubCard>
+          {" "}
+          <Grid item xs={12} md={6} lg={6} xl={6}>
+            <TextAlignMent>
+              {lpFees && (
+                <ProgressText>
+                  <Text color="#9d9fa8" fontSize="16px">
+                    LP Fees
+                  </Text>
+                  <Text color="white" fontSize="16px" fontWeight="700">
+                    {" "}
+                    ${lpFees}{" "}
+                  </Text>
+                </ProgressText>
+              )}
+              {stakerFees && (
+                <ProgressText>
+                  <Text color="#C1C5CB" fontSize="16x">
+                    Staker Distrubution
+                  </Text>
+                  <Text color="white" fontSize="16px" fontWeight="700">
+                    {" "}
+                    ${stakerFees}{" "}
+                  </Text>
+                </ProgressText>
+              )}
+              {burnerFees && (
+                <ProgressText>
+                  <Text color="#C1C5CB" fontSize="16px">
+                    CNT Burned
+                  </Text>
+                  <Text color="white" fontSize="16px" fontWeight="700">
+                    {" "}
+                    ${burnerFees}{" "}
+                  </Text>
+                </ProgressText>
+              )}
+              {devFees && (
+                <ProgressText>
+                  <Text color="#C1C5CB" fontSize="16px">
+                    Dev Fees
+                  </Text>
+                  <Text color="white" fontSize="16px" fontWeight="700">
+                    {" "}
+                    ${devFees}{" "}
+                  </Text>
+                </ProgressText>
+              )}
+            </TextAlignMent>
+          </Grid>
+        </SubCard>
+      </>
+    );
   }
   return (
     <Card>
