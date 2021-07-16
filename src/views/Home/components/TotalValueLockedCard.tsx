@@ -20,7 +20,6 @@ const StyledTotalValueLockedCard = styled(Card)`
 const TotalValueLockedCard = () => {
   const TranslateString = useI18n();
   const data = useTotalValue();
-  // const tvl = data.toNumber();
 
   return (
     <StyledTotalValueLockedCard>
@@ -28,7 +27,7 @@ const TotalValueLockedCard = () => {
         <CNHeading>
           {TranslateString(762, "Total Value Locked (TVL)")}
         </CNHeading>
-        {data ? (
+        {data.toNumber() > 0 ? (
           <CardValue
             value={data.toNumber()}
             lineHeight="1.5"
