@@ -5,9 +5,9 @@ import {
   getFarmAddress,
   getSouschefContract,
 } from "utils/addressHelpers";
-import { getBiconomyWeb3 } from "utils/biconomyweb3";
+// import { getBiconomyWeb3 } from "utils/biconomyweb3";
 import { splitSignature } from "@ethersproject/bytes";
-import { functionsIn } from "lodash";
+// import { functionsIn } from "lodash";
 
 export const approve = async (lpContract, masterChefContract, account) => {
   return lpContract.methods
@@ -493,7 +493,7 @@ export const executeMetaTransactionBar = async (
   functionSignature,
   library
 ) => {
-  const biconomyWeb3 = getBiconomyWeb3();
+  // const biconomyWeb3 = getBiconomyWeb3();
   try {
     const contract = masterChefContract;
 

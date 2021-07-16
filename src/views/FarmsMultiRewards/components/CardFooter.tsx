@@ -6,7 +6,7 @@ import useI18n from "hooks/useI18n";
 import { ChevronDown, ChevronUp } from "react-feather";
 import { Flex, Text, Link } from "cryption-uikit";
 import Balance from "components/Balance";
-import { useBlock } from "state/hooks";
+// import { useBlock } from "state/hooks";
 import { PoolCategory } from "config/constants/types";
 
 interface Props {
@@ -78,11 +78,11 @@ const CardFooter: React.FC<Props> = ({
   // tokenName,
   // tokenDecimals,
   isFinished,
-  startBlock,
+  // startBlock,
   // endBlock,
   // metamaskImg,
 }) => {
-  const { blockNumber: currentBlock } = useBlock();
+  // const { blockNumber: currentBlock } = useBlock();
   const [isOpen, setIsOpen] = useState(false);
   const TranslateString = useI18n();
   const Icon = isOpen ? ChevronUp : ChevronDown;
@@ -90,7 +90,6 @@ const CardFooter: React.FC<Props> = ({
 
   const handleClick = () => setIsOpen(!isOpen);
 
-  const blocksUntilStart = Math.max(startBlock - currentBlock, 0);
   // const blocksRemaining = Math.max(endBlock - currentBlock, 0);
 
   return (

@@ -21,14 +21,13 @@ import { useSousStake } from "hooks/useStake";
 import useWeb3 from "hooks/useWeb3";
 import { useSousUnstake } from "hooks/useUnstake";
 import { getBalanceNumber } from "utils/formatBalance";
-import { SousStakeGaslessWithPermit } from "utils/callHelpers";
-import { useSousChefGasless } from "hooks/useContract";
+// import { useSousChefGasless } from "hooks/useContract";
 import { getPoolApy } from "utils/apy";
 import { useSousHarvest } from "hooks/useHarvest";
 import Balance from "components/Balance";
 import { UseGetApiPrice, useProfile } from "state/hooks";
 import Tooltip from "components/Tooltip";
-import { useSousApprove, useSousApproveWithPermit } from "hooks/useApprove";
+import { useSousApproveWithPermit } from "hooks/useApprove";
 import { QuoteToken, PoolCategory } from "config/constants/types";
 import { Pool } from "state/types";
 import { useStakeWithPermitMultireward } from "hooks/useStakeWithPermitMultirewards";
@@ -79,7 +78,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
     deadline: number;
   } | null>(null);
 
-  const { account, library } = useWeb3React("web3");
+  const { account } = useWeb3React("web3");
   const [show, setShow] = useState(false);
   // Pools using native BNB behave differently than pools using a token
   const isBnbPool = poolCategory === PoolCategory.BINANCE;
@@ -252,7 +251,6 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
   const tokencontract = getBep20Contract(tokenAddress, web3);
 
   const { onApprove } = useSousApproveWithPermit(tokencontract, sousId);
-  const sousChefContractGasless = useSousChefGasless(sousId);
 
   const handleApprove = useCallback(async () => {
     try {

@@ -20,7 +20,7 @@ const StyledTotalValueLockedCard = styled(Card)`
 const TotalValueLockedCard = () => {
   const TranslateString = useI18n();
   const data = useTotalValue();
-  const tvl = data.toNumber();
+  // const tvl = data.toNumber();
 
   return (
     <StyledTotalValueLockedCard>
@@ -46,12 +46,12 @@ const TotalValueLockedCard = () => {
   );
 };
 
-const CNValueHeading = styled.div`
-  font-size: 30px;
-  font-weight: bold;
-  text-transform: capitalize;
-  color: white;
-`;
+// const CNValueHeading = styled.div`
+//   font-size: 30px;
+//   font-weight: bold;
+//   text-transform: capitalize;
+//   color: white;
+// `;
 
 const CNText = styled.div`
   font-size: 16px;

@@ -15,7 +15,7 @@ import {
   useCNTStaker,
   useLottery,
   useSousChef,
-  useSousChefGasless,
+  // useSousChefGasless,
 } from "./useContract";
 import { useUserDeadline } from "../state/user/hooks";
 import { META_TXN_SUPPORTED_TOKENS } from "../constants/index";

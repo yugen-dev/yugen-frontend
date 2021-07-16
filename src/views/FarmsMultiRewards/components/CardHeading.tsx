@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { Flex, Heading, Image } from "cryption-uikit";
-import { CoreTag } from "components/Tags";
 
 export interface ExpandableSectionProps {
   lpLabel?: string;

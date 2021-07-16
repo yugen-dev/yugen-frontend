@@ -28,7 +28,7 @@ export const useStakeWithPermit = (pid: number, signatureData: any) => {
         );
         dispatch(fetchFarmUserDataAsync(account));
       } else {
-        const txHash = await stake(masterChefContract, pid, amount, account);
+        await stake(masterChefContract, pid, amount, account);
         dispatch(fetchFarmUserDataAsync(account));
       }
     },

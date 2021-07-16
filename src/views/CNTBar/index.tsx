@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/no-unescaped-entities */
@@ -39,7 +40,7 @@ import { useCNTStaker, useCNTStakerGasless } from "hooks/useContract";
 import { registerToken } from "utils/wallet";
 
 const CNHeading = styled.div`
-  font-size: 23px;
+  font-size: 45px;
   font-weight: bold;
   text-align: left;
   color: white;
@@ -117,7 +118,6 @@ const StakingInfo = styled.div`
 
 const HeaderGrid = styled(Grid)`
   align-items: center;
-  background: #383357;
   color: ${({ theme }) => theme.colors.primary};
   margin: 20px;
   border-radius: 10px;
@@ -433,7 +433,7 @@ const CNTBar = () => {
       <Container maxWidth="lg">
         <HeaderGrid container spacing={3}>
           <Grid item xs={12} md={6} lg={6} xl={6}>
-            <CNHeading>Maximize yield by staking CNT</CNHeading>
+            <CNHeading>CNT Staker</CNHeading>
             <StyledOl>
               <DescriptionTextLi>Stake CNT to earn more CNT.</DescriptionTextLi>
               <DescriptionTextLi>
