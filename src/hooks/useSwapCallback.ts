@@ -314,7 +314,7 @@ export function useSwapCallback(
 
         const dataToSign = JSON.stringify({
           types: {
-            EIP712Domain: [
+            Domain: [
               { name: "name", type: "string" },
               { name: "version", type: "string" },
               { name: "verifyingContract", type: "address" },

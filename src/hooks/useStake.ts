@@ -41,11 +41,11 @@ export const useStake = (pid: number) => {
             account,
             library
           );
-          toastSuccess("Success", ` Depositeded successfully`);
+          toastSuccess("Success", ` Deposited successfully`);
           dispatch(fetchFarmUserDataAsync(account));
         } else {
           await stake(masterChefContract, pid, amount, account);
-          toastSuccess("Success", ` Depositeded successfully`);
+          toastSuccess("Success", ` Deposited successfully`);
           dispatch(fetchFarmUserDataAsync(account));
         }
       } catch (e) {
@@ -90,7 +90,7 @@ export const useSousStake = (sousId, isUsingBnb = false) => {
         toastInfo("Processing...", `You requested to Deposited `);
         if (isUsingBnb) {
           await sousStakeBnb(sousChefContract, amount, account);
-          toastSuccess("Success", ` Depositeded successfully`);
+          toastSuccess("Success", ` Deposited successfully`);
           dispatch(updateUserStakedBalance(sousId, account));
           dispatch(updateUserBalance(sousId, account));
         } else if (metaTranscation) {
@@ -102,12 +102,12 @@ export const useSousStake = (sousId, isUsingBnb = false) => {
             sousId,
             library
           );
-          toastSuccess("Success", ` Depositeded successfully`);
+          toastSuccess("Success", ` Deposited successfully`);
           dispatch(updateUserStakedBalance(sousId, account));
           dispatch(updateUserBalance(sousId, account));
         } else {
           await sousStake(sousChefContract, amount, decimals, account);
-          toastSuccess("Success", ` Depositeded successfully`);
+          toastSuccess("Success", ` Deposited successfully`);
           dispatch(updateUserStakedBalance(sousId, account));
           dispatch(updateUserBalance(sousId, account));
         }

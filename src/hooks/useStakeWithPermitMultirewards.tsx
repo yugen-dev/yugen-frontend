@@ -32,12 +32,12 @@ export const useStakeWithPermitMultireward = (sousId, signatureData: any) => {
 
             library
           );
-          toastSuccess("Success", ` Depositeded successfully`);
+          toastSuccess("Success", ` Deposited successfully`);
           dispatch(updateUserStakedBalance(sousId, account));
           dispatch(updateUserBalance(sousId, account));
         } else {
           await sousStake(sousChefContract, amount, decimals, account);
-          toastSuccess("Success", ` Depositeded successfully`);
+          toastSuccess("Success", ` Deposited successfully`);
           dispatch(updateUserStakedBalance(sousId, account));
           dispatch(updateUserBalance(sousId, account));
         }
