@@ -98,21 +98,53 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     );
   };
 
+  const RenderNextHarvestIn = () => {
+    return isApproved ||
+      (signatureData !== null &&
+        signatureData.deadline > Math.ceil(Date.now() / 1000)) ? (
+      <>
+        {harvestInterval.toNumber() * 1000 && (
+          <Flex justifyContent="space-between">
+            <Text>{TranslateString(318, "Next Harvest in :")}</Text>
+            <Text bold>
+              <Countdown
+                date={harvestInterval.toNumber() * 1000}
+                renderer={Renderer}
+              />
+            </Text>
+          </Flex>
+        )}
+      </>
+    ) : (
+      <></>
+    );
+  };
+
   const renderApprovalOrStakeButton = () => {
     return isApproved ||
       (signatureData !== null &&
         signatureData.deadline > Math.ceil(Date.now() / 1000)) ? (
-      <div>
-        {harvestInterval.toNumber() * 1000 && <Flex justifyContent="space-between">
-          <Text>{TranslateString(318, "Next Harvest in :")}</Text>
-          <Text bold>
-            <Countdown
-              date={harvestInterval.toNumber() * 1000}
-              renderer={Renderer}
-            />
+      <>
+        <Flex mt="15px">
+          <Text
+            bold
+            textTransform="uppercase"
+            color="#2082E9"
+            fontSize="12px"
+            pr="5px"
+          >
+            {lpName}
           </Text>
-        </Flex>}
-
+          <Text
+            bold
+            textTransform="uppercase"
+            color="#86878F"
+            fontSize="12px"
+            mb="10px"
+          >
+            {TranslateString(1074, "Staked")}
+          </Text>
+        </Flex>
         <StakeAction
           stakedBalance={stakedBalance}
           tokenBalance={tokenBalance}
@@ -121,7 +153,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
           addLiquidityUrl={addLiquidityUrl}
           signatureData={signatureData}
         />
-      </div>
+      </>
     ) : (
       <Button
         mt="8px"
@@ -136,6 +168,8 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
 
   return (
     <Action>
+      <RenderNextHarvestIn />
+      <br />
       <Flex>
         <Text
           bold
@@ -164,26 +198,6 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
       ) : (
         renderApprovalOrStakeButton()
       )}
-      <Flex mt="15px">
-        <Text
-          bold
-          textTransform="uppercase"
-          color="#2082E9"
-          fontSize="12px"
-          pr="5px"
-        >
-          {lpName}
-        </Text>
-        <Text
-          bold
-          textTransform="uppercase"
-          color="#86878F"
-          fontSize="12px"
-          mb="10px"
-        >
-          {TranslateString(1074, "Staked")}
-        </Text>
-      </Flex>
     </Action>
   );
 };
