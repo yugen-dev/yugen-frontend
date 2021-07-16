@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import styled from "styled-components";
-import Web3 from "web3";
 import { useWeb3React } from "@web3-react/core";
 import {
   ChevronDownIcon,
@@ -15,9 +14,10 @@ import { getPolydexMigratorAddress } from "utils/addressHelpers";
 import { usePolydexMigratorContract, usePairContract } from "hooks/useContract";
 import { getBep20Contract } from "utils/contractHelpers";
 import { useMigrationpairRemover } from "state/user/hooks";
+import ConfirmationPendingContent from "components/TransactionConfirmationModal/ConfirmationPendingContent";
+import Modal from "components/Modal"
 import { useToast } from "state/hooks";
 import { useActiveWeb3React } from "hooks";
-import BigNumber from "bignumber.js";
 
 interface ModalProps {
   pairAddress: string;
@@ -72,8 +72,8 @@ export default function MigrationCard({
         1,
         utcSecondsSinceEpoch
       );
-
-      if (txHash) {
+      const receipt = await txHash.wait();
+      if (receipt.status) {
         getBalance()
         toastSuccess("Success", "Lp Tokens Succfully Migrated");
         setMigrateLoading(false);
@@ -90,7 +90,8 @@ export default function MigrationCard({
         polydexMigratorAddress,
         ethers.constants.MaxUint256
       );
-      if (txHash) {
+      const receipt = await txHash.wait();
+      if (receipt.status) {
         const checkAllowence = await pairContract.allowance(
           account,
           polydexMigratorAddress
@@ -158,140 +159,150 @@ export default function MigrationCard({
     if (account) getBalance();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [web3.eth.Contract]);
-  return (
-    <MigrationRow>
-      {token1Address && token0Address ? (
-        <div>
-          <RowData onClick={() => toggleDetails(!showDetails)}>
-            <ImageDiv>
-              <img src={`/images/tokens/${token0Symbol.toLowerCase()}.png`} alt={token0Symbol} width="20px" />
-              <img src={`/images/tokens/${token1Symbol.toLowerCase()}.png`} alt={token1Symbol} width="20px" />
-              <Text color="white" fontSize="15px" bold ml="10px">
-                {pairName}
-              </Text>
-            </ImageDiv>
-            {showDetails ? (
+  let jsxForRow = (<div />)
+  if (parseFloat(balance) > 0) {
+    jsxForRow = (
+      <MigrationRow>
+        {token1Address && token0Address ? (
+          <div>
+            <Modal isOpen={migrateLoading} onDismiss={() => setMigrateLoading(false)} maxHeight={90}>
+              <ConfirmationPendingContent
+                onDismiss={() => setMigrateLoading(false)}
+                pendingText="Transcation is in progress, please wait..."
+              />
+            </Modal>
+            <RowData onClick={() => toggleDetails(!showDetails)}>
               <ImageDiv>
-                <Text color="#2082E9" fontSize="13px" bold mr="7px">
-                  {exchangePlatform}
+                <img src={`/images/tokens/${token0Symbol.toLowerCase()}.png`} alt={token0Symbol} width="20px" />
+                <img src={`/images/tokens/${token1Symbol.toLowerCase()}.png`} alt={token1Symbol} width="20px" />
+                <Text color="white" fontSize="15px" bold ml="10px">
+                  {pairName}
                 </Text>
-                <ChevronUpIcon
-                  color="white"
-                  width="24px"
-                  onClick={() => toggleDetails(!showDetails)}
-                  style={{ cursor: "pointer" }}
-                />
               </ImageDiv>
-            ) : (
-              <ImageDiv>
-                <Text color="#2082E9" fontSize="13px" bold mr="7px">
-                  {exchangePlatform}
-                </Text>
-                <ChevronDownIcon
-                  color="white"
-                  width="24px"
-                  onClick={() => toggleDetails(!showDetails)}
-                  style={{ cursor: "pointer" }}
-                />
-              </ImageDiv>
-            )}
-          </RowData>
-          {showDetails && (
-            <div>
-              <InfoContainer>
-                <InfoDiv>
-                  <Text color="#9d9fa8" fontSize="18px">
-                    Pooled {token0Symbol}:
+              {showDetails ? (
+                <ImageDiv>
+                  <Text color="#2082E9" fontSize="13px" bold mr="7px">
+                    {exchangePlatform}
                   </Text>
-                  <Text fontSize="18px" bold>
-                    {token0Deposited}
+                  <ChevronUpIcon
+                    color="white"
+                    width="24px"
+                    onClick={() => toggleDetails(!showDetails)}
+                    style={{ cursor: "pointer" }}
+                  />
+                </ImageDiv>
+              ) : (
+                <ImageDiv>
+                  <Text color="#2082E9" fontSize="13px" bold mr="7px">
+                    {exchangePlatform}
                   </Text>
-                </InfoDiv>
-                <InfoDiv>
-                  <Text color="#9d9fa8" fontSize="18px">
-                    Pooled {token1Symbol}:
+                  <ChevronDownIcon
+                    color="white"
+                    width="24px"
+                    onClick={() => toggleDetails(!showDetails)}
+                    style={{ cursor: "pointer" }}
+                  />
+                </ImageDiv>
+              )}
+            </RowData>
+            {showDetails && (
+              <div>
+                <InfoContainer>
+                  <InfoDiv>
+                    <Text color="#9d9fa8" fontSize="18px">
+                      Pooled {token0Symbol}:
                   </Text>
-                  <Text fontSize="18px" bold>
-                    {token1Deposited}
+                    <Text fontSize="18px" bold>
+                      {token0Deposited}
+                    </Text>
+                  </InfoDiv>
+                  <InfoDiv>
+                    <Text color="#9d9fa8" fontSize="18px">
+                      Pooled {token1Symbol}:
                   </Text>
-                </InfoDiv>
-                <InfoDiv>
-                  <Text color="#9d9fa8" fontSize="18px">
-                    Your LP Balance:
+                    <Text fontSize="18px" bold>
+                      {token1Deposited}
+                    </Text>
+                  </InfoDiv>
+                  <InfoDiv>
+                    <Text color="#9d9fa8" fontSize="18px">
+                      Your LP Balance:
                   </Text>
-                  <Text fontSize="18px" bold>
-                    {balance}
+                    <Text fontSize="18px" bold>
+                      {balance}
+                    </Text>
+                  </InfoDiv>
+                  <InfoDiv>
+                    <Text color="#9d9fa8" fontSize="18px">
+                      Your LP share:
                   </Text>
-                </InfoDiv>
-                <InfoDiv>
-                  <Text color="#9d9fa8" fontSize="18px">
-                    Your LP share:
-                  </Text>
-                  <Text fontSize="18px" bold>
-                    {`${poolTokenPercentage.toFixed(2)}%`}
-                  </Text>
-                </InfoDiv>
-              </InfoContainer>
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                {allowence && allowence !== 0 ? (
+                    <Text fontSize="18px" bold>
+                      {`${poolTokenPercentage.toFixed(2)}%`}
+                    </Text>
+                  </InfoDiv>
+                </InfoContainer>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  {allowence && allowence !== 0 ? (
+                    <Button
+                      style={{
+                        maxWidth: "300px",
+                        width: "100%",
+                        marginTop: "20px",
+                      }}
+                      scale="md"
+                      onClick={onMigrateClicked}
+                      isLoading={migrateLoading}
+                      disabled={migrateLoading || parseFloat(balance) === 0}
+                      endIcon={
+                        migrateLoading && (
+                          <AutoRenewIcon spin color="currentColor" />
+                        )
+                      }
+                    >
+                      {migrateLoading ? "Processing" : "Migrate Liquidity"}
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={onApprove}
+                      style={{
+                        marginTop: "20px",
+                      }}
+                      isLoading={approveLoading}
+                      endIcon={
+                        approveLoading && (
+                          <AutoRenewIcon spin color="currentColor" />
+                        )
+                      }
+                    >
+                      {approveLoading ? "Processing" : "Approve"}
+                    </Button>
+                  )}
                   <Button
                     style={{
-                      maxWidth: "300px",
-                      width: "100%",
+                      width: "150px",
                       marginTop: "20px",
+                      marginLeft: '20px'
                     }}
                     scale="md"
-                    onClick={onMigrateClicked}
+                    variant="secondary"
+                    onClick={onRemovepair}
                     isLoading={migrateLoading}
-                    disabled={migrateLoading || parseFloat(balance) === 0}
-                    endIcon={
-                      migrateLoading && (
-                        <AutoRenewIcon spin color="currentColor" />
-                      )
-                    }
                   >
-                    {migrateLoading ? "Processing" : "Migrate Liquidity"}
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={onApprove}
-                    style={{
-                      marginTop: "20px",
-                    }}
-                    isLoading={approveLoading}
-                    endIcon={
-                      approveLoading && (
-                        <AutoRenewIcon spin color="currentColor" />
-                      )
-                    }
-                  >
-                    {approveLoading ? "Processing" : "Approve"}
-                  </Button>
-                )}
-                <Button
-                  style={{
-                    width: "150px",
-                    marginTop: "20px",
-                    marginLeft: '20px'
-                  }}
-                  scale="md"
-                  variant="secondary"
-                  onClick={onRemovepair}
-                  isLoading={migrateLoading}
-                >
-                  Remove Pair
+                    Remove Pair
                 </Button>
+                </div>
               </div>
-            </div>
-          )}
-        </div>
-      ) : (
-        <Text color="#9d9fa8" fontSize="18px">
-          Getting Pair Details...
-        </Text>
-      )}
-    </MigrationRow>
-  );
+            )}
+          </div>
+        ) : (
+          <Text color="#9d9fa8" fontSize="18px">
+            Getting Pair Details...
+          </Text>
+        )}
+      </MigrationRow>
+    )
+  }
+  return jsxForRow;
 }
 
 const MigrationRow = styled.div`
