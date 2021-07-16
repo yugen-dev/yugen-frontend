@@ -27,7 +27,7 @@ const Migrate = () => {
           pairAddresses = pairAddresses.filter((item, pos) => {
             return pairAddresses.indexOf(item) === pos;
           })
-          pairAddresses = pairAddresses.filter(item => item !== null);
+          pairAddresses = pairAddresses.filter(item => item !== null && item !== "0x0000000000000000000000000000000000000000");
           pairs[factoryAddrees] = {
             pairs: pairAddresses,
             exchangePlatform: checkIfPresent[0].label
@@ -90,6 +90,7 @@ const Migrate = () => {
                     return allMigrationPairs[eachFacory].pairs.map(eachPair => (
                       <MigrationCard
                         pairAddress={eachPair}
+                        factoryAddrees={eachFacory}
                         key={eachPair}
                         exchangePlatform={allMigrationPairs[eachFacory].exchangePlatform}
                       />
@@ -113,7 +114,7 @@ const Migrate = () => {
             Don't see a pool you joined?{"  "}
             <StyledInternalLink
               id="import-pool-link"
-              to="/migratefind"
+              to="/migrate/find"
               color="#2082E9"
               style={{ color: "#2082E9" }}
             >

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import styled from "styled-components";
+import Web3 from "web3";
 import { useWeb3React } from "@web3-react/core";
 import {
   ChevronDownIcon,
@@ -13,18 +14,23 @@ import useWeb3 from "hooks/useWeb3";
 import { getPolydexMigratorAddress } from "utils/addressHelpers";
 import { usePolydexMigratorContract, usePairContract } from "hooks/useContract";
 import { getBep20Contract } from "utils/contractHelpers";
+import { useMigrationpairRemover } from "state/user/hooks";
 import { useToast } from "state/hooks";
+import { useActiveWeb3React } from "hooks";
 import BigNumber from "bignumber.js";
 
 interface ModalProps {
   pairAddress: string;
   exchangePlatform: string;
+  factoryAddrees: string;
 }
 
 export default function MigrationCard({
   pairAddress,
   exchangePlatform,
+  factoryAddrees,
 }: ModalProps) {
+  const { chainId } = useActiveWeb3React();
   const pairContract = usePairContract(pairAddress, true);
   const [totalPoolTokens, setTotalPoolTokens] = useState(null);
   const [token0Deposited, setToken0Deposited] = useState(null);
@@ -40,14 +46,14 @@ export default function MigrationCard({
   const [migrateLoading, setMigrateLoading] = useState(false);
   const [balance, setBal] = useState("0");
   const [allowence, setallowence] = useState(null);
+  const removePair = useMigrationpairRemover()
   const web3 = useWeb3();
   const { account } = useWeb3React();
   const polydexMigrator = usePolydexMigratorContract();
   const polydexMigratorAddress = getPolydexMigratorAddress();
   let poolTokenPercentage = 0.0;
   if (totalPoolTokens && balance) {
-    poolTokenPercentage =
-      (parseFloat(balance) * 100) / parseFloat(totalPoolTokens);
+    poolTokenPercentage = (parseFloat(balance) * 100) / parseFloat(totalPoolTokens);
   }
 
   const onMigrateClicked = async () => {
@@ -57,21 +63,22 @@ export default function MigrationCard({
     const utcSecondsSinceEpoch =
       Math.round(utcMilllisecondsSinceEpoch / 1000) + 1200;
     try {
+      const balanceInWei = web3.utils.toWei(balance);
       const txHash = await polydexMigrator.functions.migrate(
         token0Address,
         token1Address,
-        balance,
+        balanceInWei,
         1,
         1,
         utcSecondsSinceEpoch
       );
 
       if (txHash) {
+        getBalance()
         toastSuccess("Success", "Lp Tokens Succfully Migrated");
         setMigrateLoading(false);
       }
     } catch (error) {
-      console.log(error);
       setMigrateLoading(false);
       toastSuccess("Error", "Error occured while migrating");
     }
@@ -144,6 +151,9 @@ export default function MigrationCard({
       setTotalPoolTokens(totalSupply.toString());
     }
   };
+  const onRemovepair = () => {
+    removePair(chainId, factoryAddrees, pairAddress)
+  }
   useEffect(() => {
     if (account) getBalance();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -154,8 +164,8 @@ export default function MigrationCard({
         <div>
           <RowData onClick={() => toggleDetails(!showDetails)}>
             <ImageDiv>
-              <img src={`/images/${token0Symbol}.png`} alt="BNB" width="20px" />
-              <img src={`/images/${token1Symbol}.png`} alt="BNB" width="20px" />
+              <img src={`/images/tokens/${token0Symbol.toLowerCase()}.png`} alt={token0Symbol} width="20px" />
+              <img src={`/images/tokens/${token1Symbol.toLowerCase()}.png`} alt={token1Symbol} width="20px" />
               <Text color="white" fontSize="15px" bold ml="10px">
                 {pairName}
               </Text>
@@ -222,7 +232,7 @@ export default function MigrationCard({
                   </Text>
                 </InfoDiv>
               </InfoContainer>
-              <div style={{ display: "flex", justifyContent: "center" }}>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
                 {allowence && allowence !== 0 ? (
                   <Button
                     style={{
@@ -233,7 +243,7 @@ export default function MigrationCard({
                     scale="md"
                     onClick={onMigrateClicked}
                     isLoading={migrateLoading}
-                    disabled={migrateLoading}
+                    disabled={migrateLoading || parseFloat(balance) === 0}
                     endIcon={
                       migrateLoading && (
                         <AutoRenewIcon spin color="currentColor" />
@@ -245,6 +255,9 @@ export default function MigrationCard({
                 ) : (
                   <Button
                     onClick={onApprove}
+                    style={{
+                      marginTop: "20px",
+                    }}
                     isLoading={approveLoading}
                     endIcon={
                       approveLoading && (
@@ -255,6 +268,19 @@ export default function MigrationCard({
                     {approveLoading ? "Processing" : "Approve"}
                   </Button>
                 )}
+                <Button
+                  style={{
+                    width: "150px",
+                    marginTop: "20px",
+                    marginLeft: '20px'
+                  }}
+                  scale="md"
+                  variant="secondary"
+                  onClick={onRemovepair}
+                  isLoading={migrateLoading}
+                >
+                  Remove Pair
+                </Button>
               </div>
             </div>
           )}

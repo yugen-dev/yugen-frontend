@@ -23,11 +23,11 @@ const StyledArrowLeft = styled(ArrowLeft)`
   color: ${({ theme }) => theme.colors.text};
 `;
 
-export function FindPoolTabs() {
+export function FindPoolTabs({ navigationLink }) {
   return (
     <Tabs>
       <RowBetween style={{ padding: "1rem" }}>
-        <HistoryLink to="/pool">
+        <HistoryLink to={navigationLink || "/pool"}>
           <StyledArrowLeft />
         </HistoryLink>
         <ActiveText>Import Pool</ActiveText>

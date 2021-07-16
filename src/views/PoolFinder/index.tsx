@@ -121,7 +121,7 @@ export default function PoolFinder() {
     >
       <ContainerCard>
         <CardNav activeIndex={1} />
-        <FindPoolTabs />
+        <FindPoolTabs navigationLink="/pool" />
         <CardBody>
           <AutoColumn gap="md">
             <Button

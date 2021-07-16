@@ -166,11 +166,13 @@ export const PINNED_PAIRS: {
   ],
 };
 
-export const PINNED_MIGRATION_PAIRS: {
-  readonly [chainId in ChainId]?: [string][];
-} = {
+export const PINNED_MIGRATION_PAIRS = {
   [ChainId.MAINNET]: [],
-  [ChainId.MATICTESTNET]: [],
+  [ChainId.MATICTESTNET]: {
+    "0x2A59Dcd63A4F7a23d4fF0d2542ab44870199dA17": [
+      "0xa526cF2316549e808e2d607f084953c0E465524f",
+    ],
+  },
 };
 
 export const META_TXN_SUPPORTED_TOKENS: any = {
