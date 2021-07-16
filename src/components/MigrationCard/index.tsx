@@ -15,6 +15,7 @@ import { usePolydexMigratorContract, usePairContract } from "hooks/useContract";
 import { getBep20Contract } from "utils/contractHelpers";
 import { useMigrationpairRemover } from "state/user/hooks";
 import ConfirmationPendingContent from "components/TransactionConfirmationModal/ConfirmationPendingContent";
+import TransactionSubmittedContent from "components/TransactionConfirmationModal/TransactionSubmittedContent";
 import Modal from "components/Modal"
 import { useToast } from "state/hooks";
 import { useActiveWeb3React } from "hooks";
@@ -44,6 +45,8 @@ export default function MigrationCard({
   const { toastSuccess } = useToast();
   const [approveLoading, setApproveLoading] = useState(false);
   const [migrateLoading, setMigrateLoading] = useState(false);
+  const [migrateSuccess, setMigrateSuccess] = useState(false);
+  const [migratetxHash, setMigratetxHash] = useState(null);
   const [balance, setBal] = useState("0");
   const [allowence, setallowence] = useState(null);
   const removePair = useMigrationpairRemover()
@@ -74,6 +77,8 @@ export default function MigrationCard({
       );
       const receipt = await txHash.wait();
       if (receipt.status) {
+        setMigrateSuccess(true)
+        setMigratetxHash(txHash.hash);
         getBalance()
         toastSuccess("Success", "Lp Tokens Succfully Migrated");
         setMigrateLoading(false);
@@ -165,11 +170,25 @@ export default function MigrationCard({
       <MigrationRow>
         {token1Address && token0Address ? (
           <div>
-            <Modal isOpen={migrateLoading} onDismiss={() => setMigrateLoading(false)} maxHeight={90}>
-              <ConfirmationPendingContent
+            <Modal isOpen={migrateLoading || migrateSuccess}
+              onDismiss={() => {
+                setMigrateLoading(false);
+                setMigrateSuccess(false)
+              }} maxHeight={90}>
+              {migrateLoading && <ConfirmationPendingContent
                 onDismiss={() => setMigrateLoading(false)}
                 pendingText="Transcation is in progress, please wait..."
-              />
+              />}
+              {migrateSuccess &&
+                <TransactionSubmittedContent
+                  chainId={chainId}
+                  hash={migratetxHash}
+                  onDismiss={() => {
+                    setMigrateLoading(false);
+                    setMigrateSuccess(false)
+                  }}
+                />
+              }
             </Modal>
             <RowData onClick={() => toggleDetails(!showDetails)}>
               <ImageDiv>
