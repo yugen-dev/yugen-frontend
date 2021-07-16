@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/require-default-props */
-import { Percent } from "@pancakeswap-libs/sdk";
+import { Percent } from "@cryption-network/polydex-sdk";
 import React from "react";
 import { ONE_BIPS } from "../../constants";
 import { warningSeverity } from "../../utils/prices";

@@ -158,7 +158,7 @@ export default createReducer(initialState, (builder) =>
     .addCase(
       addMigrationPair,
       (state, { payload: { chainId, factoryAddress, pairAddress } }) => {
-        if (state.migrationPairs[chainId]) {
+        if (state.migrationPairs && state.migrationPairs[chainId]) {
           if (state.migrationPairs[chainId][factoryAddress]) {
             const currentPairs = state.migrationPairs[chainId][factoryAddress];
             if (!currentPairs.includes(pairAddress)) {

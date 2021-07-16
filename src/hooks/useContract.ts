@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { Contract } from "@ethersproject/contracts";
-import { ChainId } from "@pancakeswap-libs/sdk";
+import { ChainId } from "@cryption-network/polydex-sdk";
 import { abi as IUniswapV2PairABI } from "@uniswap/v2-core/build/IUniswapV2Pair.json";
 import useWeb3 from "hooks/useWeb3";
 import { getBiconomyWeb3 } from "utils/biconomyweb3";

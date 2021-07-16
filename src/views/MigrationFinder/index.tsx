@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import { Currency, ETHER } from "@pancakeswap-libs/sdk";
+import { Currency, ETHER } from "@cryption-network/polydex-sdk";
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import {
@@ -54,10 +54,12 @@ export default function PoolFinder() {
         token1.address,
         token2.address
       );
-      addPair(chainId, factoryAddress, pairAddress );
-      setPairAddresses(pairAddress);
-      setValidPair(true);
-      setPairLoading(false);
+      if (pairAddress !== '0x0000000000000000000000000000000000000000') {
+        addPair(chainId, factoryAddress, pairAddress);
+        setPairAddresses(pairAddress);
+        setValidPair(true);
+        setPairLoading(false);
+      }
     } else {
       setValidPair(false);
       setPairLoading(false);
@@ -105,7 +107,7 @@ export default function PoolFinder() {
       }}
     >
       <ContainerCard>
-        <FindPoolTabs />
+        <FindPoolTabs navigationLink="/migrate" />
         <CardBody style={{ width: '100%' }}>
           <div>
             <Text textAlign="center">Select Exchange Platform</Text>
@@ -121,6 +123,7 @@ export default function PoolFinder() {
                 setShowSearch(true);
                 setActiveField(Fields.TOKEN0);
               }}
+              style={{ justifyContent: 'space-between' }}
               startIcon={
                 currency0 ? (
                   <CurrencyLogo
@@ -129,12 +132,14 @@ export default function PoolFinder() {
                   />
                 ) : null
               }
+              variant="secondary"
               endIcon={<ChevronDownIcon width="24px" color="white" />}
               width="100%"
             >
-              {currency0
+              <span style={{ width: '100%', textAlign: 'left' }}>{currency0
                 ? currency0.symbol
                 : TranslateString(82, "Select a Token")}
+              </span>
             </Button>
 
             <ColumnCenter>
@@ -146,6 +151,8 @@ export default function PoolFinder() {
                 setShowSearch(true);
                 setActiveField(Fields.TOKEN1);
               }}
+              variant="secondary"
+              style={{ justifyContent: 'space-between' }}
               startIcon={
                 currency1 ? (
                   <CurrencyLogo
@@ -157,9 +164,10 @@ export default function PoolFinder() {
               endIcon={<ChevronDownIcon width="24px" color="white" />}
               width="100%"
             >
-              {currency1
+              <span style={{ width: '100%', textAlign: 'left' }}>{currency1
                 ? currency1.symbol
                 : TranslateString(82, "Select a Token")}
+              </span>
             </Button>
 
             {isValidPair && pairAddresses && (

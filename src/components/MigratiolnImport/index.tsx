@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect } from "react";
 import { Button, Card as ToolKitCard, Text } from "cryption-uikit";
 import { darken } from "polished";
+import useWeb3 from "hooks/useWeb3";
 import { ChevronDown, ChevronUp } from "react-feather";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -52,6 +54,7 @@ export function MinimalPositionCard({
   const { account } = useActiveWeb3React();
   const [userPoolBalance, setUserPoolBalance] = useState(null);
   const [totalPoolTokens, setTotalPoolTokens] = useState(null);
+  const web3 = useWeb3();
   const [token0Deposited, setToken0Deposited] = useState(null);
   const [token1Deposited, setToken1Deposited] = useState(null);
   const currency0 = showUnwrapped ? token0 : unwrappedToken(token0);
@@ -70,13 +73,33 @@ export function MinimalPositionCard({
   //       pair.getLiquidityValue(pair.token1, totalPoolTokens, userPoolBalance, false),
   //     ]
   //     : [undefined, undefined]
+  let poolTokenPercentage = '0.0';
+  if (totalPoolTokens && userPoolBalance) {
+    poolTokenPercentage = ((parseFloat(userPoolBalance) * 100) / parseFloat(totalPoolTokens)).toFixed(2).toString();
+  }
   const getBalance = async () => {
     if (pairContract) {
-      const getLiquidity = await pairContract.balanceOf(account);
-      const getTotalSupply = await pairContract.totalSupply();
+      let getLiquidity = await pairContract.balanceOf(account);
+      getLiquidity = web3.utils.fromWei(
+        getLiquidity.toString(),
+        "ether"
+      );
+      let getTotalSupply = await pairContract.totalSupply();
+      getTotalSupply = web3.utils.fromWei(
+        getTotalSupply.toString(),
+        "ether"
+      );
       const getReserves = await pairContract.getReserves();
-      const token1Bal = (parseFloat(getLiquidity.toString()) / parseFloat(getTotalSupply.toString())) * parseFloat(getReserves.reserve0.toString());
-      const token2Bal = (parseFloat(getLiquidity.toString()) / parseFloat(getTotalSupply.toString())) * parseFloat(getReserves.reserve1.toString());
+      const weiReserve1 = web3.utils.fromWei(
+        getReserves.reserve0.toString(),
+        "ether"
+      );
+      const weiReserve2 = web3.utils.fromWei(
+        getReserves.reserve1.toString(),
+        "ether"
+      );
+      const token1Bal = (parseFloat(getLiquidity.toString()) / parseFloat(getTotalSupply.toString())) * parseFloat(weiReserve1.toString());
+      const token2Bal = (parseFloat(getLiquidity.toString()) / parseFloat(getTotalSupply.toString())) * parseFloat(weiReserve2.toString());
       setToken0Deposited(token1Bal);
       setToken1Deposited(token2Bal);
       setUserPoolBalance(getLiquidity);
@@ -113,44 +136,46 @@ export function MinimalPositionCard({
                   margin
                   size={20}
                 />
-                <Text fontSize="14px" color="#9d9fa8">
+                <Text color="white" fontSize="18px" bold>
                   {currency0.symbol}/{currency1.symbol}
                 </Text>
               </RowFixed>
               <RowFixed>
-                <Text fontSize="18px" color="#2082E9">
-                  {userPoolBalance ? userPoolBalance.toString() : "-"}
+                <Text fontSize="18px" bold >
+                  {userPoolBalance ? parseFloat(userPoolBalance).toFixed(2) : "-"}
                 </Text>
               </RowFixed>
             </FixedHeightRow>
             <AutoColumn gap="4px">
               <FixedHeightRow>
-                <Text fontSize="14px" color="#9d9fa8">
+                <Text color="#9d9fa8" fontSize="18px">
                   {currency0.symbol}:
                 </Text>
                 <RowFixed>
-                  <Text ml="6px" fontSize="18px" color="#2082E9">
-                    {token0Deposited}
+                  <Text ml="6px" fontSize="18px" bold >
+                    {parseFloat(token0Deposited).toFixed(2)}
                   </Text>
                 </RowFixed>
               </FixedHeightRow>
               <FixedHeightRow>
-                <Text fontSize="14px" color="#9d9fa8">
+                <Text color="#9d9fa8" fontSize="18px">
                   {currency1.symbol}:
                 </Text>
                 <RowFixed>
-                  <Text ml="6px" fontSize="18px" color="#2082E9">
-                    {token1Deposited}
+                  <Text ml="6px" fontSize="18px" bold>
+                    {parseFloat(token1Deposited).toFixed(2)}
                   </Text>
                 </RowFixed>
               </FixedHeightRow>
               <FixedHeightRow>
-                <Text fontSize="14px" color="#9d9fa8">
+                <Text color="#9d9fa8" fontSize="18px">
                   Your Pool Share:
                 </Text>
                 <RowFixed>
-                  <Text ml="6px" fontSize="18px" color="#2082E9">
-                    {userPoolBalance && totalPoolTokens ? parseFloat(userPoolBalance.toString()) * 100 / parseFloat(totalPoolTokens.toString()) : "-"}
+                  <Text ml="6px" fontSize="18px" bold>
+                  {poolTokenPercentage
+                  ? `${poolTokenPercentage}%`
+                  : "-"}
                   </Text>
                 </RowFixed>
               </FixedHeightRow>
@@ -198,7 +223,7 @@ export default function FullPositionCard({
   //     : [undefined, undefined]
   const token0Deposited = "0";
   const token1Deposited = "0";
-  const poolTokenPercentage = 0.33;
+  const poolTokenPercentage = 0.0;
   const getBalance = async () => {
     const getLiquidity = await pairContract.balanceOf(account);
     const getTotalSupply = await pairContract.totalSupply();
@@ -287,7 +312,7 @@ export default function FullPositionCard({
               <Text>Your pool share:</Text>
               <Text>
                 {poolTokenPercentage
-                  ? `${poolTokenPercentage.toFixed(2)}%`
+                  ? `${poolTokenPercentage}%`
                   : "-"}
               </Text>
             </FixedHeightRow>

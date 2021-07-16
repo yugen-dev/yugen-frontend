@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { Flex, Heading, Image } from "cryption-uikit";
-import { CoreTag } from "components/Tags";
 
 export interface ExpandableSectionProps {
   lpLabel?: string;
@@ -32,10 +31,10 @@ const CardHeading: React.FC<ExpandableSectionProps> = ({
       />
       <Flex flexDirection="column" alignItems="flex-end">
         <Heading mb="15px">{lpLabel}</Heading>
-        <Flex justifyContent="center">
-          {/* {isCommunityFarm ? <CommunityTag /> : <CoreTag />} */}
+        {/* <Flex justifyContent="center">
+           {isCommunityFarm ? <CommunityTag /> : <CoreTag />} 
           <CoreTag />
-        </Flex>
+        </Flex> */}
       </Flex>
     </Wrapper>
   );

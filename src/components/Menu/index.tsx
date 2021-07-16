@@ -87,6 +87,9 @@ const Menu = (props) => {
       showGasslessTranscationTab={!!accountId}
       gaslessTranscationChecked={checkedState}
       gasslessTranscationLabel="Gasless Mode"
+      gaslessTransactionTooltip={
+        "This button will toggle PolyDEX's gasless feature for your wallet. Users with hardware wallets should keep this setting turned off."
+      }
       toggleTranscationState={handleMetaToggle}
       login={
         ETHERJS_PATHS.includes(

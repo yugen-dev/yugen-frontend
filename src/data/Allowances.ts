@@ -1,4 +1,4 @@
-import { Token, TokenAmount } from "@pancakeswap-libs/sdk";
+import { Token, TokenAmount } from "@cryption-network/polydex-sdk";
 import { useMemo } from "react";
 
 import { useTokenContract } from "../hooks/useContract";

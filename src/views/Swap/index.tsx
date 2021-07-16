@@ -1,7 +1,12 @@
 /* eslint-disable no-nested-ternary */
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { ArrowDown } from "react-feather";
-import { CurrencyAmount, JSBI, Token, Trade } from "@pancakeswap-libs/sdk";
+import {
+  CurrencyAmount,
+  JSBI,
+  Token,
+  Trade,
+} from "@cryption-network/polydex-sdk";
 import {
   ArrowDownIcon,
   Button,
@@ -216,7 +221,6 @@ const Swap = () => {
     trade,
     allowedSlippage
   );
-
   // check if user has gone through approval process, used to show two step buttons, reset on token change
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false);
 
@@ -226,6 +230,26 @@ const Swap = () => {
       setApprovalSubmitted(true);
     }
   }, [approval, approvalSubmitted]);
+  const [requestedApproval, setRequestedApproval] = useState(false);
+
+  const handleApprove = useCallback(async () => {
+    try {
+      setRequestedApproval(true);
+      const txHashh = await approveCallback();
+      // user rejected tx or didn't go thru
+      // @ts-ignore
+      if (!txHashh) {
+        setApprovalSubmitted(false);
+
+        setRequestedApproval(false);
+      }
+      setRequestedApproval(false);
+    } catch (e) {
+      setApprovalSubmitted(false);
+      setRequestedApproval(false);
+      console.error(e);
+    }
+  }, [approveCallback, setRequestedApproval]);
 
   const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(
     currencyBalances[Field.INPUT]
@@ -439,7 +463,7 @@ const Swap = () => {
             </AutoRow>
             <AddressInputPanel
               id="recipient"
-              value="dw"
+              value={recipient}
               onChange={onChangeRecipient}
             />
           </>
@@ -499,14 +523,10 @@ const Swap = () => {
           ) : showApproveFlow ? (
             <RowBetween>
               <Button
-                onClick={approveCallback}
-                disabled={
-                  approval !== ApprovalState.NOT_APPROVED || approvalSubmitted
-                }
+                onClick={handleApprove}
+                disabled={requestedApproval}
                 style={{ width: "48%" }}
-                variant={
-                  approval === ApprovalState.APPROVED ? "success" : "primary"
-                }
+                // variant={requestedApproval ? "success" : "primary"}
               >
                 {approval === ApprovalState.PENDING ? (
                   <AutoRow gap="6px" justify="center">

@@ -85,7 +85,10 @@ const App: React.FC = () => {
               <Route path="/pools">
                 <Pools />
               </Route>
-              <Route path="/migrate">
+              <Route  
+                exact
+                strict
+                path="/migrate">
                 <Migrate />
               </Route>
               <Route path="/cntbar">
@@ -96,7 +99,7 @@ const App: React.FC = () => {
               <Route
                 exact
                 strict
-                path="/migratefind"
+                path="/migrate/find"
                 component={MigrateFinder}
               />
               <Route exact strict path="/pool" component={Pool} />

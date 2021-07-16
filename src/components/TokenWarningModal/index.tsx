@@ -1,4 +1,4 @@
-import { Token } from "@pancakeswap-libs/sdk";
+import { Token } from "@cryption-network/polydex-sdk";
 import { transparentize } from "polished";
 import { Button, Text } from "cryption-uikit";
 import React, { useCallback, useMemo, useState } from "react";

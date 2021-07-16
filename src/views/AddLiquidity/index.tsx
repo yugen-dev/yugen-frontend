@@ -9,7 +9,7 @@ import {
   ETHER,
   TokenAmount,
   WETH,
-} from "@pancakeswap-libs/sdk";
+} from "@cryption-network/polydex-sdk";
 import { useProfile } from "state/hooks";
 import { Button, AddIcon, Card, Text as UIKitText } from "cryption-uikit";
 import { AbiItem } from "web3-utils";
@@ -164,10 +164,45 @@ export default function AddLiquidity({
     parsedAmounts[Field.CURRENCY_A],
     ROUTER_ADDRESS
   );
+
   const [approvalB, approveBCallback] = useApproveCallback(
     parsedAmounts[Field.CURRENCY_B],
     ROUTER_ADDRESS
   );
+
+  const [requestedApprovalA, setRequestedApprovalA] = useState(false);
+
+  const handleApproveA = useCallback(async () => {
+    try {
+      setRequestedApprovalA(true);
+      const txHashh = await approveACallback();
+      // user rejected tx or didn't go thru
+      // @ts-ignore
+      if (!txHashh) {
+        setRequestedApprovalA(false);
+      }
+    } catch (e) {
+      console.error(e);
+      setRequestedApprovalA(false);
+    }
+  }, [approveACallback, setRequestedApprovalA]);
+
+  const [requestedApprovalB, setRequestedApprovalB] = useState(false);
+
+  const handleApproveB = useCallback(async () => {
+    try {
+      setRequestedApprovalB(true);
+      const txHashh = await approveBCallback();
+      // user rejected tx or didn't go thru
+      // @ts-ignore
+      if (!txHashh) {
+        setRequestedApprovalB(false);
+      }
+    } catch (e) {
+      console.error(e);
+      setRequestedApprovalB(false);
+    }
+  }, [approveBCallback, setRequestedApprovalB]);
 
   const addTransaction = useTransactionAdder();
 
@@ -591,12 +626,10 @@ export default function AddLiquidity({
                 <RowBetween>
                   {approvalA !== ApprovalState.APPROVED && (
                     <Button
-                      onClick={approveACallback}
-                      disabled={approvalA === ApprovalState.PENDING}
+                      onClick={handleApproveA}
+                      disabled={requestedApprovalA}
                       className={
-                        approvalA === ApprovalState.PENDING
-                          ? "button-disabled"
-                          : "button-style"
+                        requestedApprovalA ? "button-disabled" : "button-style"
                       }
                       style={{
                         width:
@@ -614,12 +647,10 @@ export default function AddLiquidity({
                   )}
                   {approvalB !== ApprovalState.APPROVED && (
                     <Button
-                      onClick={approveBCallback}
-                      disabled={approvalB === ApprovalState.PENDING}
+                      onClick={handleApproveB}
+                      disabled={requestedApprovalB}
                       className={
-                        approvalB === ApprovalState.PENDING
-                          ? "button-disabled"
-                          : "button-style"
+                        requestedApprovalB ? "button-disabled" : "button-style"
                       }
                       style={{
                         width:

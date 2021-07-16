@@ -1,4 +1,9 @@
-import { Currency, currencyEquals, ETHER, WETH } from "@pancakeswap-libs/sdk";
+import {
+  Currency,
+  currencyEquals,
+  ETHER,
+  WETH,
+} from "@cryption-network/polydex-sdk";
 import { useMemo } from "react";
 import { tryParseAmount } from "../state/swap/hooks";
 import { useTransactionAdder } from "../state/transactions/hooks";

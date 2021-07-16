@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 import React, { useCallback, useMemo, useState, useEffect } from "react";
-import { Button, Modal } from "cryption-uikit";
+import { AutoRenewIcon, Button, Modal } from "cryption-uikit";
 import ModalActions from "components/ModalActions";
 import TokenInput from "../../../components/TokenInput";
 import useI18n from "../../../hooks/useI18n";
@@ -44,6 +44,25 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({
     setVal(fullBalance);
   }, [fullBalance, setVal]);
 
+  const BtnLoadingComp =
+    pendingTx === false ? (
+      <Button
+        width="100%"
+        onClick={async () => {
+          setPendingTx(true);
+          await onConfirm(val, stakingTokenDecimals);
+          setPendingTx(false);
+          onDismiss();
+        }}
+      >
+        {TranslateString(464, "Confirm")}
+      </Button>
+    ) : (
+      <Button isLoading endIcon={<AutoRenewIcon spin color="currentColor" />}>
+        {TranslateString(488, "Pending Confirmation")}
+      </Button>
+    );
+
   return (
     <Modal title={`Withdraw ${tokenName}`} onDismiss={onDismiss}>
       <TokenInput
@@ -57,7 +76,7 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({
         <Button variant="secondary" onClick={onDismiss}>
           {TranslateString(462, "Cancel")}
         </Button>
-        <Button
+        {/* <Button
           disabled={pendingTx}
           onClick={async () => {
             setPendingTx(true);
@@ -69,7 +88,8 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({
           {pendingTx
             ? TranslateString(488, "Pending Confirmation")
             : TranslateString(464, "Confirm")}
-        </Button>
+        </Button> */}
+        {BtnLoadingComp}
       </ModalActions>
     </Modal>
   );

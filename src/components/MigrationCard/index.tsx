@@ -11,21 +11,27 @@ import {
 } from "cryption-uikit";
 import useWeb3 from "hooks/useWeb3";
 import { getPolydexMigratorAddress } from "utils/addressHelpers";
-import {
-  usePolydexMigratorContract,
-  usePairContract,
-} from "hooks/useContract";
-import {
-  getBep20Contract
-} from "utils/contractHelpers"
+import { usePolydexMigratorContract, usePairContract } from "hooks/useContract";
+import { getBep20Contract } from "utils/contractHelpers";
+import { useMigrationpairRemover } from "state/user/hooks";
+import ConfirmationPendingContent from "components/TransactionConfirmationModal/ConfirmationPendingContent";
+import TransactionSubmittedContent from "components/TransactionConfirmationModal/TransactionSubmittedContent";
+import Modal from "components/Modal"
 import { useToast } from "state/hooks";
+import { useActiveWeb3React } from "hooks";
 
 interface ModalProps {
   pairAddress: string;
   exchangePlatform: string;
+  factoryAddrees: string;
 }
 
-export default function MigrationCard({ pairAddress, exchangePlatform }: ModalProps) {
+export default function MigrationCard({
+  pairAddress,
+  exchangePlatform,
+  factoryAddrees,
+}: ModalProps) {
+  const { chainId } = useActiveWeb3React();
   const pairContract = usePairContract(pairAddress, true);
   const [totalPoolTokens, setTotalPoolTokens] = useState(null);
   const [token0Deposited, setToken0Deposited] = useState(null);
@@ -39,8 +45,11 @@ export default function MigrationCard({ pairAddress, exchangePlatform }: ModalPr
   const { toastSuccess } = useToast();
   const [approveLoading, setApproveLoading] = useState(false);
   const [migrateLoading, setMigrateLoading] = useState(false);
-  const [balance, setBal] = useState();
+  const [migrateSuccess, setMigrateSuccess] = useState(false);
+  const [migratetxHash, setMigratetxHash] = useState(null);
+  const [balance, setBal] = useState("0");
   const [allowence, setallowence] = useState(null);
+  const removePair = useMigrationpairRemover()
   const web3 = useWeb3();
   const { account } = useWeb3React();
   const polydexMigrator = usePolydexMigratorContract();
@@ -57,15 +66,20 @@ export default function MigrationCard({ pairAddress, exchangePlatform }: ModalPr
     const utcSecondsSinceEpoch =
       Math.round(utcMilllisecondsSinceEpoch / 1000) + 1200;
     try {
+      const balanceInWei = web3.utils.toWei(balance);
       const txHash = await polydexMigrator.functions.migrate(
         token0Address,
         token1Address,
-        balance,
+        balanceInWei,
         1,
         1,
         utcSecondsSinceEpoch
       );
-      if (txHash) {
+      const receipt = await txHash.wait();
+      if (receipt.status) {
+        setMigrateSuccess(true)
+        setMigratetxHash(txHash.hash);
+        getBalance()
         toastSuccess("Success", "Lp Tokens Succfully Migrated");
         setMigrateLoading(false);
       }
@@ -81,7 +95,8 @@ export default function MigrationCard({ pairAddress, exchangePlatform }: ModalPr
         polydexMigratorAddress,
         ethers.constants.MaxUint256
       );
-      if (txHash) {
+      const receipt = await txHash.wait();
+      if (receipt.status) {
         const checkAllowence = await pairContract.allowance(
           account,
           polydexMigratorAddress
@@ -110,14 +125,29 @@ export default function MigrationCard({ pairAddress, exchangePlatform }: ModalPr
       const gettoken0Symbol = await token0contract.methods.symbol().call();
       const gettoken1Symbol = await token1contract.methods.symbol().call();
       lpBalance = web3.utils.fromWei(lpBalance.toString(), "ether");
-      const totalSupply = web3.utils.fromWei(getTotalSupply.toString(), "ether");
-      const weiReserve1 = web3.utils.fromWei(getReserves.reserve0.toString(), "ether");
-      const weiReserve2 = web3.utils.fromWei(getReserves.reserve1.toString(), "ether");
-      const token0Bal = (parseFloat(lpBalance.toString()) / parseFloat(totalSupply.toString())) * parseFloat(weiReserve1);
-      const token1Bal = (parseFloat(lpBalance.toString()) / parseFloat(totalSupply.toString())) * parseFloat(weiReserve2.toString());
+      const totalSupply = web3.utils.fromWei(
+        getTotalSupply.toString(),
+        "ether"
+      );
+      const weiReserve1 = web3.utils.fromWei(
+        getReserves.reserve0.toString(),
+        "ether"
+      );
+      const weiReserve2 = web3.utils.fromWei(
+        getReserves.reserve1.toString(),
+        "ether"
+      );
+      const token0Bal =
+        (parseFloat(lpBalance.toString()) /
+          parseFloat(totalSupply.toString())) *
+        parseFloat(weiReserve1);
+      const token1Bal =
+        (parseFloat(lpBalance.toString()) /
+          parseFloat(totalSupply.toString())) *
+        parseFloat(weiReserve2.toString());
       lpBalance = parseFloat(lpBalance).toFixed(3).toString();
-      setToken0Symbol(gettoken0Symbol)
-      setToken1Symbol(gettoken1Symbol)
+      setToken0Symbol(gettoken0Symbol);
+      setToken1Symbol(gettoken1Symbol);
       setToken0Address(getToken0Address);
       setToken1Address(getToken1Address);
       setallowence(parseFloat(checkAllowence.toString()));
@@ -127,119 +157,171 @@ export default function MigrationCard({ pairAddress, exchangePlatform }: ModalPr
       setTotalPoolTokens(totalSupply.toString());
     }
   };
+  const onRemovepair = () => {
+    removePair(chainId, factoryAddrees, pairAddress)
+  }
   useEffect(() => {
     if (account) getBalance();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [web3.eth.Contract]);
-  return (
-    <MigrationRow>
-      {token1Address && token0Address ? <div>
-        <RowData onClick={() => toggleDetails(!showDetails)}>
-          <ImageDiv>
-            <img src={`/images/${token0Symbol}.png`} alt="BNB" width="20px" />
-            <img src={`/images/${token1Symbol}.png`} alt="BNB" width="20px" />
-            <Text color="white" fontSize="15px" bold ml="10px">
-              {pairName}
-            </Text>
-          </ImageDiv>
-          {showDetails ? (
-            <ImageDiv>
-              <Text color="#2082E9" fontSize="13px" bold mr="7px">
-                {exchangePlatform}
-              </Text>
-              <ChevronUpIcon
-                color="white"
-                width="24px"
-                onClick={() => toggleDetails(!showDetails)}
-                style={{ cursor: "pointer" }}
-              />
-            </ImageDiv>
-          ) : (
-            <ImageDiv>
-              <Text color="#2082E9" fontSize="13px" bold mr="7px">
-                {exchangePlatform}
-              </Text>
-              <ChevronDownIcon
-                color="white"
-                width="24px"
-                onClick={() => toggleDetails(!showDetails)}
-                style={{ cursor: "pointer" }}
-              />
-            </ImageDiv>
-          )}
-        </RowData>
-        {showDetails && (
+  let jsxForRow = (<div />)
+  if (parseFloat(balance) > 0) {
+    jsxForRow = (
+      <MigrationRow>
+        {token1Address && token0Address ? (
           <div>
-            <InfoContainer>
-              <InfoDiv>
-                <Text color="#9d9fa8" fontSize="18px">
-                  Pooled {token0Symbol}:
+            <Modal isOpen={migrateLoading || migrateSuccess}
+              onDismiss={() => {
+                setMigrateLoading(false);
+                setMigrateSuccess(false)
+              }} maxHeight={90}>
+              {migrateLoading && <ConfirmationPendingContent
+                onDismiss={() => setMigrateLoading(false)}
+                pendingText="Transcation is in progress, please wait..."
+              />}
+              {migrateSuccess &&
+                <TransactionSubmittedContent
+                  chainId={chainId}
+                  hash={migratetxHash}
+                  onDismiss={() => {
+                    setMigrateLoading(false);
+                    setMigrateSuccess(false)
+                  }}
+                />
+              }
+            </Modal>
+            <RowData onClick={() => toggleDetails(!showDetails)}>
+              <ImageDiv>
+                <img src={`/images/tokens/${token0Symbol.toLowerCase()}.png`} alt={token0Symbol} width="20px" />
+                <img src={`/images/tokens/${token1Symbol.toLowerCase()}.png`} alt={token1Symbol} width="20px" />
+                <Text color="white" fontSize="15px" bold ml="10px">
+                  {pairName}
                 </Text>
-                <Text fontSize="18px" bold>
-                  {token0Deposited}
-                </Text>
-              </InfoDiv>
-              <InfoDiv>
-                <Text color="#9d9fa8" fontSize="18px">
-                  Pooled {token1Symbol}:
-                </Text>
-                <Text fontSize="18px" bold>
-                  {token1Deposited}
-                </Text>
-              </InfoDiv>
-              <InfoDiv>
-                <Text color="#9d9fa8" fontSize="18px">
-                  Your LP Balance:
-                </Text>
-                <Text fontSize="18px" bold>
-                  {balance}
-                </Text>
-              </InfoDiv>
-              <InfoDiv>
-                <Text color="#9d9fa8" fontSize="18px">
-                  Your LP share:
-                </Text>
-                <Text fontSize="18px" bold>
-                  {`${poolTokenPercentage.toFixed(2)}%`}
-                </Text>
-              </InfoDiv>
-            </InfoContainer>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              {allowence && allowence !== 0 ? (
-                <Button
-                  style={{ maxWidth: "300px", width: "100%", marginTop: "20px" }}
-                  scale="md"
-                  onClick={onMigrateClicked}
-                  isLoading={migrateLoading}
-                  disabled={migrateLoading}
-                  endIcon={
-                    migrateLoading && <AutoRenewIcon spin color="currentColor" />
-                  }
-                >
-                  {migrateLoading ? "Processing" : "Migrate Liquidity"}
-                </Button>
+              </ImageDiv>
+              {showDetails ? (
+                <ImageDiv>
+                  <Text color="#2082E9" fontSize="13px" bold mr="7px">
+                    {exchangePlatform}
+                  </Text>
+                  <ChevronUpIcon
+                    color="white"
+                    width="24px"
+                    onClick={() => toggleDetails(!showDetails)}
+                    style={{ cursor: "pointer" }}
+                  />
+                </ImageDiv>
               ) : (
-                <Button
-                  onClick={onApprove}
-                  isLoading={approveLoading}
-                  endIcon={
-                    approveLoading && <AutoRenewIcon spin color="currentColor" />
-                  }
-                >
-                  {approveLoading ? "Processing" : "Approve"}
-                </Button>
+                <ImageDiv>
+                  <Text color="#2082E9" fontSize="13px" bold mr="7px">
+                    {exchangePlatform}
+                  </Text>
+                  <ChevronDownIcon
+                    color="white"
+                    width="24px"
+                    onClick={() => toggleDetails(!showDetails)}
+                    style={{ cursor: "pointer" }}
+                  />
+                </ImageDiv>
               )}
-            </div>
+            </RowData>
+            {showDetails && (
+              <div>
+                <InfoContainer>
+                  <InfoDiv>
+                    <Text color="#9d9fa8" fontSize="18px">
+                      Pooled {token0Symbol}:
+                  </Text>
+                    <Text fontSize="18px" bold>
+                      {token0Deposited}
+                    </Text>
+                  </InfoDiv>
+                  <InfoDiv>
+                    <Text color="#9d9fa8" fontSize="18px">
+                      Pooled {token1Symbol}:
+                  </Text>
+                    <Text fontSize="18px" bold>
+                      {token1Deposited}
+                    </Text>
+                  </InfoDiv>
+                  <InfoDiv>
+                    <Text color="#9d9fa8" fontSize="18px">
+                      Your LP Balance:
+                  </Text>
+                    <Text fontSize="18px" bold>
+                      {balance}
+                    </Text>
+                  </InfoDiv>
+                  <InfoDiv>
+                    <Text color="#9d9fa8" fontSize="18px">
+                      Your LP share:
+                  </Text>
+                    <Text fontSize="18px" bold>
+                      {`${poolTokenPercentage.toFixed(2)}%`}
+                    </Text>
+                  </InfoDiv>
+                </InfoContainer>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  {allowence && allowence !== 0 ? (
+                    <Button
+                      style={{
+                        maxWidth: "300px",
+                        width: "100%",
+                        marginTop: "20px",
+                      }}
+                      scale="md"
+                      onClick={onMigrateClicked}
+                      isLoading={migrateLoading}
+                      disabled={migrateLoading || parseFloat(balance) === 0}
+                      endIcon={
+                        migrateLoading && (
+                          <AutoRenewIcon spin color="currentColor" />
+                        )
+                      }
+                    >
+                      {migrateLoading ? "Processing" : "Migrate Liquidity"}
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={onApprove}
+                      style={{
+                        marginTop: "20px",
+                      }}
+                      isLoading={approveLoading}
+                      endIcon={
+                        approveLoading && (
+                          <AutoRenewIcon spin color="currentColor" />
+                        )
+                      }
+                    >
+                      {approveLoading ? "Processing" : "Approve"}
+                    </Button>
+                  )}
+                  <Button
+                    style={{
+                      width: "150px",
+                      marginTop: "20px",
+                      marginLeft: '20px'
+                    }}
+                    scale="md"
+                    variant="secondary"
+                    onClick={onRemovepair}
+                    isLoading={migrateLoading}
+                  >
+                    Remove Pair
+                </Button>
+                </div>
+              </div>
+            )}
           </div>
+        ) : (
+          <Text color="#9d9fa8" fontSize="18px">
+            Getting Pair Details...
+          </Text>
         )}
-      </div>
-        :
-        <Text color="#9d9fa8" fontSize="18px">
-          Getting Pair Details...
-      </Text>
-      }
-    </MigrationRow>
-  );
+      </MigrationRow>
+    )
+  }
+  return jsxForRow;
 }
 
 const MigrationRow = styled.div`

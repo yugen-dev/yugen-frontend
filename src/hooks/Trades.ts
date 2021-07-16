@@ -5,7 +5,7 @@ import {
   Pair,
   Token,
   Trade,
-} from "@pancakeswap-libs/sdk";
+} from "@cryption-network/polydex-sdk";
 import flatMap from "lodash.flatmap";
 import { useMemo } from "react";
 

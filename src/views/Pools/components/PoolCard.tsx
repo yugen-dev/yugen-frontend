@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import BigNumber from "bignumber.js";
 import styled from "styled-components";
 import {
@@ -19,7 +19,7 @@ import { getBep20Contract } from "utils/contractHelpers";
 import useI18n from "hooks/useI18n";
 import { useSousStake } from "hooks/useStake";
 import useWeb3 from "hooks/useWeb3";
-import { fetchPrice } from "state/hooks";
+import { UseGetApiPrice } from "state/hooks";
 import { useSousUnstake } from "hooks/useUnstake";
 import { getBalanceNumber } from "utils/formatBalance";
 import { getPoolApy } from "utils/apy";
@@ -41,8 +41,8 @@ interface HarvestProps {
 }
 
 const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
-  const [tokenprices, Settokenprices] = useState([null]);
-  const [StakingTokenPrice, setStakingTokenPrice] = useState(new BigNumber(1));
+  // const [tokenprices, Settokenprices] = useState([null]);
+  // const [StakingTokenPrice, setStakingTokenPrice] = useState(new BigNumber(1));
   const {
     sousId,
     image,
@@ -66,27 +66,6 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     metamaskImg,
   } = pool;
 
-  useEffect(() => {
-    const pricefunc = async () => {
-      const arrayofprices = [];
-
-      const stakingTokenPrice = await fetchPrice(pool.stakingTokenCoinGeckoid);
-      if (stakingTokenPrice) {
-        setStakingTokenPrice(stakingTokenPrice);
-      }
-
-      pool.coinGeckoIds.forEach(async (element, i) => {
-        let price = await fetchPrice(pool.coinGeckoIds[i]);
-        if (!price) {
-          price = new BigNumber(1);
-        }
-
-        arrayofprices.push(price);
-      });
-      Settokenprices(arrayofprices);
-    };
-    pricefunc();
-  }, [pool]);
   const { account } = useWeb3React("web3");
   const isBnbPool = poolCategory === PoolCategory.BINANCE;
   const [show, setShow] = useState(false);
@@ -96,6 +75,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   const { onReward } = useSousHarvest(sousId, isBnbPool);
 
   /// harvest interval
+  // const staketokennameprice = useGetApiPrice(stakingTokenAddress.toLowerCase());
 
   let isDaysGreater = false;
   let isHoursGreater = false;
@@ -121,22 +101,32 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   let apy = 0;
   let apyString = "";
   const apyArray = [];
+  const StakingTokenPrice = UseGetApiPrice(
+    pool.stakingTokenAddress.toLowerCase()
+  );
 
   pool.multiRewardTokenPerBlock.forEach(async (element, i) => {
-    const stakingTokenPrice = StakingTokenPrice;
-    const rewardTokenPrice = tokenprices[i] ? tokenprices[i] : new BigNumber(1);
+    const stakingTokenPrice = new BigNumber(StakingTokenPrice);
+    const tokenPrice = UseGetApiPrice(pool.coinGeckoIds[i].toLowerCase());
+
+    // eslint-disable-next-line  no-nested-ternary
+    const rewardTokenPrice = tokenPrice
+      ? new BigNumber(tokenPrice)
+      : new BigNumber(1);
+
     const currentTokenApy = getPoolApy(
       stakingTokenPrice.toNumber(),
       rewardTokenPrice.toNumber(),
       getBalanceNumber(pool.totalStaked, stakingTokenDecimals),
       parseFloat(element)
     );
+
     if (currentTokenApy && pool.multiRewardTokenPerBlock.length === i + 1) {
-      apyString += `${currentTokenApy.toFixed(2)}% ${pool.multiReward[i]}`;
+      apyString += `${currentTokenApy.toFixed(2)}% ${pool.multiReward[i]}\n`;
     } else if (currentTokenApy) {
-      apyString += `${currentTokenApy.toFixed(2)}% ${pool.multiReward[i]} + `;
+      apyString += `${currentTokenApy.toFixed(2)}% ${pool.multiReward[i]} +\n`;
     } else {
-      apyString += `100% ${pool.multiReward[i]} `;
+      apyString += `100% ${pool.multiReward[i]}\n`;
     }
 
     apy += currentTokenApy;
@@ -151,6 +141,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   const stakingTokenBalance = new BigNumber(userData?.stakingTokenBalance || 0);
   const stakedBalance = new BigNumber(userData?.stakedBalance || 0);
   const earnings = new BigNumber(userData?.pendingReward || 0);
+
   const canHarvest =
     userData?.canHarvest === true ? userData?.canHarvest : false;
 
@@ -195,28 +186,6 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
       stakingTokenDecimals={stakingTokenDecimals}
     />
   );
-  // console.log(harvestInterval.toNumber());
-  // const renderNextHarvestIntervalIn = () => {
-  //   return (
-  //     <Flex justifyContent="space-between">
-  //       <Text>{TranslateString(318, "Next Harvest in :")}</Text>
-  //       <Text bold>
-  //         <Countdown
-  //           date={harvestInterval.toNumber() * 1000}
-  //           renderer={Renderer}
-  //         />
-  //       </Text>
-  //     </Flex>
-  //   );
-  // };
-
-  // const [onPresentCompound] = useModal(
-  //   <CompoundModal
-  //     earnings={earnings}
-  //     onConfirm={onStake}
-  //     tokenName={stakingTokenName}
-  //   />
-  // );
 
   const [onPresentWithdraw] = useModal(
     <WithdrawModal
@@ -258,7 +227,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
           }}
         >
           <CardTitle isFinished={isFinished}>
-          {TranslateString(348, "Stake")} {isOldSyrup && "[OLD]"} {tokenName}
+            {TranslateString(348, "Stake")} {isOldSyrup && "[OLD]"} {tokenName}
           </CardTitle>
           <Image
             src={`/images/tokens/${image || tokenName.toLowerCase()}.png`}
@@ -274,7 +243,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
             <StyledDetails>
               <APRText onMouseEnter={open} onMouseLeave={close}>
                 APR :
-                <Tooltip show={show} text={apyString}>
+                <Tooltip show={show} text={apyString} forceToNewLine>
                   <InfoIcon
                     style={{
                       color: "#86878f",
@@ -331,7 +300,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                   setPendingTx(false);
                 }}
               >
-                {pendingTx ? "Collecting" : "Harvest"}
+                {pendingTx ? "Collecting..." : "Harvest"}
               </Button>
             )}
             {!canHarvest && (
@@ -339,7 +308,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                 disabled={!canHarvest}
                 style={{ width: "100%", maxWidth: "400px" }}
               >
-                {pendingTx ? "Collecting" : "Harvest"}
+                {pendingTx ? "Collecting..." : "Harvest"}
               </Button>
             )}
           </div>
@@ -359,7 +328,11 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                           fontSize="22px"
                           value={getBalanceNumber(
                             earnings.multipliedBy(
-                              new BigNumber(pool.multiRewardTokenPerBlock[i])
+                              new BigNumber(
+                                pool.multiRewardTokenPerBlock[i]
+                              ).div(
+                                new BigNumber(pool.multiRewardTokenPerBlock[0])
+                              )
                             ),
                             tokenDecimals
                           )}

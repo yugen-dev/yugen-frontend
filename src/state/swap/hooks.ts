@@ -8,7 +8,7 @@ import {
   Token,
   TokenAmount,
   Trade,
-} from "@pancakeswap-libs/sdk";
+} from "@cryption-network/polydex-sdk";
 import { ParsedQs } from "qs";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";

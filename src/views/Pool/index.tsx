@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import React, { useContext, useMemo } from "react";
 import styled, { ThemeContext } from "styled-components";
-import { Pair } from "@pancakeswap-libs/sdk";
+import { Pair } from "@cryption-network/polydex-sdk";
 import { Button, CardBody, Text, Card } from "cryption-uikit";
 import { Link } from "react-router-dom";
 import CardNav from "components/CardNav";

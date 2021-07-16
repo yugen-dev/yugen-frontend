@@ -1,4 +1,4 @@
-import { ChainId } from "@pancakeswap-libs/sdk";
+import { ChainId } from "@cryption-network/polydex-sdk";
 import React from "react";
 import { Button, LinkExternal } from "cryption-uikit";
 import Tick from "images/Tick";

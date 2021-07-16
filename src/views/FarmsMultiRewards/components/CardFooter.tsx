@@ -4,11 +4,10 @@ import styled from "styled-components";
 import { getBalanceNumber } from "utils/formatBalance";
 import useI18n from "hooks/useI18n";
 import { ChevronDown, ChevronUp } from "react-feather";
-import { Flex, MetamaskIcon, Text } from "cryption-uikit";
+import { Flex, Text, Link } from "cryption-uikit";
 import Balance from "components/Balance";
-import { useBlock } from "state/hooks";
+// import { useBlock } from "state/hooks";
 import { PoolCategory } from "config/constants/types";
-import { registerToken } from "utils/wallet";
 
 interface Props {
   projectLink: string;
@@ -21,7 +20,7 @@ interface Props {
   endBlock: number;
   isFinished: boolean;
   poolCategory: PoolCategory;
-  metamaskImg?:string
+  metamaskImg?: string;
 }
 
 const StyledFooter = styled.div<{ isFinished: boolean }>`
@@ -76,22 +75,22 @@ const CardFooter: React.FC<Props> = ({
   decimals,
   tokenAddress,
   totalStaked,
-  tokenName,
-  tokenDecimals,
+  // tokenName,
+  // tokenDecimals,
   isFinished,
-  startBlock,
-  endBlock,
-  metamaskImg
+  // startBlock,
+  // endBlock,
+  // metamaskImg,
 }) => {
-  const { blockNumber: currentBlock } = useBlock();
+  // const { blockNumber: currentBlock } = useBlock();
   const [isOpen, setIsOpen] = useState(false);
   const TranslateString = useI18n();
   const Icon = isOpen ? ChevronUp : ChevronDown;
+  const maticExplorerAddress = `https://mumbai.polygonscan.com/address/${tokenAddress}`;
 
   const handleClick = () => setIsOpen(!isOpen);
 
-  const blocksUntilStart = Math.max(startBlock - currentBlock, 0);
-  const blocksRemaining = Math.max(endBlock - currentBlock, 0);
+  // const blocksRemaining = Math.max(endBlock - currentBlock, 0);
 
   return (
     <StyledFooter isFinished={isFinished}>
@@ -107,10 +106,9 @@ const CardFooter: React.FC<Props> = ({
         <Details>
           <Row mb="4px">
             <FlexFull>
-              <Text>
-                {TranslateString(408, "Total")}
-              </Text>
+              <Text>{TranslateString(408, "Total Liquidity")}</Text>
             </FlexFull>
+            <span style={{ color: "#3869EE" }}>$</span>
             <Balance
               fontSize="16px"
               isDisabled={isFinished}
@@ -118,7 +116,7 @@ const CardFooter: React.FC<Props> = ({
               value={getBalanceNumber(totalStaked, decimals)}
             />
           </Row>
-          {blocksUntilStart > 0 && (
+          {/* {blocksUntilStart > 0 && (
             <Row mb="4px">
               <FlexFull>
                 <Text>{TranslateString(410, "Start")}:</Text>
@@ -131,8 +129,8 @@ const CardFooter: React.FC<Props> = ({
                 decimals={0}
               />
             </Row>
-          )}
-          {blocksUntilStart === 0 && blocksRemaining > 0 && (
+          )} */}
+          {/* {blocksUntilStart === 0 && blocksRemaining > 0 && (
             <Row mb="4px">
               <FlexFull>
                 <Text>{TranslateString(410, "End")}:</Text>
@@ -144,16 +142,29 @@ const CardFooter: React.FC<Props> = ({
                 decimals={0}
               />
             </Row>
-          )}
+          )} */}
           <Flex mb="5px" mt="10px" justifyContent="center">
-            <TokenLink
+            {/* <TokenLink
               onClick={() =>
-                registerToken(tokenAddress, tokenName, tokenDecimals, metamaskImg)
+                registerToken(
+                  tokenAddress,
+                  tokenName,
+                  tokenDecimals,
+                  metamaskImg
+                )
               }
             >
               Add {tokenName} to Metamask
             </TokenLink>
-            <MetamaskIcon height={15} width={15} ml="4px" />
+            <MetamaskIcon height={15} width={15} ml="4px" /> */}
+            <Link
+              external
+              href={maticExplorerAddress}
+              bold={false}
+              color="#3869EE"
+            >
+              {TranslateString(356, "View on PolygonScan")}
+            </Link>
           </Flex>
           <Flex mb="5px" mt="10px" justifyContent="center">
             <TokenLink href={projectLink} target="_blank">

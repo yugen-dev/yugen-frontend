@@ -1,7 +1,7 @@
 import BigNumber from "bignumber.js";
 import styled from "styled-components";
 import React, { useMemo, useState } from "react";
-import { Button, Modal } from "cryption-uikit";
+import { AutoRenewIcon, Button, Modal } from "cryption-uikit";
 import ModalActions from "components/ModalActions";
 import Balance from "components/Balance";
 import useI18n from "hooks/useI18n";
@@ -28,6 +28,26 @@ const CompoundModal: React.FC<DepositModalProps> = ({
     return getFullDisplayBalance(earnings, stakingTokenDecimals);
   }, [earnings, stakingTokenDecimals]);
 
+  const BtnLoadingComp =
+    pendingTx === false ? (
+      <Button
+        id="compound-cake"
+        width="100%"
+        onClick={async () => {
+          setPendingTx(true);
+          await onConfirm(fullBalance, stakingTokenDecimals);
+          setPendingTx(false);
+          onDismiss();
+        }}
+      >
+        {TranslateString(464, "Confirm")}
+      </Button>
+    ) : (
+      <Button isLoading endIcon={<AutoRenewIcon spin color="currentColor" />}>
+        {TranslateString(488, "Pending Confirmation")}
+      </Button>
+    );
+
   return (
     <Modal
       title={`${TranslateString(704, "Compound")} ${TranslateString(
@@ -43,7 +63,7 @@ const CompoundModal: React.FC<DepositModalProps> = ({
         <Button width="100%" variant="secondary" onClick={onDismiss}>
           {TranslateString(462, "Cancel")}
         </Button>
-        <Button
+        {/* <Button
           id="compound-cake"
           width="100%"
           disabled={pendingTx}
@@ -57,7 +77,8 @@ const CompoundModal: React.FC<DepositModalProps> = ({
           {pendingTx
             ? TranslateString(488, "Pending Confirmation")
             : TranslateString(464, "Confirm")}
-        </Button>
+        </Button> */}
+        {BtnLoadingComp}
       </ModalActions>
     </Modal>
   );

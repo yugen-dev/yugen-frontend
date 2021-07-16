@@ -12,7 +12,7 @@ import {
   CurrencyAmount,
   Currency,
   ETHER,
-} from "@pancakeswap-libs/sdk";
+} from "@cryption-network/polydex-sdk";
 import { ROUTER_ADDRESS } from "../constants";
 import { TokenAddressMap } from "../state/lists/hooks";
 

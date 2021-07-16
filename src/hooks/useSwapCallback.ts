@@ -8,7 +8,7 @@ import {
   SwapParameters,
   Trade,
   TradeType,
-} from "@pancakeswap-libs/sdk";
+} from "@cryption-network/polydex-sdk";
 import { useProfile } from "state/hooks";
 import { useMemo } from "react";
 import { AbiItem } from "web3-utils";
@@ -314,7 +314,7 @@ export function useSwapCallback(
 
         const dataToSign = JSON.stringify({
           types: {
-            EIP712Domain: [
+            Domain: [
               { name: "name", type: "string" },
               { name: "version", type: "string" },
               { name: "verifyingContract", type: "address" },

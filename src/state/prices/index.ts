@@ -12,16 +12,21 @@ const initialState: PriceState = {
 export const fetchPrices = createAsyncThunk<PriceApiResponse>(
   "prices/fetch",
   async () => {
-    const response = await fetch("");
+    const response = await fetch(
+      "https://polydexvercelapi.vercel.app/api/tokens"
+    );
     const data = (await response.json()) as PriceApiResponse;
+    // @ts-ignore
 
     // Return normalized token names
     return {
       update_at: data.update_at,
-      prices: Object.keys(data.prices).reduce((accum, token) => {
+      // @ts-ignore
+      prices: Object.keys(data.data).reduce((accum, token) => {
         return {
           ...accum,
-          [token.toLowerCase()]: data.prices[token],
+          // @ts-ignore
+          [token.toLowerCase()]: data.data[token].price,
         };
       }, {}),
     };

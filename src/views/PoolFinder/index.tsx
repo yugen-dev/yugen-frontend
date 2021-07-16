@@ -1,5 +1,10 @@
 /* eslint-disable no-nested-ternary */
-import { Currency, ETHER, JSBI, TokenAmount } from "@pancakeswap-libs/sdk";
+import {
+  Currency,
+  ETHER,
+  JSBI,
+  TokenAmount,
+} from "@cryption-network/polydex-sdk";
 import React, { useCallback, useEffect, useState } from "react";
 import {
   Button,
@@ -116,7 +121,7 @@ export default function PoolFinder() {
     >
       <ContainerCard>
         <CardNav activeIndex={1} />
-        <FindPoolTabs />
+        <FindPoolTabs navigationLink="/pool" />
         <CardBody>
           <AutoColumn gap="md">
             <Button

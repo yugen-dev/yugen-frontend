@@ -2,7 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { Card, Skeleton } from "cryption-uikit";
 import useI18n from "hooks/useI18n";
-// import { useGetStats } from "hooks/api";
+import { useTotalValue } from "state/hooks";
+import CardValue from "./CardValue";
 
 const StyledTotalValueLockedCard = styled(Card)`
   height: 100%;
@@ -18,14 +19,7 @@ const StyledTotalValueLockedCard = styled(Card)`
 
 const TotalValueLockedCard = () => {
   const TranslateString = useI18n();
-  // const data = useGetStats();
-  const data = true;
-  // const tvl = data
-  //   ? data.total_value_locked_all.toLocaleString("en-US", {
-  //       maximumFractionDigits: 0,
-  //     })
-  //   : null;
-  const tvl = '128,424,321'
+  const data = useTotalValue();
 
   return (
     <StyledTotalValueLockedCard>
@@ -33,29 +27,30 @@ const TotalValueLockedCard = () => {
         <CNHeading>
           {TranslateString(762, "Total Value Locked (TVL)")}
         </CNHeading>
-        {data ? (
-          <>
-            <CNValueHeading>{`$${tvl}`}</CNValueHeading>
-          </>
+        {data.toNumber() > 0 ? (
+          <CardValue
+            value={data.toNumber()}
+            lineHeight="1.5"
+            decimals={4}
+            color="#2082E9"
+          />
         ) : (
           <>
             <Skeleton height={66} />
           </>
         )}
-        <CNText>
-          {TranslateString(764, "Across all LPs and Pools")}
-        </CNText>
+        <CNText>{TranslateString(764, "Across all LPs and Pools")}</CNText>
       </CNCardBody>
     </StyledTotalValueLockedCard>
   );
 };
 
-const CNValueHeading = styled.div`
-  font-size: 30px;
-  font-weight: bold;
-  text-transform: capitalize;
-  color: white;
-`;
+// const CNValueHeading = styled.div`
+//   font-size: 30px;
+//   font-weight: bold;
+//   text-transform: capitalize;
+//   color: white;
+// `;
 
 const CNText = styled.div`
   font-size: 16px;

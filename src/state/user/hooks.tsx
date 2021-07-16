@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { ChainId, Pair, Token } from "@pancakeswap-libs/sdk";
+import { ChainId, Pair, Token } from "@cryption-network/polydex-sdk";
 import flatMap from "lodash.flatmap";
 import { useCallback, useMemo } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
@@ -370,16 +370,23 @@ export function useMigrationPairs() {
   const userPairs = useMemo(() => {
     if (!chainId || !savedMigrationPairs) return {};
     const forChain = savedMigrationPairs[chainId];
-    if (!forChain) return {};
     const checkThis = {};
-    Object.keys(forChain).forEach((factoryAddrees) => {
-      checkThis[factoryAddrees] = forChain[factoryAddrees];
-      if (chainId) {
-        if (pinnedPairs[factoryAddrees]) {
-          checkThis[factoryAddrees] = checkThis[factoryAddrees].concat(pinnedPairs[factoryAddrees])
-        }
+    if (!forChain) {
+      if (Object.keys(pinnedPairs).length > 0) {
+        return pinnedPairs;
       }
-    });
+      return {}
+    }
+    if (forChain && Object.keys(forChain).length > 0) {
+      Object.keys(forChain).forEach((factoryAddrees) => {
+        checkThis[factoryAddrees] = forChain[factoryAddrees];
+        if (chainId) {
+          if (pinnedPairs[factoryAddrees]) {
+            checkThis[factoryAddrees] = checkThis[factoryAddrees].concat(pinnedPairs[factoryAddrees])
+          }
+        }
+      });
+    }
     return checkThis;
   }, [chainId, savedMigrationPairs, pinnedPairs]);
   return userPairs

@@ -27,7 +27,7 @@ const Migrate = () => {
           pairAddresses = pairAddresses.filter((item, pos) => {
             return pairAddresses.indexOf(item) === pos;
           })
-          pairAddresses = pairAddresses.filter(item => item !== null);
+          pairAddresses = pairAddresses.filter(item => item !== null && item !== "0x0000000000000000000000000000000000000000");
           pairs[factoryAddrees] = {
             pairs: pairAddresses,
             exchangePlatform: checkIfPresent[0].label
@@ -40,11 +40,11 @@ const Migrate = () => {
   return (
     <Container maxWidth="lg">
       <MigrationContainer>
-        <Grid container spacing={3}>
+        <Grid container spacing={3} alignItems="center">
           <Grid item xs={12} md={6} lg={6} xl={6}>
             <Infodiv>
               <CNHeading>Migrate Liquidity</CNHeading>
-              <CNText>
+              {false && <CNText>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sed
                 mi malesuada, malesuada massa placerat, accumsan ligula. Morbi
                 non pulvinar dolor. Aliquam erat volutpat. Nullam laoreet, magna
@@ -54,7 +54,7 @@ const Migrate = () => {
                 fermentum sit amet nisl. Donec id turpis gravida nisi
                 consectetur semper. Vivamus sit amet viverra ligula. Suspendisse
                 vel eros nec mi eleifend feugiat vel id magna.
-              </CNText>
+              </CNText>}
               <div
                 style={{ maxWidth: "300px", width: "100%", marginTop: "20px" }}
               >
@@ -90,6 +90,7 @@ const Migrate = () => {
                     return allMigrationPairs[eachFacory].pairs.map(eachPair => (
                       <MigrationCard
                         pairAddress={eachPair}
+                        factoryAddrees={eachFacory}
                         key={eachPair}
                         exchangePlatform={allMigrationPairs[eachFacory].exchangePlatform}
                       />
@@ -113,7 +114,7 @@ const Migrate = () => {
             Don't see a pool you joined?{"  "}
             <StyledInternalLink
               id="import-pool-link"
-              to="/migratefind"
+              to="/migrate/find"
               color="#2082E9"
               style={{ color: "#2082E9" }}
             >
@@ -131,6 +132,7 @@ const MigrationContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 80px;
   flex-direction: column;
 `;
 
@@ -149,7 +151,7 @@ const Infodiv = styled.div`
 `;
 
 const CNHeading = styled.div`
-  font-size: 23px;
+  font-size: 45px;
   font-weight: bold;
   text-align: center;
   color: white;

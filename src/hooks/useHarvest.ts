@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { useDispatch } from "react-redux";
-import { useProfile } from "state/hooks";
+import { useProfile, useToast } from "state/hooks";
 import {
   fetchFarmUserDataAsync,
   updateUserBalance,
@@ -27,20 +27,36 @@ export const useHarvest = (farmPid: number) => {
   const masterChefContract = useMasterchef();
   const masterChefGaslessContract = useMasterchefGasless();
   const { metaTranscation } = useProfile();
+  const { toastInfo, toastError, toastSuccess } = useToast();
 
   const handleHarvest = useCallback(async () => {
     let txHash;
-    if (metaTranscation) {
-      txHash = await GaslessHarvest(
-        masterChefGaslessContract,
-        farmPid,
-        account,
-        library
-      );
-      dispatch(fetchFarmUserDataAsync(account));
-    } else {
-      txHash = await harvest(masterChefContract, farmPid, account);
-      dispatch(fetchFarmUserDataAsync(account));
+    try {
+      toastInfo("Processing...", `You requested to Harvest `);
+      if (metaTranscation) {
+        txHash = await GaslessHarvest(
+          masterChefGaslessContract,
+          farmPid,
+          account,
+          library
+        );
+        toastSuccess("Success", ` Harvested successfully`);
+        dispatch(fetchFarmUserDataAsync(account));
+      } else {
+        txHash = await harvest(masterChefContract, farmPid, account);
+        toastSuccess("Success", ` Harvested successfully`);
+        dispatch(fetchFarmUserDataAsync(account));
+      }
+    } catch (e) {
+      if (
+        e.message ===
+        "MetaMask Tx Signature: User denied transaction signature."
+      ) {
+        // toastInfo("canceled...", `cancelled signature `);
+        toastError("canceled", ` signautures rejected`);
+      } else {
+        toastError("Error...", `Failed to Harvest`);
+      }
     }
     return txHash;
   }, [
@@ -51,6 +67,9 @@ export const useHarvest = (farmPid: number) => {
     masterChefGaslessContract,
     metaTranscation,
     library,
+    toastInfo,
+    toastSuccess,
+    toastError,
   ]);
 
   return { onReward: handleHarvest };
@@ -76,23 +95,44 @@ export const useSousHarvest = (sousId, isUsingBnb = false) => {
   const { account, library } = useWeb3React("web3");
   const sousChefContract = useSousChef(sousId);
   const sousChefContractGasless = useSousChefGasless(sousId);
+  const { toastInfo, toastError, toastSuccess } = useToast();
   const { metaTranscation } = useProfile();
-  const handleHarvest = useCallback(async () => {
-    if (isUsingBnb) {
-      await soushHarvestBnb(sousChefContract, account);
-    } else if (metaTranscation) {
-      await soushHarvestGasless(
-        sousChefContractGasless,
-        account,
-        sousId,
-        library
-      );
-    } else {
-      await soushHarvest(sousChefContract, account);
-    }
 
-    dispatch(updateUserPendingReward(sousId, account));
-    dispatch(updateUserBalance(sousId, account));
+  const handleHarvest = useCallback(async () => {
+    try {
+      toastInfo("Processing...", `You requested to Harvest `);
+      if (isUsingBnb) {
+        await soushHarvestBnb(sousChefContract, account);
+        toastSuccess("Success", ` Harvested successfully`);
+        dispatch(updateUserPendingReward(sousId, account));
+        dispatch(updateUserBalance(sousId, account));
+      } else if (metaTranscation) {
+        await soushHarvestGasless(
+          sousChefContractGasless,
+          account,
+          sousId,
+          library
+        );
+        toastSuccess("Success", ` Harvested successfully`);
+        dispatch(updateUserPendingReward(sousId, account));
+        dispatch(updateUserBalance(sousId, account));
+      } else {
+        await soushHarvest(sousChefContract, account);
+        toastSuccess("Success", ` Harvested successfully`);
+        dispatch(updateUserPendingReward(sousId, account));
+        dispatch(updateUserBalance(sousId, account));
+      }
+    } catch (e) {
+      if (
+        e.message ===
+        "MetaMask Tx Signature: User denied transaction signature."
+      ) {
+        // toastInfo("canceled...", `cancelled signature `);
+        toastError("canceled", ` signautures rejected`);
+      } else {
+        toastError("Error...", `Failed to Harvest`);
+      }
+    }
   }, [
     account,
     dispatch,
@@ -102,6 +142,9 @@ export const useSousHarvest = (sousId, isUsingBnb = false) => {
     metaTranscation,
     sousId,
     library,
+    toastInfo,
+    toastSuccess,
+    toastError,
   ]);
 
   return { onReward: handleHarvest };

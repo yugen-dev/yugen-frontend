@@ -3,7 +3,7 @@ import {
   CurrencyAmount,
   Fraction,
   Percent,
-} from "@pancakeswap-libs/sdk";
+} from "@cryption-network/polydex-sdk";
 import React from "react";
 import { Button, Text } from "cryption-uikit";
 import { RowBetween, RowFixed } from "../../components/Row";

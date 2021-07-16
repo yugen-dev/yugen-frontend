@@ -1,40 +1,45 @@
 import { useCallback } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { useDispatch } from "react-redux";
-import { fetchFarmUserDataAsync } from "state/actions";
-import { stake, GaslessStakeWithPermit } from "utils/callHelpers";
+import { updateUserBalance, updateUserStakedBalance } from "state/actions";
+import { sousStake, SousStakeGaslessWithPermit } from "utils/callHelpers";
 import { useProfile, useToast } from "state/hooks";
-import { useMasterchef, useMasterchefGasless } from "./useContract";
+import { useSousChef, useSousChefGasless } from "./useContract";
 
-export const useStakeWithPermit = (pid: number, signatureData: any) => {
+export const useStakeWithPermitMultireward = (sousId, signatureData: any) => {
   const dispatch = useDispatch();
   const { account, library } = useWeb3React("web3");
-  const masterChefContract = useMasterchef();
-  const masterChefGaslessContract = useMasterchefGasless();
+  const sousChefContract = useSousChef(sousId);
+  const sousChefContractGasless = useSousChefGasless(sousId);
   const { toastInfo, toastError, toastSuccess } = useToast();
   const { metaTranscation } = useProfile();
+
   const handleStakeWithPermit = useCallback(
-    async (amount: string) => {
+    async (amount: string, decimals: number) => {
       try {
         toastInfo("Processing...", `You requested to Deposited `);
         if (metaTranscation && signatureData !== null) {
-          await GaslessStakeWithPermit(
-            masterChefGaslessContract,
-            pid,
+          await SousStakeGaslessWithPermit(
+            sousChefContractGasless,
             amount,
+            decimals,
             account,
+            sousId,
             signatureData.deadline,
             signatureData.v,
             signatureData.r,
             signatureData.s,
+
             library
           );
           toastSuccess("Success", ` Deposited successfully`);
-          dispatch(fetchFarmUserDataAsync(account));
+          dispatch(updateUserStakedBalance(sousId, account));
+          dispatch(updateUserBalance(sousId, account));
         } else {
-          await stake(masterChefContract, pid, amount, account);
+          await sousStake(sousChefContract, amount, decimals, account);
           toastSuccess("Success", ` Deposited successfully`);
-          dispatch(fetchFarmUserDataAsync(account));
+          dispatch(updateUserStakedBalance(sousId, account));
+          dispatch(updateUserBalance(sousId, account));
         }
       } catch (e) {
         if (
@@ -51,12 +56,12 @@ export const useStakeWithPermit = (pid: number, signatureData: any) => {
     [
       account,
       dispatch,
-      masterChefGaslessContract,
-      masterChefContract,
-      pid,
+      sousChefContract,
+      sousChefContractGasless,
       metaTranscation,
-      signatureData,
+      sousId,
       library,
+      signatureData,
       toastInfo,
       toastSuccess,
       toastError,
@@ -66,4 +71,4 @@ export const useStakeWithPermit = (pid: number, signatureData: any) => {
   return { onStakeWithPermit: handleStakeWithPermit };
 };
 
-export default useStakeWithPermit;
+export default useStakeWithPermitMultireward;
