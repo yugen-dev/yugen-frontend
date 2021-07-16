@@ -85,12 +85,12 @@ const App: React.FC = () => {
               <Route path="/pools">
                 <Pools />
               </Route>
-              <Route  
+              {/* <Route  
                 exact
                 strict
                 path="/migrate">
                 <Migrate />
-              </Route>
+              </Route> */}
               <Route path="/cntbar">
                 <CNTBar />
               </Route>
