@@ -7,6 +7,7 @@ import {
 } from "utils/addressHelpers";
 import { getBiconomyWeb3 } from "utils/biconomyweb3";
 import { splitSignature } from "@ethersproject/bytes";
+import { functionsIn } from "lodash";
 
 export const approve = async (lpContract, masterChefContract, account) => {
   return lpContract.methods
@@ -194,6 +195,39 @@ export const sousStakeGasless = async (
   const functionSignature = await sousChefContract.methods
     .deposit(
       new BigNumber(amount).times(new BigNumber(10).pow(decimals)).toString()
+    )
+    .encodeABI();
+
+  await executeMetaTransactionPools(
+    sousChefContract,
+    account,
+    functionSignature,
+    pooladdress,
+    library
+  );
+};
+
+export const SousStakeGaslessWithPermit = async (
+  sousChefContract,
+  amount,
+  decimals = 18,
+  account,
+  souspid,
+  deadline,
+  v,
+  r,
+  s,
+  library
+) => {
+  const pooladdress = getSouschefContract(souspid);
+
+  const functionSignature = await sousChefContract.methods
+    .depositWithPermit(
+      new BigNumber(amount).times(new BigNumber(10).pow(decimals)).toString(),
+      deadline,
+      v,
+      r,
+      s
     )
     .encodeABI();
 
@@ -524,6 +558,7 @@ export const executeMetaTransactionPools = async (
   const contract = masterChefContract;
   try {
     const nonce = await contract.methods.getNonce(account).call();
+
     const message = {
       nonce: 0,
       from: "",
