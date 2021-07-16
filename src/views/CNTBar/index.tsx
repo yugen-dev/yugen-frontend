@@ -42,7 +42,7 @@ import { registerToken } from "utils/wallet";
 const CNHeading = styled.div`
   font-size: 45px;
   font-weight: bold;
-  text-align: left;
+  text-align: center;
   color: white;
   margin-bottom: 20px;
   padding: 0px 10px;
