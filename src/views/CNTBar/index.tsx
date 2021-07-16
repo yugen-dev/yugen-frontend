@@ -252,6 +252,7 @@ const CNTBar = () => {
       handleTokenAmount(getBalanceNumber(xCNTBalance).toString());
     }
   };
+
   const handleApprove = useCallback(async () => {
     try {
       setRequestedApproval(true);
@@ -264,6 +265,7 @@ const CNTBar = () => {
       console.error(e);
     }
   }, [onApprove, setRequestedApproval]);
+
   const stakeCnt = async () => {
     setPendingDepositTx(true);
     try {

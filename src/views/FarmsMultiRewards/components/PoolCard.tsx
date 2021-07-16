@@ -21,14 +21,17 @@ import { useSousStake } from "hooks/useStake";
 import useWeb3 from "hooks/useWeb3";
 import { useSousUnstake } from "hooks/useUnstake";
 import { getBalanceNumber } from "utils/formatBalance";
+import { SousStakeGaslessWithPermit } from "utils/callHelpers";
+import { useSousChefGasless } from "hooks/useContract";
 import { getPoolApy } from "utils/apy";
 import { useSousHarvest } from "hooks/useHarvest";
 import Balance from "components/Balance";
-import { UseGetApiPrice } from "state/hooks";
+import { UseGetApiPrice, useProfile } from "state/hooks";
 import Tooltip from "components/Tooltip";
-import { useSousApprove } from "hooks/useApprove";
+import { useSousApprove, useSousApproveWithPermit } from "hooks/useApprove";
 import { QuoteToken, PoolCategory } from "config/constants/types";
 import { Pool } from "state/types";
+import { useStakeWithPermitMultireward } from "hooks/useStakeWithPermitMultirewards";
 import CardHeading from "./CardHeading";
 import DepositModal from "./DepositModal";
 import WithdrawModal from "./WithdrawModal";
@@ -69,30 +72,14 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
     metamaskImg,
   } = pool;
 
-  // useEffect(() => {
-  //   const pricefunc = async () => {
-  //     const arrayofprices = [];
+  const [signatureData, setSignatureData] = useState<{
+    v: number;
+    r: string;
+    s: string;
+    deadline: number;
+  } | null>(null);
 
-  //     // const stakingTokenPrice = await fetchPrice(pool.stakingTokenCoinGeckoid);
-  //     // if (stakingTokenPrice) {
-  //     //   setStakingTokenPrice(stakingTokenPrice);
-  //     // }
-
-  //     pool.coinGeckoIds.forEach(async (element, i) => {
-  //       let price = await fetchPrice(pool.coinGeckoIds[i]);
-  //       if (!price) {
-  //         price = new BigNumber(1);
-  //       }
-
-  //       arrayofprices.push(price);
-  //     });
-
-  //     Settokenprices(arrayofprices);
-  //   };
-  //   pricefunc();
-  // }, [pool]);
-
-  const { account } = useWeb3React("web3");
+  const { account, library } = useWeb3React("web3");
   const [show, setShow] = useState(false);
   // Pools using native BNB behave differently than pools using a token
   const isBnbPool = poolCategory === PoolCategory.BINANCE;
@@ -101,6 +88,10 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
   /*  const {onEnter} = useEnter();
   const {onLeave} = useLeave(); */
   const { onStake } = useSousStake(sousId, isBnbPool);
+  const { onStakeWithPermit } = useStakeWithPermitMultireward(
+    sousId,
+    signatureData
+  );
   const { onUnstake } = useSousUnstake(sousId);
   const { onReward } = useSousHarvest(sousId, isBnbPool);
 
@@ -193,27 +184,51 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
 
   const isOldSyrup = stakingTokenName === QuoteToken.SYRUP;
   const accountHasStakedBalance = stakedBalance?.toNumber() > 0;
-  const needsApproval = !accountHasStakedBalance && !allowance.toNumber();
+  let needsApproval = !accountHasStakedBalance && !allowance.toNumber();
 
+  if (
+    signatureData !== null &&
+    signatureData.deadline > Math.ceil(Date.now() / 1000)
+  ) {
+    needsApproval = false;
+  }
   const isCardActive = isFinished && accountHasStakedBalance;
   const convertedLimit = new BigNumber(stakingLimit).multipliedBy(
     new BigNumber(10).pow(tokenDecimals)
   );
   const [onPresentDeposit] = useModal(
-    <DepositModal
-      max={
-        stakingLimit && stakingTokenBalance.isGreaterThan(convertedLimit)
-          ? convertedLimit
-          : stakingTokenBalance
-      }
-      onConfirm={onStake}
-      tokenName={
-        stakingLimit
-          ? `${stakingTokenName} (${stakingLimit} max)`
-          : stakingTokenName
-      }
-      stakingTokenDecimals={stakingTokenDecimals}
-    />
+    signatureData !== null &&
+      signatureData.deadline > Math.ceil(Date.now() / 1000) ? (
+      <DepositModal
+        max={
+          stakingLimit && stakingTokenBalance.isGreaterThan(convertedLimit)
+            ? convertedLimit
+            : stakingTokenBalance
+        }
+        onConfirm={onStakeWithPermit}
+        tokenName={
+          stakingLimit
+            ? `${stakingTokenName} (${stakingLimit} max)`
+            : stakingTokenName
+        }
+        stakingTokenDecimals={stakingTokenDecimals}
+      />
+    ) : (
+      <DepositModal
+        max={
+          stakingLimit && stakingTokenBalance.isGreaterThan(convertedLimit)
+            ? convertedLimit
+            : stakingTokenBalance
+        }
+        onConfirm={onStake}
+        tokenName={
+          stakingLimit
+            ? `${stakingTokenName} (${stakingLimit} max)`
+            : stakingTokenName
+        }
+        stakingTokenDecimals={stakingTokenDecimals}
+      />
+    )
   );
 
   // const [onPresentCompound] = useModal(
@@ -232,20 +247,40 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
       stakingTokenDecimals={stakingTokenDecimals}
     />
   );
+  const { metaTranscation } = useProfile();
 
   const tokencontract = getBep20Contract(tokenAddress, web3);
 
-  const { onApprove } = useSousApprove(tokencontract, sousId);
+  const { onApprove } = useSousApproveWithPermit(tokencontract, sousId);
+  const sousChefContractGasless = useSousChefGasless(sousId);
 
   const handleApprove = useCallback(async () => {
     try {
       setRequestedApproval(true);
-      await onApprove();
+      if (metaTranscation) {
+        const { v, r, s, deadlineForSignature } = await onApprove();
+
+        setSignatureData({
+          v,
+          r,
+          s,
+          deadline: deadlineForSignature,
+        });
+      } else {
+        await onApprove();
+      }
       setRequestedApproval(false);
     } catch (e) {
       console.error(e);
     }
-  }, [onApprove]);
+  }, [
+    onApprove,
+    metaTranscation,
+    // sousChefContractGasless,
+    // library,
+    // account,
+    // sousId,
+  ]);
   const open = useCallback(() => setShow(true), [setShow]);
   const close = useCallback(() => setShow(false), [setShow]);
   return (
