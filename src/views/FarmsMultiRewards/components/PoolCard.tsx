@@ -338,6 +338,19 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
                   : ""}
               </Text>
             </Flex>
+
+            {account && harvestInterval.toNumber() > 0 && (
+              <Flex justifyContent="space-between" mb="15px">
+                <Text>{TranslateString(318, "Next Harvest in :")}</Text>
+                <Text bold>
+                  <Countdown
+                    date={harvestInterval.toNumber() * 1000}
+                    renderer={Renderer}
+                  />
+                </Text>
+              </Flex>
+            )}
+
             {/* canHarvest */}
             {account && harvest && canHarvest && !isOldSyrup && (
               <Button
@@ -398,17 +411,6 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
             </RewardDetails>
           </RewardsSection>
         </div>
-        {account && harvestInterval.toNumber() > 0 && (
-          <Flex justifyContent="space-between">
-            <Text>{TranslateString(318, "Next Harvest in :")}</Text>
-            <Text bold>
-              <Countdown
-                date={harvestInterval.toNumber() * 1000}
-                renderer={Renderer}
-              />
-            </Text>
-          </Flex>
-        )}
 
         <StyledCardActions>
           {!account && <UnlockButton />}
