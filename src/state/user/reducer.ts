@@ -3,6 +3,7 @@ import { createReducer } from "@reduxjs/toolkit";
 import {
   INITIAL_ALLOWED_SLIPPAGE,
   DEFAULT_DEADLINE_FROM_NOW,
+  PINNED_MIGRATION_PAIRS,
 } from "../../constants";
 import { updateVersion } from "../global/actions";
 import {
@@ -55,7 +56,11 @@ export interface UserState {
   migrationPairs: {
     [chainId: number]: {
       // keyed by facoryAddress:[token1Address]
-      [key: string]: Array<string>;
+      [key: string]: {
+        [key: string]: {
+          pid: any;
+        };
+      };
     };
   };
   timestamp: number;
@@ -158,22 +163,45 @@ export default createReducer(initialState, (builder) =>
     .addCase(
       addMigrationPair,
       (state, { payload: { chainId, factoryAddress, pairAddress } }) => {
-        if (state.migrationPairs && state.migrationPairs[chainId]) {
-          if (state.migrationPairs[chainId][factoryAddress]) {
-            const currentPairs = state.migrationPairs[chainId][factoryAddress];
-            if (!currentPairs.includes(pairAddress)) {
-              state.migrationPairs[chainId][factoryAddress] =
-                currentPairs.concat(pairAddress);
+        const pinnedPairs = chainId
+          ? PINNED_MIGRATION_PAIRS[chainId] ?? {}
+          : {};
+        const checkPair = pairAddress in pinnedPairs[factoryAddress];
+        if (!checkPair) {
+          if (state.migrationPairs && state.migrationPairs[chainId]) {
+            if (state.migrationPairs[chainId][factoryAddress]) {
+              const hasKey =
+                pairAddress in state.migrationPairs[chainId][factoryAddress];
+              const currentPairs =
+                state.migrationPairs[chainId][factoryAddress];
+              if (!hasKey) {
+                state.migrationPairs[chainId][factoryAddress] = {
+                  ...currentPairs,
+                  ...{
+                    [pairAddress]: {
+                      pid: null,
+                    },
+                  },
+                };
+              }
+            } else {
+              state.migrationPairs[chainId][factoryAddress] = {
+                [pairAddress]: {
+                  pid: null,
+                },
+              };
             }
           } else {
-            state.migrationPairs[chainId][factoryAddress] = [pairAddress];
+            state.migrationPairs = {
+              [chainId]: {
+                [factoryAddress]: {
+                  [pairAddress]: {
+                    pid: null,
+                  },
+                },
+              },
+            };
           }
-        } else {
-          state.migrationPairs = {
-            [chainId]: {
-              [factoryAddress]: [pairAddress],
-            },
-          };
         }
         state.timestamp = currentTimestamp();
       }
@@ -182,16 +210,11 @@ export default createReducer(initialState, (builder) =>
       removeMigrationPair,
       (state, { payload: { chainId, factoryAddress, pairAddress } }) => {
         if (state.migrationPairs[chainId]) {
-          if (
-            state.migrationPairs[chainId][factoryAddress] &&
-            state.migrationPairs[chainId][factoryAddress].includes(pairAddress)
-          ) {
-            let currentPairs = state.migrationPairs[chainId][factoryAddress];
-            currentPairs = currentPairs.filter((x) => x !== pairAddress);
-            if (currentPairs.length > 0) {
-              state.migrationPairs[chainId][factoryAddress] = currentPairs;
-            } else {
-              delete state.migrationPairs[chainId][factoryAddress];
+          if (state.migrationPairs[chainId][factoryAddress]) {
+            const hasKey =
+              pairAddress in state.migrationPairs[chainId][factoryAddress];
+            if (hasKey) {
+              delete state.migrationPairs[chainId][factoryAddress][pairAddress];
             }
           }
         }

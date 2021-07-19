@@ -23,13 +23,8 @@ const Migrate = () => {
       Object.keys(trackedTokenPairs).forEach((factoryAddrees) => {
         const checkIfPresent = migrate.filter(eachFactory => eachFactory.value === factoryAddrees);
         if (checkIfPresent && checkIfPresent.length > 0) {
-          let pairAddresses = trackedTokenPairs[factoryAddrees];
-          pairAddresses = pairAddresses.filter((item, pos) => {
-            return pairAddresses.indexOf(item) === pos;
-          })
-          pairAddresses = pairAddresses.filter(item => item !== null && item !== "0x0000000000000000000000000000000000000000");
           pairs[factoryAddrees] = {
-            pairs: pairAddresses,
+            pairs: trackedTokenPairs[factoryAddrees],
             exchangePlatform: checkIfPresent[0].label
           }
         }
@@ -87,9 +82,11 @@ const Migrate = () => {
               {allMigrationPairs && Object.keys(allMigrationPairs).length > 0 ? (
                 <div style={{ marginBottom: "20px", width: "100%" }}>
                   {Object.keys(allMigrationPairs).map(eachFacory => {
-                    return allMigrationPairs[eachFacory].pairs.map(eachPair => (
+                    return Object.keys(allMigrationPairs[eachFacory].pairs).map(eachPair => (
+                      eachPair !== '0x0000000000000000000000000000000000000000' &&
                       <MigrationCard
                         pairAddress={eachPair}
+                        pid={allMigrationPairs[eachFacory].pairs[eachPair].pid}
                         factoryAddrees={eachFacory}
                         key={eachPair}
                         exchangePlatform={allMigrationPairs[eachFacory].exchangePlatform}
