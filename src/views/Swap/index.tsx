@@ -361,6 +361,7 @@ const Swap = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        marginBottom: "70px",
       }}
     >
       <ContainerCard>

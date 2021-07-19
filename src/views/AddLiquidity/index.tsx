@@ -507,7 +507,7 @@ export default function AddLiquidity({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        marginTop: "70px",
+        margin: "70px 0px",
       }}
     >
       <ContainerCard>
