@@ -404,6 +404,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
         projectLink={projectLink}
         decimals={stakingTokenDecimals}
         totalStaked={totalStaked}
+        StakingTokenPrice={StakingTokenPrice}
         startBlock={startBlock}
         endBlock={endBlock}
         isFinished={isFinished}

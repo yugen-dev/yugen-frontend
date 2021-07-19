@@ -28,7 +28,8 @@ interface Props {
   endBlock: number;
   isFinished: boolean;
   poolCategory: PoolCategory;
-  metamaskImg?:string
+  metamaskImg?: string;
+  StakingTokenPrice?: number;
 }
 
 const StyledFooter = styled.div<{ isFinished: boolean }>`
@@ -92,6 +93,7 @@ const CardFooter: React.FC<Props> = ({
   endBlock,
   poolCategory,
   metamaskImg,
+  StakingTokenPrice,
 }) => {
   const { blockNumber: currentBlock } = useBlock();
   const [isOpen, setIsOpen] = useState(false);
@@ -120,17 +122,21 @@ const CardFooter: React.FC<Props> = ({
         <Details>
           <Row mb="4px">
             <FlexFull>
-              <Label>
-                {TranslateString(408, "Total")}
-              </Label>
+              <Label>{TranslateString(408, "Total Liquidity")}</Label>
             </FlexFull>
+            <span>$</span>
             <Balance
               fontSize="14px"
               isDisabled={isFinished}
-              value={getBalanceNumber(totalStaked, decimals)}
+              value={getBalanceNumber(
+                new BigNumber(totalStaked).multipliedBy(
+                  new BigNumber(StakingTokenPrice)
+                ),
+                decimals
+              )}
             />
           </Row>
-          {blocksUntilStart > 0 && (
+          {/* {blocksUntilStart > 0 && (
             <Row mb="4px">
               <FlexFull>
                 <Label>{TranslateString(410, "Start")}:</Label>
@@ -142,8 +148,8 @@ const CardFooter: React.FC<Props> = ({
                 decimals={0}
               />
             </Row>
-          )}
-          {blocksUntilStart === 0 && blocksRemaining > 0 && (
+          )} */}
+          {/* {blocksUntilStart === 0 && blocksRemaining > 0 && (
             <Row mb="4px">
               <FlexFull>
                 <Label>{TranslateString(410, "End")}:</Label>
@@ -155,11 +161,16 @@ const CardFooter: React.FC<Props> = ({
                 decimals={0}
               />
             </Row>
-          )}
+          )} */}
           <Flex mb="5px" mt="10px" justifyContent="center">
             <TokenLink
               onClick={() =>
-                registerToken(tokenAddress, tokenName, tokenDecimals, metamaskImg)
+                registerToken(
+                  tokenAddress,
+                  tokenName,
+                  tokenDecimals,
+                  metamaskImg
+                )
               }
             >
               Add {tokenName} to Metamask

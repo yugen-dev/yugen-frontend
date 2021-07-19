@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import BigNumber from "bignumber.js";
 import styled from "styled-components";
 import InfoIcon from "@material-ui/icons/Info";
@@ -43,9 +43,16 @@ import ApyButton from "../../Farms/components/FarmCard/ApyButton";
 interface HarvestProps {
   pool: Pool;
   valueOfCNTinUSD?: BigNumber;
+  bnbPrice?: BigNumber;
+  ethPrice?: BigNumber;
 }
 
-const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
+const PoolCard: React.FC<HarvestProps> = ({
+  pool,
+  valueOfCNTinUSD,
+  bnbPrice,
+  ethPrice,
+}) => {
   // const [tokenprices, Settokenprices] = useState([null]);
   // const [StakingTokenPrice, setStakingTokenPrice] = useState(new BigNumber(1));
   const {
@@ -69,7 +76,31 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
     poolHarvestInterval,
     tokenPriceVsQuote,
     metamaskImg,
+    quoteTokenSymbol,
+    lpTotalInQuoteToken,
   } = pool;
+
+  const totalValue: BigNumber = useMemo(() => {
+    if (!lpTotalInQuoteToken) {
+      return null;
+    }
+    if (quoteTokenSymbol === QuoteToken.BNB) {
+      return bnbPrice.times(lpTotalInQuoteToken);
+    }
+    if (quoteTokenSymbol === QuoteToken.CNT) {
+      return valueOfCNTinUSD.times(lpTotalInQuoteToken);
+    }
+    if (quoteTokenSymbol === QuoteToken.ETH) {
+      return ethPrice.times(lpTotalInQuoteToken);
+    }
+    return lpTotalInQuoteToken;
+  }, [
+    bnbPrice,
+    valueOfCNTinUSD,
+    ethPrice,
+    lpTotalInQuoteToken,
+    quoteTokenSymbol,
+  ]);
 
   const [signatureData, setSignatureData] = useState<{
     v: number;
@@ -488,6 +519,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
         projectLink={projectLink}
         decimals={stakingTokenDecimals}
         totalStaked={totalStaked}
+        totalLiquidityLocked={totalValue}
         startBlock={startBlock}
         endBlock={endBlock}
         isFinished={isFinished}
