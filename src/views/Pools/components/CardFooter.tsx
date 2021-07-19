@@ -28,7 +28,7 @@ interface Props {
   endBlock: number;
   isFinished: boolean;
   poolCategory: PoolCategory;
-  metamaskImg?:string
+  metamaskImg?: string;
 }
 
 const StyledFooter = styled.div<{ isFinished: boolean }>`
@@ -88,12 +88,9 @@ const CardFooter: React.FC<Props> = ({
   tokenName,
   tokenDecimals,
   isFinished,
-  startBlock,
-  endBlock,
   poolCategory,
   metamaskImg,
 }) => {
-  const { blockNumber: currentBlock } = useBlock();
   const [isOpen, setIsOpen] = useState(false);
   const TranslateString = useI18n();
   const Icon = isOpen ? ChevronUp : ChevronDown;
@@ -101,8 +98,6 @@ const CardFooter: React.FC<Props> = ({
   const handleClick = () => setIsOpen(!isOpen);
   const Tag = tags[poolCategory];
 
-  const blocksUntilStart = Math.max(startBlock - currentBlock, 0);
-  const blocksRemaining = Math.max(endBlock - currentBlock, 0);
   return (
     <StyledFooter isFinished={isFinished}>
       <Row>
@@ -120,46 +115,28 @@ const CardFooter: React.FC<Props> = ({
         <Details>
           <Row mb="4px">
             <FlexFull>
-              <Label>
-                {TranslateString(408, "Total")}
-              </Label>
+              <Label>{TranslateString(408, "Total value locked")}</Label>
             </FlexFull>
+            <span
+              style={{ color: "white", fontWeight: 500, marginRight: "1px" }}
+            >
+              $
+            </span>
             <Balance
               fontSize="14px"
               isDisabled={isFinished}
               value={getBalanceNumber(totalStaked, decimals)}
             />
           </Row>
-          {blocksUntilStart > 0 && (
-            <Row mb="4px">
-              <FlexFull>
-                <Label>{TranslateString(410, "Start")}:</Label>
-              </FlexFull>
-              <Balance
-                fontSize="14px"
-                isDisabled={isFinished}
-                value={blocksUntilStart}
-                decimals={0}
-              />
-            </Row>
-          )}
-          {blocksUntilStart === 0 && blocksRemaining > 0 && (
-            <Row mb="4px">
-              <FlexFull>
-                <Label>{TranslateString(410, "End")}:</Label>
-              </FlexFull>
-              <Balance
-                fontSize="14px"
-                isDisabled={isFinished}
-                value={blocksRemaining}
-                decimals={0}
-              />
-            </Row>
-          )}
           <Flex mb="5px" mt="10px" justifyContent="center">
             <TokenLink
               onClick={() =>
-                registerToken(tokenAddress, tokenName, tokenDecimals, metamaskImg)
+                registerToken(
+                  tokenAddress,
+                  tokenName,
+                  tokenDecimals,
+                  metamaskImg
+                )
               }
             >
               Add {tokenName} to Metamask
