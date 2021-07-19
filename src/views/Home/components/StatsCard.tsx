@@ -24,6 +24,16 @@ const SubCard = styled.div`
   padding: 15px 15px;
   background-color: #1e202a;
 `;
+const SubCard2 = styled.div`
+  border-radius: 0.625rem !important;
+  padding: 15px 15px;
+  background-color: #1e202a;
+  width: 100%;
+`;
+const SubCardContainer = styled.div`
+  width: 100%;
+  display: flex;
+`;
 const TextAlignMent = styled.div`
   display: flex;
   width: 100%;
@@ -311,88 +321,9 @@ const CardValue: React.FC<CardValueProps> = ({
     );
   }
   return (
-    <Card>
-      <ProgressText style={{ marginBottom: "15px" }}>
-        <Text color="white" fontSize="18px" fontWeight="700">
-          CNT & Summary
-        </Text>
-        <Text color="#C1C5CB" fontSize="12px" ml="5px">
-          * Amount allocated through mining is distributed every second
-        </Text>
-      </ProgressText>
-
-      <ProgressText
-        style={{
-          flexWrap: "wrap",
-          justifyContent: "space-evenly",
-        }}
-      >
-        <ProgressItemText>
-          <Text color="#9d9fa8" fontSize="15px">
-            Circulating Supply
-          </Text>
-          <Text
-            color="#2082E9"
-            fontSize="22px"
-            fontWeight="700"
-            style={{ display: "flex", alignItems: "center" }}
-          >
-            {numberWithCommas(circulatingSupply)}{" "}
-            <Text color="#C1C5CB" fontSize="15px" ml="8px">
-              {" "}
-              CNT{" "}
-            </Text>
-          </Text>
-        </ProgressItemText>
-        <ProgressItemText>
-          <Text color="#9d9fa8" fontSize="15px">
-            Total Burned
-          </Text>
-          <Text
-            color="#f55c47"
-            fontSize="22px"
-            fontWeight="700"
-            style={{ display: "flex", alignItems: "center" }}
-          >
-            {numberWithCommas(burnedSupply)}{" "}
-            <Text color="#C1C5CB" fontSize="15px" ml="8px">
-              {" "}
-              CNT{" "}
-            </Text>
-          </Text>
-        </ProgressItemText>
-        <ProgressItemText>
-          <Text color="#9d9fa8" fontSize="15px">
-            Max Supply
-          </Text>
-          <Text
-            color="white"
-            fontSize="22px"
-            fontWeight="700"
-            style={{ display: "flex", alignItems: "center" }}
-          >
-            {numberWithCommas(totalSuply)}{" "}
-            <Text color="#C1C5CB" fontSize="15px" ml="8px">
-              {" "}
-              CNT
-            </Text>
-          </Text>
-        </ProgressItemText>
-      </ProgressText>
-
-      <BarParent>
-        <BlueBar progressVal={progressBar} />
-        <RedbBar progressVal={burnedProgress} marginVal={progressBar} />
-      </BarParent>
-      <Grid container spacing={5} style={{ marginTop: "20px" }}>
-        <Grid
-          item
-          xs={12}
-          md={6}
-          lg={6}
-          xl={6}
-          style={{ borderRight: "1px solid #524B63" }}
-        >
+    <>
+      <SubCardContainer>
+        <SubCard2>
           <TextAlignMent>
             <ProgressText>
               <Text color="#9d9fa8" fontSize="16px">
@@ -438,7 +369,7 @@ const CardValue: React.FC<CardValueProps> = ({
               </Text>
             </ProgressText>
             {totalFees && (
-              <ProgressText>
+              <ProgressText style={{ marginBottom: "0px" }}>
                 <Text color="#9d9fa8" fontSize="16px">
                   Total Fees (24 Hrs)
                 </Text>
@@ -453,15 +384,16 @@ const CardValue: React.FC<CardValueProps> = ({
               </ProgressText>
             )}
           </TextAlignMent>
-        </Grid>
-        <Grid item xs={12} md={6} lg={6} xl={6}>
+        </SubCard2>
+        <div style={{ margin: "0px 10px" }} />{" "}
+        <SubCard2>
           <TextAlignMent>
             {lpFees && (
               <ProgressText>
-                <Text color="#9d9fa8" fontSize="15px">
+                <Text color="#9d9fa8" fontSize="16px">
                   LP Fees
                 </Text>
-                <Text color="white" fontSize="15px" fontWeight="700">
+                <Text color="white" fontSize="16px" fontWeight="700">
                   {" "}
                   ${lpFees}{" "}
                 </Text>
@@ -469,10 +401,10 @@ const CardValue: React.FC<CardValueProps> = ({
             )}
             {stakerFees && (
               <ProgressText>
-                <Text color="#C1C5CB" fontSize="15x">
+                <Text color="#C1C5CB" fontSize="16x">
                   Staker Distrubution
                 </Text>
-                <Text color="white" fontSize="15px" fontWeight="700">
+                <Text color="white" fontSize="16px" fontWeight="700">
                   {" "}
                   ${stakerFees}{" "}
                 </Text>
@@ -480,30 +412,107 @@ const CardValue: React.FC<CardValueProps> = ({
             )}
             {burnerFees && (
               <ProgressText>
-                <Text color="#C1C5CB" fontSize="15px">
+                <Text color="#C1C5CB" fontSize="16px">
                   CNT Burned
                 </Text>
-                <Text color="white" fontSize="15px" fontWeight="700">
+                <Text color="white" fontSize="16px" fontWeight="700">
                   {" "}
                   ${burnerFees}{" "}
                 </Text>
               </ProgressText>
             )}
             {devFees && (
-              <ProgressText>
-                <Text color="#C1C5CB" fontSize="15px">
+              <ProgressText style={{ marginBottom: "0px" }}>
+                <Text color="#C1C5CB" fontSize="16px">
                   Dev Fees
                 </Text>
-                <Text color="white" fontSize="15px" fontWeight="700">
+                <Text color="white" fontSize="16px" fontWeight="700">
                   {" "}
                   ${devFees}{" "}
                 </Text>
               </ProgressText>
             )}
           </TextAlignMent>
-        </Grid>
-      </Grid>
-    </Card>
+        </SubCard2>
+      </SubCardContainer>
+
+      <div style={{ margin: "20px 0" }} />
+
+      <Card>
+        <ProgressText style={{ marginBottom: "15px", flexDirection: "column" }}>
+          <Text color="white" fontSize="18px" fontWeight="700">
+            CNT & Summary
+          </Text>
+          <Text color="#C1C5CB" fontSize="12px" ml="5px" textAlign="center">
+            * Amount allocated through mining is distributed every second
+          </Text>
+        </ProgressText>
+
+        <ProgressText
+          style={{
+            flexWrap: "wrap",
+            justifyContent: "space-evenly",
+          }}
+        >
+          <ProgressItemText>
+            <Text color="#9d9fa8" fontSize="15px" textAlign="center">
+              Circulating Supply
+            </Text>
+            <Text
+              color="#2082E9"
+              fontSize="22px"
+              fontWeight="700"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              {numberWithCommas(circulatingSupply)}{" "}
+              <Text color="#C1C5CB" fontSize="15px" ml="8px">
+                {" "}
+                CNT{" "}
+              </Text>
+            </Text>
+          </ProgressItemText>
+          <ProgressItemText>
+            <Text color="#9d9fa8" fontSize="15px" textAlign="center">
+              Total Burned
+            </Text>
+            <Text
+              color="#f55c47"
+              fontSize="22px"
+              fontWeight="700"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              {numberWithCommas(burnedSupply)}{" "}
+              <Text color="#C1C5CB" fontSize="15px" ml="8px">
+                {" "}
+                CNT{" "}
+              </Text>
+            </Text>
+          </ProgressItemText>
+          <ProgressItemText>
+            <Text color="#9d9fa8" fontSize="15px" textAlign="center">
+              Max Supply
+            </Text>
+            <Text
+              color="white"
+              fontSize="22px"
+              fontWeight="700"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              {numberWithCommas(totalSuply)}{" "}
+              <Text color="#C1C5CB" fontSize="15px" ml="8px">
+                {" "}
+                CNT
+              </Text>
+            </Text>
+          </ProgressItemText>
+        </ProgressText>
+
+        <BarParent>
+          <BlueBar progressVal={progressBar} />
+          <RedbBar progressVal={burnedProgress} marginVal={progressBar} />
+        </BarParent>
+      </Card>
+    </>
   );
 };
 
