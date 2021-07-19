@@ -119,7 +119,8 @@ export default function MigrationCard({
         setMigrateAndFarmLoading(false);
       }
     } catch (error) {
-      setMigrateLoading(false);
+      console.log('error is', error);
+      setMigrateAndFarmLoading(false);
       toastSuccess("Error", "Error occured while migrating");
     }
   };
@@ -296,23 +297,24 @@ export default function MigrationCard({
                   </InfoDiv>
                 </InfoContainer>
                 <div>
-                  {pid && <Button
-                    style={{
-                      width: "100%",
-                      marginTop: "20px",
-                    }}
-                    scale="md"
-                    onClick={onMigrateClicked}
-                    isLoading={migrateLoading}
-                    disabled={migrateLoading || parseFloat(balance) === 0}
-                    endIcon={
-                      migrateLoading && (
-                        <AutoRenewIcon spin color="currentColor" />
-                      )
-                    }
-                  >
-                    Migrate + Farm
-                  </Button>}
+                  {allowence && allowence !== 0 && pid ?
+                    <Button
+                      style={{
+                        width: "100%",
+                        marginTop: "20px",
+                      }}
+                      scale="md"
+                      onClick={onMigrateAndFarmClicked}
+                      isLoading={migrateAndFarmLoading}
+                      disabled={migrateAndFarmLoading || parseFloat(balance) === 0}
+                      endIcon={
+                        migrateAndFarmLoading && (
+                          <AutoRenewIcon spin color="currentColor" />
+                        )
+                      }
+                    >
+                      {migrateAndFarmLoading ? "Processing..." : "Migrate + Farm"}
+                    </Button> : <div />}
                   <div style={{ display: "flex", justifyContent: "space-between" }}>
                     {allowence && allowence !== 0 ? (
                       <Button
@@ -321,17 +323,17 @@ export default function MigrationCard({
                           marginTop: "20px",
                         }}
                         scale="md"
-                        onClick={onMigrateAndFarmClicked}
-                        isLoading={migrateAndFarmLoading}
+                        onClick={onMigrateClicked}
+                        isLoading={migrateLoading}
                         variant="secondary"
-                        disabled={migrateAndFarmLoading || parseFloat(balance) === 0}
+                        disabled={migrateLoading || parseFloat(balance) === 0}
                         endIcon={
                           migrateLoading && (
                             <AutoRenewIcon spin color="currentColor" />
                           )
                         }
                       >
-                        {migrateAndFarmLoading ? "Processing..." : "Migrate Liquidity"}
+                        {migrateLoading ? "Processing..." : "Migrate Liquidity"}
                       </Button>
                     ) : (
                       <Button

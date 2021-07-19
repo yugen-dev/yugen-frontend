@@ -173,6 +173,9 @@ export const PINNED_MIGRATION_PAIRS = {
       "0xa526cF2316549e808e2d607f084953c0E465524f": {
         pid: null,
       },
+      "0x3793F13Aca9fdfd4F56EfB201d2ab8AF6B6DcCC5": {
+        pid: '0'
+      }
     },
   },
 };
