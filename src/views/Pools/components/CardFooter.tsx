@@ -89,13 +89,10 @@ const CardFooter: React.FC<Props> = ({
   tokenName,
   tokenDecimals,
   isFinished,
-  startBlock,
-  endBlock,
   poolCategory,
   metamaskImg,
   StakingTokenPrice,
 }) => {
-  const { blockNumber: currentBlock } = useBlock();
   const [isOpen, setIsOpen] = useState(false);
   const TranslateString = useI18n();
   const Icon = isOpen ? ChevronUp : ChevronDown;
@@ -103,8 +100,6 @@ const CardFooter: React.FC<Props> = ({
   const handleClick = () => setIsOpen(!isOpen);
   const Tag = tags[poolCategory];
 
-  const blocksUntilStart = Math.max(startBlock - currentBlock, 0);
-  const blocksRemaining = Math.max(endBlock - currentBlock, 0);
   return (
     <StyledFooter isFinished={isFinished}>
       <Row>

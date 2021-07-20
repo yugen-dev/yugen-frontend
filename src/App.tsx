@@ -41,7 +41,7 @@ const RemoveLiquidity = lazy(() => import("./views/RemoveLiquidity"));
 
 // const Lottery = lazy(() => import("./views/Lottery"));
 // const Ifos = lazy(() => import("./views/Ifos"));
-// const NotFound = lazy(() => import("./views/NotFound"));
+const NotFound = lazy(() => import("./views/NotFound"));
 // const Teams = lazy(() => import("./views/Teams"));
 // const Team = lazy(() => import("./views/Teams/Team"));
 // const Profile = lazy(() => import("./views/Profile"));
@@ -85,10 +85,7 @@ const App: React.FC = () => {
               <Route path="/pools">
                 <Pools />
               </Route>
-              <Route  
-                exact
-                strict
-                path="/migrate">
+              <Route exact strict path="/migrate">
                 <Migrate />
               </Route>
               <Route path="/cntbar">
@@ -158,7 +155,7 @@ const App: React.FC = () => {
                 <Redirect to="/collectibles" />
               </Route>
               {/* 404 */}
-              {/* <Route component={NotFound} /> */}
+              <Route component={NotFound} />
             </Switch>
           </SuspenseWithChunkError>
         </Menu>

@@ -87,7 +87,7 @@ const Home: React.FC = () => {
   const getHighestAPY = () => {
     const activeFarms = farmsLP.filter((farm) => farm.multiplier !== "0X");
     calculateAPY(activeFarms);
-    return ((maxAPY.current * 100).toLocaleString("en-US").slice(0, -1));
+    return (maxAPY.current * 100).toLocaleString("en-US").slice(0, -1);
   };
   const calculateAPY = useCallback(
     (farmsToDisplay) => {
@@ -220,12 +220,6 @@ const Home: React.FC = () => {
           >
             <Hero>
               <CNHeading>{TranslateString(576, "PolyDEX")}</CNHeading>
-              {/* <CNText>
-                {TranslateString(
-                  578,
-                  "The #1 AMM and yield farm on Matic BlockChain."
-                )}
-              </CNText> */}
             </Hero>
             <FarmStakingCard />
           </div>
@@ -233,9 +227,6 @@ const Home: React.FC = () => {
         <Grid item xs={12} md={6} lg={6} xl={6}>
           <LotteryCard />
         </Grid>
-        {
-          // Stats Card
-        }
         <Grid item xs={12} md={6} lg={6} xl={6}>
           <StatsCard
             totalSuply={totalSupplyVal > 100000000 ? 100000000 : totalSupplyVal}
@@ -248,10 +239,7 @@ const Home: React.FC = () => {
             burnerFees={burnerFees}
           />
         </Grid>
-        {
-          // Grapht Card
-        }
-        <Grid item xs={12} md={6} lg={6} xl={6}>
+        <Grid item xs={12} md={6} lg={6} xl={6} style={{ alignSelf: "center" }}>
           <Card style={{ height: 373 }}>
             {liquidity && liquidity.length > 0 && (
               <ParentSize>
@@ -270,7 +258,6 @@ const Home: React.FC = () => {
             )}
           </Card>
         </Grid>
-
         <Grid item xs={12} md={6} lg={6} xl={6}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={6} xl={6}>
@@ -321,10 +308,4 @@ const CNHeading = styled.div`
   margin-bottom: 20px;
 `;
 
-// const CNText = styled.div`
-//   font-size: 20px;
-//   font-weight: normal;
-//   text-align: center;
-//   color: #9d9fa8;
-// `;
 export default Home;

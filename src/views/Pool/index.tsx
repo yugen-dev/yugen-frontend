@@ -82,6 +82,7 @@ export default function Pool() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        marginBottom: "70px",
       }}
     >
       <ContainerCard>

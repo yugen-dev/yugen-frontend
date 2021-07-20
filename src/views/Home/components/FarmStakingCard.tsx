@@ -61,12 +61,6 @@ const FarmedStakingCard = () => {
   return (
     <CNCardBody>
       <HeadingSection>
-        {/* <CardImage
-          src="/images/CNLatte.png"
-          alt="cake logo"
-          width="30px"
-          height="30px"
-        /> */}
         <CNHeading>{TranslateString(542, "Farms & Staking")}</CNHeading>
       </HeadingSection>
       <Block>
@@ -75,31 +69,12 @@ const FarmedStakingCard = () => {
         </Label>
         <CakeHarvestBalance />
       </Block>
-      <Block>
+      <Block style={{ marginBottom: "0px" }}>
         <Label>
           {TranslateString(546, "CNT in Wallet")} {` `}:
         </Label>
         <CakeWalletBalance />
       </Block>
-      {/* <Actions>
-        {account ? (
-          <Button
-            id="harvest-all"
-            disabled={balancesWithValue.length <= 0 || pendingTx}
-            onClick={harvestAllFarms}
-            width="100%"
-          >
-            {pendingTx
-              ? TranslateString(548, "Collecting CAKE")
-              : TranslateString(
-                  532,
-                  `Harvest all (${balancesWithValue.length})`
-                )}
-          </Button>
-        ) : (
-          <UnlockButton />
-        )}
-      </Actions> */}
     </CNCardBody>
   );
 };
