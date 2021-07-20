@@ -336,7 +336,7 @@ export function useMigrationPairs() {
 
   // pinned pairs
   const pinnedPairs = useMemo(
-    () => (chainId ? PINNED_MIGRATION_PAIRS[chainId] ?? [] : []),
+    () => (chainId ? PINNED_MIGRATION_PAIRS[chainId] ?? {} : {}),
     [chainId]
   );
   // pairs for every token against every base
@@ -382,7 +382,7 @@ export function useMigrationPairs() {
         checkThis[factoryAddrees] = forChain[factoryAddrees];
         if (chainId) {
           if (pinnedPairs[factoryAddrees]) {
-            checkThis[factoryAddrees] = checkThis[factoryAddrees].concat(pinnedPairs[factoryAddrees])
+            checkThis[factoryAddrees] = {...checkThis[factoryAddrees], ...pinnedPairs[factoryAddrees]}
           }
         }
       });

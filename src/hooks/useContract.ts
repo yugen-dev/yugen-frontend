@@ -22,7 +22,6 @@ import {
   getCNTStakerContract,
   getClaimRefundContract,
 } from "utils/contractHelpers";
-import { getPolydexMigratorAddress } from "utils/addressHelpers";
 import polydexMigrator from "config/abi/polydexMigrator.json";
 import ENS_ABI from "../constants/abis/ens-registrar.json";
 import ENS_PUBLIC_RESOLVER_ABI from "../constants/abis/ens-public-resolver.json";
@@ -205,8 +204,8 @@ export function useMulticallContract(): Contract | null {
     false
   );
 }
-export const usePolydexMigratorContract = () => {
-  return useContract(getPolydexMigratorAddress(), polydexMigrator, true);
+export const usePolydexMigratorContract = (address: string) => {
+  return useContract(address, polydexMigrator, true);
 };
 export const useFactoryContract = (
   factoryAddress,

@@ -10,7 +10,6 @@ import {
   AutoRenewIcon,
 } from "cryption-uikit";
 import useWeb3 from "hooks/useWeb3";
-import { getPolydexMigratorAddress } from "utils/addressHelpers";
 import { usePolydexMigratorContract, usePairContract } from "hooks/useContract";
 import { getBep20Contract } from "utils/contractHelpers";
 import { useMigrationpairRemover } from "state/user/hooks";
@@ -19,17 +18,25 @@ import TransactionSubmittedContent from "components/TransactionConfirmationModal
 import Modal from "components/Modal"
 import { useToast } from "state/hooks";
 import { useActiveWeb3React } from "hooks";
+import contracts from "config/constants/contracts"
+import migration from "config/constants/migrate";
 
 interface ModalProps {
   pairAddress: string;
+  pid: any
   exchangePlatform: string;
   factoryAddrees: string;
+  isPool: boolean,
+  contractAddress: string | null
 }
 
 export default function MigrationCard({
   pairAddress,
   exchangePlatform,
   factoryAddrees,
+  pid,
+  isPool,
+  contractAddress
 }: ModalProps) {
   const { chainId } = useActiveWeb3React();
   const pairContract = usePairContract(pairAddress, true);
@@ -45,6 +52,7 @@ export default function MigrationCard({
   const { toastSuccess } = useToast();
   const [approveLoading, setApproveLoading] = useState(false);
   const [migrateLoading, setMigrateLoading] = useState(false);
+  const [migrateAndFarmLoading, setMigrateAndFarmLoading] = useState(false);
   const [migrateSuccess, setMigrateSuccess] = useState(false);
   const [migratetxHash, setMigratetxHash] = useState(null);
   const [balance, setBal] = useState("0");
@@ -52,13 +60,13 @@ export default function MigrationCard({
   const removePair = useMigrationpairRemover()
   const web3 = useWeb3();
   const { account } = useWeb3React();
-  const polydexMigrator = usePolydexMigratorContract();
-  const polydexMigratorAddress = getPolydexMigratorAddress();
+  const migratorAddress = migration.filter(eachExchange => eachExchange.value === factoryAddrees);
+  const polydexMigratorAddress = migratorAddress[0].migratorAddress[chainId];
+  const polydexMigrator = usePolydexMigratorContract(polydexMigratorAddress);
   let poolTokenPercentage = 0.0;
   if (totalPoolTokens && balance) {
     poolTokenPercentage = (parseFloat(balance) * 100) / parseFloat(totalPoolTokens);
   }
-
   const onMigrateClicked = async () => {
     setMigrateLoading(true);
     const now = new Date();
@@ -85,6 +93,50 @@ export default function MigrationCard({
       }
     } catch (error) {
       setMigrateLoading(false);
+      toastSuccess("Error", "Error occured while migrating");
+    }
+  };
+  const onMigrateAndFarmClicked = async () => {
+    setMigrateAndFarmLoading(true);
+    const now = new Date();
+    const utcMilllisecondsSinceEpoch = now.getTime();
+    const utcSecondsSinceEpoch = Math.round(utcMilllisecondsSinceEpoch / 1000) + 1200;
+    try {
+      const balanceInWei = web3.utils.toWei(balance);
+      let txHash;
+      if (isPool) {
+        txHash = await polydexMigrator.functions.migrateWithDeposit(
+          token0Address,
+          token1Address,
+          balanceInWei,
+          1,
+          1,
+          utcSecondsSinceEpoch,
+          contractAddress,
+          ethers.constants.MaxUint256.toString()
+        );
+      } else {
+        txHash = await polydexMigrator.functions.migrateWithDeposit(
+          token0Address,
+          token1Address,
+          balanceInWei,
+          1,
+          1,
+          utcSecondsSinceEpoch,
+          contracts.farm[chainId],
+          pid
+        );
+      }
+      const receipt = await txHash.wait();
+      if (receipt.status) {
+        setMigrateSuccess(true)
+        setMigratetxHash(txHash.hash);
+        getBalance()
+        toastSuccess("Success", "Lp Tokens Succfully Migrated");
+        setMigrateAndFarmLoading(false);
+      }
+    } catch (error) {
+      setMigrateAndFarmLoading(false);
       toastSuccess("Error", "Error occured while migrating");
     }
   };
@@ -164,7 +216,7 @@ export default function MigrationCard({
     if (account) getBalance();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [web3.eth.Contract]);
-  let jsxForRow = (<div />)
+  let jsxForRow = (<div />);
   if (parseFloat(balance) > 0) {
     jsxForRow = (
       <MigrationRow>
@@ -260,55 +312,75 @@ export default function MigrationCard({
                     </Text>
                   </InfoDiv>
                 </InfoContainer>
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
-                  {allowence && allowence !== 0 ? (
+                <div>
+                  {allowence && allowence !== 0 && (isPool || pid) ?
                     <Button
                       style={{
-                        maxWidth: "300px",
                         width: "100%",
                         marginTop: "20px",
                       }}
                       scale="md"
-                      onClick={onMigrateClicked}
-                      isLoading={migrateLoading}
-                      disabled={migrateLoading || parseFloat(balance) === 0}
+                      onClick={onMigrateAndFarmClicked}
+                      isLoading={migrateAndFarmLoading}
+                      disabled={migrateAndFarmLoading || parseFloat(balance) === 0}
                       endIcon={
-                        migrateLoading && (
+                        migrateAndFarmLoading && (
                           <AutoRenewIcon spin color="currentColor" />
                         )
                       }
                     >
-                      {migrateLoading ? "Processing" : "Migrate Liquidity"}
-                    </Button>
-                  ) : (
+                      {migrateAndFarmLoading ? "Processing..." : "Migrate + Farm"}
+                    </Button> : <div />}
+                  <div style={{ display: "flex", justifyContent: "space-between" }}>
+                    {allowence && allowence !== 0 ? (
+                      <Button
+                        style={{
+                          maxWidth: "300px",
+                          marginTop: "20px",
+                        }}
+                        scale="md"
+                        onClick={onMigrateClicked}
+                        isLoading={migrateLoading}
+                        variant="secondary"
+                        disabled={migrateLoading || parseFloat(balance) === 0}
+                        endIcon={
+                          migrateLoading && (
+                            <AutoRenewIcon spin color="currentColor" />
+                          )
+                        }
+                      >
+                        {migrateLoading ? "Processing..." : "Migrate Liquidity"}
+                      </Button>
+                    ) : (
+                      <Button
+                        onClick={onApprove}
+                        style={{
+                          marginTop: "20px",
+                        }}
+                        isLoading={approveLoading}
+                        endIcon={
+                          approveLoading && (
+                            <AutoRenewIcon spin color="currentColor" />
+                          )
+                        }
+                      >
+                        {approveLoading ? "Processing" : "Approve"}
+                      </Button>
+                    )}
                     <Button
-                      onClick={onApprove}
                       style={{
+                        width: "150px",
                         marginTop: "20px",
+                        marginLeft: '20px'
                       }}
-                      isLoading={approveLoading}
-                      endIcon={
-                        approveLoading && (
-                          <AutoRenewIcon spin color="currentColor" />
-                        )
-                      }
+                      scale="md"
+                      variant="tertiary"
+                      onClick={onRemovepair}
+                      isLoading={migrateLoading}
                     >
-                      {approveLoading ? "Processing" : "Approve"}
-                    </Button>
-                  )}
-                  <Button
-                    style={{
-                      width: "150px",
-                      marginTop: "20px",
-                      marginLeft: '20px'
-                    }}
-                    scale="md"
-                    variant="secondary"
-                    onClick={onRemovepair}
-                    isLoading={migrateLoading}
-                  >
-                    Remove Pair
+                      Remove Pair
                 </Button>
+                  </div>
                 </div>
               </div>
             )}

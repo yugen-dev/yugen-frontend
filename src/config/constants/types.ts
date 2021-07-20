@@ -1,3 +1,4 @@
+import { ChainId } from "@cryption-network/polydex-sdk";
 import { TranslatableText } from "state/types";
 
 export type IfoStatus = "idle" | "coming_soon" | "live" | "finished";
@@ -152,4 +153,7 @@ export type Campaign = {
 export interface MigrateConfig {
   label: string;
   value: string;
+  migratorAddress: {
+    readonly [chainId in ChainId]?: string;
+  };
 }
