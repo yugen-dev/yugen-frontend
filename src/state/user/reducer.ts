@@ -59,6 +59,8 @@ export interface UserState {
       [key: string]: {
         [key: string]: {
           pid: any;
+          isPool: boolean,
+          contractAddress: string | null
         };
       };
     };
@@ -180,6 +182,8 @@ export default createReducer(initialState, (builder) =>
                   ...{
                     [pairAddress]: {
                       pid: null,
+                      isPool: false,
+                      contractAddress: null
                     },
                   },
                 };
@@ -188,6 +192,8 @@ export default createReducer(initialState, (builder) =>
               state.migrationPairs[chainId][factoryAddress] = {
                 [pairAddress]: {
                   pid: null,
+                  isPool: false,
+                  contractAddress: null
                 },
               };
             }
@@ -197,6 +203,8 @@ export default createReducer(initialState, (builder) =>
                 [factoryAddress]: {
                   [pairAddress]: {
                     pid: null,
+                    isPool: false,
+                    contractAddress: null
                   },
                 },
               },

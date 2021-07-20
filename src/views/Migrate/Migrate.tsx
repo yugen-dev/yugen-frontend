@@ -86,6 +86,8 @@ const Migrate = () => {
                       eachPair !== '0x0000000000000000000000000000000000000000' &&
                       <MigrationCard
                         pairAddress={eachPair}
+                        isPool={allMigrationPairs[eachFacory].pairs[eachPair].isPool}
+                        contractAddress={allMigrationPairs[eachFacory].pairs[eachPair].contractAddress}
                         pid={allMigrationPairs[eachFacory].pairs[eachPair].pid}
                         factoryAddrees={eachFacory}
                         key={eachPair}

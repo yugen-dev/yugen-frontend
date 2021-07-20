@@ -172,9 +172,13 @@ export const PINNED_MIGRATION_PAIRS = {
     "0x2A59Dcd63A4F7a23d4fF0d2542ab44870199dA17": {
       "0xa526cF2316549e808e2d607f084953c0E465524f": {
         pid: null,
+        isPool: true,
+        contractAddress: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731"
       },
       "0x3793F13Aca9fdfd4F56EfB201d2ab8AF6B6DcCC5": {
-        pid: '0'
+        pid: '0',
+        isPool: false,
+        contractAddress: null
       }
     },
   },

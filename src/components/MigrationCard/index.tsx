@@ -26,13 +26,17 @@ interface ModalProps {
   pid: any
   exchangePlatform: string;
   factoryAddrees: string;
+  isPool: boolean,
+  contractAddress: string | null
 }
 
 export default function MigrationCard({
   pairAddress,
   exchangePlatform,
   factoryAddrees,
-  pid
+  pid,
+  isPool,
+  contractAddress
 }: ModalProps) {
   const { chainId } = useActiveWeb3React();
   const pairContract = usePairContract(pairAddress, true);
@@ -96,20 +100,33 @@ export default function MigrationCard({
     setMigrateAndFarmLoading(true);
     const now = new Date();
     const utcMilllisecondsSinceEpoch = now.getTime();
-    const utcSecondsSinceEpoch =
-      Math.round(utcMilllisecondsSinceEpoch / 1000) + 1200;
+    const utcSecondsSinceEpoch = Math.round(utcMilllisecondsSinceEpoch / 1000) + 1200;
     try {
       const balanceInWei = web3.utils.toWei(balance);
-      const txHash = await polydexMigrator.functions.migrateWithDeposit(
-        token0Address,
-        token1Address,
-        balanceInWei,
-        1,
-        1,
-        utcSecondsSinceEpoch,
-        contracts.farm[chainId],
-        pid
-      );
+      let txHash;
+      if (isPool) {
+        txHash = await polydexMigrator.functions.migrateWithDeposit(
+          token0Address,
+          token1Address,
+          balanceInWei,
+          1,
+          1,
+          utcSecondsSinceEpoch,
+          contractAddress,
+          ethers.constants.MaxUint256.toString()
+        );
+      } else {
+        txHash = await polydexMigrator.functions.migrateWithDeposit(
+          token0Address,
+          token1Address,
+          balanceInWei,
+          1,
+          1,
+          utcSecondsSinceEpoch,
+          contracts.farm[chainId],
+          pid
+        );
+      }
       const receipt = await txHash.wait();
       if (receipt.status) {
         setMigrateSuccess(true)
@@ -119,7 +136,6 @@ export default function MigrationCard({
         setMigrateAndFarmLoading(false);
       }
     } catch (error) {
-      console.log('error is', error);
       setMigrateAndFarmLoading(false);
       toastSuccess("Error", "Error occured while migrating");
     }
@@ -297,7 +313,7 @@ export default function MigrationCard({
                   </InfoDiv>
                 </InfoContainer>
                 <div>
-                  {allowence && allowence !== 0 && pid ?
+                  {allowence && allowence !== 0 && (isPool || pid) ?
                     <Button
                       style={{
                         width: "100%",
