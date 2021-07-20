@@ -9,7 +9,13 @@ import { PoolCategory } from "config/constants/types";
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
 import { useWeb3React } from "@web3-react/core";
-import { usePools, useBlock, usePriceCakeBusd } from "state/hooks";
+import {
+  usePools,
+  useBlock,
+  usePriceCakeBusd,
+  usePriceEthBusd,
+  usePriceBnbBusd,
+} from "state/hooks";
 import { getCakeContract } from "utils/contractHelpers";
 import cntMascot from "images/Cryption Network Mascot Farming.png";
 import PoolTabButtons from "./components/PoolTabButtons";
@@ -21,6 +27,8 @@ const NUMBER_OF_POOLS_VISIBLE = 12;
 const Farm: React.FC = () => {
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const cntPrice = usePriceCakeBusd();
+  const bnbPrice = usePriceBnbBusd();
+  const ethPrice = usePriceEthBusd();
   const { path } = useRouteMatch();
   const cake = getCakeContract();
   const { account } = useWeb3React("web3");
@@ -129,6 +137,8 @@ const Farm: React.FC = () => {
                             key={pool.sousId}
                             pool={pool}
                             valueOfCNTinUSD={cntPrice}
+                            bnbPrice={bnbPrice}
+                            ethPrice={ethPrice}
                           />{" "}
                         </Grid>
                       )
@@ -143,6 +153,8 @@ const Farm: React.FC = () => {
                             key={pool.sousId}
                             pool={pool}
                             valueOfCNTinUSD={cntPrice}
+                            bnbPrice={bnbPrice}
+                            ethPrice={ethPrice}
                           />{" "}
                         </Grid>
                       )
@@ -182,6 +194,8 @@ const Farm: React.FC = () => {
                         key={pool.sousId}
                         pool={pool}
                         valueOfCNTinUSD={cntPrice}
+                        bnbPrice={bnbPrice}
+                        ethPrice={ethPrice}
                       />
                     </Grid>
                   ))
@@ -193,6 +207,8 @@ const Farm: React.FC = () => {
                         key={pool.sousId}
                         pool={pool}
                         valueOfCNTinUSD={cntPrice}
+                        bnbPrice={bnbPrice}
+                        ethPrice={ethPrice}
                       />
                     </Grid>
                   ))}

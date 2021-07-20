@@ -29,6 +29,7 @@ interface Props {
   isFinished: boolean;
   poolCategory: PoolCategory;
   metamaskImg?: string;
+  StakingTokenPrice?: number;
 }
 
 const StyledFooter = styled.div<{ isFinished: boolean }>`
@@ -90,6 +91,7 @@ const CardFooter: React.FC<Props> = ({
   isFinished,
   poolCategory,
   metamaskImg,
+  StakingTokenPrice,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const TranslateString = useI18n();
@@ -115,19 +117,46 @@ const CardFooter: React.FC<Props> = ({
         <Details>
           <Row mb="4px">
             <FlexFull>
-              <Label>{TranslateString(408, "Total value locked")}</Label>
+              <Label>{TranslateString(408, "Total Liquidity")}</Label>
             </FlexFull>
-            <span
-              style={{ color: "white", fontWeight: 500, marginRight: "1px" }}
-            >
-              $
-            </span>
+            <span>$</span>
             <Balance
               fontSize="14px"
               isDisabled={isFinished}
-              value={getBalanceNumber(totalStaked, decimals)}
+              value={getBalanceNumber(
+                new BigNumber(totalStaked).multipliedBy(
+                  new BigNumber(StakingTokenPrice)
+                ),
+                decimals
+              )}
             />
           </Row>
+          {/* {blocksUntilStart > 0 && (
+            <Row mb="4px">
+              <FlexFull>
+                <Label>{TranslateString(410, "Start")}:</Label>
+              </FlexFull>
+              <Balance
+                fontSize="14px"
+                isDisabled={isFinished}
+                value={blocksUntilStart}
+                decimals={0}
+              />
+            </Row>
+          )} */}
+          {/* {blocksUntilStart === 0 && blocksRemaining > 0 && (
+            <Row mb="4px">
+              <FlexFull>
+                <Label>{TranslateString(410, "End")}:</Label>
+              </FlexFull>
+              <Balance
+                fontSize="14px"
+                isDisabled={isFinished}
+                value={blocksRemaining}
+                decimals={0}
+              />
+            </Row>
+          )} */}
           <Flex mb="5px" mt="10px" justifyContent="center">
             <TokenLink
               onClick={() =>

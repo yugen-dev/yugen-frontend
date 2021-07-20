@@ -21,6 +21,7 @@ interface Props {
   isFinished: boolean;
   poolCategory: PoolCategory;
   metamaskImg?: string;
+  totalLiquidityLocked?: BigNumber;
 }
 
 const StyledFooter = styled.div<{ isFinished: boolean }>`
@@ -81,6 +82,7 @@ const CardFooter: React.FC<Props> = ({
   // startBlock,
   // endBlock,
   // metamaskImg,
+  totalLiquidityLocked,
 }) => {
   // const { blockNumber: currentBlock } = useBlock();
   const [isOpen, setIsOpen] = useState(false);
@@ -109,11 +111,17 @@ const CardFooter: React.FC<Props> = ({
               <Text>{TranslateString(408, "Total Liquidity")}</Text>
             </FlexFull>
             <span style={{ color: "#3869EE" }}>$</span>
-            <Balance
+            {/* <Balance
               fontSize="16px"
               isDisabled={isFinished}
               color="#3869EE"
               value={getBalanceNumber(totalStaked, decimals)}
+            /> */}
+            <Balance
+              fontSize="16px"
+              isDisabled={isFinished}
+              color="#3869EE"
+              value={totalLiquidityLocked.toNumber()}
             />
           </Row>
           {/* {blocksUntilStart > 0 && (

@@ -7,6 +7,7 @@ const pools: PoolConfig[] = [
     tokenAdressInLp: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
     tokenAddress: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
     stakingTokenName: QuoteToken.CNT,
+    quoteTokenSymbol: QuoteToken.CNT,
     stakingTokenAddress: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
     contractAddress: {
       97: "",
@@ -37,6 +38,7 @@ const pools: PoolConfig[] = [
     tokenAdressInLp: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
     tokenAddress: "0xE6e0f6Ae6419D45109Af6c4630EF468F407eD28f", // maha
     stakingTokenName: QuoteToken.LP,
+    quoteTokenSymbol: QuoteToken.CNT,
     stakingTokenAddress: "0xE6e0f6Ae6419D45109Af6c4630EF468F407eD28f", // lp
     contractAddress: {
       97: "",
@@ -67,6 +69,7 @@ const pools: PoolConfig[] = [
     tokenAdressInLp: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
     tokenAddress: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
     stakingTokenName: QuoteToken.CNT,
+    quoteTokenSymbol: QuoteToken.CNT,
     stakingTokenAddress: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
     contractAddress: {
       97: "",

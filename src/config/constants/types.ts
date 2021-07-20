@@ -79,6 +79,7 @@ export interface PoolConfig {
   tokenAdressInLp: string;
   tokenAddress: string;
   stakingTokenName: QuoteToken;
+  quoteTokenSymbol: QuoteToken;
   stakingLimit?: number;
   stakingTokenAddress?: string;
   stakingTokenDecimals?: number;

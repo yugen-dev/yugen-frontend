@@ -357,8 +357,18 @@ export const useTotalValue = (): BigNumber => {
 
   for (let i = 0; i < pools.length; i++) {
     const pool = pools[i];
+
     if (pool.poolCategory === PoolCategory.CORE) {
-      value = value.plus(cakePrice.multipliedBy(pool.lpTotalInQuoteToken));
+      let val;
+      if (pool.quoteTokenSymbol === QuoteToken.BNB) {
+        val = bnbPrice.times(pool.lpTotalInQuoteToken);
+      } else if (pool.quoteTokenSymbol === QuoteToken.CAKE) {
+        val = cakePrice.times(pool.lpTotalInQuoteToken);
+      } else {
+        val = pool.lpTotalInQuoteToken;
+      }
+      value = value.plus(val);
+      // value = value.plus(cakePrice.multipliedBy(pool.lpTotalInQuoteToken));
     }
   }
 
