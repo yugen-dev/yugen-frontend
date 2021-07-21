@@ -22,6 +22,7 @@ import PoolTabButtons from "./components/PoolTabButtons";
 // import FlexLayout from "components/layout/Flex";
 // import pools from "config/constants/pools";
 import PoolCard from "./components/PoolCard";
+import MrCNTaah from "../../images/MrCNTaah.png";
 
 const NUMBER_OF_POOLS_VISIBLE = 12;
 const Farm: React.FC = () => {
@@ -169,12 +170,7 @@ const Farm: React.FC = () => {
                 justifyContent: "center",
               }}
             >
-              <div
-                dangerouslySetInnerHTML={{
-                  __html:
-                    '<lottie-player src="https://assets3.lottiefiles.com/packages/lf20_r71cen62.json"  background="transparent"  speed="1" style="height: 350px;" loop  autoplay></lottie-player>',
-                }}
-              />
+              <img src={MrCNTaah} alt="Cannot find" width="250px" />
             </div>
           )}
         </Route>
@@ -222,12 +218,7 @@ const Farm: React.FC = () => {
                 justifyContent: "center",
               }}
             >
-              <div
-                dangerouslySetInnerHTML={{
-                  __html:
-                    '<lottie-player src="https://assets3.lottiefiles.com/packages/lf20_r71cen62.json"  background="transparent"  speed="1" style="height: 350px;" loop  autoplay></lottie-player>',
-                }}
-              />
+              <img src={MrCNTaah} alt="Cannot find" width="250px" />
             </div>
           )}
         </Route>
