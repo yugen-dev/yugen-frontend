@@ -17,9 +17,8 @@ declare global {
 }
 
 const web3 = new Web3(window.ethereum);
-export const ROUTER_ADDRESS = "0xE86A68cd5A994D94BB7049acE481e9a6b5Fd94d6";
+export const ROUTER_ADDRESS = "0xBd13225f0a45BEad8510267B4D6a7c78146Be459";
 
-export const biconomyAPIKey = "5IJrOQxzG.cbc81ad9-974a-45d5-b3f3-bbc7c9fd2c6c";
 export const META_TXN_DISABLED = false;
 
 // a list of tokens by chain
@@ -27,52 +26,46 @@ type ChainTokenList = {
   readonly [chainId in ChainId]: Token[];
 };
 export const DAI = new Token(
-  ChainId.MATICTESTNET,
-  web3.utils.toChecksumAddress("0x23092a832ecB8474F81b63F718b7bcEcd13012c9"),
+  ChainId.MAINNET,
+  web3.utils.toChecksumAddress("0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063"),
   18,
   "DAI",
-  "Dai Stablecoin"
+  "DAI"
 );
-// export const BUSD = new Token(
-//   ChainId.MAINNET,
-//   web3.utils.toChecksumAddress("0xe9e7cea3dedca5984780bafc599bd69add087d56"),
-//   18,
-//   "BUSD",
-//   "Binance USD"
-// );
+
 export const USDT = new Token(
-  ChainId.MATICTESTNET,
-  web3.utils.toChecksumAddress("0xD89a2E56B778AEfe719fc86E122B7db752Bb6B41"),
+  ChainId.MAINNET,
+  web3.utils.toChecksumAddress("0xc2132d05d31c914a87c6611c10748aeb04b58e8f"),
   6,
   "USDT",
-  "Tether USD"
+  "USDT"
 );
 export const UST = new Token(
-  ChainId.MATICTESTNET,
-  web3.utils.toChecksumAddress("0x671b68fb02778D37a885699dA79c13Faf0d3C560"),
+  ChainId.MAINNET,
+  web3.utils.toChecksumAddress("0xc946daf81b08146b1c7a8da2a851ddf2b3eaaf85"),
   18,
-  "UST",
-  "Wrapped UST Token"
+  "USDC",
+  "USDC"
 );
 export const ETH = new Token(
-  ChainId.MATICTESTNET,
-  web3.utils.toChecksumAddress("0x2b5db7D98669be1242F62469214048cFe35d1a17"),
+  ChainId.MAINNET,
+  web3.utils.toChecksumAddress("0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"),
   18,
   "ETH",
-  "Binance-Peg Ethereum Token"
+  "ETH"
 );
 
-export const MAHA = new Token(
-  ChainId.MATICTESTNET,
-  web3.utils.toChecksumAddress("0xa22DDedE7118de4589FCC580D829ede5354821DA"),
-  18,
-  "MAHA",
-  "MAHA"
-);
+// export const MAHA = new Token(
+//   ChainId.MATICTESTNET,
+//   web3.utils.toChecksumAddress("0xa22DDedE7118de4589FCC580D829ede5354821DA"),
+//   18,
+//   "MAHA",
+//   "MAHA"
+// );
 
 export const CNT = new Token(
-  ChainId.MATICTESTNET,
-  web3.utils.toChecksumAddress("0x766F03e47674608cCcF7414f6c4DDF3d963Ae394"),
+  ChainId.MAINNET,
+  web3.utils.toChecksumAddress("0xD1e6354fb05bF72A8909266203dAb80947dcEccF"),
   18,
   "Cryption Network Token",
   "CNT"
@@ -86,15 +79,7 @@ const WETH_ONLY: ChainTokenList = {
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ...WETH_ONLY,
-  [ChainId.MATICTESTNET]: [
-    ...WETH_ONLY[ChainId.MATICTESTNET],
-    DAI,
-    USDT,
-    UST,
-    ETH,
-    CNT,
-    MAHA,
-  ],
+  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDT, UST, ETH, CNT],
 };
 
 /**
@@ -104,64 +89,45 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
 export const CUSTOM_BASES: {
   [chainId in ChainId]?: { [tokenAddress: string]: Token[] };
 } = {
-  [ChainId.MATICTESTNET]: {},
+  [ChainId.MAINNET]: {},
 };
 
 // used for display in the default list when adding liquidity
 export const SUGGESTED_BASES: ChainTokenList = {
   ...WETH_ONLY,
-  [ChainId.MATICTESTNET]: [...WETH_ONLY[ChainId.MATICTESTNET], DAI, USDT, CNT],
+  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDT, CNT],
 };
 
 // used to construct the list of all pairs we consider by default in the frontend
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   ...WETH_ONLY,
-  [ChainId.MATICTESTNET]: [...WETH_ONLY[ChainId.MATICTESTNET], DAI, USDT, CNT],
+  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDT, CNT],
 };
 
 export const PINNED_PAIRS: {
   readonly [chainId in ChainId]?: [Token, Token][];
 } = {
-  [ChainId.MATICTESTNET]: [
+  [ChainId.MAINNET]: [
     [
       new Token(
-        ChainId.MATICTESTNET,
+        ChainId.MAINNET,
         web3.utils.toChecksumAddress(
-          "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394"
+          "0xD1e6354fb05bF72A8909266203dAb80947dcEccF"
         ),
         18,
         "Cryption Network Token",
         "CNT"
       ),
+
       new Token(
-        ChainId.MATICTESTNET,
-        "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+        ChainId.MAINNET,
+        "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
         18,
         "WMATIC",
         "Wrapped Matic"
       ),
     ],
     [CNT, USDT],
-    [DAI, USDT],
-  ],
-  [ChainId.MATICTESTNET]: [
-    [
-      new Token(
-        ChainId.MATICTESTNET,
-        "0x10829fcc9Fed94bBd7CA515150ADe091C8ee4649",
-        18,
-        "CNT",
-        "Cryption Network Token"
-      ),
-      new Token(
-        ChainId.MATICTESTNET,
-        "0x7Bf65345Dec7Cf276A877abd19dC0EC3e54c4e2b",
-        18,
-        "DCNT",
-        "Dummy Cryption Network Token"
-      ),
-    ],
-    // [BUSD, USDT],
     [DAI, USDT],
   ],
 };
@@ -173,13 +139,13 @@ export const PINNED_MIGRATION_PAIRS = {
       "0xa526cF2316549e808e2d607f084953c0E465524f": {
         pid: null,
         isPool: true,
-        contractAddress: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731"
+        contractAddress: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
       },
       "0x3793F13Aca9fdfd4F56EfB201d2ab8AF6B6DcCC5": {
-        pid: '0',
+        pid: "0",
         isPool: false,
-        contractAddress: null
-      }
+        contractAddress: null,
+      },
     },
   },
 };

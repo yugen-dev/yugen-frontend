@@ -13,6 +13,7 @@ const pools: PoolConfig[] = [
       97: "",
       56: "",
       80001: "0x01b21aFC1415F1Df68d034351699B5c639CF160A",
+      137: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // wrong
     },
     poolCategory: PoolCategory.COMMUNITY,
     projectLink: "https://cryption.network/",
@@ -44,6 +45,7 @@ const pools: PoolConfig[] = [
       97: "",
       56: "",
       80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
+      137: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // wrong
     },
     poolCategory: PoolCategory.CORE,
     projectLink: "https://cryption.network/",
@@ -75,6 +77,7 @@ const pools: PoolConfig[] = [
       97: "",
       56: "",
       80001: "0x8766d04916c783E57785cE198D06446A5272b979",
+      137: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // wrong
     },
     poolCategory: PoolCategory.COMMUNITY,
     projectLink: "https://cryption.network/",

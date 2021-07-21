@@ -3,7 +3,7 @@ import { Address } from "config/constants/types";
 import { poolsConfig } from "config/constants";
 
 export const getAddress = (address: Address): string => {
-  const mainNetChainId = 80001;
+  const mainNetChainId = process.env.REACT_APP_CHAIN_ID;
   const chainId = process.env.REACT_APP_CHAIN_ID;
   return address[chainId] ? address[chainId] : address[mainNetChainId];
 };

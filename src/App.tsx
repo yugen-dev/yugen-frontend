@@ -60,10 +60,10 @@ const App: React.FC = () => {
   }, []);
 
   useEagerConnect();
-  useFetchPublicData();
-  useFetchProfile();
-  useFetchPriceList();
-  useGetDocumentTitlePrice();
+  // useFetchPublicData();
+  // useFetchProfile();
+  // useFetchPriceList();
+  // useGetDocumentTitlePrice();
   const client = useApollo();
   return (
     <ApolloProvider client={client}>

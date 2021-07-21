@@ -16,14 +16,14 @@ export const setupNetwork = async () => {
         params: [
           {
             chainId: `0x${chainId.toString(16)}`,
-            chainName: "Matic Testnet",
+            chainName: "Matic",
             nativeCurrency: {
               name: "MATIC",
               symbol: "MATIC",
               decimals: 18,
             },
             rpcUrls: nodes,
-            blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
+            blockExplorerUrls: ["https://polygonscan.com/"],
           },
         ],
       });

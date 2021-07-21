@@ -30,7 +30,7 @@
     "@biconomy/mexa": "^2.0.10",
     "@binance-chain/bsc-connector": "^1.0.0",
     "@crowdin/crowdin-api-client": "^1.10.4",
-    "@cryption-network/polydex-sdk": "^1.0.1",
+    "@cryption-network/polydex-sdk": "^2.0.0",
     "@ethersproject/abi": "^5.0.7",
     "@ethersproject/bytes": "^5.4.0",
     "@ethersproject/experimental": "^5.0.1",

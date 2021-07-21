@@ -190,8 +190,8 @@ const CNTBar = () => {
   };
 
   const getTokenBalances = async () => {
-    const tokenBalanceResp = await fetchBalances(contracts.cake[80001]);
-    const xCNTBalanceResp = await fetchBalances(contracts.cntStaker[80001]);
+    const tokenBalanceResp = await fetchBalances(contracts.cake[137]);
+    const xCNTBalanceResp = await fetchBalances(contracts.cntStaker[137]);
 
     setTokenBalance(tokenBalanceResp);
     setxCNTBalance(xCNTBalanceResp);
@@ -584,7 +584,7 @@ const CNTBar = () => {
                     width="24px"
                     style={{ marginRight: "10px", cursor: "pointer" }}
                     onClick={() =>
-                      registerToken(contracts.cake[80001], "CNT", 18, CNTLogo)
+                      registerToken(contracts.cake[137], "CNT", 18, CNTLogo)
                     }
                   />
                   <Text
@@ -604,7 +604,7 @@ const CNTBar = () => {
                     width="24px"
                     onClick={() =>
                       registerToken(
-                        contracts.cntStaker[80001],
+                        contracts.cntStaker[137],
                         "xCNT",
                         18,
                         xCNTLogo
