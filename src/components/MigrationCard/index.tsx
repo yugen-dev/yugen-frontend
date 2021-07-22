@@ -197,7 +197,6 @@ export default function MigrationCard({
         (parseFloat(lpBalance.toString()) /
           parseFloat(totalSupply.toString())) *
         parseFloat(weiReserve2.toString());
-      lpBalance = parseFloat(lpBalance).toFixed(8).toString();
       setToken0Symbol(gettoken0Symbol);
       setToken1Symbol(gettoken1Symbol);
       setToken0Address(getToken0Address);
@@ -300,7 +299,7 @@ export default function MigrationCard({
                       Your LP Balance:
                   </Text>
                     <Text fontSize="18px" bold>
-                      {balance}
+                      {parseFloat(balance).toFixed(8)}
                     </Text>
                   </InfoDiv>
                   <InfoDiv>
