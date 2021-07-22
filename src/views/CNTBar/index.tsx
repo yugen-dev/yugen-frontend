@@ -150,6 +150,7 @@ const CNTBar = () => {
   const [index, setIndex] = React.useState(0);
   const [tokenBalance, setTokenBalance] = React.useState(new BigNumber(0));
   const [xCNTBalance, setxCNTBalance] = React.useState(new BigNumber(0));
+  const [CntAllowance, setCntAllowance] = React.useState(new BigNumber(0));
 
   // const { onEnter } = useEnter();
   const [requestedApproval, setRequestedApproval] = useState(false);
@@ -163,6 +164,7 @@ const CNTBar = () => {
   const [pendingDepositTx, setPendingDepositTx] = useState(false);
   let tokenBal = tokenBalance;
   const allowance = useStakingAllowance();
+  // console.log(allowance.toString());
 
   const { onApprove } = useApproveStaking();
   const cake = getCakeContract();
@@ -188,11 +190,28 @@ const CNTBar = () => {
       return new BigNumber(0);
     }
   };
+  const fetchAllowance = async (tokenAddress, stakerAddress) => {
+    try {
+      const contract = getBep20Contract(tokenAddress, web3);
+      const res = await contract.methods
+        .allowance(account, stakerAddress)
+        .call();
+      return new BigNumber(res);
+    } catch (error) {
+      console.error({ error });
+      return new BigNumber(0);
+    }
+  };
 
   const getTokenBalances = async () => {
     const tokenBalanceResp = await fetchBalances(contracts.cake[137]);
     const xCNTBalanceResp = await fetchBalances(contracts.cntStaker[137]);
-
+    const cntAllowance = await fetchAllowance(
+      contracts.cake[137],
+      contracts.cntStaker[137]
+    );
+    console.log(cntAllowance);
+    setCntAllowance(cntAllowance);
     setTokenBalance(tokenBalanceResp);
     setxCNTBalance(xCNTBalanceResp);
   };
@@ -336,7 +355,7 @@ const CNTBar = () => {
       return <UnlockButton mt="8px" width="100%" />;
     }
     if (index === 0) {
-      if (!allowance.toNumber()) {
+      if (CntAllowance.toNumber() <= 0) {
         return (
           // <Button
           //   disabled={requestedApproval}
@@ -352,6 +371,8 @@ const CNTBar = () => {
               onClick={async () => {
                 setPendingTx(true);
                 await handleApprove();
+                console.log(CntAllowance.toString());
+                await getTokenBalances();
                 setPendingTx(false);
               }}
             >
