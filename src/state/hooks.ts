@@ -129,12 +129,11 @@ export const usePoolFromPid = (sousId): Pool => {
 // Prices
 
 export const usePriceBnbBusd = (): BigNumber => {
-  const pid = 1; // MUSD-MATIC LP, BUSD-BNB LP
+  const pid = 1; // USD-MATIC LP, BUSD-BNB LP
   const farm = useFarmFromPid(pid);
   return farm.tokenPriceVsQuote
     ? new BigNumber(1).div(farm.tokenPriceVsQuote)
     : ZERO;
-  // return new BigNumber(10);
 };
 
 export const usePriceCakeBusd = (): BigNumber => {
@@ -142,16 +141,21 @@ export const usePriceCakeBusd = (): BigNumber => {
   const bnbPriceUSD = usePriceBnbBusd();
 
   const farm = useFarmFromPid(pid);
+  console.log(
+    farm.tokenPriceVsQuote
+      ? bnbPriceUSD.times(farm.tokenPriceVsQuote).toString()
+      : ZERO.toString()
+  );
   return farm.tokenPriceVsQuote
     ? bnbPriceUSD.times(farm.tokenPriceVsQuote)
     : ZERO;
-
   // return new BigNumber(10);
 };
 
 export const usePriceEthBusd = (): BigNumber => {
-  const pid = 0; // ETH-MATIC LP ,ETH-BNB LP
-  const bnbPriceUSD = usePriceBnbBusd();
+  const pid = 3; // ETH-MATIC LP ,ETH-BNB LP
+  const bnbPriceUSD = usePriceCakeBusd();
+  console.log(bnbPriceUSD.toString());
   const farm = useFarmFromPid(pid);
   return farm.tokenPriceVsQuote
     ? bnbPriceUSD.times(farm.tokenPriceVsQuote)
