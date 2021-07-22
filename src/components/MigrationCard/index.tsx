@@ -75,6 +75,7 @@ export default function MigrationCard({
       Math.round(utcMilllisecondsSinceEpoch / 1000) + 1200;
     try {
       const balanceInWei = web3.utils.toWei(balance);
+      console.log({ polydexMigrator });
       const txHash = await polydexMigrator.functions.migrate(
         token0Address,
         token1Address,
@@ -92,6 +93,7 @@ export default function MigrationCard({
         setMigrateLoading(false);
       }
     } catch (error) {
+      console.log('error is', error);
       setMigrateLoading(false);
       toastSuccess("Error", "Error occured while migrating");
     }
