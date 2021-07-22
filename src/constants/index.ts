@@ -133,7 +133,22 @@ export const PINNED_PAIRS: {
 };
 
 export const PINNED_MIGRATION_PAIRS = {
-  [ChainId.MAINNET]: {},
+  [ChainId.MAINNET]: {
+    "0xc35DADB65012eC5796536bD9864eD8773aBc74C4":{
+      "0x55FF76BFFC3Cdd9D5FdbBC2ece4528ECcE45047e": {
+        pid: null,
+        isPool: false,
+        contractAddress: null,
+      }
+    },
+    "0x5757371414417b8C6CAad45bAeF941aBc7d3Ab32":{
+      "0x604229c960e5CACF2aaEAc8Be68Ac07BA9dF81c3": {
+        pid: null,
+        isPool: false,
+        contractAddress: null,
+      }
+    },
+  },
   [ChainId.MATICTESTNET]: {
     "0x2A59Dcd63A4F7a23d4fF0d2542ab44870199dA17": {
       "0xa526cF2316549e808e2d607f084953c0E465524f": {
