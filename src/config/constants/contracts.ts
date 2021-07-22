@@ -13,7 +13,7 @@ export default {
     97: "0x1d32c2945C8FDCBc7156c553B7cEa4325a17f4f9",
     56: "0x73feaa1eE314F8c655E354234017bE2193C9E24E",
     80001: "0x3e74C77446CAb24f1F74Ddacf2F4f98d7019bDc1",
-    137: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // wrong
+    137: "0x3359749F899356cb303a0b0Fc9F0862354956de4", // wrong
   },
   cntStaker: {
     97: "",
@@ -53,7 +53,7 @@ export default {
     56: "",
     97: "",
     80001: "0xD89a2E56B778AEfe719fc86E122B7db752Bb6B41",
-    137: "0x382bb369d343125bfb2117af9c149795c6c65c50",
+    137: "0xc2132d05d31c914a87c6611c10748aeb04b58e8f",
   },
   ust: {
     56: "0x23396cF899Ca06c4472205fC903bDB4de249D6fC",
