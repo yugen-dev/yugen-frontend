@@ -118,8 +118,6 @@ const FarmCard: React.FC<FarmCardProps> = ({
       return cakePrice.times(farm.lpTotalInQuoteToken);
     }
     if (farm.quoteTokenSymbol === QuoteToken.ETH) {
-      console.log("hello 1");
-      console.log(farm.lpTotalInQuoteToken.toString());
       return ethPrice.times(farm.lpTotalInQuoteToken);
     }
     return farm.lpTotalInQuoteToken;

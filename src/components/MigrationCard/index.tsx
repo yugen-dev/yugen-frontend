@@ -75,7 +75,6 @@ export default function MigrationCard({
       Math.round(utcMilllisecondsSinceEpoch / 1000) + 1200;
     try {
       const balanceInWei = web3.utils.toWei(balance);
-      console.log({ polydexMigrator });
       const txHash = await polydexMigrator.functions.migrate(
         token0Address,
         token1Address,
@@ -93,7 +92,6 @@ export default function MigrationCard({
         setMigrateLoading(false);
       }
     } catch (error) {
-      console.log('error is', error);
       setMigrateLoading(false);
       toastSuccess("Error", "Error occured while migrating");
     }
@@ -199,7 +197,6 @@ export default function MigrationCard({
         (parseFloat(lpBalance.toString()) /
           parseFloat(totalSupply.toString())) *
         parseFloat(weiReserve2.toString());
-      lpBalance = parseFloat(lpBalance).toFixed(8).toString();
       setToken0Symbol(gettoken0Symbol);
       setToken1Symbol(gettoken1Symbol);
       setToken0Address(getToken0Address);
@@ -302,7 +299,7 @@ export default function MigrationCard({
                       Your LP Balance:
                   </Text>
                     <Text fontSize="18px" bold>
-                      {balance}
+                      {parseFloat(balance).toFixed(8)}
                     </Text>
                   </InfoDiv>
                   <InfoDiv>
