@@ -25,11 +25,9 @@ const StyledDialogOverlay = styled(AnimatedDialogOverlay)`
 const AnimatedDialogContent = animated(DialogContent);
 // destructure to not pass custom props to Dialog DOM element
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const StyledDialogContent = styled(
-  ({ ...rest }) => (
-    <AnimatedDialogContent {...rest} />
-  )
-).attrs({
+const StyledDialogContent = styled(({ ...rest }) => (
+  <AnimatedDialogContent {...rest} />
+)).attrs({
   "aria-label": "dialog",
 })`
   &[data-reach-dialog-content] {
@@ -40,6 +38,7 @@ const StyledDialogContent = styled(
     padding: 20px;
     overflow: hidden;
     align-self: ${({ mobile }) => (mobile ? "flex-end" : "center")};
+    max-width: 500px;
 
     ${({ maxHeight }) =>
       maxHeight &&
