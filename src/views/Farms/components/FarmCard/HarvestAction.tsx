@@ -26,6 +26,7 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({
   const BtnLoadingComp =
     pendingTx === false ? (
       <Button
+        disabled={rawEarningsBalance === 0}
         onClick={async () => {
           setPendingTx(true);
           await onReward();
