@@ -215,7 +215,7 @@ const CardValue: React.FC<CardValueProps> = ({
               </ProgressText>
               <ProgressText>
                 <Text color="#9d9fa8" fontSize="16px">
-                  CNT rewards per day
+                  CNT rewards / Day
                 </Text>
                 <Text
                   color="white"
@@ -232,7 +232,7 @@ const CardValue: React.FC<CardValueProps> = ({
               </ProgressText>
               <ProgressText>
                 <Text color="#9d9fa8" fontSize="16px">
-                  CNT Rewards per Block
+                  CNT Rewards / Block
                 </Text>
                 <Text
                   color="white"
@@ -336,7 +336,7 @@ const CardValue: React.FC<CardValueProps> = ({
             </ProgressText>
             <ProgressText>
               <Text color="#9d9fa8" fontSize="16px">
-                CNT rewards per day
+                CNT rewards / Day
               </Text>
               <Text
                 color="white"
@@ -353,7 +353,7 @@ const CardValue: React.FC<CardValueProps> = ({
             </ProgressText>
             <ProgressText>
               <Text color="#9d9fa8" fontSize="16px">
-                CNT Rewards per Block
+                CNT Rewards / Block
               </Text>
               <Text
                 color="white"
