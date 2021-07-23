@@ -99,24 +99,36 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
   };
 
   const RenderNextHarvestIn = () => {
-    return isApproved ||
+    const check =
+      isApproved ||
       (signatureData !== null &&
-        signatureData.deadline > Math.ceil(Date.now() / 1000)) ? (
-      <>
-        {harvestInterval.toNumber() * 1000 && (
+        signatureData.deadline > Math.ceil(Date.now() / 1000));
+
+    if (check && harvestInterval.toNumber() * 1000) {
+      return (
+        <>
           <Flex justifyContent="space-between">
             <Text>{TranslateString(318, "Next Harvest in :")}</Text>
             <Text bold>
               <Countdown
                 date={harvestInterval.toNumber() * 1000}
                 renderer={Renderer}
-              />
+              >
+                <div style={{ color: "white" }}>Done !</div>
+              </Countdown>
             </Text>
           </Flex>
-        )}
-      </>
-    ) : (
-      <></>
+        </>
+      );
+    }
+
+    return (
+      <Flex justifyContent="space-between" style={{ color: "#1E202A" }}>
+        <Text color="#1E202A">{TranslateString(318, "Next Harvest in :")}</Text>
+        <Text bold color="#1E202A">
+          <div style={{ color: "#1E202A" }}>Done !</div>
+        </Text>
+      </Flex>
     );
   };
 
