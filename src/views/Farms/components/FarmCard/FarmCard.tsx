@@ -217,7 +217,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
         )}
         <Flex justifyContent="space-between">
           <Text>{TranslateString(318, "Earn")}:</Text>
-          <Text bold>{earnLabel}</Text>
+          <Text bold>{earnLabel} + Fees</Text>
         </Flex>
         <Flex justifyContent="space-between">
           <Text>{TranslateString(318, "Harvest Lock Interval")}:</Text>
