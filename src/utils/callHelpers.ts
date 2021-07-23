@@ -49,14 +49,14 @@ const domainData = {
   name: "Farm",
   version: "1",
   verifyingContract: getFarmAddress(),
-  chainId: 80001,
+  chainId: 137,
 };
 
 const domainDataBar = {
   name: "CNTStaker",
   version: "1",
   verifyingContract: getCNTStakerAddress(),
-  chainId: 80001,
+  chainId: 137,
 };
 
 export const GaslessStakeWithPermit = async (
@@ -552,7 +552,7 @@ export const executeMetaTransactionPools = async (
     name: "StakingPool",
     version: "1",
     verifyingContract: pooladdress,
-    chainId: 80001,
+    chainId: 137,
   };
 
   const contract = masterChefContract;
