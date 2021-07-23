@@ -21,7 +21,6 @@ import {
 import Grid from "@material-ui/core/Grid";
 import { useQuery } from "@apollo/client";
 import { dayDatasQuery, cntStakerQuery } from "apollo/queries";
-import { useStakingAllowance } from "hooks/useAllowance";
 import { useApproveStaking } from "hooks/useApprove";
 import contracts from "config/constants/contracts";
 import { useProfile, useToast } from "state/hooks";
@@ -30,7 +29,11 @@ import UnlockButton from "components/UnlockButton";
 import getCntPrice from "utils/getCntPrice";
 import useWeb3 from "hooks/useWeb3";
 import cntMascot from "images/CRYPTION NETWORK-Mascots-10.png";
-import { getBalanceNumber } from "utils/formatBalance";
+import {
+  getBalanceNumber,
+  getFullDisplayBalance,
+  getFullDisplayBalanceForStaker,
+} from "utils/formatBalance";
 import {
   getCakeContract,
   getCNTStakerContract,
@@ -163,7 +166,7 @@ const CNTBar = () => {
   const [pendingTx, setPendingTx] = useState(false);
   const [pendingDepositTx, setPendingDepositTx] = useState(false);
   let tokenBal = tokenBalance;
-  const allowance = useStakingAllowance();
+  // const allowance = useStakingAllowance();
   // console.log(allowance.toString());
 
   const { onApprove } = useApproveStaking();
@@ -218,16 +221,19 @@ const CNTBar = () => {
 
   useEffect(() => {
     async function fetchTotalSupply() {
+      console.log("hlelo 1");
       const xCNTContract = getCNTStakerContract();
       const supply = await xCNTContract.methods.totalSupply().call();
       setTotalSupply(new BigNumber(supply));
     }
-    if (cake) {
+    if (account) {
       fetchTotalSupply();
     }
-  }, [cake, setTotalSupply]);
+  }, [account, setTotalSupply]);
+
   useEffect(() => {
     const getPrice = async () => {
+      console.log("hlelo 2");
       const apiResp = await getCntPrice();
       setCNTVal(apiResp);
     };
@@ -235,6 +241,7 @@ const CNTBar = () => {
   }, []);
   useEffect(() => {
     if (account) {
+      console.log("hlelo 3");
       getTokenBalances();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -266,9 +273,9 @@ const CNTBar = () => {
   };
   const onSelectMax = () => {
     if (index === 0) {
-      handleTokenAmount(getBalanceNumber(tokenBalance).toString());
+      handleTokenAmount(getFullDisplayBalance(tokenBalance).toString());
     } else {
-      handleTokenAmount(getBalanceNumber(xCNTBalance).toString());
+      handleTokenAmount(getFullDisplayBalance(xCNTBalance).toString());
     }
   };
 
@@ -432,7 +439,7 @@ const CNTBar = () => {
           style={{ maxWidth: "400px", width: "100%" }}
           onClick={async () => {
             setPendingTx(true);
-            await stakeCnt();
+            await unstakeCnt();
             setPendingTx(false);
           }}
         >
@@ -530,7 +537,7 @@ const CNTBar = () => {
                     mr="10px"
                     style={{ whiteSpace: "nowrap" }}
                   >
-                    Balance: {getBalanceNumber(tokenBal).toFixed(2)}
+                    Balance: {getFullDisplayBalanceForStaker(tokenBal)}
                   </Text>
                   <Button scale="sm" onClick={onSelectMax}>
                     Max
