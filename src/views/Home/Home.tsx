@@ -9,13 +9,13 @@ import { useQuery } from "@apollo/client";
 import Container from "@material-ui/core/Container";
 import useI18n from "hooks/useI18n";
 import useInterval from "hooks/useInterval";
-import { useTotalSupply } from "hooks/useTokenBalance";
 import { dayDatasQuery, burnQuery, cntStakerQuery } from "apollo/queries";
 import {
   CNT_CIRCULATING_SUPPLY_LINK,
   BLOCKS_PER_YEAR,
   CAKE_PER_BLOCK,
   CAKE_POOL_PID,
+  CNT_TOTAL_SUPPLY_LINK,
 } from "config";
 import { getDayData } from "apollo/exchange";
 import { useFarms, usePriceBnbBusd, usePriceCakeBusd } from "state/hooks";
@@ -45,6 +45,7 @@ const Card = styled.div`
 
 const Home: React.FC = () => {
   const [ciculatingSupply, setciculatingSupply] = useState(0);
+  const [totalSupplyVal, setTotalSupply] = useState(0);
   const getCirculatingSupply = async () => {
     try {
       const res = await fetch(CNT_CIRCULATING_SUPPLY_LINK);
@@ -55,13 +56,23 @@ const Home: React.FC = () => {
       console.error("Failed to get Circulating supply");
     }
   };
+  const getTotalSupply = async () => {
+    try {
+      const res = await fetch(CNT_TOTAL_SUPPLY_LINK);
+      const data = await res.json();
+      setTotalSupply(parseFloat(data.toFixed(3)));
+    } catch {
+      // eslint-disable-next-line no-console
+      console.error("Failed to get Circulating supply");
+    }
+  };
   useEffect(() => {
     getCirculatingSupply();
+    getTotalSupply()
   }, []);
 
   const cakePriceUsd = usePriceCakeBusd();
   const farmsLP = useFarms();
-  let totalSupplyVal = 0;
   let totalBurned = 0;
   let liquidity = [];
   let totalFees = "";
@@ -71,7 +82,6 @@ const Home: React.FC = () => {
   let burnerFees = "";
   const bnbPrice = usePriceBnbBusd();
   let cntStakingRatio = 0.0;
-  const totalSupply = useTotalSupply();
   const maxAPY = useRef(Number.MIN_VALUE);
   const TranslateString = useI18n();
   // const activeNonCakePools = pools.filter((pool) => !pool.isFinished);
@@ -91,7 +101,7 @@ const Home: React.FC = () => {
     (farmsToDisplay) => {
       const cakePriceVsBNB = new BigNumber(
         farmsLP.find((farm) => farm.pid === CAKE_POOL_PID)?.tokenPriceVsQuote ||
-          0
+        0
       );
 
       farmsToDisplay.map((farm) => {
@@ -165,10 +175,6 @@ const Home: React.FC = () => {
       clientName: "burn",
     },
   });
-  if (totalSupply) {
-    totalSupplyVal = parseFloat(totalSupply.toString());
-    totalSupplyVal /= 10 ** 18;
-  }
   if (
     burnData &&
     burnData.data &&
@@ -227,13 +233,9 @@ const Home: React.FC = () => {
         </Grid>
         <Grid item xs={12} md={6} lg={6} xl={6}>
           <StatsCard
-            totalSuply={
-              Number(totalSupplyVal.toFixed(2)) > 100000000
-                ? 100000000
-                : Number(totalSupplyVal.toFixed(2))
-            }
+            totalSuply={Number(totalSupplyVal.toFixed(2))}
             burnedSupply={Number(totalBurned.toFixed(2))}
-            circulatingSupply={7289583 || Number(ciculatingSupply.toFixed(2))}
+            circulatingSupply={Number(ciculatingSupply.toFixed(2))}
             totalFees={Number(totalFees).toFixed(2)}
             devFees={Number(devFees).toFixed(2)}
             stakerFees={Number(stakerFees).toFixed(2)}
