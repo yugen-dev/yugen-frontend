@@ -18,10 +18,7 @@ import {
   CAKE_POOL_PID,
 } from "config";
 import { getDayData } from "apollo/exchange";
-// import pools from "config/constants/pools";
-// import { Pool } from "state/types";
-import useCNTprice from "hooks/useCNTprice";
-import { useFarms, usePriceBnbBusd } from "state/hooks";
+import { useFarms, usePriceBnbBusd, usePriceCakeBusd } from "state/hooks";
 
 import FarmStakingCard from "views/Home/components/FarmStakingCard";
 import LotteryCard from "views/Home/components/LotteryCard";
@@ -61,7 +58,8 @@ const Home: React.FC = () => {
   useEffect(() => {
     getCirculatingSupply();
   }, []);
-  const { valueOfCNTinUSD } = useCNTprice();
+
+  const cakePriceUsd = usePriceCakeBusd();
   const farmsLP = useFarms();
   let totalSupplyVal = 0;
   let totalBurned = 0;
@@ -153,14 +151,14 @@ const Home: React.FC = () => {
     dayDatas &&
     dayDatas.data &&
     dayDatas.data.dayDatas &&
-    valueOfCNTinUSD
+    cakePriceUsd
   ) {
     cntStakingRatio =
       (((parseFloat(dayDatas.data.dayDatas[1].volumeUSD) * 0.05) /
         parseFloat(getCNTStakerInfo.data.cntstaker.totalSupply)) *
         365) /
       (parseFloat(getCNTStakerInfo.data.cntstaker.ratio) *
-        parseFloat(valueOfCNTinUSD.toString()));
+        parseFloat(cakePriceUsd.toString()));
   }
   const burnData = useQuery(burnQuery, {
     context: {
