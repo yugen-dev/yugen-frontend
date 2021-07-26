@@ -6,7 +6,11 @@ import { stake, GaslessStakeWithPermit } from "utils/callHelpers";
 import { useProfile, useToast } from "state/hooks";
 import { useMasterchef, useMasterchefGasless } from "./useContract";
 
-export const useStakeWithPermit = (pid: number, signatureData: any) => {
+export const useStakeWithPermit = (
+  pid: number,
+  signatureData: any,
+  setSignauteNull: any
+) => {
   const dispatch = useDispatch();
   const { account, library } = useWeb3React("web3");
   const masterChefContract = useMasterchef();
@@ -29,6 +33,7 @@ export const useStakeWithPermit = (pid: number, signatureData: any) => {
             signatureData.s,
             library
           );
+          setSignauteNull(0, "", "", 0);
           toastSuccess("Success", ` Deposited successfully`);
           dispatch(fetchFarmUserDataAsync(account));
         } else {
@@ -60,6 +65,7 @@ export const useStakeWithPermit = (pid: number, signatureData: any) => {
       toastInfo,
       toastSuccess,
       toastError,
+      setSignauteNull,
     ]
   );
 

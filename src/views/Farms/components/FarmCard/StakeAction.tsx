@@ -25,6 +25,7 @@ interface FarmCardActionsProps {
   pid?: number;
   addLiquidityUrl?: string;
   signatureData?: any;
+  setSignauteNull?: any;
 }
 
 const IconButtonWrapper = styled.div`
@@ -41,10 +42,15 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
   pid,
   addLiquidityUrl,
   signatureData,
+  setSignauteNull,
 }) => {
   const TranslateString = useI18n();
   const { onStake } = useStake(pid);
-  const { onStakeWithPermit } = useStakeWithPermit(pid, signatureData);
+  const { onStakeWithPermit } = useStakeWithPermit(
+    pid,
+    signatureData,
+    setSignauteNull
+  );
   const { onUnstake } = useUnstake(pid);
 
   const rawStakedBalance = getBalanceNumber(stakedBalance);

@@ -166,8 +166,6 @@ const CNTBar = () => {
   const [pendingTx, setPendingTx] = useState(false);
   const [pendingDepositTx, setPendingDepositTx] = useState(false);
   let tokenBal = tokenBalance;
-  // const allowance = useStakingAllowance();
-  // console.log(allowance.toString());
 
   const { onApprove } = useApproveStaking();
   const cake = getCakeContract();
@@ -213,7 +211,6 @@ const CNTBar = () => {
       contracts.cake[137],
       contracts.cntStaker[137]
     );
-    console.log(cntAllowance);
     setCntAllowance(cntAllowance);
     setTokenBalance(tokenBalanceResp);
     setxCNTBalance(xCNTBalanceResp);
@@ -221,7 +218,6 @@ const CNTBar = () => {
 
   useEffect(() => {
     async function fetchTotalSupply() {
-      console.log("hlelo 1");
       const xCNTContract = getCNTStakerContract();
       const supply = await xCNTContract.methods.totalSupply().call();
       setTotalSupply(new BigNumber(supply));
@@ -233,7 +229,6 @@ const CNTBar = () => {
 
   useEffect(() => {
     const getPrice = async () => {
-      console.log("hlelo 2");
       const apiResp = await getCntPrice();
       setCNTVal(apiResp);
     };
@@ -241,7 +236,6 @@ const CNTBar = () => {
   }, []);
   useEffect(() => {
     if (account) {
-      console.log("hlelo 3");
       getTokenBalances();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -283,6 +277,7 @@ const CNTBar = () => {
     try {
       setRequestedApproval(true);
       const txHash = await onApprove();
+
       // user rejected tx or didn't go thru
       if (!txHash) {
         setRequestedApproval(false);
@@ -296,11 +291,15 @@ const CNTBar = () => {
     setPendingDepositTx(true);
     try {
       if (metaTranscation) {
-        await enterGasless(cntStakerGasless, tokenAmount, account, library);
-        toastSuccess(
-          "Success!",
-          `You have successfully staked ${tokenAmount} CNT !`
-        );
+        try {
+          await enterGasless(cntStakerGasless, tokenAmount, account, library);
+          toastSuccess(
+            "Success!",
+            `You have successfully staked ${tokenAmount} CNT !`
+          );
+        } catch (e) {
+          toastError("An error occurred while staking CNT");
+        }
       } else {
         await enter(cntStaker, tokenAmount, account);
         toastSuccess(
@@ -320,19 +319,15 @@ const CNTBar = () => {
     try {
       if (metaTranscation) {
         await leaveGasless(cntStakerGasless, tokenAmount, account, library);
-        toastSuccess(
-          "Success!",
-          `You have successfully unstaked ${tokenAmount} xCNT !`
-        );
       } else {
         await leave(cntStaker, tokenAmount, account);
-        toastSuccess(
-          "Success!",
-          `You have successfully unstaked ${tokenAmount} xCNT !`
-        );
       }
 
       await getTokenBalances();
+      toastSuccess(
+        "Success!",
+        `You have successfully unstaked ${tokenAmount} xCNT !`
+      );
     } catch (error) {
       toastError("An error occurred while unstaking xCNT");
     }
@@ -362,23 +357,14 @@ const CNTBar = () => {
       return <UnlockButton mt="8px" width="100%" />;
     }
     if (index === 0) {
-      if (CntAllowance.toNumber() <= 0) {
-        return (
-          // <Button
-          //   disabled={requestedApproval}
-          //   onClick={handleApprove}
-          //   style={{ maxWidth: "400px", width: "100%" }}
-          // >
-          //   Approve CNT
-          // </Button>
-          // <BtnLoadingComp />
-          pendingTx === false ? (
+      if (tokenBalance.toNumber() > 0) {
+        if (CntAllowance.toNumber() <= 0) {
+          return pendingTx === false ? (
             <Button
               style={{ maxWidth: "400px", width: "100%" }}
               onClick={async () => {
                 setPendingTx(true);
                 await handleApprove();
-                console.log(CntAllowance.toString());
                 await getTokenBalances();
                 setPendingTx(false);
               }}
@@ -393,7 +379,13 @@ const CNTBar = () => {
             >
               Approving CNT ...
             </Button>
-          )
+          );
+        }
+      } else {
+        return (
+          <Button style={{ maxWidth: "400px", width: "100%" }} disabled>
+            Insufficent Cnt Balance
+          </Button>
         );
       }
       return (
@@ -427,6 +419,14 @@ const CNTBar = () => {
         )
       );
     }
+    if (xCNTBalance.toNumber() <= 0) {
+      return (
+        <Button style={{ maxWidth: "400px", width: "100%" }} disabled>
+          Insufficent xCnt Balance
+        </Button>
+      );
+    }
+
     return (
       // <Button
       //   disabled={!xCNTBalance.toNumber() || pendingTx}

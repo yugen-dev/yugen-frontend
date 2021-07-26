@@ -134,19 +134,19 @@ export const PINNED_PAIRS: {
 
 export const PINNED_MIGRATION_PAIRS = {
   [ChainId.MAINNET]: {
-    "0xc35DADB65012eC5796536bD9864eD8773aBc74C4":{
+    "0xc35DADB65012eC5796536bD9864eD8773aBc74C4": {
       "0x55FF76BFFC3Cdd9D5FdbBC2ece4528ECcE45047e": {
-        pid: '1',
+        pid: "1",
         isPool: false,
         contractAddress: null,
-      }
+      },
     },
-    "0x5757371414417b8C6CAad45bAeF941aBc7d3Ab32":{
+    "0x5757371414417b8C6CAad45bAeF941aBc7d3Ab32": {
       "0x604229c960e5CACF2aaEAc8Be68Ac07BA9dF81c3": {
-        pid: '1',
+        pid: "1",
         isPool: false,
         contractAddress: null,
-      }
+      },
     },
   },
   [ChainId.MATICTESTNET]: {
@@ -198,10 +198,22 @@ export const META_TXN_SUPPORTED_TOKENS: any = {
   "0xf6f85b3f9fd581c2ee717c404f7684486f057f95": { abi: tokenABI },
   "0x40ccd55b789fdee8d434915dc2aa6bd938506a92": { abi: tokenABI },
   "0xa79e0bfc579c709819f4a0e95d4597f03093b011": { abi: tokenABI },
-  "0x766f03e47674608cccf7414f6c4ddf3d963ae394": { abi: tokenABI },
-  "0xd89a2e56b778aefe719fc86e122b7db752bb6b41": { abi: tokenABI },
-  "0x23092a832ecb8474f81b63f718b7bcecd13012c9": { abi: tokenABI },
-  "0x2b5db7d98669be1242f62469214048cfe35d1a17": { abi: tokenABI },
+  "0xd1e6354fb05bf72a8909266203dab80947dceccf": { abi: tokenABI },
+  "0xd6df932a45c0f255f85145f286ea0b292b21c90b": { abi: tokenABI },
+  "0xc168e40227e4ebd8c1cae80f7a55a4f0e6d66c97": { abi: tokenABI },
+  "0x34c1b299a74588d6abdc1b85a53345a48428a521": { abi: tokenABI },
+  "0x9c78ee466d6cb57a4d01fd887d2b5dfb2d46288f": { abi: tokenABI },
+  "0x104592a158490a9228070e0a8e5343b499e125d0": { abi: tokenABI },
+  "0x67480287cb3715d1d9429b38772c71d6e94c16da": { abi: tokenABI },
+  "0xd0252fb67606ed74d0cacd17b2eb38446e4466c9": { abi: tokenABI },
+  "0x5B4CF2C120A9702225814E18543ee658c5f8631e": { abi: tokenABI },
+  "0x24834bbec7e39ef42f4a75eaf8e5b6486d3f0e57": { abi: tokenABI },
+  "0x692597b009d13c4049a947cab2239b7d6517875f": { abi: tokenABI },
+  "0x0bd820ad2d7ab7305b5c9538ba824c9b9beb0561": { abi: tokenABI },
+  "0x968f6f898a6df937fc1859b323ac2f14643e3fed": { abi: tokenABI },
+  "0x9613282539b6d0e3cb1edc843a43da7768ac3838": { abi: tokenABI },
+  "0x361a5a4993493ce00f61c32d4ecca5512b82ce90": { abi: tokenABI },
+  "0x76d383e8c97b2e01ef6d24108f655c9727df4a54": { abi: tokenABI },
 };
 
 export const NetworkContextName = "NETWORK";
