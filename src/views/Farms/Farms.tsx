@@ -11,6 +11,7 @@ import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CAKE_POOL_PID } from "config";
 import {
   useFarms,
   usePriceBnbBusd,
+  usePriceBtcBusd,
   usePriceCakeBusd,
   usePriceEthBusd,
 } from "state/hooks";
@@ -154,6 +155,7 @@ const Farms: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [viewMode, setViewMode] = useState(ViewMode.CARD);
   const ethPriceUsd = usePriceEthBusd();
+  const btcPriceUsd = usePriceBtcBusd();
   const { account } = useWeb3React("web3");
   const [sortOption, setSortOption] = useState("hot");
 
@@ -398,6 +400,7 @@ const Farms: React.FC = () => {
                 bnbPrice={bnbPrice}
                 cakePrice={cakePrice}
                 ethPrice={ethPriceUsd}
+                btcPrice={btcPriceUsd}
                 account={account}
                 removed={false}
               />
@@ -423,6 +426,7 @@ const Farms: React.FC = () => {
                 bnbPrice={bnbPrice}
                 cakePrice={cakePrice}
                 ethPrice={ethPriceUsd}
+                btcPrice={btcPriceUsd}
                 account={account}
                 removed
               />

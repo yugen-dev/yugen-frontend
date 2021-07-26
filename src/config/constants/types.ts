@@ -41,6 +41,7 @@ export enum QuoteToken {
   "PR" = "PR",
   "TEST1" = "TEST1",
   "LP" = "LP",
+  "BTC" = "BTC",
 }
 
 export enum PoolCategory {

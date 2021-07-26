@@ -15,19 +15,19 @@ import { getBep20Contract } from "utils/contractHelpers";
 import { useMigrationpairRemover } from "state/user/hooks";
 import ConfirmationPendingContent from "components/TransactionConfirmationModal/ConfirmationPendingContent";
 import TransactionSubmittedContent from "components/TransactionConfirmationModal/TransactionSubmittedContent";
-import Modal from "components/Modal"
+import Modal from "components/Modal";
 import { useToast } from "state/hooks";
 import { useActiveWeb3React } from "hooks";
-import contracts from "config/constants/contracts"
+import contracts from "config/constants/contracts";
 import migration from "config/constants/migrate";
 
 interface ModalProps {
   pairAddress: string;
-  pid: any
+  pid: any;
   exchangePlatform: string;
   factoryAddrees: string;
-  isPool: boolean,
-  contractAddress: string | null
+  isPool: boolean;
+  contractAddress: string | null;
 }
 
 export default function MigrationCard({
@@ -36,7 +36,7 @@ export default function MigrationCard({
   factoryAddrees,
   pid,
   isPool,
-  contractAddress
+  contractAddress,
 }: ModalProps) {
   const { chainId } = useActiveWeb3React();
   const pairContract = usePairContract(pairAddress, true);
@@ -57,15 +57,18 @@ export default function MigrationCard({
   const [migratetxHash, setMigratetxHash] = useState(null);
   const [balance, setBal] = useState("0");
   const [allowence, setallowence] = useState(null);
-  const removePair = useMigrationpairRemover()
+  const removePair = useMigrationpairRemover();
   const web3 = useWeb3();
   const { account } = useWeb3React();
-  const migratorAddress = migration.filter(eachExchange => eachExchange.value === factoryAddrees);
+  const migratorAddress = migration.filter(
+    (eachExchange) => eachExchange.value === factoryAddrees
+  );
   const polydexMigratorAddress = migratorAddress[0].migratorAddress[chainId];
   const polydexMigrator = usePolydexMigratorContract(polydexMigratorAddress);
   let poolTokenPercentage = 0.0;
   if (totalPoolTokens && balance) {
-    poolTokenPercentage = (parseFloat(balance) * 100) / parseFloat(totalPoolTokens);
+    poolTokenPercentage =
+      (parseFloat(balance) * 100) / parseFloat(totalPoolTokens);
   }
   const onMigrateClicked = async () => {
     setMigrateLoading(true);
@@ -85,9 +88,9 @@ export default function MigrationCard({
       );
       const receipt = await txHash.wait();
       if (receipt.status) {
-        setMigrateSuccess(true)
+        setMigrateSuccess(true);
         setMigratetxHash(txHash.hash);
-        getBalance()
+        getBalance();
         toastSuccess("Success", "Lp Tokens Succfully Migrated");
         setMigrateLoading(false);
       }
@@ -100,7 +103,8 @@ export default function MigrationCard({
     setMigrateAndFarmLoading(true);
     const now = new Date();
     const utcMilllisecondsSinceEpoch = now.getTime();
-    const utcSecondsSinceEpoch = Math.round(utcMilllisecondsSinceEpoch / 1000) + 1200;
+    const utcSecondsSinceEpoch =
+      Math.round(utcMilllisecondsSinceEpoch / 1000) + 1200;
     try {
       const balanceInWei = web3.utils.toWei(balance);
       let txHash;
@@ -129,9 +133,9 @@ export default function MigrationCard({
       }
       const receipt = await txHash.wait();
       if (receipt.status) {
-        setMigrateSuccess(true)
+        setMigrateSuccess(true);
         setMigratetxHash(txHash.hash);
-        getBalance()
+        getBalance();
         toastSuccess("Success", "Lp Tokens Succfully Migrated");
         setMigrateAndFarmLoading(false);
       }
@@ -209,42 +213,55 @@ export default function MigrationCard({
     }
   };
   const onRemovepair = () => {
-    removePair(chainId, factoryAddrees, pairAddress)
-  }
+    removePair(chainId, factoryAddrees, pairAddress);
+  };
   useEffect(() => {
     if (account) getBalance();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [web3.eth.Contract]);
-  let jsxForRow = (<div />);
+  let jsxForRow = <div />;
   if (parseFloat(balance) > 0) {
     jsxForRow = (
       <MigrationRow>
         {token1Address && token0Address ? (
           <div>
-            <Modal isOpen={migrateLoading || migrateSuccess}
+            <Modal
+              isOpen={migrateLoading || migrateSuccess}
               onDismiss={() => {
                 setMigrateLoading(false);
-                setMigrateSuccess(false)
-              }} maxHeight={90}>
-              {migrateLoading && <ConfirmationPendingContent
-                onDismiss={() => setMigrateLoading(false)}
-                pendingText="Transcation is in progress, please wait..."
-              />}
-              {migrateSuccess &&
+                setMigrateSuccess(false);
+              }}
+              maxHeight={90}
+            >
+              {migrateLoading && (
+                <ConfirmationPendingContent
+                  onDismiss={() => setMigrateLoading(false)}
+                  pendingText="Transcation is in progress, please wait..."
+                />
+              )}
+              {migrateSuccess && (
                 <TransactionSubmittedContent
                   chainId={chainId}
                   hash={migratetxHash}
                   onDismiss={() => {
                     setMigrateLoading(false);
-                    setMigrateSuccess(false)
+                    setMigrateSuccess(false);
                   }}
                 />
-              }
+              )}
             </Modal>
             <RowData onClick={() => toggleDetails(!showDetails)}>
               <ImageDiv>
-                <img src={`/images/tokens/${token0Symbol.toLowerCase()}.png`} alt={token0Symbol} width="20px" />
-                <img src={`/images/tokens/${token1Symbol.toLowerCase()}.png`} alt={token1Symbol} width="20px" />
+                <img
+                  src={`/images/tokens/${token0Symbol.toLowerCase()}.png`}
+                  alt={token0Symbol}
+                  width="20px"
+                />
+                <img
+                  src={`/images/tokens/${token1Symbol.toLowerCase()}.png`}
+                  alt={token1Symbol}
+                  width="20px"
+                />
                 <Text color="white" fontSize="15px" bold ml="10px">
                   {pairName}
                 </Text>
@@ -281,7 +298,7 @@ export default function MigrationCard({
                   <InfoDiv>
                     <Text color="#9d9fa8" fontSize="18px">
                       Pooled {token0Symbol}:
-                  </Text>
+                    </Text>
                     <Text fontSize="18px" bold>
                       {token0Deposited}
                     </Text>
@@ -289,7 +306,7 @@ export default function MigrationCard({
                   <InfoDiv>
                     <Text color="#9d9fa8" fontSize="18px">
                       Pooled {token1Symbol}:
-                  </Text>
+                    </Text>
                     <Text fontSize="18px" bold>
                       {token1Deposited}
                     </Text>
@@ -297,22 +314,22 @@ export default function MigrationCard({
                   <InfoDiv>
                     <Text color="#9d9fa8" fontSize="18px">
                       Your LP Balance:
-                  </Text>
+                    </Text>
                     <Text fontSize="18px" bold>
-                      {parseFloat(balance).toFixed(8)}
+                      {parseFloat(balance).toFixed(13)}
                     </Text>
                   </InfoDiv>
                   <InfoDiv>
                     <Text color="#9d9fa8" fontSize="18px">
                       Your LP share:
-                  </Text>
+                    </Text>
                     <Text fontSize="18px" bold>
                       {`${poolTokenPercentage.toFixed(2)}%`}
                     </Text>
                   </InfoDiv>
                 </InfoContainer>
                 <div>
-                  {allowence && allowence !== 0 && (isPool || pid) ?
+                  {allowence && allowence !== 0 && (isPool || pid) ? (
                     <Button
                       style={{
                         width: "100%",
@@ -321,16 +338,25 @@ export default function MigrationCard({
                       scale="md"
                       onClick={onMigrateAndFarmClicked}
                       isLoading={migrateAndFarmLoading}
-                      disabled={migrateAndFarmLoading || parseFloat(balance) === 0}
+                      disabled={
+                        migrateAndFarmLoading || parseFloat(balance) === 0
+                      }
                       endIcon={
                         migrateAndFarmLoading && (
                           <AutoRenewIcon spin color="currentColor" />
                         )
                       }
                     >
-                      {migrateAndFarmLoading ? "Processing..." : "Migrate + Farm"}
-                    </Button> : <div />}
-                  <div style={{ display: "flex", justifyContent: "space-between" }}>
+                      {migrateAndFarmLoading
+                        ? "Processing..."
+                        : "Migrate + Farm"}
+                    </Button>
+                  ) : (
+                    <div />
+                  )}
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
                     {allowence && allowence !== 0 ? (
                       <Button
                         style={{
@@ -370,7 +396,7 @@ export default function MigrationCard({
                       style={{
                         width: "150px",
                         marginTop: "20px",
-                        marginLeft: '20px'
+                        marginLeft: "20px",
                       }}
                       scale="md"
                       variant="tertiary"
@@ -378,7 +404,7 @@ export default function MigrationCard({
                       isLoading={migrateLoading}
                     >
                       Remove Pair
-                </Button>
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -390,7 +416,7 @@ export default function MigrationCard({
           </Text>
         )}
       </MigrationRow>
-    )
+    );
   }
   return jsxForRow;
 }

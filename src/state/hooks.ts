@@ -129,7 +129,7 @@ export const usePoolFromPid = (sousId): Pool => {
 // Prices
 
 export const usePriceBnbBusd = (): BigNumber => {
-  const pid = 1; // USD-MATIC LP, BUSD-BNB LP
+  const pid = 3; // USD-MATIC LP, BUSD-BNB LP
   const farm = useFarmFromPid(pid);
 
   return farm.tokenPriceVsQuote
@@ -140,17 +140,32 @@ export const usePriceBnbBusd = (): BigNumber => {
 export const usePriceCakeBusd = (): BigNumber => {
   const pid = 0; // CNT-MATIC LP ,CAKE-BNB LP
   const bnbPriceUSD = usePriceBnbBusd();
+
   const farm = useFarmFromPid(pid);
+
+  return farm.tokenPriceVsQuote
+    ? bnbPriceUSD.times(farm.tokenPriceVsQuote)
+    : ZERO;
+
+  // return new BigNumber(10);
+};
+
+export const usePriceEthBusd = (): BigNumber => {
+  const pid = 8; // ETH-MATIC LP ,ETH-BNB LP
+  const bnbPriceUSD = usePriceCakeBusd();
+  const farm = useFarmFromPid(pid);
+  console.log(bnbPriceUSD.times(farm.tokenPriceVsQuote).toNumber());
   return farm.tokenPriceVsQuote
     ? bnbPriceUSD.times(farm.tokenPriceVsQuote)
     : ZERO;
   // return new BigNumber(10);
 };
 
-export const usePriceEthBusd = (): BigNumber => {
-  const pid = 3; // ETH-MATIC LP ,ETH-BNB LP
+export const usePriceBtcBusd = (): BigNumber => {
+  const pid = 5; // ETH-MATIC LP ,ETH-BNB LP
   const bnbPriceUSD = usePriceCakeBusd();
   const farm = useFarmFromPid(pid);
+  console.log(bnbPriceUSD.times(farm.tokenPriceVsQuote).toNumber());
   return farm.tokenPriceVsQuote
     ? bnbPriceUSD.times(farm.tokenPriceVsQuote)
     : ZERO;
