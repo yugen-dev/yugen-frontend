@@ -211,7 +211,6 @@ const CNTBar = () => {
       contracts.cake[137],
       contracts.cntStaker[137]
     );
-
     setCntAllowance(cntAllowance);
     setTokenBalance(tokenBalanceResp);
     setxCNTBalance(xCNTBalanceResp);
