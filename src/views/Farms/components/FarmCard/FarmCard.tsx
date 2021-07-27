@@ -83,6 +83,7 @@ interface FarmCardProps {
   cakePrice?: BigNumber;
   bnbPrice?: BigNumber;
   ethPrice?: BigNumber;
+  btcPrice?: BigNumber;
   provider?: ProviderType;
   account?: string;
 }
@@ -93,6 +94,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
   cakePrice,
   bnbPrice,
   ethPrice,
+  btcPrice,
   account,
 }) => {
   const TranslateString = useI18n();
@@ -120,18 +122,23 @@ const FarmCard: React.FC<FarmCardProps> = ({
     if (farm.quoteTokenSymbol === QuoteToken.ETH) {
       return ethPrice.times(farm.lpTotalInQuoteToken);
     }
+    if (farm.quoteTokenSymbol === QuoteToken.BTC) {
+      return btcPrice.times(farm.lpTotalInQuoteToken);
+    }
+
     return farm.lpTotalInQuoteToken;
   }, [
     bnbPrice,
     cakePrice,
     ethPrice,
+    btcPrice,
     farm.lpTotalInQuoteToken,
     farm.quoteTokenSymbol,
   ]);
 
   const totalValueFormated = totalValue
     ? `$${Number(totalValue).toLocaleString(undefined, {
-        maximumFractionDigits: 2,
+        maximumFractionDigits: 8,
       })}`
     : "-";
 

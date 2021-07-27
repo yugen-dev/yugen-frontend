@@ -53,7 +53,13 @@ export default {
     56: "",
     97: "",
     80001: "0xD89a2E56B778AEfe719fc86E122B7db752Bb6B41",
-    137: "0xc2132d05d31c914a87c6611c10748aeb04b58e8f",
+    137: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+  },
+  btc: {
+    56: "",
+    97: "",
+    80001: "0xD89a2E56B778AEfe719fc86E122B7db752Bb6B41",
+    137: "0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6",
   },
   ust: {
     56: "0x23396cF899Ca06c4472205fC903bDB4de249D6fC",
