@@ -45,12 +45,6 @@ const TotalValueLockedCard = () => {
   );
 };
 
-// const CNValueHeading = styled.div`
-//   font-size: 30px;
-//   font-weight: bold;
-//   text-transform: capitalize;
-//   color: white;
-// `;
 
 const CNText = styled.div`
   font-size: 16px;
