@@ -91,7 +91,6 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
       s,
       deadline,
     });
-    console.log("hello");
   };
 
   const Renderer = ({ days, hours, minutes, seconds, completed }) => {

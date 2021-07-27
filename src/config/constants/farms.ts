@@ -56,8 +56,8 @@ const farms: FarmConfig[] = [
       80001: "",
       137: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
     },
-    quoteTokenSymbol: QuoteToken.ETH,
-    quoteTokenAdresses: contracts.eth,
+    quoteTokenSymbol: QuoteToken.CNT,
+    quoteTokenAdresses: contracts.cake,
   },
   {
     pid: 3,
@@ -115,25 +115,6 @@ const farms: FarmConfig[] = [
     },
     quoteTokenSymbol: QuoteToken.BTC,
     quoteTokenAdresses: contracts.btc,
-  },
-  {
-    pid: 6,
-    lpSymbol: "BTC-ETH",
-    lpAddresses: {
-      97: "0xE66790075ad839978fEBa15D4d8bB2b415556a1D",
-      56: "0x70D8929d04b60Af4fb9B58713eBcf18765aDE422",
-      80001: "0x1Ccd6F823A18847ed72695a08836EB09a1043156",
-      137: "0xfDad5f693eF778A0563601836375cb8FFc3C1d84",
-    },
-    tokenSymbol: "BTC",
-    tokenAddresses: {
-      97: "0xE02dF9e3e622DeBdD69fb838bB799E3F168902c5",
-      56: "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
-      80001: "0xD89a2E56B778AEfe719fc86E122B7db752Bb6B41",
-      137: "0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6",
-    },
-    quoteTokenSymbol: QuoteToken.ETH,
-    quoteTokenAdresses: contracts.eth,
   },
   {
     pid: 6,
