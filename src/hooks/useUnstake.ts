@@ -41,11 +41,11 @@ const useUnstake = (pid: number) => {
             account,
             library
           );
-          toastSuccess("Success", ` Depositeded successfully`);
+          toastSuccess("Success", ` withdraw successfull`);
           dispatch(fetchFarmUserDataAsync(account));
         } else {
           await unstake(masterChefContract, pid, amount, account);
-          toastSuccess("Success", ` Depositeded successfully`);
+          toastSuccess("Success", ` withdraw successfull`);
           dispatch(fetchFarmUserDataAsync(account));
         }
       } catch (e) {
@@ -103,13 +103,13 @@ export const useSousUnstake = (sousId) => {
             sousId,
             library
           );
-          toastSuccess("Success", ` Depositeded successfully`);
+          toastSuccess("Success", ` withdraw successfull`);
           dispatch(updateUserStakedBalance(sousId, account));
           dispatch(updateUserBalance(sousId, account));
           dispatch(updateUserPendingReward(sousId, account));
         } else {
           await sousUnstake(sousChefContract, amount, decimals, account);
-          toastSuccess("Success", ` Depositeded successfully`);
+          toastSuccess("Success", ` withdraw successfull`);
           dispatch(updateUserStakedBalance(sousId, account));
           dispatch(updateUserBalance(sousId, account));
           dispatch(updateUserPendingReward(sousId, account));
