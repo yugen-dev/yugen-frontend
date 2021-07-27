@@ -123,7 +123,9 @@ const FarmCard: React.FC<FarmCardProps> = ({
       return ethPrice.times(farm.lpTotalInQuoteToken);
     }
     if (farm.quoteTokenSymbol === QuoteToken.BTC) {
-      return btcPrice.times(farm.lpTotalInQuoteToken);
+      return btcPrice
+        .times(farm.quoteTokenAmount)
+        .plus(new BigNumber(farm.tokenAmount));
     }
 
     if (farm.quoteTokenSymbol === QuoteToken.BUSD) {

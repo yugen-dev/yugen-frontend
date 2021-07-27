@@ -95,8 +95,11 @@ const PoolCard: React.FC<HarvestProps> = ({
     }
 
     if (quoteTokenSymbol === QuoteToken.BTC) {
-      return btcPrice.times(lpTotalInQuoteToken);
+      return btcPrice
+        .times(pool.quoteTokenAmount)
+        .plus(new BigNumber(pool.tokenAmount));
     }
+
     if (quoteTokenSymbol === QuoteToken.BUSD) {
       return new BigNumber(pool.tokenAmount).plus(pool.quoteTokenAmount);
     }
