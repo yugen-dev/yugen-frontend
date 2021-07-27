@@ -123,7 +123,13 @@ const FarmCard: React.FC<FarmCardProps> = ({
       return ethPrice.times(farm.lpTotalInQuoteToken);
     }
     if (farm.quoteTokenSymbol === QuoteToken.BTC) {
-      return btcPrice.times(farm.lpTotalInQuoteToken);
+      return btcPrice
+        .times(farm.quoteTokenAmount)
+        .plus(new BigNumber(farm.tokenAmount));
+    }
+
+    if (farm.quoteTokenSymbol === QuoteToken.BUSD) {
+      return new BigNumber(farm.tokenAmount).plus(farm.quoteTokenAmount);
     }
 
     return farm.lpTotalInQuoteToken;
@@ -132,6 +138,8 @@ const FarmCard: React.FC<FarmCardProps> = ({
     cakePrice,
     ethPrice,
     btcPrice,
+    farm.tokenAmount,
+    farm.quoteTokenAmount,
     farm.lpTotalInQuoteToken,
     farm.quoteTokenSymbol,
   ]);
@@ -224,7 +232,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
         )}
         <Flex justifyContent="space-between">
           <Text>{TranslateString(318, "Earn")}:</Text>
-          <Text bold>{earnLabel} + Fees</Text>
+          <Text bold>{earnLabel} </Text>
         </Flex>
         <Flex justifyContent="space-between">
           <Text>{TranslateString(318, "Harvest Lock Interval")}:</Text>

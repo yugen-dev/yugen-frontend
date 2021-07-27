@@ -140,10 +140,162 @@ export const PINNED_MIGRATION_PAIRS = {
         isPool: false,
         contractAddress: null,
       },
+      "0x2813d43463c374a680f235c428fb1d7f08de0b69": {
+        pid: "12",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0x6ff62bfb8c12109e8000935a6de54dad83a4f39f": {
+        pid: "11",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xc2755915a85c6f6c1c0f3a86ac8c058f11caa9c9": {
+        pid: "10",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xcd578f016888b57f1b1e3f887f392f0159e26747": {
+        pid: "9",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0x34965ba0ac2451a34a0471f04cca3f990b8dea27": {
+        pid: "8",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0x4b1f1e2435a9c96f7330faea190ef6a7c8d70001": {
+        pid: "7",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xe62ec2e799305e0d367b0cc3ee2cda135bf89816": {
+        pid: "6",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xd02b870c556480491c70aaf98c297fddd93f6f5c": {
+        pid: "5",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xc4e595acdd7d12fec385e5da5d43160e8a0bac0e": {
+        pid: "4",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xcd353f79d9fade311fc3119b841e1f456b54e858": {
+        pid: "2",
+        isPool: false,
+        contractAddress: null,
+      },
     },
     "0x5757371414417b8C6CAad45bAeF941aBc7d3Ab32": {
       "0x604229c960e5CACF2aaEAc8Be68Ac07BA9dF81c3": {
         pid: "1",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0x90bc3e68ba8393a3bf2d79309365089975341a43": {
+        pid: "12",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0x4a35582a710e1f4b2030a3f826da20bfb6703c09": {
+        pid: "11",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xf6422b997c7f54d1c6a6e103bcb1499eea0a7046": {
+        pid: "10",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xf04adbf75cdfc5ed26eea4bbbb991db002036bdd": {
+        pid: "9",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0x853ee4b2a13f8a742d64c8f088be7ba2131f670d": {
+        pid: "8",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0x2cf7252e74036d1da831d11089d326296e64a728": {
+        pid: "7",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xdc9232e2df177d7a12fdff6ecbab114e2231198d": {
+        pid: "6",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xf6a637525402643b0654a54bead2cb9a83c8b498": {
+        pid: "5",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xadbf1854e5883eb8aa7baf50705338739e558e5b": {
+        pid: "4",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0x6e7a5fafcec6bb1e78bae2a1f0b612012bf14827": {
+        pid: "2",
+        isPool: false,
+        contractAddress: null,
+      },
+    },
+    "0xE7Fb3e833eFE5F9c441105EB65Ef8b261266423B": {
+      "0x7162c0acf32820920a741d8fa466b8e6d60d530d": {
+        pid: "12",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xe69fe44b087eab9d0f1cbdcf63c1b266dcc556fe": {
+        pid: "11",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0x5d577d6cdc82d7b6cac7a101766b68f45bc3e34e": {
+        pid: "10",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xb7bd6d48c9b1af7e126d0389c6970f157d974f33": {
+        pid: "9",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0x7d51bad48d253dae37cc82cad07f73849286deec": {
+        pid: "8",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xbe40f7fff5a2235af9a8cb79a17373162efefa9c": {
+        pid: "7",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0x39eaa90a70e8fdc04e1f63db04e1c62c9ace0641": {
+        pid: "6",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xc0ab47b79bc66f98e5c9ee5ff386a7150d3f4174": {
+        pid: "5",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xc3379226aeef21464d05676305dad1261d6f3fac": {
+        pid: "3",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0x4f5df10b9991482bcd2db19dae1fd0e0184397c2": {
+        pid: "2",
         isPool: false,
         contractAddress: null,
       },

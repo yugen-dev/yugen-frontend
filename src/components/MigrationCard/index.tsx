@@ -168,48 +168,50 @@ export default function MigrationCard({
   const getBalance = async () => {
     if (pairContract) {
       let lpBalance = await pairContract.balanceOf(account);
-      const checkAllowence = await pairContract.allowance(
-        account,
-        polydexMigratorAddress
-      );
-      const getTotalSupply = await pairContract.totalSupply();
-      const getReserves = await pairContract.getReserves();
-      const getToken0Address = await pairContract.token0();
-      const getToken1Address = await pairContract.token1();
-      const token0contract = getBep20Contract(getToken0Address, web3);
-      const token1contract = getBep20Contract(getToken1Address, web3);
-      const gettoken0Symbol = await token0contract.methods.symbol().call();
-      const gettoken1Symbol = await token1contract.methods.symbol().call();
       lpBalance = web3.utils.fromWei(lpBalance.toString(), "ether");
-      const totalSupply = web3.utils.fromWei(
-        getTotalSupply.toString(),
-        "ether"
-      );
-      const weiReserve1 = web3.utils.fromWei(
-        getReserves.reserve0.toString(),
-        "ether"
-      );
-      const weiReserve2 = web3.utils.fromWei(
-        getReserves.reserve1.toString(),
-        "ether"
-      );
-      const token0Bal =
-        (parseFloat(lpBalance.toString()) /
-          parseFloat(totalSupply.toString())) *
-        parseFloat(weiReserve1);
-      const token1Bal =
-        (parseFloat(lpBalance.toString()) /
-          parseFloat(totalSupply.toString())) *
-        parseFloat(weiReserve2.toString());
-      setToken0Symbol(gettoken0Symbol);
-      setToken1Symbol(gettoken1Symbol);
-      setToken0Address(getToken0Address);
-      setToken1Address(getToken1Address);
-      setallowence(parseFloat(checkAllowence.toString()));
-      setToken0Deposited(token0Bal.toFixed(3));
-      setToken1Deposited(token1Bal.toFixed(3));
-      setBal(lpBalance.toString());
-      setTotalPoolTokens(totalSupply.toString());
+      if (lpBalance > 0) {
+        const checkAllowence = await pairContract.allowance(
+          account,
+          polydexMigratorAddress
+        );
+        const getTotalSupply = await pairContract.totalSupply();
+        const getReserves = await pairContract.getReserves();
+        const getToken0Address = await pairContract.token0();
+        const getToken1Address = await pairContract.token1();
+        const token0contract = getBep20Contract(getToken0Address, web3);
+        const token1contract = getBep20Contract(getToken1Address, web3);
+        const gettoken0Symbol = await token0contract.methods.symbol().call();
+        const gettoken1Symbol = await token1contract.methods.symbol().call();
+        const totalSupply = web3.utils.fromWei(
+          getTotalSupply.toString(),
+          "ether"
+        );
+        const weiReserve1 = web3.utils.fromWei(
+          getReserves.reserve0.toString(),
+          "ether"
+        );
+        const weiReserve2 = web3.utils.fromWei(
+          getReserves.reserve1.toString(),
+          "ether"
+        );
+        const token0Bal =
+          (parseFloat(lpBalance.toString()) /
+            parseFloat(totalSupply.toString())) *
+          parseFloat(weiReserve1);
+        const token1Bal =
+          (parseFloat(lpBalance.toString()) /
+            parseFloat(totalSupply.toString())) *
+          parseFloat(weiReserve2.toString());
+        setToken0Symbol(gettoken0Symbol);
+        setToken1Symbol(gettoken1Symbol);
+        setToken0Address(getToken0Address);
+        setToken1Address(getToken1Address);
+        setallowence(parseFloat(checkAllowence.toString()));
+        setToken0Deposited(token0Bal.toFixed(3));
+        setToken1Deposited(token1Bal.toFixed(3));
+        setBal(lpBalance.toString());
+        setTotalPoolTokens(totalSupply.toString());
+      }
     }
   };
   const onRemovepair = () => {

@@ -5,12 +5,9 @@ import { ResetCSS } from "cryption-uikit";
 import BigNumber from "bignumber.js";
 import useEagerConnect from "hooks/useEagerConnect";
 import {
-  useFetchPriceList,
-  useFetchProfile,
   useFetchPublicData,
 } from "state/hooks";
 import { useApollo } from "apollo/index";
-import useGetDocumentTitlePrice from "./hooks/useGetDocumentTitlePrice";
 import GlobalStyle from "./style/Global";
 import Menu from "./components/Menu";
 import {

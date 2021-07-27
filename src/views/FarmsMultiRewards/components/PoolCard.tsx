@@ -45,6 +45,7 @@ interface HarvestProps {
   valueOfCNTinUSD?: BigNumber;
   bnbPrice?: BigNumber;
   ethPrice?: BigNumber;
+  btcPrice?: BigNumber;
 }
 
 const PoolCard: React.FC<HarvestProps> = ({
@@ -52,9 +53,8 @@ const PoolCard: React.FC<HarvestProps> = ({
   valueOfCNTinUSD,
   bnbPrice,
   ethPrice,
+  btcPrice,
 }) => {
-  // const [tokenprices, Settokenprices] = useState([null]);
-  // const [StakingTokenPrice, setStakingTokenPrice] = useState(new BigNumber(1));
   const {
     sousId,
     image,
@@ -93,11 +93,25 @@ const PoolCard: React.FC<HarvestProps> = ({
     if (quoteTokenSymbol === QuoteToken.ETH) {
       return ethPrice.times(lpTotalInQuoteToken);
     }
+
+    if (quoteTokenSymbol === QuoteToken.BTC) {
+      return btcPrice
+        .times(pool.quoteTokenAmount)
+        .plus(new BigNumber(pool.tokenAmount));
+    }
+
+    if (quoteTokenSymbol === QuoteToken.BUSD) {
+      return new BigNumber(pool.tokenAmount).plus(pool.quoteTokenAmount);
+    }
+
     return lpTotalInQuoteToken;
   }, [
     bnbPrice,
     valueOfCNTinUSD,
     ethPrice,
+    pool.tokenAmount,
+    btcPrice,
+    pool.quoteTokenAmount,
     lpTotalInQuoteToken,
     quoteTokenSymbol,
   ]);

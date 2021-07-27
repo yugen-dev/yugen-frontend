@@ -142,34 +142,27 @@ export const usePriceCakeBusd = (): BigNumber => {
   const bnbPriceUSD = usePriceBnbBusd();
 
   const farm = useFarmFromPid(pid);
-
   return farm.tokenPriceVsQuote
     ? bnbPriceUSD.times(farm.tokenPriceVsQuote)
     : ZERO;
-
-  // return new BigNumber(10);
 };
 
 export const usePriceEthBusd = (): BigNumber => {
   const pid = 8; // ETH-MATIC LP ,ETH-BNB LP
-  const bnbPriceUSD = usePriceCakeBusd();
   const farm = useFarmFromPid(pid);
-  console.log(bnbPriceUSD.times(farm.tokenPriceVsQuote).toNumber());
   return farm.tokenPriceVsQuote
-    ? bnbPriceUSD.times(farm.tokenPriceVsQuote)
+    ? new BigNumber(1).div(farm.tokenPriceVsQuote)
     : ZERO;
-  // return new BigNumber(10);
 };
 
 export const usePriceBtcBusd = (): BigNumber => {
   const pid = 5; // ETH-MATIC LP ,ETH-BNB LP
-  const bnbPriceUSD = usePriceCakeBusd();
+  const bnbPriceUSD = usePriceBnbBusd();
   const farm = useFarmFromPid(pid);
-  console.log(bnbPriceUSD.times(farm.tokenPriceVsQuote).toNumber());
+
   return farm.tokenPriceVsQuote
-    ? bnbPriceUSD.times(farm.tokenPriceVsQuote)
+    ? new BigNumber(1).div(farm.tokenPriceVsQuote)
     : ZERO;
-  // return new BigNumber(10);
 };
 
 // Toasts
@@ -341,7 +334,10 @@ export const useTotalValue = (): BigNumber => {
   const pools = usePoolss();
 
   const bnbPrice = usePriceBnbBusd();
-  const cakePrice = usePriceCakeBusd();
+  const cntPrice = usePriceCakeBusd();
+  const ethPrice = usePriceEthBusd();
+  const btcPrice = usePriceBtcBusd();
+
   let value = new BigNumber(0);
   for (let i = 0; i < farms.length; i++) {
     const farm = farms[i];
@@ -350,10 +346,17 @@ export const useTotalValue = (): BigNumber => {
       if (farm.quoteTokenSymbol === QuoteToken.BNB) {
         val = bnbPrice.times(farm.lpTotalInQuoteToken);
       } else if (farm.quoteTokenSymbol === QuoteToken.CAKE) {
-        val = cakePrice.times(farm.lpTotalInQuoteToken);
+        val = cntPrice.times(farm.lpTotalInQuoteToken);
+      } else if (farm.quoteTokenSymbol === QuoteToken.ETH) {
+        val = ethPrice.times(farm.lpTotalInQuoteToken);
+      } else if (farm.quoteTokenSymbol === QuoteToken.BTC) {
+        val = btcPrice.times(farm.lpTotalInQuoteToken);
+      } else if (farm.quoteTokenSymbol === QuoteToken.BUSD) {
+        val = new BigNumber(farm.tokenAmount).plus(farm.quoteTokenAmount);
       } else {
         val = farm.lpTotalInQuoteToken;
       }
+
       value = value.plus(val);
     }
   }
@@ -376,7 +379,13 @@ export const useTotalValue = (): BigNumber => {
       if (pool.quoteTokenSymbol === QuoteToken.BNB) {
         val = bnbPrice.times(pool.lpTotalInQuoteToken);
       } else if (pool.quoteTokenSymbol === QuoteToken.CAKE) {
-        val = cakePrice.times(pool.lpTotalInQuoteToken);
+        val = cntPrice.times(pool.lpTotalInQuoteToken);
+      } else if (pool.quoteTokenSymbol === QuoteToken.ETH) {
+        val = ethPrice.times(pool.lpTotalInQuoteToken);
+      } else if (pool.quoteTokenSymbol === QuoteToken.BTC) {
+        val = btcPrice.times(pool.lpTotalInQuoteToken);
+      } else if (pool.quoteTokenSymbol === QuoteToken.BUSD) {
+        val = new BigNumber(pool.tokenAmount).plus(pool.quoteTokenAmount);
       } else {
         val = pool.lpTotalInQuoteToken;
       }

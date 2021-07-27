@@ -1,6 +1,37 @@
 import { PoolConfig, QuoteToken, PoolCategory } from "./types";
 
 const pools: PoolConfig[] = [
+  {
+    sousId: 0,
+    tokenName: "MAHA-CNT",
+    tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
+    tokenAddress: "0x577aa7cAcBAd94cC0cC12a17209570a1D06bda3A", // maha
+    stakingTokenName: QuoteToken.LP,
+    quoteTokenSymbol: QuoteToken.CNT,
+    stakingTokenAddress: "0x577aa7cAcBAd94cC0cC12a17209570a1D06bda3A", // lp
+    contractAddress: {
+      97: "",
+      56: "",
+      80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
+      137: "0x0Bc444600eFA4349073Ac97e08e28231CD04bFb5", // staking pool cnt-maha
+    },
+    poolCategory: PoolCategory.CORE,
+    projectLink: "https://cryption.network/",
+    multiReward: ["CNT", "MAHA"],
+    stakingTokenCoinGeckoid: "MahaDAO",
+    coinGeckoIds: [
+      "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
+      "0xeDd6cA8A4202d4a36611e2fff109648c4863ae19", // maha
+    ],
+    multiRewardTokenPerBlock: ["0.01", "0.02"],
+    harvest: true,
+    tokenPerBlock: "1",
+    sortOrder: 999,
+    isFinished: false,
+    tokenDecimals: 18,
+    metamaskImg:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/maha-cnt.png",
+  },
   // {
   //   sousId: 0,
   //   tokenName: "CNT",

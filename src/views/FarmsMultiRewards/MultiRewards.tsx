@@ -15,6 +15,7 @@ import {
   usePriceCakeBusd,
   usePriceEthBusd,
   usePriceBnbBusd,
+  usePriceBtcBusd,
 } from "state/hooks";
 import { getCakeContract } from "utils/contractHelpers";
 import cntMascot from "images/Cryption Network Mascot Farming.png";
@@ -30,6 +31,7 @@ const Farm: React.FC = () => {
   const cntPrice = usePriceCakeBusd();
   const bnbPrice = usePriceBnbBusd();
   const ethPrice = usePriceEthBusd();
+  const btcPrice = usePriceBtcBusd();
   const { path } = useRouteMatch();
   const cake = getCakeContract();
   const { account } = useWeb3React("web3");
@@ -140,6 +142,7 @@ const Farm: React.FC = () => {
                             valueOfCNTinUSD={cntPrice}
                             bnbPrice={bnbPrice}
                             ethPrice={ethPrice}
+                            btcPrice={btcPrice}
                           />{" "}
                         </Grid>
                       )
@@ -156,6 +159,7 @@ const Farm: React.FC = () => {
                             valueOfCNTinUSD={cntPrice}
                             bnbPrice={bnbPrice}
                             ethPrice={ethPrice}
+                            btcPrice={btcPrice}
                           />{" "}
                         </Grid>
                       )
@@ -192,6 +196,7 @@ const Farm: React.FC = () => {
                         valueOfCNTinUSD={cntPrice}
                         bnbPrice={bnbPrice}
                         ethPrice={ethPrice}
+                        btcPrice={btcPrice}
                       />
                     </Grid>
                   ))
@@ -205,6 +210,7 @@ const Farm: React.FC = () => {
                         valueOfCNTinUSD={cntPrice}
                         bnbPrice={bnbPrice}
                         ethPrice={ethPrice}
+                        btcPrice={btcPrice}
                       />
                     </Grid>
                   ))}

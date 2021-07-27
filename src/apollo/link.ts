@@ -76,8 +76,13 @@ export default split(
             return operation.getContext().clientName === "burn";
           },
           burn,
-          exchange
-        )
+          split(
+            (operation) => {
+              return operation.getContext().clientName === "exchange";
+            },
+            exchange,
+          ),
+        ),
       )
     )
   )

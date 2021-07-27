@@ -8,6 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import { useQuery } from "@apollo/client";
 import Container from "@material-ui/core/Container";
 import useI18n from "hooks/useI18n";
+import useWeb3 from "hooks/useWeb3";
 import useInterval from "hooks/useInterval";
 import { dayDatasQuery, burnQuery, cntStakerQuery } from "apollo/queries";
 import {
@@ -81,6 +82,7 @@ const Home: React.FC = () => {
   let lpFees = "";
   let burnerFees = "";
   const bnbPrice = usePriceBnbBusd();
+  const web3 = useWeb3();
   let cntStakingRatio = 0.0;
   const maxAPY = useRef(Number.MIN_VALUE);
   const TranslateString = useI18n();
@@ -148,10 +150,19 @@ const Home: React.FC = () => {
     },
     [bnbPrice, farmsLP]
   );
-  const dayDatas = useQuery(dayDatasQuery);
+  const dayDatas = useQuery(dayDatasQuery, {
+    context: {
+      clientName: "exchange",
+    },
+  });
   const getCNTStakerInfo = useQuery(cntStakerQuery, {
     context: {
       clientName: "cntstaker",
+    },
+  });
+  const burnData = useQuery(burnQuery, {
+    context: {
+      clientName: "burn",
     },
   });
   if (
@@ -170,19 +181,13 @@ const Home: React.FC = () => {
       (parseFloat(getCNTStakerInfo.data.cntstaker.ratio) *
         parseFloat(cakePriceUsd.toString()));
   }
-  const burnData = useQuery(burnQuery, {
-    context: {
-      clientName: "burn",
-    },
-  });
   if (
     burnData &&
     burnData.data &&
     burnData.data.cntBurns &&
     burnData.data.cntBurns.length > 0
   ) {
-    totalBurned = parseFloat(burnData.data.cntBurns[0].amount);
-    totalBurned /= 10 ** 18;
+    totalBurned = parseFloat(web3.utils.fromWei(burnData.data.cntBurns[0].amount, "ether"));
   }
   if (dayDatas && dayDatas.data && dayDatas.data.dayDatas) {
     [liquidity] = dayDatas.data.dayDatas
