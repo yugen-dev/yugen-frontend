@@ -72,6 +72,7 @@ const IFO = () => {
 const PoolsContainer = styled.div`
   border-radius: 15px;
   margin: 20px;
+  flex: 1;
 `;
 
 const PageSubContainer = styled.div`
