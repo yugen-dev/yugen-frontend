@@ -79,7 +79,6 @@ const PageSubContainer = styled.div`
   margin-top: 20px;
   display: flex;
   justify-content: space-evenly;
-  align-items: flex-start;
   flex-wrap: wrap;
 `;
 
