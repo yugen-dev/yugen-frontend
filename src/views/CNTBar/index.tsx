@@ -240,7 +240,11 @@ const CNTBar = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account]);
-  const dayDatas = useQuery(dayDatasQuery);
+  const dayDatas = useQuery(dayDatasQuery, {
+    context: {
+      clientName: "exchange",
+    },
+  });
   const getCNTStakerInfo = useQuery(cntStakerQuery, {
     context: {
       clientName: "cntstaker",
