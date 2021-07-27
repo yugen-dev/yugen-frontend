@@ -55,7 +55,7 @@
       "symbol": "AAVE",
       "decimals": 18,
       "chainId": 137,
-      "logoURI": "https://etherscan.io/token/images/aave_32.png"
+      "logoURI": "https://bafybeieaqr24he3bptjvyout4jirgtdadh6spzpmb5qmf75ld4uwzzpo7y.ipfs.dweb.link/"
     },
     {
       "chainId": 137,
@@ -127,7 +127,7 @@
       "name": "WBTC",
       "symbol": "WBTC",
       "decimals": 8,
-      "logoURI": "https://assets.coingecko.com/coins/images/7598/small/wrapped_bitcoin_wbtc.png?1548822744"
+      "logoURI": "https://tokens.1inch.exchange/0x2260fac5e5542a773aa44fbcfedf7c193bc2c599.png"
     },
     {
       "chainId": 137,
@@ -231,7 +231,7 @@
       "symbol": "WRX",
       "decimals": 8,
       "chainId": 137,
-      "logoURI": "https://etherscan.io/token/images/binance-wrx_32.png"
+      "logoURI": "https://s2.coinmarketcap.com/static/img/coins/64x64/5161.png"
     },
     {
       "name": "Mantra Dao",
@@ -255,7 +255,7 @@
       "symbol": "QUICK",
       "decimals": 18,
       "chainId": 137,
-      "logoURI": "https://etherscan.io/token/images/quickswap_32.png"
+      "logoURI": "https://tokens.1inch.exchange/0x6c28aef8977c9b773996d0e8376d2ee379446f2f.png"
     },
     {
       "chainId": 137,
@@ -498,7 +498,7 @@
       "symbol": "CRV",
       "decimals": 18,
       "chainId": 137,
-      "logoURI": "https://assets.coingecko.com/coins/images/12124/small/Curve.png?1597369484"
+      "logoURI": "https://tokens.1inch.exchange/0xd533a949740bb3306d119cc777fa900ba034cd52.png"
     },
     {
       "name": "xDollar Stablecoin",
