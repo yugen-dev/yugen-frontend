@@ -102,6 +102,7 @@ const CardContainer = styled.div`
   background: linear-gradient(to bottom, #2082e9, #9208fe);
   border-radius: 15px;
   margin: 20px;
+  flex: 1;
 `;
 
 const Card = styled.div`
