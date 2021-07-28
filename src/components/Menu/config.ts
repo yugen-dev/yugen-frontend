@@ -69,16 +69,16 @@ const config: MenuEntry[] = [
   //     },
   //   ],
   // },
-  {
-    label: "Analytics (Coming Soon)",
-    icon: "InfoIcon",
-    items: [],
-  },
-  {
-    label: "IFO",
-    icon: "IfoIcon",
-    href: "/ifo",
-  },
+  // {
+  //   label: "Analytics (Coming Soon)",
+  //   icon: "InfoIcon",
+  //   items: [],
+  // },
+  // {
+  //   label: "IFO",
+  //   icon: "IfoIcon",
+  //   href: "/ifo",
+  // },
   {
     label: "More",
     icon: "MoreIcon",

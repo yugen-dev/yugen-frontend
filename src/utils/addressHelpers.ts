@@ -14,6 +14,10 @@ export const getSouschefContract = (id: number) => {
   return getAddress(config.contractAddress);
 };
 
+export const getHybridStakingAddress = () => {
+  return getAddress(addresses.hybridstaking);
+};
+
 export const getCakeAddress = () => {
   return getAddress(addresses.cake);
 };

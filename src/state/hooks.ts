@@ -2,7 +2,10 @@ import { useEffect, useMemo, useState } from "react";
 import BigNumber from "bignumber.js";
 import { kebabCase } from "lodash";
 import { useWeb3React } from "@web3-react/core";
-import { getCakeContract } from "utils/contractHelpers";
+import {
+  getCakeContract,
+  getHybridStakingContract,
+} from "utils/contractHelpers";
 import contracts from "config/constants/contracts";
 import { Toast, toastTypes } from "cryption-uikit";
 import { useSelector, useDispatch } from "react-redux";
@@ -349,6 +352,26 @@ export const useCntStakerTvl = (): BigNumber => {
   return CntStakerTvlPrice;
 };
 
+export const useHybridstakingTvl = (): BigNumber => {
+  const [HybridstakingTvlPrice, setHybridstakingTvlPrice] = useState(
+    new BigNumber(2000)
+  );
+
+  useEffect(() => {
+    const fetchPriceHybridCNT = async () => {
+      const contract = getHybridStakingContract();
+      const res = await contract.methods.totalCNTStaked().call();
+      setHybridstakingTvlPrice(
+        new BigNumber(res).dividedBy(new BigNumber(10).pow(18))
+      );
+    };
+
+    fetchPriceHybridCNT();
+  }, []);
+
+  return HybridstakingTvlPrice;
+};
+
 // Block
 export const useBlock = (): Block => {
   return useSelector((state: State) => state.block);
@@ -359,6 +382,8 @@ export const useTotalValue = (): BigNumber => {
   const pools = usePoolss();
 
   const totalStakerBalance = useCntStakerTvl();
+  const totalHybridstakingCntBalance = useHybridstakingTvl();
+  console.log(totalHybridstakingCntBalance.toNumber());
   const bnbPrice = usePriceBnbBusd();
   const cntPrice = usePriceCakeBusd();
   const ethPrice = usePriceEthBusd();
@@ -421,6 +446,7 @@ export const useTotalValue = (): BigNumber => {
   }
 
   value = value.plus(totalStakerBalance.multipliedBy(cntPrice));
+  value = value.plus(totalHybridstakingCntBalance.multipliedBy(cntPrice));
 
   return value;
 };

@@ -115,4 +115,10 @@ export default {
     80001: "0x9fBbcBed6a5205411aCe1C01d102194e92A17888",
     137: "0x0732Cf2da254c0b12dFD1dcfa2c98200167C295F",
   },
+  hybridstaking: {
+    56: "",
+    97: "",
+    80001: "",
+    137: "0xDC5A8F4D53E6fFb1F5E356f64577702AF9348d7d",
+  },
 };

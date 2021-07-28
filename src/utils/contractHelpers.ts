@@ -18,6 +18,7 @@ import {
   getFarmAddress,
   getPointCenterIfoAddress,
   getClaimRefundAddress,
+  getHybridStakingAddress,
 } from "utils/addressHelpers";
 
 // ABI
@@ -27,6 +28,7 @@ import bunnyFactoryAbi from "config/abi/bunnyFactory.json";
 import bunnySpecialAbi from "config/abi/bunnySpecial.json";
 import bep20Abi from "config/abi/erc20.json";
 import cakeAbi from "config/abi/cake.json";
+import hybridStakingAbi from "config/abi/hybridstaking.json";
 import ifoAbi from "config/abi/ifo.json";
 import pointCenterIfo from "config/abi/pointCenterIfo.json";
 import lotteryAbi from "config/abi/lottery.json";
@@ -64,6 +66,11 @@ export const getPointCenterIfoContract = (web3?: Web3) => {
 export const getCakeContract = (web3?: Web3) => {
   return getContract(cakeAbi, getCakeAddress(), web3);
 };
+
+export const getHybridStakingContract = (web3?: Web3) => {
+  return getContract(hybridStakingAbi, getHybridStakingAddress(), web3);
+};
+
 export const getProfileContract = (web3?: Web3) => {
   return getContract(profileABI, getPancakeProfileAddress(), web3);
 };
