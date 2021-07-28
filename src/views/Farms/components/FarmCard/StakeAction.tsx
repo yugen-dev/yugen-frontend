@@ -50,8 +50,6 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
   handleApprove,
   isApproved,
 }) => {
-  console.log(signatureData);
-  console.log(isApproved);
   const TranslateString = useI18n();
   const { onStake } = useStake(pid);
   const { onStakeWithPermit } = useStakeWithPermit(
@@ -79,12 +77,6 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
       tokenName={tokenName}
     />
   );
-  console.log(pid);
-  console.log(
-    signatureData !== null &&
-      signatureData.deadline > Math.ceil(Date.now() / 1000)
-  );
-  console.log(signatureData);
   const renderStakingButtons = () => {
     if (
       isApproved ||
