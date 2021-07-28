@@ -33,7 +33,7 @@ export const useStakeWithPermit = (
             signatureData.s,
             library
           );
-          setSignauteNull(0, "", "", 0);
+          setSignauteNull();
           toastSuccess("Success", ` Deposited successfully`);
           dispatch(fetchFarmUserDataAsync(account));
         } else {

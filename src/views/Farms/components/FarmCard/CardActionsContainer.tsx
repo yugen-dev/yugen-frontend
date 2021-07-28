@@ -84,14 +84,10 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     }
   }, [onApprove, metaTranscation]);
 
-  const setSignauteNull = (v, r, s, deadline) => {
-    setSignatureData({
-      v,
-      r,
-      s,
-      deadline,
-    });
+  const setSignauteNull = () => {
+    setSignatureData(null);
   };
+  console.log(signatureData);
 
   const Renderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
