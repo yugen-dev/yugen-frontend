@@ -43,7 +43,6 @@ const useUnstake = (pid: number) => {
             account,
             library
           );
-          console.log(resp);
           // @ts-ignore
           if (typeof resp !== "undefined" && resp.code === 4001) {
             toastError("canceled", ` signautures rejected`);
@@ -116,7 +115,6 @@ export const useSousUnstake = (sousId) => {
             sousId,
             library
           );
-          console.log(typeof resp !== "undefined" && resp.code === 4001);
           // @ts-ignore
           if (typeof resp !== "undefined" && resp.code === 4001) {
             toastError("canceled", ` signautures rejected`);
@@ -144,7 +142,6 @@ export const useSousUnstake = (sousId) => {
           // toastInfo("canceled...", `cancelled signature `);
           toastError("canceled", ` signautures rejected`);
         } else {
-          console.log(e);
           toastError("Error...", `Failed to withdraw`);
         }
       }
