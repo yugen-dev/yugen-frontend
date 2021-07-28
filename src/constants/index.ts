@@ -40,9 +40,9 @@ export const USDT = new Token(
   "USDT",
   "USDT"
 );
-export const UST = new Token(
+export const USDC = new Token(
   ChainId.MAINNET,
-  web3.utils.toChecksumAddress("0xc946daf81b08146b1c7a8da2a851ddf2b3eaaf85"),
+  web3.utils.toChecksumAddress("0x2791bca1f2de4661ed88a30c99a7a9449aa84174"),
   18,
   "USDC",
   "USDC"
@@ -55,20 +55,19 @@ export const ETH = new Token(
   "ETH"
 );
 
-// export const MAHA = new Token(
-//   ChainId.MATICTESTNET,
-//   web3.utils.toChecksumAddress("0xa22DDedE7118de4589FCC580D829ede5354821DA"),
-//   18,
-//   "MAHA",
-//   "MAHA"
-// );
-
 export const CNT = new Token(
   ChainId.MAINNET,
   web3.utils.toChecksumAddress("0xD1e6354fb05bF72A8909266203dAb80947dcEccF"),
   18,
   "Cryption Network Token",
   "CNT"
+);
+export const BTC = new Token(
+  ChainId.MAINNET,
+  web3.utils.toChecksumAddress("0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6"),
+  8,
+  "WBTC",
+  "WBTC"
 );
 
 const WETH_ONLY: ChainTokenList = {
@@ -79,7 +78,15 @@ const WETH_ONLY: ChainTokenList = {
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ...WETH_ONLY,
-  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDT, UST, ETH, CNT],
+  [ChainId.MAINNET]: [
+    ...WETH_ONLY[ChainId.MAINNET],
+    DAI,
+    BTC,
+    USDT,
+    USDC,
+    ETH,
+    CNT,
+  ],
 };
 
 /**
@@ -95,13 +102,13 @@ export const CUSTOM_BASES: {
 // used for display in the default list when adding liquidity
 export const SUGGESTED_BASES: ChainTokenList = {
   ...WETH_ONLY,
-  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDT, CNT],
+  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, BTC, USDT, CNT, USDC],
 };
 
 // used to construct the list of all pairs we consider by default in the frontend
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   ...WETH_ONLY,
-  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDT, CNT],
+  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDT, USDC, CNT],
 };
 
 export const PINNED_PAIRS: {
@@ -127,8 +134,8 @@ export const PINNED_PAIRS: {
         "Wrapped Matic"
       ),
     ],
-    [CNT, USDT],
-    [DAI, USDT],
+    [CNT, USDC],
+    [DAI, USDC],
   ],
 };
 
