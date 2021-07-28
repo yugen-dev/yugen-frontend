@@ -523,7 +523,7 @@ export default function RemoveLiquidity({
           </RowFixed>
         </RowBetween>
         <RowFixed>
-          <Plus size="16" color={theme.colors.textSubtle} />
+          <Plus size="16" color="white" />
         </RowFixed>
         <RowBetween align="flex-end">
           <Text fontSize="24px">
@@ -539,7 +539,7 @@ export default function RemoveLiquidity({
 
         <Text
           small
-          color="textSubtle"
+          color="#86878F"
           textAlign="left"
           padding="12px 0 0 0"
           style={{ fontStyle: "italic" }}
@@ -556,7 +556,7 @@ export default function RemoveLiquidity({
     return (
       <>
         <RowBetween>
-          <Text color="textSubtle">
+          <Text color="#2082E9">
             {`LP ${currencyA?.symbol}/${currencyB?.symbol}`} Burned
           </Text>
           <RowFixed>
@@ -571,7 +571,7 @@ export default function RemoveLiquidity({
         {pair && (
           <>
             <RowBetween>
-              <Text color="textSubtle">{TranslateString(1182, "Price")}</Text>
+              <Text color="#2082E9">{TranslateString(1182, "Price")}</Text>
               <Text>
                 1 {currencyA?.symbol} ={" "}
                 {tokenA ? pair.priceOf(tokenA).toSignificant(6) : "-"}{" "}

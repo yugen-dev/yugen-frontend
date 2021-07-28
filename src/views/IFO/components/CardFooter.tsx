@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import BigNumber from "bignumber.js";
 import styled from "styled-components";
-import { getBalanceNumber } from "utils/formatBalance";
 import useI18n from "hooks/useI18n";
 import { ChevronDown, ChevronUp } from "react-feather";
 import { Flex, Text, Link } from "cryption-uikit";
@@ -73,9 +72,9 @@ const TokenLink = styled.a`
 
 const CardFooter: React.FC<Props> = ({
   projectLink,
-  decimals,
+  // decimals,
   tokenAddress,
-  totalStaked,
+  // totalStaked,
   // tokenName,
   // tokenDecimals,
   isFinished,

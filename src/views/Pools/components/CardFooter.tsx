@@ -7,7 +7,7 @@ import { ChevronDown, ChevronUp } from "react-feather";
 import { Flex, MetamaskIcon } from "cryption-uikit";
 import Balance from "components/Balance";
 import { CommunityTag, CoreTag, BinanceTag } from "components/Tags";
-import { useBlock } from "state/hooks";
+// import { useBlock } from "state/hooks";
 import { PoolCategory } from "config/constants/types";
 import { registerToken } from "utils/wallet";
 
