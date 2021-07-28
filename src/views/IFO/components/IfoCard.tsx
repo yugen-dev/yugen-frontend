@@ -16,50 +16,54 @@ const IfoCard = () => {
   };
 
   return (
-    <CardContainer>
-      <Card>
-        <LabelContainer>
-          <Label>Project Name</Label>
-          <Text>{ifo.projectName}</Text>
-        </LabelContainer>
+    <MainCardContainer>
+      <CardContainer style={{ marginBottom: "10px" }}>
+        <Card>
+          <LabelContainer>
+            <Label>Project Name</Label>
+            <Text>{ifo.projectName}</Text>
+          </LabelContainer>
 
-        <LabelContainer>
-          <Label>Whitepaper</Label>
-          <Text>{ifo.whitepaper}</Text>
-        </LabelContainer>
+          <LabelContainer>
+            <Label>Whitepaper</Label>
+            <Text>{ifo.whitepaper}</Text>
+          </LabelContainer>
 
-        <LabelContainer>
-          <Label>Circulating Supply</Label>
-          <Text>{ifo.circulatingSupply}</Text>
-        </LabelContainer>
+          <LabelContainer>
+            <Label>Circulating Supply</Label>
+            <Text>{ifo.circulatingSupply}</Text>
+          </LabelContainer>
 
-        <LabelContainer>
-          <Label>Circ. Supply Market Cap</Label>
-          <Text>{ifo.supplyMarketCap}</Text>
-        </LabelContainer>
+          <LabelContainer>
+            <Label>Circ. Supply Market Cap</Label>
+            <Text>{ifo.supplyMarketCap}</Text>
+          </LabelContainer>
+        </Card>
+      </CardContainer>
 
-        <div style={{ margin: "40px 0px" }} />
+      <CardContainer style={{ marginTop: "10px" }}>
+        <Card>
+          <LabelContainer style={{ flexDirection: "column" }}>
+            <Label style={{ marginBottom: "5px", marginRight: "0px" }}>
+              Description
+            </Label>
+            <Text>{ifo.description}</Text>
+          </LabelContainer>
 
-        <LabelContainer style={{ flexDirection: "column" }}>
-          <Label style={{ marginBottom: "5px", marginRight: "0px" }}>
-            Description
-          </Label>
-          <Text>{ifo.description}</Text>
-        </LabelContainer>
-
-        <LabelContainer style={{ marginBottom: "0px" }}>
-          <Label>Socials</Label>
-          <SocialContainer>
-            <TelegramIcon href={ifo.telegram}>
-              <Telegram />
-            </TelegramIcon>
-            <TwitterIcon href={ifo.twitter}>
-              <Twitter />
-            </TwitterIcon>
-          </SocialContainer>
-        </LabelContainer>
-      </Card>
-    </CardContainer>
+          <LabelContainer style={{ marginBottom: "0px" }}>
+            <Label>Socials</Label>
+            <SocialContainer>
+              <TelegramIcon href={ifo.telegram}>
+                <Telegram />
+              </TelegramIcon>
+              <TwitterIcon href={ifo.twitter}>
+                <Twitter />
+              </TwitterIcon>
+            </SocialContainer>
+          </LabelContainer>
+        </Card>
+      </CardContainer>
+    </MainCardContainer>
   );
 };
 
@@ -96,19 +100,25 @@ const Text = styled.div`
 `;
 
 const CardContainer = styled.div`
-  width: 100%;
-  max-width: 400px;
   padding: 1px;
   background: linear-gradient(to bottom, #2082e9, #9208fe);
   border-radius: 15px;
-  margin: 20px;
-  flex: 1;
 `;
 
 const Card = styled.div`
   background-color: #1a1b23;
   border-radius: 15px;
   padding: 40px 27px 27px 27px;
+`;
+
+const MainCardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 400px;
+  margin: 20px;
 `;
 
 export default IfoCard;

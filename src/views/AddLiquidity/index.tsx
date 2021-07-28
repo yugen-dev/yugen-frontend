@@ -64,13 +64,16 @@ import { ROUTER_ADDRESS } from "../../constants";
 import "./index.css";
 
 const ContainerCard = styled(Card)`
-  border-radius: 0.625rem !important;
-  padding: 30px;
-  background-color: #1e202a;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
+border-radius: 0.625rem !important;
+max-width: 700px;
+width: 100%;
+padding: 30px;
+background-color: #1e202a;
+display: flex;
+margin-top: 70px;
+justify-content: center;
+flex-direction: column;
+align-items: center;
 `;
 const TrenasferContainer = styled.div`
   border-radius: 0.625rem !important;

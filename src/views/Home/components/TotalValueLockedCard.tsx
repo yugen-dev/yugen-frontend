@@ -31,6 +31,7 @@ const TotalValueLockedCard = () => {
           <CardValue
             value={data.toNumber()}
             lineHeight="1.5"
+            prefix="$"
             decimals={4}
             color="#2082E9"
           />
