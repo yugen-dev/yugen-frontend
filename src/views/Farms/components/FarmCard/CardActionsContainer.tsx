@@ -5,7 +5,7 @@ import { provider as ProviderType } from "web3-core";
 import Countdown from "react-countdown";
 import { getAddress } from "utils/addressHelpers";
 import { getBep20Contract } from "utils/contractHelpers";
-import { Button, Flex, Text } from "cryption-uikit";
+import { Flex, Text } from "cryption-uikit";
 import { Farm } from "state/types";
 import { useFarmFromSymbol, useFarmUser, useProfile } from "state/hooks";
 import useI18n from "hooks/useI18n";
@@ -137,9 +137,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
   };
 
   const renderApprovalOrStakeButton = () => {
-    return isApproved ||
-      (signatureData !== null &&
-        signatureData.deadline > Math.ceil(Date.now() / 1000)) ? (
+    return (
       <>
         <Flex mt="15px">
           <Text
@@ -161,26 +159,32 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
             {TranslateString(1074, "Staked")}
           </Text>
         </Flex>
-        <StakeAction
-          stakedBalance={stakedBalance}
-          tokenBalance={tokenBalance}
-          tokenName={lpName}
-          pid={pid}
-          addLiquidityUrl={addLiquidityUrl}
-          signatureData={signatureData}
-          setSignauteNull={setSignauteNull}
-        />
+          <StakeAction
+            stakedBalance={stakedBalance}
+            tokenBalance={tokenBalance}
+            tokenName={lpName}
+            pid={pid}
+            addLiquidityUrl={addLiquidityUrl}
+            signatureData={signatureData}
+            setSignauteNull={setSignauteNull}
+            approvalDisabled={requestedApproval}
+            handleApprove={handleApprove}
+            isApproved={isApproved}
+          />
+          {/* :
+          (
+            <Button
+              mt="8px"
+              width="100%"
+              disabled={requestedApproval}
+              onClick={handleApprove}
+            >
+              {TranslateString(758, "Approve")}
+            </Button>
+          )
+        } */}
       </>
-    ) : (
-      <Button
-        mt="8px"
-        width="100%"
-        disabled={requestedApproval}
-        onClick={handleApprove}
-      >
-        {TranslateString(758, "Approve Contract")}
-      </Button>
-    );
+    )
   };
 
   return (
