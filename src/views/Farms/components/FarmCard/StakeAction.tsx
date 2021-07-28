@@ -26,6 +26,9 @@ interface FarmCardActionsProps {
   addLiquidityUrl?: string;
   signatureData?: any;
   setSignauteNull?: any;
+  approvalDisabled?: boolean,
+  handleApprove?: any
+  isApproved?: boolean
 }
 
 const IconButtonWrapper = styled.div`
@@ -43,6 +46,9 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
   addLiquidityUrl,
   signatureData,
   setSignauteNull,
+  approvalDisabled,
+  handleApprove,
+  isApproved
 }) => {
   const TranslateString = useI18n();
   const { onStake } = useStake(pid);
@@ -71,10 +77,20 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
       tokenName={tokenName}
     />
   );
-
   const renderStakingButtons = () => {
+    if (!isApproved) {
+      return (
+        <Button
+          mt="8px"
+          disabled={approvalDisabled}
+          onClick={handleApprove}
+        >
+          {approvalDisabled ? 'Approving...' : 'Approve'}
+        </Button>
+      )
+    }
     return rawStakedBalance === 0 ? (
-      <Button onClick={onPresentDeposit}>
+      <Button onClick={onPresentDeposit} variant="secondary">
         {TranslateString(999, "Stake LP")}
       </Button>
     ) : (
@@ -86,6 +102,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
           <AddIcon color="primary" width="14px" />
         </IconButton>
       </IconButtonWrapper>
+
     );
   };
 

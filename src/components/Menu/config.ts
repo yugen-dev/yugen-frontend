@@ -83,10 +83,10 @@ const config: MenuEntry[] = [
     label: "More",
     icon: "MoreIcon",
     items: [
-      // {
-      //   label: "Voting",
-      //   href: "https://voting.pancakeswap.finance",
-      // },
+      {
+        label: "Audit Report",
+        href: "https://www.certik.org/projects/cryptionnetwork",
+      },
       {
         label: "Github",
         href: "https://github.com/cryption-network",
@@ -100,6 +100,7 @@ const config: MenuEntry[] = [
         label: "Blog",
         href: "https://blog.cryption.network/",
       },
+
     ],
   },
 ];

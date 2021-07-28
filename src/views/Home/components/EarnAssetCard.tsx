@@ -74,6 +74,7 @@ const StyledFarmStakingCard = styled(Card)<{ redirectLink?: boolean }>`
 `;
 const CardMidContent = styled.div<{ descriptionColor?: string }>`
   font-size: 25px;
+  overflow-wrap: break-word;
   font-weight: bold;
   width: 100%;
   color: ${({ descriptionColor }) => descriptionColor || "#2082E9;"};

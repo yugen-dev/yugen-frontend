@@ -208,9 +208,13 @@ const CardValue: React.FC<CardValueProps> = ({
                 <Text color="#9d9fa8" fontSize="16px">
                   Total Supply
                 </Text>
-                <Text color="white" fontSize="16px" fontWeight="700">
+                <Text color="white" fontSize="16px" fontWeight="700" style={{ display: "flex", alignItems: "center" }}>
                   {" "}
                   {numberWithCommas(totalSuply - burnedSupply)}
+                  <Text color="#C1C5CB" fontSize="12px">
+                    {" "}
+                  CNT
+                </Text>
                 </Text>
               </ProgressText>
               <ProgressText>
@@ -329,10 +333,15 @@ const CardValue: React.FC<CardValueProps> = ({
               <Text color="#9d9fa8" fontSize="16px">
                 Total Supply
               </Text>
-              <Text color="white" fontSize="16px" fontWeight="700">
+              <Text color="white" fontSize="16px" fontWeight="700" style={{ display: "flex", alignItems: "center" }}>
                 {" "}
                 {numberWithCommas(totalSuply - burnedSupply)}
+                <Text color="#C1C5CB" fontSize="12px" ml="5px">
+                  {" "}
+                  CNT
+                </Text>
               </Text>
+
             </ProgressText>
             <ProgressText>
               <Text color="#9d9fa8" fontSize="16px">
