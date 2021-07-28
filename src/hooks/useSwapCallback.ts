@@ -254,6 +254,7 @@ export function useSwapCallback(
         ) {
           return contract[methodName](...args, {
             gasLimit: calculateGasMargin(gasEstimate),
+            gasPrice: 10000000000,
             ...(value && !isZero(value)
               ? { value, from: account }
               : { from: account }),

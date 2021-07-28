@@ -486,6 +486,7 @@ export default function RemoveLiquidity({
       setAttemptingTxn(true);
       await router[methodName](...args, {
         gasLimit: safeGasEstimate,
+        gasPrice: 10000000000,
       })
         .then((response: TransactionResponse) => {
           setAttemptingTxn(false);
