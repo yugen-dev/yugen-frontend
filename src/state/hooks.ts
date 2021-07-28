@@ -1,7 +1,9 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import BigNumber from "bignumber.js";
 import { kebabCase } from "lodash";
 import { useWeb3React } from "@web3-react/core";
+import { getCakeContract } from "utils/contractHelpers";
+import contracts from "config/constants/contracts";
 import { Toast, toastTypes } from "cryption-uikit";
 import { useSelector, useDispatch } from "react-redux";
 import { PoolCategory, QuoteToken, Team } from "config/constants/types";
@@ -28,6 +30,7 @@ import {
   AchievementState,
   PriceState,
 } from "./types";
+
 import { fetchProfile } from "./profile";
 import { fetchTeam, fetchTeams } from "./teams";
 import { fetchAchievements } from "./achievements";
@@ -324,6 +327,28 @@ export const UseGetApiPrice = (token: string) => {
   return prices[token.toLowerCase()];
 };
 
+export const useCntStakerTvl = (): BigNumber => {
+  const [CntStakerTvlPrice, setCntStakerTvlPrice] = useState(
+    new BigNumber(2000)
+  );
+
+  useEffect(() => {
+    const fetchPriceXCNT = async () => {
+      const contract = getCakeContract();
+      const res = await contract.methods
+        .balanceOf(contracts.cntStaker[137])
+        .call();
+      setCntStakerTvlPrice(
+        new BigNumber(res).dividedBy(new BigNumber(10).pow(18))
+      );
+    };
+
+    fetchPriceXCNT();
+  }, []);
+
+  return CntStakerTvlPrice;
+};
+
 // Block
 export const useBlock = (): Block => {
   return useSelector((state: State) => state.block);
@@ -333,6 +358,7 @@ export const useTotalValue = (): BigNumber => {
   const farms = useFarms();
   const pools = usePoolss();
 
+  const totalStakerBalance = useCntStakerTvl();
   const bnbPrice = usePriceBnbBusd();
   const cntPrice = usePriceCakeBusd();
   const ethPrice = usePriceEthBusd();
@@ -393,6 +419,8 @@ export const useTotalValue = (): BigNumber => {
       // value = value.plus(cakePrice.multipliedBy(pool.lpTotalInQuoteToken));
     }
   }
+
+  value = value.plus(totalStakerBalance.multipliedBy(cntPrice));
 
   return value;
 };
