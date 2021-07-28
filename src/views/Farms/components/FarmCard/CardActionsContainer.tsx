@@ -87,7 +87,6 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
   const setSignauteNull = () => {
     setSignatureData(null);
   };
-  console.log(signatureData);
 
   const Renderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
