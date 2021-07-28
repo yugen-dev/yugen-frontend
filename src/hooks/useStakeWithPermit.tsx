@@ -17,12 +17,14 @@ export const useStakeWithPermit = (
   const masterChefGaslessContract = useMasterchefGasless();
   const { toastInfo, toastError, toastSuccess } = useToast();
   const { metaTranscation } = useProfile();
+
   const handleStakeWithPermit = useCallback(
     async (amount: string) => {
+      let resp;
       try {
         toastInfo("Processing...", `You requested to Deposited `);
         if (metaTranscation && signatureData !== null) {
-          await GaslessStakeWithPermit(
+          resp = await GaslessStakeWithPermit(
             masterChefGaslessContract,
             pid,
             amount,
@@ -34,7 +36,12 @@ export const useStakeWithPermit = (
             library
           );
           setSignauteNull();
-          toastSuccess("Success", ` Deposited successfully`);
+          // @ts-ignore
+          if (resp.code === 4001) {
+            toastError("canceled", ` signautures rejected`);
+          } else {
+            toastSuccess("Success", ` Deposited successfully`);
+          }
           dispatch(fetchFarmUserDataAsync(account));
         } else {
           await stake(masterChefContract, pid, amount, account);
@@ -44,7 +51,10 @@ export const useStakeWithPermit = (
       } catch (e) {
         if (
           e.message ===
-          "MetaMask Tx Signature: User denied transaction signature."
+            "MetaMask Tx Signature: User denied transaction signature." ||
+          e.message ===
+            "MetaMask Message Signature: User denied message signature." ||
+          e.code === 4001
         ) {
           // toastInfo("canceled...", `cancelled signature `);
           toastError("canceled", ` signautures rejected`);

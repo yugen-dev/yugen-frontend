@@ -16,10 +16,11 @@ export const useStakeWithPermitMultireward = (sousId, signatureData: any) => {
 
   const handleStakeWithPermit = useCallback(
     async (amount: string, decimals: number) => {
+      let resp;
       try {
         toastInfo("Processing...", `You requested to Deposited `);
         if (metaTranscation && signatureData !== null) {
-          await SousStakeGaslessWithPermit(
+          resp = await SousStakeGaslessWithPermit(
             sousChefContractGasless,
             amount,
             decimals,
@@ -29,10 +30,14 @@ export const useStakeWithPermitMultireward = (sousId, signatureData: any) => {
             signatureData.v,
             signatureData.r,
             signatureData.s,
-
             library
           );
-          toastSuccess("Success", ` Deposited successfully`);
+          // @ts-ignore
+          if (resp.code === 4001) {
+            toastError("canceled", ` signautures rejected`);
+          } else {
+            toastSuccess("Success", ` Deposited successfully`);
+          }
           dispatch(updateUserStakedBalance(sousId, account));
           dispatch(updateUserBalance(sousId, account));
         } else {
@@ -44,7 +49,10 @@ export const useStakeWithPermitMultireward = (sousId, signatureData: any) => {
       } catch (e) {
         if (
           e.message ===
-          "MetaMask Tx Signature: User denied transaction signature."
+            "MetaMask Tx Signature: User denied transaction signature." ||
+          e.message ===
+            "MetaMask Message Signature: User denied message signature." ||
+          e.code === 4001
         ) {
           // toastInfo("canceled...", `cancelled signature `);
           toastError("canceled", ` signautures rejected`);

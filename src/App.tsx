@@ -78,9 +78,9 @@ const App: React.FC = () => {
               <Route path="/multirewards">
                 <FarmsMultiRewards />
               </Route>
-              <Route path="/pools">
+              {/* <Route path="/pools">
                 <Pools />
-              </Route>
+              </Route> */}
               <Route exact strict path="/migrate">
                 <Migrate />
               </Route>
