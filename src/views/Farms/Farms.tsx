@@ -22,6 +22,7 @@ import useI18n from "hooks/useI18n";
 import { getBalanceNumber } from "utils/formatBalance";
 import { orderBy } from "lodash";
 import cntMascot from "images/Cryption Network Mascot Farming.png";
+import CountdownTimer from "components/CountdownTimer";
 import FarmCard, { FarmWithStakedValue } from "./components/FarmCard/FarmCard";
 import Table from "./components/FarmTable/FarmTable";
 import FarmTabButtons from "./components/FarmTabButtons";
@@ -455,6 +456,7 @@ const Farms: React.FC = () => {
         <Grid container spacing={3} alignItems="center">
           <Grid item xs={12} md={6} lg={6} xl={6}>
             <CNHeading>Core Farms</CNHeading>
+            <CountdownTimer unixEndTimeInSeconds={1627569000} />
           </Grid>
           <Grid item xs={12} md={6} lg={6} xl={6}>
             <div
