@@ -159,19 +159,19 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
             {TranslateString(1074, "Staked")}
           </Text>
         </Flex>
-          <StakeAction
-            stakedBalance={stakedBalance}
-            tokenBalance={tokenBalance}
-            tokenName={lpName}
-            pid={pid}
-            addLiquidityUrl={addLiquidityUrl}
-            signatureData={signatureData}
-            setSignauteNull={setSignauteNull}
-            approvalDisabled={requestedApproval}
-            handleApprove={handleApprove}
-            isApproved={isApproved}
-          />
-          {/* :
+        <StakeAction
+          stakedBalance={stakedBalance}
+          tokenBalance={tokenBalance}
+          tokenName={lpName}
+          pid={pid}
+          addLiquidityUrl={addLiquidityUrl}
+          signatureData={signatureData}
+          setSignauteNull={setSignauteNull}
+          approvalDisabled={requestedApproval}
+          handleApprove={handleApprove}
+          isApproved={isApproved}
+        />
+        {/* :
           (
             <Button
               mt="8px"
@@ -184,7 +184,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
           )
         } */}
       </>
-    )
+    );
   };
 
   return (
