@@ -169,7 +169,7 @@ export default function MigrationCard({
     if (pairContract) {
       let lpBalance = await pairContract.balanceOf(account);
       lpBalance = web3.utils.fromWei(lpBalance.toString(), "ether");
-      if (lpBalance > 0) {
+      if (parseFloat(lpBalance) > 0) {
         const checkAllowence = await pairContract.allowance(
           account,
           polydexMigratorAddress

@@ -163,7 +163,7 @@ export const usePriceEthBusd = (): BigNumber => {
 
 export const usePriceBtcBusd = (): BigNumber => {
   const pid = 5; // ETH-MATIC LP ,ETH-BNB LP
-  const bnbPriceUSD = usePriceBnbBusd();
+  // const bnbPriceUSD = usePriceBnbBusd();
   const farm = useFarmFromPid(pid);
 
   return farm.tokenPriceVsQuote
@@ -383,7 +383,6 @@ export const useTotalValue = (): BigNumber => {
 
   const totalStakerBalance = useCntStakerTvl();
   const totalHybridstakingCntBalance = useHybridstakingTvl();
-  console.log(totalHybridstakingCntBalance.toNumber());
   const bnbPrice = usePriceBnbBusd();
   const cntPrice = usePriceCakeBusd();
   const ethPrice = usePriceEthBusd();
