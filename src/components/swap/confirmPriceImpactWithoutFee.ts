@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import { Percent } from "@cryption-network/polydex-sdk";
 import {
   ALLOWED_PRICE_IMPACT_HIGH,

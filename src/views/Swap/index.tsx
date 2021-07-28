@@ -148,17 +148,17 @@ const Swap = () => {
 
   const parsedAmounts = showWrap
     ? {
-        [Field.INPUT]: parsedAmount,
-        [Field.OUTPUT]: parsedAmount,
-      }
+      [Field.INPUT]: parsedAmount,
+      [Field.OUTPUT]: parsedAmount,
+    }
     : {
-        [Field.INPUT]:
-          independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
-        [Field.OUTPUT]:
-          independentField === Field.OUTPUT
-            ? parsedAmount
-            : trade?.outputAmount,
-      };
+      [Field.INPUT]:
+        independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+      [Field.OUTPUT]:
+        independentField === Field.OUTPUT
+          ? parsedAmount
+          : trade?.outputAmount,
+    };
 
   const {
     onSwitchTokens,
@@ -211,8 +211,8 @@ const Swap = () => {
   const route = trade?.route;
   const userHasSpecifiedInputOutput = Boolean(
     currencies[Field.INPUT] &&
-      currencies[Field.OUTPUT] &&
-      parsedAmounts[independentField]?.greaterThan(JSBI.BigInt(0))
+    currencies[Field.OUTPUT] &&
+    parsedAmounts[independentField]?.greaterThan(JSBI.BigInt(0))
   );
   const noRoute = !route;
 
@@ -365,11 +365,11 @@ const Swap = () => {
       }}
     >
       <ContainerCard>
-        <TokenWarningModal
+        {false && <TokenWarningModal
           isOpen={urlLoadedTokens.length > 0 && !dismissTokenWarning}
           tokens={urlLoadedTokens}
           onConfirm={handleConfirmTokenWarning}
-        />
+        />}
         <ConfirmSwapModal
           isOpen={showConfirm}
           trade={trade}
@@ -509,8 +509,8 @@ const Swap = () => {
                 (wrapType === WrapType.WRAP
                   ? "Wrap"
                   : wrapType === WrapType.UNWRAP
-                  ? "Unwrap"
-                  : null)}
+                    ? "Unwrap"
+                    : null)}
             </Button>
           ) : noRoute && userHasSpecifiedInputOutput ? (
             <GreyCard style={{ textAlign: "center" }}>
@@ -527,7 +527,7 @@ const Swap = () => {
                 onClick={handleApprove}
                 disabled={requestedApproval}
                 style={{ width: "48%" }}
-                // variant={requestedApproval ? "success" : "primary"}
+              // variant={requestedApproval ? "success" : "primary"}
               >
                 {approval === ApprovalState.PENDING ? (
                   <AutoRow gap="6px" justify="center">
