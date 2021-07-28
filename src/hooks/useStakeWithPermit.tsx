@@ -37,7 +37,7 @@ export const useStakeWithPermit = (
           );
           setSignauteNull();
           // @ts-ignore
-          if (resp.code === 4001) {
+          if (typeof resp !== "undefined" && resp.code === 4001) {
             toastError("canceled", ` signautures rejected`);
           } else {
             toastSuccess("Success", ` Deposited successfully`);

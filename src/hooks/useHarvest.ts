@@ -40,7 +40,7 @@ export const useHarvest = (farmPid: number) => {
           account,
           library
         );
-        if (txHash.code === 4001) {
+        if (typeof txHash !== "undefined" && txHash.code === 4001) {
           toastError("canceled", ` signautures rejected`);
         } else {
           toastSuccess("Success", ` Harvested successfully`);
@@ -106,6 +106,7 @@ export const useSousHarvest = (sousId, isUsingBnb = false) => {
   const { metaTranscation } = useProfile();
 
   const handleHarvest = useCallback(async () => {
+    let resp;
     try {
       toastInfo("Processing...", `You requested to Harvest `);
       if (isUsingBnb) {
@@ -114,12 +115,17 @@ export const useSousHarvest = (sousId, isUsingBnb = false) => {
         dispatch(updateUserPendingReward(sousId, account));
         dispatch(updateUserBalance(sousId, account));
       } else if (metaTranscation) {
-        await soushHarvestGasless(
+        resp = await soushHarvestGasless(
           sousChefContractGasless,
           account,
           sousId,
           library
         );
+        if (typeof resp !== "undefined" && resp.code === 4001) {
+          toastError("canceled", ` signautures rejected`);
+        } else {
+          toastSuccess("Success", ` Harvested successfully`);
+        }
         toastSuccess("Success", ` Harvested successfully`);
         dispatch(updateUserPendingReward(sousId, account));
         dispatch(updateUserBalance(sousId, account));

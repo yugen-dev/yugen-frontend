@@ -123,6 +123,10 @@ const PoolCard: React.FC<HarvestProps> = ({
     deadline: number;
   } | null>(null);
 
+  const setSignauteNull = () => {
+    setSignatureData(null);
+  };
+
   const { account } = useWeb3React("web3");
   const [show, setShow] = useState(false);
   // Pools using native BNB behave differently than pools using a token
@@ -134,7 +138,8 @@ const PoolCard: React.FC<HarvestProps> = ({
   const { onStake } = useSousStake(sousId, isBnbPool);
   const { onStakeWithPermit } = useStakeWithPermitMultireward(
     sousId,
-    signatureData
+    signatureData,
+    setSignauteNull
   );
   const { onUnstake } = useSousUnstake(sousId);
   const { onReward } = useSousHarvest(sousId, isBnbPool);

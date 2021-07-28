@@ -483,6 +483,7 @@ const executeMetaTransaction = async (
       });
   } catch (e) {
     console.error("error");
+    throw new Error("error in transaction");
     return e;
   }
 };
@@ -537,6 +538,7 @@ export const executeMetaTransactionBar = async (
       });
   } catch (e) {
     console.error("error");
+    throw new Error("error in transaction");
     return e;
   }
 };
@@ -598,6 +600,7 @@ export const executeMetaTransactionPools = async (
       });
   } catch (e) {
     console.error("error");
+    throw new Error("error in transaction");
     return e;
   }
 };

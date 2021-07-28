@@ -44,7 +44,7 @@ export const useStake = (pid: number) => {
           );
 
           // @ts-ignore
-          if (resp.code === 4001) {
+          if (typeof resp !== "undefined" && resp.code === 4001) {
             toastError("canceled", ` signautures rejected`);
           } else {
             toastSuccess("Success", ` Deposited successfully`);
@@ -114,8 +114,9 @@ export const useSousStake = (sousId, isUsingBnb = false) => {
             sousId,
             library
           );
+
           // @ts-ignore
-          if (resp.code === 4001) {
+          if (typeof resp !== "undefined" && resp.code === 4001) {
             toastError("canceled", ` signautures rejected`);
           } else {
             toastSuccess("Success", ` Deposited successfully`);

@@ -6,7 +6,11 @@ import { sousStake, SousStakeGaslessWithPermit } from "utils/callHelpers";
 import { useProfile, useToast } from "state/hooks";
 import { useSousChef, useSousChefGasless } from "./useContract";
 
-export const useStakeWithPermitMultireward = (sousId, signatureData: any) => {
+export const useStakeWithPermitMultireward = (
+  sousId,
+  signatureData: any,
+  setSignauteNull: any
+) => {
   const dispatch = useDispatch();
   const { account, library } = useWeb3React("web3");
   const sousChefContract = useSousChef(sousId);
@@ -32,9 +36,12 @@ export const useStakeWithPermitMultireward = (sousId, signatureData: any) => {
             signatureData.s,
             library
           );
+          setSignauteNull();
           // @ts-ignore
-          if (resp.code === 4001) {
-            toastError("canceled", ` signautures rejected`);
+          if (resp.code) {
+            if (resp.code === 4001) {
+              toastError("canceled", ` signautures rejected`);
+            }
           } else {
             toastSuccess("Success", ` Deposited successfully`);
           }
@@ -73,6 +80,7 @@ export const useStakeWithPermitMultireward = (sousId, signatureData: any) => {
       toastInfo,
       toastSuccess,
       toastError,
+      setSignauteNull,
     ]
   );
 

@@ -117,10 +117,15 @@ const PoolCard: React.FC<HarvestProps> = ({
   // const { onApprove } = useApproveStaking();
   /*  const {onEnter} = useEnter();
   const {onLeave} = useLeave(); */
+  const setSignauteNull = () => {
+    setSignatureData(null);
+  };
+
   const { onStake } = useSousStake(sousId, isBnbPool);
   const { onStakeWithPermit } = useStakeWithPermitMultireward(
     sousId,
-    signatureData
+    signatureData,
+    setSignauteNull
   );
   const { onUnstake } = useSousUnstake(sousId);
   const { onReward } = useSousHarvest(sousId, isBnbPool);

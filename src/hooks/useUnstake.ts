@@ -43,8 +43,9 @@ const useUnstake = (pid: number) => {
             account,
             library
           );
+          console.log(resp);
           // @ts-ignore
-          if (resp.code === 4001) {
+          if (typeof resp !== "undefined" && resp.code === 4001) {
             toastError("canceled", ` signautures rejected`);
           } else {
             toastSuccess("Success", ` withdraw successfull`);
@@ -59,7 +60,10 @@ const useUnstake = (pid: number) => {
       } catch (e) {
         if (
           e.message ===
-          "MetaMask Tx Signature: User denied transaction signature."
+            "MetaMask Tx Signature: User denied transaction signature." ||
+          e.message ===
+            "MetaMask Message Signature: User denied message signature." ||
+          e.code === 4001
         ) {
           // toastInfo("canceled...", `cancelled signature `);
           toastError("canceled", ` signautures rejected`);
@@ -112,8 +116,9 @@ export const useSousUnstake = (sousId) => {
             sousId,
             library
           );
+          console.log(typeof resp !== "undefined" && resp.code === 4001);
           // @ts-ignore
-          if (resp.code === 4001) {
+          if (typeof resp !== "undefined" && resp.code === 4001) {
             toastError("canceled", ` signautures rejected`);
           } else {
             toastSuccess("Success", ` withdraw successfull`);
