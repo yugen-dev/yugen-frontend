@@ -563,6 +563,14 @@
       "symbol": "MAHA",
       "decimals": 18,
       "logoURI": "https://assets.coingecko.com/coins/images/13404/small/MAHA_Token.png?1625651604"
+    },
+    {
+      "chainId": 137,
+      "address": "0x4c28f48448720e9000907BC2611F73022fdcE1fA",
+      "name": "wMatic Dfyn",
+      "symbol": "wMatic Dfyn",
+      "decimals": 18,
+      "logoURI": "https://cryptologos.cc/logos/matic-network-matic-logo.svg?v=006"
     }
   ]
 }
