@@ -227,7 +227,7 @@ const CardValue: React.FC<CardValueProps> = ({
                   fontWeight="700"
                   style={{ display: "flex", alignItems: "center" }}
                 >
-                  {numberWithCommas(25920)}
+                  {numberWithCommas(34560 * 1.5)}
                   <Text color="#C1C5CB" fontSize="12px" ml="5px">
                     {" "}
                     CNT
@@ -244,7 +244,7 @@ const CardValue: React.FC<CardValueProps> = ({
                   fontWeight="700"
                   style={{ display: "flex", alignItems: "center" }}
                 >
-                  {numberWithCommas(0.75)}
+                  {numberWithCommas(1.5)}
                   <Text color="#C1C5CB" fontSize="12px" ml="5px">
                     {" "}
                     CNT
@@ -353,7 +353,7 @@ const CardValue: React.FC<CardValueProps> = ({
                 fontWeight="700"
                 style={{ display: "flex", alignItems: "center" }}
               >
-                {numberWithCommas(25920)}
+                {numberWithCommas(34560 * 1.5)}
                 <Text color="#C1C5CB" fontSize="12px" ml="5px">
                   {" "}
                   CNT
@@ -370,7 +370,7 @@ const CardValue: React.FC<CardValueProps> = ({
                 fontWeight="700"
                 style={{ display: "flex", alignItems: "center" }}
               >
-                {numberWithCommas(0.75)}
+                {numberWithCommas(1.5)}
                 <Text color="#C1C5CB" fontSize="12px" ml="5px">
                   {" "}
                   CNT

@@ -92,10 +92,10 @@ const config: MenuEntry[] = [
         href: "https://github.com/cryption-network",
       },
       // hiding bcoz Menu bar will highlight if pointed to home otherwise
-      // {
-      //   label: "Docs",
-      //   href: "/docs",
-      // },
+      {
+        label: "Docs",
+        href: "https://docs.cryption.network/",
+      },
       {
         label: "Blog",
         href: "https://blog.cryption.network/",
