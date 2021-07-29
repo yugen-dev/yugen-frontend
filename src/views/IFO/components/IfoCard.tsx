@@ -190,7 +190,7 @@ const CardContainer = styled.div`
 const Card = styled.div`
   background-color: #1a1b23;
   border-radius: 15px;
-  padding: 40px 27px 27px 27px;
+  padding: 35px 27px 27px 27px;
 `;
 
 const MainCardContainer = styled.div`
