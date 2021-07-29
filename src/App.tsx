@@ -36,7 +36,7 @@ const RemoveLiquidity = lazy(() => import("./views/RemoveLiquidity"));
 // const IFO = lazy(() => import("./views/IFO"));
 
 // const Lottery = lazy(() => import("./views/Lottery"));
-// const Ifos = lazy(() => import("./views/Ifos"));
+// const Ifos = lazy(() => import("./views/IFO"));
 const NotFound = lazy(() => import("./views/NotFound"));
 // const Teams = lazy(() => import("./views/Teams"));
 // const Team = lazy(() => import("./views/Teams/Team"));
@@ -127,8 +127,8 @@ const App: React.FC = () => {
               <Lottery />
             </Route> */}
               {/* <Route path="/ifo">
-              <Ifos />
-            </Route> */}
+                <Ifos />
+              </Route> */}
               {/* <Route path="/collectibles">
               <Collectibles />
             </Route> */}

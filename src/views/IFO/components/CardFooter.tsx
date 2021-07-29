@@ -120,7 +120,7 @@ const CardFooter: React.FC<Props> = ({
               fontSize="16px"
               isDisabled={isFinished}
               color="#3869EE"
-              value={totalLiquidityLocked.toNumber()}
+              value={Number(totalLiquidityLocked)}
             />
           </Row>
           {/* {blocksUntilStart > 0 && (

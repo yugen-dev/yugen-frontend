@@ -9,6 +9,7 @@ import { useQuery } from "@apollo/client";
 import Container from "@material-ui/core/Container";
 import useI18n from "hooks/useI18n";
 import useWeb3 from "hooks/useWeb3";
+import getCntPrice from "utils/getCntPrice";
 import useInterval from "hooks/useInterval";
 import { dayDatasQuery, burnQuery, cntStakerQuery } from "apollo/queries";
 import {
@@ -46,7 +47,15 @@ const Card = styled.div`
 
 const Home: React.FC = () => {
   const [ciculatingSupply, setciculatingSupply] = useState(0);
+  const [valueOfCNTinUSD, setCNTVal] = useState(0);
   const [totalSupplyVal, setTotalSupply] = useState(0);
+  useEffect(() => {
+    const getPrice = async () => {
+      const apiResp = await getCntPrice();
+      setCNTVal(apiResp);
+    };
+    getPrice();
+  }, []);
   const getCirculatingSupply = async () => {
     try {
       const res = await fetch(CNT_CIRCULATING_SUPPLY_LINK);
@@ -179,7 +188,7 @@ const Home: React.FC = () => {
         parseFloat(getCNTStakerInfo.data.cntstaker.totalSupply)) *
         365) /
       (parseFloat(getCNTStakerInfo.data.cntstaker.ratio) *
-        parseFloat(cakePriceUsd.toString()));
+        parseFloat(valueOfCNTinUSD.toString()));
   }
   if (
     burnData &&
@@ -207,10 +216,10 @@ const Home: React.FC = () => {
         [[], []]
       );
     totalFees = parseFloat(dayDatas.data.dayDatas[0].volumeUSD).toFixed(4);
-    lpFees = (parseFloat(dayDatas.data.dayDatas[0].volumeUSD) / 6).toFixed(4);
-    stakerFees = (parseFloat(lpFees) * 0.25).toFixed(4);
-    burnerFees = (parseFloat(lpFees) * 0.65).toFixed(4);
-    devFees = (parseFloat(lpFees) * 0.1).toFixed(4);
+    lpFees = (parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * (5 / 6)).toFixed(4);
+    stakerFees = ((parseFloat(totalFees) / 6) * 0.35).toFixed(4);
+    burnerFees = ((parseFloat(totalFees) / 6) * 0.55).toFixed(4);
+    devFees = ((parseFloat(totalFees) / 6) * 0.1).toFixed(4);
   }
   useInterval(() => Promise.all([getDayData]), 60000);
   return (
@@ -290,7 +299,7 @@ const Home: React.FC = () => {
                 topTitle="Earn"
                 bottomTitle="in Pools"
                 description="CNT, MAHA"
-                redirectLink="/pools"
+                redirectLink="/multirewards"
               />
             </Grid>
             <Grid item xs={12} md={6} lg={6} xl={6}>
