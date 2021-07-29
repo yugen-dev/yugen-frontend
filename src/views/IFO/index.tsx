@@ -45,7 +45,7 @@ const IFO = () => {
     <>
       <Page>
         <Container>
-          <img src={Header} alt="IFO header" />
+          <img src={Header} alt="IFO header" style={{maxHeight: '350px' }}/>
         </Container>
         <PageSubContainer>
           <PoolsContainer>
