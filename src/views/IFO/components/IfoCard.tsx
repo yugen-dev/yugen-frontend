@@ -59,15 +59,19 @@ const IfoCard = () => {
     return res;
   };
 
-  useEffect(() => {
-    const getFunc = async () => {
-      const response = await getIFODetails("mahadao");
-      setFetchValue(() => response);
-    };
+  const getFunc = async () => {
+    const response = await getIFODetails("mahadao");
+    setFetchValue(() => response);
+  };
 
+  useEffect(() => {
+    getFunc();
+  });
+
+  useEffect(() => {
     const repeat = setInterval(() => {
       getFunc();
-    }, 10000);
+    }, 60000);
 
     return () => clearInterval(repeat);
   });
