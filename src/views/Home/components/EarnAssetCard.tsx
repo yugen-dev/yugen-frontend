@@ -80,6 +80,7 @@ const CardMidContent = styled.div<{ descriptionColor?: string }>`
   color: ${({ descriptionColor }) => descriptionColor || "#2082E9;"};
   margin: 20px 0px;
   text-align: left;
+  letter-spacing: 2px;
   text-transform: capitalize;
 `;
 
