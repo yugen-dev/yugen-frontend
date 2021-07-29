@@ -12,7 +12,7 @@ import {
   selectList,
 } from "./actions";
 import reducer, { ListsState } from "./reducer";
-import PANCAKESWAP_DEFAULT_TOKEN_LIST from "../../constants/token/pancakeswap.json";
+import PANCAKESWAP_DEFAULT_TOKEN_LIST from "../../constants/token/polydexlist.json";
 
 const STUB_TOKEN_LIST = {
   name: "",

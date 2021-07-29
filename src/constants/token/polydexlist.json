@@ -1,5 +1,5 @@
 {
-  "name": "pancakeswap",
+  "name": "polydexlist",
   "timestamp": "2020-08-25T15:41:29.665Z",
   "version": {
     "major": 1,
@@ -555,6 +555,14 @@
       "symbol": "TITAN",
       "decimals": 18,
       "logoURI": "https://polygonscan.com/token/images/titan_32.png"
+    },
+    {
+      "chainId": 137,
+      "address": "0xeDd6cA8A4202d4a36611e2fff109648c4863ae19",
+      "name": "MahaDAO",
+      "symbol": "MAHA",
+      "decimals": 18,
+      "logoURI": "https://assets.coingecko.com/coins/images/13404/small/MAHA_Token.png?1625651604"
     }
   ]
 }
