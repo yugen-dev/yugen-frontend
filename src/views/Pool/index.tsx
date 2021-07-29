@@ -96,7 +96,7 @@ export default function Pool() {
           <Button
             id="join-pool-button"
             as={Link}
-            to="/add/0x766F03e47674608cCcF7414f6c4DDF3d963Ae394/0xD89a2E56B778AEfe719fc86E122B7db752Bb6B41"
+            to="/add/ETH/0xD1e6354fb05bF72A8909266203dAb80947dcEccF"
             className="add-liquidity"
           >
             {TranslateString(168, "Add Liquidity")}

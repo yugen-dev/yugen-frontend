@@ -26,9 +26,9 @@ interface FarmCardActionsProps {
   addLiquidityUrl?: string;
   signatureData?: any;
   setSignauteNull?: any;
-  approvalDisabled?: boolean,
-  handleApprove?: any
-  isApproved?: boolean
+  approvalDisabled?: boolean;
+  handleApprove?: any;
+  isApproved?: boolean;
 }
 
 const IconButtonWrapper = styled.div`
@@ -48,7 +48,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
   setSignauteNull,
   approvalDisabled,
   handleApprove,
-  isApproved
+  isApproved,
 }) => {
   const TranslateString = useI18n();
   const { onStake } = useStake(pid);
@@ -78,31 +78,39 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
     />
   );
   const renderStakingButtons = () => {
-    if (!isApproved) {
-      return (
-        <Button
-          mt="8px"
-          disabled={approvalDisabled}
-          onClick={handleApprove}
-        >
-          {approvalDisabled ? 'Approving...' : 'Approve'}
+    if (
+      isApproved ||
+      (signatureData !== null &&
+        signatureData.deadline > Math.ceil(Date.now() / 1000))
+    ) {
+      return rawStakedBalance === 0 ? (
+        <Button onClick={onPresentDeposit} variant="secondary">
+          {TranslateString(999, "Stake LP")}
         </Button>
-      )
+      ) : (
+        <IconButtonWrapper>
+          <IconButton variant="tertiary" onClick={onPresentWithdraw} mr="6px">
+            <MinusIcon color="primary" width="14px" />
+          </IconButton>
+          <IconButton variant="tertiary" onClick={onPresentDeposit}>
+            <AddIcon color="primary" width="14px" />
+          </IconButton>
+        </IconButtonWrapper>
+      );
     }
-    return rawStakedBalance === 0 ? (
-      <Button onClick={onPresentDeposit} variant="secondary">
-        {TranslateString(999, "Stake LP")}
-      </Button>
-    ) : (
-      <IconButtonWrapper>
-        <IconButton variant="tertiary" onClick={onPresentWithdraw} mr="6px">
-          <MinusIcon color="primary" width="14px" />
-        </IconButton>
-        <IconButton variant="tertiary" onClick={onPresentDeposit}>
-          <AddIcon color="primary" width="14px" />
-        </IconButton>
-      </IconButtonWrapper>
 
+    // if(signatureData !== null && signatureData.deadline < Math.ceil(Date.now() / 1000)){
+    //   return (
+    //     <Button mt="8px" disabled={approvalDisabled} onClick={handleApprove}>
+    //       {approvalDisabled ? "Approving..." : "Approve"}
+    //     </Button>
+    //   );
+    // }
+
+    return (
+      <Button mt="8px" disabled={approvalDisabled} onClick={handleApprove}>
+        {approvalDisabled ? "Approving..." : "Approve"}
+      </Button>
     );
   };
 

@@ -15,7 +15,7 @@ import {
   removeList,
   selectList,
 } from "./actions";
-import DEFAULT_LIST from "../../constants/token/pancakeswap.json";
+import DEFAULT_LIST from "../../constants/token/polydexlist.json";
 
 export interface ListsState {
   readonly byUrl: {
