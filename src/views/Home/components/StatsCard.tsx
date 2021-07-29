@@ -285,17 +285,6 @@ const CardValue: React.FC<CardValueProps> = ({
                   </Text>
                 </ProgressText>
               )}
-              {stakerFees && (
-                <ProgressText>
-                  <Text color="#C1C5CB" fontSize="16x">
-                    Staker Distrubution
-                  </Text>
-                  <Text color="white" fontSize="16px" fontWeight="700">
-                    {" "}
-                    ${stakerFees}{" "}
-                  </Text>
-                </ProgressText>
-              )}
               {burnerFees && (
                 <ProgressText>
                   <Text color="#C1C5CB" fontSize="16px">
@@ -304,6 +293,17 @@ const CardValue: React.FC<CardValueProps> = ({
                   <Text color="white" fontSize="16px" fontWeight="700">
                     {" "}
                     ${burnerFees}{" "}
+                  </Text>
+                </ProgressText>
+              )}
+              {stakerFees && (
+                <ProgressText>
+                  <Text color="#C1C5CB" fontSize="16x">
+                    Staker Distrubution
+                  </Text>
+                  <Text color="white" fontSize="16px" fontWeight="700">
+                    {" "}
+                    ${stakerFees}{" "}
                   </Text>
                 </ProgressText>
               )}
@@ -408,17 +408,6 @@ const CardValue: React.FC<CardValueProps> = ({
                 </Text>
               </ProgressText>
             )}
-            {stakerFees && (
-              <ProgressText>
-                <Text color="#C1C5CB" fontSize="16x">
-                  Staker Distrubution
-                </Text>
-                <Text color="white" fontSize="16px" fontWeight="700">
-                  {" "}
-                  ${stakerFees}{" "}
-                </Text>
-              </ProgressText>
-            )}
             {burnerFees && (
               <ProgressText>
                 <Text color="#C1C5CB" fontSize="16px">
@@ -427,6 +416,17 @@ const CardValue: React.FC<CardValueProps> = ({
                 <Text color="white" fontSize="16px" fontWeight="700">
                   {" "}
                   ${burnerFees}{" "}
+                </Text>
+              </ProgressText>
+            )}
+            {stakerFees && (
+              <ProgressText>
+                <Text color="#C1C5CB" fontSize="16x">
+                  Staker Distrubution
+                </Text>
+                <Text color="white" fontSize="16px" fontWeight="700">
+                  {" "}
+                  ${stakerFees}{" "}
                 </Text>
               </ProgressText>
             )}
