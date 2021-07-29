@@ -235,13 +235,22 @@ const Farms: React.FC = () => {
           ) {
             apy = cakePriceVsBNB
               .times(cakeRewardPerYear)
-              .div(farm.lpTotalInQuoteToken)
+              .div(new BigNumber(farm.tokenAmount).plus(farm.quoteTokenAmount))
               .times(bnbPrice);
           } else if (farm.quoteTokenSymbol === QuoteToken.ETH) {
             apy = cakePrice
               .div(ethPriceUsd)
               .times(cakeRewardPerYear)
               .div(farm.lpTotalInQuoteToken);
+          } else if (farm.quoteTokenSymbol === QuoteToken.BTC) {
+            const usdcBTCAmt = new BigNumber(farm.tokenAmount).div(btcPriceUsd);
+            const totalTokensInLp = new BigNumber(farm.quoteTokenAmount).plus(
+              usdcBTCAmt
+            );
+            apy = cakePrice
+              .div(btcPriceUsd)
+              .times(cakeRewardPerYear)
+              .div(totalTokensInLp);
           } else if (farm.quoteTokenSymbol === QuoteToken.CAKE) {
             apy = cakeRewardPerYear.div(farm.lpTotalInQuoteToken);
           } else if (farm.dual) {
@@ -277,6 +286,12 @@ const Farms: React.FC = () => {
             liquidity = ethPriceUsd.times(farm.lpTotalInQuoteToken);
           }
 
+          if (farm.quoteTokenSymbol === QuoteToken.BTC) {
+            liquidity = btcPriceUsd
+              .times(farm.quoteTokenAmount)
+              .plus(new BigNumber(farm.tokenAmount));
+          }
+
           return { ...farm, apy, liquidity };
         }
       );
@@ -295,7 +310,7 @@ const Farms: React.FC = () => {
       }
       return farmsToDisplayWithAPY;
     },
-    [bnbPrice, farmsLP, query, cakePrice, ethPriceUsd]
+    [bnbPrice, farmsLP, query, cakePrice, ethPriceUsd, btcPriceUsd]
   );
 
   const handleChangeQuery = (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -5,7 +5,7 @@ BigNumber.config({
   DECIMAL_PLACES: 80,
 });
 
-export const CAKE_PER_BLOCK = new BigNumber(1);
+export const CAKE_PER_BLOCK = new BigNumber(1.5);
 export const BLOCKS_PER_YEAR = new BigNumber(15768000);
 export const BSC_BLOCK_TIME = 2.1;
 export const CAKE_POOL_PID = 0;
@@ -23,6 +23,9 @@ export const ETHERJS_PATHS = [
   "/migrate",
   "/migrate/find",
 ];
-export const CNTinUSDLink = "https://api.coingecko.com/api/v3/simple/price?ids=cryption-network&vs_currencies=USD";
-export const CNT_CIRCULATING_SUPPLY_LINK = "https://api.cryption.network/circulating-supply"
-export const CNT_TOTAL_SUPPLY_LINK = "https://api.cryption.network/total-supply"
+export const CNTinUSDLink =
+  "https://api.coingecko.com/api/v3/simple/price?ids=cryption-network&vs_currencies=USD";
+export const CNT_CIRCULATING_SUPPLY_LINK =
+  "https://api.cryption.network/circulating-supply";
+export const CNT_TOTAL_SUPPLY_LINK =
+  "https://api.cryption.network/total-supply";
