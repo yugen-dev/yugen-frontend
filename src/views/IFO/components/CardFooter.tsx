@@ -87,7 +87,7 @@ const CardFooter: React.FC<Props> = ({
   const [isOpen, setIsOpen] = useState(false);
   const TranslateString = useI18n();
   const Icon = isOpen ? ChevronUp : ChevronDown;
-  const maticExplorerAddress = `https://mumbai.polygonscan.com/address/${tokenAddress}`;
+  const maticExplorerAddress = `https://polygonscan.com/address/${tokenAddress}`;
 
   const handleClick = () => setIsOpen(!isOpen);
 
