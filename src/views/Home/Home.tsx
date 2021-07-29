@@ -20,7 +20,13 @@ import {
   CNT_TOTAL_SUPPLY_LINK,
 } from "config";
 import { getDayData } from "apollo/exchange";
-import { useFarms, usePriceBnbBusd, usePriceCakeBusd } from "state/hooks";
+import {
+  useFarms,
+  usePriceBnbBusd,
+  usePriceBtcBusd,
+  usePriceCakeBusd,
+  usePriceEthBusd,
+} from "state/hooks";
 
 import FarmStakingCard from "views/Home/components/FarmStakingCard";
 import LotteryCard from "views/Home/components/LotteryCard";
@@ -78,11 +84,13 @@ const Home: React.FC = () => {
   };
   useEffect(() => {
     getCirculatingSupply();
-    getTotalSupply()
+    getTotalSupply();
   }, []);
 
   const cakePriceUsd = usePriceCakeBusd();
   const farmsLP = useFarms();
+  const ethPriceUsd = usePriceEthBusd();
+  const btcPriceUsd = usePriceBtcBusd();
   let totalBurned = 0;
   let liquidity = [];
   let totalFees = "";
@@ -112,7 +120,7 @@ const Home: React.FC = () => {
     (farmsToDisplay) => {
       const cakePriceVsBNB = new BigNumber(
         farmsLP.find((farm) => farm.pid === CAKE_POOL_PID)?.tokenPriceVsQuote ||
-        0
+          0
       );
 
       farmsToDisplay.map((farm) => {
@@ -129,11 +137,28 @@ const Home: React.FC = () => {
         let apy = cakePriceVsBNB
           .times(cakeRewardPerYear)
           .div(farm.lpTotalInQuoteToken);
-        if (farm.quoteTokenSymbol === QuoteToken.BUSD) {
+        if (
+          farm.quoteTokenSymbol === QuoteToken.BUSD ||
+          farm.quoteTokenSymbol === QuoteToken.UST
+        ) {
           apy = cakePriceVsBNB
             .times(cakeRewardPerYear)
-            .div(farm.lpTotalInQuoteToken)
+            .div(new BigNumber(farm.tokenAmount).plus(farm.quoteTokenAmount))
             .times(bnbPrice);
+        } else if (farm.quoteTokenSymbol === QuoteToken.ETH) {
+          apy = cakePriceUsd
+            .div(ethPriceUsd)
+            .times(cakeRewardPerYear)
+            .div(farm.lpTotalInQuoteToken);
+        } else if (farm.quoteTokenSymbol === QuoteToken.BTC) {
+          const usdcBTCAmt = new BigNumber(farm.tokenAmount).div(btcPriceUsd);
+          const totalTokensInLp = new BigNumber(farm.quoteTokenAmount).plus(
+            usdcBTCAmt
+          );
+          apy = cakePriceUsd
+            .div(btcPriceUsd)
+            .times(cakeRewardPerYear)
+            .div(totalTokensInLp);
         } else if (farm.quoteTokenSymbol === QuoteToken.CAKE) {
           apy = cakeRewardPerYear.div(farm.lpTotalInQuoteToken);
         } else if (farm.dual) {
@@ -157,7 +182,7 @@ const Home: React.FC = () => {
         return apy;
       });
     },
-    [bnbPrice, farmsLP]
+    [bnbPrice, farmsLP, cakePriceUsd, ethPriceUsd, btcPriceUsd]
   );
   const dayDatas = useQuery(dayDatasQuery, {
     context: {
@@ -196,7 +221,9 @@ const Home: React.FC = () => {
     burnData.data.cntBurns &&
     burnData.data.cntBurns.length > 0
   ) {
-    totalBurned = parseFloat(web3.utils.fromWei(burnData.data.cntBurns[0].amount, "ether"));
+    totalBurned = parseFloat(
+      web3.utils.fromWei(burnData.data.cntBurns[0].amount, "ether")
+    );
   }
   if (dayDatas && dayDatas.data && dayDatas.data.dayDatas) {
     [liquidity] = dayDatas.data.dayDatas
@@ -216,7 +243,10 @@ const Home: React.FC = () => {
         [[], []]
       );
     totalFees = parseFloat(dayDatas.data.dayDatas[0].volumeUSD).toFixed(4);
-    lpFees = (parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * (5 / 6)).toFixed(4);
+    lpFees = (
+      parseFloat(dayDatas.data.dayDatas[0].volumeUSD) *
+      (5 / 6)
+    ).toFixed(4);
     stakerFees = ((parseFloat(totalFees) / 6) * 0.35).toFixed(4);
     burnerFees = ((parseFloat(totalFees) / 6) * 0.55).toFixed(4);
     devFees = ((parseFloat(totalFees) / 6) * 0.1).toFixed(4);
