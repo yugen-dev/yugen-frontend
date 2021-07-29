@@ -19,7 +19,7 @@ const Loader = ({ value }) => {
 const Text = styled.div`
   color: #86878f;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 15px;
   width: 100%;
   text-align: left;
 `;
