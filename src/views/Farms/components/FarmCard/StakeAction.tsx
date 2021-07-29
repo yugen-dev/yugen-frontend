@@ -77,7 +77,6 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
       tokenName={tokenName}
     />
   );
-
   const renderStakingButtons = () => {
     if (
       isApproved ||
