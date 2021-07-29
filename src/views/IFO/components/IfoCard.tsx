@@ -87,6 +87,11 @@ const IfoCard = () => {
           </LabelContainer>
 
           <LabelContainer>
+            <Label>Price</Label>
+            <Loader value={fetchValue.currPrice} />
+          </LabelContainer>
+
+          <LabelContainer>
             <Label>Circulating Supply</Label>
             <Loader value={fetchValue.circSupply} />
           </LabelContainer>
@@ -158,7 +163,7 @@ const LabelContainer = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 `;
 const Label = styled.div`
   color: #f5f5f5;
