@@ -1,62 +1,139 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import BigNumber from "bignumber.js";
+import CoinGecko from "coingecko-api";
 import styled from "styled-components";
 import Telegram from "../icons/Telegram";
 import Twitter from "../icons/Twitter";
+import Loader from "./Loader";
 
 const IfoCard = () => {
+  const [fetchValue, setFetchValue] = useState({
+    currPrice: "",
+    marketCap: "",
+    circSupply: "",
+    totalSupply: "",
+    desc: "",
+    name: "",
+    symbol: "",
+    telegram: "",
+    twitter: "",
+  });
+
+  const CoinGeckoClient = new CoinGecko();
   const ifo = {
     projectName: "MahaDAO",
-    whitepaper: "6.68583 DOT / BNB",
-    circulatingSupply: "6.68583 DOT / BNB",
-    supplyMarketCap: "6.68583 DOT / BNB",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type",
-    twitter: "",
-    telegram: "",
+    whitepaper: "https://docs.arthcoin.com/",
   };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const getIFODetails = async (crypto: any) => {
+    const result = await CoinGeckoClient.coins.fetch(
+      crypto.toLocaleLowerCase(),
+      {}
+    );
+    const currPrice = new BigNumber(
+      result.data?.market_data?.current_price?.usd
+    );
+    const marketCap = new BigNumber(result.data?.market_data?.market_cap?.usd);
+    const circSupply = new BigNumber(
+      result.data?.market_data?.circulating_supply
+    );
+    const totalSupply = new BigNumber(result.data?.market_data?.total_supply);
+    const desc: string = result.data?.description?.en;
+    const name = result.data?.name;
+    const symbol = result.data?.symbol;
+    const twitter = result.data?.links?.twitter_screen_name;
+    const telegram = result.data?.links?.telegram_channel_identifier;
+
+    const res = {
+      currPrice: Number(currPrice).toFixed(2).toString(),
+      marketCap: Number(marketCap).toFixed(2).toString(),
+      circSupply: Number(circSupply).toFixed(2).toString(),
+      totalSupply: Number(totalSupply).toFixed(2).toString(),
+      desc,
+      name,
+      symbol,
+      twitter,
+      telegram,
+    };
+    return res;
+  };
+
+  useEffect(() => {
+    const getFunc = async () => {
+      const response = await getIFODetails("mahadao");
+      setFetchValue(() => response);
+    };
+
+    const repeat = setInterval(() => {
+      getFunc();
+    }, 10000);
+
+    return () => clearInterval(repeat);
+  });
 
   return (
     <MainCardContainer>
-      <CardContainer style={{ marginBottom: "10px" }}>
+      <CardContainer style={{ marginBottom: "1px" }}>
         <Card>
           <LabelContainer>
             <Label>Project Name</Label>
-            <Text>{ifo.projectName}</Text>
+            <Loader value={fetchValue.name} />
           </LabelContainer>
 
           <LabelContainer>
-            <Label>Whitepaper</Label>
-            <Text>{ifo.whitepaper}</Text>
+            <Label>Symbol</Label>
+            <Loader value={fetchValue.symbol} />
           </LabelContainer>
 
           <LabelContainer>
             <Label>Circulating Supply</Label>
-            <Text>{ifo.circulatingSupply}</Text>
+            <Loader value={fetchValue.circSupply} />
           </LabelContainer>
 
           <LabelContainer>
-            <Label>Circ. Supply Market Cap</Label>
-            <Text>{ifo.supplyMarketCap}</Text>
+            <Label>Total Supply</Label>
+            <Loader value={fetchValue.totalSupply} />
+          </LabelContainer>
+          <LabelContainer style={{ marginBottom: "0px" }}>
+            <Label>Market Cap</Label>
+            <Loader value={fetchValue.marketCap} />
           </LabelContainer>
         </Card>
       </CardContainer>
 
-      <CardContainer style={{ marginTop: "10px" }}>
+      <CardContainer style={{ marginTop: "1px" }}>
         <Card>
+          <LabelContainer>
+            <a href={ifo.whitepaper} target="_blank" rel="noreferrer">
+              <Label>Go to White Paper</Label>
+            </a>
+          </LabelContainer>
+
           <LabelContainer style={{ flexDirection: "column" }}>
             <Label style={{ marginBottom: "5px", marginRight: "0px" }}>
               Description
             </Label>
-            <Text>{ifo.description}</Text>
+            {fetchValue.desc === "" ? (
+              <Text>Loading...</Text>
+            ) : (
+              <Text>{fetchValue.desc}</Text>
+            )}
           </LabelContainer>
 
           <LabelContainer style={{ marginBottom: "0px" }}>
             <Label>Socials</Label>
             <SocialContainer>
-              <TelegramIcon href={ifo.telegram}>
+              <TelegramIcon
+                href={`https://t.me/${fetchValue.telegram}`}
+                target="_blank"
+              >
                 <Telegram />
               </TelegramIcon>
-              <TwitterIcon href={ifo.twitter}>
+              <TwitterIcon
+                href={`https://twitter.com/${fetchValue.twitter}`}
+                target="_blank"
+              >
                 <Twitter />
               </TwitterIcon>
             </SocialContainer>
