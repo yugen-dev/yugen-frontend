@@ -23,7 +23,7 @@ const pools: PoolConfig[] = [
       "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
       "0xeDd6cA8A4202d4a36611e2fff109648c4863ae19", // maha
     ],
-    multiRewardTokenPerBlock: ["0.01", "0.02"],
+    multiRewardTokenPerBlock: ["0.0289351852", "0.0289351852"],
     harvest: true,
     tokenPerBlock: "1",
     sortOrder: 999,

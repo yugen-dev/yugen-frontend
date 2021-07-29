@@ -21,6 +21,7 @@ import { GreyCard } from "components/Card";
 import ConfirmSwapModal from "components/swap/ConfirmSwapModal";
 import CurrencyInputPanel from "components/CurrencyInputPanel";
 import CardNav from "components/CardNav";
+import { useCurrencyBalance } from "state/wallet/hooks";
 import { AutoRow, RowBetween } from "components/Row";
 import AdvancedSwapDetailsDropdown from "components/swap/AdvancedSwapDetailsDropdown";
 import confirmPriceImpactWithoutFee from "components/swap/confirmPriceImpactWithoutFee";
@@ -254,6 +255,14 @@ const Swap = () => {
   const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(
     currencyBalances[Field.INPUT]
   );
+  const selectedCurrencyInputBalance = useCurrencyBalance(
+    account ?? undefined,
+    currencies[Field.INPUT] ?? undefined
+  );
+  // const selectedCurrencyOutputBalance = useCurrencyBalance(
+  //   account ?? undefined,
+  //   currencies[Field.OUTPUT] ?? undefined
+  // );
   const atMaxAmountInput = Boolean(
     maxAmountInput && parsedAmounts[Field.INPUT]?.equalTo(maxAmountInput)
   );
@@ -344,10 +353,10 @@ const Swap = () => {
   );
 
   const handleMaxInput = useCallback(() => {
-    if (maxAmountInput) {
-      onUserInput(Field.INPUT, maxAmountInput.toExact());
+    if (selectedCurrencyInputBalance) {
+      onUserInput(Field.INPUT, selectedCurrencyInputBalance.toSignificant(6));
     }
-  }, [maxAmountInput, onUserInput]);
+  }, [selectedCurrencyInputBalance, onUserInput]);
 
   const handleOutputSelect = useCallback(
     (outputCurrency) => {
