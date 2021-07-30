@@ -120,7 +120,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
   };
 
   return (
-    <div>
+    <div style={{ textAlign: 'left' }}>
       <Flex justifyContent="space-between" alignItems="center">
         <Heading color={rawStakedBalance === 0 ? "textDisabled" : "text"}>
           {displayBalance}
