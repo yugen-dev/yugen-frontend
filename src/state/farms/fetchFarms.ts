@@ -99,6 +99,7 @@ const fetchFarms = async () => {
         poolWeight: poolWeight.toJSON(),
         multiplier: `${allocPoint.div(100).toString()}X`,
         poolHarvestInterval: poolHarvestInterval.toString(),
+        lpTotalSupply: lpTokenBalanceMC,
       };
     })
   );

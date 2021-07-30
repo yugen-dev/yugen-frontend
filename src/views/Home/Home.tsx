@@ -326,7 +326,7 @@ const Home: React.FC = () => {
             <Grid item xs={12} md={6} lg={6} xl={6}>
               <EarnAssetCard
                 topTitle="Earn"
-                bottomTitle="in Multrewards"
+                bottomTitle="in Farms "
                 description="CNT, MAHA"
                 redirectLink="/multirewards"
               />

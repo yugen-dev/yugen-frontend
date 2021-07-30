@@ -10,11 +10,13 @@ import {
   MinusIcon,
   useModal,
 } from "cryption-uikit";
+
 import useI18n from "hooks/useI18n";
 import { useStake } from "hooks/useStake";
 import { useStakeWithPermit } from "hooks/useStakeWithPermit";
 import useUnstake from "hooks/useUnstake";
 import { getBalanceNumber } from "utils/formatBalance";
+import { Subtle } from "../FarmTable/Actions/styles";
 import DepositModal from "../DepositModal";
 import WithdrawModal from "../WithdrawModal";
 
@@ -29,6 +31,7 @@ interface FarmCardActionsProps {
   approvalDisabled?: boolean;
   handleApprove?: any;
   isApproved?: boolean;
+  totalValueOfUserFormated?: string;
 }
 
 const IconButtonWrapper = styled.div`
@@ -49,6 +52,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
   approvalDisabled,
   handleApprove,
   isApproved,
+  totalValueOfUserFormated,
 }) => {
   const TranslateString = useI18n();
   const { onStake } = useStake(pid);
@@ -60,6 +64,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
   const { onUnstake } = useUnstake(pid);
 
   const rawStakedBalance = getBalanceNumber(stakedBalance);
+
   const displayBalance = rawStakedBalance.toLocaleString();
 
   const [onPresentDeposit] = useModal(
@@ -115,12 +120,19 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
   };
 
   return (
-    <Flex justifyContent="space-between" alignItems="center">
-      <Heading color={rawStakedBalance === 0 ? "textDisabled" : "text"}>
-        {displayBalance}
-      </Heading>
-      {renderStakingButtons()}
-    </Flex>
+    <div>
+      <Flex justifyContent="space-between" alignItems="center">
+        <Heading color={rawStakedBalance === 0 ? "textDisabled" : "text"}>
+          {displayBalance}
+        </Heading>
+
+        {renderStakingButtons()}
+      </Flex>
+      <Subtle style={{ alignSelf: "flex-start" }}>
+        {" "}
+        {totalValueOfUserFormated}
+      </Subtle>
+    </div>
   );
 };
 

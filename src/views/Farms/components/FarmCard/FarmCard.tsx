@@ -146,8 +146,8 @@ const FarmCard: React.FC<FarmCardProps> = ({
 
   const totalValueFormated = totalValue
     ? `$${Number(totalValue).toLocaleString(undefined, {
-      maximumFractionDigits: 2,
-    })}`
+        maximumFractionDigits: 2,
+      })}`
     : "-";
 
   const lpLabel =
@@ -222,7 +222,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
                       apy={farm.apy}
                     />
                   )}
-                  <span style={{ letterSpacing: '1px' }}>{farmAPY}%</span>
+                  <span style={{ letterSpacing: "1px" }}>{farmAPY}%</span>
                 </>
               ) : (
                 <Skeleton height={24} width={80} />
@@ -244,8 +244,8 @@ const FarmCard: React.FC<FarmCardProps> = ({
               ? `${poolHarvestIntervalinHours.toString()} Hours`
               : ""}
             {!isDaysGreater &&
-              !isHoursGreater &&
-              poolHarvestIntervalinMinutes > 0
+            !isHoursGreater &&
+            poolHarvestIntervalinMinutes > 0
               ? `${poolHarvestIntervalinMinutes.toString()} Minutes`
               : ""}
           </Text>
@@ -255,6 +255,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
           farm={farm}
           account={account}
           addLiquidityUrl={addLiquidityUrl}
+          totalValue={totalValue}
         />
       </div>
       <ExpandableSectionButton
@@ -264,8 +265,9 @@ const FarmCard: React.FC<FarmCardProps> = ({
       <ExpandingWrapper expanded={showExpandableSection}>
         <DetailsSection
           removed={removed}
-          maticExplorerAddress={`https://polygonscan.com/address/${farm.lpAddresses[process.env.REACT_APP_CHAIN_ID]
-            }`}
+          maticExplorerAddress={`https://polygonscan.com/address/${
+            farm.lpAddresses[process.env.REACT_APP_CHAIN_ID]
+          }`}
           totalValueFormated={totalValueFormated}
           lpLabel={lpLabel}
           addLiquidityUrl={addLiquidityUrl}

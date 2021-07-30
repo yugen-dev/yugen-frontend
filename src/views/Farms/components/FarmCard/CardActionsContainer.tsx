@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import BigNumber from "bignumber.js";
 import styled from "styled-components";
 import { provider as ProviderType } from "web3-core";
@@ -27,12 +27,14 @@ interface FarmCardActionsProps {
   provider?: ProviderType;
   account?: string;
   addLiquidityUrl?: string;
+  totalValue?: BigNumber;
 }
 
 const CardActions: React.FC<FarmCardActionsProps> = ({
   farm,
   account,
   addLiquidityUrl,
+  totalValue,
 }) => {
   const TranslateString = useI18n();
   const [requestedApproval, setRequestedApproval] = useState(false);
@@ -50,6 +52,32 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
   const lpName = farm.lpSymbol.toUpperCase();
   const isApproved = account && allowance && allowance.isGreaterThan(0);
   const web3 = useWeb3();
+
+  const totalValueOfUser: BigNumber = useMemo(() => {
+    if (!account) {
+      return null;
+    }
+    if (!stakedBalance) {
+      return null;
+    }
+    if (!farm.lpTotalInQuoteToken) {
+      return null;
+    }
+
+    return totalValue.times(stakedBalance).div(farm.lpTotalSupply);
+  }, [
+    totalValue,
+    stakedBalance,
+    farm.lpTotalInQuoteToken,
+    account,
+    farm.lpTotalSupply,
+  ]);
+
+  const totalValueOfUserFormated = totalValueOfUser
+    ? `$${Number(totalValueOfUser).toLocaleString(undefined, {
+        maximumFractionDigits: 2,
+      })}`
+    : "-";
 
   const lpContract = getBep20Contract(lpAddress, web3);
 
@@ -170,6 +198,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
           approvalDisabled={requestedApproval}
           handleApprove={handleApprove}
           isApproved={isApproved}
+          totalValueOfUserFormated={totalValueOfUserFormated}
         />
         {/* :
           (
