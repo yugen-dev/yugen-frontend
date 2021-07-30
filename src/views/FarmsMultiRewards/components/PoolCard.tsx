@@ -173,7 +173,7 @@ const PoolCard: React.FC<HarvestProps> = ({
   pool.multiRewardTokenPerBlock.forEach(async (element, i) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const tokenPrice = UseGetApiPrice(pool.coinGeckoIds[i].toLowerCase());
-
+    // console.log(tokenPrice);
     // eslint-disable-next-line  no-nested-ternary
     const rewardTokenPrice = tokenPrice
       ? new BigNumber(tokenPrice)

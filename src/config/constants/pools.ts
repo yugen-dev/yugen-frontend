@@ -4,7 +4,7 @@ const pools: PoolConfig[] = [
   {
     sousId: 0,
     tokenName: "MAHA-CNT",
-    tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
+    tokenAdressInLp: "0xeDd6cA8A4202d4a36611e2fff109648c4863ae19",
     tokenAddress: "0x577aa7cAcBAd94cC0cC12a17209570a1D06bda3A", // maha
     stakingTokenName: QuoteToken.LP,
     quoteTokenSymbol: QuoteToken.CNT,

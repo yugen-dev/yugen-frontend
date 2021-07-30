@@ -4,7 +4,7 @@ import { ApolloProvider } from "@apollo/client";
 import { ResetCSS } from "cryption-uikit";
 import BigNumber from "bignumber.js";
 import useEagerConnect from "hooks/useEagerConnect";
-import { useFetchPublicData } from "state/hooks";
+import { useFetchPriceList, useFetchPublicData } from "state/hooks";
 import { useApollo } from "apollo/index";
 import GlobalStyle from "./style/Global";
 import Menu from "./components/Menu";
@@ -58,7 +58,7 @@ const App: React.FC = () => {
   useEagerConnect();
   useFetchPublicData();
   // useFetchProfile();
-  // useFetchPriceList();
+  useFetchPriceList();
   // useGetDocumentTitlePrice();
   const client = useApollo();
   return (
