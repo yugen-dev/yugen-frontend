@@ -337,7 +337,7 @@ const Home: React.FC = () => {
                 description={`${cntStakingRatio.toFixed(2)}%`}
                 bottomTitle="on staking CNT"
                 descriptionColor="#29bb89"
-                redirectLink="/cntbar"
+                redirectLink="/cntstaker"
               />
             </Grid>
           </Grid>

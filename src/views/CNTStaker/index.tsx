@@ -145,7 +145,7 @@ const StyledOl = styled.ol`
   list-style-position: outside;
   padding-left: 16px;
 `;
-const CNTBar = () => {
+const CNTStaker = () => {
   // const tokenName = "CNT";
   const [valueOfCNTinUSD, setCNTVal] = useState(0);
   const xCNTLogo = "https://i.ibb.co/zfhRMxc/xCNT.png";
@@ -662,4 +662,4 @@ const CNTBar = () => {
   );
 };
 
-export default CNTBar;
+export default CNTStaker;
