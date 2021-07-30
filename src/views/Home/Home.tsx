@@ -242,7 +242,9 @@ const Home: React.FC = () => {
         },
         [[], []]
       );
-    totalFees = (parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.3).toFixed(4);
+    totalFees = (parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.3).toFixed(
+      4
+    );
     lpFees = (parseFloat(totalFees) * (5 / 6)).toFixed(4);
     stakerFees = ((parseFloat(totalFees) / 6) * 0.35).toFixed(4);
     burnerFees = ((parseFloat(totalFees) / 6) * 0.55).toFixed(4);
@@ -324,7 +326,7 @@ const Home: React.FC = () => {
             <Grid item xs={12} md={6} lg={6} xl={6}>
               <EarnAssetCard
                 topTitle="Earn"
-                bottomTitle="in Pools"
+                bottomTitle="in Multrewards"
                 description="CNT, MAHA"
                 redirectLink="/multirewards"
               />
