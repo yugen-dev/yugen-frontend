@@ -153,7 +153,7 @@ export function useWETHContract(
   withSignerIfPossible?: boolean
 ): Contract | null {
   const { chainId } = useActiveWeb3React();
-  const wethAddress = "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7";
+  const wethAddress = "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270";
   return useContract(
     chainId ? wethAddress : undefined,
     WETH_ABI,
