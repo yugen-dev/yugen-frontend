@@ -242,11 +242,8 @@ const Home: React.FC = () => {
         },
         [[], []]
       );
-    totalFees = parseFloat(dayDatas.data.dayDatas[0].volumeUSD).toFixed(4);
-    lpFees = (
-      parseFloat(dayDatas.data.dayDatas[0].volumeUSD) *
-      (5 / 6)
-    ).toFixed(4);
+    totalFees = (parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.3).toFixed(4);
+    lpFees = (parseFloat(totalFees) * (5 / 6)).toFixed(4);
     stakerFees = ((parseFloat(totalFees) / 6) * 0.35).toFixed(4);
     burnerFees = ((parseFloat(totalFees) / 6) * 0.55).toFixed(4);
     devFees = ((parseFloat(totalFees) / 6) * 0.1).toFixed(4);

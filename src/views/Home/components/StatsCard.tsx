@@ -208,7 +208,7 @@ const CardValue: React.FC<CardValueProps> = ({
                 <Text color="#9d9fa8" fontSize="16px">
                   Total Supply
                 </Text>
-                <Text color="white" fontSize="16px" fontWeight="700" style={{ display: "flex", alignItems: "center" }}>
+                <Text color="white" fontSize="16px" fontWeight="400" style={{ display: "flex", alignItems: "center", letterSpacing: '1.5px' }}>
                   {" "}
                   {numberWithCommas(totalSuply - burnedSupply)}
                   <Text color="#C1C5CB" fontSize="12px">
@@ -224,8 +224,8 @@ const CardValue: React.FC<CardValueProps> = ({
                 <Text
                   color="white"
                   fontSize="16px"
-                  fontWeight="700"
-                  style={{ display: "flex", alignItems: "center" }}
+                  fontWeight="400"
+                  style={{ display: "flex", alignItems: "center", letterSpacing: '1.5px' }}
                 >
                   {numberWithCommas(34560 * 1.5)}
                   <Text color="#C1C5CB" fontSize="12px" ml="5px">
@@ -241,8 +241,8 @@ const CardValue: React.FC<CardValueProps> = ({
                 <Text
                   color="white"
                   fontSize="16px"
-                  fontWeight="700"
-                  style={{ display: "flex", alignItems: "center" }}
+                  fontWeight="400"
+                  style={{ display: "flex", alignItems: "center", letterSpacing: '1.5px' }}
                 >
                   {numberWithCommas(1.5)}
                   <Text color="#C1C5CB" fontSize="12px" ml="5px">
@@ -259,8 +259,8 @@ const CardValue: React.FC<CardValueProps> = ({
                   <Text
                     color="white"
                     fontSize="16px"
-                    fontWeight="700"
-                    style={{ display: "flex", alignItems: "center" }}
+                    fontWeight="400"
+                    style={{ display: "flex", alignItems: "center", letterSpacing: '1.5px' }}
                   >
                     ${totalFees}{" "}
                   </Text>
@@ -279,20 +279,9 @@ const CardValue: React.FC<CardValueProps> = ({
                   <Text color="#9d9fa8" fontSize="16px">
                     LP Fees
                   </Text>
-                  <Text color="white" fontSize="16px" fontWeight="700">
+                  <Text color="white" fontSize="16px" fontWeight="400" style={{ letterSpacing: '1.5px' }}>
                     {" "}
                     ${lpFees}{" "}
-                  </Text>
-                </ProgressText>
-              )}
-              {stakerFees && (
-                <ProgressText>
-                  <Text color="#C1C5CB" fontSize="16x">
-                    Staker Distrubution
-                  </Text>
-                  <Text color="white" fontSize="16px" fontWeight="700">
-                    {" "}
-                    ${stakerFees}{" "}
                   </Text>
                 </ProgressText>
               )}
@@ -301,9 +290,20 @@ const CardValue: React.FC<CardValueProps> = ({
                   <Text color="#C1C5CB" fontSize="16px">
                     CNT Burned
                   </Text>
-                  <Text color="white" fontSize="16px" fontWeight="700">
+                  <Text color="white" fontSize="16px" fontWeight="400" style={{ letterSpacing: '1.5px' }}>
                     {" "}
                     ${burnerFees}{" "}
+                  </Text>
+                </ProgressText>
+              )}
+              {stakerFees && (
+                <ProgressText>
+                  <Text color="#C1C5CB" fontSize="16x">
+                    Staker Distrubution
+                  </Text>
+                  <Text color="white" fontSize="16px" fontWeight="400" style={{ letterSpacing: '1.5px' }}>
+                    {" "}
+                    ${stakerFees}{" "}
                   </Text>
                 </ProgressText>
               )}
@@ -312,7 +312,7 @@ const CardValue: React.FC<CardValueProps> = ({
                   <Text color="#C1C5CB" fontSize="16px">
                     Dev Fees
                   </Text>
-                  <Text color="white" fontSize="16px" fontWeight="700">
+                  <Text color="white" fontSize="16px" fontWeight="400" style={{ letterSpacing: '1.5px' }}>
                     {" "}
                     ${devFees}{" "}
                   </Text>
@@ -333,7 +333,7 @@ const CardValue: React.FC<CardValueProps> = ({
               <Text color="#9d9fa8" fontSize="16px">
                 Total Supply
               </Text>
-              <Text color="white" fontSize="16px" fontWeight="700" style={{ display: "flex", alignItems: "center" }}>
+              <Text color="white" fontSize="16px" fontWeight="400" style={{ display: "flex", alignItems: "center", letterSpacing: '1.5px' }}>
                 {" "}
                 {numberWithCommas(totalSuply - burnedSupply)}
                 <Text color="#C1C5CB" fontSize="12px" ml="5px">
@@ -350,8 +350,8 @@ const CardValue: React.FC<CardValueProps> = ({
               <Text
                 color="white"
                 fontSize="16px"
-                fontWeight="700"
-                style={{ display: "flex", alignItems: "center" }}
+                fontWeight="400"
+                style={{ display: "flex", alignItems: "center", letterSpacing: '1.5px' }}
               >
                 {numberWithCommas(34560 * 1.5)}
                 <Text color="#C1C5CB" fontSize="12px" ml="5px">
@@ -367,8 +367,8 @@ const CardValue: React.FC<CardValueProps> = ({
               <Text
                 color="white"
                 fontSize="16px"
-                fontWeight="700"
-                style={{ display: "flex", alignItems: "center" }}
+                fontWeight="400"
+                style={{ display: "flex", alignItems: "center", letterSpacing: '1.5px' }}
               >
                 {numberWithCommas(1.5)}
                 <Text color="#C1C5CB" fontSize="12px" ml="5px">
@@ -385,8 +385,8 @@ const CardValue: React.FC<CardValueProps> = ({
                 <Text
                   color="white"
                   fontSize="16px"
-                  fontWeight="700"
-                  style={{ display: "flex", alignItems: "center" }}
+                  fontWeight="400"
+                  style={{ display: "flex", alignItems: "center", letterSpacing: '1.5px' }}
                 >
                   ${totalFees}{" "}
                 </Text>
@@ -402,20 +402,9 @@ const CardValue: React.FC<CardValueProps> = ({
                 <Text color="#9d9fa8" fontSize="16px">
                   LP Fees
                 </Text>
-                <Text color="white" fontSize="16px" fontWeight="700">
+                <Text color="white" fontSize="16px" fontWeight="400" letterSpacing="1.5px">
                   {" "}
                   ${lpFees}{" "}
-                </Text>
-              </ProgressText>
-            )}
-            {stakerFees && (
-              <ProgressText>
-                <Text color="#C1C5CB" fontSize="16x">
-                  Staker Distrubution
-                </Text>
-                <Text color="white" fontSize="16px" fontWeight="700">
-                  {" "}
-                  ${stakerFees}{" "}
                 </Text>
               </ProgressText>
             )}
@@ -424,9 +413,20 @@ const CardValue: React.FC<CardValueProps> = ({
                 <Text color="#C1C5CB" fontSize="16px">
                   CNT Burned
                 </Text>
-                <Text color="white" fontSize="16px" fontWeight="700">
+                <Text color="white" fontSize="16px" fontWeight="400" style={{ letterSpacing: '1.5px' }}>
                   {" "}
                   ${burnerFees}{" "}
+                </Text>
+              </ProgressText>
+            )}
+            {stakerFees && (
+              <ProgressText>
+                <Text color="#C1C5CB" fontSize="16x">
+                  Staker Distrubution
+                </Text>
+                <Text color="white" fontSize="16px" fontWeight="400" style={{ letterSpacing: '1.5px' }}>
+                  {" "}
+                  ${stakerFees}{" "}
                 </Text>
               </ProgressText>
             )}
@@ -435,7 +435,7 @@ const CardValue: React.FC<CardValueProps> = ({
                 <Text color="#C1C5CB" fontSize="16px">
                   Dev Fees
                 </Text>
-                <Text color="white" fontSize="16px" fontWeight="700">
+                <Text color="white" fontSize="16px" fontWeight="400" style={{ letterSpacing: '1.5px' }}>
                   {" "}
                   ${devFees}{" "}
                 </Text>

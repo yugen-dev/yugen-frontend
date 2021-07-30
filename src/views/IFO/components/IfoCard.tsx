@@ -78,7 +78,7 @@ const IfoCard = () => {
 
   return (
     <MainCardContainer>
-      <CardContainer style={{ marginBottom: "1px" }}>
+      <CardContainer style={{ marginBottom: "3px" }}>
         <Card>
           <LabelContainer>
             <Label>Project Name</Label>
@@ -111,7 +111,7 @@ const IfoCard = () => {
         </Card>
       </CardContainer>
 
-      <CardContainer style={{ marginTop: "1px" }}>
+      <CardContainer style={{ marginTop: "3px" }}>
         <Card>
           <LabelContainer>
             <a href={ifo.whitepaper} target="_blank" rel="noreferrer">
@@ -172,7 +172,7 @@ const LabelContainer = styled.div`
 const Label = styled.div`
   color: #f5f5f5;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 15px;
   text-align: left;
   width: 100%;
   margin-right: 30px;
@@ -180,7 +180,7 @@ const Label = styled.div`
 const Text = styled.div`
   color: #86878f;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 15px;
   width: 100%;
   text-align: left;
 `;
