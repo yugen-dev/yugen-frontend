@@ -1,4 +1,4 @@
-# Contributing to the Polydex ecosystem
+# Contributing to the PolyDEX ecosystem
 
 Thanks for taking the time to contribute !
 ## Setup
