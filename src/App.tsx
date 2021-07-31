@@ -84,7 +84,7 @@ const App: React.FC = () => {
               <Route exact strict path="/migrate">
                 <Migrate />
               </Route>
-              <Route path="/cntbar">
+              <Route path="/cntstaker">
                 <CNTBar />
               </Route>
               <Route exact strict path="/swap" component={Swap} />

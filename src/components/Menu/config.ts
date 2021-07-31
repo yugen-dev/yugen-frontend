@@ -33,7 +33,7 @@ const config: MenuEntry[] = [
   {
     label: "CNT Staker",
     icon: "TicketIcon",
-    href: "/cntbar",
+    href: "/cntstaker",
   },
   {
     label: "Migrate",
