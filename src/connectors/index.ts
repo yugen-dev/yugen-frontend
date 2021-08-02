@@ -9,7 +9,7 @@ import { NetworkConnector } from "./NetworkConnector";
 const NETWORK_URL = process.env.REACT_APP_NETWORK_URL;
 
 export const NETWORK_CHAIN_ID: number = parseInt(
-  process.env.REACT_APP_CHAIN_ID ?? "137"
+  process.env.REACT_APP_CHAIN_ID ?? "80001" // network change
 );
 
 if (typeof NETWORK_URL === "undefined") {

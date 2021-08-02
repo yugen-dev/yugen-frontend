@@ -154,7 +154,7 @@ const CNTBar = () => {
   const [tokenBalance, setTokenBalance] = React.useState(new BigNumber(0));
   const [xCNTBalance, setxCNTBalance] = React.useState(new BigNumber(0));
   const [CntAllowance, setCntAllowance] = React.useState(new BigNumber(0));
-
+  const CHAINID = process.env.REACT_APP_CHAIN_ID;
   // const { onEnter } = useEnter();
   const [requestedApproval, setRequestedApproval] = useState(false);
   const [tokenAmount, handleTokenAmount] = useState("");
@@ -205,11 +205,11 @@ const CNTBar = () => {
   };
 
   const getTokenBalances = async () => {
-    const tokenBalanceResp = await fetchBalances(contracts.cake[137]);
-    const xCNTBalanceResp = await fetchBalances(contracts.cntStaker[137]);
+    const tokenBalanceResp = await fetchBalances(contracts.cake[CHAINID]);
+    const xCNTBalanceResp = await fetchBalances(contracts.cntStaker[CHAINID]);
     const cntAllowance = await fetchAllowance(
-      contracts.cake[137],
-      contracts.cntStaker[137]
+      contracts.cake[CHAINID],
+      contracts.cntStaker[CHAINID]
     );
     setCntAllowance(cntAllowance);
     setTokenBalance(tokenBalanceResp);
@@ -616,7 +616,7 @@ const CNTBar = () => {
                     width="24px"
                     style={{ marginRight: "10px", cursor: "pointer" }}
                     onClick={() =>
-                      registerToken(contracts.cake[137], "CNT", 18, CNTLogo)
+                      registerToken(contracts.cake[CHAINID], "CNT", 18, CNTLogo)
                     }
                   />
                   <Text
@@ -636,7 +636,7 @@ const CNTBar = () => {
                     width="24px"
                     onClick={() =>
                       registerToken(
-                        contracts.cntStaker[137],
+                        contracts.cntStaker[CHAINID],
                         "xCNT",
                         18,
                         xCNTLogo

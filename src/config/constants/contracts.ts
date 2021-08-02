@@ -118,7 +118,13 @@ export default {
   hybridstaking: {
     56: "",
     97: "",
-    80001: "",
+    80001: "0x3e74C77446CAb24f1F74Ddacf2F4f98d7019bDc1",
     137: "0xDC5A8F4D53E6fFb1F5E356f64577702AF9348d7d",
+  },
+  FarmingIntermediator: {
+    56: "",
+    97: "",
+    80001: "0xEcbF5f2A16DAa2Ace84A1845341FB9B62302CB43",
+    137: "",
   },
 };
