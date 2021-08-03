@@ -260,7 +260,7 @@ const CNTStaker = () => {
     valueOfCNTinUSD
   ) {
     cntStakingRatio =
-      (((parseFloat(dayDatas.data.dayDatas[1].volumeUSD) * 0.0005) /
+      (((parseFloat(dayDatas.data.dayDatas[1].volumeUSD) * 0.0005 * 0.35) /
         parseFloat(getCNTStakerInfo.data.cntstaker.totalSupply)) *
         365) /
       (parseFloat(getCNTStakerInfo.data.cntstaker.ratio) *
