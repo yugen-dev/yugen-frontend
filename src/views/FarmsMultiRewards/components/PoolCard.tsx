@@ -88,6 +88,7 @@ const PoolCard: React.FC<HarvestProps> = ({
       return bnbPrice.times(lpTotalInQuoteToken);
     }
     if (quoteTokenSymbol === QuoteToken.CNT) {
+      console.log(valueOfCNTinUSD.toNumber());
       return valueOfCNTinUSD.times(lpTotalInQuoteToken);
     }
     if (quoteTokenSymbol === QuoteToken.ETH) {
