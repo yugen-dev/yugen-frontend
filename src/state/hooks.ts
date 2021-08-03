@@ -437,14 +437,11 @@ export const useTotalValue = (): BigNumber => {
       } else if (pool.quoteTokenSymbol === QuoteToken.BUSD) {
         val = new BigNumber(pool.tokenAmount).plus(pool.quoteTokenAmount);
       } else if (pool.stakingTokenName === QuoteToken.LP) {
-        val = tokenInLpPrice
-          ? new BigNumber(tokenInLpPrice).times(pool.lpTotalInQuoteToken)
-          : new BigNumber(100000);
+        val = new BigNumber(tokenInLpPrice).times(pool.lpTotalInQuoteToken);
       } else {
         val = pool.lpTotalInQuoteToken;
       }
       value = value.plus(val);
-      // value = value.plus(cakePrice.multipliedBy(pool.lpTotalInQuoteToken));
     }
   }
 
