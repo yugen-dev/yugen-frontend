@@ -3,7 +3,11 @@ import erc20ABI from "config/abi/erc20.json";
 import farmABI from "config/abi/farm.json";
 import multicall from "utils/multicall";
 import farmsConfig from "config/constants/farms";
-import { getAddress, getFarmAddress } from "utils/addressHelpers";
+import {
+  getAddress,
+  getFarmAddress,
+  getSingleSidedLiquidityAddress,
+} from "utils/addressHelpers";
 
 export const fetchFarmUserAllowances = async (account: string) => {
   const masterChefAdress = getFarmAddress();
@@ -22,6 +26,46 @@ export const fetchFarmUserAllowances = async (account: string) => {
     return new BigNumber(lpBalance).toJSON();
   });
   return parsedLpAllowances;
+};
+
+export const fetchFarmUserSingleSidedAllowances = async (account: string) => {
+  const singleSidedLiquidityAddress = getSingleSidedLiquidityAddress();
+
+  const calls = farmsConfig.map((farm) => {
+    const singleSidedTokenAddress = getAddress(farm.singleSidedToken);
+    return {
+      address: singleSidedTokenAddress,
+      name: "allowance",
+      params: [account, singleSidedLiquidityAddress],
+    };
+  });
+
+  const rawSingleTokenAllowances = await multicall(erc20ABI, calls);
+  const parsedSingleTokenAllowances = rawSingleTokenAllowances.map(
+    (singleTokenBalance) => {
+      return new BigNumber(singleTokenBalance).toJSON();
+    }
+  );
+  return parsedSingleTokenAllowances;
+};
+
+export const fetchFarmUserSingleSidedTokenBalance = async (account: string) => {
+  const calls = farmsConfig.map((farm) => {
+    const singleSidedTokenAddress = getAddress(farm.singleSidedToken);
+    return {
+      address: singleSidedTokenAddress,
+      name: "balanceOf",
+      params: [account],
+    };
+  });
+
+  const rawSingleTokenBalance = await multicall(erc20ABI, calls);
+  const parsedSingleTokenBalance = rawSingleTokenBalance.map(
+    (singleTokenBalance) => {
+      return new BigNumber(singleTokenBalance).toJSON();
+    }
+  );
+  return parsedSingleTokenBalance;
 };
 
 export const fetchFarmUserTokenBalances = async (account: string) => {

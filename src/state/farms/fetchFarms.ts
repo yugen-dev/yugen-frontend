@@ -43,6 +43,10 @@ const fetchFarms = async () => {
           address: getAddress(farmConfig.quoteTokenAdresses),
           name: "decimals",
         },
+        {
+          address: getAddress(farmConfig.singleSidedToken),
+          name: "decimals",
+        },
       ];
 
       const [
@@ -52,6 +56,7 @@ const fetchFarms = async () => {
         lpTotalSupply,
         tokenDecimals,
         quoteTokenDecimals,
+        singleSidedTokenDecimal,
       ] = await multicall(erc20, calls);
 
       // Ratio in % a LP tokens that are in staking, vs the total number in circulation
@@ -100,6 +105,7 @@ const fetchFarms = async () => {
         multiplier: `${allocPoint.div(100).toString()}X`,
         poolHarvestInterval: poolHarvestInterval.toString(),
         lpTotalSupply: lpTokenBalanceMC,
+        singleSidedTokenDecimal,
       };
     })
   );

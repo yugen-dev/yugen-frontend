@@ -106,6 +106,12 @@ export const useFarmUser = (pid) => {
     harvestInterval: farm.userData
       ? new BigNumber(farm.userData.harvestInterval)
       : new BigNumber(0),
+    SingleSidedAllowances: farm.userData
+      ? new BigNumber(farm.userData.SingleSidedAllowances)
+      : new BigNumber(0),
+    SingleSidedTokenBalance: farm.userData
+      ? new BigNumber(farm.userData.SingleSidedTokenBalance)
+      : new BigNumber(0),
   };
 };
 
