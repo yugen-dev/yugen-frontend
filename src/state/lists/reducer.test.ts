@@ -12,7 +12,7 @@ import {
   selectList,
 } from "./actions";
 import reducer, { ListsState } from "./reducer";
-import PANCAKESWAP_DEFAULT_TOKEN_LIST from "../../constants/token/polydexlist.json";
+import POLYDEX_DEFAULT_TOKEN_LIST from "../../constants/token/polydexlist.json";
 
 const STUB_TOKEN_LIST = {
   name: "",
@@ -528,7 +528,7 @@ describe("list reducer", () => {
           if (url === DEFAULT_TOKEN_LIST_URL) {
             expect(s.byUrl[url]).toEqual({
               error: null,
-              current: PANCAKESWAP_DEFAULT_TOKEN_LIST,
+              current: POLYDEX_DEFAULT_TOKEN_LIST,
               loadingRequestId: null,
               pendingUpdate: null,
             });
