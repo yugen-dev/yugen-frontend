@@ -614,7 +614,8 @@ export const provideSingleSidedLiquidity = async (
   pairAddress,
   slippage,
   pid,
-  account
+  account,
+  decimal
 ) => {
   const wmatic = getWbnbAddress();
   // @ts-ignore
@@ -622,15 +623,21 @@ export const provideSingleSidedLiquidity = async (
     return singleSidedContract.methods
       .singleSidedFarm(
         account,
-        token,
-        amount,
+        "0x0000000000000000000000000000000000000000",
+        new BigNumber(amount).times(new BigNumber(10).pow(decimal)).toString(),
         pairAddress,
         toToken,
         slippage,
         getFarmAddress(),
         pid
       )
-      .send({ from: account, gasPrice: 10000000000, value: amount })
+      .send({
+        from: account,
+        gasPrice: 10000000000,
+        value: new BigNumber(amount)
+          .times(new BigNumber(10).pow(decimal))
+          .toString(),
+      })
       .on("transactionHash", (tx) => {
         return tx.transactionHash;
       });
@@ -641,7 +648,7 @@ export const provideSingleSidedLiquidity = async (
       .singleSidedFarm(
         account,
         token,
-        amount,
+        new BigNumber(amount).times(new BigNumber(10).pow(decimal)).toString(),
         pairAddress,
         toToken,
         slippage,
