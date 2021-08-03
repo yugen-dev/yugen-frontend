@@ -11,6 +11,13 @@ export const getFullDisplayBalance = (balance: BigNumber, decimals = 18) => {
   return balance.dividedBy(new BigNumber(10).pow(decimals)).toFixed();
 };
 
+export const getFullDisplayBalanceWithDecimals = (
+  balance: BigNumber,
+  decimals
+) => {
+  return balance.dividedBy(new BigNumber(10).pow(decimals)).toFixed();
+};
+
 export const getFullDisplayBalanceForStaker = (
   balance: BigNumber,
   decimals = 18

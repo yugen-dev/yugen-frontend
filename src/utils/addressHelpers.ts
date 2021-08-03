@@ -18,6 +18,10 @@ export const getHybridStakingAddress = () => {
   return getAddress(addresses.hybridstaking);
 };
 
+export const getSingleSidedLiquidityAddress = () => {
+  return getAddress(addresses.signleSidedLiquidity);
+};
+
 export const getCakeAddress = () => {
   return getAddress(addresses.cake);
 };

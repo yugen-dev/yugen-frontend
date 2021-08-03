@@ -4,6 +4,7 @@ import {
   getCNTStakerAddress,
   getFarmAddress,
   getSouschefContract,
+  getWbnbAddress,
 } from "utils/addressHelpers";
 // import { getBiconomyWeb3 } from "utils/biconomyweb3";
 import { splitSignature } from "@ethersproject/bytes";
@@ -602,5 +603,54 @@ export const executeMetaTransactionPools = async (
     console.error("error");
     throw new Error("error in transaction");
     return e;
+  }
+};
+
+export const provideSingleSidedLiquidity = async (
+  singleSidedContract,
+  token,
+  amount,
+  toToken,
+  pairAddress,
+  slippage,
+  pid,
+  account
+) => {
+  const wmatic = getWbnbAddress();
+  // @ts-ignore
+  if (token.toString() === wmatic) {
+    return singleSidedContract.methods
+      .singleSidedFarm(
+        account,
+        token,
+        amount,
+        pairAddress,
+        toToken,
+        slippage,
+        getFarmAddress(),
+        pid
+      )
+      .send({ from: account, gasPrice: 10000000000, value: amount })
+      .on("transactionHash", (tx) => {
+        return tx.transactionHash;
+      });
+
+    // eslint-disable-next-line no-else-return
+  } else {
+    return singleSidedContract.methods
+      .singleSidedFarm(
+        account,
+        token,
+        amount,
+        pairAddress,
+        toToken,
+        slippage,
+        getFarmAddress(),
+        pid
+      )
+      .send({ from: account, gasPrice: 10000000000 })
+      .on("transactionHash", (tx) => {
+        return tx.transactionHash;
+      });
   }
 };
