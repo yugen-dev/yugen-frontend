@@ -62,7 +62,10 @@ const DepositModalSingleSided: React.FC<DepositModalSingleSidedProps> = ({
 
   return (
     <Modal
-      title={TranslateString(1068, "Stake LP tokens")}
+      title={TranslateString(
+        1068,
+        "Provide Single Sided Liquidity And Stake Lp"
+      )}
       onDismiss={onDismiss}
     >
       <ModalInput

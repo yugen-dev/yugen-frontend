@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { fetchFarmUserDataAsync } from "state/actions";
 import { provideSingleSidedLiquidity } from "utils/callHelpers";
 import { useToast } from "state/hooks";
+import BigNumber from "bignumber.js";
 import { useSingleSidedLiquidity } from "./useContract";
 
 export const useProvideSingleSidedLiquidity = (
@@ -11,7 +12,8 @@ export const useProvideSingleSidedLiquidity = (
   token: string,
   toToken: string,
   pairAddress: string,
-  slippage: string
+  slippage: string,
+  decimal: BigNumber
 ) => {
   const dispatch = useDispatch();
   const { account, library } = useWeb3React("web3");
@@ -32,7 +34,8 @@ export const useProvideSingleSidedLiquidity = (
           pairAddress,
           slippage,
           pid,
-          account
+          account,
+          decimal
         );
         toastSuccess("Success", ` Deposited successfully`);
         dispatch(fetchFarmUserDataAsync(account));
@@ -60,7 +63,7 @@ export const useProvideSingleSidedLiquidity = (
       toToken,
       pairAddress,
       slippage,
-
+      decimal,
       toastInfo,
       toastSuccess,
       toastError,

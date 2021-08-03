@@ -111,7 +111,7 @@ const StakeActionSignleSided: React.FC<FarmCardActionsProps> = ({
     if (isApproved || singleSidedAddress === wmatic) {
       return rawStakedBalance === 0 ? (
         <Button onClick={onPresentDeposit} variant="secondary">
-          {TranslateString(999, "Stake LP")}
+          {TranslateString(999, "Provide Single Sided Liquidity")}
         </Button>
       ) : (
         <IconButtonWrapper>
