@@ -269,6 +269,13 @@ const farms: FarmConfig[] = [
     },
     quoteTokenSymbol: QuoteToken.BNB,
     quoteTokenAdresses: contracts.wbnb,
+    singleSidedToken: {
+      97: "",
+      56: "",
+      80001: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      137: "",
+    },
+    singleSidedTokenName: "MATIC",
   },
   {
     pid: 1,
@@ -288,6 +295,13 @@ const farms: FarmConfig[] = [
     },
     quoteTokenSymbol: QuoteToken.BNB,
     quoteTokenAdresses: contracts.wbnb,
+    singleSidedToken: {
+      97: "",
+      56: "",
+      80001: "0xD89a2E56B778AEfe719fc86E122B7db752Bb6B41",
+      137: "",
+    },
+    singleSidedTokenName: "USDT",
   },
   {
     pid: 2,
@@ -307,6 +321,13 @@ const farms: FarmConfig[] = [
     },
     quoteTokenSymbol: QuoteToken.CAKE,
     quoteTokenAdresses: contracts.cake,
+    singleSidedToken: {
+      97: "",
+      56: "",
+      80001: "0xD89a2E56B778AEfe719fc86E122B7db752Bb6B41",
+      137: "",
+    },
+    singleSidedTokenName: "USDT",
   },
   // {
   //   pid: 3,
