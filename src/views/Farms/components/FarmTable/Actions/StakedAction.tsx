@@ -13,7 +13,7 @@ import { useFarmUser } from "state/hooks";
 import { FarmWithStakedValue } from "views/Farms/components/FarmCard/FarmCard";
 import useI18n from "hooks/useI18n";
 import { useApprove } from "hooks/useApprove";
-import { getBep20Contract } from "utils/contractHelpers";
+import { getERC20Contract } from "utils/contractHelpers";
 import { BASE_ADD_LIQUIDITY_URL } from "config";
 import getLiquidityUrlPathParts from "utils/getLiquidityUrlPathParts";
 import { getBalanceNumber } from "utils/formatBalance";
@@ -80,7 +80,7 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({
     />
   );
 
-  const lpContract = getBep20Contract(lpAddress, web3);
+  const lpContract = getERC20Contract(lpAddress, web3);
 
   const { onApprove } = useApprove(lpContract);
 

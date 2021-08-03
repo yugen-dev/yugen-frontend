@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 // import { Web3Provider } from '@ethersproject/providers'
 import BigNumber from "bignumber.js";
 import { useWeb3React } from "@web3-react/core";
-import { getBep20Contract, getCakeContract } from "utils/contractHelpers";
+import { getERC20Contract, getCakeContract } from "utils/contractHelpers";
 import useWeb3 from "./useWeb3";
 import useRefresh from "./useRefresh";
 
@@ -16,7 +16,7 @@ const useTokenBalance = (tokenAddress: string) => {
   useEffect(() => {
     const fetchBalance = async () => {
       try {
-        const contract = getBep20Contract(tokenAddress, web3);
+        const contract = getERC20Contract(tokenAddress, web3);
         const res = await contract.methods.balanceOf(account).call();
         setBalance(new BigNumber(res));
       } catch (error) {
@@ -56,7 +56,7 @@ export const useBurnedBalance = (tokenAddress: string) => {
 
   useEffect(() => {
     const fetchBalance = async () => {
-      const contract = getBep20Contract(tokenAddress, web3);
+      const contract = getERC20Contract(tokenAddress, web3);
       const res = await contract.methods
         .balanceOf("0x000000000000000000000000000000000000dEaD")
         .call();

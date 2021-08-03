@@ -37,7 +37,7 @@ import {
 import {
   getCakeContract,
   getCNTStakerContract,
-  getBep20Contract,
+  getERC20Contract,
 } from "utils/contractHelpers";
 import { useCNTStaker, useCNTStakerGasless } from "hooks/useContract";
 import { registerToken } from "utils/wallet";
@@ -183,7 +183,7 @@ const CNTStaker = () => {
   }
   const fetchBalances = async (tokenAddress) => {
     try {
-      const contract = getBep20Contract(tokenAddress, web3);
+      const contract = getERC20Contract(tokenAddress, web3);
       const res = await contract.methods.balanceOf(account).call();
       return new BigNumber(res);
     } catch (error) {
@@ -193,7 +193,7 @@ const CNTStaker = () => {
   };
   const fetchAllowance = async (tokenAddress, stakerAddress) => {
     try {
-      const contract = getBep20Contract(tokenAddress, web3);
+      const contract = getERC20Contract(tokenAddress, web3);
       const res = await contract.methods
         .allowance(account, stakerAddress)
         .call();

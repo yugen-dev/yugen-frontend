@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { provider as ProviderType } from "web3-core";
 import Countdown from "react-countdown";
 import { getAddress } from "utils/addressHelpers";
-import { getBep20Contract } from "utils/contractHelpers";
+import { getERC20Contract } from "utils/contractHelpers";
 import { Flex, Text } from "cryption-uikit";
 import { Farm } from "state/types";
 import { useFarmFromSymbol, useFarmUser, useProfile } from "state/hooks";
@@ -79,7 +79,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
       })}`
     : "-";
 
-  const lpContract = getBep20Contract(lpAddress, web3);
+  const lpContract = getERC20Contract(lpAddress, web3);
 
   const { metaTranscation } = useProfile();
 

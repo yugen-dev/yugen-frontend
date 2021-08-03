@@ -342,7 +342,7 @@ export function ListSelect({
       <PaddedColumn gap="14px">
         <Text bold>
           Add a list{" "}
-          <QuestionHelper text="Token lists are an open specification for lists of BEP20 tokens. You can use any token list by entering its URL below. Beware that third party token lists can contain fake or malicious BEP20 tokens." />
+          <QuestionHelper text="Token lists are an open specification for lists of ERC20 tokens. You can use any token list by entering its URL below. Beware that third party token lists can contain fake or malicious ERC20 tokens." />
         </Text>
         <Row>
           <SearchInput
