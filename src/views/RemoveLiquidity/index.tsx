@@ -798,7 +798,7 @@ export default function RemoveLiquidity({
                               : currencyIdB
                           }`}
                         >
-                          {TranslateString(1188, "Receive WBNB")}
+                          {TranslateString(1188, "Receive WMATIC")}
                         </StyledInternalLink>
                       ) : oneCurrencyIsWETH ? (
                         <StyledInternalLink
@@ -814,7 +814,7 @@ export default function RemoveLiquidity({
                               : currencyIdB
                           }`}
                         >
-                          {TranslateString(1190, "Receive BNB")}
+                          {TranslateString(1190, "Receive MATIC")}
                         </StyledInternalLink>
                       ) : null}
                     </RowBetween>

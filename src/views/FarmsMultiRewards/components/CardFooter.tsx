@@ -108,7 +108,7 @@ const CardFooter: React.FC<Props> = ({
         <Details>
           <Row mb="4px">
             <FlexFull>
-              <Text>{TranslateString(408, "Total Liquidity")}</Text>
+              <Text>{TranslateString(408, "Liquidity in Farm")}</Text>
             </FlexFull>
             <span style={{ color: "#3869EE" }}>$</span>
             {/* <Balance

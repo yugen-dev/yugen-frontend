@@ -64,7 +64,7 @@ export default function useWrapCallback(
                     value: `0x${inputAmount.raw.toString(16)}`,
                   });
                   addTransaction(txReceipt, {
-                    summary: `Wrap ${inputAmount.toSignificant(6)} BNB to WBNB`,
+                    summary: `Wrap ${inputAmount.toSignificant(6)} Matic to WMatic`,
                   });
                 } catch (error) {
                   console.error("Could not deposit", error);
@@ -90,14 +90,14 @@ export default function useWrapCallback(
                   addTransaction(txReceipt, {
                     summary: `Unwrap ${inputAmount.toSignificant(
                       6
-                    )} WBNB to BNB`,
+                    )} WMATIC to MATIC`,
                   });
                 } catch (error) {
                   console.error("Could not withdraw", error);
                 }
               }
             : undefined,
-        inputError: sufficientBalance ? undefined : "Insufficient WBNB balance",
+        inputError: sufficientBalance ? undefined : "Insufficient WMATIC balance",
       };
     }
     return NOT_APPLICABLE;
