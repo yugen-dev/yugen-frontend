@@ -423,7 +423,7 @@ export const useTotalValue = (): BigNumber => {
 
   for (let i = 0; i < pools.length; i++) {
     const pool = pools[i];
-
+    const tokenInLpPrice = UseGetApiPrice(pool.tokenAdressInLp);
     if (pool.poolCategory === PoolCategory.CORE) {
       let val;
       if (pool.quoteTokenSymbol === QuoteToken.BNB) {
@@ -436,6 +436,10 @@ export const useTotalValue = (): BigNumber => {
         val = btcPrice.times(pool.lpTotalInQuoteToken);
       } else if (pool.quoteTokenSymbol === QuoteToken.BUSD) {
         val = new BigNumber(pool.tokenAmount).plus(pool.quoteTokenAmount);
+      } else if (pool.stakingTokenName === QuoteToken.LP) {
+        val = tokenInLpPrice
+          ? new BigNumber(tokenInLpPrice).times(pool.lpTotalInQuoteToken)
+          : new BigNumber(100000);
       } else {
         val = pool.lpTotalInQuoteToken;
       }
