@@ -60,7 +60,7 @@ const PoolCard: React.FC<HarvestProps> = ({
     image,
     tokenName,
     tokenAddress,
-    stakingTokenName,
+
     // contractAddress,
     stakingTokenDecimals,
     projectLink,
@@ -75,10 +75,13 @@ const PoolCard: React.FC<HarvestProps> = ({
     stakingLimit,
     poolHarvestInterval,
     tokenPriceVsQuote,
+    stakingTokenName,
     metamaskImg,
     quoteTokenSymbol,
     lpTotalInQuoteToken,
   } = pool;
+
+  const tokenInLpPrice = UseGetApiPrice(pool.tokenAdressInLp);
 
   const totalValue: BigNumber = useMemo(() => {
     if (!lpTotalInQuoteToken) {
@@ -90,6 +93,12 @@ const PoolCard: React.FC<HarvestProps> = ({
     if (quoteTokenSymbol === QuoteToken.CNT) {
       return valueOfCNTinUSD.times(lpTotalInQuoteToken);
     }
+    if (stakingTokenName === QuoteToken.LP) {
+      return tokenInLpPrice
+        ? new BigNumber(tokenInLpPrice).times(lpTotalInQuoteToken)
+        : new BigNumber(100000);
+    }
+
     if (quoteTokenSymbol === QuoteToken.ETH) {
       return ethPrice.times(lpTotalInQuoteToken);
     }
@@ -112,7 +121,9 @@ const PoolCard: React.FC<HarvestProps> = ({
     pool.tokenAmount,
     btcPrice,
     pool.quoteTokenAmount,
+    stakingTokenName,
     lpTotalInQuoteToken,
+    tokenInLpPrice,
     quoteTokenSymbol,
   ]);
 
@@ -173,7 +184,7 @@ const PoolCard: React.FC<HarvestProps> = ({
   pool.multiRewardTokenPerBlock.forEach(async (element, i) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const tokenPrice = UseGetApiPrice(pool.coinGeckoIds[i].toLowerCase());
-    // console.log(tokenPrice);
+
     // eslint-disable-next-line  no-nested-ternary
     const rewardTokenPrice = tokenPrice
       ? new BigNumber(tokenPrice)
