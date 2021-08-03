@@ -13,9 +13,12 @@ import {
 import useWeb3 from "hooks/useWeb3";
 
 import useI18n from "hooks/useI18n";
-import { useApprove } from "hooks/useApprove";
+import { useApprove, useIfoApprove } from "hooks/useApprove";
 import { useProvideSingleSidedLiquidity } from "hooks/useProvideSingleSidedLiquidity";
-import { getWbnbAddress } from "utils/addressHelpers";
+import {
+  getSingleSidedLiquidityAddress,
+  getWbnbAddress,
+} from "utils/addressHelpers";
 import { getBalanceNumber } from "utils/formatBalance";
 import { getBep20Contract } from "utils/contractHelpers";
 import DepositModalSingleSided from "../DepositModalSingleSided";
@@ -30,6 +33,8 @@ interface FarmCardActionsProps {
   totalValueOfUserFormated?: string;
   singleSidedAddress?: string;
   decimal?: BigNumber;
+  singleSidedToTokenAddress?: string;
+  lpTokenAddress?: string;
 }
 
 const IconButtonWrapper = styled.div`
@@ -48,13 +53,18 @@ const StakeActionSignleSided: React.FC<FarmCardActionsProps> = ({
   isApproved,
   singleSidedAddress,
   decimal,
+  singleSidedToTokenAddress,
+  lpTokenAddress,
 }) => {
   const wmatic = getWbnbAddress();
   const [requestedApproval, setRequestedApproval] = useState(false);
   const web3 = useWeb3();
   const singleSidedTokenContract = getBep20Contract(singleSidedAddress, web3);
 
-  const { onApprove } = useApprove(singleSidedTokenContract);
+  const onApprove = useIfoApprove(
+    singleSidedTokenContract,
+    getSingleSidedLiquidityAddress()
+  );
 
   const handleSignleSidedApprove = useCallback(async () => {
     try {
@@ -72,9 +82,10 @@ const StakeActionSignleSided: React.FC<FarmCardActionsProps> = ({
   const { onProvideSingleSidedLiquidity } = useProvideSingleSidedLiquidity(
     pid,
     singleSidedAddress,
-    singleSidedAddress,
-    singleSidedAddress,
-    "1"
+    singleSidedToTokenAddress,
+    lpTokenAddress,
+    "0",
+    decimal
   );
 
   // pid: number,

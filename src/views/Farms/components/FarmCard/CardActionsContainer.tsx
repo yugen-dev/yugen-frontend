@@ -39,9 +39,8 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
 }) => {
   const TranslateString = useI18n();
   const [requestedApproval, setRequestedApproval] = useState(false);
-  const { pid, lpAddresses, singleSidedToken } = useFarmFromSymbol(
-    farm.lpSymbol
-  );
+  const { pid, lpAddresses, singleSidedToken, singleSidedToToken } =
+    useFarmFromSymbol(farm.lpSymbol);
 
   const {
     allowance,
@@ -56,6 +55,8 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
 
   const lpAddress = getAddress(lpAddresses);
   const singleSidedAddress = getAddress(singleSidedToken);
+  const singleSidedToTokenAddress = getAddress(singleSidedToToken);
+
   const lpName = farm.lpSymbol.toUpperCase();
   const singleSidedTokenName = farm.singleSidedTokenName.toUpperCase();
   const isApproved = account && allowance && allowance.isGreaterThan(0);
@@ -223,6 +224,8 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
           isApproved={isSignleSidedTokenApproved}
           totalValueOfUserFormated={totalValueOfUserFormated}
           singleSidedAddress={singleSidedAddress}
+          singleSidedToTokenAddress={singleSidedToTokenAddress}
+          lpTokenAddress={lpAddress}
         />
 
         {/* :
