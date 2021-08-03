@@ -276,6 +276,12 @@ const farms: FarmConfig[] = [
       137: "",
     },
     singleSidedTokenName: "MATIC",
+    singleSidedToToken: {
+      97: "",
+      56: "",
+      80001: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
+      137: "",
+    },
   },
   {
     pid: 1,
@@ -302,6 +308,12 @@ const farms: FarmConfig[] = [
       137: "",
     },
     singleSidedTokenName: "USDT",
+    singleSidedToToken: {
+      97: "",
+      56: "",
+      80001: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      137: "",
+    },
   },
   {
     pid: 2,
@@ -328,6 +340,12 @@ const farms: FarmConfig[] = [
       137: "",
     },
     singleSidedTokenName: "USDT",
+    singleSidedToToken: {
+      97: "",
+      56: "",
+      80001: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
+      137: "",
+    },
   },
   // {
   //   pid: 3,

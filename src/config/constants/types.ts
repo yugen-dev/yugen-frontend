@@ -69,6 +69,7 @@ export interface FarmConfig {
   poolHarvestInterval?: number;
   isCommunity?: boolean;
   singleSidedToken?: Address;
+  singleSidedToToken?: Address;
   singleSidedTokenName: string;
   dual?: {
     rewardPerBlock: number;
