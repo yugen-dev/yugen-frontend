@@ -10,10 +10,11 @@ import { Farm } from "state/types";
 import { useFarmFromSymbol, useFarmUser, useProfile } from "state/hooks";
 import useI18n from "hooks/useI18n";
 import useWeb3 from "hooks/useWeb3";
-import { useApprove } from "hooks/useApprove";
+import { useApprove, useApproveStaking } from "hooks/useApprove";
 import UnlockButton from "components/UnlockButton";
 import StakeAction from "./StakeAction";
 import HarvestAction from "./HarvestAction";
+import StakeActionSignleSided from "./StakeActionSignleSided";
 
 const Action = styled.div`
   padding-top: 5px;
@@ -38,7 +39,10 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
 }) => {
   const TranslateString = useI18n();
   const [requestedApproval, setRequestedApproval] = useState(false);
-  const { pid, lpAddresses } = useFarmFromSymbol(farm.lpSymbol);
+  const { pid, lpAddresses, singleSidedToken } = useFarmFromSymbol(
+    farm.lpSymbol
+  );
+
   const {
     allowance,
     tokenBalance,
@@ -46,12 +50,21 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     earnings,
     canHarvest,
     harvestInterval,
+    SingleSidedAllowances,
+    SingleSidedTokenBalance,
   } = useFarmUser(pid);
 
   const lpAddress = getAddress(lpAddresses);
+  const singleSidedAddress = getAddress(singleSidedToken);
   const lpName = farm.lpSymbol.toUpperCase();
+  const singleSidedTokenName = farm.singleSidedTokenName.toUpperCase();
   const isApproved = account && allowance && allowance.isGreaterThan(0);
+  const isSignleSidedTokenApproved =
+    account && SingleSidedAllowances && SingleSidedAllowances.isGreaterThan(0);
   const web3 = useWeb3();
+  const singleSidedTokendecimals = farm.singleSidedTokenDecimal
+    ? farm.singleSidedTokenDecimal
+    : new BigNumber(18);
 
   const totalValueOfUser: BigNumber = useMemo(() => {
     if (!account) {
@@ -200,6 +213,18 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
           isApproved={isApproved}
           totalValueOfUserFormated={totalValueOfUserFormated}
         />
+        <StakeActionSignleSided
+          stakedBalance={stakedBalance}
+          tokenBalance={SingleSidedTokenBalance}
+          tokenName={singleSidedTokenName}
+          decimal={singleSidedTokendecimals}
+          pid={pid}
+          addLiquidityUrl={addLiquidityUrl}
+          isApproved={isSignleSidedTokenApproved}
+          totalValueOfUserFormated={totalValueOfUserFormated}
+          singleSidedAddress={singleSidedAddress}
+        />
+
         {/* :
           (
             <Button
