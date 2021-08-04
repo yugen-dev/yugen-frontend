@@ -5,13 +5,15 @@ import { provider as ProviderType } from "web3-core";
 import Countdown from "react-countdown";
 import { getAddress } from "utils/addressHelpers";
 import { getBep20Contract } from "utils/contractHelpers";
-import { Flex, Text, Radio } from "cryption-uikit";
+import { Flex, Text, Radio, Heading, } from "cryption-uikit";
 import { Farm } from "state/types";
+import { getBalanceNumber } from "utils/formatBalance";
 import { useFarmFromSymbol, useFarmUser, useProfile } from "state/hooks";
 import useI18n from "hooks/useI18n";
 import useWeb3 from "hooks/useWeb3";
 import { useApprove, useApproveStaking } from "hooks/useApprove";
 import UnlockButton from "components/UnlockButton";
+import { Subtle } from "../FarmTable/Actions/styles";
 import StakeAction from "./StakeAction";
 import HarvestAction from "./HarvestAction";
 import StakeActionSignleSided from "./StakeActionSignleSided";
@@ -101,14 +103,16 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
 
   const totalValueOfUserFormated = totalValueOfUser
     ? `$${Number(totalValueOfUser).toLocaleString(undefined, {
-        maximumFractionDigits: 2,
-      })}`
+      maximumFractionDigits: 2,
+    })}`
     : "-";
 
   const lpContract = getBep20Contract(lpAddress, web3);
 
   const { metaTranscation } = useProfile();
+  const rawStakedBalance = getBalanceNumber(stakedBalance);
 
+  const displayBalance = rawStakedBalance.toLocaleString();
   const [signatureData, setSignatureData] = useState<{
     v: number;
     r: string;
@@ -193,25 +197,36 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
   const renderApprovalOrStakeButton = () => {
     return (
       <>
-        <Flex mt="15px">
-          <Text
-            bold
-            textTransform="uppercase"
-            color="#2082E9"
-            fontSize="12px"
-            pr="5px"
-          >
-            {lpName}
-          </Text>
-          <Text
-            bold
-            textTransform="uppercase"
-            color="#86878F"
-            fontSize="12px"
-            mb="10px"
-          >
-            {TranslateString(1074, "Staked")}
-          </Text>
+        <Flex mt="15px" justifyContent="space-between" alignItems="center">
+          <div style={{ display: 'flex' }}>
+            <Text
+              bold
+              textTransform="uppercase"
+              color="#2082E9"
+              fontSize="12px"
+              pr="5px"
+            >
+              {lpName}
+            </Text>
+            <Text
+              bold
+              textTransform="uppercase"
+              color="#86878F"
+              fontSize="12px"
+              mb="10px"
+            >
+              {TranslateString(1074, "Staked")}
+            </Text>
+          </div>
+          <Flex justifyContent="space-between" alignItems="center">
+            <Heading color={rawStakedBalance === 0 ? "textDisabled" : "text"}>
+              {displayBalance}{" "}
+            </Heading>
+            <Subtle>
+              {" "}
+              {totalValueOfUserFormated}
+            </Subtle>
+          </Flex>
         </Flex>
         <Flex>
           <div
@@ -231,11 +246,12 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
             >
               <Text>LP</Text>
               <Radio
-                name="LP"
+                name="MATIC"
                 scale="sm"
                 value="LP"
                 onChange={handleRadioChange}
-                checked={radioTrue}
+                // checked={radioTrue}
+                defaultChecked
                 style={{ margin: "10px" }}
               />
             </div>
@@ -252,7 +268,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
                 name="MATIC"
                 value="MATIC"
                 onChange={handleRadioChange}
-                checked={!radioTrue}
+                // checked={!radioTrue}
                 style={{ margin: "10px" }}
               />
             </div>

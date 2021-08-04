@@ -36,6 +36,7 @@ interface FarmCardActionsProps {
 
 const IconButtonWrapper = styled.div`
   display: flex;
+  justify-content: center;
   svg {
     width: 20px;
   }
@@ -113,25 +114,24 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
     // }
 
     return (
-      <Button mt="8px" disabled={approvalDisabled} onClick={handleApprove}>
+      <Button mt="8px" disabled={approvalDisabled} onClick={handleApprove} width="100%">
         {approvalDisabled ? "Approving..." : "Approve"}
       </Button>
     );
   };
 
   return (
-    <div style={{ textAlign: 'left' }}>
-      <Flex justifyContent="space-between" alignItems="center">
+    <div>
+      {/* <Flex justifyContent="space-between" alignItems="center">
         <Heading color={rawStakedBalance === 0 ? "textDisabled" : "text"}>
           {displayBalance}
         </Heading>
-
-        {renderStakingButtons()}
-      </Flex>
-      <Subtle style={{ alignSelf: "flex-start" }}>
-        {" "}
-        {totalValueOfUserFormated}
-      </Subtle>
+        <Subtle style={{ alignSelf: "flex-start" }}>
+          {" "}
+          {totalValueOfUserFormated}
+        </Subtle>
+      </Flex> */}
+      {renderStakingButtons()}
     </div>
   );
 };
