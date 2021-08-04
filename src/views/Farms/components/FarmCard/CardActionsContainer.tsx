@@ -5,7 +5,7 @@ import { provider as ProviderType } from "web3-core";
 import Countdown from "react-countdown";
 import { getAddress } from "utils/addressHelpers";
 import { getBep20Contract } from "utils/contractHelpers";
-import { Flex, Text } from "cryption-uikit";
+import { Flex, Text, Radio } from "cryption-uikit";
 import { Farm } from "state/types";
 import { useFarmFromSymbol, useFarmUser, useProfile } from "state/hooks";
 import useI18n from "hooks/useI18n";
@@ -66,6 +66,18 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
   const singleSidedTokendecimals = farm.singleSidedTokenDecimal
     ? farm.singleSidedTokenDecimal
     : new BigNumber(18);
+
+  const [radioValue, setRadioValue] = React.useState("LP");
+  const [radioTrue, SetradioTrue] = React.useState(true);
+
+  const handleRadioChange = (e) => {
+    if (e.target.value === "LP") {
+      SetradioTrue(true);
+    } else {
+      SetradioTrue(false);
+    }
+    setRadioValue(() => e.target.value);
+  };
 
   const totalValueOfUser: BigNumber = useMemo(() => {
     if (!account) {
@@ -201,32 +213,80 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
             {TranslateString(1074, "Staked")}
           </Text>
         </Flex>
-        <StakeAction
-          stakedBalance={stakedBalance}
-          tokenBalance={tokenBalance}
-          tokenName={lpName}
-          pid={pid}
-          addLiquidityUrl={addLiquidityUrl}
-          signatureData={signatureData}
-          setSignauteNull={setSignauteNull}
-          approvalDisabled={requestedApproval}
-          handleApprove={handleApprove}
-          isApproved={isApproved}
-          totalValueOfUserFormated={totalValueOfUserFormated}
-        />
-        <StakeActionSignleSided
-          stakedBalance={stakedBalance}
-          tokenBalance={SingleSidedTokenBalance}
-          tokenName={singleSidedTokenName}
-          decimal={singleSidedTokendecimals}
-          pid={pid}
-          addLiquidityUrl={addLiquidityUrl}
-          isApproved={isSignleSidedTokenApproved}
-          totalValueOfUserFormated={totalValueOfUserFormated}
-          singleSidedAddress={singleSidedAddress}
-          singleSidedToTokenAddress={singleSidedToTokenAddress}
-          lpTokenAddress={lpAddress}
-        />
+        <Flex>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-evenly",
+              alignItems: "center",
+              width: "100%",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text>LP</Text>
+              <Radio
+                name="LP"
+                scale="sm"
+                value="LP"
+                onChange={handleRadioChange}
+                checked={radioTrue}
+                style={{ margin: "10px" }}
+              />
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text>MATIC</Text>
+              <Radio
+                scale="sm"
+                name="MATIC"
+                value="MATIC"
+                onChange={handleRadioChange}
+                checked={!radioTrue}
+                style={{ margin: "10px" }}
+              />
+            </div>
+          </div>
+        </Flex>
+        {radioTrue ? (
+          <StakeAction
+            stakedBalance={stakedBalance}
+            tokenBalance={tokenBalance}
+            tokenName={lpName}
+            pid={pid}
+            addLiquidityUrl={addLiquidityUrl}
+            signatureData={signatureData}
+            setSignauteNull={setSignauteNull}
+            approvalDisabled={requestedApproval}
+            handleApprove={handleApprove}
+            isApproved={isApproved}
+            totalValueOfUserFormated={totalValueOfUserFormated}
+          />
+        ) : (
+          <StakeActionSignleSided
+            stakedBalance={stakedBalance}
+            tokenBalance={SingleSidedTokenBalance}
+            tokenName={singleSidedTokenName}
+            decimal={singleSidedTokendecimals}
+            pid={pid}
+            addLiquidityUrl={addLiquidityUrl}
+            isApproved={isSignleSidedTokenApproved}
+            totalValueOfUserFormated={totalValueOfUserFormated}
+            singleSidedAddress={singleSidedAddress}
+            singleSidedToTokenAddress={singleSidedToTokenAddress}
+            lpTokenAddress={lpAddress}
+          />
+        )}
 
         {/* :
           (
