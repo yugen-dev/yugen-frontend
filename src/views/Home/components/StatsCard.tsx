@@ -314,7 +314,7 @@ const CardValue: React.FC<CardValueProps> = ({
               {burnerFees && (
                 <ProgressText>
                   <Text color="#C1C5CB" fontSize="16px">
-                    CNT Burned
+                    Burner Allocation
                   </Text>
                   <Text
                     color="white"
@@ -477,7 +477,7 @@ const CardValue: React.FC<CardValueProps> = ({
             {burnerFees && (
               <ProgressText>
                 <Text color="#C1C5CB" fontSize="16px">
-                  CNT Burned
+                  Burner Allocation
                 </Text>
                 <Text
                   color="white"
