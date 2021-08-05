@@ -26,7 +26,7 @@ const Home = lazy(() => import("./views/Home"));
 const Farms = lazy(() => import("./views/Farms"));
 const FarmsMultiRewards = lazy(() => import("./views/FarmsMultiRewards"));
 const Migrate = lazy(() => import("./views/Migrate"));
-const CNTBar = lazy(() => import("./views/CNTBar"));
+const CNTStaker = lazy(() => import("./views/CNTStaker"));
 const Swap = lazy(() => import("./views/Swap"));
 const AddLiquidity = lazy(() => import("./views/AddLiquidity"));
 const Pool = lazy(() => import("./views/Pool"));
@@ -85,7 +85,7 @@ const App: React.FC = () => {
                 <Migrate />
               </Route>
               <Route path="/cntstaker">
-                <CNTBar />
+                <CNTStaker />
               </Route>
               <Route exact strict path="/swap" component={Swap} />
               <Route exact strict path="/find" component={PoolFinder} />

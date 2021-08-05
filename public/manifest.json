@@ -1,7 +1,7 @@
 {
-  "short_name": "SwapCafe",
-  "name": "SwapCafe",
-  "description": "Farm CAKE with Swapcafe LP Tokens",
+  "short_name": "PolyDEX",
+  "name": "PolyDEX",
+  "description": "Farm CNT with PolyDEX LP Tokens",
   "icons": [
     {
       "src": "favicon.ico",

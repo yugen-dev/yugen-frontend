@@ -11,7 +11,7 @@ import {
 } from "cryption-uikit";
 import useWeb3 from "hooks/useWeb3";
 import { usePolydexMigratorContract, usePairContract } from "hooks/useContract";
-import { getBep20Contract } from "utils/contractHelpers";
+import { getERC20Contract } from "utils/contractHelpers";
 import { useMigrationpairRemover } from "state/user/hooks";
 import ConfirmationPendingContent from "components/TransactionConfirmationModal/ConfirmationPendingContent";
 import TransactionSubmittedContent from "components/TransactionConfirmationModal/TransactionSubmittedContent";
@@ -178,8 +178,8 @@ export default function MigrationCard({
         const getReserves = await pairContract.getReserves();
         const getToken0Address = await pairContract.token0();
         const getToken1Address = await pairContract.token1();
-        const token0contract = getBep20Contract(getToken0Address, web3);
-        const token1contract = getBep20Contract(getToken1Address, web3);
+        const token0contract = getERC20Contract(getToken0Address, web3);
+        const token1contract = getERC20Contract(getToken1Address, web3);
         const gettoken0Symbol = await token0contract.methods.symbol().call();
         const gettoken1Symbol = await token1contract.methods.symbol().call();
         const totalSupply = web3.utils.fromWei(

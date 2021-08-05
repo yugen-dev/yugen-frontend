@@ -123,13 +123,13 @@ export default function TokenWarningModal({
           <Text>
             {TranslateString(
               1130,
-              "Anyone can create a BEP20 token on BSC with any name, including creating fake versions of existing tokens and tokens that claim to represent projects that do not have a token."
+              "Anyone can create a ERC20 token on BSC with any name, including creating fake versions of existing tokens and tokens that claim to represent projects that do not have a token."
             )}
           </Text>
           <Text>
             {TranslateString(
               1132,
-              "This interface can load arbitrary tokens by token addresses. Please take extra caution and do your research when interacting with arbitrary BEP20 tokens."
+              "This interface can load arbitrary tokens by token addresses. Please take extra caution and do your research when interacting with arbitrary ERC20 tokens."
             )}
           </Text>
           <Text>
