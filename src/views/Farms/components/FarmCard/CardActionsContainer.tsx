@@ -113,8 +113,8 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
 
   const totalValueOfUserFormated = totalValueOfUser
     ? `$${Number(totalValueOfUser).toLocaleString(undefined, {
-      maximumFractionDigits: 2,
-    })}`
+        maximumFractionDigits: 2,
+      })}`
     : "-";
 
   const lpContract = getBep20Contract(lpAddress, web3);
@@ -256,7 +256,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
                 name="radio"
                 scale="sm"
                 // value="LP"
-                onChange={() => handleRadioChange('LP')}
+                onChange={() => handleRadioChange("LP")}
                 // checked={radioTrue}
                 // defaultChecked
                 style={{ margin: "10px" }}
@@ -292,7 +292,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
                   scale="sm"
                   name="radio"
                   // value={singleSidedtoTokenName}
-                  onChange={() => handleRadioChange(singleSidedTokenName)}
+                  onChange={() => handleRadioChange(singleSidedtoTokenName)}
                   // checked={!radioTrue}
                   style={{ margin: "10px" }}
                 />
