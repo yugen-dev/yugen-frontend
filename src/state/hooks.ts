@@ -41,6 +41,7 @@ import { fetchPrices } from "./prices";
 
 const ZERO = new BigNumber(0);
 
+const chainID = process.env.REACT_APP_CHAIN_ID;
 export const useFetchPublicData = () => {
   const dispatch = useDispatch();
   const { slowRefresh } = useRefresh();
@@ -111,6 +112,9 @@ export const useFarmUser = (pid) => {
       : new BigNumber(0),
     SingleSidedTokenBalance: farm.userData
       ? new BigNumber(farm.userData.SingleSidedTokenBalance)
+      : new BigNumber(0),
+    SingleSidedToTokenBalance: farm.userData
+      ? new BigNumber(farm.userData.SingleSidedToTokenBalance)
       : new BigNumber(0),
   };
 };
@@ -349,7 +353,7 @@ export const useCntStakerTvl = (): BigNumber => {
     const fetchPriceXCNT = async () => {
       const contract = getCakeContract();
       const res = await contract.methods
-        .balanceOf(contracts.cntStaker[137])
+        .balanceOf(contracts.cntStaker[chainID])
         .call();
       setCntStakerTvlPrice(
         new BigNumber(res).dividedBy(new BigNumber(10).pow(18))

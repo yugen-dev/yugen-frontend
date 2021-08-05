@@ -26,6 +26,7 @@ export interface Farm extends FarmConfig {
   poolWeight?: BigNumber;
   lpTotalSupply?: BigNumber;
   singleSidedTokenDecimal?: BigNumber;
+  singleSidedToTokenDecimal?: BigNumber;
   userData?: {
     allowance: BigNumber;
     tokenBalance: BigNumber;
@@ -35,6 +36,7 @@ export interface Farm extends FarmConfig {
     harvestInterval: BigNumber;
     SingleSidedAllowances: BigNumber;
     SingleSidedTokenBalance: BigNumber;
+    SingleSidedToTokenBalance: BigNumber;
   };
 }
 

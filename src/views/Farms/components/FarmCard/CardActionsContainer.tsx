@@ -5,12 +5,14 @@ import { provider as ProviderType } from "web3-core";
 import Countdown from "react-countdown";
 import { getAddress } from "utils/addressHelpers";
 import { getBep20Contract } from "utils/contractHelpers";
-import { Flex, Text, Radio, Heading, } from "cryption-uikit";
+import { Flex, Text, Radio, Heading } from "cryption-uikit";
 import { Farm } from "state/types";
 import { getBalanceNumber } from "utils/formatBalance";
+
 import { useFarmFromSymbol, useFarmUser, useProfile } from "state/hooks";
 import useI18n from "hooks/useI18n";
 import useWeb3 from "hooks/useWeb3";
+import useEthBalance from "hooks/useEthBalance";
 import { useApprove, useApproveStaking } from "hooks/useApprove";
 import UnlockButton from "components/UnlockButton";
 import { Subtle } from "../FarmTable/Actions/styles";
@@ -53,6 +55,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     harvestInterval,
     SingleSidedAllowances,
     SingleSidedTokenBalance,
+    SingleSidedToTokenBalance,
   } = useFarmUser(pid);
 
   const lpAddress = getAddress(lpAddresses);
@@ -61,16 +64,24 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
 
   const lpName = farm.lpSymbol.toUpperCase();
   const singleSidedTokenName = farm.singleSidedTokenName.toUpperCase();
+  const singleSidedtoTokenName = farm.singleSidedToTokenName.toUpperCase();
   const isApproved = account && allowance && allowance.isGreaterThan(0);
+
   const isSignleSidedTokenApproved =
     account && SingleSidedAllowances && SingleSidedAllowances.isGreaterThan(0);
+  console.log(SingleSidedAllowances.toString());
   const web3 = useWeb3();
   const singleSidedTokendecimals = farm.singleSidedTokenDecimal
     ? farm.singleSidedTokenDecimal
     : new BigNumber(18);
 
+  const singleSidedToTokendecimals = farm.singleSidedToTokenDecimal
+    ? farm.singleSidedToTokenDecimal
+    : new BigNumber(18);
+
   const [radioValue, setRadioValue] = React.useState("LP");
   const [radioTrue, SetradioTrue] = React.useState(true);
+  const valueOfEthBalance = useEthBalance();
 
   const handleRadioChange = (e) => {
     if (e.target.value === "LP") {
@@ -103,8 +114,8 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
 
   const totalValueOfUserFormated = totalValueOfUser
     ? `$${Number(totalValueOfUser).toLocaleString(undefined, {
-      maximumFractionDigits: 2,
-    })}`
+        maximumFractionDigits: 2,
+      })}`
     : "-";
 
   const lpContract = getBep20Contract(lpAddress, web3);
@@ -198,7 +209,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     return (
       <>
         <Flex mt="15px" justifyContent="space-between" alignItems="center">
-          <div style={{ display: 'flex' }}>
+          <div style={{ display: "flex" }}>
             <Text
               bold
               textTransform="uppercase"
@@ -222,10 +233,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
             <Heading color={rawStakedBalance === 0 ? "textDisabled" : "text"}>
               {displayBalance}{" "}
             </Heading>
-            <Subtle>
-              {" "}
-              {totalValueOfUserFormated}
-            </Subtle>
+            <Subtle> {totalValueOfUserFormated}</Subtle>
           </Flex>
         </Flex>
         <Flex>
@@ -262,19 +270,38 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
                 alignItems: "center",
               }}
             >
-              <Text>MATIC</Text>
+              <Text>{singleSidedTokenName}</Text>
               <Radio
                 scale="sm"
-                name="MATIC"
-                value="MATIC"
+                name={singleSidedTokenName}
+                value={singleSidedTokenName}
                 onChange={handleRadioChange}
                 // checked={!radioTrue}
                 style={{ margin: "10px" }}
               />
             </div>
+            {singleSidedtoTokenName !== "CNT" && (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Text>{singleSidedtoTokenName}</Text>
+                <Radio
+                  scale="sm"
+                  name={singleSidedtoTokenName}
+                  value={singleSidedtoTokenName}
+                  onChange={handleRadioChange}
+                  // checked={!radioTrue}
+                  style={{ margin: "10px" }}
+                />
+              </div>
+            )}
           </div>
         </Flex>
-        {radioTrue ? (
+        {radioTrue && radioValue !== singleSidedtoTokenName && (
           <StakeAction
             stakedBalance={stakedBalance}
             tokenBalance={tokenBalance}
@@ -288,7 +315,8 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
             isApproved={isApproved}
             totalValueOfUserFormated={totalValueOfUserFormated}
           />
-        ) : (
+        )}
+        {!radioTrue && radioValue !== singleSidedtoTokenName && (
           <StakeActionSignleSided
             stakedBalance={stakedBalance}
             tokenBalance={SingleSidedTokenBalance}
@@ -301,6 +329,23 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
             singleSidedAddress={singleSidedAddress}
             singleSidedToTokenAddress={singleSidedToTokenAddress}
             lpTokenAddress={lpAddress}
+            valueOfEthBalance={valueOfEthBalance}
+          />
+        )}
+        {!radioTrue && radioValue === singleSidedtoTokenName && (
+          <StakeActionSignleSided
+            stakedBalance={stakedBalance}
+            tokenBalance={SingleSidedToTokenBalance}
+            tokenName={singleSidedtoTokenName}
+            decimal={singleSidedToTokendecimals}
+            pid={pid}
+            addLiquidityUrl={addLiquidityUrl}
+            isApproved={isSignleSidedTokenApproved}
+            totalValueOfUserFormated={totalValueOfUserFormated}
+            singleSidedAddress={singleSidedToTokenAddress}
+            singleSidedToTokenAddress={singleSidedAddress}
+            lpTokenAddress={lpAddress}
+            valueOfEthBalance={valueOfEthBalance}
           />
         )}
 
