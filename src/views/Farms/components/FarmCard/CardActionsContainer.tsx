@@ -5,12 +5,14 @@ import { provider as ProviderType } from "web3-core";
 import Countdown from "react-countdown";
 import { getAddress } from "utils/addressHelpers";
 import { getBep20Contract } from "utils/contractHelpers";
-import { Flex, Text, Radio, Heading, } from "cryption-uikit";
+import { Flex, Text, Radio, Heading } from "cryption-uikit";
 import { Farm } from "state/types";
 import { getBalanceNumber } from "utils/formatBalance";
+
 import { useFarmFromSymbol, useFarmUser, useProfile } from "state/hooks";
 import useI18n from "hooks/useI18n";
 import useWeb3 from "hooks/useWeb3";
+import useEthBalance from "hooks/useEthBalance";
 import { useApprove, useApproveStaking } from "hooks/useApprove";
 import UnlockButton from "components/UnlockButton";
 import { Subtle } from "../FarmTable/Actions/styles";
@@ -71,6 +73,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
 
   const [radioValue, setRadioValue] = React.useState("LP");
   const [radioTrue, SetradioTrue] = React.useState(true);
+  const valueOfEthBalance = useEthBalance();
 
   const handleRadioChange = (e) => {
     if (e.target.value === "LP") {
@@ -103,8 +106,8 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
 
   const totalValueOfUserFormated = totalValueOfUser
     ? `$${Number(totalValueOfUser).toLocaleString(undefined, {
-      maximumFractionDigits: 2,
-    })}`
+        maximumFractionDigits: 2,
+      })}`
     : "-";
 
   const lpContract = getBep20Contract(lpAddress, web3);
@@ -198,7 +201,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     return (
       <>
         <Flex mt="15px" justifyContent="space-between" alignItems="center">
-          <div style={{ display: 'flex' }}>
+          <div style={{ display: "flex" }}>
             <Text
               bold
               textTransform="uppercase"
@@ -222,10 +225,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
             <Heading color={rawStakedBalance === 0 ? "textDisabled" : "text"}>
               {displayBalance}{" "}
             </Heading>
-            <Subtle>
-              {" "}
-              {totalValueOfUserFormated}
-            </Subtle>
+            <Subtle> {totalValueOfUserFormated}</Subtle>
           </Flex>
         </Flex>
         <Flex>
@@ -262,11 +262,11 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
                 alignItems: "center",
               }}
             >
-              <Text>MATIC</Text>
+              <Text>{singleSidedTokenName}</Text>
               <Radio
                 scale="sm"
-                name="MATIC"
-                value="MATIC"
+                name={singleSidedTokenName}
+                value={singleSidedTokenName}
                 onChange={handleRadioChange}
                 // checked={!radioTrue}
                 style={{ margin: "10px" }}
@@ -301,6 +301,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
             singleSidedAddress={singleSidedAddress}
             singleSidedToTokenAddress={singleSidedToTokenAddress}
             lpTokenAddress={lpAddress}
+            valueOfEthBalance={valueOfEthBalance}
           />
         )}
 

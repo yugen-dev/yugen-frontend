@@ -10,6 +10,8 @@ import {
   MinusIcon,
   useModal,
 } from "cryption-uikit";
+import Row from "components/Row";
+import Column from "components/Column";
 
 import useI18n from "hooks/useI18n";
 import { useStake } from "hooks/useStake";
@@ -94,14 +96,27 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
           {TranslateString(999, "Stake LP")}
         </Button>
       ) : (
-        <IconButtonWrapper>
-          <IconButton variant="tertiary" onClick={onPresentWithdraw} mr="6px">
-            <MinusIcon color="primary" width="14px" />
-          </IconButton>
-          <IconButton variant="tertiary" onClick={onPresentDeposit}>
-            <AddIcon color="primary" width="14px" />
-          </IconButton>
-        </IconButtonWrapper>
+        // <IconButtonWrapper>
+        //   <IconButton variant="tertiary" onClick={onPresentWithdraw} mr="6px">
+        //     <MinusIcon color="primary" width="14px" />
+        //   </IconButton>
+        //   <IconButton variant="tertiary" onClick={onPresentDeposit}>
+        //     <AddIcon color="primary" width="14px" />
+        //   </IconButton>
+        // </IconButtonWrapper>
+        <Row>
+          {/* <Column> */}
+          <Button mt="8px" onClick={onPresentDeposit} width="100%">
+            {approvalDisabled ? "Staking..." : "Stake"}
+          </Button>
+          <Button mt="8px" onClick={onPresentWithdraw} width="100%">
+            {approvalDisabled ? "Unstaking..." : "Unstake"}
+          </Button>
+          {/* </Column> */}
+          {/* <Column>
+           
+          </Column> */}
+        </Row>
       );
     }
 
@@ -114,9 +129,26 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
     // }
 
     return (
-      <Button mt="8px" disabled={approvalDisabled} onClick={handleApprove} width="100%">
-        {approvalDisabled ? "Approving..." : "Approve"}
-      </Button>
+      <div>
+        <Row>
+          <Button
+            mt="8px"
+            disabled={approvalDisabled}
+            onClick={handleApprove}
+            width="100%"
+          >
+            {approvalDisabled ? "Approving..." : "Approve"}
+          </Button>
+          <Button
+            mt="8px"
+            disabled={approvalDisabled}
+            onClick={onPresentWithdraw}
+            width="100%"
+          >
+            {approvalDisabled ? "Unstaking..." : "Unstake"}
+          </Button>
+        </Row>
+      </div>
     );
   };
 

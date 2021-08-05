@@ -35,6 +35,7 @@ interface FarmCardActionsProps {
   decimal?: BigNumber;
   singleSidedToTokenAddress?: string;
   lpTokenAddress?: string;
+  valueOfEthBalance?: BigNumber;
 }
 
 const IconButtonWrapper = styled.div`
@@ -55,6 +56,7 @@ const StakeActionSignleSided: React.FC<FarmCardActionsProps> = ({
   decimal,
   singleSidedToTokenAddress,
   lpTokenAddress,
+  valueOfEthBalance,
 }) => {
   const wmatic = getWbnbAddress();
   const [requestedApproval, setRequestedApproval] = useState(false);
@@ -88,18 +90,11 @@ const StakeActionSignleSided: React.FC<FarmCardActionsProps> = ({
     decimal
   );
 
-  // pid: number,
-  // token: string,
-  // toToken: string,
-  // pairAddress: string,
-  // slippage: string
-
   const rawStakedBalance = getBalanceNumber(stakedBalance);
-  // console.log(decimal ? decimal : 18)                      ;
-  // console.log(decimal.toString());
+
   const [onPresentDeposit] = useModal(
     <DepositModalSingleSided
-      max={tokenBalance}
+      max={singleSidedAddress === wmatic ? valueOfEthBalance : tokenBalance}
       decimals={Number(decimal.toString())}
       onConfirm={onProvideSingleSidedLiquidity}
       tokenName={tokenName}
@@ -109,17 +104,19 @@ const StakeActionSignleSided: React.FC<FarmCardActionsProps> = ({
 
   const renderStakingButtons = () => {
     if (isApproved || singleSidedAddress === wmatic) {
-      return rawStakedBalance === 0 ? (
+      //  rawStakedBalance === 0 ? (
+      return (
         <Button onClick={onPresentDeposit} variant="secondary" width="100%">
           {TranslateString(999, "Provide Single Sided Liquidity")}
         </Button>
-      ) : (
-        <IconButtonWrapper>
-          <IconButton variant="tertiary" onClick={onPresentDeposit}>
-            <AddIcon color="primary" width="14px" />
-          </IconButton>
-        </IconButtonWrapper>
       );
+      // ) : (
+      //   <IconButtonWrapper>
+      //     <IconButton variant="tertiary" onClick={onPresentDeposit}>
+      //       <AddIcon color="primary" width="14px" />
+      //     </IconButton>
+      //   </IconButtonWrapper>
+      // );
     }
 
     return (
@@ -143,10 +140,6 @@ const StakeActionSignleSided: React.FC<FarmCardActionsProps> = ({
 
         {renderStakingButtons()}
       </Flex>
-      {/* <Subtle style={{ alignSelf: "flex-start" }}>
-        {" "}
-        {totalValueOfUserFormated}
-      </Subtle> */}
     </div>
   );
 };
