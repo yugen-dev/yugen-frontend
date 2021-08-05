@@ -69,7 +69,6 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
 
   const isSignleSidedTokenApproved =
     account && SingleSidedAllowances && SingleSidedAllowances.isGreaterThan(0);
-  console.log(SingleSidedAllowances.toString());
   const web3 = useWeb3();
   const singleSidedTokendecimals = farm.singleSidedTokenDecimal
     ? farm.singleSidedTokenDecimal
@@ -83,13 +82,13 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
   const [radioTrue, SetradioTrue] = React.useState(true);
   const valueOfEthBalance = useEthBalance();
 
-  const handleRadioChange = (e) => {
-    if (e.target.value === "LP") {
+  const handleRadioChange = (value) => {
+    if (value === "LP") {
       SetradioTrue(true);
     } else {
       SetradioTrue(false);
     }
-    setRadioValue(() => e.target.value);
+    setRadioValue(() => value);
   };
 
   const totalValueOfUser: BigNumber = useMemo(() => {
@@ -114,8 +113,8 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
 
   const totalValueOfUserFormated = totalValueOfUser
     ? `$${Number(totalValueOfUser).toLocaleString(undefined, {
-        maximumFractionDigits: 2,
-      })}`
+      maximumFractionDigits: 2,
+    })}`
     : "-";
 
   const lpContract = getBep20Contract(lpAddress, web3);
@@ -254,12 +253,12 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
             >
               <Text>LP</Text>
               <Radio
-                name="MATIC"
+                name="radio"
                 scale="sm"
-                value="LP"
-                onChange={handleRadioChange}
+                // value="LP"
+                onChange={() => handleRadioChange('LP')}
                 // checked={radioTrue}
-                defaultChecked
+                // defaultChecked
                 style={{ margin: "10px" }}
               />
             </div>
@@ -273,9 +272,9 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
               <Text>{singleSidedTokenName}</Text>
               <Radio
                 scale="sm"
-                name={singleSidedTokenName}
-                value={singleSidedTokenName}
-                onChange={handleRadioChange}
+                name="radio"
+                // value={singleSidedTokenName}
+                onChange={() => handleRadioChange(singleSidedTokenName)}
                 // checked={!radioTrue}
                 style={{ margin: "10px" }}
               />
@@ -291,9 +290,9 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
                 <Text>{singleSidedtoTokenName}</Text>
                 <Radio
                   scale="sm"
-                  name={singleSidedtoTokenName}
-                  value={singleSidedtoTokenName}
-                  onChange={handleRadioChange}
+                  name="radio"
+                  // value={singleSidedtoTokenName}
+                  onChange={() => handleRadioChange(singleSidedTokenName)}
                   // checked={!radioTrue}
                   style={{ margin: "10px" }}
                 />
