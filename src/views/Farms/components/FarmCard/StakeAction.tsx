@@ -1,5 +1,4 @@
 import React from "react";
-// import styled from "styled-components";
 import BigNumber from "bignumber.js";
 import {
   Button,
@@ -28,14 +27,6 @@ interface FarmCardActionsProps {
   isApproved?: boolean;
   totalValueOfUserFormated?: string;
 }
-
-// const IconButtonWrapper = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   svg {
-//     width: 20px;
-//   }
-// `;
 
 const StakeAction: React.FC<FarmCardActionsProps> = ({
   stakedBalance,
@@ -100,10 +91,12 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
         <Row justifyContent="space-around">
           {/* <Column> */}
           <Button mt="8px" scale="md" height="45px" onClick={onPresentDeposit} minWidth="120px" width="auto" mr="15px">
-            {approvalDisabled ? "Staking..." : "Stake"}
+            {/* {approvalDisabled ? "Staking..." : "Stake"} */}
+            Stake
           </Button>
           <Button mt="8px" scale="md" height="45px" onClick={onPresentWithdraw} minWidth="120px" width="auto">
-            {approvalDisabled ? "Unstaking..." : "Unstake"}
+            {/* {approvalDisabled ? "Unstaking..." : "Unstake"} */}
+            Unstake
           </Button>
           {/* </Column> */}
           {/* <Column>
@@ -140,12 +133,13 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
             mt="8px"
             scale="md"
             height="45px"
-            disabled={approvalDisabled}
+            // disabled={approvalDisabled}
             minWidth="120px"
             onClick={onPresentWithdraw}
             width="auto"
           >
-            {approvalDisabled ? "Unstaking..." : "Unstake"}
+            Unstake
+            {/* {approvalDisabled ? "Unstaking..." : "Unstake"} */}
           </Button>
         </Row>
       </div>

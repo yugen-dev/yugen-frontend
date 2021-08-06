@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from "react";
-// import styled from "styled-components";
 import BigNumber from "bignumber.js";
 import {
   Button,
@@ -34,13 +33,6 @@ interface FarmCardActionsProps {
   lpTokenAddress?: string;
   valueOfEthBalance?: BigNumber;
 }
-
-// const IconButtonWrapper = styled.div`
-//   display: flex;
-//   svg {
-//     width: 20px;
-//   }
-// `;
 
 const StakeActionSignleSided: React.FC<FarmCardActionsProps> = ({
   stakedBalance,

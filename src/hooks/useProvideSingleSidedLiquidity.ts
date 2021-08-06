@@ -22,7 +22,6 @@ export const useProvideSingleSidedLiquidity = (
 
   const handeProvideSingleSidedLiquidity = useCallback(
     async (amount: string) => {
-      // let resp;
       try {
         toastInfo("Processing...", `You requested to Deposited `);
 
