@@ -1,0 +1,107 @@
+import BigNumber from "bignumber.js";
+import React, { useCallback, useMemo, useState } from "react";
+import { Button, Modal, LinkExternal, AutoRenewIcon } from "cryption-uikit";
+import ModalActions from "components/ModalActions";
+import ModalInput from "components/ModalInput";
+import useI18n from "hooks/useI18n";
+import { getFullDisplayBalanceWithDecimals } from "utils/formatBalance";
+
+interface DepositModalSingleSidedProps {
+  max: BigNumber;
+  decimals: number;
+  onConfirm: (amount: string) => void;
+  onDismiss?: () => void;
+  tokenName?: string;
+  addLiquidityUrl?: string;
+}
+
+const DepositModalSingleSided: React.FC<DepositModalSingleSidedProps> = ({
+  max,
+  decimals,
+  onConfirm,
+  onDismiss,
+  tokenName = "",
+  addLiquidityUrl,
+}) => {
+  const [val, setVal] = useState("");
+  const [pendingTx, setPendingTx] = useState(false);
+  const TranslateString = useI18n();
+  const fullBalance = useMemo(() => {
+    return getFullDisplayBalanceWithDecimals(max, decimals);
+  }, [max, decimals]);
+
+  const handleChange = useCallback(
+    (e: React.FormEvent<HTMLInputElement>) => {
+      setVal(e.currentTarget.value);
+    },
+    [setVal]
+  );
+
+  const handleSelectMax = useCallback(() => {
+    setVal(fullBalance);
+  }, [fullBalance, setVal]);
+
+  const BtnLoadingComp =
+    pendingTx === false ? (
+      <Button
+        width="100%"
+        onClick={async () => {
+          setPendingTx(true);
+          await onConfirm(val);
+          setPendingTx(false);
+          onDismiss();
+        }}
+      >
+        {TranslateString(464, "Confirm")}
+      </Button>
+    ) : (
+      <Button isLoading endIcon={<AutoRenewIcon spin color="currentColor" />}>
+        {TranslateString(488, "Pending Confirmation")}
+      </Button>
+    );
+
+  return (
+    <Modal
+      title={TranslateString(
+        1068,
+        "Provide Single Sided Liquidity And Stake Lp"
+      )}
+      onDismiss={onDismiss}
+    >
+      <ModalInput
+        value={val}
+        onSelectMax={handleSelectMax}
+        onChange={handleChange}
+        max={fullBalance}
+        symbol={tokenName}
+        addLiquidityUrl={addLiquidityUrl}
+        inputTitle={TranslateString(1070, "Stake")}
+      />
+      <ModalActions>
+        <Button variant="secondary" onClick={onDismiss} width="100%">
+          {TranslateString(462, "Cancel")}
+        </Button>
+        {/* <Button
+          width="100%"
+          disabled={pendingTx || fullBalance === "0" || val === "0"}
+          onClick={async () => {
+            setPendingTx(true);
+            await onConfirm(val);
+            setPendingTx(false);
+            onDismiss();
+          }}
+        >
+          {pendingTx
+            ? TranslateString(488, "Pending Confirmation")
+            : TranslateString(464, "Confirm")}
+        </Button> */}
+        {BtnLoadingComp}
+      </ModalActions>
+      <LinkExternal href={addLiquidityUrl} style={{ alignSelf: "center" }}>
+        {TranslateString(999, "Get")} {tokenName}
+      </LinkExternal>
+    </Modal>
+  );
+};
+
+export default DepositModalSingleSided;

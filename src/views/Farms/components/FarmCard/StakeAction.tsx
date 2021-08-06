@@ -10,6 +10,8 @@ import {
   MinusIcon,
   useModal,
 } from "cryption-uikit";
+import Row from "components/Row";
+import Column from "components/Column";
 
 import useI18n from "hooks/useI18n";
 import { useStake } from "hooks/useStake";
@@ -36,6 +38,7 @@ interface FarmCardActionsProps {
 
 const IconButtonWrapper = styled.div`
   display: flex;
+  justify-content: center;
   svg {
     width: 20px;
   }
@@ -93,14 +96,27 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
           {TranslateString(999, "Stake LP")}
         </Button>
       ) : (
-        <IconButtonWrapper>
-          <IconButton variant="tertiary" onClick={onPresentWithdraw} mr="6px">
-            <MinusIcon color="primary" width="14px" />
-          </IconButton>
-          <IconButton variant="tertiary" onClick={onPresentDeposit}>
-            <AddIcon color="primary" width="14px" />
-          </IconButton>
-        </IconButtonWrapper>
+        // <IconButtonWrapper>
+        //   <IconButton variant="tertiary" onClick={onPresentWithdraw} mr="6px">
+        //     <MinusIcon color="primary" width="14px" />
+        //   </IconButton>
+        //   <IconButton variant="tertiary" onClick={onPresentDeposit}>
+        //     <AddIcon color="primary" width="14px" />
+        //   </IconButton>
+        // </IconButtonWrapper>
+        <Row justifyContent="space-around">
+          {/* <Column> */}
+          <Button mt="8px" scale="md" height="45px" onClick={onPresentDeposit} minWidth="120px" width="auto" mr="15px">
+            {approvalDisabled ? "Staking..." : "Stake"}
+          </Button>
+          <Button mt="8px" scale="md" height="45px" onClick={onPresentWithdraw} minWidth="120px" width="auto">
+            {approvalDisabled ? "Unstaking..." : "Unstake"}
+          </Button>
+          {/* </Column> */}
+          {/* <Column>
+           
+          </Column> */}
+        </Row>
       );
     }
 
@@ -113,25 +129,48 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
     // }
 
     return (
-      <Button mt="8px" disabled={approvalDisabled} onClick={handleApprove}>
-        {approvalDisabled ? "Approving..." : "Approve"}
-      </Button>
+      <div>
+        <Row justifyContent="space-around">
+          <Button
+            mt="8px"
+            mr="15px"
+            scale="md"
+            height="45px"
+            disabled={approvalDisabled}
+            onClick={handleApprove}
+            minWidth="120px"
+            width="auto"
+          >
+            {approvalDisabled ? "Approving..." : "Approve"}
+          </Button>
+          <Button
+            mt="8px"
+            scale="md"
+            height="45px"
+            disabled={approvalDisabled}
+            minWidth="120px"
+            onClick={onPresentWithdraw}
+            width="auto"
+          >
+            {approvalDisabled ? "Unstaking..." : "Unstake"}
+          </Button>
+        </Row>
+      </div>
     );
   };
 
   return (
-    <div style={{ textAlign: 'left' }}>
-      <Flex justifyContent="space-between" alignItems="center">
+    <div>
+      {/* <Flex justifyContent="space-between" alignItems="center">
         <Heading color={rawStakedBalance === 0 ? "textDisabled" : "text"}>
           {displayBalance}
         </Heading>
-
-        {renderStakingButtons()}
-      </Flex>
-      <Subtle style={{ alignSelf: "flex-start" }}>
-        {" "}
-        {totalValueOfUserFormated}
-      </Subtle>
+        <Subtle style={{ alignSelf: "flex-start" }}>
+          {" "}
+          {totalValueOfUserFormated}
+        </Subtle>
+      </Flex> */}
+      {renderStakingButtons()}
     </div>
   );
 };

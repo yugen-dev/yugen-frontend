@@ -19,6 +19,7 @@ import {
   getPointCenterIfoAddress,
   getClaimRefundAddress,
   getHybridStakingAddress,
+  getSingleSidedLiquidityAddress,
 } from "utils/addressHelpers";
 
 // ABI
@@ -29,6 +30,7 @@ import bunnySpecialAbi from "config/abi/bunnySpecial.json";
 import erc20Abi from "config/abi/erc20.json";
 import cakeAbi from "config/abi/cake.json";
 import hybridStakingAbi from "config/abi/hybridstaking.json";
+import singleSidedLiquidityAbi from "config/abi/singleSidedLiquidity.json";
 import ifoAbi from "config/abi/ifo.json";
 import pointCenterIfo from "config/abi/pointCenterIfo.json";
 import lotteryAbi from "config/abi/lottery.json";
@@ -69,6 +71,14 @@ export const getCakeContract = (web3?: Web3) => {
 
 export const getHybridStakingContract = (web3?: Web3) => {
   return getContract(hybridStakingAbi, getHybridStakingAddress(), web3);
+};
+
+export const getSingleSidedLiquidityContract = (web3?: Web3) => {
+  return getContract(
+    singleSidedLiquidityAbi,
+    getSingleSidedLiquidityAddress(),
+    web3
+  );
 };
 
 export const getProfileContract = (web3?: Web3) => {

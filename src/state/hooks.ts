@@ -41,6 +41,7 @@ import { fetchPrices } from "./prices";
 
 const ZERO = new BigNumber(0);
 
+const chainID = process.env.REACT_APP_CHAIN_ID;
 export const useFetchPublicData = () => {
   const dispatch = useDispatch();
   const { slowRefresh } = useRefresh();
@@ -106,6 +107,18 @@ export const useFarmUser = (pid) => {
     harvestInterval: farm.userData
       ? new BigNumber(farm.userData.harvestInterval)
       : new BigNumber(0),
+    SingleSidedAllowances: farm.userData
+      ? new BigNumber(farm.userData.SingleSidedAllowances)
+      : new BigNumber(0),
+    SingleSidedTokenBalance: farm.userData
+      ? new BigNumber(farm.userData.SingleSidedTokenBalance)
+      : new BigNumber(0),
+    SingleSidedToTokenBalance: farm.userData
+      ? new BigNumber(farm.userData.SingleSidedToTokenBalance)
+      : new BigNumber(0),
+    SingleSidedToTokenAllowances: farm.userData
+      ? new BigNumber(farm.userData.SingleSidedToTokenAllowances)
+      : new BigNumber(0),
   };
 };
 
@@ -141,6 +154,7 @@ export const usePriceBnbBusd = (): BigNumber => {
   return farm.tokenPriceVsQuote
     ? new BigNumber(1).div(farm.tokenPriceVsQuote)
     : ZERO;
+  // return new BigNumber(10);
 };
 
 export const usePriceCakeBusd = (): BigNumber => {
@@ -151,6 +165,7 @@ export const usePriceCakeBusd = (): BigNumber => {
   return farm.tokenPriceVsQuote
     ? bnbPriceUSD.times(farm.tokenPriceVsQuote)
     : ZERO;
+  // return new BigNumber(10);
 };
 
 export const usePriceEthBusd = (): BigNumber => {
@@ -159,6 +174,7 @@ export const usePriceEthBusd = (): BigNumber => {
   return farm.tokenPriceVsQuote
     ? new BigNumber(1).div(farm.tokenPriceVsQuote)
     : ZERO;
+  // return new BigNumber(10);
 };
 
 export const usePriceBtcBusd = (): BigNumber => {
@@ -169,6 +185,7 @@ export const usePriceBtcBusd = (): BigNumber => {
   return farm.tokenPriceVsQuote
     ? new BigNumber(1).div(farm.tokenPriceVsQuote)
     : ZERO;
+  // return new BigNumber(10);
 };
 
 // Toasts
@@ -339,7 +356,7 @@ export const useCntStakerTvl = (): BigNumber => {
     const fetchPriceXCNT = async () => {
       const contract = getCakeContract();
       const res = await contract.methods
-        .balanceOf(contracts.cntStaker[137])
+        .balanceOf(contracts.cntStaker[chainID])
         .call();
       setCntStakerTvlPrice(
         new BigNumber(res).dividedBy(new BigNumber(10).pow(18))

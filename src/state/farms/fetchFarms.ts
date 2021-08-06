@@ -43,6 +43,14 @@ const fetchFarms = async () => {
           address: getAddress(farmConfig.quoteTokenAdresses),
           name: "decimals",
         },
+        {
+          address: getAddress(farmConfig.singleSidedToken),
+          name: "decimals",
+        },
+        {
+          address: getAddress(farmConfig.singleSidedToToken),
+          name: "decimals",
+        },
       ];
 
       const [
@@ -52,7 +60,17 @@ const fetchFarms = async () => {
         lpTotalSupply,
         tokenDecimals,
         quoteTokenDecimals,
+        singleSidedTokenDecimal,
+        singleSidedToTokenDecimal,
       ] = await multicall(erc20, calls);
+
+      const singleSidedTokenDecimalLocal = new BigNumber(
+        singleSidedTokenDecimal
+      );
+      const singleSidedToTokenDecimalLocal = new BigNumber(
+        singleSidedToTokenDecimal
+      );
+      const lpInMasterChef = new BigNumber(lpTokenBalanceMC);
 
       // Ratio in % a LP tokens that are in staking, vs the total number in circulation
       const lpTokenRatio = new BigNumber(lpTokenBalanceMC).div(
@@ -99,7 +117,9 @@ const fetchFarms = async () => {
         poolWeight: poolWeight.toJSON(),
         multiplier: `${allocPoint.div(100).toString()}X`,
         poolHarvestInterval: poolHarvestInterval.toString(),
-        lpTotalSupply: lpTokenBalanceMC,
+        lpTotalSupplyInMasterchef: lpInMasterChef.toJSON(),
+        singleSidedTokenDecimal: singleSidedTokenDecimalLocal.toJSON(),
+        singleSidedToTokenDecimal: singleSidedToTokenDecimalLocal.toJSON(),
       };
     })
   );

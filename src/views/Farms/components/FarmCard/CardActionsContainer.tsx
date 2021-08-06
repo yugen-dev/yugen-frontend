@@ -4,16 +4,21 @@ import styled from "styled-components";
 import { provider as ProviderType } from "web3-core";
 import Countdown from "react-countdown";
 import { getAddress } from "utils/addressHelpers";
-import { getERC20Contract } from "utils/contractHelpers";
-import { Flex, Text } from "cryption-uikit";
+import { Flex, Text, Radio, Heading } from "cryption-uikit";
 import { Farm } from "state/types";
+import { getBalanceNumber } from "utils/formatBalance";
+
 import { useFarmFromSymbol, useFarmUser, useProfile } from "state/hooks";
 import useI18n from "hooks/useI18n";
 import useWeb3 from "hooks/useWeb3";
-import { useApprove } from "hooks/useApprove";
+import { getERC20Contract } from "utils/contractHelpers";
+import useEthBalance from "hooks/useEthBalance";
+import { useApprove, useApproveStaking } from "hooks/useApprove";
 import UnlockButton from "components/UnlockButton";
+import { Subtle } from "../FarmTable/Actions/styles";
 import StakeAction from "./StakeAction";
 import HarvestAction from "./HarvestAction";
+import StakeActionSignleSided from "./StakeActionSignleSided";
 
 const Action = styled.div`
   padding-top: 5px;
@@ -38,7 +43,9 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
 }) => {
   const TranslateString = useI18n();
   const [requestedApproval, setRequestedApproval] = useState(false);
-  const { pid, lpAddresses } = useFarmFromSymbol(farm.lpSymbol);
+  const { pid, lpAddresses, singleSidedToken, singleSidedToToken } =
+    useFarmFromSymbol(farm.lpSymbol);
+
   const {
     allowance,
     tokenBalance,
@@ -46,12 +53,49 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     earnings,
     canHarvest,
     harvestInterval,
+    SingleSidedAllowances,
+    SingleSidedTokenBalance,
+    SingleSidedToTokenBalance,
+    SingleSidedToTokenAllowances,
   } = useFarmUser(pid);
 
   const lpAddress = getAddress(lpAddresses);
+  const singleSidedAddress = getAddress(singleSidedToken);
+  const singleSidedToTokenAddress = getAddress(singleSidedToToken);
+
   const lpName = farm.lpSymbol.toUpperCase();
+  const singleSidedTokenName = farm.singleSidedTokenName.toUpperCase();
+  const singleSidedtoTokenName = farm.singleSidedToTokenName.toUpperCase();
   const isApproved = account && allowance && allowance.isGreaterThan(0);
+
+  const isSignleSidedTokenApproved =
+    account && SingleSidedAllowances && SingleSidedAllowances.isGreaterThan(0);
+  const isSingleSidedToTokenApproved =
+    account &&
+    SingleSidedToTokenAllowances &&
+    SingleSidedToTokenAllowances.isGreaterThan(0);
+
   const web3 = useWeb3();
+  const singleSidedTokendecimals = farm.singleSidedTokenDecimal
+    ? farm.singleSidedTokenDecimal
+    : new BigNumber(18);
+
+  const singleSidedToTokendecimals = farm.singleSidedToTokenDecimal
+    ? farm.singleSidedToTokenDecimal
+    : new BigNumber(18);
+
+  const [radioValue, setRadioValue] = React.useState("LP");
+  const [radioTrue, SetradioTrue] = React.useState(true);
+  const valueOfEthBalance = useEthBalance();
+
+  const handleRadioChange = (value) => {
+    if (value === "LP") {
+      SetradioTrue(true);
+    } else {
+      SetradioTrue(false);
+    }
+    setRadioValue(() => value);
+  };
 
   const totalValueOfUser: BigNumber = useMemo(() => {
     if (!account) {
@@ -64,13 +108,13 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
       return null;
     }
 
-    return totalValue.times(stakedBalance).div(farm.lpTotalSupply);
+    return totalValue.times(stakedBalance).div(farm.lpTotalSupplyInMasterchef);
   }, [
     totalValue,
     stakedBalance,
     farm.lpTotalInQuoteToken,
     account,
-    farm.lpTotalSupply,
+    farm.lpTotalSupplyInMasterchef,
   ]);
 
   const totalValueOfUserFormated = totalValueOfUser
@@ -82,7 +126,9 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
   const lpContract = getERC20Contract(lpAddress, web3);
 
   const { metaTranscation } = useProfile();
+  const rawStakedBalance = getBalanceNumber(stakedBalance);
 
+  const displayBalance = rawStakedBalance.toLocaleString();
   const [signatureData, setSignatureData] = useState<{
     v: number;
     r: string;
@@ -167,39 +213,147 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
   const renderApprovalOrStakeButton = () => {
     return (
       <>
-        <Flex mt="15px">
-          <Text
-            bold
-            textTransform="uppercase"
-            color="#2082E9"
-            fontSize="12px"
-            pr="5px"
-          >
-            {lpName}
-          </Text>
-          <Text
-            bold
-            textTransform="uppercase"
-            color="#86878F"
-            fontSize="12px"
-            mb="10px"
-          >
-            {TranslateString(1074, "Staked")}
-          </Text>
+        <Flex mt="15px" justifyContent="space-between" alignItems="center">
+          <div style={{ display: "flex" }}>
+            <Text
+              bold
+              textTransform="uppercase"
+              color="#2082E9"
+              fontSize="12px"
+              pr="5px"
+            >
+              {lpName}
+            </Text>
+            <Text
+              bold
+              textTransform="uppercase"
+              color="#86878F"
+              fontSize="12px"
+              mb="10px"
+            >
+              {TranslateString(1074, "Staked")}
+            </Text>
+          </div>
+          <Flex justifyContent="space-between" alignItems="center">
+            <Heading color={rawStakedBalance === 0 ? "textDisabled" : "text"}>
+              {displayBalance}{" "}
+            </Heading>
+            <Subtle> {totalValueOfUserFormated}</Subtle>
+          </Flex>
         </Flex>
-        <StakeAction
-          stakedBalance={stakedBalance}
-          tokenBalance={tokenBalance}
-          tokenName={lpName}
-          pid={pid}
-          addLiquidityUrl={addLiquidityUrl}
-          signatureData={signatureData}
-          setSignauteNull={setSignauteNull}
-          approvalDisabled={requestedApproval}
-          handleApprove={handleApprove}
-          isApproved={isApproved}
-          totalValueOfUserFormated={totalValueOfUserFormated}
-        />
+        <Flex>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-evenly",
+              alignItems: "center",
+              width: "100%",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text>LP</Text>
+              <Radio
+                name="radio"
+                scale="sm"
+                // value="LP"
+                onChange={() => handleRadioChange("LP")}
+                // checked={radioTrue}
+                // defaultChecked
+                style={{ margin: "10px" }}
+              />
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text>{singleSidedTokenName}</Text>
+              <Radio
+                scale="sm"
+                name="radio"
+                // value={singleSidedTokenName}
+                onChange={() => handleRadioChange(singleSidedTokenName)}
+                // checked={!radioTrue}
+                style={{ margin: "10px" }}
+              />
+            </div>
+            {singleSidedtoTokenName !== "CNT" && (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Text>{singleSidedtoTokenName}</Text>
+                <Radio
+                  scale="sm"
+                  name="radio"
+                  // value={singleSidedtoTokenName}
+                  onChange={() => handleRadioChange(singleSidedtoTokenName)}
+                  // checked={!radioTrue}
+                  style={{ margin: "10px" }}
+                />
+              </div>
+            )}
+          </div>
+        </Flex>
+        {radioTrue && radioValue !== singleSidedtoTokenName && (
+          <StakeAction
+            stakedBalance={stakedBalance}
+            tokenBalance={tokenBalance}
+            tokenName={lpName}
+            pid={pid}
+            addLiquidityUrl={addLiquidityUrl}
+            signatureData={signatureData}
+            setSignauteNull={setSignauteNull}
+            approvalDisabled={requestedApproval}
+            handleApprove={handleApprove}
+            isApproved={isApproved}
+            totalValueOfUserFormated={totalValueOfUserFormated}
+          />
+        )}
+        {!radioTrue && radioValue !== singleSidedtoTokenName && (
+          <StakeActionSignleSided
+            stakedBalance={stakedBalance}
+            tokenBalance={SingleSidedTokenBalance}
+            tokenName={singleSidedTokenName}
+            decimal={singleSidedTokendecimals}
+            pid={pid}
+            addLiquidityUrl={addLiquidityUrl}
+            isApproved={isSignleSidedTokenApproved}
+            totalValueOfUserFormated={totalValueOfUserFormated}
+            singleSidedAddress={singleSidedAddress}
+            singleSidedToTokenAddress={singleSidedToTokenAddress}
+            lpTokenAddress={lpAddress}
+            valueOfEthBalance={valueOfEthBalance}
+          />
+        )}
+        {!radioTrue && radioValue === singleSidedtoTokenName && (
+          <StakeActionSignleSided
+            stakedBalance={stakedBalance}
+            tokenBalance={SingleSidedToTokenBalance}
+            tokenName={singleSidedtoTokenName}
+            decimal={singleSidedToTokendecimals}
+            pid={pid}
+            addLiquidityUrl={addLiquidityUrl}
+            isApproved={isSingleSidedToTokenApproved}
+            totalValueOfUserFormated={totalValueOfUserFormated}
+            singleSidedAddress={singleSidedToTokenAddress}
+            singleSidedToTokenAddress={singleSidedAddress}
+            lpTokenAddress={lpAddress}
+            valueOfEthBalance={valueOfEthBalance}
+          />
+        )}
+
         {/* :
           (
             <Button
