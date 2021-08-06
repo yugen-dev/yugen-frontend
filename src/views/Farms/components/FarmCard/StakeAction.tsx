@@ -104,12 +104,12 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
         //     <AddIcon color="primary" width="14px" />
         //   </IconButton>
         // </IconButtonWrapper>
-        <Row>
+        <Row justifyContent="space-around">
           {/* <Column> */}
-          <Button mt="8px" onClick={onPresentDeposit} width="100%">
+          <Button mt="8px" scale="md" height="45px" onClick={onPresentDeposit} minWidth="120px" width="auto" mr="15px">
             {approvalDisabled ? "Staking..." : "Stake"}
           </Button>
-          <Button mt="8px" onClick={onPresentWithdraw} width="100%">
+          <Button mt="8px" scale="md" height="45px" onClick={onPresentWithdraw} minWidth="120px" width="auto">
             {approvalDisabled ? "Unstaking..." : "Unstake"}
           </Button>
           {/* </Column> */}
@@ -130,20 +130,27 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
 
     return (
       <div>
-        <Row>
+        <Row justifyContent="space-around">
           <Button
             mt="8px"
+            mr="15px"
+            scale="md"
+            height="45px"
             disabled={approvalDisabled}
             onClick={handleApprove}
-            width="100%"
+            minWidth="120px"
+            width="auto"
           >
             {approvalDisabled ? "Approving..." : "Approve"}
           </Button>
           <Button
             mt="8px"
+            scale="md"
+            height="45px"
             disabled={approvalDisabled}
+            minWidth="120px"
             onClick={onPresentWithdraw}
-            width="100%"
+            width="auto"
           >
             {approvalDisabled ? "Unstaking..." : "Unstake"}
           </Button>
