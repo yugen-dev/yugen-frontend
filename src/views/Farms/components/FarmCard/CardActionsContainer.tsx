@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { provider as ProviderType } from "web3-core";
 import Countdown from "react-countdown";
 import { getAddress } from "utils/addressHelpers";
-import { getBep20Contract } from "utils/contractHelpers";
 import { Flex, Text, Radio, Heading } from "cryption-uikit";
 import { Farm } from "state/types";
 import { getBalanceNumber } from "utils/formatBalance";
@@ -12,6 +11,7 @@ import { getBalanceNumber } from "utils/formatBalance";
 import { useFarmFromSymbol, useFarmUser, useProfile } from "state/hooks";
 import useI18n from "hooks/useI18n";
 import useWeb3 from "hooks/useWeb3";
+import { getERC20Contract } from "utils/contractHelpers";
 import useEthBalance from "hooks/useEthBalance";
 import { useApprove, useApproveStaking } from "hooks/useApprove";
 import UnlockButton from "components/UnlockButton";
@@ -56,6 +56,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     SingleSidedAllowances,
     SingleSidedTokenBalance,
     SingleSidedToTokenBalance,
+    SingleSidedToTokenAllowances,
   } = useFarmUser(pid);
 
   const lpAddress = getAddress(lpAddresses);
@@ -69,6 +70,13 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
 
   const isSignleSidedTokenApproved =
     account && SingleSidedAllowances && SingleSidedAllowances.isGreaterThan(0);
+  const isSingleSidedToTokenApproved =
+    account &&
+    SingleSidedToTokenAllowances &&
+    SingleSidedToTokenAllowances.isGreaterThan(0);
+  console.log(farm.pid.toString());
+  console.log(SingleSidedToTokenAllowances.toString());
+
   const web3 = useWeb3();
   const singleSidedTokendecimals = farm.singleSidedTokenDecimal
     ? farm.singleSidedTokenDecimal
@@ -117,7 +125,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
       })}`
     : "-";
 
-  const lpContract = getBep20Contract(lpAddress, web3);
+  const lpContract = getERC20Contract(lpAddress, web3);
 
   const { metaTranscation } = useProfile();
   const rawStakedBalance = getBalanceNumber(stakedBalance);
@@ -339,7 +347,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
             decimal={singleSidedToTokendecimals}
             pid={pid}
             addLiquidityUrl={addLiquidityUrl}
-            isApproved={isSignleSidedTokenApproved}
+            isApproved={isSingleSidedToTokenApproved}
             totalValueOfUserFormated={totalValueOfUserFormated}
             singleSidedAddress={singleSidedToTokenAddress}
             singleSidedToTokenAddress={singleSidedAddress}

@@ -116,6 +116,9 @@ export const useFarmUser = (pid) => {
     SingleSidedToTokenBalance: farm.userData
       ? new BigNumber(farm.userData.SingleSidedToTokenBalance)
       : new BigNumber(0),
+    SingleSidedToTokenAllowances: farm.userData
+      ? new BigNumber(farm.userData.SingleSidedToTokenAllowances)
+      : new BigNumber(0),
   };
 };
 
@@ -145,44 +148,44 @@ export const usePoolFromPid = (sousId): Pool => {
 // Prices
 
 export const usePriceBnbBusd = (): BigNumber => {
-  // const pid = 3; // USD-MATIC LP, BUSD-BNB LP
-  // const farm = useFarmFromPid(pid);
+  const pid = 3; // USD-MATIC LP, BUSD-BNB LP
+  const farm = useFarmFromPid(pid);
 
-  // return farm.tokenPriceVsQuote
-  //   ? new BigNumber(1).div(farm.tokenPriceVsQuote)
-  //   : ZERO;
-  return new BigNumber(10);
+  return farm.tokenPriceVsQuote
+    ? new BigNumber(1).div(farm.tokenPriceVsQuote)
+    : ZERO;
+  // return new BigNumber(10);
 };
 
 export const usePriceCakeBusd = (): BigNumber => {
-  // const pid = 0; // CNT-MATIC LP ,CAKE-BNB LP
-  // const bnbPriceUSD = usePriceBnbBusd();
+  const pid = 0; // CNT-MATIC LP ,CAKE-BNB LP
+  const bnbPriceUSD = usePriceBnbBusd();
 
-  // const farm = useFarmFromPid(pid);
-  // return farm.tokenPriceVsQuote
-  //   ? bnbPriceUSD.times(farm.tokenPriceVsQuote)
-  //   : ZERO;
+  const farm = useFarmFromPid(pid);
+  return farm.tokenPriceVsQuote
+    ? bnbPriceUSD.times(farm.tokenPriceVsQuote)
+    : ZERO;
   return new BigNumber(10);
 };
 
 export const usePriceEthBusd = (): BigNumber => {
-  // const pid = 8; // ETH-MATIC LP ,ETH-BNB LP
-  // const farm = useFarmFromPid(pid);
-  // return farm.tokenPriceVsQuote
-  //   ? new BigNumber(1).div(farm.tokenPriceVsQuote)
-  //   : ZERO;
-  return new BigNumber(10);
+  const pid = 8; // ETH-MATIC LP ,ETH-BNB LP
+  const farm = useFarmFromPid(pid);
+  return farm.tokenPriceVsQuote
+    ? new BigNumber(1).div(farm.tokenPriceVsQuote)
+    : ZERO;
+  // return new BigNumber(10);
 };
 
 export const usePriceBtcBusd = (): BigNumber => {
-  // const pid = 5; // ETH-MATIC LP ,ETH-BNB LP
-  // // const bnbPriceUSD = usePriceBnbBusd();
-  // const farm = useFarmFromPid(pid);
+  const pid = 5; // ETH-MATIC LP ,ETH-BNB LP
+  // const bnbPriceUSD = usePriceBnbBusd();
+  const farm = useFarmFromPid(pid);
 
-  // return farm.tokenPriceVsQuote
-  //   ? new BigNumber(1).div(farm.tokenPriceVsQuote)
-  //   : ZERO;
-  return new BigNumber(10);
+  return farm.tokenPriceVsQuote
+    ? new BigNumber(1).div(farm.tokenPriceVsQuote)
+    : ZERO;
+  // return new BigNumber(10);
 };
 
 // Toasts
@@ -371,17 +374,17 @@ export const useHybridstakingTvl = (): BigNumber => {
     new BigNumber(2000)
   );
 
-  // useEffect(() => {
-  //   const fetchPriceHybridCNT = async () => {
-  //     const contract = getHybridStakingContract();
-  //     const res = await contract.methods.totalCNTStaked().call();
-  //     setHybridstakingTvlPrice(
-  //       new BigNumber(res).dividedBy(new BigNumber(10).pow(18))
-  //     );
-  //   };
+  useEffect(() => {
+    const fetchPriceHybridCNT = async () => {
+      const contract = getHybridStakingContract();
+      const res = await contract.methods.totalCNTStaked().call();
+      setHybridstakingTvlPrice(
+        new BigNumber(res).dividedBy(new BigNumber(10).pow(18))
+      );
+    };
 
-  //   fetchPriceHybridCNT();
-  // }, []);
+    fetchPriceHybridCNT();
+  }, []);
 
   return HybridstakingTvlPrice;
 };
@@ -437,7 +440,7 @@ export const useTotalValue = (): BigNumber => {
 
   for (let i = 0; i < pools.length; i++) {
     const pool = pools[i];
-
+    const tokenInLpPrice = UseGetApiPrice(pool.tokenAdressInLp);
     if (pool.poolCategory === PoolCategory.CORE) {
       let val;
       if (pool.quoteTokenSymbol === QuoteToken.BNB) {
@@ -450,11 +453,12 @@ export const useTotalValue = (): BigNumber => {
         val = btcPrice.times(pool.lpTotalInQuoteToken);
       } else if (pool.quoteTokenSymbol === QuoteToken.BUSD) {
         val = new BigNumber(pool.tokenAmount).plus(pool.quoteTokenAmount);
+      } else if (pool.stakingTokenName === QuoteToken.LP) {
+        val = new BigNumber(tokenInLpPrice).times(pool.lpTotalInQuoteToken);
       } else {
         val = pool.lpTotalInQuoteToken;
       }
       value = value.plus(val);
-      // value = value.plus(cakePrice.multipliedBy(pool.lpTotalInQuoteToken));
     }
   }
 

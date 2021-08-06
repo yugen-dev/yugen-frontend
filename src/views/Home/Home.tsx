@@ -209,7 +209,7 @@ const Home: React.FC = () => {
     cakePriceUsd
   ) {
     cntStakingRatio =
-      (((parseFloat(dayDatas.data.dayDatas[1].volumeUSD) * 0.05) /
+      (((parseFloat(dayDatas.data.dayDatas[1].volumeUSD) * 0.0005 * 0.35) /
         parseFloat(getCNTStakerInfo.data.cntstaker.totalSupply)) *
         365) /
       (parseFloat(getCNTStakerInfo.data.cntstaker.ratio) *
@@ -242,7 +242,7 @@ const Home: React.FC = () => {
         },
         [[], []]
       );
-    totalFees = (parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.3).toFixed(
+    totalFees = (parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.003).toFixed(
       4
     );
     lpFees = (parseFloat(totalFees) * (5 / 6)).toFixed(4);
@@ -337,7 +337,7 @@ const Home: React.FC = () => {
                 description={`${cntStakingRatio.toFixed(2)}%`}
                 bottomTitle="on staking CNT"
                 descriptionColor="#29bb89"
-                redirectLink="/cntbar"
+                redirectLink="/cntstaker"
               />
             </Grid>
           </Grid>

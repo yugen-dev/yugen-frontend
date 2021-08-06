@@ -35,6 +35,7 @@ export interface Farm extends FarmConfig {
     canHarvest: boolean;
     harvestInterval: BigNumber;
     SingleSidedAllowances: BigNumber;
+    SingleSidedToTokenAllowances:BigNumber;
     SingleSidedTokenBalance: BigNumber;
     SingleSidedToTokenBalance: BigNumber;
   };

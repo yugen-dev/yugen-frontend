@@ -125,6 +125,6 @@ export default {
     56: "",
     97: "",
     80001: "0xEcbF5f2A16DAa2Ace84A1845341FB9B62302CB43",
-    137: "",
+    137: "0xaD4C94313BF3aC2641A2C6F0A3802c4990A034fe",
   },
 };

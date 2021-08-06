@@ -64,6 +64,8 @@ const fetchFarms = async () => {
         singleSidedToTokenDecimal,
       ] = await multicall(erc20, calls);
 
+      const lpInMasterChef = new BigNumber(lpTokenBalanceMC);
+
       // Ratio in % a LP tokens that are in staking, vs the total number in circulation
       const lpTokenRatio = new BigNumber(lpTokenBalanceMC).div(
         new BigNumber(lpTotalSupply)
@@ -109,7 +111,7 @@ const fetchFarms = async () => {
         poolWeight: poolWeight.toJSON(),
         multiplier: `${allocPoint.div(100).toString()}X`,
         poolHarvestInterval: poolHarvestInterval.toString(),
-        lpTotalSupply: lpTokenBalanceMC,
+        lpTotalSupply: lpInMasterChef,
         singleSidedTokenDecimal,
         singleSidedToTokenDecimal,
       };

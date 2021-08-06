@@ -49,6 +49,29 @@ export const fetchFarmUserSingleSidedAllowances = async (account: string) => {
   return parsedSingleTokenAllowances;
 };
 
+export const fetchFarmUserSingleSidedToTokenAllowances = async (
+  account: string
+) => {
+  const singleSidedLiquidityAddress = getSingleSidedLiquidityAddress();
+
+  const calls = farmsConfig.map((farm) => {
+    const singleSidedToTokenAddress = getAddress(farm.singleSidedToToken);
+    return {
+      address: singleSidedToTokenAddress,
+      name: "allowance",
+      params: [account, singleSidedLiquidityAddress],
+    };
+  });
+
+  const rawSingleToTokenAllowances = await multicall(erc20ABI, calls);
+  const parsedSingleToTokenAllowances = rawSingleToTokenAllowances.map(
+    (singleTokenBalance) => {
+      return new BigNumber(singleTokenBalance).toJSON();
+    }
+  );
+  return parsedSingleToTokenAllowances;
+};
+
 export const fetchFarmUserSingleSidedTokenBalance = async (account: string) => {
   const calls = farmsConfig.map((farm) => {
     const singleSidedTokenAddress = getAddress(farm.singleSidedToken);

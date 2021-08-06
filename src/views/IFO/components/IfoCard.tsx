@@ -87,7 +87,7 @@ const IfoCard = () => {
 
           <LabelContainer>
             <Label>Symbol</Label>
-            <Loader value={fetchValue.symbol} />
+            <Loader value={fetchValue.symbol.toUpperCase()} />
           </LabelContainer>
 
           <LabelContainer>

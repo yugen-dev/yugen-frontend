@@ -37,7 +37,7 @@ import {
 import {
   getCakeContract,
   getCNTStakerContract,
-  getBep20Contract,
+  getERC20Contract,
 } from "utils/contractHelpers";
 import { useCNTStaker, useCNTStakerGasless } from "hooks/useContract";
 import { registerToken } from "utils/wallet";
@@ -145,7 +145,7 @@ const StyledOl = styled.ol`
   list-style-position: outside;
   padding-left: 16px;
 `;
-const CNTBar = () => {
+const CNTStaker = () => {
   // const tokenName = "CNT";
   const [valueOfCNTinUSD, setCNTVal] = useState(0);
   const xCNTLogo = "https://i.ibb.co/zfhRMxc/xCNT.png";
@@ -183,7 +183,7 @@ const CNTBar = () => {
   }
   const fetchBalances = async (tokenAddress) => {
     try {
-      const contract = getBep20Contract(tokenAddress, web3);
+      const contract = getERC20Contract(tokenAddress, web3);
       const res = await contract.methods.balanceOf(account).call();
       return new BigNumber(res);
     } catch (error) {
@@ -193,7 +193,7 @@ const CNTBar = () => {
   };
   const fetchAllowance = async (tokenAddress, stakerAddress) => {
     try {
-      const contract = getBep20Contract(tokenAddress, web3);
+      const contract = getERC20Contract(tokenAddress, web3);
       const res = await contract.methods
         .allowance(account, stakerAddress)
         .call();
@@ -260,7 +260,7 @@ const CNTBar = () => {
     valueOfCNTinUSD
   ) {
     cntStakingRatio =
-      (((parseFloat(dayDatas.data.dayDatas[1].volumeUSD) * 0.05) /
+      (((parseFloat(dayDatas.data.dayDatas[1].volumeUSD) * 0.0005 * 0.35) /
         parseFloat(getCNTStakerInfo.data.cntstaker.totalSupply)) *
         365) /
       (parseFloat(getCNTStakerInfo.data.cntstaker.ratio) *
@@ -662,4 +662,4 @@ const CNTBar = () => {
   );
 };
 
-export default CNTBar;
+export default CNTStaker;

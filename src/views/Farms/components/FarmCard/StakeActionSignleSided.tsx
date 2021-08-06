@@ -13,6 +13,7 @@ import {
 import useWeb3 from "hooks/useWeb3";
 
 import useI18n from "hooks/useI18n";
+import { getERC20Contract } from "utils/contractHelpers";
 import { useApprove, useIfoApprove } from "hooks/useApprove";
 import { useProvideSingleSidedLiquidity } from "hooks/useProvideSingleSidedLiquidity";
 import {
@@ -20,7 +21,6 @@ import {
   getWbnbAddress,
 } from "utils/addressHelpers";
 import { getBalanceNumber } from "utils/formatBalance";
-import { getBep20Contract } from "utils/contractHelpers";
 import DepositModalSingleSided from "../DepositModalSingleSided";
 
 interface FarmCardActionsProps {
@@ -61,7 +61,7 @@ const StakeActionSignleSided: React.FC<FarmCardActionsProps> = ({
   const wmatic = getWbnbAddress();
   const [requestedApproval, setRequestedApproval] = useState(false);
   const web3 = useWeb3();
-  const singleSidedTokenContract = getBep20Contract(singleSidedAddress, web3);
+  const singleSidedTokenContract = getERC20Contract(singleSidedAddress, web3);
 
   const onApprove = useIfoApprove(
     singleSidedTokenContract,

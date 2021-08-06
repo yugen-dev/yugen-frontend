@@ -15,7 +15,7 @@ import { useWeb3React } from "@web3-react/core";
 import Countdown from "react-countdown";
 import UnlockButton from "components/UnlockButton";
 import Label from "components/Label";
-import { getBep20Contract } from "utils/contractHelpers";
+import { getERC20Contract } from "utils/contractHelpers";
 import useI18n from "hooks/useI18n";
 import { useSousStake } from "hooks/useStake";
 import useWeb3 from "hooks/useWeb3";
@@ -60,7 +60,7 @@ const PoolCard: React.FC<HarvestProps> = ({
     image,
     tokenName,
     tokenAddress,
-    stakingTokenName,
+
     // contractAddress,
     stakingTokenDecimals,
     projectLink,
@@ -75,10 +75,13 @@ const PoolCard: React.FC<HarvestProps> = ({
     stakingLimit,
     poolHarvestInterval,
     tokenPriceVsQuote,
+    stakingTokenName,
     metamaskImg,
     quoteTokenSymbol,
     lpTotalInQuoteToken,
   } = pool;
+
+  const tokenInLpPrice = UseGetApiPrice(pool.tokenAdressInLp);
 
   const totalValue: BigNumber = useMemo(() => {
     if (!lpTotalInQuoteToken) {
@@ -91,6 +94,12 @@ const PoolCard: React.FC<HarvestProps> = ({
       console.log(valueOfCNTinUSD.toNumber());
       return valueOfCNTinUSD.times(lpTotalInQuoteToken);
     }
+    if (stakingTokenName === QuoteToken.LP) {
+      return tokenInLpPrice
+        ? new BigNumber(tokenInLpPrice).times(lpTotalInQuoteToken)
+        : new BigNumber(100000);
+    }
+
     if (quoteTokenSymbol === QuoteToken.ETH) {
       return ethPrice.times(lpTotalInQuoteToken);
     }
@@ -113,7 +122,9 @@ const PoolCard: React.FC<HarvestProps> = ({
     pool.tokenAmount,
     btcPrice,
     pool.quoteTokenAmount,
+    stakingTokenName,
     lpTotalInQuoteToken,
+    tokenInLpPrice,
     quoteTokenSymbol,
   ]);
 
@@ -174,7 +185,7 @@ const PoolCard: React.FC<HarvestProps> = ({
   pool.multiRewardTokenPerBlock.forEach(async (element, i) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const tokenPrice = UseGetApiPrice(pool.coinGeckoIds[i].toLowerCase());
-    // console.log(tokenPrice);
+
     // eslint-disable-next-line  no-nested-ternary
     const rewardTokenPrice = tokenPrice
       ? new BigNumber(tokenPrice)
@@ -299,7 +310,7 @@ const PoolCard: React.FC<HarvestProps> = ({
   );
   const { metaTranscation } = useProfile();
 
-  const tokencontract = getBep20Contract(tokenAddress, web3);
+  const tokencontract = getERC20Contract(tokenAddress, web3);
 
   const { onApprove } = useSousApproveWithPermit(tokencontract, sousId);
 

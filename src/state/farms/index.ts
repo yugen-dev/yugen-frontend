@@ -12,6 +12,7 @@ import {
   fetchFarmUserSingleSidedAllowances,
   fetchFarmUserSingleSidedTokenBalance,
   fetchFarmUserSingleSidedToTokenBalance,
+  fetchFarmUserSingleSidedToTokenAllowances,
 } from "./fetchFarmUser";
 import { FarmsState, Farm } from "../types";
 
@@ -59,6 +60,8 @@ export const fetchFarmUserDataAsync = (account) => async (dispatch) => {
   const userFarmEarnings = await fetchFarmUserEarnings(account);
   const userCanHarvest = await fetchFarmUserCanHarvestPendingReward(account);
   const harvestInterval = await fetchFarmUserHarvestInterval(account);
+  const userFarmSingleSidedToTokenAllowances =
+    fetchFarmUserSingleSidedToTokenAllowances(account);
 
   const arrayOfUserDataObjects = userFarmAllowances.map(
     (farmAllowance, index) => {
@@ -73,6 +76,8 @@ export const fetchFarmUserDataAsync = (account) => async (dispatch) => {
         SingleSidedAllowances: userFarmSingleSidedAllowances[index],
         SingleSidedTokenBalance: userFarmSingleSidedTokenBalance[index],
         SingleSidedToTokenBalance: userSingleSidedToTokenBalance[index],
+        SingleSidedToTokenAllowances:
+          userFarmSingleSidedToTokenAllowances[index],
       };
     }
   );
