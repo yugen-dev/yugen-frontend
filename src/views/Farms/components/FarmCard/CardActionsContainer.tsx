@@ -13,7 +13,7 @@ import useI18n from "hooks/useI18n";
 import useWeb3 from "hooks/useWeb3";
 import { getERC20Contract } from "utils/contractHelpers";
 import useEthBalance from "hooks/useEthBalance";
-import { useApprove, useApproveStaking } from "hooks/useApprove";
+import { useApprove } from "hooks/useApprove";
 import UnlockButton from "components/UnlockButton";
 import { Subtle } from "../FarmTable/Actions/styles";
 import StakeAction from "./StakeAction";
@@ -235,10 +235,10 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
             </Text>
           </div>
           <Flex justifyContent="space-between" alignItems="center">
-            <Heading color={rawStakedBalance === 0 ? "textDisabled" : "text"}>
-              {displayBalance}{" "}
+            <Heading color={rawStakedBalance === 0 ? "textDisabled" : "text"} style={{marginRight: '5px'}}>
+              {displayBalance}
             </Heading>
-            <Subtle> {totalValueOfUserFormated}</Subtle>
+            <Subtle> ( {totalValueOfUserFormated} )</Subtle>
           </Flex>
         </Flex>
         <Flex>

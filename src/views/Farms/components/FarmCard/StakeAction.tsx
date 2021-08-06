@@ -1,24 +1,17 @@
 import React from "react";
-import styled from "styled-components";
+// import styled from "styled-components";
 import BigNumber from "bignumber.js";
 import {
   Button,
-  Flex,
-  Heading,
-  IconButton,
-  AddIcon,
-  MinusIcon,
   useModal,
 } from "cryption-uikit";
 import Row from "components/Row";
-import Column from "components/Column";
 
 import useI18n from "hooks/useI18n";
 import { useStake } from "hooks/useStake";
 import { useStakeWithPermit } from "hooks/useStakeWithPermit";
 import useUnstake from "hooks/useUnstake";
 import { getBalanceNumber } from "utils/formatBalance";
-import { Subtle } from "../FarmTable/Actions/styles";
 import DepositModal from "../DepositModal";
 import WithdrawModal from "../WithdrawModal";
 
@@ -36,13 +29,13 @@ interface FarmCardActionsProps {
   totalValueOfUserFormated?: string;
 }
 
-const IconButtonWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  svg {
-    width: 20px;
-  }
-`;
+// const IconButtonWrapper = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   svg {
+//     width: 20px;
+//   }
+// `;
 
 const StakeAction: React.FC<FarmCardActionsProps> = ({
   stakedBalance,
@@ -55,7 +48,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
   approvalDisabled,
   handleApprove,
   isApproved,
-  totalValueOfUserFormated,
+  // totalValueOfUserFormated,
 }) => {
   const TranslateString = useI18n();
   const { onStake } = useStake(pid);
@@ -68,7 +61,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
 
   const rawStakedBalance = getBalanceNumber(stakedBalance);
 
-  const displayBalance = rawStakedBalance.toLocaleString();
+  // const displayBalance = rawStakedBalance.toLocaleString();
 
   const [onPresentDeposit] = useModal(
     <DepositModal

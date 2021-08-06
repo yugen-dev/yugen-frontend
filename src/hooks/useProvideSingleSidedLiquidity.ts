@@ -16,13 +16,13 @@ export const useProvideSingleSidedLiquidity = (
   decimal: BigNumber
 ) => {
   const dispatch = useDispatch();
-  const { account, library } = useWeb3React("web3");
+  const { account } = useWeb3React("web3");
   const singleSidedContract = useSingleSidedLiquidity();
   const { toastInfo, toastError, toastSuccess } = useToast();
 
   const handeProvideSingleSidedLiquidity = useCallback(
     async (amount: string) => {
-      let resp;
+      // let resp;
       try {
         toastInfo("Processing...", `You requested to Deposited `);
 
