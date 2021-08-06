@@ -24,7 +24,7 @@ export interface Farm extends FarmConfig {
   lpTotalInQuoteToken?: BigNumber;
   tokenPriceVsQuote?: BigNumber;
   poolWeight?: BigNumber;
-  lpTotalSupply?: BigNumber;
+  lpTotalSupplyInMasterchef?: BigNumber;
   singleSidedTokenDecimal?: BigNumber;
   singleSidedToTokenDecimal?: BigNumber;
   userData?: {
@@ -35,7 +35,7 @@ export interface Farm extends FarmConfig {
     canHarvest: boolean;
     harvestInterval: BigNumber;
     SingleSidedAllowances: BigNumber;
-    SingleSidedToTokenAllowances:BigNumber;
+    SingleSidedToTokenAllowances: BigNumber;
     SingleSidedTokenBalance: BigNumber;
     SingleSidedToTokenBalance: BigNumber;
   };

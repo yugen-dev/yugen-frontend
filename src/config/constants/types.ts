@@ -72,7 +72,7 @@ export interface FarmConfig {
   singleSidedToken?: Address;
   singleSidedToToken?: Address;
   singleSidedTokenName: string;
-  singleSidedToTokenName:string;
+  singleSidedToTokenName: string;
   dual?: {
     rewardPerBlock: number;
     earnLabel: string;

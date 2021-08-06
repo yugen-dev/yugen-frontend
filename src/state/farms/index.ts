@@ -54,14 +54,14 @@ export const fetchFarmUserDataAsync = (account) => async (dispatch) => {
   const userFarmSingleSidedTokenBalance =
     await fetchFarmUserSingleSidedTokenBalance(account);
   const userSingleSidedToTokenBalance =
-    fetchFarmUserSingleSidedToTokenBalance(account);
+    await fetchFarmUserSingleSidedToTokenBalance(account);
   const userFarmTokenBalances = await fetchFarmUserTokenBalances(account);
   const userStakedBalances = await fetchFarmUserStakedBalances(account);
   const userFarmEarnings = await fetchFarmUserEarnings(account);
   const userCanHarvest = await fetchFarmUserCanHarvestPendingReward(account);
   const harvestInterval = await fetchFarmUserHarvestInterval(account);
   const userFarmSingleSidedToTokenAllowances =
-    fetchFarmUserSingleSidedToTokenAllowances(account);
+    await fetchFarmUserSingleSidedToTokenAllowances(account);
 
   const arrayOfUserDataObjects = userFarmAllowances.map(
     (farmAllowance, index) => {

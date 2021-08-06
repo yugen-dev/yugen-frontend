@@ -74,8 +74,6 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     account &&
     SingleSidedToTokenAllowances &&
     SingleSidedToTokenAllowances.isGreaterThan(0);
-  console.log(farm.pid.toString());
-  console.log(SingleSidedToTokenAllowances.toString());
 
   const web3 = useWeb3();
   const singleSidedTokendecimals = farm.singleSidedTokenDecimal
@@ -110,13 +108,13 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
       return null;
     }
 
-    return totalValue.times(stakedBalance).div(farm.lpTotalSupply);
+    return totalValue.times(stakedBalance).div(farm.lpTotalSupplyInMasterchef);
   }, [
     totalValue,
     stakedBalance,
     farm.lpTotalInQuoteToken,
     account,
-    farm.lpTotalSupply,
+    farm.lpTotalSupplyInMasterchef,
   ]);
 
   const totalValueOfUserFormated = totalValueOfUser

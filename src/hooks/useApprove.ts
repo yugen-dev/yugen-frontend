@@ -434,13 +434,15 @@ export const useIfoApprove = (
   tokenContract: Contract,
   spenderAddress: string
 ) => {
+  const dispatch = useDispatch();
   const { account } = useWeb3React("web3");
   const onApprove = useCallback(async () => {
     const tx = await tokenContract.methods
       .approve(spenderAddress, ethers.constants.MaxUint256)
       .send({ from: account });
+    dispatch(fetchFarmUserDataAsync(account));
     return tx;
-  }, [account, spenderAddress, tokenContract]);
+  }, [account, spenderAddress, tokenContract, dispatch]);
 
   return onApprove;
 };

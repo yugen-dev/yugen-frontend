@@ -165,7 +165,7 @@ export const usePriceCakeBusd = (): BigNumber => {
   return farm.tokenPriceVsQuote
     ? bnbPriceUSD.times(farm.tokenPriceVsQuote)
     : ZERO;
-  return new BigNumber(10);
+  // return new BigNumber(10);
 };
 
 export const usePriceEthBusd = (): BigNumber => {
