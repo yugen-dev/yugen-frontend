@@ -1,20 +1,16 @@
 import React, { useCallback, useState } from "react";
-import styled from "styled-components";
 import BigNumber from "bignumber.js";
 import {
   Button,
   Flex,
   Heading,
-  IconButton,
-  AddIcon,
-  MinusIcon,
   useModal,
 } from "cryption-uikit";
 import useWeb3 from "hooks/useWeb3";
 
 import useI18n from "hooks/useI18n";
 import { getERC20Contract } from "utils/contractHelpers";
-import { useApprove, useIfoApprove } from "hooks/useApprove";
+import { useIfoApprove } from "hooks/useApprove";
 import { useProvideSingleSidedLiquidity } from "hooks/useProvideSingleSidedLiquidity";
 import {
   getSingleSidedLiquidityAddress,
@@ -37,13 +33,6 @@ interface FarmCardActionsProps {
   lpTokenAddress?: string;
   valueOfEthBalance?: BigNumber;
 }
-
-const IconButtonWrapper = styled.div`
-  display: flex;
-  svg {
-    width: 20px;
-  }
-`;
 
 const StakeActionSignleSided: React.FC<FarmCardActionsProps> = ({
   stakedBalance,

@@ -13,7 +13,7 @@ import useI18n from "hooks/useI18n";
 import useWeb3 from "hooks/useWeb3";
 import { getERC20Contract } from "utils/contractHelpers";
 import useEthBalance from "hooks/useEthBalance";
-import { useApprove, useApproveStaking } from "hooks/useApprove";
+import { useApprove } from "hooks/useApprove";
 import UnlockButton from "components/UnlockButton";
 import { Subtle } from "../FarmTable/Actions/styles";
 import StakeAction from "./StakeAction";
