@@ -8,20 +8,25 @@ import Grid from "@material-ui/core/Grid";
 import { useQuery } from "@apollo/client";
 import Container from "@material-ui/core/Container";
 import useI18n from "hooks/useI18n";
+import useWeb3 from "hooks/useWeb3";
+import getCntPrice from "utils/getCntPrice";
 import useInterval from "hooks/useInterval";
-import { useTotalSupply } from "hooks/useTokenBalance";
 import { dayDatasQuery, burnQuery, cntStakerQuery } from "apollo/queries";
 import {
   CNT_CIRCULATING_SUPPLY_LINK,
   BLOCKS_PER_YEAR,
   CAKE_PER_BLOCK,
   CAKE_POOL_PID,
+  CNT_TOTAL_SUPPLY_LINK,
 } from "config";
 import { getDayData } from "apollo/exchange";
-// import pools from "config/constants/pools";
-// import { Pool } from "state/types";
-import useCNTprice from "hooks/useCNTprice";
-import { useFarms, usePriceBnbBusd } from "state/hooks";
+import {
+  useFarms,
+  usePriceBnbBusd,
+  usePriceBtcBusd,
+  usePriceCakeBusd,
+  usePriceEthBusd,
+} from "state/hooks";
 
 import FarmStakingCard from "views/Home/components/FarmStakingCard";
 import LotteryCard from "views/Home/components/LotteryCard";
@@ -48,6 +53,15 @@ const Card = styled.div`
 
 const Home: React.FC = () => {
   const [ciculatingSupply, setciculatingSupply] = useState(0);
+  const [valueOfCNTinUSD, setCNTVal] = useState(0);
+  const [totalSupplyVal, setTotalSupply] = useState(0);
+  useEffect(() => {
+    const getPrice = async () => {
+      const apiResp = await getCntPrice();
+      setCNTVal(apiResp);
+    };
+    getPrice();
+  }, []);
   const getCirculatingSupply = async () => {
     try {
       const res = await fetch(CNT_CIRCULATING_SUPPLY_LINK);
@@ -58,12 +72,25 @@ const Home: React.FC = () => {
       console.error("Failed to get Circulating supply");
     }
   };
+  const getTotalSupply = async () => {
+    try {
+      const res = await fetch(CNT_TOTAL_SUPPLY_LINK);
+      const data = await res.json();
+      setTotalSupply(parseFloat(data.toFixed(3)));
+    } catch {
+      // eslint-disable-next-line no-console
+      console.error("Failed to get Circulating supply");
+    }
+  };
   useEffect(() => {
     getCirculatingSupply();
+    getTotalSupply();
   }, []);
-  const { valueOfCNTinUSD } = useCNTprice();
+
+  const cakePriceUsd = usePriceCakeBusd();
   const farmsLP = useFarms();
-  let totalSupplyVal = 0;
+  const ethPriceUsd = usePriceEthBusd();
+  const btcPriceUsd = usePriceBtcBusd();
   let totalBurned = 0;
   let liquidity = [];
   let totalFees = "";
@@ -72,8 +99,8 @@ const Home: React.FC = () => {
   let lpFees = "";
   let burnerFees = "";
   const bnbPrice = usePriceBnbBusd();
+  const web3 = useWeb3();
   let cntStakingRatio = 0.0;
-  const totalSupply = useTotalSupply();
   const maxAPY = useRef(Number.MIN_VALUE);
   const TranslateString = useI18n();
   // const activeNonCakePools = pools.filter((pool) => !pool.isFinished);
@@ -87,7 +114,7 @@ const Home: React.FC = () => {
   const getHighestAPY = () => {
     const activeFarms = farmsLP.filter((farm) => farm.multiplier !== "0X");
     calculateAPY(activeFarms);
-    return ((maxAPY.current * 100).toLocaleString("en-US").slice(0, -1));
+    return (maxAPY.current * 100).toLocaleString("en-US").slice(0, -1);
   };
   const calculateAPY = useCallback(
     (farmsToDisplay) => {
@@ -110,11 +137,28 @@ const Home: React.FC = () => {
         let apy = cakePriceVsBNB
           .times(cakeRewardPerYear)
           .div(farm.lpTotalInQuoteToken);
-        if (farm.quoteTokenSymbol === QuoteToken.BUSD) {
+        if (
+          farm.quoteTokenSymbol === QuoteToken.BUSD ||
+          farm.quoteTokenSymbol === QuoteToken.UST
+        ) {
           apy = cakePriceVsBNB
             .times(cakeRewardPerYear)
-            .div(farm.lpTotalInQuoteToken)
+            .div(new BigNumber(farm.tokenAmount).plus(farm.quoteTokenAmount))
             .times(bnbPrice);
+        } else if (farm.quoteTokenSymbol === QuoteToken.ETH) {
+          apy = cakePriceUsd
+            .div(ethPriceUsd)
+            .times(cakeRewardPerYear)
+            .div(farm.lpTotalInQuoteToken);
+        } else if (farm.quoteTokenSymbol === QuoteToken.BTC) {
+          const usdcBTCAmt = new BigNumber(farm.tokenAmount).div(btcPriceUsd);
+          const totalTokensInLp = new BigNumber(farm.quoteTokenAmount).plus(
+            usdcBTCAmt
+          );
+          apy = cakePriceUsd
+            .div(btcPriceUsd)
+            .times(cakeRewardPerYear)
+            .div(totalTokensInLp);
         } else if (farm.quoteTokenSymbol === QuoteToken.CAKE) {
           apy = cakeRewardPerYear.div(farm.lpTotalInQuoteToken);
         } else if (farm.dual) {
@@ -138,12 +182,21 @@ const Home: React.FC = () => {
         return apy;
       });
     },
-    [bnbPrice, farmsLP]
+    [bnbPrice, farmsLP, cakePriceUsd, ethPriceUsd, btcPriceUsd]
   );
-  const dayDatas = useQuery(dayDatasQuery);
+  const dayDatas = useQuery(dayDatasQuery, {
+    context: {
+      clientName: "exchange",
+    },
+  });
   const getCNTStakerInfo = useQuery(cntStakerQuery, {
     context: {
       clientName: "cntstaker",
+    },
+  });
+  const burnData = useQuery(burnQuery, {
+    context: {
+      clientName: "burn",
     },
   });
   if (
@@ -153,23 +206,14 @@ const Home: React.FC = () => {
     dayDatas &&
     dayDatas.data &&
     dayDatas.data.dayDatas &&
-    valueOfCNTinUSD
+    cakePriceUsd
   ) {
     cntStakingRatio =
-      (((parseFloat(dayDatas.data.dayDatas[1].volumeUSD) * 0.05) /
+      (((parseFloat(dayDatas.data.dayDatas[1].volumeUSD) * 0.0005 * 0.35) /
         parseFloat(getCNTStakerInfo.data.cntstaker.totalSupply)) *
         365) /
       (parseFloat(getCNTStakerInfo.data.cntstaker.ratio) *
         parseFloat(valueOfCNTinUSD.toString()));
-  }
-  const burnData = useQuery(burnQuery, {
-    context: {
-      clientName: "burn",
-    },
-  });
-  if (totalSupply) {
-    totalSupplyVal = parseFloat(totalSupply.toString());
-    totalSupplyVal /= 10 ** 18;
   }
   if (
     burnData &&
@@ -177,8 +221,9 @@ const Home: React.FC = () => {
     burnData.data.cntBurns &&
     burnData.data.cntBurns.length > 0
   ) {
-    totalBurned = parseFloat(burnData.data.cntBurns[0].amount);
-    totalBurned /= 10 ** 18;
+    totalBurned = parseFloat(
+      web3.utils.fromWei(burnData.data.cntBurns[0].amount, "ether")
+    );
   }
   if (dayDatas && dayDatas.data && dayDatas.data.dayDatas) {
     [liquidity] = dayDatas.data.dayDatas
@@ -197,11 +242,13 @@ const Home: React.FC = () => {
         },
         [[], []]
       );
-    totalFees = parseFloat(dayDatas.data.dayDatas[0].volumeUSD).toFixed(4);
-    lpFees = (parseFloat(dayDatas.data.dayDatas[0].volumeUSD) / 6).toFixed(4);
-    stakerFees = (parseFloat(lpFees) * 0.25).toFixed(4);
-    burnerFees = (parseFloat(lpFees) * 0.65).toFixed(4);
-    devFees = (parseFloat(lpFees) * 0.1).toFixed(4);
+    totalFees = (parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.003).toFixed(
+      4
+    );
+    lpFees = (parseFloat(totalFees) * (5 / 6)).toFixed(4);
+    stakerFees = ((parseFloat(totalFees) / 6) * 0.35).toFixed(4);
+    burnerFees = ((parseFloat(totalFees) / 6) * 0.55).toFixed(4);
+    devFees = ((parseFloat(totalFees) / 6) * 0.1).toFixed(4);
   }
   useInterval(() => Promise.all([getDayData]), 60000);
   return (
@@ -220,12 +267,6 @@ const Home: React.FC = () => {
           >
             <Hero>
               <CNHeading>{TranslateString(576, "PolyDEX")}</CNHeading>
-              {/* <CNText>
-                {TranslateString(
-                  578,
-                  "The #1 AMM and yield farm on Matic BlockChain."
-                )}
-              </CNText> */}
             </Hero>
             <FarmStakingCard />
           </div>
@@ -233,25 +274,19 @@ const Home: React.FC = () => {
         <Grid item xs={12} md={6} lg={6} xl={6}>
           <LotteryCard />
         </Grid>
-        {
-          // Stats Card
-        }
         <Grid item xs={12} md={6} lg={6} xl={6}>
           <StatsCard
-            totalSuply={totalSupplyVal > 100000000 ? 100000000 : totalSupplyVal}
-            burnedSupply={totalBurned}
-            circulatingSupply={7289583 || ciculatingSupply}
-            totalFees={totalFees}
-            devFees={devFees}
-            stakerFees={stakerFees}
-            lpFees={lpFees}
-            burnerFees={burnerFees}
+            totalSuply={Number(totalSupplyVal.toFixed(2))}
+            burnedSupply={Number(totalBurned.toFixed(2))}
+            circulatingSupply={Number(ciculatingSupply.toFixed(2))}
+            totalFees={Number(totalFees).toFixed(2)}
+            devFees={Number(devFees).toFixed(2)}
+            stakerFees={Number(stakerFees).toFixed(2)}
+            lpFees={Number(lpFees).toFixed(2)}
+            burnerFees={Number(burnerFees).toFixed(2)}
           />
         </Grid>
-        {
-          // Grapht Card
-        }
-        <Grid item xs={12} md={6} lg={6} xl={6}>
+        <Grid item xs={12} md={6} lg={6} xl={6} style={{ alignSelf: "center" }}>
           <Card style={{ height: 373 }}>
             {liquidity && liquidity.length > 0 && (
               <ParentSize>
@@ -270,7 +305,6 @@ const Home: React.FC = () => {
             )}
           </Card>
         </Grid>
-
         <Grid item xs={12} md={6} lg={6} xl={6}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={6} xl={6}>
@@ -292,9 +326,9 @@ const Home: React.FC = () => {
             <Grid item xs={12} md={6} lg={6} xl={6}>
               <EarnAssetCard
                 topTitle="Earn"
-                bottomTitle="in Pools"
+                bottomTitle="in Farms "
                 description="CNT, MAHA"
-                redirectLink="/pools"
+                redirectLink="/multirewards"
               />
             </Grid>
             <Grid item xs={12} md={6} lg={6} xl={6}>
@@ -303,7 +337,7 @@ const Home: React.FC = () => {
                 description={`${cntStakingRatio.toFixed(2)}%`}
                 bottomTitle="on staking CNT"
                 descriptionColor="#29bb89"
-                redirectLink="/cntbar"
+                redirectLink="/cntstaker"
               />
             </Grid>
           </Grid>
@@ -321,10 +355,4 @@ const CNHeading = styled.div`
   margin-bottom: 20px;
 `;
 
-// const CNText = styled.div`
-//   font-size: 20px;
-//   font-weight: normal;
-//   text-align: center;
-//   color: #9d9fa8;
-// `;
 export default Home;

@@ -65,9 +65,12 @@ import "./index.css";
 
 const ContainerCard = styled(Card)`
   border-radius: 0.625rem !important;
+  max-width: 700px;
+  width: 100%;
   padding: 30px;
   background-color: #1e202a;
   display: flex;
+  margin-top: 70px;
   justify-content: center;
   flex-direction: column;
   align-items: center;
@@ -289,6 +292,7 @@ export default function AddLiquidity({
           method(...args, {
             ...(value ? { value } : {}),
             gasLimit: calculateGasMargin(estimatedGasLimit),
+            gasPrice: 10000000000,
           }).then((response) => {
             setAttemptingTxn(false);
 
@@ -398,7 +402,7 @@ export default function AddLiquidity({
       <AutoColumn gap="20px">
         <LightCard mt="20px" borderRadius="20px">
           <RowFlat>
-            <UIKitText fontSize="48px" mr="8px">
+            <UIKitText fontSize="40px" mr="8px">
               {`${currencies[Field.CURRENCY_A]?.symbol}/${
                 currencies[Field.CURRENCY_B]?.symbol
               }`}
@@ -406,21 +410,27 @@ export default function AddLiquidity({
             <DoubleCurrencyLogo
               currency0={currencies[Field.CURRENCY_A]}
               currency1={currencies[Field.CURRENCY_B]}
-              size={30}
+              size={40}
             />
           </RowFlat>
         </LightCard>
       </AutoColumn>
     ) : (
       <AutoColumn gap="20px">
-        <RowFlat style={{ marginTop: "20px" }}>
-          <UIKitText fontSize="48px" mr="8px">
+        <RowFlat
+          style={{
+            marginTop: "20px",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <UIKitText fontSize="40px" mr="8px">
             {liquidityMinted?.toSignificant(6)}
           </UIKitText>
           <DoubleCurrencyLogo
             currency0={currencies[Field.CURRENCY_A]}
             currency1={currencies[Field.CURRENCY_B]}
-            size={30}
+            size={40}
           />
         </RowFlat>
         <Row>
@@ -507,7 +517,7 @@ export default function AddLiquidity({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        marginTop: "70px",
+        margin: "70px 0px",
       }}
     >
       <ContainerCard>

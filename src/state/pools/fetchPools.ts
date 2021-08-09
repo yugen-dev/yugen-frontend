@@ -24,11 +24,14 @@ export const fetchPoolsBlockLimits = async () => {
     const startBlock = starts[index].startBlock._hex;
     const endBlock = ends[index].endBlock._hex;
     const poolHarvestIntervall = starts[index].harvestInterval._hex;
+    const poolwithdrawalFeeBP = starts[index].withdrawalFeeBP;
+
     return {
       sousId: cakePoolConfig.sousId,
       startBlock: new BigNumber(startBlock).toJSON(),
       endBlock: new BigNumber(endBlock).toJSON(),
       poolHarvestInterval: new BigNumber(poolHarvestIntervall).toJSON(),
+      poolwithdrawalFeeBP: new BigNumber(poolwithdrawalFeeBP).toJSON(),
     };
   });
 };

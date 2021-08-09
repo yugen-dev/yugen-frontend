@@ -4,6 +4,7 @@ import {
   getCNTStakerAddress,
   getFarmAddress,
   getSouschefContract,
+  getWbnbAddress,
 } from "utils/addressHelpers";
 // import { getBiconomyWeb3 } from "utils/biconomyweb3";
 import { splitSignature } from "@ethersproject/bytes";
@@ -49,14 +50,14 @@ const domainData = {
   name: "Farm",
   version: "1",
   verifyingContract: getFarmAddress(),
-  chainId: 80001,
+  chainId: 137,
 };
 
 const domainDataBar = {
   name: "CNTStaker",
   version: "1",
   verifyingContract: getCNTStakerAddress(),
-  chainId: 80001,
+  chainId: 137,
 };
 
 export const GaslessStakeWithPermit = async (
@@ -483,6 +484,7 @@ const executeMetaTransaction = async (
       });
   } catch (e) {
     console.error("error");
+    throw new Error("error in transaction");
     return e;
   }
 };
@@ -537,6 +539,7 @@ export const executeMetaTransactionBar = async (
       });
   } catch (e) {
     console.error("error");
+    throw new Error("error in transaction");
     return e;
   }
 };
@@ -552,7 +555,7 @@ export const executeMetaTransactionPools = async (
     name: "StakingPool",
     version: "1",
     verifyingContract: pooladdress,
-    chainId: 80001,
+    chainId: 137,
   };
 
   const contract = masterChefContract;
@@ -598,6 +601,63 @@ export const executeMetaTransactionPools = async (
       });
   } catch (e) {
     console.error("error");
+    throw new Error("error in transaction");
     return e;
+  }
+};
+
+export const provideSingleSidedLiquidity = async (
+  singleSidedContract,
+  token,
+  amount,
+  toToken,
+  pairAddress,
+  slippage,
+  pid,
+  account,
+  decimal
+) => {
+  const wmatic = getWbnbAddress();
+  // @ts-ignore
+  if (token.toString() === wmatic) {
+    return singleSidedContract.methods
+      .singleSidedFarm(
+        account,
+        "0x0000000000000000000000000000000000000000",
+        new BigNumber(amount).times(new BigNumber(10).pow(decimal)).toString(),
+        pairAddress,
+        toToken,
+        slippage,
+        getFarmAddress(),
+        pid
+      )
+      .send({
+        from: account,
+        gasPrice: 10000000000,
+        value: new BigNumber(amount)
+          .times(new BigNumber(10).pow(decimal))
+          .toString(),
+      })
+      .on("transactionHash", (tx) => {
+        return tx.transactionHash;
+      });
+
+    // eslint-disable-next-line no-else-return
+  } else {
+    return singleSidedContract.methods
+      .singleSidedFarm(
+        account,
+        token,
+        new BigNumber(amount).times(new BigNumber(10).pow(decimal)).toString(),
+        pairAddress,
+        toToken,
+        slippage,
+        getFarmAddress(),
+        pid
+      )
+      .send({ from: account, gasPrice: 10000000000 })
+      .on("transactionHash", (tx) => {
+        return tx.transactionHash;
+      });
   }
 };

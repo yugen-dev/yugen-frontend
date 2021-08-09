@@ -24,6 +24,9 @@ export interface Farm extends FarmConfig {
   lpTotalInQuoteToken?: BigNumber;
   tokenPriceVsQuote?: BigNumber;
   poolWeight?: BigNumber;
+  lpTotalSupplyInMasterchef?: BigNumber;
+  singleSidedTokenDecimal?: BigNumber;
+  singleSidedToTokenDecimal?: BigNumber;
   userData?: {
     allowance: BigNumber;
     tokenBalance: BigNumber;
@@ -31,12 +34,17 @@ export interface Farm extends FarmConfig {
     earnings: BigNumber;
     canHarvest: boolean;
     harvestInterval: BigNumber;
+    SingleSidedAllowances: BigNumber;
+    SingleSidedToTokenAllowances: BigNumber;
+    SingleSidedTokenBalance: BigNumber;
+    SingleSidedToTokenBalance: BigNumber;
   };
 }
 
 export interface Pool extends PoolConfig {
   totalStaked?: BigNumber;
   poolHarvestInterval?: number;
+  poolwithdrawalFeeBP?: number;
   startBlock?: number;
   endBlock?: number;
   tokenAmount?: BigNumber;

@@ -11,6 +11,7 @@ import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CAKE_POOL_PID } from "config";
 import {
   useFarms,
   usePriceBnbBusd,
+  usePriceBtcBusd,
   usePriceCakeBusd,
   usePriceEthBusd,
 } from "state/hooks";
@@ -21,6 +22,7 @@ import useI18n from "hooks/useI18n";
 import { getBalanceNumber } from "utils/formatBalance";
 import { orderBy } from "lodash";
 import cntMascot from "images/Cryption Network Mascot Farming.png";
+import CountdownTimer from "components/CountdownTimer";
 import FarmCard, { FarmWithStakedValue } from "./components/FarmCard/FarmCard";
 import Table from "./components/FarmTable/FarmTable";
 import FarmTabButtons from "./components/FarmTabButtons";
@@ -28,6 +30,7 @@ import SearchInput from "./components/SearchInput";
 import { RowProps } from "./components/FarmTable/Row";
 import { DesktopColumnSchema, ViewMode } from "./components/types";
 import Select, { OptionProps } from "./components/Select/Select";
+import MrCNTaah from "../../images/MrCNTaah.png";
 
 const FlexLayout = styled.div`
   display: flex;
@@ -153,6 +156,7 @@ const Farms: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [viewMode, setViewMode] = useState(ViewMode.CARD);
   const ethPriceUsd = usePriceEthBusd();
+  const btcPriceUsd = usePriceBtcBusd();
   const { account } = useWeb3React("web3");
   const [sortOption, setSortOption] = useState("hot");
 
@@ -168,7 +172,7 @@ const Farms: React.FC = () => {
 
   const activeFarms = farmsLP.filter((farm) => farm.multiplier !== "0X");
   const inactiveFarms = farmsLP.filter((farm) => farm.multiplier === "0X");
-  // samarth
+
   const stackedOnlyFarms = activeFarms.filter(
     (farm) =>
       farm.userData &&
@@ -231,13 +235,22 @@ const Farms: React.FC = () => {
           ) {
             apy = cakePriceVsBNB
               .times(cakeRewardPerYear)
-              .div(farm.lpTotalInQuoteToken)
+              .div(new BigNumber(farm.tokenAmount).plus(farm.quoteTokenAmount))
               .times(bnbPrice);
           } else if (farm.quoteTokenSymbol === QuoteToken.ETH) {
             apy = cakePrice
               .div(ethPriceUsd)
               .times(cakeRewardPerYear)
               .div(farm.lpTotalInQuoteToken);
+          } else if (farm.quoteTokenSymbol === QuoteToken.BTC) {
+            const usdcBTCAmt = new BigNumber(farm.tokenAmount).div(btcPriceUsd);
+            const totalTokensInLp = new BigNumber(farm.quoteTokenAmount).plus(
+              usdcBTCAmt
+            );
+            apy = cakePrice
+              .div(btcPriceUsd)
+              .times(cakeRewardPerYear)
+              .div(totalTokensInLp);
           } else if (farm.quoteTokenSymbol === QuoteToken.CAKE) {
             apy = cakeRewardPerYear.div(farm.lpTotalInQuoteToken);
           } else if (farm.dual) {
@@ -273,6 +286,12 @@ const Farms: React.FC = () => {
             liquidity = ethPriceUsd.times(farm.lpTotalInQuoteToken);
           }
 
+          if (farm.quoteTokenSymbol === QuoteToken.BTC) {
+            liquidity = btcPriceUsd
+              .times(farm.quoteTokenAmount)
+              .plus(new BigNumber(farm.tokenAmount));
+          }
+
           return { ...farm, apy, liquidity };
         }
       );
@@ -291,7 +310,7 @@ const Farms: React.FC = () => {
       }
       return farmsToDisplayWithAPY;
     },
-    [bnbPrice, farmsLP, query, cakePrice, ethPriceUsd]
+    [bnbPrice, farmsLP, query, cakePrice, ethPriceUsd, btcPriceUsd]
   );
 
   const handleChangeQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -397,6 +416,7 @@ const Farms: React.FC = () => {
                 bnbPrice={bnbPrice}
                 cakePrice={cakePrice}
                 ethPrice={ethPriceUsd}
+                btcPrice={btcPriceUsd}
                 account={account}
                 removed={false}
               />
@@ -410,12 +430,7 @@ const Farms: React.FC = () => {
                   justifyContent: "center",
                 }}
               >
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html:
-                      '<lottie-player src="https://assets3.lottiefiles.com/packages/lf20_r71cen62.json"  background="transparent"  speed="1" style="height: 350px;" loop  autoplay></lottie-player>',
-                  }}
-                />
+                <img src={MrCNTaah} alt="Cannot find" width="250px" />
               </div>
             )}
           </Route>
@@ -427,6 +442,7 @@ const Farms: React.FC = () => {
                 bnbPrice={bnbPrice}
                 cakePrice={cakePrice}
                 ethPrice={ethPriceUsd}
+                btcPrice={btcPriceUsd}
                 account={account}
                 removed
               />
@@ -455,6 +471,7 @@ const Farms: React.FC = () => {
         <Grid container spacing={3} alignItems="center">
           <Grid item xs={12} md={6} lg={6} xl={6}>
             <CNHeading>Core Farms</CNHeading>
+            <CountdownTimer unixEndTimeInSeconds={1627569000} />
           </Grid>
           <Grid item xs={12} md={6} lg={6} xl={6}>
             <div

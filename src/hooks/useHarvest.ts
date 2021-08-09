@@ -40,7 +40,11 @@ export const useHarvest = (farmPid: number) => {
           account,
           library
         );
-        toastSuccess("Success", ` Harvested successfully`);
+        if (typeof txHash !== "undefined" && txHash.code === 4001) {
+          toastError("canceled", ` signautures rejected`);
+        } else {
+          toastSuccess("Success", ` Harvested successfully`);
+        }
         dispatch(fetchFarmUserDataAsync(account));
       } else {
         txHash = await harvest(masterChefContract, farmPid, account);
@@ -50,7 +54,10 @@ export const useHarvest = (farmPid: number) => {
     } catch (e) {
       if (
         e.message ===
-        "MetaMask Tx Signature: User denied transaction signature."
+          "MetaMask Tx Signature: User denied transaction signature." ||
+        e.message ===
+          "MetaMask Message Signature: User denied message signature." ||
+        e.code === 4001
       ) {
         // toastInfo("canceled...", `cancelled signature `);
         toastError("canceled", ` signautures rejected`);
@@ -99,6 +106,7 @@ export const useSousHarvest = (sousId, isUsingBnb = false) => {
   const { metaTranscation } = useProfile();
 
   const handleHarvest = useCallback(async () => {
+    let resp;
     try {
       toastInfo("Processing...", `You requested to Harvest `);
       if (isUsingBnb) {
@@ -107,12 +115,17 @@ export const useSousHarvest = (sousId, isUsingBnb = false) => {
         dispatch(updateUserPendingReward(sousId, account));
         dispatch(updateUserBalance(sousId, account));
       } else if (metaTranscation) {
-        await soushHarvestGasless(
+        resp = await soushHarvestGasless(
           sousChefContractGasless,
           account,
           sousId,
           library
         );
+        if (typeof resp !== "undefined" && resp.code === 4001) {
+          toastError("canceled", ` signautures rejected`);
+        } else {
+          toastSuccess("Success", ` Harvested successfully`);
+        }
         toastSuccess("Success", ` Harvested successfully`);
         dispatch(updateUserPendingReward(sousId, account));
         dispatch(updateUserBalance(sousId, account));
@@ -125,7 +138,10 @@ export const useSousHarvest = (sousId, isUsingBnb = false) => {
     } catch (e) {
       if (
         e.message ===
-        "MetaMask Tx Signature: User denied transaction signature."
+          "MetaMask Tx Signature: User denied transaction signature." ||
+        e.message ===
+          "MetaMask Message Signature: User denied message signature." ||
+        e.code === 4001
       ) {
         // toastInfo("canceled...", `cancelled signature `);
         toastError("canceled", ` signautures rejected`);

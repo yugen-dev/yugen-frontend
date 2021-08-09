@@ -4,13 +4,8 @@ import { ApolloProvider } from "@apollo/client";
 import { ResetCSS } from "cryption-uikit";
 import BigNumber from "bignumber.js";
 import useEagerConnect from "hooks/useEagerConnect";
-import {
-  useFetchPriceList,
-  useFetchProfile,
-  useFetchPublicData,
-} from "state/hooks";
+import { useFetchPriceList, useFetchPublicData } from "state/hooks";
 import { useApollo } from "apollo/index";
-import useGetDocumentTitlePrice from "./hooks/useGetDocumentTitlePrice";
 import GlobalStyle from "./style/Global";
 import Menu from "./components/Menu";
 import {
@@ -22,7 +17,7 @@ import SuspenseWithChunkError from "./components/SuspenseWithChunkError";
 import ToastListener from "./components/ToastListener";
 import PageLoader from "./components/PageLoader";
 import EasterEgg from "./components/EasterEgg";
-import Pools from "./views/Pools";
+// import Pools from "./views/Pools";
 import history from "./routerHistory";
 
 // Route-based code splitting
@@ -31,17 +26,18 @@ const Home = lazy(() => import("./views/Home"));
 const Farms = lazy(() => import("./views/Farms"));
 const FarmsMultiRewards = lazy(() => import("./views/FarmsMultiRewards"));
 const Migrate = lazy(() => import("./views/Migrate"));
-const CNTBar = lazy(() => import("./views/CNTBar"));
+const CNTStaker = lazy(() => import("./views/CNTStaker"));
 const Swap = lazy(() => import("./views/Swap"));
 const AddLiquidity = lazy(() => import("./views/AddLiquidity"));
 const Pool = lazy(() => import("./views/Pool"));
 const PoolFinder = lazy(() => import("./views/PoolFinder"));
 const MigrateFinder = lazy(() => import("./views/MigrationFinder"));
 const RemoveLiquidity = lazy(() => import("./views/RemoveLiquidity"));
+const IFO = lazy(() => import("./views/IFO"));
 
 // const Lottery = lazy(() => import("./views/Lottery"));
-// const Ifos = lazy(() => import("./views/Ifos"));
-// const NotFound = lazy(() => import("./views/NotFound"));
+// const Ifos = lazy(() => import("./views/IFO"));
+const NotFound = lazy(() => import("./views/NotFound"));
 // const Teams = lazy(() => import("./views/Teams"));
 // const Team = lazy(() => import("./views/Teams/Team"));
 // const Profile = lazy(() => import("./views/Profile"));
@@ -61,9 +57,9 @@ const App: React.FC = () => {
 
   useEagerConnect();
   useFetchPublicData();
-  useFetchProfile();
+  // useFetchProfile();
   useFetchPriceList();
-  useGetDocumentTitlePrice();
+  // useGetDocumentTitlePrice();
   const client = useApollo();
   return (
     <ApolloProvider client={client}>
@@ -76,23 +72,20 @@ const App: React.FC = () => {
               <Route path="/" exact>
                 <Home />
               </Route>
-              <Route path="/farms" exact>
+              <Route path="/farms">
                 <Farms />
               </Route>
               <Route path="/multirewards">
                 <FarmsMultiRewards />
               </Route>
-              <Route path="/pools">
+              {/* <Route path="/pools">
                 <Pools />
-              </Route>
-              {/* <Route  
-                exact
-                strict
-                path="/migrate">
-                <Migrate />
               </Route> */}
-              <Route path="/cntbar">
-                <CNTBar />
+              <Route exact strict path="/migrate">
+                <Migrate />
+              </Route>
+              <Route path="/cntstaker">
+                <CNTStaker />
               </Route>
               <Route exact strict path="/swap" component={Swap} />
               <Route exact strict path="/find" component={PoolFinder} />
@@ -110,6 +103,7 @@ const App: React.FC = () => {
                 path="/remove/:currencyIdA/:currencyIdB"
                 component={RemoveLiquidity}
               />
+              <Route exact path="/ifo" component={IFO} />
 
               {/* Redirection: These old routes are still used in the code base */}
               <Route
@@ -133,8 +127,8 @@ const App: React.FC = () => {
               <Lottery />
             </Route> */}
               {/* <Route path="/ifo">
-              <Ifos />
-            </Route> */}
+                <Ifos />
+              </Route> */}
               {/* <Route path="/collectibles">
               <Collectibles />
             </Route> */}
@@ -158,7 +152,7 @@ const App: React.FC = () => {
                 <Redirect to="/collectibles" />
               </Route>
               {/* 404 */}
-              {/* <Route component={NotFound} /> */}
+              <Route component={NotFound} />
             </Switch>
           </SuspenseWithChunkError>
         </Menu>

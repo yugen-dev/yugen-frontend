@@ -6,19 +6,25 @@ import { stake, GaslessStakeWithPermit } from "utils/callHelpers";
 import { useProfile, useToast } from "state/hooks";
 import { useMasterchef, useMasterchefGasless } from "./useContract";
 
-export const useStakeWithPermit = (pid: number, signatureData: any) => {
+export const useStakeWithPermit = (
+  pid: number,
+  signatureData: any,
+  setSignauteNull: any
+) => {
   const dispatch = useDispatch();
   const { account, library } = useWeb3React("web3");
   const masterChefContract = useMasterchef();
   const masterChefGaslessContract = useMasterchefGasless();
   const { toastInfo, toastError, toastSuccess } = useToast();
   const { metaTranscation } = useProfile();
+
   const handleStakeWithPermit = useCallback(
     async (amount: string) => {
+      let resp;
       try {
         toastInfo("Processing...", `You requested to Deposited `);
         if (metaTranscation && signatureData !== null) {
-          await GaslessStakeWithPermit(
+          resp = await GaslessStakeWithPermit(
             masterChefGaslessContract,
             pid,
             amount,
@@ -29,7 +35,13 @@ export const useStakeWithPermit = (pid: number, signatureData: any) => {
             signatureData.s,
             library
           );
-          toastSuccess("Success", ` Deposited successfully`);
+          setSignauteNull();
+          // @ts-ignore
+          if (typeof resp !== "undefined" && resp.code === 4001) {
+            toastError("canceled", ` signautures rejected`);
+          } else {
+            toastSuccess("Success", ` Deposited successfully`);
+          }
           dispatch(fetchFarmUserDataAsync(account));
         } else {
           await stake(masterChefContract, pid, amount, account);
@@ -39,7 +51,10 @@ export const useStakeWithPermit = (pid: number, signatureData: any) => {
       } catch (e) {
         if (
           e.message ===
-          "MetaMask Tx Signature: User denied transaction signature."
+            "MetaMask Tx Signature: User denied transaction signature." ||
+          e.message ===
+            "MetaMask Message Signature: User denied message signature." ||
+          e.code === 4001
         ) {
           // toastInfo("canceled...", `cancelled signature `);
           toastError("canceled", ` signautures rejected`);
@@ -60,6 +75,7 @@ export const useStakeWithPermit = (pid: number, signatureData: any) => {
       toastInfo,
       toastSuccess,
       toastError,
+      setSignauteNull,
     ]
   );
 

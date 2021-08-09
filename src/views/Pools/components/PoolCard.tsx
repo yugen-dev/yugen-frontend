@@ -15,7 +15,7 @@ import { useWeb3React } from "@web3-react/core";
 import Countdown from "react-countdown";
 import UnlockButton from "components/UnlockButton";
 import Label from "components/Label";
-import { getBep20Contract } from "utils/contractHelpers";
+import { getERC20Contract } from "utils/contractHelpers";
 import useI18n from "hooks/useI18n";
 import { useSousStake } from "hooks/useStake";
 import useWeb3 from "hooks/useWeb3";
@@ -63,6 +63,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     userData,
     stakingLimit,
     poolHarvestInterval,
+    poolwithdrawalFeeBP,
     metamaskImg,
   } = pool;
 
@@ -193,10 +194,11 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
       onConfirm={onUnstake}
       tokenName={stakingTokenName}
       stakingTokenDecimals={stakingTokenDecimals}
+      poolwithdrawalFeeBP={poolwithdrawalFeeBP}
     />
   );
 
-  const tokencontract = getBep20Contract(tokenAddress, web3);
+  const tokencontract = getERC20Contract(tokenAddress, web3);
 
   const { onApprove } = useSousApprove(tokencontract, sousId);
 
@@ -265,6 +267,13 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                 />
               )}
             </StyledDetails>
+            {poolwithdrawalFeeBP > 0 && (
+              <StyledDetails>
+                <div>{TranslateString(384, "withdrawal fee")}:</div>
+                <Text bold>{poolwithdrawalFeeBP / 100}%</Text>
+              </StyledDetails>
+            )}
+
             <StyledDetails>
               <div>{TranslateString(384, "Your Stake")}:</div>
               <Balance
@@ -404,6 +413,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
         projectLink={projectLink}
         decimals={stakingTokenDecimals}
         totalStaked={totalStaked}
+        StakingTokenPrice={StakingTokenPrice}
         startBlock={startBlock}
         endBlock={endBlock}
         isFinished={isFinished}

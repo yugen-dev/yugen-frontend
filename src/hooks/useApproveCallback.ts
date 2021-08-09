@@ -192,6 +192,7 @@ export function useApproveCallback(
         useExact ? amountToApprove.raw.toString() : MaxUint256,
         {
           gasLimit: calculateGasMargin(estimatedGas),
+          gasPrice: 10000000000,
         }
       )
       .then((response: TransactionResponse) => {

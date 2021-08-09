@@ -7,7 +7,7 @@ import { ChevronDown, ChevronUp } from "react-feather";
 import { Flex, MetamaskIcon } from "cryption-uikit";
 import Balance from "components/Balance";
 import { CommunityTag, CoreTag, BinanceTag } from "components/Tags";
-import { useBlock } from "state/hooks";
+// import { useBlock } from "state/hooks";
 import { PoolCategory } from "config/constants/types";
 import { registerToken } from "utils/wallet";
 
@@ -28,7 +28,8 @@ interface Props {
   endBlock: number;
   isFinished: boolean;
   poolCategory: PoolCategory;
-  metamaskImg?:string
+  metamaskImg?: string;
+  StakingTokenPrice?: number;
 }
 
 const StyledFooter = styled.div<{ isFinished: boolean }>`
@@ -88,12 +89,10 @@ const CardFooter: React.FC<Props> = ({
   tokenName,
   tokenDecimals,
   isFinished,
-  startBlock,
-  endBlock,
   poolCategory,
   metamaskImg,
+  StakingTokenPrice,
 }) => {
-  const { blockNumber: currentBlock } = useBlock();
   const [isOpen, setIsOpen] = useState(false);
   const TranslateString = useI18n();
   const Icon = isOpen ? ChevronUp : ChevronDown;
@@ -101,8 +100,6 @@ const CardFooter: React.FC<Props> = ({
   const handleClick = () => setIsOpen(!isOpen);
   const Tag = tags[poolCategory];
 
-  const blocksUntilStart = Math.max(startBlock - currentBlock, 0);
-  const blocksRemaining = Math.max(endBlock - currentBlock, 0);
   return (
     <StyledFooter isFinished={isFinished}>
       <Row>
@@ -120,17 +117,21 @@ const CardFooter: React.FC<Props> = ({
         <Details>
           <Row mb="4px">
             <FlexFull>
-              <Label>
-                {TranslateString(408, "Total")}
-              </Label>
+              <Label>{TranslateString(408, "Total Liquidity")}</Label>
             </FlexFull>
+            <span>$</span>
             <Balance
               fontSize="14px"
               isDisabled={isFinished}
-              value={getBalanceNumber(totalStaked, decimals)}
+              value={getBalanceNumber(
+                new BigNumber(totalStaked).multipliedBy(
+                  new BigNumber(StakingTokenPrice)
+                ),
+                decimals
+              )}
             />
           </Row>
-          {blocksUntilStart > 0 && (
+          {/* {blocksUntilStart > 0 && (
             <Row mb="4px">
               <FlexFull>
                 <Label>{TranslateString(410, "Start")}:</Label>
@@ -142,8 +143,8 @@ const CardFooter: React.FC<Props> = ({
                 decimals={0}
               />
             </Row>
-          )}
-          {blocksUntilStart === 0 && blocksRemaining > 0 && (
+          )} */}
+          {/* {blocksUntilStart === 0 && blocksRemaining > 0 && (
             <Row mb="4px">
               <FlexFull>
                 <Label>{TranslateString(410, "End")}:</Label>
@@ -155,11 +156,16 @@ const CardFooter: React.FC<Props> = ({
                 decimals={0}
               />
             </Row>
-          )}
+          )} */}
           <Flex mb="5px" mt="10px" justifyContent="center">
             <TokenLink
               onClick={() =>
-                registerToken(tokenAddress, tokenName, tokenDecimals, metamaskImg)
+                registerToken(
+                  tokenAddress,
+                  tokenName,
+                  tokenDecimals,
+                  metamaskImg
+                )
               }
             >
               Add {tokenName} to Metamask

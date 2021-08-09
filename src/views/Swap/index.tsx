@@ -21,6 +21,7 @@ import { GreyCard } from "components/Card";
 import ConfirmSwapModal from "components/swap/ConfirmSwapModal";
 import CurrencyInputPanel from "components/CurrencyInputPanel";
 import CardNav from "components/CardNav";
+import { useCurrencyBalance } from "state/wallet/hooks";
 import { AutoRow, RowBetween } from "components/Row";
 import AdvancedSwapDetailsDropdown from "components/swap/AdvancedSwapDetailsDropdown";
 import confirmPriceImpactWithoutFee from "components/swap/confirmPriceImpactWithoutFee";
@@ -148,17 +149,17 @@ const Swap = () => {
 
   const parsedAmounts = showWrap
     ? {
-        [Field.INPUT]: parsedAmount,
-        [Field.OUTPUT]: parsedAmount,
-      }
+      [Field.INPUT]: parsedAmount,
+      [Field.OUTPUT]: parsedAmount,
+    }
     : {
-        [Field.INPUT]:
-          independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
-        [Field.OUTPUT]:
-          independentField === Field.OUTPUT
-            ? parsedAmount
-            : trade?.outputAmount,
-      };
+      [Field.INPUT]:
+        independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+      [Field.OUTPUT]:
+        independentField === Field.OUTPUT
+          ? parsedAmount
+          : trade?.outputAmount,
+    };
 
   const {
     onSwitchTokens,
@@ -211,8 +212,8 @@ const Swap = () => {
   const route = trade?.route;
   const userHasSpecifiedInputOutput = Boolean(
     currencies[Field.INPUT] &&
-      currencies[Field.OUTPUT] &&
-      parsedAmounts[independentField]?.greaterThan(JSBI.BigInt(0))
+    currencies[Field.OUTPUT] &&
+    parsedAmounts[independentField]?.greaterThan(JSBI.BigInt(0))
   );
   const noRoute = !route;
 
@@ -254,6 +255,14 @@ const Swap = () => {
   const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(
     currencyBalances[Field.INPUT]
   );
+  const selectedCurrencyInputBalance = useCurrencyBalance(
+    account ?? undefined,
+    currencies[Field.INPUT] ?? undefined
+  );
+  // const selectedCurrencyOutputBalance = useCurrencyBalance(
+  //   account ?? undefined,
+  //   currencies[Field.OUTPUT] ?? undefined
+  // );
   const atMaxAmountInput = Boolean(
     maxAmountInput && parsedAmounts[Field.INPUT]?.equalTo(maxAmountInput)
   );
@@ -344,10 +353,10 @@ const Swap = () => {
   );
 
   const handleMaxInput = useCallback(() => {
-    if (maxAmountInput) {
-      onUserInput(Field.INPUT, maxAmountInput.toExact());
+    if (selectedCurrencyInputBalance) {
+      onUserInput(Field.INPUT, selectedCurrencyInputBalance.toSignificant(6));
     }
-  }, [maxAmountInput, onUserInput]);
+  }, [selectedCurrencyInputBalance, onUserInput]);
 
   const handleOutputSelect = useCallback(
     (outputCurrency) => {
@@ -361,14 +370,15 @@ const Swap = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        marginBottom: "70px",
       }}
     >
       <ContainerCard>
-        <TokenWarningModal
+        {false && <TokenWarningModal
           isOpen={urlLoadedTokens.length > 0 && !dismissTokenWarning}
           tokens={urlLoadedTokens}
           onConfirm={handleConfirmTokenWarning}
-        />
+        />}
         <ConfirmSwapModal
           isOpen={showConfirm}
           trade={trade}
@@ -508,8 +518,8 @@ const Swap = () => {
                 (wrapType === WrapType.WRAP
                   ? "Wrap"
                   : wrapType === WrapType.UNWRAP
-                  ? "Unwrap"
-                  : null)}
+                    ? "Unwrap"
+                    : null)}
             </Button>
           ) : noRoute && userHasSpecifiedInputOutput ? (
             <GreyCard style={{ textAlign: "center" }}>
@@ -526,7 +536,7 @@ const Swap = () => {
                 onClick={handleApprove}
                 disabled={requestedApproval}
                 style={{ width: "48%" }}
-                // variant={requestedApproval ? "success" : "primary"}
+              // variant={requestedApproval ? "success" : "primary"}
               >
                 {approval === ApprovalState.PENDING ? (
                   <AutoRow gap="6px" justify="center">

@@ -6,7 +6,11 @@ import { sousStake, SousStakeGaslessWithPermit } from "utils/callHelpers";
 import { useProfile, useToast } from "state/hooks";
 import { useSousChef, useSousChefGasless } from "./useContract";
 
-export const useStakeWithPermitMultireward = (sousId, signatureData: any) => {
+export const useStakeWithPermitMultireward = (
+  sousId,
+  signatureData: any,
+  setSignauteNull: any
+) => {
   const dispatch = useDispatch();
   const { account, library } = useWeb3React("web3");
   const sousChefContract = useSousChef(sousId);
@@ -16,10 +20,11 @@ export const useStakeWithPermitMultireward = (sousId, signatureData: any) => {
 
   const handleStakeWithPermit = useCallback(
     async (amount: string, decimals: number) => {
+      let resp;
       try {
         toastInfo("Processing...", `You requested to Deposited `);
         if (metaTranscation && signatureData !== null) {
-          await SousStakeGaslessWithPermit(
+          resp = await SousStakeGaslessWithPermit(
             sousChefContractGasless,
             amount,
             decimals,
@@ -29,10 +34,17 @@ export const useStakeWithPermitMultireward = (sousId, signatureData: any) => {
             signatureData.v,
             signatureData.r,
             signatureData.s,
-
             library
           );
-          toastSuccess("Success", ` Deposited successfully`);
+          setSignauteNull();
+          // @ts-ignore
+          if (resp.code) {
+            if (resp.code === 4001) {
+              toastError("canceled", ` signautures rejected`);
+            }
+          } else {
+            toastSuccess("Success", ` Deposited successfully`);
+          }
           dispatch(updateUserStakedBalance(sousId, account));
           dispatch(updateUserBalance(sousId, account));
         } else {
@@ -44,7 +56,10 @@ export const useStakeWithPermitMultireward = (sousId, signatureData: any) => {
       } catch (e) {
         if (
           e.message ===
-          "MetaMask Tx Signature: User denied transaction signature."
+            "MetaMask Tx Signature: User denied transaction signature." ||
+          e.message ===
+            "MetaMask Message Signature: User denied message signature." ||
+          e.code === 4001
         ) {
           // toastInfo("canceled...", `cancelled signature `);
           toastError("canceled", ` signautures rejected`);
@@ -65,6 +80,7 @@ export const useStakeWithPermitMultireward = (sousId, signatureData: any) => {
       toastInfo,
       toastSuccess,
       toastError,
+      setSignauteNull,
     ]
   );
 

@@ -7,7 +7,7 @@ import { abi as IUniswapV2PairABI } from "@uniswap/v2-core/build/IUniswapV2Pair.
 import useWeb3 from "hooks/useWeb3";
 import { getBiconomyWeb3 } from "utils/biconomyweb3";
 import {
-  getBep20Contract,
+  getERC20Contract,
   getCakeContract,
   getBunnyFactoryContract,
   getBunnySpecialContract,
@@ -21,8 +21,8 @@ import {
   getSouschefContract,
   getCNTStakerContract,
   getClaimRefundContract,
+  getSingleSidedLiquidityContract,
 } from "utils/contractHelpers";
-import { getPolydexMigratorAddress } from "utils/addressHelpers";
 import polydexMigrator from "config/abi/polydexMigrator.json";
 import ENS_ABI from "../constants/abis/ens-registrar.json";
 import ENS_PUBLIC_RESOLVER_ABI from "../constants/abis/ens-public-resolver.json";
@@ -43,7 +43,7 @@ export const useIfoContract = (address: string) => {
 
 export const useERC20 = (address: string) => {
   const web3 = useWeb3();
-  return useMemo(() => getBep20Contract(address, web3), [address, web3]);
+  return useMemo(() => getERC20Contract(address, web3), [address, web3]);
 };
 
 export const useCake = () => {
@@ -79,6 +79,11 @@ export const useLotteryTicket = () => {
 export const useMasterchef = () => {
   const web3 = useWeb3();
   return useMemo(() => getMasterchefContract(web3), [web3]);
+};
+
+export const useSingleSidedLiquidity = () => {
+  const web3 = useWeb3();
+  return useMemo(() => getSingleSidedLiquidityContract(web3), [web3]);
 };
 
 export const useMasterchefGasless = () => {
@@ -154,7 +159,7 @@ export function useWETHContract(
   withSignerIfPossible?: boolean
 ): Contract | null {
   const { chainId } = useActiveWeb3React();
-  const wethAddress = "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7";
+  const wethAddress = "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270";
   return useContract(
     chainId ? wethAddress : undefined,
     WETH_ABI,
@@ -205,8 +210,8 @@ export function useMulticallContract(): Contract | null {
     false
   );
 }
-export const usePolydexMigratorContract = () => {
-  return useContract(getPolydexMigratorAddress(), polydexMigrator, true);
+export const usePolydexMigratorContract = (address: string) => {
+  return useContract(address, polydexMigrator, true);
 };
 export const useFactoryContract = (
   factoryAddress,

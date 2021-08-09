@@ -1,7 +1,9 @@
-describe('Warning', () => {
+describe("Warning", () => {
   beforeEach(() => {
-    cy.visit('#/swap?outputCurrency=0xa6381c6fd8f40a44721ef4f61edc1a8ccca7bf3d')
-  })
+    cy.visit(
+      "#/swap?outputCurrency=0xD1e6354fb05bF72A8909266203dAb80947dcEccF"
+    );
+  });
 
   // Warning is not displaying in Cypress
   // it('Check that warning is displayed', () => {
@@ -15,4 +17,4 @@ describe('Warning', () => {
   //   cy.get('.token-dismiss-button').click()
   //   cy.get('.token-warning-container').should('not.be.visible')
   // })
-})
+});

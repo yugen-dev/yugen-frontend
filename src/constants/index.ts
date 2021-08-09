@@ -17,9 +17,8 @@ declare global {
 }
 
 const web3 = new Web3(window.ethereum);
-export const ROUTER_ADDRESS = "0xE86A68cd5A994D94BB7049acE481e9a6b5Fd94d6";
+export const ROUTER_ADDRESS = "0xBd13225f0a45BEad8510267B4D6a7c78146Be459";
 
-export const biconomyAPIKey = "5IJrOQxzG.cbc81ad9-974a-45d5-b3f3-bbc7c9fd2c6c";
 export const META_TXN_DISABLED = false;
 
 // a list of tokens by chain
@@ -27,55 +26,48 @@ type ChainTokenList = {
   readonly [chainId in ChainId]: Token[];
 };
 export const DAI = new Token(
-  ChainId.MATICTESTNET,
-  web3.utils.toChecksumAddress("0x23092a832ecB8474F81b63F718b7bcEcd13012c9"),
+  ChainId.MAINNET,
+  web3.utils.toChecksumAddress("0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063"),
   18,
   "DAI",
-  "Dai Stablecoin"
-);
-// export const BUSD = new Token(
-//   ChainId.MAINNET,
-//   web3.utils.toChecksumAddress("0xe9e7cea3dedca5984780bafc599bd69add087d56"),
-//   18,
-//   "BUSD",
-//   "Binance USD"
-// );
-export const USDT = new Token(
-  ChainId.MATICTESTNET,
-  web3.utils.toChecksumAddress("0xD89a2E56B778AEfe719fc86E122B7db752Bb6B41"),
-  6,
-  "USDT",
-  "Tether USD"
-);
-export const UST = new Token(
-  ChainId.MATICTESTNET,
-  web3.utils.toChecksumAddress("0x671b68fb02778D37a885699dA79c13Faf0d3C560"),
-  18,
-  "UST",
-  "Wrapped UST Token"
-);
-export const ETH = new Token(
-  ChainId.MATICTESTNET,
-  web3.utils.toChecksumAddress("0x2b5db7D98669be1242F62469214048cFe35d1a17"),
-  18,
-  "ETH",
-  "Binance-Peg Ethereum Token"
+  "DAI"
 );
 
-export const MAHA = new Token(
-  ChainId.MATICTESTNET,
-  web3.utils.toChecksumAddress("0xa22DDedE7118de4589FCC580D829ede5354821DA"),
+export const USDT = new Token(
+  ChainId.MAINNET,
+  web3.utils.toChecksumAddress("0xc2132d05d31c914a87c6611c10748aeb04b58e8f"),
+  6,
+  "USDT",
+  "USDT"
+);
+export const USDC = new Token(
+  ChainId.MAINNET,
+  web3.utils.toChecksumAddress("0x2791bca1f2de4661ed88a30c99a7a9449aa84174"),
   18,
-  "MAHA",
-  "MAHA"
+  "USDC",
+  "USDC"
+);
+export const ETH = new Token(
+  ChainId.MAINNET,
+  web3.utils.toChecksumAddress("0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"),
+  18,
+  "ETH",
+  "ETH"
 );
 
 export const CNT = new Token(
-  ChainId.MATICTESTNET,
-  web3.utils.toChecksumAddress("0x766F03e47674608cCcF7414f6c4DDF3d963Ae394"),
+  ChainId.MAINNET,
+  web3.utils.toChecksumAddress("0xD1e6354fb05bF72A8909266203dAb80947dcEccF"),
   18,
   "Cryption Network Token",
   "CNT"
+);
+export const BTC = new Token(
+  ChainId.MAINNET,
+  web3.utils.toChecksumAddress("0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6"),
+  8,
+  "WBTC",
+  "WBTC"
 );
 
 const WETH_ONLY: ChainTokenList = {
@@ -86,14 +78,14 @@ const WETH_ONLY: ChainTokenList = {
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ...WETH_ONLY,
-  [ChainId.MATICTESTNET]: [
-    ...WETH_ONLY[ChainId.MATICTESTNET],
+  [ChainId.MAINNET]: [
+    ...WETH_ONLY[ChainId.MAINNET],
     DAI,
+    BTC,
     USDT,
-    UST,
+    USDC,
     ETH,
     CNT,
-    MAHA,
   ],
 };
 
@@ -104,74 +96,230 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
 export const CUSTOM_BASES: {
   [chainId in ChainId]?: { [tokenAddress: string]: Token[] };
 } = {
-  [ChainId.MATICTESTNET]: {},
+  [ChainId.MAINNET]: {},
 };
 
 // used for display in the default list when adding liquidity
 export const SUGGESTED_BASES: ChainTokenList = {
   ...WETH_ONLY,
-  [ChainId.MATICTESTNET]: [...WETH_ONLY[ChainId.MATICTESTNET], DAI, USDT, CNT],
+  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, BTC, USDT, CNT, USDC],
 };
 
 // used to construct the list of all pairs we consider by default in the frontend
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   ...WETH_ONLY,
-  [ChainId.MATICTESTNET]: [...WETH_ONLY[ChainId.MATICTESTNET], DAI, USDT, CNT],
+  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDT, USDC, CNT],
 };
 
 export const PINNED_PAIRS: {
   readonly [chainId in ChainId]?: [Token, Token][];
 } = {
-  [ChainId.MATICTESTNET]: [
+  [ChainId.MAINNET]: [
     [
       new Token(
-        ChainId.MATICTESTNET,
+        ChainId.MAINNET,
         web3.utils.toChecksumAddress(
-          "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394"
+          "0xD1e6354fb05bF72A8909266203dAb80947dcEccF"
         ),
         18,
         "Cryption Network Token",
         "CNT"
       ),
       new Token(
-        ChainId.MATICTESTNET,
-        "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+        ChainId.MAINNET,
+        "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
         18,
         "WMATIC",
         "Wrapped Matic"
       ),
     ],
-    [CNT, USDT],
-    [DAI, USDT],
-  ],
-  [ChainId.MATICTESTNET]: [
-    [
-      new Token(
-        ChainId.MATICTESTNET,
-        "0x10829fcc9Fed94bBd7CA515150ADe091C8ee4649",
-        18,
-        "CNT",
-        "Cryption Network Token"
-      ),
-      new Token(
-        ChainId.MATICTESTNET,
-        "0x7Bf65345Dec7Cf276A877abd19dC0EC3e54c4e2b",
-        18,
-        "DCNT",
-        "Dummy Cryption Network Token"
-      ),
-    ],
-    // [BUSD, USDT],
-    [DAI, USDT],
+    [CNT, USDC],
+    [USDC, DAI],
   ],
 };
 
 export const PINNED_MIGRATION_PAIRS = {
-  [ChainId.MAINNET]: [],
+  [ChainId.MAINNET]: {
+    "0xc35DADB65012eC5796536bD9864eD8773aBc74C4": {
+      "0x55FF76BFFC3Cdd9D5FdbBC2ece4528ECcE45047e": {
+        pid: "1",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0x2813d43463c374a680f235c428fb1d7f08de0b69": {
+        pid: "12",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0x6ff62bfb8c12109e8000935a6de54dad83a4f39f": {
+        pid: "11",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xc2755915a85c6f6c1c0f3a86ac8c058f11caa9c9": {
+        pid: "10",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xcd578f016888b57f1b1e3f887f392f0159e26747": {
+        pid: "9",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0x34965ba0ac2451a34a0471f04cca3f990b8dea27": {
+        pid: "8",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0x4b1f1e2435a9c96f7330faea190ef6a7c8d70001": {
+        pid: "7",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xe62ec2e799305e0d367b0cc3ee2cda135bf89816": {
+        pid: "6",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xd02b870c556480491c70aaf98c297fddd93f6f5c": {
+        pid: "5",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xc4e595acdd7d12fec385e5da5d43160e8a0bac0e": {
+        pid: "4",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xcd353f79d9fade311fc3119b841e1f456b54e858": {
+        pid: "2",
+        isPool: false,
+        contractAddress: null,
+      },
+    },
+    "0x5757371414417b8C6CAad45bAeF941aBc7d3Ab32": {
+      "0x604229c960e5CACF2aaEAc8Be68Ac07BA9dF81c3": {
+        pid: "1",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0x90bc3e68ba8393a3bf2d79309365089975341a43": {
+        pid: "12",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0x4a35582a710e1f4b2030a3f826da20bfb6703c09": {
+        pid: "11",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xf6422b997c7f54d1c6a6e103bcb1499eea0a7046": {
+        pid: "10",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xf04adbf75cdfc5ed26eea4bbbb991db002036bdd": {
+        pid: "9",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0x853ee4b2a13f8a742d64c8f088be7ba2131f670d": {
+        pid: "8",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0x2cf7252e74036d1da831d11089d326296e64a728": {
+        pid: "7",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xdc9232e2df177d7a12fdff6ecbab114e2231198d": {
+        pid: "6",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xf6a637525402643b0654a54bead2cb9a83c8b498": {
+        pid: "5",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xadbf1854e5883eb8aa7baf50705338739e558e5b": {
+        pid: "4",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0x6e7a5fafcec6bb1e78bae2a1f0b612012bf14827": {
+        pid: "2",
+        isPool: false,
+        contractAddress: null,
+      },
+    },
+    "0xE7Fb3e833eFE5F9c441105EB65Ef8b261266423B": {
+      "0x7162c0acf32820920a741d8fa466b8e6d60d530d": {
+        pid: "12",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xe69fe44b087eab9d0f1cbdcf63c1b266dcc556fe": {
+        pid: "11",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0x5d577d6cdc82d7b6cac7a101766b68f45bc3e34e": {
+        pid: "10",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xb7bd6d48c9b1af7e126d0389c6970f157d974f33": {
+        pid: "9",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0x7d51bad48d253dae37cc82cad07f73849286deec": {
+        pid: "8",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xbe40f7fff5a2235af9a8cb79a17373162efefa9c": {
+        pid: "7",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0x39eaa90a70e8fdc04e1f63db04e1c62c9ace0641": {
+        pid: "6",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xc0ab47b79bc66f98e5c9ee5ff386a7150d3f4174": {
+        pid: "5",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0xc3379226aeef21464d05676305dad1261d6f3fac": {
+        pid: "3",
+        isPool: false,
+        contractAddress: null,
+      },
+      "0x4f5df10b9991482bcd2db19dae1fd0e0184397c2": {
+        pid: "2",
+        isPool: false,
+        contractAddress: null,
+      },
+    },
+  },
   [ChainId.MATICTESTNET]: {
-    "0x2A59Dcd63A4F7a23d4fF0d2542ab44870199dA17": [
-      "0xa526cF2316549e808e2d607f084953c0E465524f",
-    ],
+    "0x2A59Dcd63A4F7a23d4fF0d2542ab44870199dA17": {
+      "0xa526cF2316549e808e2d607f084953c0E465524f": {
+        pid: null,
+        isPool: true,
+        contractAddress: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
+      },
+      "0x3793F13Aca9fdfd4F56EfB201d2ab8AF6B6DcCC5": {
+        pid: "0",
+        isPool: false,
+        contractAddress: null,
+      },
+    },
   },
 };
 
@@ -208,10 +356,22 @@ export const META_TXN_SUPPORTED_TOKENS: any = {
   "0xf6f85b3f9fd581c2ee717c404f7684486f057f95": { abi: tokenABI },
   "0x40ccd55b789fdee8d434915dc2aa6bd938506a92": { abi: tokenABI },
   "0xa79e0bfc579c709819f4a0e95d4597f03093b011": { abi: tokenABI },
-  "0x766f03e47674608cccf7414f6c4ddf3d963ae394": { abi: tokenABI },
-  "0xd89a2e56b778aefe719fc86e122b7db752bb6b41": { abi: tokenABI },
-  "0x23092a832ecb8474f81b63f718b7bcecd13012c9": { abi: tokenABI },
-  "0x2b5db7d98669be1242f62469214048cfe35d1a17": { abi: tokenABI },
+  "0xd1e6354fb05bf72a8909266203dab80947dceccf": { abi: tokenABI },
+  "0xd6df932a45c0f255f85145f286ea0b292b21c90b": { abi: tokenABI },
+  "0xc168e40227e4ebd8c1cae80f7a55a4f0e6d66c97": { abi: tokenABI },
+  "0x34c1b299a74588d6abdc1b85a53345a48428a521": { abi: tokenABI },
+  "0x9c78ee466d6cb57a4d01fd887d2b5dfb2d46288f": { abi: tokenABI },
+  "0x104592a158490a9228070e0a8e5343b499e125d0": { abi: tokenABI },
+  "0x67480287cb3715d1d9429b38772c71d6e94c16da": { abi: tokenABI },
+  "0xd0252fb67606ed74d0cacd17b2eb38446e4466c9": { abi: tokenABI },
+  "0x5B4CF2C120A9702225814E18543ee658c5f8631e": { abi: tokenABI },
+  "0x24834bbec7e39ef42f4a75eaf8e5b6486d3f0e57": { abi: tokenABI },
+  "0x692597b009d13c4049a947cab2239b7d6517875f": { abi: tokenABI },
+  "0x0bd820ad2d7ab7305b5c9538ba824c9b9beb0561": { abi: tokenABI },
+  "0x968f6f898a6df937fc1859b323ac2f14643e3fed": { abi: tokenABI },
+  "0x9613282539b6d0e3cb1edc843a43da7768ac3838": { abi: tokenABI },
+  "0x361a5a4993493ce00f61c32d4ecca5512b82ce90": { abi: tokenABI },
+  "0x76d383e8c97b2e01ef6d24108f655c9727df4a54": { abi: tokenABI },
 };
 
 export const NetworkContextName = "NETWORK";

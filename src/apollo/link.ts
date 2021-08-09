@@ -13,7 +13,7 @@ import { RetryLink } from "@apollo/client/link/retry";
 export const cntStaker = from([
   new RetryLink(),
   new HttpLink({
-    uri: "https://api.thegraph.com/subgraphs/name/gulshanvas/cntstaker",
+    uri: "https://api.thegraph.com/subgraphs/name/gulshancryption/cnt-staker",
   }),
 ]);
 
@@ -27,14 +27,14 @@ export const farm = from([
 export const exchange = from([
   new RetryLink(),
   new HttpLink({
-    uri: "https://api.thegraph.com/subgraphs/name/gulshanvas/c-exchange",
+    uri: "https://api.thegraph.com/subgraphs/name/gulshancryption/cntexchange",
   }),
 ]);
 
 export const blocklytics = from([
   new RetryLink(),
   new HttpLink({
-    uri: "https://api.thegraph.com/subgraphs/name/samarth30/mumbai",
+    uri: "https://api.thegraph.com/subgraphs/name/sameepsi/maticblocks",
   }),
 ]);
 
@@ -47,7 +47,7 @@ export const lockup = from([
 export const burn = from([
   new RetryLink(),
   new HttpLink({
-    uri: "https://api.thegraph.com/subgraphs/name/gulshanvas/cntsubgraph",
+    uri: "https://api.thegraph.com/subgraphs/name/gulshancryption/cnt",
   }),
 ]);
 
@@ -76,8 +76,13 @@ export default split(
             return operation.getContext().clientName === "burn";
           },
           burn,
-          exchange
-        )
+          split(
+            (operation) => {
+              return operation.getContext().clientName === "exchange";
+            },
+            exchange,
+          ),
+        ),
       )
     )
   )

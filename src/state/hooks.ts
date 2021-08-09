@@ -1,7 +1,12 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import BigNumber from "bignumber.js";
 import { kebabCase } from "lodash";
 import { useWeb3React } from "@web3-react/core";
+import {
+  getCakeContract,
+  getHybridStakingContract,
+} from "utils/contractHelpers";
+import contracts from "config/constants/contracts";
 import { Toast, toastTypes } from "cryption-uikit";
 import { useSelector, useDispatch } from "react-redux";
 import { PoolCategory, QuoteToken, Team } from "config/constants/types";
@@ -28,6 +33,7 @@ import {
   AchievementState,
   PriceState,
 } from "./types";
+
 import { fetchProfile } from "./profile";
 import { fetchTeam, fetchTeams } from "./teams";
 import { fetchAchievements } from "./achievements";
@@ -35,6 +41,7 @@ import { fetchPrices } from "./prices";
 
 const ZERO = new BigNumber(0);
 
+const chainID = process.env.REACT_APP_CHAIN_ID;
 export const useFetchPublicData = () => {
   const dispatch = useDispatch();
   const { slowRefresh } = useRefresh();
@@ -100,6 +107,18 @@ export const useFarmUser = (pid) => {
     harvestInterval: farm.userData
       ? new BigNumber(farm.userData.harvestInterval)
       : new BigNumber(0),
+    SingleSidedAllowances: farm.userData
+      ? new BigNumber(farm.userData.SingleSidedAllowances)
+      : new BigNumber(0),
+    SingleSidedTokenBalance: farm.userData
+      ? new BigNumber(farm.userData.SingleSidedTokenBalance)
+      : new BigNumber(0),
+    SingleSidedToTokenBalance: farm.userData
+      ? new BigNumber(farm.userData.SingleSidedToTokenBalance)
+      : new BigNumber(0),
+    SingleSidedToTokenAllowances: farm.userData
+      ? new BigNumber(farm.userData.SingleSidedToTokenAllowances)
+      : new BigNumber(0),
   };
 };
 
@@ -129,8 +148,9 @@ export const usePoolFromPid = (sousId): Pool => {
 // Prices
 
 export const usePriceBnbBusd = (): BigNumber => {
-  const pid = 1; // MUSD-MATIC LP, BUSD-BNB LP
+  const pid = 3; // USD-MATIC LP, BUSD-BNB LP
   const farm = useFarmFromPid(pid);
+
   return farm.tokenPriceVsQuote
     ? new BigNumber(1).div(farm.tokenPriceVsQuote)
     : ZERO;
@@ -145,16 +165,25 @@ export const usePriceCakeBusd = (): BigNumber => {
   return farm.tokenPriceVsQuote
     ? bnbPriceUSD.times(farm.tokenPriceVsQuote)
     : ZERO;
-
   // return new BigNumber(10);
 };
 
 export const usePriceEthBusd = (): BigNumber => {
-  const pid = 0; // ETH-MATIC LP ,ETH-BNB LP
-  const bnbPriceUSD = usePriceBnbBusd();
+  const pid = 8; // ETH-MATIC LP ,ETH-BNB LP
   const farm = useFarmFromPid(pid);
   return farm.tokenPriceVsQuote
-    ? bnbPriceUSD.times(farm.tokenPriceVsQuote)
+    ? new BigNumber(1).div(farm.tokenPriceVsQuote)
+    : ZERO;
+  // return new BigNumber(10);
+};
+
+export const usePriceBtcBusd = (): BigNumber => {
+  const pid = 5; // ETH-MATIC LP ,ETH-BNB LP
+  // const bnbPriceUSD = usePriceBnbBusd();
+  const farm = useFarmFromPid(pid);
+
+  return farm.tokenPriceVsQuote
+    ? new BigNumber(1).div(farm.tokenPriceVsQuote)
     : ZERO;
   // return new BigNumber(10);
 };
@@ -318,6 +347,48 @@ export const UseGetApiPrice = (token: string) => {
   return prices[token.toLowerCase()];
 };
 
+export const useCntStakerTvl = (): BigNumber => {
+  const [CntStakerTvlPrice, setCntStakerTvlPrice] = useState(
+    new BigNumber(2000)
+  );
+
+  useEffect(() => {
+    const fetchPriceXCNT = async () => {
+      const contract = getCakeContract();
+      const res = await contract.methods
+        .balanceOf(contracts.cntStaker[chainID])
+        .call();
+      setCntStakerTvlPrice(
+        new BigNumber(res).dividedBy(new BigNumber(10).pow(18))
+      );
+    };
+
+    fetchPriceXCNT();
+  }, []);
+
+  return CntStakerTvlPrice;
+};
+
+export const useHybridstakingTvl = (): BigNumber => {
+  const [HybridstakingTvlPrice, setHybridstakingTvlPrice] = useState(
+    new BigNumber(2000)
+  );
+
+  useEffect(() => {
+    const fetchPriceHybridCNT = async () => {
+      const contract = getHybridStakingContract();
+      const res = await contract.methods.totalCNTStaked().call();
+      setHybridstakingTvlPrice(
+        new BigNumber(res).dividedBy(new BigNumber(10).pow(18))
+      );
+    };
+
+    fetchPriceHybridCNT();
+  }, []);
+
+  return HybridstakingTvlPrice;
+};
+
 // Block
 export const useBlock = (): Block => {
   return useSelector((state: State) => state.block);
@@ -327,8 +398,13 @@ export const useTotalValue = (): BigNumber => {
   const farms = useFarms();
   const pools = usePoolss();
 
+  const totalStakerBalance = useCntStakerTvl();
+  const totalHybridstakingCntBalance = useHybridstakingTvl();
   const bnbPrice = usePriceBnbBusd();
-  const cakePrice = usePriceCakeBusd();
+  const cntPrice = usePriceCakeBusd();
+  const ethPrice = usePriceEthBusd();
+  const btcPrice = usePriceBtcBusd();
+
   let value = new BigNumber(0);
   for (let i = 0; i < farms.length; i++) {
     const farm = farms[i];
@@ -337,10 +413,17 @@ export const useTotalValue = (): BigNumber => {
       if (farm.quoteTokenSymbol === QuoteToken.BNB) {
         val = bnbPrice.times(farm.lpTotalInQuoteToken);
       } else if (farm.quoteTokenSymbol === QuoteToken.CAKE) {
-        val = cakePrice.times(farm.lpTotalInQuoteToken);
+        val = cntPrice.times(farm.lpTotalInQuoteToken);
+      } else if (farm.quoteTokenSymbol === QuoteToken.ETH) {
+        val = ethPrice.times(farm.lpTotalInQuoteToken);
+      } else if (farm.quoteTokenSymbol === QuoteToken.BTC) {
+        val = btcPrice.times(farm.lpTotalInQuoteToken);
+      } else if (farm.quoteTokenSymbol === QuoteToken.BUSD) {
+        val = new BigNumber(farm.tokenAmount).plus(farm.quoteTokenAmount);
       } else {
         val = farm.lpTotalInQuoteToken;
       }
+
       value = value.plus(val);
     }
   }
@@ -357,10 +440,30 @@ export const useTotalValue = (): BigNumber => {
 
   for (let i = 0; i < pools.length; i++) {
     const pool = pools[i];
+    const tokenInLpPrice = UseGetApiPrice(pool.tokenAdressInLp);
     if (pool.poolCategory === PoolCategory.CORE) {
-      value = value.plus(cakePrice.multipliedBy(pool.lpTotalInQuoteToken));
+      let val;
+      if (pool.quoteTokenSymbol === QuoteToken.BNB) {
+        val = bnbPrice.times(pool.lpTotalInQuoteToken);
+      } else if (pool.quoteTokenSymbol === QuoteToken.CAKE) {
+        val = cntPrice.times(pool.lpTotalInQuoteToken);
+      } else if (pool.quoteTokenSymbol === QuoteToken.ETH) {
+        val = ethPrice.times(pool.lpTotalInQuoteToken);
+      } else if (pool.quoteTokenSymbol === QuoteToken.BTC) {
+        val = btcPrice.times(pool.lpTotalInQuoteToken);
+      } else if (pool.quoteTokenSymbol === QuoteToken.BUSD) {
+        val = new BigNumber(pool.tokenAmount).plus(pool.quoteTokenAmount);
+      } else if (pool.stakingTokenName === QuoteToken.LP) {
+        val = new BigNumber(tokenInLpPrice).times(pool.lpTotalInQuoteToken);
+      } else {
+        val = pool.lpTotalInQuoteToken;
+      }
+      value = value.plus(val);
     }
   }
+
+  value = value.plus(totalStakerBalance.multipliedBy(cntPrice));
+  value = value.plus(totalHybridstakingCntBalance.multipliedBy(cntPrice));
 
   return value;
 };

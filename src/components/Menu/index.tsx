@@ -12,23 +12,19 @@ import { allLanguages } from "config/localisation/languageCodes";
 import { LanguageContext } from "contexts/Localisation/languageContext";
 import useTheme from "hooks/useTheme";
 import useAuth from "hooks/useAuth";
-import useCNTprice from "hooks/useCNTprice";
 import { toggleMetaTranscationState } from "state/actions";
 import { ETHERJS_PATHS } from "config";
-import { useProfile } from "state/hooks";
+import { usePriceCakeBusd, useProfile } from "state/hooks";
 // import LogoIcon from "images/PolyDEX White Text (2).svg";
 import config, { socials } from "./config";
 
 const Menu = (props) => {
   const { login, logout, loginEther, logoutEther } = useAuth();
   const location = useLocation();
-  const { valueOfCNTinUSD } = useCNTprice();
+  const cakePriceBusd = usePriceCakeBusd();
+
   let accountId = "";
-  if (
-    ETHERJS_PATHS.includes(
-      `/${location.pathname.split("/")[1]}`
-    )
-  ) {
+  if (ETHERJS_PATHS.includes(`/${location.pathname.split("/")[1]}`)) {
     accountId = useWeb3React().account;
   } else {
     accountId = useWeb3React("web3").account;
@@ -43,11 +39,7 @@ const Menu = (props) => {
       // into the Window object in time causing it to throw an error
       // TODO: Figure out an elegant way to listen for when the BinanceChain object is ready
       if (connectorId && connectorId) {
-        if (
-          ETHERJS_PATHS.includes(
-            `/${location.pathname.split("/")[1]}`
-          )
-        ) {
+        if (ETHERJS_PATHS.includes(`/${location.pathname.split("/")[1]}`)) {
           loginEther(connectorId);
         } else {
           login(connectorId);
@@ -92,16 +84,12 @@ const Menu = (props) => {
       }
       toggleTranscationState={handleMetaToggle}
       login={
-        ETHERJS_PATHS.includes(
-          `/${location.pathname.split("/")[1]}`
-        )
+        ETHERJS_PATHS.includes(`/${location.pathname.split("/")[1]}`)
           ? loginEther
           : login
       }
       logout={
-        ETHERJS_PATHS.includes(
-          `/${location.pathname.split("/")[1]}`
-        )
+        ETHERJS_PATHS.includes(`/${location.pathname.split("/")[1]}`)
           ? logoutEther
           : logout
       }
@@ -112,7 +100,7 @@ const Menu = (props) => {
       currentLang={selectedLanguage && selectedLanguage.code}
       langs={allLanguages}
       setLang={setSelectedLanguage}
-      cakePriceUsd={valueOfCNTinUSD}
+      cakePriceUsd={cakePriceBusd.toNumber()}
       logoSize="53px"
       links={config}
       socials={socials}

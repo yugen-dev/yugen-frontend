@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import BigNumber from "bignumber.js";
 import styled from "styled-components";
-import { getBalanceNumber } from "utils/formatBalance";
+// import { getBalanceNumber } from "utils/formatBalance";
 import useI18n from "hooks/useI18n";
 import { ChevronDown, ChevronUp } from "react-feather";
 import { Flex, Text, Link } from "cryption-uikit";
@@ -21,6 +21,7 @@ interface Props {
   isFinished: boolean;
   poolCategory: PoolCategory;
   metamaskImg?: string;
+  totalLiquidityLocked?: BigNumber;
 }
 
 const StyledFooter = styled.div<{ isFinished: boolean }>`
@@ -72,21 +73,22 @@ const TokenLink = styled.a`
 
 const CardFooter: React.FC<Props> = ({
   projectLink,
-  decimals,
+  // decimals,
   tokenAddress,
-  totalStaked,
+  // totalStaked,
   // tokenName,
   // tokenDecimals,
   isFinished,
   // startBlock,
   // endBlock,
   // metamaskImg,
+  totalLiquidityLocked,
 }) => {
   // const { blockNumber: currentBlock } = useBlock();
   const [isOpen, setIsOpen] = useState(false);
   const TranslateString = useI18n();
   const Icon = isOpen ? ChevronUp : ChevronDown;
-  const maticExplorerAddress = `https://mumbai.polygonscan.com/address/${tokenAddress}`;
+  const maticExplorerAddress = `https://polygonscan.com/address/${tokenAddress}`;
 
   const handleClick = () => setIsOpen(!isOpen);
 
@@ -106,14 +108,20 @@ const CardFooter: React.FC<Props> = ({
         <Details>
           <Row mb="4px">
             <FlexFull>
-              <Text>{TranslateString(408, "Total Liquidity")}</Text>
+              <Text>{TranslateString(408, "Liquidity in Farm")}</Text>
             </FlexFull>
             <span style={{ color: "#3869EE" }}>$</span>
-            <Balance
+            {/* <Balance
               fontSize="16px"
               isDisabled={isFinished}
               color="#3869EE"
               value={getBalanceNumber(totalStaked, decimals)}
+            /> */}
+            <Balance
+              fontSize="16px"
+              isDisabled={isFinished}
+              color="#3869EE"
+              value={totalLiquidityLocked.toNumber()}
             />
           </Row>
           {/* {blocksUntilStart > 0 && (

@@ -13,7 +13,7 @@ export const fetchPrices = createAsyncThunk<PriceApiResponse>(
   "prices/fetch",
   async () => {
     const response = await fetch(
-      "https://polydexvercelapi.vercel.app/api/tokens"
+      "https://api.polydex.org/api/tokens"
     );
     const data = (await response.json()) as PriceApiResponse;
     // @ts-ignore

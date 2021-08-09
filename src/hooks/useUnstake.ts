@@ -29,34 +29,45 @@ const useUnstake = (pid: number) => {
   const masterChefGaslessContract = useMasterchefGasless();
   const { metaTranscation } = useProfile();
   const { toastInfo, toastError, toastSuccess } = useToast();
+
   const handleUnstake = useCallback(
     async (amount: string) => {
       try {
-        toastInfo("Processing...", `You requested to Deposited `);
+        let resp;
+        toastInfo("Processing...", `You requested to withdraw `);
         if (metaTranscation) {
-          await GaslessUnStake(
+          resp = await GaslessUnStake(
             masterChefGaslessContract,
             pid,
             amount,
             account,
             library
           );
-          toastSuccess("Success", ` Depositeded successfully`);
+          // @ts-ignore
+          if (typeof resp !== "undefined" && resp.code === 4001) {
+            toastError("canceled", ` signautures rejected`);
+          } else {
+            toastSuccess("Success", ` withdraw successfull`);
+          }
+
           dispatch(fetchFarmUserDataAsync(account));
         } else {
           await unstake(masterChefContract, pid, amount, account);
-          toastSuccess("Success", ` Depositeded successfully`);
+          toastSuccess("Success", ` withdraw successfull`);
           dispatch(fetchFarmUserDataAsync(account));
         }
       } catch (e) {
         if (
           e.message ===
-          "MetaMask Tx Signature: User denied transaction signature."
+            "MetaMask Tx Signature: User denied transaction signature." ||
+          e.message ===
+            "MetaMask Message Signature: User denied message signature." ||
+          e.code === 4001
         ) {
           // toastInfo("canceled...", `cancelled signature `);
           toastError("canceled", ` signautures rejected`);
         } else {
-          toastError("Error...", `Failed to Deposit`);
+          toastError("Error...", `Failed to withdraw`);
         }
       }
     },
@@ -90,12 +101,13 @@ export const useSousUnstake = (sousId) => {
   const { toastInfo, toastError, toastSuccess } = useToast();
   const handleUnstake = useCallback(
     async (amount: string, decimals: number) => {
+      let resp;
       try {
-        toastInfo("Processing...", `You requested to Deposited `);
+        toastInfo("Processing...", `You requested to withdraw `);
         if (isOldSyrup) {
           await sousEmegencyUnstake(sousChefContract, amount, account);
         } else if (metaTranscation) {
-          await sousUnstakeGasless(
+          resp = await sousUnstakeGasless(
             sousChefContractsGasless,
             amount,
             decimals,
@@ -103,13 +115,18 @@ export const useSousUnstake = (sousId) => {
             sousId,
             library
           );
-          toastSuccess("Success", ` Depositeded successfully`);
+          // @ts-ignore
+          if (typeof resp !== "undefined" && resp.code === 4001) {
+            toastError("canceled", ` signautures rejected`);
+          } else {
+            toastSuccess("Success", ` withdraw successfull`);
+          }
           dispatch(updateUserStakedBalance(sousId, account));
           dispatch(updateUserBalance(sousId, account));
           dispatch(updateUserPendingReward(sousId, account));
         } else {
           await sousUnstake(sousChefContract, amount, decimals, account);
-          toastSuccess("Success", ` Depositeded successfully`);
+          toastSuccess("Success", ` withdraw successfull`);
           dispatch(updateUserStakedBalance(sousId, account));
           dispatch(updateUserBalance(sousId, account));
           dispatch(updateUserPendingReward(sousId, account));
@@ -117,12 +134,15 @@ export const useSousUnstake = (sousId) => {
       } catch (e) {
         if (
           e.message ===
-          "MetaMask Tx Signature: User denied transaction signature."
+            "MetaMask Tx Signature: User denied transaction signature." ||
+          e.message ===
+            "MetaMask Message Signature: User denied message signature." ||
+          e.code === 4001
         ) {
           // toastInfo("canceled...", `cancelled signature `);
           toastError("canceled", ` signautures rejected`);
         } else {
-          toastError("Error...", `Failed to Deposit`);
+          toastError("Error...", `Failed to withdraw`);
         }
       }
     },

@@ -77,14 +77,15 @@ const OutlineCard = styled.div`
 
 const ContainerCard = styled(Card)`
   border-radius: 0.625rem !important;
+  max-width: 700px;
+  width: 100%;
   padding: 30px;
   background-color: #1e202a;
   display: flex;
+  margin-top: 70px;
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  max-width: 600px;
-  width: 100%;
 `;
 
 const contractAddress = ROUTER_ADDRESS;
@@ -485,6 +486,7 @@ export default function RemoveLiquidity({
       setAttemptingTxn(true);
       await router[methodName](...args, {
         gasLimit: safeGasEstimate,
+        gasPrice: 10000000000,
       })
         .then((response: TransactionResponse) => {
           setAttemptingTxn(false);
@@ -522,7 +524,7 @@ export default function RemoveLiquidity({
           </RowFixed>
         </RowBetween>
         <RowFixed>
-          <Plus size="16" color={theme.colors.textSubtle} />
+          <Plus size="16" color="white" />
         </RowFixed>
         <RowBetween align="flex-end">
           <Text fontSize="24px">
@@ -538,7 +540,7 @@ export default function RemoveLiquidity({
 
         <Text
           small
-          color="textSubtle"
+          color="#86878F"
           textAlign="left"
           padding="12px 0 0 0"
           style={{ fontStyle: "italic" }}
@@ -555,7 +557,7 @@ export default function RemoveLiquidity({
     return (
       <>
         <RowBetween>
-          <Text color="textSubtle">
+          <Text color="#2082E9">
             {`LP ${currencyA?.symbol}/${currencyB?.symbol}`} Burned
           </Text>
           <RowFixed>
@@ -570,7 +572,7 @@ export default function RemoveLiquidity({
         {pair && (
           <>
             <RowBetween>
-              <Text color="textSubtle">{TranslateString(1182, "Price")}</Text>
+              <Text color="#2082E9">{TranslateString(1182, "Price")}</Text>
               <Text>
                 1 {currencyA?.symbol} ={" "}
                 {tokenA ? pair.priceOf(tokenA).toSignificant(6) : "-"}{" "}
@@ -796,7 +798,7 @@ export default function RemoveLiquidity({
                               : currencyIdB
                           }`}
                         >
-                          {TranslateString(1188, "Receive WBNB")}
+                          {TranslateString(1188, "Receive WMATIC")}
                         </StyledInternalLink>
                       ) : oneCurrencyIsWETH ? (
                         <StyledInternalLink
@@ -812,7 +814,7 @@ export default function RemoveLiquidity({
                               : currencyIdB
                           }`}
                         >
-                          {TranslateString(1190, "Receive BNB")}
+                          {TranslateString(1190, "Receive MATIC")}
                         </StyledInternalLink>
                       ) : null}
                     </RowBetween>

@@ -1,3 +1,4 @@
+import { ChainId } from "@cryption-network/polydex-sdk";
 import { TranslatableText } from "state/types";
 
 export type IfoStatus = "idle" | "coming_soon" | "live" | "finished";
@@ -40,6 +41,8 @@ export enum QuoteToken {
   "PR" = "PR",
   "TEST1" = "TEST1",
   "LP" = "LP",
+  "BTC" = "BTC",
+  "MAHA" = "MAHA",
 }
 
 export enum PoolCategory {
@@ -52,6 +55,7 @@ export interface Address {
   97?: string;
   56: string;
   80001: string;
+  137: string;
 }
 
 export interface FarmConfig {
@@ -65,6 +69,10 @@ export interface FarmConfig {
   multiplier?: string;
   poolHarvestInterval?: number;
   isCommunity?: boolean;
+  singleSidedToken?: Address;
+  singleSidedToToken?: Address;
+  singleSidedTokenName: string;
+  singleSidedToTokenName: string;
   dual?: {
     rewardPerBlock: number;
     earnLabel: string;
@@ -79,6 +87,7 @@ export interface PoolConfig {
   tokenAdressInLp: string;
   tokenAddress: string;
   stakingTokenName: QuoteToken;
+  quoteTokenSymbol: QuoteToken;
   stakingLimit?: number;
   stakingTokenAddress?: string;
   stakingTokenDecimals?: number;
@@ -151,4 +160,7 @@ export type Campaign = {
 export interface MigrateConfig {
   label: string;
   value: string;
+  migratorAddress: {
+    readonly [chainId in ChainId]?: string;
+  };
 }

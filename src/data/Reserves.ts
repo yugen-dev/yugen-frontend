@@ -163,7 +163,7 @@ export function useMigrationPairs(
 }
 export function useMigrationPair(
   tokenA?: Currency,
-  tokenB?: Currency,
+  tokenB?: Currency
 ): [PairState, Pair | null] {
   return useMigrationPairs([[tokenA, tokenB]])[0];
 }

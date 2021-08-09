@@ -25,15 +25,15 @@ const config: MenuEntry[] = [
       },
     ],
   },
-  {
-    label: "Pools",
-    icon: "PoolIcon",
-    href: "/pools",
-  },
+  // {
+  //   label: "Pools",
+  //   icon: "PoolIcon",
+  //   href: "/pools",
+  // },
   {
     label: "CNT Staker",
     icon: "TicketIcon",
-    href: "/cntbar",
+    href: "/cntstaker",
   },
   // {
   //   label: "Migrate",
@@ -69,33 +69,33 @@ const config: MenuEntry[] = [
   //     },
   //   ],
   // },
-  {
-    label: "Analytics (Coming Soon)",
-    icon: "InfoIcon",
-    items: [],
-  },
   // {
-  //   label: 'IFO',
-  //   icon: 'IfoIcon',
-  //   href: '/ifo',
+  //   label: "Analytics (Coming Soon)",
+  //   icon: "InfoIcon",
+  //   items: [],
   // },
+  {
+    label: "IFO",
+    icon: "IfoIcon",
+    href: "/ifo",
+  },
   {
     label: "More",
     icon: "MoreIcon",
     items: [
-      // {
-      //   label: "Voting",
-      //   href: "https://voting.pancakeswap.finance",
-      // },
+      {
+        label: "Audit Report",
+        href: "https://www.certik.org/projects/cryptionnetwork",
+      },
       {
         label: "Github",
         href: "https://github.com/cryption-network",
       },
       // hiding bcoz Menu bar will highlight if pointed to home otherwise
-      // {
-      //   label: "Docs",
-      //   href: "/docs",
-      // },
+      {
+        label: "Docs",
+        href: "https://docs.cryption.network/",
+      },
       {
         label: "Blog",
         href: "https://blog.cryption.network/",

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import BigNumber from "bignumber.js";
 import styled from "styled-components";
 import InfoIcon from "@material-ui/icons/Info";
@@ -15,7 +15,7 @@ import { useWeb3React } from "@web3-react/core";
 import Countdown from "react-countdown";
 import UnlockButton from "components/UnlockButton";
 import Label from "components/Label";
-import { getBep20Contract } from "utils/contractHelpers";
+import { getERC20Contract } from "utils/contractHelpers";
 import useI18n from "hooks/useI18n";
 import { useSousStake } from "hooks/useStake";
 import useWeb3 from "hooks/useWeb3";
@@ -43,17 +43,24 @@ import ApyButton from "../../Farms/components/FarmCard/ApyButton";
 interface HarvestProps {
   pool: Pool;
   valueOfCNTinUSD?: BigNumber;
+  bnbPrice?: BigNumber;
+  ethPrice?: BigNumber;
+  btcPrice?: BigNumber;
 }
 
-const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
-  // const [tokenprices, Settokenprices] = useState([null]);
-  // const [StakingTokenPrice, setStakingTokenPrice] = useState(new BigNumber(1));
+const PoolCard: React.FC<HarvestProps> = ({
+  pool,
+  valueOfCNTinUSD,
+  bnbPrice,
+  ethPrice,
+  btcPrice,
+}) => {
   const {
     sousId,
     image,
     tokenName,
     tokenAddress,
-    stakingTokenName,
+
     // contractAddress,
     stakingTokenDecimals,
     projectLink,
@@ -68,8 +75,57 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
     stakingLimit,
     poolHarvestInterval,
     tokenPriceVsQuote,
+    stakingTokenName,
     metamaskImg,
+    quoteTokenSymbol,
+    lpTotalInQuoteToken,
   } = pool;
+
+  const tokenInLpPrice = UseGetApiPrice(pool.tokenAdressInLp);
+
+  const totalValue: BigNumber = useMemo(() => {
+    if (!lpTotalInQuoteToken) {
+      return null;
+    }
+    if (quoteTokenSymbol === QuoteToken.BNB) {
+      return bnbPrice.times(lpTotalInQuoteToken);
+    }
+    if (quoteTokenSymbol === QuoteToken.CNT) {
+      return valueOfCNTinUSD.times(lpTotalInQuoteToken);
+    }
+    if (stakingTokenName === QuoteToken.LP) {
+      return tokenInLpPrice
+        ? new BigNumber(tokenInLpPrice).times(lpTotalInQuoteToken)
+        : new BigNumber(100000);
+    }
+
+    if (quoteTokenSymbol === QuoteToken.ETH) {
+      return ethPrice.times(lpTotalInQuoteToken);
+    }
+
+    if (quoteTokenSymbol === QuoteToken.BTC) {
+      return btcPrice
+        .times(pool.quoteTokenAmount)
+        .plus(new BigNumber(pool.tokenAmount));
+    }
+
+    if (quoteTokenSymbol === QuoteToken.BUSD) {
+      return new BigNumber(pool.tokenAmount).plus(pool.quoteTokenAmount);
+    }
+
+    return lpTotalInQuoteToken;
+  }, [
+    bnbPrice,
+    valueOfCNTinUSD,
+    ethPrice,
+    pool.tokenAmount,
+    btcPrice,
+    pool.quoteTokenAmount,
+    stakingTokenName,
+    lpTotalInQuoteToken,
+    tokenInLpPrice,
+    quoteTokenSymbol,
+  ]);
 
   const [signatureData, setSignatureData] = useState<{
     v: number;
@@ -77,6 +133,10 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
     s: string;
     deadline: number;
   } | null>(null);
+
+  const setSignauteNull = () => {
+    setSignatureData(null);
+  };
 
   const { account } = useWeb3React("web3");
   const [show, setShow] = useState(false);
@@ -89,7 +149,8 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
   const { onStake } = useSousStake(sousId, isBnbPool);
   const { onStakeWithPermit } = useStakeWithPermitMultireward(
     sousId,
-    signatureData
+    signatureData,
+    setSignauteNull
   );
   const { onUnstake } = useSousUnstake(sousId);
   const { onReward } = useSousHarvest(sousId, isBnbPool);
@@ -248,7 +309,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
   );
   const { metaTranscation } = useProfile();
 
-  const tokencontract = getBep20Contract(tokenAddress, web3);
+  const tokencontract = getERC20Contract(tokenAddress, web3);
 
   const { onApprove } = useSousApproveWithPermit(tokencontract, sousId);
 
@@ -488,6 +549,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool, valueOfCNTinUSD }) => {
         projectLink={projectLink}
         decimals={stakingTokenDecimals}
         totalStaked={totalStaked}
+        totalLiquidityLocked={totalValue}
         startBlock={startBlock}
         endBlock={endBlock}
         isFinished={isFinished}

@@ -31,7 +31,9 @@ const TotalValueLockedCard = () => {
           <CardValue
             value={data.toNumber()}
             lineHeight="1.5"
-            decimals={4}
+            prefix="$"
+            fontSize="28px"
+            decimals={0}
             color="#2082E9"
           />
         ) : (
@@ -45,12 +47,6 @@ const TotalValueLockedCard = () => {
   );
 };
 
-// const CNValueHeading = styled.div`
-//   font-size: 30px;
-//   font-weight: bold;
-//   text-transform: capitalize;
-//   color: white;
-// `;
 
 const CNText = styled.div`
   font-size: 16px;

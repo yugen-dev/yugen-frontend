@@ -37,7 +37,7 @@ export function getMaticExplorerLink(
 ): string {
   const prefix = `https://${
     MATICEXPLORER_PREFIXES[chainId] || MATICEXPLORER_PREFIXES[ChainId.MAINNET]
-  }.polygonscan.com`;
+  }polygonscan.com`;
   switch (type) {
     case "transaction": {
       return `${prefix}/tx/${data}`;

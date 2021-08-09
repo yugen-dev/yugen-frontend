@@ -18,6 +18,8 @@ import {
   getFarmAddress,
   getPointCenterIfoAddress,
   getClaimRefundAddress,
+  getHybridStakingAddress,
+  getSingleSidedLiquidityAddress,
 } from "utils/addressHelpers";
 
 // ABI
@@ -25,8 +27,10 @@ import profileABI from "config/abi/pancakeProfile.json";
 import pancakeRabbitsAbi from "config/abi/pancakeRabbits.json";
 import bunnyFactoryAbi from "config/abi/bunnyFactory.json";
 import bunnySpecialAbi from "config/abi/bunnySpecial.json";
-import bep20Abi from "config/abi/erc20.json";
+import erc20Abi from "config/abi/erc20.json";
 import cakeAbi from "config/abi/cake.json";
+import hybridStakingAbi from "config/abi/hybridstaking.json";
+import singleSidedLiquidityAbi from "config/abi/singleSidedLiquidity.json";
 import ifoAbi from "config/abi/ifo.json";
 import pointCenterIfo from "config/abi/pointCenterIfo.json";
 import lotteryAbi from "config/abi/lottery.json";
@@ -43,8 +47,8 @@ export const getContract = (abi: any, address: string, web3?: Web3) => {
   return new _web3.eth.Contract(abi as unknown as AbiItem, address);
 };
 
-export const getBep20Contract = (address: string, web3?: Web3) => {
-  return getContract(bep20Abi, address, web3);
+export const getERC20Contract = (address: string, web3?: Web3) => {
+  return getContract(erc20Abi, address, web3);
 };
 export const getIfoContract = (address: string, web3?: Web3) => {
   return getContract(ifoAbi, address, web3);
@@ -64,6 +68,19 @@ export const getPointCenterIfoContract = (web3?: Web3) => {
 export const getCakeContract = (web3?: Web3) => {
   return getContract(cakeAbi, getCakeAddress(), web3);
 };
+
+export const getHybridStakingContract = (web3?: Web3) => {
+  return getContract(hybridStakingAbi, getHybridStakingAddress(), web3);
+};
+
+export const getSingleSidedLiquidityContract = (web3?: Web3) => {
+  return getContract(
+    singleSidedLiquidityAbi,
+    getSingleSidedLiquidityAddress(),
+    web3
+  );
+};
+
 export const getProfileContract = (web3?: Web3) => {
   return getContract(profileABI, getPancakeProfileAddress(), web3);
 };

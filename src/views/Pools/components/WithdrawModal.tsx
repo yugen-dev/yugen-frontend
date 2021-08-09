@@ -13,6 +13,7 @@ interface WithdrawModalProps {
   tokenName?: string;
   tokenAmount?: string;
   stakingTokenDecimals?: number;
+  poolwithdrawalFeeBP?: number;
 }
 
 const WithdrawModal: React.FC<WithdrawModalProps> = ({
@@ -22,6 +23,7 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({
   tokenName = "",
   tokenAmount,
   stakingTokenDecimals = 18,
+  poolwithdrawalFeeBP = 0,
 }) => {
   const [val, setVal] = useState(tokenAmount || "");
   const [pendingTx, setPendingTx] = useState(false);
@@ -71,6 +73,7 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({
         value={val}
         max={fullBalance}
         symbol={tokenName}
+        poolwithdrawalFeeBP={poolwithdrawalFeeBP}
       />
       <ModalActions>
         <Button variant="secondary" onClick={onDismiss}>

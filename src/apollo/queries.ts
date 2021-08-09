@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import { getCNTStakerAddress } from "utils/addressHelpers";
 
 export const dayDataFieldsQuery = gql`
   fragment dayDataFields on DayData {
@@ -30,10 +31,10 @@ export const burnQuery = gql`
     }
   }
 `;
-
+const cntStakerAddress = getCNTStakerAddress();
 //  Value of `id` must not be checksummed.
 export const cntStakerQuery = gql`
-  query cntStaker($id: String! = "0x5da1f601486252ca41d04e6caa49b19dd0bfa888") {
+  query cntStaker($id: String! = "${cntStakerAddress.toLocaleLowerCase()}") {
     cntstaker(id: $id) {
       id
       totalSupply

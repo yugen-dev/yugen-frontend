@@ -9,18 +9,30 @@ import { PoolCategory } from "config/constants/types";
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
 import { useWeb3React } from "@web3-react/core";
-import { usePools, useBlock, usePriceCakeBusd } from "state/hooks";
+import {
+  usePools,
+  useBlock,
+  usePriceCakeBusd,
+  usePriceEthBusd,
+  usePriceBnbBusd,
+  usePriceBtcBusd,
+} from "state/hooks";
 import { getCakeContract } from "utils/contractHelpers";
 import cntMascot from "images/Cryption Network Mascot Farming.png";
+import CountdownTimer from "components/CountdownTimer";
 import PoolTabButtons from "./components/PoolTabButtons";
 // import FlexLayout from "components/layout/Flex";
 // import pools from "config/constants/pools";
 import PoolCard from "./components/PoolCard";
+import MrCNTaah from "../../images/MrCNTaah.png";
 
 const NUMBER_OF_POOLS_VISIBLE = 12;
 const Farm: React.FC = () => {
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const cntPrice = usePriceCakeBusd();
+  const bnbPrice = usePriceBnbBusd();
+  const ethPrice = usePriceEthBusd();
+  const btcPrice = usePriceBtcBusd();
   const { path } = useRouteMatch();
   const cake = getCakeContract();
   const { account } = useWeb3React("web3");
@@ -92,6 +104,7 @@ const Farm: React.FC = () => {
         <Grid container spacing={3} alignItems="center">
           <Grid item xs={12} md={6} lg={6} xl={6}>
             <CNHeading>Multi-Rewards Farms</CNHeading>
+            <CountdownTimer unixEndTimeInSeconds={1627569000} />
           </Grid>
           <Grid item xs={12} md={6} lg={6} xl={6}>
             <div
@@ -129,6 +142,9 @@ const Farm: React.FC = () => {
                             key={pool.sousId}
                             pool={pool}
                             valueOfCNTinUSD={cntPrice}
+                            bnbPrice={bnbPrice}
+                            ethPrice={ethPrice}
+                            btcPrice={btcPrice}
                           />{" "}
                         </Grid>
                       )
@@ -143,6 +159,9 @@ const Farm: React.FC = () => {
                             key={pool.sousId}
                             pool={pool}
                             valueOfCNTinUSD={cntPrice}
+                            bnbPrice={bnbPrice}
+                            ethPrice={ethPrice}
+                            btcPrice={btcPrice}
                           />{" "}
                         </Grid>
                       )
@@ -157,12 +176,7 @@ const Farm: React.FC = () => {
                 justifyContent: "center",
               }}
             >
-              <div
-                dangerouslySetInnerHTML={{
-                  __html:
-                    '<lottie-player src="https://assets3.lottiefiles.com/packages/lf20_r71cen62.json"  background="transparent"  speed="1" style="height: 350px;" loop  autoplay></lottie-player>',
-                }}
-              />
+              <img src={MrCNTaah} alt="Cannot find" width="250px" />
             </div>
           )}
         </Route>
@@ -182,6 +196,9 @@ const Farm: React.FC = () => {
                         key={pool.sousId}
                         pool={pool}
                         valueOfCNTinUSD={cntPrice}
+                        bnbPrice={bnbPrice}
+                        ethPrice={ethPrice}
+                        btcPrice={btcPrice}
                       />
                     </Grid>
                   ))
@@ -193,6 +210,9 @@ const Farm: React.FC = () => {
                         key={pool.sousId}
                         pool={pool}
                         valueOfCNTinUSD={cntPrice}
+                        bnbPrice={bnbPrice}
+                        ethPrice={ethPrice}
+                        btcPrice={btcPrice}
                       />
                     </Grid>
                   ))}
@@ -206,12 +226,7 @@ const Farm: React.FC = () => {
                 justifyContent: "center",
               }}
             >
-              <div
-                dangerouslySetInnerHTML={{
-                  __html:
-                    '<lottie-player src="https://assets3.lottiefiles.com/packages/lf20_r71cen62.json"  background="transparent"  speed="1" style="height: 350px;" loop  autoplay></lottie-player>',
-                }}
-              />
+              <img src={MrCNTaah} alt="Cannot find" width="250px" />
             </div>
           )}
         </Route>

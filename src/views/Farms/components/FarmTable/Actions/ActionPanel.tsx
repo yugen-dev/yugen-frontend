@@ -125,7 +125,7 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
     tokenAddresses,
   });
   const lpAddress = farm.lpAddresses[process.env.REACT_APP_CHAIN_ID];
-  const bsc = `https://mumbai.polygonscan.com/address/${lpAddress}`;
+  const bsc = `https://polygonscan.com/address/${lpAddress}`;
   const info = `https://pancakeswap.info/pair/${lpAddress}`;
   const isCommunityFarm = communityFarms.includes(tokenSymbol);
 

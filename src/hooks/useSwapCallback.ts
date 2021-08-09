@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import { BigNumber } from "@ethersproject/bignumber";
 import { Contract } from "@ethersproject/contracts";
+import { TransactionResponse } from "@ethersproject/providers";
 import {
   JSBI,
   Percent,
@@ -175,6 +176,7 @@ export function useSwapCallback(
 
     return {
       state: SwapCallbackState.VALID,
+      // eslint-disable-next-line consistent-return
       callback: async function onSwap(): Promise<string> {
         const estimatedCalls: EstimatedSwapCall[] = await Promise.all(
           swapCalls.map((call) => {
@@ -252,6 +254,7 @@ export function useSwapCallback(
         ) {
           return contract[methodName](...args, {
             gasLimit: calculateGasMargin(gasEstimate),
+            gasPrice: 10000000000,
             ...(value && !isZero(value)
               ? { value, from: account }
               : { from: account }),
@@ -290,91 +293,98 @@ export function useSwapCallback(
               }
             });
           // ts-ignore
-        }
+          // eslint-disable-next-line no-else-return
+        } else {
+          const bicomony_contract = new getWeb3.eth.Contract(
+            abi as unknown as AbiItem,
+            contractAddress
+          );
 
-        const bicomony_contract = new getWeb3.eth.Contract(
-          abi as unknown as AbiItem,
-          contractAddress
-        );
+          const biconomy_nonce = await bicomony_contract.methods
+            .getNonce(account)
+            .call();
 
-        const biconomy_nonce = await bicomony_contract.methods
-          .getNonce(account)
-          .call();
+          const res = bicomony_contract.methods[methodName](
+            ...args
+          ).encodeABI();
 
-        const res = bicomony_contract.methods[methodName](...args).encodeABI();
+          const message: any = {
+            nonce: "",
+            from: "",
+            functionSignature: "",
+          };
+          message.nonce = parseInt(biconomy_nonce);
+          message.from = account;
+          message.functionSignature = res;
 
-        const message: any = {
-          nonce: "",
-          from: "",
-          functionSignature: "",
-        };
-        message.nonce = parseInt(biconomy_nonce);
-        message.from = account;
-        message.functionSignature = res;
+          const dataToSign = JSON.stringify({
+            types: {
+              EIP712Domain: [
+                { name: "name", type: "string" },
+                { name: "version", type: "string" },
+                { name: "verifyingContract", type: "address" },
+                { name: "chainId", type: "uint256" },
+              ],
+              MetaTransaction: [
+                { name: "nonce", type: "uint256" },
+                { name: "from", type: "address" },
+                { name: "functionSignature", type: "bytes" },
+              ],
+            },
+            domain: {
+              name: "PolydexRouter",
+              version: "1",
+              verifyingContract: contractAddress,
+              chainId,
+            },
+            primaryType: "MetaTransaction",
+            message,
+          });
+          const sig = await library.send("eth_signTypedData_v4", [
+            account,
+            dataToSign,
+          ]);
+          const signature = await splitSignature(sig);
+          const { v, r, s } = signature;
 
-        const dataToSign = JSON.stringify({
-          types: {
-            Domain: [
-              { name: "name", type: "string" },
-              { name: "version", type: "string" },
-              { name: "verifyingContract", type: "address" },
-              { name: "chainId", type: "uint256" },
-            ],
-            MetaTransaction: [
-              { name: "nonce", type: "uint256" },
-              { name: "from", type: "address" },
-              { name: "functionSignature", type: "bytes" },
-            ],
-          },
-          domain: {
-            name: "PolydexRouter",
-            version: "1",
-            verifyingContract: contractAddress,
-            chainId,
-          },
-          primaryType: "MetaTransaction",
-          message,
-        });
+          try {
+            const response: TransactionResponse =
+              await bicomony_contract.methods
+                .executeMetaTransaction(account, res, r, s, v)
+                .send({
+                  from: account,
+                });
 
-        const sig = await library.send("eth_signTypedData_v4", [
-          account,
-          dataToSign,
-        ]);
+            const cloneObj: any = response;
 
-        const signature = await splitSignature(sig);
-        const { v, r, s } = signature;
+            response.hash = cloneObj.transactionHash;
+            if (response) {
+              const inputSymbol = trade.inputAmount.currency.symbol;
+              const outputSymbol = trade.outputAmount.currency.symbol;
+              const inputAmount = trade.inputAmount.toSignificant(3);
+              const outputAmount = trade.outputAmount.toSignificant(3);
 
-        return bicomony_contract.methods
-          .executeMetaTransaction(account, res, r, s, v)
-          .send({
-            from: account,
-          })
-          .then((response: any) => {
-            const inputSymbol = trade.inputAmount.currency.symbol;
-            const outputSymbol = trade.outputAmount.currency.symbol;
-            const inputAmount = trade.inputAmount.toSignificant(3);
-            const outputAmount = trade.outputAmount.toSignificant(3);
+              const base = `Swap ${inputAmount} ${inputSymbol} for ${outputAmount} ${outputSymbol}`;
+              const withRecipient =
+                recipient === account
+                  ? base
+                  : `${base} to ${
+                      recipientAddressOrName &&
+                      isAddress(recipientAddressOrName)
+                        ? shortenAddress(recipientAddressOrName)
+                        : recipientAddressOrName
+                    }`;
 
-            const base = `Swap ${inputAmount} ${inputSymbol} for ${outputAmount} ${outputSymbol}`;
-            const withRecipient =
-              recipient === account
-                ? base
-                : `${base} to ${
-                    recipientAddressOrName && isAddress(recipientAddressOrName)
-                      ? shortenAddress(recipientAddressOrName)
-                      : recipientAddressOrName
-                  }`;
+              const withVersion = withRecipient;
+              // @ts-ignore
+              if (!response.hash) response.hash = response.transactionHash;
+              addTransaction(response, {
+                summary: withVersion,
+              });
 
-            const withVersion = withRecipient;
-
-            if (!response.hash) response.hash = response.transactionHash;
-            addTransaction(response, {
-              summary: withVersion,
-            });
-
-            return response.hash;
-          })
-          .catch((error: any) => {
+              return response.hash;
+            }
+          } catch (error) {
             // if the user rejected the tx, pass this along
             if (error?.code === 4001) {
               throw new Error("Transaction rejected.");
@@ -383,7 +393,9 @@ export function useSwapCallback(
               console.error(`Swap failed`, error, methodName, args, value);
               throw new Error(`Swap failed: ${error.message}`);
             }
-          });
+            return error;
+          }
+        }
       },
       error: null,
     };

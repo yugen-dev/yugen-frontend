@@ -83,6 +83,7 @@ interface FarmCardProps {
   cakePrice?: BigNumber;
   bnbPrice?: BigNumber;
   ethPrice?: BigNumber;
+  btcPrice?: BigNumber;
   provider?: ProviderType;
   account?: string;
 }
@@ -93,6 +94,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
   cakePrice,
   bnbPrice,
   ethPrice,
+  btcPrice,
   account,
 }) => {
   const TranslateString = useI18n();
@@ -120,11 +122,24 @@ const FarmCard: React.FC<FarmCardProps> = ({
     if (farm.quoteTokenSymbol === QuoteToken.ETH) {
       return ethPrice.times(farm.lpTotalInQuoteToken);
     }
+    if (farm.quoteTokenSymbol === QuoteToken.BTC) {
+      return btcPrice
+        .times(farm.quoteTokenAmount)
+        .plus(new BigNumber(farm.tokenAmount));
+    }
+
+    if (farm.quoteTokenSymbol === QuoteToken.BUSD) {
+      return new BigNumber(farm.tokenAmount).plus(farm.quoteTokenAmount);
+    }
+
     return farm.lpTotalInQuoteToken;
   }, [
     bnbPrice,
     cakePrice,
     ethPrice,
+    btcPrice,
+    farm.tokenAmount,
+    farm.quoteTokenAmount,
     farm.lpTotalInQuoteToken,
     farm.quoteTokenSymbol,
   ]);
@@ -199,13 +214,15 @@ const FarmCard: React.FC<FarmCardProps> = ({
             <Text bold style={{ display: "flex", alignItems: "center" }}>
               {farm.apy ? (
                 <>
-                  {false && <ApyButton
-                    lpLabel={lpLabel}
-                    addLiquidityUrl={addLiquidityUrl}
-                    cakePrice={cakePrice}
-                    apy={farm.apy}
-                  />}
-                  {farmAPY}%
+                  {false && (
+                    <ApyButton
+                      lpLabel={lpLabel}
+                      addLiquidityUrl={addLiquidityUrl}
+                      cakePrice={cakePrice}
+                      apy={farm.apy}
+                    />
+                  )}
+                  <span style={{ letterSpacing: "1px" }}>{farmAPY}%</span>
                 </>
               ) : (
                 <Skeleton height={24} width={80} />
@@ -215,7 +232,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
         )}
         <Flex justifyContent="space-between">
           <Text>{TranslateString(318, "Earn")}:</Text>
-          <Text bold>{earnLabel}</Text>
+          <Text bold>{earnLabel} </Text>
         </Flex>
         <Flex justifyContent="space-between">
           <Text>{TranslateString(318, "Harvest Lock Interval")}:</Text>
@@ -238,6 +255,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
           farm={farm}
           account={account}
           addLiquidityUrl={addLiquidityUrl}
+          totalValue={totalValue}
         />
       </div>
       <ExpandableSectionButton
@@ -247,8 +265,9 @@ const FarmCard: React.FC<FarmCardProps> = ({
       <ExpandingWrapper expanded={showExpandableSection}>
         <DetailsSection
           removed={removed}
-          maticExplorerAddress={`https://mumbai.polygonscan.com/address/${farm.lpAddresses[process.env.REACT_APP_CHAIN_ID]
-            }`}
+          maticExplorerAddress={`https://polygonscan.com/address/${
+            farm.lpAddresses[process.env.REACT_APP_CHAIN_ID]
+          }`}
           totalValueFormated={totalValueFormated}
           lpLabel={lpLabel}
           addLiquidityUrl={addLiquidityUrl}
