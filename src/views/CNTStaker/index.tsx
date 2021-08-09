@@ -37,7 +37,7 @@ import {
 import {
   getCakeContract,
   getCNTStakerContract,
-  getBep20Contract,
+  getERC20Contract,
 } from "utils/contractHelpers";
 import { useCNTStaker, useCNTStakerGasless } from "hooks/useContract";
 import { registerToken } from "utils/wallet";
@@ -145,7 +145,7 @@ const StyledOl = styled.ol`
   list-style-position: outside;
   padding-left: 16px;
 `;
-const CNTBar = () => {
+const CNTStaker = () => {
   // const tokenName = "CNT";
   const [valueOfCNTinUSD, setCNTVal] = useState(0);
   const xCNTLogo = "https://i.ibb.co/zfhRMxc/xCNT.png";
@@ -154,7 +154,7 @@ const CNTBar = () => {
   const [tokenBalance, setTokenBalance] = React.useState(new BigNumber(0));
   const [xCNTBalance, setxCNTBalance] = React.useState(new BigNumber(0));
   const [CntAllowance, setCntAllowance] = React.useState(new BigNumber(0));
-
+  const CHAINID = process.env.REACT_APP_CHAIN_ID;
   // const { onEnter } = useEnter();
   const [requestedApproval, setRequestedApproval] = useState(false);
   const [tokenAmount, handleTokenAmount] = useState("");
@@ -183,7 +183,7 @@ const CNTBar = () => {
   }
   const fetchBalances = async (tokenAddress) => {
     try {
-      const contract = getBep20Contract(tokenAddress, web3);
+      const contract = getERC20Contract(tokenAddress, web3);
       const res = await contract.methods.balanceOf(account).call();
       return new BigNumber(res);
     } catch (error) {
@@ -193,7 +193,7 @@ const CNTBar = () => {
   };
   const fetchAllowance = async (tokenAddress, stakerAddress) => {
     try {
-      const contract = getBep20Contract(tokenAddress, web3);
+      const contract = getERC20Contract(tokenAddress, web3);
       const res = await contract.methods
         .allowance(account, stakerAddress)
         .call();
@@ -205,11 +205,11 @@ const CNTBar = () => {
   };
 
   const getTokenBalances = async () => {
-    const tokenBalanceResp = await fetchBalances(contracts.cake[137]);
-    const xCNTBalanceResp = await fetchBalances(contracts.cntStaker[137]);
+    const tokenBalanceResp = await fetchBalances(contracts.cake[CHAINID]);
+    const xCNTBalanceResp = await fetchBalances(contracts.cntStaker[CHAINID]);
     const cntAllowance = await fetchAllowance(
-      contracts.cake[137],
-      contracts.cntStaker[137]
+      contracts.cake[CHAINID],
+      contracts.cntStaker[CHAINID]
     );
     setCntAllowance(cntAllowance);
     setTokenBalance(tokenBalanceResp);
@@ -260,7 +260,7 @@ const CNTBar = () => {
     valueOfCNTinUSD
   ) {
     cntStakingRatio =
-      (((parseFloat(dayDatas.data.dayDatas[1].volumeUSD) * 0.05) /
+      (((parseFloat(dayDatas.data.dayDatas[1].volumeUSD) * 0.0005 * 0.35) /
         parseFloat(getCNTStakerInfo.data.cntstaker.totalSupply)) *
         365) /
       (parseFloat(getCNTStakerInfo.data.cntstaker.ratio) *
@@ -616,7 +616,7 @@ const CNTBar = () => {
                     width="24px"
                     style={{ marginRight: "10px", cursor: "pointer" }}
                     onClick={() =>
-                      registerToken(contracts.cake[137], "CNT", 18, CNTLogo)
+                      registerToken(contracts.cake[CHAINID], "CNT", 18, CNTLogo)
                     }
                   />
                   <Text
@@ -636,7 +636,7 @@ const CNTBar = () => {
                     width="24px"
                     onClick={() =>
                       registerToken(
-                        contracts.cntStaker[137],
+                        contracts.cntStaker[CHAINID],
                         "xCNT",
                         18,
                         xCNTLogo
@@ -662,4 +662,4 @@ const CNTBar = () => {
   );
 };
 
-export default CNTBar;
+export default CNTStaker;

@@ -172,7 +172,7 @@ const Farms: React.FC = () => {
 
   const activeFarms = farmsLP.filter((farm) => farm.multiplier !== "0X");
   const inactiveFarms = farmsLP.filter((farm) => farm.multiplier === "0X");
-  // samarth
+
   const stackedOnlyFarms = activeFarms.filter(
     (farm) =>
       farm.userData &&
