@@ -1,18 +1,19 @@
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 import { TorusConnector } from "@web3-react/torus-connector";
+import { SUPPORTED_NETWORK_IDS } from "config";
 import getNodeUrl from "./getRpcUrl";
 
 const POLLING_INTERVAL = 12000;
 const rpcUrl = getNodeUrl();
-const chainId = parseInt(process.env.REACT_APP_CHAIN_ID, 10);
+// const chainId = parseInt(process.env.REACT_APP_CHAIN_ID, 10);
 
 // eslint-disable-next-line func-names
 export default function () {
-  const injected = new InjectedConnector({ supportedChainIds: [chainId, 1] });
+  const injected = new InjectedConnector({ supportedChainIds: SUPPORTED_NETWORK_IDS });
 
   const walletConnectConnector = new WalletConnectConnector({
-    rpc: { [chainId]: rpcUrl },
+    rpc: { [SUPPORTED_NETWORK_IDS[0]]: rpcUrl },
     bridge: "https://bridge.walletconnect.org",
     qrcode: true,
     pollingInterval: POLLING_INTERVAL,
@@ -21,26 +22,26 @@ export default function () {
   const torusInitParams = {
     network: {
       host: process.env.REACT_APP_CHAIN_NAME,
-      chainId,
+      chainId: SUPPORTED_NETWORK_IDS[0],
     },
   };
 
   const torusGoogleConnector = new TorusConnector({
-    chainId,
+    chainId: SUPPORTED_NETWORK_IDS[0],
     initOptions: torusInitParams,
     loginOptions: {
       verifier: "google",
     },
   });
   const torusFacebookConnector = new TorusConnector({
-    chainId,
+    chainId: SUPPORTED_NETWORK_IDS[0],
     initOptions: torusInitParams,
     loginOptions: {
       verifier: "facebook",
     },
   });
   const torusDiscordConnector = new TorusConnector({
-    chainId,
+    chainId: SUPPORTED_NETWORK_IDS[0],
     initOptions: torusInitParams,
     loginOptions: {
       verifier: "discord",
@@ -48,7 +49,7 @@ export default function () {
   });
 
   const torusTwitterConnector = new TorusConnector({
-    chainId,
+    chainId: SUPPORTED_NETWORK_IDS[0],
     initOptions: torusInitParams,
     loginOptions: {
       verifier: "torus-auth0-twitter",
@@ -56,7 +57,7 @@ export default function () {
   });
 
   const torusRedditConnector = new TorusConnector({
-    chainId,
+    chainId: SUPPORTED_NETWORK_IDS[0],
     initOptions: torusInitParams,
     loginOptions: {
       verifier: "reddit",
@@ -64,7 +65,7 @@ export default function () {
   });
 
   const torusEmailConnector = new TorusConnector({
-    chainId,
+    chainId: SUPPORTED_NETWORK_IDS[0],
     initOptions: {
       ...torusInitParams,
       ...{
