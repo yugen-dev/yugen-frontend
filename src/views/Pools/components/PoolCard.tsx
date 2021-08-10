@@ -253,7 +253,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
           <CardTitle isFinished={isFinished}>
             {TranslateString(348, "Stake")} {isOldSyrup && "[OLD]"} {tokenName}
           </CardTitle>
-          <Image src={TopImage} width={84} height={84} alt={tokenName} />
+          <Image src={TopImage} width={100} height={94} alt={tokenName} />
         </div>
       </div>
       <div style={{ padding: "24px" }}>
