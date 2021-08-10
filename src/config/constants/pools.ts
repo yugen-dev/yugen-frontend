@@ -19,6 +19,7 @@ const pools: PoolConfig[] = [
     projectLink: "https://cryption.network/",
     multiReward: ["CNT", "MAHA"],
     stakingTokenCoinGeckoid: "MahaDAO",
+    rewardTokenCoinGeckoid: "",
     coinGeckoIds: [
       "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
       "0xeDd6cA8A4202d4a36611e2fff109648c4863ae19", // maha
@@ -52,7 +53,8 @@ const pools: PoolConfig[] = [
     poolCategory: PoolCategory.COMMUNITY,
     projectLink: "https://cryption.network/",
     multiReward: ["PEAR"],
-    stakingTokenCoinGeckoid: "PEARL",
+    stakingTokenCoinGeckoid: "CNT",
+    rewardTokenCoinGeckoid: "pear",
     coinGeckoIds: [
       "0xc8bcb58caEf1bE972C0B638B1dD8B0748Fdc8A44", // pearl
       // "0xeDd6cA8A4202d4a36611e2fff109648c4863ae19", // maha
