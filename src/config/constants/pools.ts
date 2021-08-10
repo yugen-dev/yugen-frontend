@@ -66,7 +66,7 @@ const pools: PoolConfig[] = [
     isFinished: false,
     tokenDecimals: 18,
     metamaskImg:
-      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/maha-cnt.png",
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10232.png",
   },
   // {
   //   sousId: 0,
