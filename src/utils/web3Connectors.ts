@@ -9,7 +9,7 @@ const chainId = parseInt(process.env.REACT_APP_CHAIN_ID, 10);
 
 // eslint-disable-next-line func-names
 export default function () {
-  const injected = new InjectedConnector({ supportedChainIds: [chainId] });
+  const injected = new InjectedConnector({ supportedChainIds: [chainId, 1] });
 
   const walletConnectConnector = new WalletConnectConnector({
     rpc: { [chainId]: rpcUrl },

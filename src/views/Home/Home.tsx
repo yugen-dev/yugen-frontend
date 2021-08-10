@@ -62,6 +62,30 @@ const Home: React.FC = () => {
     };
     getPrice();
   }, []);
+  const changeNetwork = async () => {
+    try {
+      console.log(window.ethereum.networkVersion, 'window.ethereum.networkVersion');
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        // params: [{ chainId: '0x1' }],
+        params: [{ chainId: parseFloat(window.ethereum.networkVersion) === 1 ? '0x89' : '0x1' }],
+      });
+    } catch (switchError) {
+      console.log('check errors', switchError);
+      // This error code indicates that the chain has not been added to MetaMask.
+      if (switchError.code === 4902) {
+        try {
+          await window.ethereum.request({
+            method: 'wallet_addEthereumChain',
+            params: [{ chainId: '0x1', rpcUrl: 'https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161' /* ... */ }],
+          });
+        } catch (addError) {
+          // handle "add" error
+        }
+      }
+      // handle other "switch" errors
+    }
+  }
   const getCirculatingSupply = async () => {
     try {
       const res = await fetch(CNT_CIRCULATING_SUPPLY_LINK);
@@ -120,7 +144,7 @@ const Home: React.FC = () => {
     (farmsToDisplay) => {
       const cakePriceVsBNB = new BigNumber(
         farmsLP.find((farm) => farm.pid === CAKE_POOL_PID)?.tokenPriceVsQuote ||
-          0
+        0
       );
 
       farmsToDisplay.map((farm) => {
@@ -270,6 +294,7 @@ const Home: React.FC = () => {
             </Hero>
             <FarmStakingCard />
           </div>
+          <button type="button" onClick={changeNetwork}>Change Network</button>
         </Grid>
         <Grid item xs={12} md={6} lg={6} xl={6}>
           <LotteryCard />
