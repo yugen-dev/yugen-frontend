@@ -67,6 +67,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     poolHarvestInterval,
     poolwithdrawalFeeBP,
     metamaskImg,
+    TopImage,
   } = pool;
 
   const { account } = useWeb3React("web3");
@@ -252,12 +253,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
           <CardTitle isFinished={isFinished}>
             {TranslateString(348, "Stake")} {isOldSyrup && "[OLD]"} {tokenName}
           </CardTitle>
-          <Image
-            src={`/images/tokens/${image || tokenName.toLowerCase()}.png`}
-            width={84}
-            height={84}
-            alt={tokenName}
-          />
+          <Image src={TopImage} width={84} height={84} alt={tokenName} />
         </div>
       </div>
       <div style={{ padding: "24px" }}>
@@ -443,6 +439,8 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
         tokenAddress={tokenAddress}
         tokenDecimals={tokenDecimals}
         metamaskImg={metamaskImg}
+        rewardTokenName={pool.multiReward[0]}
+        rewardTokenAddress={pool.coinGeckoIds[0]}
       />
     </Card>
   );

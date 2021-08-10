@@ -30,6 +30,8 @@ const pools: PoolConfig[] = [
     sortOrder: 999,
     isFinished: false,
     tokenDecimals: 18,
+    TopImage:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/maha-cnt.png",
     metamaskImg:
       "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/maha-cnt.png",
   },
@@ -51,7 +53,7 @@ const pools: PoolConfig[] = [
       137: "0xC20eaCe3c439915eEeB869722e1c9FC583C857E4", // staking pool cnt-maha
     },
     poolCategory: PoolCategory.COMMUNITY,
-    projectLink: "https://cryption.network/",
+    projectLink: "https://app.pearzap.com/",
     multiReward: ["PEAR"],
     stakingTokenCoinGeckoid: "CNT",
     rewardTokenCoinGeckoid: "pear",
@@ -59,6 +61,8 @@ const pools: PoolConfig[] = [
       "0xc8bcb58caEf1bE972C0B638B1dD8B0748Fdc8A44", // pearl
       // "0xeDd6cA8A4202d4a36611e2fff109648c4863ae19", // maha
     ],
+    TopImage:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10232.png",
     multiRewardTokenPerBlock: ["0.0046491228"],
     harvest: true,
     tokenPerBlock: "0.0046491228",
@@ -66,7 +70,7 @@ const pools: PoolConfig[] = [
     isFinished: false,
     tokenDecimals: 18,
     metamaskImg:
-      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10232.png",
+      "https://assets.coingecko.com/coins/images/17173/small/pear200.png?1626793002",
   },
   // {
   //   sousId: 0,

@@ -80,6 +80,7 @@ export interface FarmConfig {
 export interface PoolConfig {
   sousId: number;
   image?: string;
+  TopImage?: string;
   tokenName: string;
   tokenAdressInLp: string;
   tokenAddress: string;
