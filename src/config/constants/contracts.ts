@@ -1,5 +1,6 @@
 export default {
   cake: {
+    1: "",
     97: "0xa35062141Fa33BCA92Ce69FeD37D0E8908868AAe",
     56: "0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82",
     80001: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",

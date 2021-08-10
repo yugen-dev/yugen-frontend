@@ -16,24 +16,25 @@ const ConnectDot = styled.div`
 `;
 interface ModalProps {
   onDismiss?: () => void;
+  changeNetwork?: any;
   activeChainId: string;
 }
 
-const NetworkToggleModal: React.FC<ModalProps> = ({ onDismiss, activeChainId }) => {
+const NetworkToggleModal: React.FC<ModalProps> = ({ onDismiss, activeChainId, changeNetwork }) => {
   return (
     <Modal title="Change Network" onDismiss={onDismiss} >
       <div style={{ maxWidth: '360px' }}>
         {config && config.map(eachNetwork => (
           <Button
+            key={eachNetwork.chainId}
             width="100%"
             maxWidth="360px"
             variant="tertiary"
             mb="15px"
-            // onClick={() => {
-            //   login(walletConfig.connectorId);
-            //   window.localStorage.setItem(connectorLocalStorageKey, walletConfig.connectorId);
-            //   onDismiss();
-            // }}
+            onClick={() => {
+              changeNetwork(eachNetwork);
+              onDismiss();
+            }}
             style={{ justifyContent: "space-between", background: "#1A1B23", borderRadius: "20px" }}
           >
             <div style={{ display: 'flex', alignItems: 'center' }}>
