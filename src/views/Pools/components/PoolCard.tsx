@@ -495,7 +495,7 @@ const APRText = styled.div`
 const RewardsSection = styled.div``;
 const RewardDetails = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   margin-bottom: 20px;
 `;
 const RewardItem = styled.div`
