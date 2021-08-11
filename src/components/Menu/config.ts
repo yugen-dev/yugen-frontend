@@ -25,11 +25,11 @@ const config: MenuEntry[] = [
       },
     ],
   },
-  // {
-  //   label: "Pools",
-  //   icon: "PoolIcon",
-  //   href: "/pools",
-  // },
+  {
+    label: "Pools",
+    icon: "PoolIcon",
+    href: "/pools",
+  },
   {
     label: "CNT Staker",
     icon: "TicketIcon",

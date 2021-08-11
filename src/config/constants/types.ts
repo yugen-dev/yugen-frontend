@@ -43,6 +43,7 @@ export enum QuoteToken {
   "LP" = "LP",
   "BTC" = "BTC",
   "MAHA" = "MAHA",
+  "PEAR" = "PEAR",
 }
 
 export enum PoolCategory {
@@ -83,6 +84,7 @@ export interface FarmConfig {
 export interface PoolConfig {
   sousId: number;
   image?: string;
+  TopImage?: string;
   tokenName: string;
   tokenAdressInLp: string;
   tokenAddress: string;
@@ -99,6 +101,7 @@ export interface PoolConfig {
   multiReward?: string[];
   coinGeckoIds?: string[];
   stakingTokenCoinGeckoid?: string;
+  rewardTokenCoinGeckoid?: string;
   multiRewardTokenPerBlock?: string[];
   harvest?: boolean;
   isFinished?: boolean;
