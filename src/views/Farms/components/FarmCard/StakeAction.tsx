@@ -75,6 +75,37 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
       (signatureData !== null &&
         signatureData.deadline > Math.ceil(Date.now() / 1000))
     ) {
+      if (window.ethereum.networkVersion === '1') {
+        return rawStakedBalance === 0 ? (
+          <Button onClick={onPresentDeposit} variant="secondary">
+            {TranslateString(999, "Stake ETH")}
+          </Button>
+        ) : (
+          // <IconButtonWrapper>
+          //   <IconButton variant="tertiary" onClick={onPresentWithdraw} mr="6px">
+          //     <MinusIcon color="primary" width="14px" />
+          //   </IconButton>
+          //   <IconButton variant="tertiary" onClick={onPresentDeposit}>
+          //     <AddIcon color="primary" width="14px" />
+          //   </IconButton>
+          // </IconButtonWrapper>
+          <Row justifyContent="space-around">
+            {/* <Column> */}
+            <Button mt="8px" scale="md" height="45px" onClick={onPresentDeposit} minWidth="120px" width="auto" mr="15px">
+              {/* {approvalDisabled ? "Staking..." : "Stake"} */}
+              Stake ETH
+            </Button>
+            <Button mt="8px" scale="md" height="45px" onClick={onPresentWithdraw} minWidth="120px" width="auto">
+              {/* {approvalDisabled ? "Unstaking..." : "Unstake"} */}
+              Unstake ETH
+            </Button>
+            {/* </Column> */}
+            {/* <Column>
+             
+            </Column> */}
+          </Row>
+        )
+      }
       return rawStakedBalance === 0 ? (
         <Button onClick={onPresentDeposit} variant="secondary">
           {TranslateString(999, "Stake LP")}
