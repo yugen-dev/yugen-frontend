@@ -47,7 +47,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   );
   const {
     sousId,
-    image,
+    // image,
     tokenName,
     tokenAddress,
     stakingTokenName,
