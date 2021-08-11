@@ -588,7 +588,7 @@ const CardValue: React.FC<CardValueProps> = ({
               fontWeight="700"
               style={{ display: "flex", alignItems: "center" }}
             >
-              {numberWithCommas(totalSuply)}{" "}
+              {numberWithCommas(100000000)}{" "}
               <Text color="#C1C5CB" fontSize="15px" ml="8px">
                 {" "}
                 CNT

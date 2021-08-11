@@ -38,16 +38,16 @@ function Nav({ activeIndex = 0 }: { activeIndex?: number }) {
         >
           {TranslateString(262, "Liquidity")}
         </ButtonMenuItem>
-        {/* <ButtonMenuItem
+        <ButtonMenuItem
           id="pool-nav-link"
           as="a"
           style={{ minWidth: "150px" }}
-          href="https://www.binance.org/en/bridge?utm_source=PancakeSwap"
+          href="https://wallet.matic.network/bridge"
           target="_blank"
           rel="noreferrer noopener"
         >
-          Bridge
-        </ButtonMenuItem> */}
+          Cross Chain Bridge
+        </ButtonMenuItem>
       </ButtonMenu>
     </CustomContainer>
   );

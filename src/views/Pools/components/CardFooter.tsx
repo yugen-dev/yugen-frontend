@@ -30,6 +30,8 @@ interface Props {
   poolCategory: PoolCategory;
   metamaskImg?: string;
   StakingTokenPrice?: number;
+  rewardTokenName?: string;
+  rewardTokenAddress?: string;
 }
 
 const StyledFooter = styled.div<{ isFinished: boolean }>`
@@ -84,14 +86,16 @@ const TokenLink = styled.a`
 const CardFooter: React.FC<Props> = ({
   projectLink,
   decimals,
-  tokenAddress,
+  // tokenAddress,
   totalStaked,
-  tokenName,
+  // tokenName,
   tokenDecimals,
   isFinished,
   poolCategory,
   metamaskImg,
   StakingTokenPrice,
+  rewardTokenName,
+  rewardTokenAddress,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const TranslateString = useI18n();
@@ -161,14 +165,14 @@ const CardFooter: React.FC<Props> = ({
             <TokenLink
               onClick={() =>
                 registerToken(
-                  tokenAddress,
-                  tokenName,
+                  rewardTokenAddress,
+                  rewardTokenName,
                   tokenDecimals,
                   metamaskImg
                 )
               }
             >
-              Add {tokenName} to Metamask
+              Add {rewardTokenName} to Metamask
             </TokenLink>
             <MetamaskIcon height={15} width={15} ml="4px" />
           </Flex>

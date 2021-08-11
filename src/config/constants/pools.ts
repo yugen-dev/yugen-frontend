@@ -19,6 +19,7 @@ const pools: PoolConfig[] = [
     projectLink: "https://cryption.network/",
     multiReward: ["CNT", "MAHA"],
     stakingTokenCoinGeckoid: "MahaDAO",
+    rewardTokenCoinGeckoid: "",
     coinGeckoIds: [
       "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
       "0xeDd6cA8A4202d4a36611e2fff109648c4863ae19", // maha
@@ -29,8 +30,47 @@ const pools: PoolConfig[] = [
     sortOrder: 999,
     isFinished: false,
     tokenDecimals: 18,
+    TopImage:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/maha-cnt.png",
     metamaskImg:
       "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/maha-cnt.png",
+  },
+  // 0xC20eaCe3c439915eEeB869722e1c9FC583C857E4
+  // reward token 0xc8bcb58caEf1bE972C0B638B1dD8B0748Fdc8A44
+  // input token 0xD1e6354fb05bF72A8909266203dAb80947dcEccF
+  {
+    sousId: 1,
+    tokenName: "CNT",
+    tokenAdressInLp: "0xc8bcb58caEf1bE972C0B638B1dD8B0748Fdc8A44",
+    tokenAddress: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // maha
+    stakingTokenName: QuoteToken.CNT,
+    quoteTokenSymbol: QuoteToken.CNT,
+    stakingTokenAddress: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // lp
+    contractAddress: {
+      97: "",
+      56: "",
+      80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
+      137: "0xC20eaCe3c439915eEeB869722e1c9FC583C857E4", // staking pool cnt-maha
+    },
+    poolCategory: PoolCategory.COMMUNITY,
+    projectLink: "https://app.pearzap.com/",
+    multiReward: ["PEAR"],
+    stakingTokenCoinGeckoid: "CNT",
+    rewardTokenCoinGeckoid: "pear",
+    coinGeckoIds: [
+      "0xc8bcb58caEf1bE972C0B638B1dD8B0748Fdc8A44", // pearl
+      // "0xeDd6cA8A4202d4a36611e2fff109648c4863ae19", // maha
+    ],
+    TopImage:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10232.png",
+    multiRewardTokenPerBlock: ["0.0046491228"],
+    harvest: true,
+    tokenPerBlock: "0.0046491228",
+    sortOrder: 999,
+    isFinished: false,
+    tokenDecimals: 18,
+    metamaskImg:
+      "https://assets.coingecko.com/coins/images/17173/small/pear200.png?1626793002",
   },
   // {
   //   sousId: 0,
