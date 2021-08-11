@@ -86,9 +86,9 @@ const TokenLink = styled.a`
 const CardFooter: React.FC<Props> = ({
   projectLink,
   decimals,
-  tokenAddress,
+  // tokenAddress,
   totalStaked,
-  tokenName,
+  // tokenName,
   tokenDecimals,
   isFinished,
   poolCategory,
