@@ -220,6 +220,7 @@ const SecondChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
           fetchValue={fetchValue}
           account={account}
           tokenInfo={tokenInfo}
+          loadBlockchainData={loadBlockchainData}
         />
 
         <LinkContainer>

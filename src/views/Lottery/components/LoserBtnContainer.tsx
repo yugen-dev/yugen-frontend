@@ -11,7 +11,12 @@ import BtnLoader from "./BtnLoader";
 import getERC20SmartContract from "../utils/getERC20SmartContract";
 import getLotterySmartContract from "../utils/getLotterySmartContract";
 
-const LoserBtnContainer = ({ fetchValue, account, tokenInfo }) => {
+const LoserBtnContainer = ({
+  fetchValue,
+  account,
+  tokenInfo,
+  loadBlockchainData,
+}) => {
   const [btnLoading, setBtnLoading] = useState(false);
   const [showTimer, setShowTimer] = useState(false);
 
@@ -30,6 +35,7 @@ const LoserBtnContainer = ({ fetchValue, account, tokenInfo }) => {
     try {
       const lotterySmartContract = await getLotterySmartContract("loser");
       await lotterySmartContract.methods.enterLottery().send({ from: account });
+      await loadBlockchainData();
       toastSuccess("Congrats", "You have successfully entered the lottery");
       setBtnLoading(() => false);
     } catch (e) {
