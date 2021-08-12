@@ -35,16 +35,16 @@ const config: MenuEntry[] = [
     icon: "TicketIcon",
     href: "/cntstaker",
   },
-  // {
-  //   label: "Migrate",
-  //   icon: "NftIcon",
-  //   href: "/migrate",
-  // },
-  // {
-  //   label: 'Lottery',
-  //   icon: 'TicketIcon',
-  //   href: '/lottery',
-  // },
+  {
+    label: "Migrate",
+    icon: "NftIcon",
+    href: "/migrate",
+  },
+  {
+    label: "Lottery",
+    icon: "TicketIcon",
+    href: "/lottery",
+  },
   // {
   //   label: 'Collectibles',
   //   icon: 'NftIcon',
