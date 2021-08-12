@@ -71,14 +71,8 @@ const SecondChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
         let [currActivePlayers, lotteryStatus, payout, lotteryConfig] =
           await multicall(LotteryABI, calls);
 
-        currActivePlayers = new BigNumber(currActivePlayers).toNumber();
-        lotteryStatus = new BigNumber(lotteryStatus).toNumber();
-        payout = new BigNumber(payout).toNumber();
-
-        playersLimit = new BigNumber(lotteryConfig[0].toString()).toNumber();
-        registrationAmount = new BigNumber(
-          lotteryConfig[1].toString()
-        ).toNumber();
+        playersLimit = new BigNumber(lotteryConfig[1].toString());
+        registrationAmount = new BigNumber(lotteryConfig[2].toString());
 
         const callsErc20 = [
           {
@@ -95,17 +89,12 @@ const SecondChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
 
         let [balance, allowance] = await multicall(erc20, callsErc20);
 
-        balance = new BigNumber(balance).toNumber();
-        allowance = new BigNumber(allowance).toNumber();
+        balance = new BigNumber(balance);
+        allowance = new BigNumber(allowance);
 
-        const genLotterySize = Number(
-          new BigNumber(registrationAmount).div(
-            new BigNumber(10).pow(tokenInfo.tokenDecimals)
-          )
-        )
-          .toFixed(2)
-          .toString()
-          .replace(/\.00$/, "");
+        const genLotterySize = new BigNumber(registrationAmount)
+          .div(new BigNumber(10).pow(tokenInfo.tokenDecimals))
+          .toString();
 
         const genPayout = Number(
           new BigNumber(payout).div(
@@ -117,18 +106,14 @@ const SecondChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
           .replace(/\.00$/, "");
 
         const genBalance = Number(
-          new BigNumber(balance).div(
-            new BigNumber(10).pow(tokenInfo.tokenDecimals)
-          )
+          balance.div(new BigNumber(10).pow(tokenInfo.tokenDecimals))
         )
           .toFixed(2)
           .toString()
           .replace(/\.00$/, "");
 
         const genAllowance = Number(
-          new BigNumber(allowance).div(
-            new BigNumber(10).pow(tokenInfo.tokenDecimals)
-          )
+          allowance.div(new BigNumber(10).pow(tokenInfo.tokenDecimals))
         ).toString();
 
         let genSettling;
