@@ -117,7 +117,11 @@ const SecondChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
         ).toString();
 
         let genSettling;
-        if (currActivePlayers === playersLimit) genSettling = true;
+        if (
+          new BigNumber(currActivePlayers).toNumber() ===
+          new BigNumber(playersLimit).toNumber()
+        )
+          genSettling = true;
         else genSettling = false;
 
         setFetchValue({
