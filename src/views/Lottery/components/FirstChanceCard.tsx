@@ -248,6 +248,7 @@ const FirstChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
           fetchValue={fetchValue}
           account={account}
           tokenInfo={tokenInfo}
+          loadBlockchainData={loadBlockchainData}
         />
       </Card>
     </CardContainer>
