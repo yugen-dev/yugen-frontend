@@ -5,6 +5,7 @@ import { Button, AutoRenewIcon } from "cryption-uikit";
 import UnlockButton from "components/UnlockButton";
 import { useToast } from "state/hooks";
 import BigNumber from "bignumber.js";
+import Countdown from "react-countdown";
 import Loader from "./Loader";
 import BtnLoader from "./BtnLoader";
 import getERC20SmartContract from "../utils/getERC20SmartContract";
@@ -12,6 +13,7 @@ import getLotterySmartContract from "../utils/getLotterySmartContract";
 
 const WinnerBtnContainer = ({ fetchValue, account, tokenInfo }) => {
   const [btnLoading, setBtnLoading] = useState(false);
+  const [showTimer, setShowTimer] = useState(false);
 
   const allowanceBN = new BigNumber(fetchValue.allowance);
   const lotterySizeBN = new BigNumber(fetchValue.size);
@@ -55,6 +57,52 @@ const WinnerBtnContainer = ({ fetchValue, account, tokenInfo }) => {
     }
   };
 
+  const handleShowTimer = () => {
+    setShowTimer(() => true);
+  };
+
+  const handleSettleLottery = async () => {
+    toastInfo("Processing...", "Settling the lottery");
+    setBtnLoading(() => true);
+
+    try {
+      const lotterySmartContract = await getLotterySmartContract("winner");
+      await lotterySmartContract.methods
+        .settleLottery()
+        .send({ from: account });
+    } catch (e) {
+      toastError("Error", "Failed to settle the lottery");
+      setBtnLoading(() => false);
+    }
+  };
+
+  const ShowSettleBtn = () => {
+    return (
+      <Button onClick={handleSettleLottery} variant="success">
+        Get results
+      </Button>
+    );
+  };
+
+  const RenderTimer = ({ minutes, seconds, completed }) => {
+    if (completed) {
+      return <ShowSettleBtn />;
+    }
+    return (
+      <Button variant="secondary">
+        {minutes}min :{seconds}sec
+      </Button>
+    );
+  };
+
+  const CountdownTimer = () => {
+    return (
+      <ButtonContainer>
+        <Countdown date={Date.now() + 60000} renderer={RenderTimer} />
+      </ButtonContainer>
+    );
+  };
+
   if (account) {
     return (
       <>
@@ -72,14 +120,17 @@ const WinnerBtnContainer = ({ fetchValue, account, tokenInfo }) => {
             ) : (
               <>
                 {fetchValue.settling ? (
-                  <ButtonContainer>
-                    <Button
-                      isLoading
-                      endIcon={<AutoRenewIcon spin color="currentColor" />}
-                    >
-                      Settling...
-                    </Button>
-                  </ButtonContainer>
+                  <>
+                    {showTimer ? (
+                      <CountdownTimer />
+                    ) : (
+                      <ButtonContainer>
+                        <Button onClick={handleShowTimer}>
+                          Settle Lottery
+                        </Button>
+                      </ButtonContainer>
+                    )}
+                  </>
                 ) : (
                   <ButtonContainer>
                     <Button onClick={handleEnterWinnerLottery}>
