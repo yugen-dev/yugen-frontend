@@ -1,6 +1,10 @@
 import React, { memo, useEffect, useState } from "react";
 import styled from "styled-components";
 import Web3 from "web3";
+import erc20 from "config/abi/erc20.json";
+import LotteryABI from "config/abi/LotteryABI.json";
+import multicall from "utils/multicall";
+import { LoserLotteryAddress } from "config/index";
 import { MetamaskIcon } from "cryption-uikit";
 import { registerToken } from "utils/wallet";
 import { useToast } from "state/hooks";
@@ -10,8 +14,8 @@ import LUSDlogo from "../images/LUSDlogo.png";
 import Loader from "./Loader";
 import StatusLoader from "./StatusLoader";
 import LoserBtnContainer from "./LoserBtnContainer";
-import getERC20SmartContract from "../utils/getERC20SmartContract";
-import getLotterySmartContract from "../utils/getLotterySmartContract";
+// import getERC20SmartContract from "../utils/getERC20SmartContract";
+// import getLotterySmartContract from "../utils/getLotterySmartContract";
 
 const SecondChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
   const { toastError } = useToast();
@@ -34,33 +38,65 @@ const SecondChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
     const networkId = await web3.eth.net.getId();
 
     if (networkId === 137 && account) {
-      const lotterySmartContract = await getLotterySmartContract("loser");
-      const ERC20SmartContract = await getERC20SmartContract(
-        tokenInfo.tokenAddr
-      );
+      // const lotterySmartContract = await getLotterySmartContract("loser");
+      // const ERC20SmartContract = await getERC20SmartContract(
+      //   tokenInfo.tokenAddr
+      // );
 
       try {
-        const { playersLimit, registrationAmount } =
-          await lotterySmartContract.methods.lotteryConfig().call();
+        // const { playersLimit, registrationAmount } =
+        //   await lotterySmartContract.methods.lotteryConfig().call();
 
-        const currActivePlayers = await lotterySmartContract.methods
-          .getCurrentlyActivePlayers()
-          .call();
+        let playersLimit;
+        let registrationAmount;
+        const calls = [
+          {
+            address: LoserLotteryAddress,
+            name: "getCurrentlyActivePlayers",
+          },
+          {
+            address: LoserLotteryAddress,
+            name: "lotteryStatus",
+          },
+          {
+            address: LoserLotteryAddress,
+            name: "getWinningAmount",
+          },
+          {
+            address: LoserLotteryAddress,
+            name: "lotteryConfig",
+          },
+        ];
+        /* eslint-disable   prefer-const */
+        let [currActivePlayers, lotteryStatus, payout, lotteryConfig] =
+          await multicall(LotteryABI, calls);
 
-        const lotteryStatus = await lotterySmartContract.methods
-          .lotteryStatus()
-          .call();
+        currActivePlayers = new BigNumber(currActivePlayers).toNumber();
+        lotteryStatus = new BigNumber(lotteryStatus).toNumber();
+        payout = new BigNumber(payout).toNumber();
 
-        const payout = await lotterySmartContract.methods
-          .getWinningAmount()
-          .call();
+        playersLimit = new BigNumber(lotteryConfig[0].toString()).toNumber();
+        registrationAmount = new BigNumber(
+          lotteryConfig[1].toString()
+        ).toNumber();
 
-        const balance = await ERC20SmartContract.methods
-          .balanceOf(account)
-          .call();
-        const allowance = await ERC20SmartContract.methods
-          .allowance(account, tokenInfo.lotteryAddr)
-          .call();
+        const callsErc20 = [
+          {
+            address: tokenInfo.tokenAddr,
+            name: "balanceOf",
+            params: [account],
+          },
+          {
+            address: tokenInfo.tokenAddr,
+            name: "allowance",
+            params: [account, tokenInfo.lotteryAddr],
+          },
+        ];
+
+        let [balance, allowance] = await multicall(erc20, callsErc20);
+
+        balance = new BigNumber(balance).toNumber();
+        allowance = new BigNumber(allowance).toNumber();
 
         const genLotterySize = Number(
           new BigNumber(registrationAmount).div(
@@ -129,7 +165,7 @@ const SecondChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
           "No Account connected",
           "Please connect account using Metamask"
         );
-    }, 20000);
+    }, 5000);
 
     return () => clearInterval(init);
     // eslint-disable-next-line react-hooks/exhaustive-deps
