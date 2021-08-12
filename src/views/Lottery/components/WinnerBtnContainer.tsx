@@ -66,17 +66,15 @@ const WinnerBtnContainer = ({
     setBtnLoading(() => true);
 
     const lotterySmartContract = await getLotterySmartContract("winner");
-
-    setTimeout(async () => {
-      try {
-        await lotterySmartContract.methods
-          .settleLottery()
-          .send({ from: account });
-      } catch (e) {
-        toastError("Error", "Failed to settle the lottery");
-        setBtnLoading(() => false);
-      }
-    }, 60000);
+    try {
+      await lotterySmartContract.methods
+        .settleLottery()
+        .send({ from: account });
+      setBtnLoading(() => false);
+    } catch (e) {
+      toastError("Error", "Failed to settle the lottery");
+      setBtnLoading(() => false);
+    }
   };
 
   if (account) {
