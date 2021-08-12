@@ -4,7 +4,7 @@ import QuestionHelper from "components/QuestionHelper";
 import Web3 from "web3";
 import { useToast } from "state/hooks";
 import BigNumber from "bignumber.js";
-import ChanceCardHeaderImg from "../images/ChanceCard.png";
+import USDClogo from "../images/USDClogo.png";
 import getLotterySmartContract from "../utils/getLotterySmartContract";
 import Loader from "./Loader";
 import StatusLoader from "./StatusLoader";
@@ -158,7 +158,7 @@ const FirstChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
           <Text>
             <ImageContainer>
               <img
-                src={ChanceCardHeaderImg}
+                src={USDClogo}
                 alt="Lottery Card Header"
                 width="70px"
                 style={{ maxWidth: "100px" }}

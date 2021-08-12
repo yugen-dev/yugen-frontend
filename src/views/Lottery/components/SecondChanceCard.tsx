@@ -6,7 +6,7 @@ import { registerToken } from "utils/wallet";
 import { useToast } from "state/hooks";
 import BigNumber from "bignumber.js";
 import QuestionHelper from "components/QuestionHelper";
-import ChanceCardHeaderImg from "../images/ChanceCard.png";
+import LUSDlogo from "../images/LUSDlogo.png";
 import Loader from "./Loader";
 import StatusLoader from "./StatusLoader";
 import LoserBtnContainer from "./LoserBtnContainer";
@@ -145,7 +145,7 @@ const SecondChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
           <Text>
             <ImageContainer>
               <img
-                src={ChanceCardHeaderImg}
+                src={LUSDlogo}
                 alt="Lottery Card Header"
                 width="70px"
                 style={{ maxWidth: "100px" }}

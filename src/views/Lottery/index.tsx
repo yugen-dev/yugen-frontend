@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Heading, Text } from "cryption-uikit";
+import { Heading, Text, LinkExternal } from "cryption-uikit";
 import { useWeb3React } from "@web3-react/core";
 import {
   LotteryUSDC,
@@ -26,7 +26,8 @@ const Lottery = () => {
     tokenName: "L-USD",
     tokenAddr: LotteryLUSD,
     tokenDecimals: 18,
-    metamaskImg: "",
+    metamaskImg:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10300.png",
     lotteryAddr: LoserLotteryAddress,
   };
 
@@ -34,7 +35,7 @@ const Lottery = () => {
     playersText:
       "Represents players in the lottery out of the total users needed.",
     payoutText: "The amount a user receives if he wins.",
-    winnersROIText: "The profit the users makes if he wins the lottery.",
+    winnersROIText: "The profit users make if he wins the lottery.",
   };
 
   return (
@@ -55,11 +56,14 @@ const Lottery = () => {
             fontWeight="600"
             color="#86878F"
           >
-            Double Chance lotteries Give you two chances at winning the lottery.
+            Double Chance lotteries give you two chances at winning the lottery.
             Those who lose the lottery are automatically given a second chance
-            lottery token. This token can be used to enter the Second chance
-            lottery. Winning will automatically be sent to the winner. Click
-            here to learn more{" "}
+            lottery token. This token can be used to enter the Second Chance
+            lottery. The winnings will be automatically sent to the winners.
+            <LinkExternal href="https://docs.cryption.network/products/second-chance-lotteries">
+              {" "}
+              Click here to learn more
+            </LinkExternal>
           </Text>
         </Container>
         <PageSubContainer>
@@ -84,6 +88,7 @@ const PageSubContainer = styled.div`
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
+  margin-bottom: 40px;
 `;
 
 const Container = styled.div`
