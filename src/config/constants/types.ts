@@ -56,6 +56,7 @@ export interface Address {
   56: string;
   80001: string;
   137: string;
+  1: string;
 }
 
 export interface FarmConfig {

@@ -14,6 +14,7 @@ const pools: PoolConfig[] = [
       56: "",
       80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
       137: "0x0Bc444600eFA4349073Ac97e08e28231CD04bFb5", // staking pool cnt-maha
+      1: "0x0Bc444600eFA4349073Ac97e08e28231CD04bFb5", // staking pool cnt-maha
     },
     poolCategory: PoolCategory.CORE,
     projectLink: "https://cryption.network/",

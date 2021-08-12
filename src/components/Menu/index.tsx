@@ -16,7 +16,7 @@ import { toggleMetaTranscationState } from "state/actions";
 import { ETHERJS_PATHS } from "config";
 import { usePriceCakeBusd, useProfile } from "state/hooks";
 // import LogoIcon from "images/PolyDEX White Text (2).svg";
-import config, { socials } from "./config";
+import config, { socials, networks } from "./config";
 
 const Menu = (props) => {
   const { login, logout, loginEther, logoutEther } = useAuth();
@@ -73,6 +73,32 @@ const Menu = (props) => {
       }
     }
   }, [accountId, dispatch]);
+  const changeNetwork = async (networkData) => {
+    try {
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        // params: [{ chainId: '0x1' }],
+        params: [{ chainId: `0x${parseFloat(networkData.chainId).toString(16)}` }],
+      });
+    } catch (switchError) {
+      // This error code indicates that the chain has not been added to MetaMask.
+      if (switchError.code === 4902) {
+        try {
+          await window.ethereum.request({
+            method: 'wallet_addEthereumChain',
+            params: [{ chainId: `0x${parseFloat(networkData.chainId).toString(16)}`, rpcUrl: networkData.rpcUrl /* ... */ }],
+          });
+        } catch (addError) {
+          // handle "add" error
+        }
+      }
+      // handle other "switch" errors
+    }
+  }
+  let currentNetwork;
+  if (window.ethereum) {
+    currentNetwork = networks.filter(eachNetwork => eachNetwork.chainId === window.ethereum.networkVersion)
+  }
   return (
     <UikitMenu
       account={accountId}
@@ -104,6 +130,11 @@ const Menu = (props) => {
       logoSize="53px"
       links={config}
       socials={socials}
+      currentNetwork={currentNetwork && currentNetwork.length > 0 ? currentNetwork[0] : {}}
+      showNetworkSwitch
+      activeChainId={window.ethereum.networkVersion || null}
+      changeNetwork={changeNetwork}
+      networks={networks}
       profile={{
         username: profile?.username,
         image: profile?.nft

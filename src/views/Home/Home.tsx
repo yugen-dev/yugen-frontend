@@ -33,7 +33,6 @@ import LotteryCard from "views/Home/components/LotteryCard";
 // import CakeStats from "views/Home/components/CakeStats";
 import StatsCard from "views/Home/components/StatsCard";
 import Areachart from "components/Areachart";
-import NetworkToggle from "components/NetworkToggle";
 import TotalValueLockedCard from "views/Home/components/TotalValueLockedCard";
 import EarnAssetCard from "views/Home/components/EarnAssetCard";
 // import WinCard from "views/Home/components/WinCard";
@@ -257,7 +256,6 @@ const Home: React.FC = () => {
       maxWidth="lg"
       style={{ marginTop: "50px", marginBottom: "80px" }}
     >
-      <NetworkToggle />
       <Grid container spacing={5} justify="center">
         <Grid item xs={12} md={6} lg={6} xl={6}>
           <div
