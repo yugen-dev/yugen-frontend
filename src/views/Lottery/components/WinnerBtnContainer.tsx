@@ -55,6 +55,21 @@ const WinnerBtnContainer = ({ fetchValue, account, tokenInfo }) => {
     }
   };
 
+  const handleSettleLottery = async () => {
+    toastInfo("Processing...", "Settling the lottery");
+    setBtnLoading(() => true);
+
+    try {
+      const lotterySmartContract = await getLotterySmartContract("winner");
+      await lotterySmartContract.methods
+        .settleLottery()
+        .send({ from: account });
+    } catch (e) {
+      toastError("Error", "Failed to settle the lottery");
+      setBtnLoading(() => false);
+    }
+  };
+
   if (account) {
     return (
       <>
@@ -73,11 +88,8 @@ const WinnerBtnContainer = ({ fetchValue, account, tokenInfo }) => {
               <>
                 {fetchValue.settling ? (
                   <ButtonContainer>
-                    <Button
-                      isLoading
-                      endIcon={<AutoRenewIcon spin color="currentColor" />}
-                    >
-                      Settling...
+                    <Button onClick={handleSettleLottery}>
+                      Settle Lottery
                     </Button>
                   </ButtonContainer>
                 ) : (
