@@ -25,11 +25,11 @@ const config: MenuEntry[] = [
       },
     ],
   },
-  // {
-  //   label: "Pools",
-  //   icon: "PoolIcon",
-  //   href: "/pools",
-  // },
+  {
+    label: "Pools",
+    icon: "PoolIcon",
+    href: "/pools",
+  },
   {
     label: "CNT Staker",
     icon: "TicketIcon",
@@ -129,11 +129,11 @@ export const networks = [
     imgSrc: '',
     rpcUrl: 'https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
   },
-  // {
-  //   title: "Mumbai Testnet",
-  //   chainId: '80001',
-  //   imgSrc: '',
-  //   rpcUrl: '',
-  // }
+  {
+    title: "Mumbai Testnet",
+    chainId: '80001',
+    imgSrc: '',
+    rpcUrl: 'https://rpc-mumbai.maticvigil.com/',
+  }
 ];
 export default config;

@@ -20,7 +20,7 @@ export default {
   cntStaker: {
     97: "",
     56: "",
-    80001: "0x5DA1f601486252ca41D04e6cAa49B19DD0bfa888",
+    80001: "0x5da1f601486252ca41d04e6caa49b19dd0bfa888",
     137: "0x82C2Fb7410dcfFEd4e9147413BD5005a0a6F58aA",
     1: "0x82C2Fb7410dcfFEd4e9147413BD5005a0a6F58aA",
   },

@@ -17,7 +17,7 @@ import SuspenseWithChunkError from "./components/SuspenseWithChunkError";
 import ToastListener from "./components/ToastListener";
 import PageLoader from "./components/PageLoader";
 import EasterEgg from "./components/EasterEgg";
-// import Pools from "./views/Pools";
+import Pools from "./views/Pools";
 import history from "./routerHistory";
 
 // Route-based code splitting
@@ -88,9 +88,9 @@ const App: React.FC = () => {
               <Route path="/multirewards">
                 <FarmsMultiRewards />
               </Route>
-              {/* <Route path="/pools">
+              <Route path="/pools">
                 <Pools />
-              </Route> */}
+              </Route>
               <Route exact strict path="/migrate">
                 <Migrate />
               </Route>
