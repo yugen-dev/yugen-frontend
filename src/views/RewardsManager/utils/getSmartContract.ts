@@ -15,7 +15,7 @@ const getSmartContract = async () => {
 
   const smartContract = new web3.eth.Contract(
     RewardManagerABI as unknown as AbiItem,
-    RewardManagerAddress
+    web3.utils.toChecksumAddress(RewardManagerAddress)
   );
   return smartContract;
 };

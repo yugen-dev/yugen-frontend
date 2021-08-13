@@ -1,8 +1,8 @@
 import React, { memo } from "react";
 import VestingPage from "./VestingPage";
 
-const RewardManager = () => {
+const RewardsManager = () => {
   return <VestingPage />;
 };
 
-export default memo(RewardManager);
+export default memo(RewardsManager);
