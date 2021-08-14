@@ -4,7 +4,7 @@ import { AutoRenewIcon, Button } from "cryption-uikit";
 import { useToast } from "state/hooks";
 import styled from "styled-components";
 import QuestionHelper from "components/QuestionHelper";
-import getSmartContract from "../utils/getSmartContract";
+import { getRewardsManagerContract } from "utils/contractHelpers";
 
 export const ClaimButtons = ({
   vestedValues,
@@ -30,7 +30,7 @@ export const ClaimButtons = ({
         "35% of rewards will be deducted as burn fees"
       );
 
-      const rewardMgSmartContract = await getSmartContract();
+      const rewardMgSmartContract = await getRewardsManagerContract();
       await rewardMgSmartContract.methods
         .preMatureDraw()
         .send({ from: account });
@@ -48,7 +48,7 @@ export const ClaimButtons = ({
 
   const handleClaimClick = async () => {
     try {
-      const rewardMgSmartContract = await getSmartContract();
+      const rewardMgSmartContract = await getRewardsManagerContract();
 
       setBtnLoading(() => true);
       toastInfo("Processing...");

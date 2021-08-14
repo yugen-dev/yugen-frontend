@@ -2,12 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Heading, Text } from "cryption-uikit";
 import { useWeb3React } from "@web3-react/core";
-import {
-  LotteryUSDC,
-  LotteryLUSD,
-  WinnerLotteryAddress,
-  LoserLotteryAddress,
-} from "config";
+import Addresses from "config/constants/contracts";
 import FirstChanceCard from "./components/FirstChanceCard";
 import SecondChanceCard from "./components/SecondChanceCard";
 
@@ -16,18 +11,18 @@ const Lottery = () => {
 
   const tokenWinnerInfo = {
     tokenName: "USDC",
-    tokenAddr: LotteryUSDC,
+    tokenAddr: Addresses.winnerLottery[80001],
     tokenDecimals: 6,
     metamaskImg: "",
-    lotteryAddr: WinnerLotteryAddress,
+    lotteryAddr: Addresses.lotteryUSDC[80001],
   };
 
   const tokenLoserInfo = {
     tokenName: "L-USD",
-    tokenAddr: LotteryLUSD,
+    tokenAddr: Addresses.loserLottery[80001],
     tokenDecimals: 18,
     metamaskImg: "",
-    lotteryAddr: LoserLotteryAddress,
+    lotteryAddr: Addresses.lotteryLUSD[80001],
   };
 
   const tooltipInfo = {

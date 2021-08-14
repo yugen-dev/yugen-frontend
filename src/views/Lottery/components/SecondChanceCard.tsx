@@ -6,12 +6,14 @@ import { registerToken } from "utils/wallet";
 import { useToast } from "state/hooks";
 import BigNumber from "bignumber.js";
 import QuestionHelper from "components/QuestionHelper";
+import {
+  getLoserLotteryContract,
+  getERC20Contract,
+} from "utils/contractHelpers";
 import ChanceCardHeaderImg from "../images/ChanceCard.png";
 import Loader from "./Loader";
 import StatusLoader from "./StatusLoader";
 import LoserBtnContainer from "./LoserBtnContainer";
-import getERC20SmartContract from "../utils/getERC20SmartContract";
-import getLotterySmartContract from "../utils/getLotterySmartContract";
 
 const SecondChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
   const { toastError } = useToast();
@@ -34,10 +36,8 @@ const SecondChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
     const networkId = await web3.eth.net.getId();
 
     if (networkId === 80001 && account) {
-      const lotterySmartContract = await getLotterySmartContract("loser");
-      const ERC20SmartContract = await getERC20SmartContract(
-        tokenInfo.tokenAddr
-      );
+      const lotterySmartContract = await getLoserLotteryContract();
+      const ERC20SmartContract = await getERC20Contract(tokenInfo.tokenAddr);
 
       try {
         const { playersLimit, registrationAmount } =
