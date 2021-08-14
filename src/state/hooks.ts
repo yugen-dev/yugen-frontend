@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect, useMemo, useState } from "react";
 import BigNumber from "bignumber.js";
 import { kebabCase } from "lodash";
@@ -148,6 +149,9 @@ export const usePoolFromPid = (sousId): Pool => {
 // Prices
 
 export const usePriceBnbBusd = (): BigNumber => {
+  if (window.ethereum.networkVersion === "80001") {
+    return new BigNumber(10);
+  }
   const pid = 3; // USD-MATIC LP, BUSD-BNB LP
   const farm = useFarmFromPid(pid);
 
@@ -169,6 +173,9 @@ export const usePriceCakeBusd = (): BigNumber => {
 };
 
 export const usePriceEthBusd = (): BigNumber => {
+  if (window.ethereum.networkVersion === "80001") {
+    return new BigNumber(10);
+  }
   const pid = 8; // ETH-MATIC LP ,ETH-BNB LP
   const farm = useFarmFromPid(pid);
   return farm.tokenPriceVsQuote
@@ -178,6 +185,9 @@ export const usePriceEthBusd = (): BigNumber => {
 };
 
 export const usePriceBtcBusd = (): BigNumber => {
+  if (window.ethereum.networkVersion === "80001") {
+    return new BigNumber(10);
+  }
   const pid = 5; // ETH-MATIC LP ,ETH-BNB LP
   // const bnbPriceUSD = usePriceBnbBusd();
   const farm = useFarmFromPid(pid);
