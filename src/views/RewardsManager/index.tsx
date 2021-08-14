@@ -36,7 +36,7 @@ const Vesting = () => {
     const networkId = await web3.eth.net.getId();
 
     if (networkId === 80001 && account) {
-      const rewardMgSmartContract = await getRewardsManagerContract();
+      const rewardMgSmartContract = getRewardsManagerContract(web3);
 
       // get timer end time
       try {
