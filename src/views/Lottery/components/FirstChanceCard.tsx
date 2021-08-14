@@ -36,8 +36,8 @@ const FirstChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
     const networkId = await web3.eth.net.getId();
 
     if (networkId === 80001 && account) {
-      const lotterySmartContract = await getWinnerLotteryContract();
-      const ERC20SmartContract = await getERC20Contract(tokenInfo.tokenAddr);
+      const lotterySmartContract = getWinnerLotteryContract(web3);
+      const ERC20SmartContract = getERC20Contract(tokenInfo.tokenAddr, web3);
 
       try {
         const { numOfWinners, playersLimit, registrationAmount } =

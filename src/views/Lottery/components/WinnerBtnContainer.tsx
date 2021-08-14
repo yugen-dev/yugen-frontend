@@ -28,7 +28,7 @@ const WinnerBtnContainer = ({ fetchValue, account, tokenInfo }) => {
     setBtnLoading(() => true);
 
     try {
-      const lotterySmartContract = await getWinnerLotteryContract();
+      const lotterySmartContract = getWinnerLotteryContract(web3);
       await lotterySmartContract.methods.enterLottery().send({ from: account });
       toastSuccess("Congrats", "You have successfully entered the lottery");
       setBtnLoading(() => false);
@@ -43,7 +43,7 @@ const WinnerBtnContainer = ({ fetchValue, account, tokenInfo }) => {
     setBtnLoading(() => true);
 
     try {
-      const ERC20SmartContract = await getERC20Contract(tokenInfo.tokenAddr);
+      const ERC20SmartContract = getERC20Contract(tokenInfo.tokenAddr, web3);
       await ERC20SmartContract.methods
         .approve(tokenInfo.lotteryAddr, web3.utils.toBN(infiniteValue))
         .send({ from: account });
