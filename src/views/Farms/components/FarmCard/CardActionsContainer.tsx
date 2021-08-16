@@ -1,14 +1,15 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useEffect } from "react";
 import BigNumber from "bignumber.js";
 import styled from "styled-components";
+import Web3 from "web3";
 import { provider as ProviderType } from "web3-core";
 import Countdown from "react-countdown";
 import { getAddress } from "utils/addressHelpers";
-import { Flex, Text, Radio, Heading } from "cryption-uikit";
+import { Flex, Text, Radio, Heading, Button, useModal } from "cryption-uikit";
 import { Farm } from "state/types";
 import { getBalanceNumber } from "utils/formatBalance";
-
 import { useFarmFromSymbol, useFarmUser, useProfile } from "state/hooks";
+import { useUniversalOneSidedFarm } from "hooks/useContract";
 import useI18n from "hooks/useI18n";
 import useWeb3 from "hooks/useWeb3";
 import { getERC20Contract } from "utils/contractHelpers";
@@ -19,6 +20,8 @@ import { Subtle } from "../FarmTable/Actions/styles";
 import StakeAction from "./StakeAction";
 import HarvestAction from "./HarvestAction";
 import StakeActionSignleSided from "./StakeActionSignleSided";
+import StakeEthModal from '../StakeEthModal';
+import DepositModal from "../DepositModal";
 
 const Action = styled.div`
   padding-top: 5px;
@@ -41,6 +44,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
   addLiquidityUrl,
   totalValue,
 }) => {
+  const universalOneSidedFarm = useUniversalOneSidedFarm();
   const TranslateString = useI18n();
   const [requestedApproval, setRequestedApproval] = useState(false);
   const { pid, lpAddresses, singleSidedToken, singleSidedToToken } =
@@ -58,7 +62,23 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     SingleSidedToTokenBalance,
     SingleSidedToTokenAllowances,
   } = useFarmUser(pid);
+  const [ethBal, setEthBal] = React.useState(null);
+  useEffect(() => {
+    const fetchBalance = async () => {
+      try {
+        const web3Eth = new Web3(window.ethereum);
+        const ethBalance = await web3Eth.eth.getBalance(account);
+        setEthBal(ethBalance)
+      } catch (error) {
+        console.error({ error });
+      }
+    };
 
+    if (account) {
+      fetchBalance();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const lpAddress = getAddress(lpAddresses);
   const singleSidedAddress = getAddress(singleSidedToken);
   const singleSidedToTokenAddress = getAddress(singleSidedToToken);
@@ -87,7 +107,6 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
   const [radioValue, setRadioValue] = React.useState("LP");
   const [radioTrue, SetradioTrue] = React.useState(true);
   const valueOfEthBalance = useEthBalance();
-
   const handleRadioChange = (value) => {
     if (value === "LP") {
       SetradioTrue(true);
@@ -119,8 +138,8 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
 
   const totalValueOfUserFormated = totalValueOfUser
     ? `$${Number(totalValueOfUser).toLocaleString(undefined, {
-        maximumFractionDigits: 2,
-      })}`
+      maximumFractionDigits: 2,
+    })}`
     : "-";
 
   const lpContract = getERC20Contract(lpAddress, web3);
@@ -176,6 +195,22 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     );
   };
 
+  const onConfirmStakeEth = async () => {
+    console.log('stakign eth', { ethBal });
+  }
+  const [onStakeEth] = useModal(
+    <StakeEthModal
+      activeIndex={1}
+    />
+  );
+  const [onPresentDeposit] = useModal(
+    <DepositModal
+      max={new BigNumber(ethBal)}
+      onConfirm={onConfirmStakeEth}
+      tokenName={lpName}
+      addLiquidityUrl={addLiquidityUrl}
+    />
+  );
   const RenderNextHarvestIn = () => {
     const check =
       isApproved ||
@@ -209,7 +244,6 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
       </Flex>
     );
   };
-
   const renderApprovalOrStakeButton = () => {
     return (
       <>
@@ -235,125 +269,131 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
             </Text>
           </div>
           <Flex justifyContent="space-between" alignItems="center">
-            <Heading color={rawStakedBalance === 0 ? "textDisabled" : "text"} style={{marginRight: '5px'}}>
+            <Heading color={rawStakedBalance === 0 ? "textDisabled" : "text"} style={{ marginRight: '5px' }}>
               {displayBalance}
             </Heading>
             <Subtle> ( {totalValueOfUserFormated} )</Subtle>
           </Flex>
         </Flex>
-        <Flex>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-evenly",
-              alignItems: "center",
-              width: "100%",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Text>LP</Text>
-              <Radio
-                name="radio"
-                scale="sm"
-                // value="LP"
-                onChange={() => handleRadioChange("LP")}
-                // checked={radioTrue}
-                // defaultChecked
-                style={{ margin: "10px" }}
-              />
-            </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Text>{singleSidedTokenName}</Text>
-              <Radio
-                scale="sm"
-                name="radio"
-                // value={singleSidedTokenName}
-                onChange={() => handleRadioChange(singleSidedTokenName)}
-                // checked={!radioTrue}
-                style={{ margin: "10px" }}
-              />
-            </div>
-            {singleSidedtoTokenName !== "CNT" && (
+        {window.ethereum.networkVersion === '1' || window.ethereum.networkVersion === '5' ?
+          <Button onClick={onPresentDeposit} variant="secondary" mt="15px">
+            {TranslateString(999, "Stake ETH")}
+          </Button>
+          :
+          <div>
+            <Flex>
               <div
                 style={{
                   display: "flex",
-                  justifyContent: "center",
+                  justifyContent: "space-evenly",
                   alignItems: "center",
+                  width: "100%",
                 }}
               >
-                <Text>{singleSidedtoTokenName}</Text>
-                <Radio
-                  scale="sm"
-                  name="radio"
-                  // value={singleSidedtoTokenName}
-                  onChange={() => handleRadioChange(singleSidedtoTokenName)}
-                  // checked={!radioTrue}
-                  style={{ margin: "10px" }}
-                />
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text>LP</Text>
+                  <Radio
+                    name="radio"
+                    scale="sm"
+                    // value="LP"
+                    onChange={() => handleRadioChange("LP")}
+                    // checked={radioTrue}
+                    // defaultChecked
+                    style={{ margin: "10px" }}
+                  />
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text>{singleSidedTokenName}</Text>
+                  <Radio
+                    scale="sm"
+                    name="radio"
+                    // value={singleSidedTokenName}
+                    onChange={() => handleRadioChange(singleSidedTokenName)}
+                    // checked={!radioTrue}
+                    style={{ margin: "10px" }}
+                  />
+                </div>
+                {singleSidedtoTokenName !== "CNT" && (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text>{singleSidedtoTokenName}</Text>
+                    <Radio
+                      scale="sm"
+                      name="radio"
+                      // value={singleSidedtoTokenName}
+                      onChange={() => handleRadioChange(singleSidedtoTokenName)}
+                      // checked={!radioTrue}
+                      style={{ margin: "10px" }}
+                    />
+                  </div>
+                )}
               </div>
+            </Flex>
+            {radioTrue && radioValue !== singleSidedtoTokenName && (
+              <StakeAction
+                stakedBalance={stakedBalance}
+                tokenBalance={tokenBalance}
+                tokenName={lpName}
+                pid={pid}
+                addLiquidityUrl={addLiquidityUrl}
+                signatureData={signatureData}
+                setSignauteNull={setSignauteNull}
+                approvalDisabled={requestedApproval}
+                handleApprove={handleApprove}
+                isApproved={isApproved}
+                totalValueOfUserFormated={totalValueOfUserFormated}
+              />
             )}
-          </div>
-        </Flex>
-        {radioTrue && radioValue !== singleSidedtoTokenName && (
-          <StakeAction
-            stakedBalance={stakedBalance}
-            tokenBalance={tokenBalance}
-            tokenName={lpName}
-            pid={pid}
-            addLiquidityUrl={addLiquidityUrl}
-            signatureData={signatureData}
-            setSignauteNull={setSignauteNull}
-            approvalDisabled={requestedApproval}
-            handleApprove={handleApprove}
-            isApproved={isApproved}
-            totalValueOfUserFormated={totalValueOfUserFormated}
-          />
-        )}
-        {!radioTrue && radioValue !== singleSidedtoTokenName && (
-          <StakeActionSignleSided
-            stakedBalance={stakedBalance}
-            tokenBalance={SingleSidedTokenBalance}
-            tokenName={singleSidedTokenName}
-            decimal={singleSidedTokendecimals}
-            pid={pid}
-            addLiquidityUrl={addLiquidityUrl}
-            isApproved={isSignleSidedTokenApproved}
-            totalValueOfUserFormated={totalValueOfUserFormated}
-            singleSidedAddress={singleSidedAddress}
-            singleSidedToTokenAddress={singleSidedToTokenAddress}
-            lpTokenAddress={lpAddress}
-            valueOfEthBalance={valueOfEthBalance}
-          />
-        )}
-        {!radioTrue && radioValue === singleSidedtoTokenName && (
-          <StakeActionSignleSided
-            stakedBalance={stakedBalance}
-            tokenBalance={SingleSidedToTokenBalance}
-            tokenName={singleSidedtoTokenName}
-            decimal={singleSidedToTokendecimals}
-            pid={pid}
-            addLiquidityUrl={addLiquidityUrl}
-            isApproved={isSingleSidedToTokenApproved}
-            totalValueOfUserFormated={totalValueOfUserFormated}
-            singleSidedAddress={singleSidedToTokenAddress}
-            singleSidedToTokenAddress={singleSidedAddress}
-            lpTokenAddress={lpAddress}
-            valueOfEthBalance={valueOfEthBalance}
-          />
-        )}
-
+            {!radioTrue && radioValue !== singleSidedtoTokenName && (
+              <StakeActionSignleSided
+                stakedBalance={stakedBalance}
+                tokenBalance={SingleSidedTokenBalance}
+                tokenName={singleSidedTokenName}
+                decimal={singleSidedTokendecimals}
+                pid={pid}
+                addLiquidityUrl={addLiquidityUrl}
+                isApproved={isSignleSidedTokenApproved}
+                totalValueOfUserFormated={totalValueOfUserFormated}
+                singleSidedAddress={singleSidedAddress}
+                singleSidedToTokenAddress={singleSidedToTokenAddress}
+                lpTokenAddress={lpAddress}
+                valueOfEthBalance={valueOfEthBalance}
+              />
+            )}
+            {!radioTrue && radioValue === singleSidedtoTokenName && (
+              <StakeActionSignleSided
+                stakedBalance={stakedBalance}
+                tokenBalance={SingleSidedToTokenBalance}
+                tokenName={singleSidedtoTokenName}
+                decimal={singleSidedToTokendecimals}
+                pid={pid}
+                addLiquidityUrl={addLiquidityUrl}
+                isApproved={isSingleSidedToTokenApproved}
+                totalValueOfUserFormated={totalValueOfUserFormated}
+                singleSidedAddress={singleSidedToTokenAddress}
+                singleSidedToTokenAddress={singleSidedAddress}
+                lpTokenAddress={lpAddress}
+                valueOfEthBalance={valueOfEthBalance}
+              />
+            )}
+          </div>}
         {/* :
           (
             <Button

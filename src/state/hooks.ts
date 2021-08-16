@@ -151,7 +151,7 @@ export const usePoolFromPid = (sousId): Pool => {
 // Prices
 
 export const usePriceBnbBusd = (): BigNumber => {
-  if (window.ethereum.networkVersion === "80001") {
+  if (window.ethereum.networkVersion === "80001" || window.ethereum.networkVersion === "5") {
     return new BigNumber(10);
   }
   const pid = 3; // USD-MATIC LP, BUSD-BNB LP
@@ -175,7 +175,7 @@ export const usePriceCakeBusd = (): BigNumber => {
 };
 
 export const usePriceEthBusd = (): BigNumber => {
-  if (window.ethereum.networkVersion === "80001") {
+  if (window.ethereum.networkVersion === "80001" || window.ethereum.networkVersion === "5") {
     return new BigNumber(10);
   }
   const pid = 8; // ETH-MATIC LP ,ETH-BNB LP
@@ -187,7 +187,7 @@ export const usePriceEthBusd = (): BigNumber => {
 };
 
 export const usePriceBtcBusd = (): BigNumber => {
-  if (window.ethereum.networkVersion === "80001") {
+  if (window.ethereum.networkVersion === "80001" || window.ethereum.networkVersion === "5") {
     return new BigNumber(10);
   }
   const pid = 5; // ETH-MATIC LP ,ETH-BNB LP

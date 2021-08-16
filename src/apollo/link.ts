@@ -22,6 +22,7 @@ const maintNetLink = {
 const graphLinks = {
   "80001": testNetLink,
   "1": maintNetLink,
+  "5": testNetLink,
   "137": maintNetLink,
 };
 // export const uniswap = from([

@@ -3,6 +3,7 @@ import random from "lodash/random";
 // Array of available nodes to connect to
 export const nodes = {
   "80001": ["https://rpc-mumbai.maticvigil.com/"],
+  "5": ["https://rpc-mumbai.maticvigil.com/"],
   "137": [process.env.REACT_APP_NETWORK_URL],
   "1": [process.env.REACT_APP_NETWORK_URL],
 };

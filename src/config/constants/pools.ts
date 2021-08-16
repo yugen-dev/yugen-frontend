@@ -142,6 +142,7 @@ const poolsTestNet: PoolConfig[] = [
       97: "",
       56: "",
       80001: "0x01b21aFC1415F1Df68d034351699B5c639CF160A",
+      5: "0x01b21aFC1415F1Df68d034351699B5c639CF160A",
       1: "0x01b21aFC1415F1Df68d034351699B5c639CF160A",
       137: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // wrong
     },
@@ -175,6 +176,7 @@ const poolsTestNet: PoolConfig[] = [
       97: "",
       56: "",
       80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
+      5: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
       1: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
       137: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // wrong
     },
@@ -208,6 +210,7 @@ const poolsTestNet: PoolConfig[] = [
       97: "",
       56: "",
       80001: "0x8766d04916c783E57785cE198D06446A5272b979",
+      5: "0x8766d04916c783E57785cE198D06446A5272b979",
       1: "0x8766d04916c783E57785cE198D06446A5272b979", // wrong
       137: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // wrong
     },
@@ -233,6 +236,7 @@ const pools = {
   "80001": poolsTestNet,
   "1": poolsMainnet,
   "137": poolsMainnet,
+  "5": poolsTestNet,
 };
 export default window.ethereum.networkVersion
   ? pools[window.ethereum.networkVersion]

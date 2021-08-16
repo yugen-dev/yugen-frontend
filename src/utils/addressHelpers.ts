@@ -63,3 +63,6 @@ export const getBunnySpecialAddress = () => {
 export const getPolydexMigratorAddress = () => {
   return getAddress(addresses.polyDexMigrator);
 };
+export const getuniversalOneSidedFarmAddress = () => {
+  return getAddress(addresses.univerSaloneSidedFarm);
+};

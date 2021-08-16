@@ -22,6 +22,7 @@ import {
   getCNTStakerContract,
   getClaimRefundContract,
   getSingleSidedLiquidityContract,
+  getUnivesalOneSidedContract,
 } from "utils/contractHelpers";
 import polydexMigrator from "config/abi/polydexMigrator.json";
 import ENS_ABI from "../constants/abis/ens-registrar.json";
@@ -219,4 +220,9 @@ export const useFactoryContract = (
   withSignerIfPossible
 ) => {
   return useContract(factoryAddress, ABI, withSignerIfPossible);
+};
+
+export const useUniversalOneSidedFarm = () => {
+  const web3 = useWeb3();
+  return useMemo(() => getUnivesalOneSidedContract(web3), [web3]);
 };
