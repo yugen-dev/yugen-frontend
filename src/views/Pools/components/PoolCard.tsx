@@ -88,7 +88,9 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
         setRewardTokenCoinGeckoPrice(rewardTokenPriceCoinGeckoPrice);
       }
     };
-    pricefunc();
+    if (pool.rewardTokenCoinGeckoid) {
+      pricefunc();
+    }
   }, [pool]);
 
   /// harvest interval
