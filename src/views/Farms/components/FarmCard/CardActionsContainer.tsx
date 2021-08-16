@@ -4,10 +4,10 @@ import styled from "styled-components";
 import Web3 from "web3";
 import { provider as ProviderType } from "web3-core";
 import Countdown from "react-countdown";
-import { getAddress } from "utils/addressHelpers";
+import { getAddress, getFarmAddress } from "utils/addressHelpers";
 import { Flex, Text, Radio, Heading, Button, useModal } from "cryption-uikit";
 import { Farm } from "state/types";
-import { getBalanceNumber } from "utils/formatBalance";
+import { getBalanceNumber, getFullDisplayBalance } from "utils/formatBalance";
 import { useFarmFromSymbol, useFarmUser, useProfile } from "state/hooks";
 import { useUniversalOneSidedFarm } from "hooks/useContract";
 import useI18n from "hooks/useI18n";
@@ -62,13 +62,13 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     SingleSidedToTokenBalance,
     SingleSidedToTokenAllowances,
   } = useFarmUser(pid);
-  const [ethBal, setEthBal] = React.useState(null);
+  const [ethBal, setEthBal] = React.useState(new BigNumber(0));
   useEffect(() => {
     const fetchBalance = async () => {
       try {
         const web3Eth = new Web3(window.ethereum);
         const ethBalance = await web3Eth.eth.getBalance(account);
-        setEthBal(ethBalance)
+        setEthBal(new BigNumber(ethBalance))
       } catch (error) {
         console.error({ error });
       }
@@ -78,7 +78,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
       fetchBalance();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [account]);
   const lpAddress = getAddress(lpAddresses);
   const singleSidedAddress = getAddress(singleSidedToken);
   const singleSidedToTokenAddress = getAddress(singleSidedToToken);
@@ -196,7 +196,16 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
   };
 
   const onConfirmStakeEth = async () => {
-    console.log('stakign eth', { ethBal });
+    try {
+      const farmAddress = getFarmAddress();
+      console.log({ farmAddress });
+      // const getEthBal = getFullDisplayBalance(ethBal);
+      console.log(farm.pid, { lpAddress }, { singleSidedAddress }, { farmAddress })
+      const onCrossChainoneSidedFarm = await universalOneSidedFarm.methods.crossChainOneSidedFarm('0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', false, 0, farm.pid, lpAddress, singleSidedAddress, farmAddress, 1).send({ from: account, value: web3.utils.toWei('0.12', 'ether') });
+        console.log('txhash is ', onCrossChainoneSidedFarm);
+    } catch (error) {
+      console.log('error is', error);
+    }
   }
   const [onStakeEth] = useModal(
     <StakeEthModal
@@ -205,9 +214,9 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
   );
   const [onPresentDeposit] = useModal(
     <DepositModal
-      max={new BigNumber(ethBal)}
+      max={ethBal}
       onConfirm={onConfirmStakeEth}
-      tokenName={lpName}
+      tokenName="Eth"
       addLiquidityUrl={addLiquidityUrl}
     />
   );
@@ -244,6 +253,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
       </Flex>
     );
   };
+  // console.log('chec bal', ethBal, new BigNumber(ethBal))
   const renderApprovalOrStakeButton = () => {
     return (
       <>
