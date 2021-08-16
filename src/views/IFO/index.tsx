@@ -51,7 +51,7 @@ const IFO = () => {
           <PoolsContainer>
             {openPools.map(
               (pool) =>
-                pool.sousId === 0 && (
+                pool.sousId === 3 && (
                   <PoolCard
                     key={pool.sousId}
                     pool={pool}
