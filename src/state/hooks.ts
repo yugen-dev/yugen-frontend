@@ -155,8 +155,8 @@ export const usePriceBnbBusd = (): BigNumber => {
   const pid = 3; // USD-MATIC LP, BUSD-BNB LP
   const farm = useFarmFromPid(pid);
 
-  return farm.tokenPriceVsQuote
-    ? new BigNumber(1).div(farm.tokenPriceVsQuote)
+  return farm?.tokenPriceVsQuote
+    ? new BigNumber(1).div(farm?.tokenPriceVsQuote)
     : ZERO;
   // return new BigNumber(10);
 };
@@ -178,8 +178,8 @@ export const usePriceEthBusd = (): BigNumber => {
   }
   const pid = 8; // ETH-MATIC LP ,ETH-BNB LP
   const farm = useFarmFromPid(pid);
-  return farm.tokenPriceVsQuote
-    ? new BigNumber(1).div(farm.tokenPriceVsQuote)
+  return farm?.tokenPriceVsQuote
+    ? new BigNumber(1).div(farm?.tokenPriceVsQuote)
     : ZERO;
   // return new BigNumber(10);
 };
