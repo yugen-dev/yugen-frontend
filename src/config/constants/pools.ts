@@ -1,8 +1,42 @@
 import { PoolConfig, QuoteToken, PoolCategory } from "./types";
 
 const pools: PoolConfig[] = [
+  // {
+  //   sousId: 0,
+  //   tokenName: "CNT",
+  //   tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
+  //   tokenAddress: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
+  //   stakingTokenName: QuoteToken.CNT,
+  //   quoteTokenSymbol: QuoteToken.CNT,
+  //   stakingTokenAddress: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // lp
+  //   contractAddress: {
+  //     97: "",
+  //     56: "",
+  //     80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
+  //     137: "0xDC5A8F4D53E6fFb1F5E356f64577702AF9348d7d", // staking pool cnt
+  //   },
+  //   poolCategory: PoolCategory.COMMUNITY,
+  //   projectLink: "https://cryption.network/",
+  //   multiReward: ["CNT"],
+  //   stakingTokenCoinGeckoid: "CNT",
+  //   rewardTokenCoinGeckoid: "pear",
+  //   coinGeckoIds: [
+  //     "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
+  //     // "0xeDd6cA8A4202d4a36611e2fff109648c4863ae19", // cnt
+  //   ],
+  //   TopImage:
+  //     "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10232.png",
+  //   multiRewardTokenPerBlock: ["0.0046491228"],
+  //   harvest: true,
+  //   tokenPerBlock: "0.0046491228",
+  //   sortOrder: 999,
+  //   isFinished: false,
+  //   tokenDecimals: 18,
+  //   metamaskImg:
+  //     "https://assets.coingecko.com/coins/images/17173/small/pear200.png?1626793002",
+  // },
   {
-    sousId: 0,
+    sousId: 1,
     tokenName: "MAHA-CNT",
     tokenAdressInLp: "0xeDd6cA8A4202d4a36611e2fff109648c4863ae19",
     tokenAddress: "0x577aa7cAcBAd94cC0cC12a17209570a1D06bda3A", // maha
@@ -28,7 +62,7 @@ const pools: PoolConfig[] = [
     harvest: true,
     tokenPerBlock: "1",
     sortOrder: 999,
-    isFinished: false,
+    isFinished: true,
     tokenDecimals: 18,
     TopImage:
       "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/maha-cnt.png",
@@ -39,7 +73,7 @@ const pools: PoolConfig[] = [
   // reward token 0xc8bcb58caEf1bE972C0B638B1dD8B0748Fdc8A44
   // input token 0xD1e6354fb05bF72A8909266203dAb80947dcEccF
   {
-    sousId: 1,
+    sousId: 2,
     tokenName: "CNT",
     tokenAdressInLp: "0xc8bcb58caEf1bE972C0B638B1dD8B0748Fdc8A44",
     tokenAddress: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // maha
@@ -72,6 +106,109 @@ const pools: PoolConfig[] = [
     metamaskImg:
       "https://assets.coingecko.com/coins/images/17173/small/pear200.png?1626793002",
   },
+  {
+    sousId: 3,
+    tokenName: "CNT-ARTH",
+    tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
+    tokenAddress: "0x9fDe8873DEe5f221023BFEb7b42d503EBCDdcDbD", //  lp
+    stakingTokenName: QuoteToken.LP,
+    quoteTokenSymbol: QuoteToken.MAHA,
+    stakingTokenAddress: "0x9fDe8873DEe5f221023BFEb7b42d503EBCDdcDbD", // lp
+    contractAddress: {
+      97: "",
+      56: "",
+      80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
+      137: "0xE9836901A02574D2203A42c73EF29Da328cd93b5", // staking pool arth-cnt
+    },
+    poolCategory: PoolCategory.CORE,
+    projectLink: "https://cryption.network/",
+    multiReward: ["CNT", "MAHA"],
+    stakingTokenCoinGeckoid: "MahaDAO",
+    rewardTokenCoinGeckoid: "",
+    coinGeckoIds: [
+      "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
+      "0xeDd6cA8A4202d4a36611e2fff109648c4863ae19", // maha
+    ],
+    multiRewardTokenPerBlock: ["0.15", "0.005"],
+    harvest: true,
+    tokenPerBlock: "1",
+    sortOrder: 999,
+    isFinished: false,
+    tokenDecimals: 18,
+    TopImage:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/maha-cnt.png",
+    metamaskImg:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/maha-cnt.png",
+  },
+  {
+    sousId: 4,
+    tokenName: "MAHA-ARTH",
+    tokenAdressInLp: "0xeDd6cA8A4202d4a36611e2fff109648c4863ae19", // maha
+    tokenAddress: "0x881a4c22a1aC1544b40C2AF1d12e4bBC49593a30", //  lp
+    stakingTokenName: QuoteToken.LP,
+    quoteTokenSymbol: QuoteToken.MAHA,
+    stakingTokenAddress: "0x881a4c22a1aC1544b40C2AF1d12e4bBC49593a30", // lp
+    contractAddress: {
+      97: "",
+      56: "",
+      80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
+      137: "0x85f1Ab8E6e83C39F65256c8F89d55f6e8AF22f3f", // staking pool arth-maha
+    },
+    poolCategory: PoolCategory.CORE,
+    projectLink: "https://cryption.network/",
+    multiReward: ["CNT", "MAHA"],
+    stakingTokenCoinGeckoid: "MahaDAO",
+    rewardTokenCoinGeckoid: "",
+    coinGeckoIds: [
+      "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
+      "0xeDd6cA8A4202d4a36611e2fff109648c4863ae19", // maha
+    ],
+    multiRewardTokenPerBlock: ["0.03", "0.005"],
+    harvest: true,
+    tokenPerBlock: "1",
+    sortOrder: 999,
+    isFinished: false,
+    tokenDecimals: 18,
+    TopImage:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/maha-cnt.png",
+    metamaskImg:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/maha-cnt.png",
+  },
+  {
+    sousId: 5,
+    tokenName: "ARTH-USDC",
+    tokenAdressInLp: "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
+    tokenAddress: "0x998D543F618194A519156672E77756F8F6415A0d", //  lp
+    stakingTokenName: QuoteToken.LP,
+    quoteTokenSymbol: QuoteToken.MAHA,
+    stakingTokenAddress: "0x998D543F618194A519156672E77756F8F6415A0d", // lp
+    contractAddress: {
+      97: "",
+      56: "",
+      80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
+      137: "0x80C4DC3e48ceB1406993De4Dc11e73fb6709BCEa", // staking pool arth-maha
+    },
+    poolCategory: PoolCategory.CORE,
+    projectLink: "https://cryption.network/",
+    multiReward: ["CNT", "MAHA"],
+    stakingTokenCoinGeckoid: "MahaDAO",
+    rewardTokenCoinGeckoid: "",
+    coinGeckoIds: [
+      "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
+      "0xeDd6cA8A4202d4a36611e2fff109648c4863ae19", // maha
+    ],
+    multiRewardTokenPerBlock: ["0.03", "0.005"],
+    harvest: true,
+    tokenPerBlock: "1",
+    sortOrder: 999,
+    isFinished: false,
+    tokenDecimals: 18,
+    TopImage:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/maha-cnt.png",
+    metamaskImg:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/maha-cnt.png",
+  },
+  
   // {
   //   sousId: 0,
   //   tokenName: "CNT",
