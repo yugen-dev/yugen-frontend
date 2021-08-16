@@ -35,8 +35,8 @@ const MigrateFinder = lazy(() => import("./views/MigrationFinder"));
 const RemoveLiquidity = lazy(() => import("./views/RemoveLiquidity"));
 const IFO = lazy(() => import("./views/IFO"));
 const Lottery = lazy(() => import("./views/Lottery"));
+const RewardsManager = lazy(() => import("./views/RewardsManager"));
 
-// const Ifos = lazy(() => import("./views/IFO"));
 const NotFound = lazy(() => import("./views/NotFound"));
 // const Teams = lazy(() => import("./views/Teams"));
 // const Team = lazy(() => import("./views/Teams/Team"));
@@ -105,6 +105,7 @@ const App: React.FC = () => {
               />
               <Route exact path="/ifo" component={IFO} />
               <Route exact path="/lottery" component={Lottery} />
+              <Route exact path="/rewardsmanager" component={RewardsManager} />
 
               {/* Redirection: These old routes are still used in the code base */}
               <Route
@@ -124,15 +125,6 @@ const App: React.FC = () => {
                 component={RedirectOldRemoveLiquidityPathStructure}
               />
 
-              {/* <Route path="/lottery">
-              <Lottery />
-            </Route> */}
-              {/* <Route path="/ifo">
-                <Ifos />
-              </Route> */}
-              {/* <Route path="/collectibles">
-              <Collectibles />
-            </Route> */}
               {/* <Route exact path="/teams">
               <Teams />
             </Route> */}

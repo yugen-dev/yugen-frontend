@@ -127,4 +127,34 @@ export default {
     80001: "0xEcbF5f2A16DAa2Ace84A1845341FB9B62302CB43",
     137: "0xaD4C94313BF3aC2641A2C6F0A3802c4990A034fe",
   },
+  winnerLottery: {
+    56: "",
+    97: "",
+    80001: "0x7A75050c800d15b78fAd0A9271a50eF12BFcAb89",
+    137: "",
+  },
+  loserLottery: {
+    56: "",
+    97: "",
+    80001: "0x4E833b70b226781C65d9BA49d6d640Da02D93148",
+    137: "",
+  },
+  lotteryUSDC: {
+    56: "",
+    97: "",
+    80001: "0x671b68fb02778D37a885699dA79c13Faf0d3C560",
+    137: "",
+  },
+  lotteryLUSD: {
+    56: "",
+    97: "",
+    80001: "0x996D0eE46047CD169b8A6854E4F76D6E816653c8",
+    137: "",
+  },
+  rewardManager: {
+    56: "",
+    97: "",
+    80001: "0x80b0cC6AAB3661CC2CCb9cAb7b40fA5beF432D3a",
+    137: "",
+  },
 };
