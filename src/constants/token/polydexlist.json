@@ -10,6 +10,14 @@
   "logoURI": "https://cryptologos.cc/logos/matic-network-matic-logo.svg?v=006",
   "tokens": [
     {
+      "name": "Cryption Network Token",
+      "address": "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
+      "symbol": "CNT",
+      "decimals": 18,
+      "chainId": 137,
+      "logoURI": "https://cryption-network.s3.us-east-2.amazonaws.com/Globe+Gradient.png"
+    },
+    {
       "chainId": 137,
       "address": "0xa3fa99a148fa48d14ed51d610c367c61876997f1",
       "name": "miMatic",
@@ -405,14 +413,6 @@
       "logoURI": "https://etherscan.io/token/images/ferrumnetworktoken_32.png"
     },
     {
-      "name": "Cryption Network Token",
-      "address": "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
-      "symbol": "CNT",
-      "decimals": 18,
-      "chainId": 137,
-      "logoURI": "https://cryption-network.s3.us-east-2.amazonaws.com/Globe+Gradient.png"
-    },
-    {
       "name": "AGA Carbon Rewards",
       "address": "0xcBce9f77921C2E90522d438dF4C5582F4c617768",
       "symbol": "AGAcr",
@@ -563,6 +563,13 @@
       "symbol": "MAHA",
       "decimals": 18,
       "logoURI": "https://assets.coingecko.com/coins/images/13404/small/MAHA_Token.png?1625651604"
+    },
+    { "chainId": 137,
+      "address": "0xE52509181FEb30EB4979E29EC70D50FD5C44D590",
+      "name": "ARTH",
+      "symbol": "ARTH",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/cryption-network/polydex-token-list/main/arth.png"
     },
     {
       "chainId": 137,
