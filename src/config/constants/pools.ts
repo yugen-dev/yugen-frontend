@@ -62,7 +62,7 @@ const pools: PoolConfig[] = [
     harvest: true,
     tokenPerBlock: "1",
     sortOrder: 999,
-    isFinished: false,
+    isFinished: true,
     tokenDecimals: 18,
     TopImage:
       "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/maha-cnt.png",
