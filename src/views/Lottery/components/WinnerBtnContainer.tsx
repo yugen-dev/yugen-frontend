@@ -5,10 +5,12 @@ import { Button, AutoRenewIcon } from "cryption-uikit";
 import UnlockButton from "components/UnlockButton";
 import { useToast } from "state/hooks";
 import BigNumber from "bignumber.js";
+import {
+  getERC20Contract,
+  getWinnerLotteryContract,
+} from "utils/contractHelpers";
 import Loader from "./Loader";
 import BtnLoader from "./BtnLoader";
-import getERC20SmartContract from "../utils/getERC20SmartContract";
-import getLotterySmartContract from "../utils/getLotterySmartContract";
 
 const WinnerBtnContainer = ({
   fetchValue,
@@ -31,7 +33,7 @@ const WinnerBtnContainer = ({
     setBtnLoading(() => true);
 
     try {
-      const lotterySmartContract = await getLotterySmartContract("winner");
+      const lotterySmartContract = getWinnerLotteryContract(web3);
       await lotterySmartContract.methods.enterLottery().send({ from: account });
       await loadBlockchainData();
       toastSuccess("Congrats", "You have successfully entered the lottery");
@@ -47,9 +49,7 @@ const WinnerBtnContainer = ({
     setBtnLoading(() => true);
 
     try {
-      const ERC20SmartContract = await getERC20SmartContract(
-        tokenInfo.tokenAddr
-      );
+      const ERC20SmartContract = getERC20Contract(tokenInfo.tokenAddr, web3);
       await ERC20SmartContract.methods
         .approve(tokenInfo.lotteryAddr, web3.utils.toBN(infiniteValue))
         .send({ from: account });
@@ -65,7 +65,7 @@ const WinnerBtnContainer = ({
     toastInfo("Processing...", "Settling the lottery");
     setBtnLoading(() => true);
 
-    const lotterySmartContract = await getLotterySmartContract("winner");
+    const lotterySmartContract = getWinnerLotteryContract(web3);
     try {
       await lotterySmartContract.methods
         .settleLottery()

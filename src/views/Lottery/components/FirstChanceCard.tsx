@@ -1,13 +1,13 @@
 import React, { memo, useEffect, useState } from "react";
 import styled from "styled-components";
 import QuestionHelper from "components/QuestionHelper";
-import LotteryABI from "config/abi/LotteryABI.json";
 import erc20 from "config/abi/erc20.json";
-import { WinnerLotteryAddress } from "config/index";
 import Web3 from "web3";
 import { useToast } from "state/hooks";
 import BigNumber from "bignumber.js";
+import Addresses from "config/constants/contracts";
 import multicall from "utils/multicall";
+import lotteryABI from "config/abi/lottery.json";
 import USDClogo from "../images/USDClogo.png";
 // import getLotterySmartContract from "../utils/getLotterySmartContract";
 import Loader from "./Loader";
@@ -51,25 +51,25 @@ const FirstChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
 
         const calls = [
           {
-            address: WinnerLotteryAddress,
+            address: Addresses.winnerLottery[137],
             name: "getCurrentlyActivePlayers",
           },
           {
-            address: WinnerLotteryAddress,
+            address: Addresses.winnerLottery[137],
             name: "lotteryStatus",
           },
           {
-            address: WinnerLotteryAddress,
+            address: Addresses.winnerLottery[137],
             name: "getWinningAmount",
           },
           {
-            address: WinnerLotteryAddress,
+            address: Addresses.winnerLottery[137],
             name: "lotteryConfig",
           },
         ];
         /* eslint-disable   prefer-const */
         let [currActivePlayers, lotteryStatus, payout, lotteryConfig] =
-          await multicall(LotteryABI, calls);
+          await multicall(lotteryABI, calls);
         // @ts-ignore
 
         numOfWinners = new BigNumber(lotteryConfig[0].toString()).toNumber();
