@@ -1,83 +1,14 @@
 /* eslint-disable import/no-named-as-default */
 import React from "react";
 import styled from "styled-components";
-import Addresses from "config/constants/contracts";
 import { useWeb3React } from "@web3-react/core";
 import { Heading, Text, LinkExternal } from "cryption-uikit";
-import USDClogo from "images/USDClogo.png";
-import LUSDlogo from "images/LUSDlogo.png";
+import LotteryInfo from 'config/constants/lottery';
 import FirstChanceCard from "./components/FirstChanceCard";
 import SecondChanceCard from "./components/SecondChanceCard";
 
-interface LotteryInfoProps {
-  lotteryId: number;
-  winnerLottery: {
-    lotteryAddress: string;
-    tokenName: string;
-    tokenAddress: string;
-    tokenDecimals: number;
-    tokenLogo: any;
-    metamaskImg?: string;
-    rewardToken: string;
-  };
-  loserLottery: {
-    lotteryAddress: string;
-    tokenName: string;
-    tokenAddress: string;
-    tokenLogo: any;
-    tokenDecimals: number;
-    metamaskImg?: string;
-    rewardToken: string;
-  };
-}
-
 const Lottery = () => {
   const { account } = useWeb3React("web3");
-
-  const LotteryInfo: LotteryInfoProps[] = [
-    {
-      lotteryId: 1,
-      winnerLottery: {
-        lotteryAddress: Addresses.winnerLottery[80001],
-        tokenName: "USDC",
-        tokenAddress: Addresses.lotteryUSDC[80001],
-        tokenDecimals: 6,
-        tokenLogo: USDClogo,
-        rewardToken: "USDC",
-      },
-      loserLottery: {
-        lotteryAddress: Addresses.loserLottery[80001],
-        tokenName: "LUSD",
-        tokenAddress: Addresses.lotteryLUSD[80001],
-        tokenDecimals: 18,
-        tokenLogo: LUSDlogo,
-        metamaskImg:
-          "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10300.png",
-        rewardToken: "CNT",
-      },
-    },
-    {
-      lotteryId: 2,
-      winnerLottery: {
-        lotteryAddress: Addresses.winnerLottery2[80001],
-        tokenName: "ARTH",
-        tokenAddress: Addresses.lotteryARTH[80001],
-        tokenDecimals: 18,
-        tokenLogo: USDClogo,
-        rewardToken: "ARTH",
-      },
-      loserLottery: {
-        lotteryAddress: Addresses.loserLottery2[80001],
-        tokenName: "LARTH",
-        tokenAddress: Addresses.lotteryLARTH[80001],
-        tokenDecimals: 18,
-        tokenLogo: USDClogo,
-        metamaskImg:
-          "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10300.png",
-        rewardToken: "MAHA",
-      },
-    },
-  ];
 
   const tooltipInfo = {
     playersText:
