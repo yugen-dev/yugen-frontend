@@ -22,7 +22,7 @@ import useWeb3 from "hooks/useWeb3";
 import { useSousUnstake } from "hooks/useUnstake";
 import { getBalanceNumber } from "utils/formatBalance";
 // import { useSousChefGasless } from "hooks/useContract";
-import { getPoolApy } from "utils/apy";
+import { getPoolApyMultiRewards} from "utils/apy";
 import { useSousHarvest } from "hooks/useHarvest";
 import Balance from "components/Balance";
 import { UseGetApiPrice, useProfile } from "state/hooks";
@@ -74,31 +74,37 @@ const PoolCard: React.FC<HarvestProps> = ({
     userData,
     stakingLimit,
     poolHarvestInterval,
-    tokenPriceVsQuote,
+    // tokenPriceVsQuote,
     stakingTokenName,
     metamaskImg,
     quoteTokenSymbol,
     lpTotalInQuoteToken,
+    quoteTokenSecondAmount,
+    quoteTokeFirstAmount
   } = pool;
 
   const tokenInLpPrice = UseGetApiPrice(pool.tokenAdressInLp);
+  const tokenInLpSeconPrice = UseGetApiPrice(pool.tokenAddressSecondInLp);
 
   const totalValue: BigNumber = useMemo(() => {
     if (!lpTotalInQuoteToken) {
       return null;
     }
+
+ 
+    if (stakingTokenName === QuoteToken.LP) {
+      return tokenInLpSeconPrice && tokenInLpPrice
+        ? (new BigNumber(tokenInLpPrice).times(quoteTokeFirstAmount)).plus((new BigNumber(tokenInLpSeconPrice).times(new BigNumber(quoteTokenSecondAmount))))
+        : new BigNumber(100000);
+    }
+   
     if (quoteTokenSymbol === QuoteToken.BNB) {
       return bnbPrice.times(lpTotalInQuoteToken);
     }
     if (quoteTokenSymbol === QuoteToken.CNT) {
       return valueOfCNTinUSD.times(lpTotalInQuoteToken);
     }
-    if (stakingTokenName === QuoteToken.LP) {
-      return tokenInLpPrice
-        ? new BigNumber(tokenInLpPrice).times(lpTotalInQuoteToken)
-        : new BigNumber(100000);
-    }
-
+  
     if (quoteTokenSymbol === QuoteToken.ETH) {
       return ethPrice.times(lpTotalInQuoteToken);
     }
@@ -125,6 +131,10 @@ const PoolCard: React.FC<HarvestProps> = ({
     lpTotalInQuoteToken,
     tokenInLpPrice,
     quoteTokenSymbol,
+    tokenInLpSeconPrice ,
+    quoteTokeFirstAmount,
+    quoteTokenSecondAmount
+
   ]);
 
   const [signatureData, setSignatureData] = useState<{
@@ -190,12 +200,12 @@ const PoolCard: React.FC<HarvestProps> = ({
       ? new BigNumber(tokenPrice)
       : new BigNumber(1);
 
-    const priceoflp = tokenPriceVsQuote
-      ? new BigNumber(tokenPriceVsQuote)
-      : new BigNumber(1);
+    // const priceoflp = tokenPriceVsQuote
+    //   ? new BigNumber(tokenPriceVsQuote).plus(new BigNumber(tokenInLpPrice))
+    //   : new BigNumber(1);
 
-    const currentTokenApy = getPoolApy(
-      priceoflp.toNumber(),
+    const currentTokenApy = getPoolApyMultiRewards(
+      (new BigNumber(tokenInLpPrice).times(quoteTokeFirstAmount)).plus((new BigNumber(tokenInLpSeconPrice).times(new BigNumber(quoteTokenSecondAmount)))).toNumber(),
       rewardTokenPrice.toNumber(),
       getBalanceNumber(pool.totalStaked, stakingTokenDecimals),
       parseFloat(element)

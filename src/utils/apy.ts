@@ -21,8 +21,27 @@ export const getPoolApy = (
   const totalStakingTokenInPool = new BigNumber(stakingTokenPrice).times(
     totalStaked
   );
+ 
   const apy = totalRewardPricePerYear.div(totalStakingTokenInPool).times(100);
   return apy.isNaN() || !apy.isFinite() ? null : apy.toNumber();
 };
+
+
+export const getPoolApyMultiRewards = (
+  stakingTokenTVL: number,
+  rewardTokenPrice: number,
+  totalStaked: number,
+  tokenPerBlock: number
+) => {
+  const totalRewardPricePerYear = new BigNumber(rewardTokenPrice)
+    .times(tokenPerBlock)
+    .times(BLOCKS_PER_YEAR);
+  const totalStakingTokenInPool = stakingTokenTVL;
+
+  const apy = totalRewardPricePerYear.div(totalStakingTokenInPool).times(100);
+  return apy.isNaN() || !apy.isFinite() ? null : apy.toNumber();
+};
+
+
 
 export default null;

@@ -87,6 +87,7 @@ export interface PoolConfig {
   TopImage?: string;
   tokenName: string;
   tokenAdressInLp: string;
+  tokenAddressSecondInLp:string;
   tokenAddress: string;
   stakingTokenName: QuoteToken;
   quoteTokenSymbol: QuoteToken;

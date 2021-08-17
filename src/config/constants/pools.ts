@@ -39,6 +39,7 @@ const pools: PoolConfig[] = [
     sousId: 1,
     tokenName: "MAHA-CNT",
     tokenAdressInLp: "0xeDd6cA8A4202d4a36611e2fff109648c4863ae19",
+    tokenAddressSecondInLp : "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
     tokenAddress: "0x577aa7cAcBAd94cC0cC12a17209570a1D06bda3A", // maha
     stakingTokenName: QuoteToken.LP,
     quoteTokenSymbol: QuoteToken.MAHA,
@@ -77,6 +78,7 @@ const pools: PoolConfig[] = [
     tokenName: "CNT",
     tokenAdressInLp: "0xc8bcb58caEf1bE972C0B638B1dD8B0748Fdc8A44",
     tokenAddress: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // maha
+    tokenAddressSecondInLp : "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
     stakingTokenName: QuoteToken.CNT,
     quoteTokenSymbol: QuoteToken.CNT,
     stakingTokenAddress: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // lp
@@ -110,6 +112,7 @@ const pools: PoolConfig[] = [
     sousId: 3,
     tokenName: "CNT-ARTH",
     tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
+    tokenAddressSecondInLp : "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
     tokenAddress: "0x9fDe8873DEe5f221023BFEb7b42d503EBCDdcDbD", //  lp
     stakingTokenName: QuoteToken.LP,
     quoteTokenSymbol: QuoteToken.MAHA,
@@ -143,7 +146,8 @@ const pools: PoolConfig[] = [
   {
     sousId: 4,
     tokenName: "MAHA-ARTH",
-    tokenAdressInLp: "0xeDd6cA8A4202d4a36611e2fff109648c4863ae19", // maha
+    tokenAdressInLp: "0xeDd6cA8A4202d4a36611e2fff109648c4863ae19", // maha,
+    tokenAddressSecondInLp : "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
     tokenAddress: "0x881a4c22a1aC1544b40C2AF1d12e4bBC49593a30", //  lp
     stakingTokenName: QuoteToken.LP,
     quoteTokenSymbol: QuoteToken.MAHA,
@@ -178,6 +182,7 @@ const pools: PoolConfig[] = [
     sousId: 5,
     tokenName: "ARTH-USDC",
     tokenAdressInLp: "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
+    tokenAddressSecondInLp : "0x2791bca1f2de4661ed88a30c99a7a9449aa84174", // arth
     tokenAddress: "0x998D543F618194A519156672E77756F8F6415A0d", //  lp
     stakingTokenName: QuoteToken.LP,
     quoteTokenSymbol: QuoteToken.MAHA,
