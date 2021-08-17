@@ -154,26 +154,26 @@ export default {
   winnerLottery2: {
     56: "",
     97: "",
-    80001: "0x53bc13488E7D88a888b3106eC5E8C1e71E09b83D",
-    137: "",
+    80001: "0x43E386E32D17e325e1601db9Ad1C35eAD3e17a28",
+    137: "0x4C544Daf1dC9f0C4f34E9c3620cd10bDb8b15a73",
   },
   loserLottery2: {
     56: "",
     97: "",
-    80001: "0xe736A78d097eDcF60C7A8217185F3e4c8Ddfd36c",
-    137: "",
+    80001: "0xf32EE32d4F08629014516AdCa0473f3C3C0c1ac7",
+    137: "0x3B3b97D186A019c55078d2f7163f23FE349B586c",
   },
   lotteryARTH: {
     56: "",
     97: "",
     80001: "0x7085798475A01f1C4e787069433abA4518A6456B",
-    137: "",
+    137: "0xe52509181feb30eb4979e29ec70d50fd5c44d590",
   },
   lotteryLARTH: {
     56: "",
     97: "",
     80001: "0x3661901C42D416f26Eb6c8DD094fFE47EF158726",
-    137: "",
+    137: "0x20a2D84ec22F47B07d6A20209D84Bb7544ac5E95",
   },
   rewardManager: {
     56: "",

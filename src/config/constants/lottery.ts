@@ -1,6 +1,8 @@
 import Addresses from "config/constants/contracts";
 import USDClogo from "images/USDClogo.png";
 import LUSDlogo from "images/LUSDlogo.png";
+import ARTHXlogo from "images/ARTHXlogo.png";
+import LARTHXlogo from "images/LARTHXlogo.png";
 import { LotteryInfoProps } from "./types";
 
 const LotteryInfo: LotteryInfoProps[] = [
@@ -32,7 +34,7 @@ const LotteryInfo: LotteryInfoProps[] = [
       tokenName: "ARTH",
       tokenAddress: Addresses.lotteryARTH[80001],
       tokenDecimals: 18,
-      tokenLogo: USDClogo,
+      tokenLogo: ARTHXlogo,
       rewardToken: "ARTH",
     },
     loserLottery: {
@@ -40,9 +42,9 @@ const LotteryInfo: LotteryInfoProps[] = [
       tokenName: "LARTH",
       tokenAddress: Addresses.lotteryLARTH[80001],
       tokenDecimals: 18,
-      tokenLogo: USDClogo,
+      tokenLogo: LARTHXlogo,
       metamaskImg:
-        "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10300.png",
+        "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10309.png",
       rewardToken: "MAHA",
     },
   },
