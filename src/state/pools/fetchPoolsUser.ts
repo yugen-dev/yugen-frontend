@@ -3,9 +3,10 @@ import sousChefABI from "config/abi/sousChef.json";
 import erc20ABI from "config/abi/erc20.json";
 import { QuoteToken } from "config/constants/types";
 import multicall from "utils/multicall";
-import { getAddress } from "utils/addressHelpers";
+import { getAddress, getHybridStakingAddress } from "utils/addressHelpers";
 import { getWeb3NoAccount } from "utils/web3";
 import BigNumber from "bignumber.js";
+import { getHybridStakingContract } from "utils/contractHelpers";
 
 // Pool 0, Cake / Cake is a different kind of contract (master chef)
 // BNB pools use the native BNB token (wrapping ? unwrapping is done at the contract level)
@@ -15,7 +16,8 @@ const nonBnbPools = poolsConfig.filter(
 const bnbPools = poolsConfig.filter(
   (p) => p.stakingTokenName === QuoteToken.BNB
 );
-const nonMasterPools = poolsConfig;
+
+const nonMasterPools = poolsConfig.filter((p) => p.sousId !== 0);
 const web3 = getWeb3NoAccount();
 
 export const fetchPoolsAllowance = async (account) => {
@@ -81,8 +83,12 @@ export const fetchUserStakeBalances = async (account) => {
   );
 
   // Cake / Cake pool
+  const contract = getHybridStakingContract();
+  const { amount: masterPoolAmount } = await contract.methods
+    .userInfo("0", account)
+    .call();
 
-  return { ...stakedBalances };
+  return { ...stakedBalances, 0: new BigNumber(masterPoolAmount).toJSON() };
 };
 
 export const fetchUserPendingRewards = async (account) => {
@@ -102,8 +108,15 @@ export const fetchUserPendingRewards = async (account) => {
   );
 
   // Cake / Cake pool
+  const contract = getHybridStakingContract();
+  const pendingRewardHybridStaking = await contract.methods
+    .pendingCNT("0", account)
+    .call();
 
-  return { ...pendingRewards };
+  return {
+    ...pendingRewards,
+    0: new BigNumber(pendingRewardHybridStaking).toJSON(),
+  };
 };
 
 export const fetchPoolUserCanHarvestPendingReward = async (account) => {

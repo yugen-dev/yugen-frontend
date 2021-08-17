@@ -578,6 +578,13 @@
       "symbol": "wMatic Dfyn",
       "decimals": 18,
       "logoURI": "https://cryptologos.cc/logos/matic-network-matic-logo.svg?v=006"
+    },
+    { "chainId": 137,
+      "address": "0xE52509181FEb30EB4979E29EC70D50FD5C44D590",
+      "name": "ARTH",
+      "symbol": "ARTH",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/cryption-network/polydex-token-list/main/arth.png"
     }
   ]
 }

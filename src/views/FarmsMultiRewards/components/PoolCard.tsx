@@ -193,6 +193,8 @@ const PoolCard: React.FC<HarvestProps> = ({
     const priceoflp = tokenPriceVsQuote
       ? new BigNumber(tokenPriceVsQuote)
       : new BigNumber(1);
+      console.log("hello")
+      console.log(tokenPriceVsQuote)
 
     const currentTokenApy = getPoolApy(
       priceoflp.toNumber(),
