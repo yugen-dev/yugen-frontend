@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import { useWeb3React } from "@web3-react/core";
 import { Heading, Text, LinkExternal } from "cryption-uikit";
-import LotteryInfo from 'config/constants/lottery';
+import LotteryInfo from "config/constants/lottery";
 import FirstChanceCard from "./components/FirstChanceCard";
 import SecondChanceCard from "./components/SecondChanceCard";
 
@@ -67,9 +67,12 @@ const Lottery = () => {
 const PageSubContainer = styled.div`
   margin-top: 20px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
   margin-bottom: 40px;
+  border-radius: 20px;
+  border: 3px solid #86878f;
 `;
 
 const Container = styled.div`

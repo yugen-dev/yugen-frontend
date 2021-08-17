@@ -284,7 +284,7 @@ const Label = styled.div`
   font-size: 18px;
   text-align: left;
   width: 100%;
-  margin-right: 30px;
+  /* margin-right: 30px; */
 `;
 const Text = styled.div`
   color: #86878f;
@@ -296,7 +296,7 @@ const Text = styled.div`
 
 const CardContainer = styled.div`
   width: 100%;
-  max-width: 400px;
+  max-width: 320px;
   padding: 1px;
   background: linear-gradient(to bottom, #2082e9, #9208fe);
   border-radius: 15px;
@@ -306,7 +306,7 @@ const CardContainer = styled.div`
 const Card = styled.div`
   background-color: #1a1b23;
   border-radius: 15px;
-  padding: 40px 27px 27px 27px;
+  padding: 10px 1px 1px 20px;
 `;
 
 export default memo(FirstChanceCard);
