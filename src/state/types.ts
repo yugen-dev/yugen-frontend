@@ -51,6 +51,8 @@ export interface Pool extends PoolConfig {
   quoteTokenAmount?: BigNumber;
   lpTotalInQuoteToken?: BigNumber;
   tokenPriceVsQuote?: BigNumber;
+  quoteTokenSecondAmount?:BigNumber;
+  quoteTokeFirstAmount?:BigNumber;
   userData?: {
     allowance: BigNumber;
     stakingTokenBalance: BigNumber;
