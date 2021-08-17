@@ -7,7 +7,7 @@ import { useToast } from "state/hooks";
 import BigNumber from "bignumber.js";
 import {
   getERC20Contract,
-  getWinnerLotteryContract,
+  getWinnerLottery2Contract,
 } from "utils/contractHelpers";
 import Loader from "./Loader";
 import BtnLoader from "./BtnLoader";
@@ -33,7 +33,7 @@ const WinnerBtnContainer = ({
     setBtnLoading(() => true);
 
     try {
-      const lotterySmartContract = getWinnerLotteryContract(web3);
+      const lotterySmartContract = getWinnerLottery2Contract(web3);
       await lotterySmartContract.methods.enterLottery().send({ from: account });
       await loadBlockchainData();
       toastSuccess("Congrats", "You have successfully entered the lottery");
@@ -65,7 +65,7 @@ const WinnerBtnContainer = ({
     toastInfo("Processing...", "Settling the lottery");
     setBtnLoading(() => true);
 
-    const lotterySmartContract = getWinnerLotteryContract(web3);
+    const lotterySmartContract = getWinnerLottery2Contract(web3);
     try {
       await lotterySmartContract.methods
         .settleLottery()
