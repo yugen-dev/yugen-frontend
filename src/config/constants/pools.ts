@@ -213,6 +213,41 @@ const pools: PoolConfig[] = [
     metamaskImg:
       "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/maha-cnt.png",
   },
+  {
+    sousId: 6,
+    tokenName: "ARTHX-ARTH",
+    tokenAdressInLp: "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
+    tokenAddressSecondInLp : "0xD354D56DaE3588F1145dd664bc5094437b889d6F", // arthx
+    tokenAddress: "0xf7902421cA73098e79d16a230727Ab7B3104cB0e", //  lp
+    stakingTokenName: QuoteToken.LP,
+    quoteTokenSymbol: QuoteToken.MAHA,
+    stakingTokenAddress: "0xf7902421cA73098e79d16a230727Ab7B3104cB0e", // lp
+    contractAddress: {
+      97: "",
+      56: "",
+      80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
+      137: "0xFf64138D4bf53dd5D5ba2ac166Ab064D7a073a86", // staking pool arth-maha
+    },
+    poolCategory: PoolCategory.CORE,
+    projectLink: "https://cryption.network/",
+    multiReward: ["CNT", "MAHA"],
+    stakingTokenCoinGeckoid: "MahaDAO",
+    rewardTokenCoinGeckoid: "",
+    coinGeckoIds: [
+      "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
+      "0xeDd6cA8A4202d4a36611e2fff109648c4863ae19", // maha
+    ],
+    multiRewardTokenPerBlock: ["0.0018105009", "0.0018105009"],
+    harvest: true,
+    tokenPerBlock: "1",
+    sortOrder: 999,
+    isFinished: false,
+    tokenDecimals: 18,
+    TopImage:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/maha-cnt.png",
+    metamaskImg:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/maha-cnt.png",
+  },
   
   // {
   //   sousId: 0,

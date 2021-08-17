@@ -187,9 +187,10 @@ export const fetchPoolsLpData = async () => {
       const quoteTokenAmount = new BigNumber(quoteTokenBlanceLP)
         .div(new BigNumber(10).pow(quoteTokenDecimals))
         .times(lpTokenRatio);
-        const quoteTokenSecondAmount = new BigNumber(secondTokenInLpBalance).div(new BigNumber(10).pow(secondTokenInLpDecimal));
+        const quoteTokenSecondAmount = new BigNumber(secondTokenInLpBalance).div(new BigNumber(10).pow(secondTokenInLpDecimal)).times(lpTokenRatio);
         const quoteTokeFirstAmount   = new BigNumber(quoteTokenBlanceLP)
         .div(new BigNumber(10).pow(quoteTokenDecimals))
+        .times(lpTokenRatio);
       return {
         ...farmConfig,
         tokenAmount: tokenAmount.toJSON(),

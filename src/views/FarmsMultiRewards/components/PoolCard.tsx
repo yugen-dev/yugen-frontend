@@ -84,6 +84,7 @@ const PoolCard: React.FC<HarvestProps> = ({
   } = pool;
 
   const tokenInLpPrice = UseGetApiPrice(pool.tokenAdressInLp);
+
   const tokenInLpSeconPrice = UseGetApiPrice(pool.tokenAddressSecondInLp);
 
   const totalValue: BigNumber = useMemo(() => {
@@ -94,7 +95,7 @@ const PoolCard: React.FC<HarvestProps> = ({
  
     if (stakingTokenName === QuoteToken.LP) {
       return tokenInLpSeconPrice && tokenInLpPrice
-        ? (new BigNumber(tokenInLpPrice).times(quoteTokeFirstAmount)).plus((new BigNumber(tokenInLpSeconPrice).times(new BigNumber(quoteTokenSecondAmount))))
+        ? (new BigNumber(tokenInLpPrice).multipliedBy(quoteTokeFirstAmount)).plus((new BigNumber(tokenInLpSeconPrice).multipliedBy(new BigNumber(quoteTokenSecondAmount))))
         : new BigNumber(100000);
     }
    
@@ -203,7 +204,12 @@ const PoolCard: React.FC<HarvestProps> = ({
     // const priceoflp = tokenPriceVsQuote
     //   ? new BigNumber(tokenPriceVsQuote).plus(new BigNumber(tokenInLpPrice))
     //   : new BigNumber(1);
-
+    // console.log(pool.sousId)
+//     console.log(pool.multiReward[i])
+// console.log( (new BigNumber(tokenInLpPrice).times(quoteTokeFirstAmount)).plus((new BigNumber(tokenInLpSeconPrice).times(new BigNumber(quoteTokenSecondAmount)))).toNumber())
+// console.log((new BigNumber(tokenInLpSeconPrice).times(new BigNumber(quoteTokenSecondAmount))).toNumber())
+// console.log(quoteTokeFirstAmount)
+// console.log(quoteTokenSecondAmount)
     const currentTokenApy = getPoolApyMultiRewards(
       (new BigNumber(tokenInLpPrice).times(quoteTokeFirstAmount)).plus((new BigNumber(tokenInLpSeconPrice).times(new BigNumber(quoteTokenSecondAmount)))).toNumber(),
       rewardTokenPrice.toNumber(),
