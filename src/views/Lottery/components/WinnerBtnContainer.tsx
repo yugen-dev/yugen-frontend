@@ -5,14 +5,46 @@ import { Button, AutoRenewIcon } from "cryption-uikit";
 import UnlockButton from "components/UnlockButton";
 import { useToast } from "state/hooks";
 import BigNumber from "bignumber.js";
-import {
-  getERC20Contract,
-  getWinnerLotteryContract,
-} from "utils/contractHelpers";
+import { getERC20Contract, getContract } from "utils/contractHelpers";
+import lotteryAbi from "config/abi/lottery.json";
 import Loader from "./Loader";
 import BtnLoader from "./BtnLoader";
 
-const WinnerBtnContainer = ({ fetchValue, account, tokenInfo }) => {
+interface FetchValueProps {
+  lotterySize: string;
+  payout: string;
+  yourBalance: string;
+  allowance: string;
+  size: string;
+  lotteryStatus: string;
+  players: string;
+  winners: string;
+  winnerReturn: string;
+  settling: boolean;
+}
+
+interface TokenInfoProps {
+  lotteryAddress: string;
+  tokenName: string;
+  tokenAddress: string;
+  tokenDecimals: number;
+  metamaskImg?: string;
+  rewardToken: string;
+}
+
+interface WinnerBtnContainerProps {
+  fetchValue: FetchValueProps;
+  account: string | undefined;
+  loadBlockchainData: any;
+  tokenInfo: TokenInfoProps;
+}
+
+const WinnerBtnContainer: React.FC<WinnerBtnContainerProps> = ({
+  fetchValue,
+  account,
+  tokenInfo,
+  loadBlockchainData,
+}) => {
   const [btnLoading, setBtnLoading] = useState(false);
 
   const allowanceBN = new BigNumber(fetchValue.allowance);
@@ -28,8 +60,13 @@ const WinnerBtnContainer = ({ fetchValue, account, tokenInfo }) => {
     setBtnLoading(() => true);
 
     try {
-      const lotterySmartContract = getWinnerLotteryContract(web3);
+      const lotterySmartContract = getContract(
+        lotteryAbi,
+        tokenInfo.lotteryAddress,
+        web3
+      );
       await lotterySmartContract.methods.enterLottery().send({ from: account });
+      await loadBlockchainData();
       toastSuccess("Congrats", "You have successfully entered the lottery");
       setBtnLoading(() => false);
     } catch (e) {
@@ -43,14 +80,34 @@ const WinnerBtnContainer = ({ fetchValue, account, tokenInfo }) => {
     setBtnLoading(() => true);
 
     try {
-      const ERC20SmartContract = getERC20Contract(tokenInfo.tokenAddr, web3);
+      const ERC20SmartContract = getERC20Contract(tokenInfo.tokenAddress, web3);
       await ERC20SmartContract.methods
-        .approve(tokenInfo.lotteryAddr, web3.utils.toBN(infiniteValue))
+        .approve(tokenInfo.lotteryAddress, web3.utils.toBN(infiniteValue))
         .send({ from: account });
       toastSuccess("Success", "Account successfully approved");
       setBtnLoading(() => false);
     } catch (e) {
       toastError("Error", "Could not approve your account");
+      setBtnLoading(() => false);
+    }
+  };
+
+  const handleSettleLottery = async () => {
+    toastInfo("Processing...", "Settling the lottery");
+    setBtnLoading(() => true);
+
+    const lotterySmartContract = getContract(
+      lotteryAbi,
+      tokenInfo.lotteryAddress,
+      web3
+    );
+    try {
+      await lotterySmartContract.methods
+        .settleLottery()
+        .send({ from: account });
+      setBtnLoading(() => false);
+    } catch (e) {
+      toastError("Error", "Failed to settle the lottery");
       setBtnLoading(() => false);
     }
   };
@@ -73,11 +130,8 @@ const WinnerBtnContainer = ({ fetchValue, account, tokenInfo }) => {
               <>
                 {fetchValue.settling ? (
                   <ButtonContainer>
-                    <Button
-                      isLoading
-                      endIcon={<AutoRenewIcon spin color="currentColor" />}
-                    >
-                      Settling...
+                    <Button onClick={handleSettleLottery}>
+                      Settle Lottery
                     </Button>
                   </ButtonContainer>
                 ) : (
