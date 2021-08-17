@@ -201,7 +201,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
       console.log({ farmAddress });
       // const getEthBal = getFullDisplayBalance(ethBal);
       console.log(farm.pid, { lpAddress }, { singleSidedAddress }, { farmAddress })
-      const onCrossChainoneSidedFarm = await universalOneSidedFarm.methods.crossChainOneSidedFarm('0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', false, 0, farm.pid, lpAddress, singleSidedAddress, farmAddress, 1).send({ from: account, value: web3.utils.toWei('0.12', 'ether') });
+      const onCrossChainoneSidedFarm = await universalOneSidedFarm.methods.crossChainOneSidedFarm('0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', false, 0, farm.pid, lpAddress, singleSidedAddress, farmAddress, 1).send({ from: account, value: web3.utils.toWei('0.0012', 'ether') });
         console.log('txhash is ', onCrossChainoneSidedFarm);
     } catch (error) {
       console.log('error is', error);
