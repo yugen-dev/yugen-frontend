@@ -29,10 +29,3 @@ export const CNT_CIRCULATING_SUPPLY_LINK =
   "https://api.cryption.network/circulating-supply";
 export const CNT_TOTAL_SUPPLY_LINK =
   "https://api.cryption.network/total-supply";
-
-// Lottery
-export const WinnerLotteryAddress =
-  "0x653441299ec28E0301d640006E2ceC4776ebA671";
-export const LoserLotteryAddress = "0xC598adCEBfB0E3503149142A663f65B5ac2482f1";
-export const LotteryUSDC = "0x2791bca1f2de4661ed88a30c99a7a9449aa84174";
-export const LotteryLUSD = "0xb032512A23Ef041bEc2e48e9b3f07286408B2B26";

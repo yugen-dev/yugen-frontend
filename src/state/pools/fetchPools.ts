@@ -137,6 +137,16 @@ export const fetchPoolsLpData = async () => {
           address: farmConfig.tokenAdressInLp,
           name: "decimals",
         },
+        {
+          address: farmConfig.tokenAddressSecondInLp,
+          name: "balanceOf",
+          params: [lpAdress],
+        },
+        {
+          address: farmConfig.tokenAddressSecondInLp,
+          name: "decimals",
+        },
+
       ];
 
       const [
@@ -146,6 +156,8 @@ export const fetchPoolsLpData = async () => {
         lpTotalSupply,
         tokenDecimals,
         quoteTokenDecimals,
+        secondTokenInLpBalance,
+        secondTokenInLpDecimal
       ] = await multicall(erc20, calls);
       // console.log({
       //   tokenBalanceLP: tokenBalanceLP.toString(),
@@ -154,6 +166,8 @@ export const fetchPoolsLpData = async () => {
       //   lpTotalSupply: lpTotalSupply.toString(),
       //   tokenDecimals: tokenDecimals.toString(),
       //   quoteTokenDecimals: quoteTokenDecimals.toString(),
+      //   secondTokenInLpBalance : secondTokenInLpBalance.toString(),
+      //   secondTokenInLpDecimal:secondTokenInLpDecimal.toString()
       // });
       // Ratio in % a LP tokens that are in staking, vs the total number in circulation
       const lpTokenRatio = new BigNumber(lpTokenBalanceMC).div(
@@ -173,12 +187,17 @@ export const fetchPoolsLpData = async () => {
       const quoteTokenAmount = new BigNumber(quoteTokenBlanceLP)
         .div(new BigNumber(10).pow(quoteTokenDecimals))
         .times(lpTokenRatio);
-
+        const quoteTokenSecondAmount = new BigNumber(secondTokenInLpBalance).div(new BigNumber(10).pow(secondTokenInLpDecimal)).times(lpTokenRatio);
+        const quoteTokeFirstAmount   = new BigNumber(quoteTokenBlanceLP)
+        .div(new BigNumber(10).pow(quoteTokenDecimals))
+        .times(lpTokenRatio);
       return {
         ...farmConfig,
         tokenAmount: tokenAmount.toJSON(),
         quoteTokenAmount: quoteTokenAmount.toJSON(),
         lpTotalInQuoteToken: lpTotalInQuoteToken.toJSON(),
+        quoteTokenSecondAmount : quoteTokenSecondAmount.toJSON(),
+        quoteTokeFirstAmount : quoteTokeFirstAmount.toJSON(),
         tokenPriceVsQuote: quoteTokenAmount.div(tokenAmount).toJSON(),
       };
     })

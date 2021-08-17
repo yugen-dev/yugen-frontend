@@ -2,14 +2,14 @@ import React, { memo, useEffect, useState } from "react";
 import styled from "styled-components";
 import Web3 from "web3";
 import erc20 from "config/abi/erc20.json";
-import LotteryABI from "config/abi/LotteryABI.json";
 import multicall from "utils/multicall";
-import { LoserLotteryAddress } from "config/index";
 import { MetamaskIcon } from "cryption-uikit";
 import { registerToken } from "utils/wallet";
 import { useToast } from "state/hooks";
 import BigNumber from "bignumber.js";
 import QuestionHelper from "components/QuestionHelper";
+import Addresses from "config/constants/contracts";
+import lotteryABI from "config/abi/lottery.json";
 import LUSDlogo from "../images/LUSDlogo.png";
 import Loader from "./Loader";
 import StatusLoader from "./StatusLoader";
@@ -51,25 +51,25 @@ const SecondChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
         let registrationAmount;
         const calls = [
           {
-            address: LoserLotteryAddress,
+            address: Addresses.loserLottery[137],
             name: "getCurrentlyActivePlayers",
           },
           {
-            address: LoserLotteryAddress,
+            address: Addresses.loserLottery[137],
             name: "lotteryStatus",
           },
           {
-            address: LoserLotteryAddress,
+            address: Addresses.loserLottery[137],
             name: "getWinningAmount",
           },
           {
-            address: LoserLotteryAddress,
+            address: Addresses.loserLottery[137],
             name: "lotteryConfig",
           },
         ];
         /* eslint-disable   prefer-const */
         let [currActivePlayers, lotteryStatus, payout, lotteryConfig] =
-          await multicall(LotteryABI, calls);
+          await multicall(lotteryABI, calls);
 
         playersLimit = new BigNumber(lotteryConfig[1].toString());
         registrationAmount = new BigNumber(lotteryConfig[2].toString());

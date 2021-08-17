@@ -569,7 +569,14 @@
       "name": "ARTH",
       "symbol": "ARTH",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/cryption-network/polydex-token-list/main/arth.png"
+      "logoURI": "https://raw.githubusercontent.com/cryption-network/polydex-token-list/main/arth96_96.png"
+    },
+    { "chainId": 137,
+      "address": "0xD354D56DaE3588F1145dd664bc5094437b889d6F",
+      "name": "ARTHX",
+      "symbol": "ARTHX",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/cryption-network/polydex-token-list/main/arth96_96.png"
     },
     {
       "chainId": 137,
