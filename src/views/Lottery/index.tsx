@@ -1,11 +1,91 @@
 /* eslint-disable import/no-named-as-default */
 import React from "react";
 import styled from "styled-components";
+import Addresses from "config/constants/contracts";
+import { useWeb3React } from "@web3-react/core";
 import { Heading, Text, LinkExternal } from "cryption-uikit";
-import Lottery1 from "./Lottery1";
-import Lottery2 from "./Lottery2";
+import USDClogo from "images/USDClogo.png";
+import LUSDlogo from "images/LUSDlogo.png";
+import FirstChanceCard from "./components/FirstChanceCard";
+import SecondChanceCard from "./components/SecondChanceCard";
+
+interface LotteryInfoProps {
+  lotteryId: number;
+  winnerLottery: {
+    lotteryAddress: string;
+    tokenName: string;
+    tokenAddress: string;
+    tokenDecimals: number;
+    tokenLogo: any;
+    metamaskImg?: string;
+    rewardToken: string;
+  };
+  loserLottery: {
+    lotteryAddress: string;
+    tokenName: string;
+    tokenAddress: string;
+    tokenLogo: any;
+    tokenDecimals: number;
+    metamaskImg?: string;
+    rewardToken: string;
+  };
+}
 
 const Lottery = () => {
+  const { account } = useWeb3React("web3");
+
+  const LotteryInfo: LotteryInfoProps[] = [
+    {
+      lotteryId: 1,
+      winnerLottery: {
+        lotteryAddress: Addresses.winnerLottery[80001],
+        tokenName: "USDC",
+        tokenAddress: Addresses.lotteryUSDC[80001],
+        tokenDecimals: 6,
+        tokenLogo: USDClogo,
+        rewardToken: "USDC",
+      },
+      loserLottery: {
+        lotteryAddress: Addresses.loserLottery[80001],
+        tokenName: "LUSD",
+        tokenAddress: Addresses.lotteryLUSD[80001],
+        tokenDecimals: 18,
+        tokenLogo: LUSDlogo,
+        metamaskImg:
+          "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10300.png",
+        rewardToken: "CNT",
+      },
+    },
+    {
+      lotteryId: 2,
+      winnerLottery: {
+        lotteryAddress: Addresses.winnerLottery2[80001],
+        tokenName: "ARTH",
+        tokenAddress: Addresses.lotteryARTH[80001],
+        tokenDecimals: 18,
+        tokenLogo: USDClogo,
+        rewardToken: "ARTH",
+      },
+      loserLottery: {
+        lotteryAddress: Addresses.loserLottery2[80001],
+        tokenName: "LARTH",
+        tokenAddress: Addresses.lotteryLARTH[80001],
+        tokenDecimals: 18,
+        tokenLogo: USDClogo,
+        metamaskImg:
+          "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10300.png",
+        rewardToken: "MAHA",
+      },
+    },
+  ];
+
+  const tooltipInfo = {
+    playersText:
+      "Represents players in the lottery out of the total users needed.",
+    payoutText: "The amount a user receives if he wins.",
+    winnersROIText: "The profit users make if he wins the lottery.",
+  };
+
   return (
     <>
       <Page>
@@ -34,12 +114,32 @@ const Lottery = () => {
             </LinkExternal>
           </Text>
         </Container>
-        <Lottery1 />
-        <Lottery2 />
+        {LotteryInfo.map((lottery) => (
+          <PageSubContainer key={lottery.lotteryId}>
+            <FirstChanceCard
+              account={account}
+              tokenInfo={lottery.winnerLottery}
+              tooltipInfo={tooltipInfo}
+            />
+            <SecondChanceCard
+              account={account}
+              tokenInfo={lottery.loserLottery}
+              tooltipInfo={tooltipInfo}
+            />
+          </PageSubContainer>
+        ))}
       </Page>
     </>
   );
 };
+
+const PageSubContainer = styled.div`
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+`;
 
 const Container = styled.div`
   margin-left: auto;

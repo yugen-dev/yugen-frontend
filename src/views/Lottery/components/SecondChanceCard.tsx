@@ -1,110 +1,114 @@
 import React, { memo, useEffect, useState } from "react";
 import styled from "styled-components";
-import QuestionHelper from "components/QuestionHelper";
-import erc20 from "config/abi/erc20.json";
 import Web3 from "web3";
+import erc20 from "config/abi/erc20.json";
+import multicall from "utils/multicall";
+import { MetamaskIcon } from "cryption-uikit";
+import { registerToken } from "utils/wallet";
 import { useToast } from "state/hooks";
 import BigNumber from "bignumber.js";
-import multicall from "utils/multicall";
+import QuestionHelper from "components/QuestionHelper";
 import lotteryABI from "config/abi/lottery.json";
-import USDClogo from "../../images/USDClogo.png";
 import Loader from "./Loader";
 import StatusLoader from "./StatusLoader";
-import WinnerBtnContainer from "./WinnerBtnContainer";
+import LoserBtnContainer from "./LoserBtnContainer";
 
-const FirstChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
+interface TokenInfoProps {
+  lotteryAddress: string;
+  tokenName: string;
+  tokenAddress: string;
+  tokenDecimals: number;
+  tokenLogo: any;
+  metamaskImg?: string;
+  rewardToken: string;
+}
+
+interface TooltipInfoProps {
+  playersText: string;
+  payoutText: string;
+  winnersROIText?: string;
+}
+
+interface SecondChanceCardProps {
+  account: string | undefined;
+  tokenInfo: TokenInfoProps;
+  tooltipInfo: TooltipInfoProps;
+}
+
+const SecondChanceCard: React.FC<SecondChanceCardProps> = ({
+  account,
+  tokenInfo,
+  tooltipInfo,
+}) => {
   const { toastError } = useToast();
   const web3 = new Web3(window.ethereum);
 
   const [fetchValue, setFetchValue] = useState({
     lotterySize: "",
+    size: "",
+    allowance: "",
     payout: "",
     yourBalance: "",
-    allowance: "",
-    size: "",
     lotteryStatus: "",
     players: "",
-    winners: "",
-    winnerReturn: "",
     settling: false,
   });
 
-  const { playersText, payoutText, winnersROIText } = tooltipInfo;
+  const { playersText, payoutText } = tooltipInfo;
 
   const loadBlockchainData = async () => {
     const networkId = await web3.eth.net.getId();
 
     if (networkId === 80001 && account) {
       try {
-        let numOfWinners;
         let playersLimit;
         let registrationAmount;
-
         const calls = [
           {
-            address: tokenInfo.lotteryAddr,
+            address: tokenInfo.lotteryAddress,
             name: "getCurrentlyActivePlayers",
           },
           {
-            address: tokenInfo.lotteryAddr,
+            address: tokenInfo.lotteryAddress,
             name: "lotteryStatus",
           },
           {
-            address: tokenInfo.lotteryAddr,
+            address: tokenInfo.lotteryAddress,
             name: "getWinningAmount",
           },
           {
-            address: tokenInfo.lotteryAddr,
+            address: tokenInfo.lotteryAddress,
             name: "lotteryConfig",
           },
         ];
         /* eslint-disable   prefer-const */
         let [currActivePlayers, lotteryStatus, payout, lotteryConfig] =
           await multicall(lotteryABI, calls);
-        // @ts-ignore
 
-        numOfWinners = new BigNumber(lotteryConfig[0].toString()).toNumber();
-        playersLimit = new BigNumber(lotteryConfig[1].toString()).toNumber();
-        registrationAmount = new BigNumber(
-          lotteryConfig[2].toString()
-        ).toNumber();
-
-        currActivePlayers = new BigNumber(currActivePlayers).toNumber();
-        lotteryStatus = new BigNumber(lotteryStatus).toNumber();
-        payout = new BigNumber(payout).toNumber();
+        playersLimit = new BigNumber(lotteryConfig[1].toString());
+        registrationAmount = new BigNumber(lotteryConfig[2].toString());
 
         const callsErc20 = [
           {
-            address: tokenInfo.tokenAddr,
+            address: tokenInfo.tokenAddress,
             name: "balanceOf",
             params: [account],
           },
           {
-            address: tokenInfo.tokenAddr,
+            address: tokenInfo.tokenAddress,
             name: "allowance",
-            params: [account, tokenInfo.lotteryAddr],
+            params: [account, tokenInfo.lotteryAddress],
           },
         ];
 
         let [balance, allowance] = await multicall(erc20, callsErc20);
 
-        balance = new BigNumber(balance).toNumber();
-        allowance = new BigNumber(allowance).toNumber();
+        balance = new BigNumber(balance);
+        allowance = new BigNumber(allowance);
 
-        const winnerROI = new BigNumber(payout)
-          .minus(new BigNumber(registrationAmount))
-          .dividedBy(new BigNumber(registrationAmount))
-          .multipliedBy(100)
+        const genLotterySize = new BigNumber(registrationAmount)
+          .div(new BigNumber(10).pow(tokenInfo.tokenDecimals))
           .toString();
-
-        const genLotterySize = Number(
-          new BigNumber(registrationAmount).div(
-            new BigNumber(10).pow(tokenInfo.tokenDecimals)
-          )
-        )
-          .toFixed(2)
-          .toString()
-          .replace(/\.00$/, "");
 
         const genPayout = Number(
           new BigNumber(payout).div(
@@ -116,43 +120,36 @@ const FirstChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
           .replace(/\.00$/, "");
 
         const genBalance = Number(
-          new BigNumber(balance)
-            .div(new BigNumber(10).pow(tokenInfo.tokenDecimals))
-            .toString()
+          balance.div(new BigNumber(10).pow(tokenInfo.tokenDecimals))
         )
           .toFixed(2)
           .toString()
           .replace(/\.00$/, "");
 
-        const genWinnerReturn = Number(winnerROI)
-          .toFixed(2)
-          .toString()
-          .replace(/\.00$/, "");
-
         const genAllowance = Number(
-          new BigNumber(allowance).div(
-            new BigNumber(10).pow(tokenInfo.tokenDecimals)
-          )
+          allowance.div(new BigNumber(10).pow(tokenInfo.tokenDecimals))
         ).toString();
 
         let genSettling;
-        if (currActivePlayers === playersLimit) genSettling = true;
+        if (
+          new BigNumber(currActivePlayers).toNumber() ===
+          new BigNumber(playersLimit).toNumber()
+        )
+          genSettling = true;
         else genSettling = false;
 
         setFetchValue({
           lotterySize: `${genLotterySize} ${tokenInfo.tokenName}`,
           size: genLotterySize,
-          payout: `${genPayout} ${tokenInfo.tokenName}`,
-          yourBalance: `${genBalance} ${tokenInfo.tokenName}`,
           allowance: genAllowance,
+          payout: `${genPayout} ${tokenInfo.rewardToken}`,
+          yourBalance: `${genBalance} ${tokenInfo.tokenName}`,
           lotteryStatus: lotteryStatus.toString(),
           players: `${currActivePlayers} / ${playersLimit}`,
-          winners: numOfWinners.toString(),
-          winnerReturn: `${genWinnerReturn} %`,
           settling: genSettling,
         });
       } catch (err) {
-        console.error("Error while fetching 1st Lottery values: ", err);
+        console.error("Error while fetching 2nd Lottery values: ", err);
       }
     } else {
       toastError(
@@ -182,12 +179,12 @@ const FirstChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
       <Card>
         <LabelContainer>
           <Label style={{ fontSize: "24px" }}>
-            {tokenInfo.tokenName} Lottery
+            Second {tokenInfo.tokenName} Lottery
           </Label>
           <Text>
             <ImageContainer>
               <img
-                src={USDClogo}
+                src={tokenInfo.tokenLogo}
                 alt="Lottery Card Header"
                 width="70px"
                 style={{ maxWidth: "100px" }}
@@ -215,19 +212,6 @@ const FirstChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
         </LabelContainer>
 
         <LabelContainer>
-          <Label>Winners</Label>
-          <Loader value={fetchValue.winners} />
-        </LabelContainer>
-
-        <LabelContainer>
-          <Label>
-            Winner ROI
-            <QuestionHelper text={winnersROIText} />
-          </Label>
-          <Loader value={fetchValue.winnerReturn} />
-        </LabelContainer>
-
-        <LabelContainer>
           <Label>
             Payout
             <QuestionHelper text={payoutText} />
@@ -235,17 +219,50 @@ const FirstChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
           <Loader value={fetchValue.payout} />
         </LabelContainer>
 
-        <WinnerBtnContainer
+        <LoserBtnContainer
           fetchValue={fetchValue}
           account={account}
           tokenInfo={tokenInfo}
           loadBlockchainData={loadBlockchainData}
         />
+
+        <LinkContainer>
+          <TokenLink
+            onClick={() =>
+              registerToken(
+                tokenInfo.tokenAddress,
+                tokenInfo.tokenName,
+                tokenInfo.tokenDecimals,
+                tokenInfo.metamaskImg
+              )
+            }
+          >
+            Add {tokenInfo.tokenName} to Metamask
+          </TokenLink>
+          <MetamaskIcon height={15} width={15} ml="4px" />
+        </LinkContainer>
       </Card>
     </CardContainer>
   );
 };
 
+const LinkContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+`;
+
+const TokenLink = styled.a`
+  font-size: 14px;
+  text-decoration: none;
+  color: #2082e9;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
 const ImageContainer = styled.div``;
 const LabelContainer = styled.div`
   display: flex;
@@ -273,9 +290,10 @@ const CardContainer = styled.div`
   width: 100%;
   max-width: 400px;
   padding: 1px;
-  background: linear-gradient(to bottom, #2082e9, #9208fe);
+  /* background: linear-gradient(to bottom, #2082e9, #9208fe); */
   border-radius: 15px;
   margin: 20px;
+  height: 100%;
 `;
 
 const Card = styled.div`
@@ -284,4 +302,4 @@ const Card = styled.div`
   padding: 40px 27px 27px 27px;
 `;
 
-export default memo(FirstChanceCard);
+export default memo(SecondChanceCard);

@@ -7,12 +7,37 @@ import { useToast } from "state/hooks";
 import BigNumber from "bignumber.js";
 import multicall from "utils/multicall";
 import lotteryABI from "config/abi/lottery.json";
-import USDClogo from "../../images/USDClogo.png";
 import Loader from "./Loader";
 import StatusLoader from "./StatusLoader";
 import WinnerBtnContainer from "./WinnerBtnContainer";
 
-const FirstChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
+interface TokenInfoProps {
+  lotteryAddress: string;
+  tokenName: string;
+  tokenAddress: string;
+  tokenDecimals: number;
+  tokenLogo: any;
+  metamaskImg?: string;
+  rewardToken: string;
+}
+
+interface TooltipInfoProps {
+  playersText: string;
+  payoutText: string;
+  winnersROIText?: string;
+}
+
+interface FirstChanceCardProps {
+  account: string | undefined;
+  tokenInfo: TokenInfoProps;
+  tooltipInfo: TooltipInfoProps;
+}
+
+const FirstChanceCard: React.FC<FirstChanceCardProps> = ({
+  account,
+  tokenInfo,
+  tooltipInfo,
+}) => {
   const { toastError } = useToast();
   const web3 = new Web3(window.ethereum);
 
@@ -42,19 +67,19 @@ const FirstChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
 
         const calls = [
           {
-            address: tokenInfo.lotteryAddr,
+            address: tokenInfo.lotteryAddress,
             name: "getCurrentlyActivePlayers",
           },
           {
-            address: tokenInfo.lotteryAddr,
+            address: tokenInfo.lotteryAddress,
             name: "lotteryStatus",
           },
           {
-            address: tokenInfo.lotteryAddr,
+            address: tokenInfo.lotteryAddress,
             name: "getWinningAmount",
           },
           {
-            address: tokenInfo.lotteryAddr,
+            address: tokenInfo.lotteryAddress,
             name: "lotteryConfig",
           },
         ];
@@ -75,14 +100,14 @@ const FirstChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
 
         const callsErc20 = [
           {
-            address: tokenInfo.tokenAddr,
+            address: tokenInfo.tokenAddress,
             name: "balanceOf",
             params: [account],
           },
           {
-            address: tokenInfo.tokenAddr,
+            address: tokenInfo.tokenAddress,
             name: "allowance",
-            params: [account, tokenInfo.lotteryAddr],
+            params: [account, tokenInfo.lotteryAddress],
           },
         ];
 
@@ -142,7 +167,7 @@ const FirstChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
         setFetchValue({
           lotterySize: `${genLotterySize} ${tokenInfo.tokenName}`,
           size: genLotterySize,
-          payout: `${genPayout} ${tokenInfo.tokenName}`,
+          payout: `${genPayout} ${tokenInfo.rewardToken}`,
           yourBalance: `${genBalance} ${tokenInfo.tokenName}`,
           allowance: genAllowance,
           lotteryStatus: lotteryStatus.toString(),
@@ -187,7 +212,7 @@ const FirstChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
           <Text>
             <ImageContainer>
               <img
-                src={USDClogo}
+                src={tokenInfo.tokenLogo}
                 alt="Lottery Card Header"
                 width="70px"
                 style={{ maxWidth: "100px" }}
