@@ -5,17 +5,39 @@ import erc20 from "config/abi/erc20.json";
 import Web3 from "web3";
 import { useToast } from "state/hooks";
 import BigNumber from "bignumber.js";
-import Addresses from "config/constants/contracts";
 import multicall from "utils/multicall";
 import lotteryABI from "config/abi/lottery.json";
-import USDClogo from "../images/USDClogo.png";
-// import getLotterySmartContract from "../utils/getLotterySmartContract";
 import Loader from "./Loader";
 import StatusLoader from "./StatusLoader";
 import WinnerBtnContainer from "./WinnerBtnContainer";
-// import getERC20SmartContract from "../utils/getERC20SmartContract";
 
-const FirstChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
+interface TokenInfoProps {
+  lotteryAddress: string;
+  tokenName: string;
+  tokenAddress: string;
+  tokenDecimals: number;
+  tokenLogo: any;
+  metamaskImg?: string;
+  rewardToken: string;
+}
+
+interface TooltipInfoProps {
+  playersText: string;
+  payoutText: string;
+  winnersROIText?: string;
+}
+
+interface FirstChanceCardProps {
+  account: string | undefined;
+  tokenInfo: TokenInfoProps;
+  tooltipInfo: TooltipInfoProps;
+}
+
+const FirstChanceCard: React.FC<FirstChanceCardProps> = ({
+  account,
+  tokenInfo,
+  tooltipInfo,
+}) => {
   const { toastError } = useToast();
   const web3 = new Web3(window.ethereum);
 
@@ -38,32 +60,26 @@ const FirstChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
     const networkId = await web3.eth.net.getId();
 
     if (networkId === 137 && account) {
-      // const lotterySmartContract = await getLotterySmartContract("winner");
-      // const ERC20SmartContract = await getERC20SmartContract(
-      //   tokenInfo.tokenAddr
-      // );
-
       try {
         let numOfWinners;
         let playersLimit;
         let registrationAmount;
-        // await lotterySmartContract.methods.lotteryConfig().call();
 
         const calls = [
           {
-            address: Addresses.winnerLottery[137],
+            address: tokenInfo.lotteryAddress,
             name: "getCurrentlyActivePlayers",
           },
           {
-            address: Addresses.winnerLottery[137],
+            address: tokenInfo.lotteryAddress,
             name: "lotteryStatus",
           },
           {
-            address: Addresses.winnerLottery[137],
+            address: tokenInfo.lotteryAddress,
             name: "getWinningAmount",
           },
           {
-            address: Addresses.winnerLottery[137],
+            address: tokenInfo.lotteryAddress,
             name: "lotteryConfig",
           },
         ];
@@ -84,14 +100,14 @@ const FirstChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
 
         const callsErc20 = [
           {
-            address: tokenInfo.tokenAddr,
+            address: tokenInfo.tokenAddress,
             name: "balanceOf",
             params: [account],
           },
           {
-            address: tokenInfo.tokenAddr,
+            address: tokenInfo.tokenAddress,
             name: "allowance",
-            params: [account, tokenInfo.lotteryAddr],
+            params: [account, tokenInfo.lotteryAddress],
           },
         ];
 
@@ -151,7 +167,7 @@ const FirstChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
         setFetchValue({
           lotterySize: `${genLotterySize} ${tokenInfo.tokenName}`,
           size: genLotterySize,
-          payout: `${genPayout} ${tokenInfo.tokenName}`,
+          payout: `${genPayout} ${tokenInfo.rewardToken}`,
           yourBalance: `${genBalance} ${tokenInfo.tokenName}`,
           allowance: genAllowance,
           lotteryStatus: lotteryStatus.toString(),
@@ -196,7 +212,7 @@ const FirstChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
           <Text>
             <ImageContainer>
               <img
-                src={USDClogo}
+                src={tokenInfo.tokenLogo}
                 alt="Lottery Card Header"
                 width="70px"
                 style={{ maxWidth: "100px" }}
@@ -268,7 +284,7 @@ const Label = styled.div`
   font-size: 18px;
   text-align: left;
   width: 100%;
-  margin-right: 30px;
+  /* margin-right: 30px; */
 `;
 const Text = styled.div`
   color: #86878f;
@@ -280,7 +296,7 @@ const Text = styled.div`
 
 const CardContainer = styled.div`
   width: 100%;
-  max-width: 400px;
+  max-width: 320px;
   padding: 1px;
   background: linear-gradient(to bottom, #2082e9, #9208fe);
   border-radius: 15px;
@@ -290,7 +306,7 @@ const CardContainer = styled.div`
 const Card = styled.div`
   background-color: #1a1b23;
   border-radius: 15px;
-  padding: 40px 27px 27px 27px;
+  padding: 10px 1px 1px 20px;
 `;
 
 export default memo(FirstChanceCard);
