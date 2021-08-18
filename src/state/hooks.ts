@@ -166,8 +166,8 @@ export const usePriceCakeBusd = (): BigNumber => {
   const bnbPriceUSD = usePriceBnbBusd();
 
   const farm = useFarmFromPid(pid);
-  return farm.tokenPriceVsQuote
-    ? bnbPriceUSD.times(farm.tokenPriceVsQuote)
+  return farm?.tokenPriceVsQuote
+    ? bnbPriceUSD.times(farm?.tokenPriceVsQuote)
     : ZERO;
   // return new BigNumber(10);
 };
@@ -192,8 +192,8 @@ export const usePriceBtcBusd = (): BigNumber => {
   // const bnbPriceUSD = usePriceBnbBusd();
   const farm = useFarmFromPid(pid);
 
-  return farm.tokenPriceVsQuote
-    ? new BigNumber(1).div(farm.tokenPriceVsQuote)
+  return farm?.tokenPriceVsQuote
+    ? new BigNumber(1).div(farm?.tokenPriceVsQuote)
     : ZERO;
   // return new BigNumber(10);
 };

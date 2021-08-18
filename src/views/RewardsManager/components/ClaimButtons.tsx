@@ -87,7 +87,7 @@ export const ClaimButtons = ({
                   </Button>
                   <Button
                     variant="danger"
-                    style={{ marginLeft: "2px" }}
+                    style={{ marginLeft: "2px", color: "#100C18" }}
                     disabled
                   >
                     Pre-mature Claim
