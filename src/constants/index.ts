@@ -70,6 +70,14 @@ export const BTC = new Token(
   "WBTC"
 );
 
+export const ARTH = new Token(
+  ChainId.MAINNET,
+  web3.utils.toChecksumAddress("0xE52509181FEb30EB4979E29EC70D50FD5C44D590"),
+  18,
+  "ARTH",
+  "ARTH"
+)
+
 const WETH_ONLY: ChainTokenList = {
   [ChainId.MAINNET]: [WETH[ChainId.MAINNET]],
   [ChainId.MATICTESTNET]: [WETH[ChainId.MATICTESTNET]],
@@ -86,6 +94,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
     USDC,
     ETH,
     CNT,
+    ARTH
   ],
 };
 
