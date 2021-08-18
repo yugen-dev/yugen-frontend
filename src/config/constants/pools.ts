@@ -266,8 +266,8 @@ const pools: PoolConfig[] = [
     poolCategory: PoolCategory.CORE,
     projectLink: "https://cryption.network/",
     multiReward: ["CNT", "EASY"],
-    stakingTokenCoinGeckoid: "MahaDAO",
-    rewardTokenCoinGeckoid: "",
+    stakingTokenCoinGeckoid: "easyfi",
+    rewardTokenCoinGeckoid: "easyfi",
     coinGeckoIds: [
       "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
       "0x34C1b299A74588D6Abdc1b85A53345A48428a521", // maha
