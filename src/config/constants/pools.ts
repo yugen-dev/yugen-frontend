@@ -248,6 +248,41 @@ const pools: PoolConfig[] = [
     metamaskImg:
       "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/maha-cnt.png",
   },
+  {
+    sousId: 7,
+    tokenName: "EASY-CNT",
+    tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
+    tokenAddressSecondInLp : "0x34C1b299A74588D6Abdc1b85A53345A48428a521", // easy
+    tokenAddress: "0x9063F906b3463C8441A1A65b9B25eA081BabD196", //  lp
+    stakingTokenName: QuoteToken.LP,
+    quoteTokenSymbol: QuoteToken.CNT,
+    stakingTokenAddress: "0x9063F906b3463C8441A1A65b9B25eA081BabD196", // lp
+    contractAddress: {
+      97: "",
+      56: "",
+      80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
+      137: "0xF1676C1576d0a6dE986395a3a2A1176C519424Ba", // staking pool arth-maha
+    },
+    poolCategory: PoolCategory.CORE,
+    projectLink: "https://cryption.network/",
+    multiReward: ["CNT", "EASY"],
+    stakingTokenCoinGeckoid: "easyfi",
+    rewardTokenCoinGeckoid: "easyfi",
+    coinGeckoIds: [
+      "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
+      "0x34C1b299A74588D6Abdc1b85A53345A48428a521", // maha
+    ],
+    multiRewardTokenPerBlock: ["0.1", "0.01"],
+    harvest: true,
+    tokenPerBlock: "1",
+    sortOrder: 999,
+    isFinished: false,
+    tokenDecimals: 18,
+    TopImage:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/maha-cnt.png",
+    metamaskImg:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/maha-cnt.png",
+  },
   
   // {
   //   sousId: 0,
