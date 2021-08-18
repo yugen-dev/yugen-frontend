@@ -28,21 +28,21 @@ export const fetchPoolsBlockLimits = async () => {
     .call();
     const withdrawalCNTfee = await contract.methods.withdrawalFee().call()
     console.log({interactionInterval , withdrawalCNTfee})
-    // if(index === 0){
-    //   console.log("hello zero")
-    //   return {
-    //       sousId:0,
-    //       startBlock: new BigNumber("0").toJSON(),
-    //       endBlock: new BigNumber("0").toJSON(),
-    //       poolHarvestInterval: new BigNumber(interactionInterval).toJSON(),
-    //       poolwithdrawalFeeBP: new BigNumber(withdrawalCNTfee).toJSON(),
-    //   }
-    //   // eslint-disable-next-line no-else-return
-    // }else{
-
-  return poolsWithEnd.map((cakePoolConfig, index) => {
    
 
+  return poolsConfig.map((cakePoolConfig, index) => {
+   
+    if(cakePoolConfig.sousId === 0){
+      console.log("hello zero")
+      return {
+          sousId:0,
+          startBlock: new BigNumber("0").toJSON(),
+          endBlock: new BigNumber("0").toJSON(),
+          poolHarvestInterval: new BigNumber(interactionInterval).toJSON(),
+          poolwithdrawalFeeBP: new BigNumber(withdrawalCNTfee).toJSON(),
+      }
+      // eslint-disable-next-line no-else-return
+    }
     const startBlock = starts[index].startBlock._hex;
     const endBlock = ends[index].endBlock._hex;
     const poolHarvestIntervall = starts[index].harvestInterval._hex;
@@ -55,7 +55,7 @@ export const fetchPoolsBlockLimits = async () => {
       poolHarvestInterval: new BigNumber(poolHarvestIntervall).toJSON(),
       poolwithdrawalFeeBP: new BigNumber(poolwithdrawalFeeBP).toJSON(),
     };
-  // }
+
   })
   
 };

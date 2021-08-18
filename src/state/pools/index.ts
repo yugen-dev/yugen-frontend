@@ -58,7 +58,8 @@ export const { setPoolsPublicData, setPoolsUserData, updatePoolsUserData } =
 // Thunks
 export const fetchPoolsPublicDataAsync = () => async (dispatch) => {
   const blockLimits = await fetchPoolsBlockLimits();
-
+console.log("block limits")
+console.log(blockLimits)
   const totalStakings = await fetchPoolsTotalStatking();
   const PoolLpDatas = await fetchPoolsLpData();
 

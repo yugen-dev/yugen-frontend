@@ -1,40 +1,40 @@
 import { PoolConfig, QuoteToken, PoolCategory } from "./types";
 
 const pools: PoolConfig[] = [
-  // {
-  //   sousId: 0,
-  //   tokenName: "CNT",
-  //   tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
-  //   tokenAddress: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
-  //   stakingTokenName: QuoteToken.CNT,
-  //   quoteTokenSymbol: QuoteToken.CNT,
-  //   stakingTokenAddress: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // lp
-  //   contractAddress: {
-  //     97: "",
-  //     56: "",
-  //     80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
-  //     137: "0xDC5A8F4D53E6fFb1F5E356f64577702AF9348d7d", // staking pool cnt
-  //   },
-  //   poolCategory: PoolCategory.COMMUNITY,
-  //   projectLink: "https://cryption.network/",
-  //   multiReward: ["CNT"],
-  //   stakingTokenCoinGeckoid: "CNT",
-  //   rewardTokenCoinGeckoid: "pear",
-  //   coinGeckoIds: [
-  //     "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
-  //     // "0xeDd6cA8A4202d4a36611e2fff109648c4863ae19", // cnt
-  //   ],
-  //   TopImage:
-  //     "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10232.png",
-  //   multiRewardTokenPerBlock: ["0.0046491228"],
-  //   harvest: true,
-  //   tokenPerBlock: "0.0046491228",
-  //   sortOrder: 999,
-  //   isFinished: false,
-  //   tokenDecimals: 18,
-  //   metamaskImg:
-  //     "https://assets.coingecko.com/coins/images/17173/small/pear200.png?1626793002",
-  // },
+  {
+    sousId: 0,
+    tokenName: "CNT",
+    tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
+    tokenAddress: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
+    stakingTokenName: QuoteToken.CNT,
+    quoteTokenSymbol: QuoteToken.CNT,
+    stakingTokenAddress: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // lp
+    contractAddress: {
+      97: "",
+      56: "",
+      80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
+      137: "0xDC5A8F4D53E6fFb1F5E356f64577702AF9348d7d", // staking pool cnt
+    },
+    poolCategory: PoolCategory.COMMUNITY,
+    projectLink: "https://cryption.network/",
+    multiReward: ["CNT"],
+    stakingTokenCoinGeckoid: "CNT",
+    rewardTokenCoinGeckoid: "pear",
+    coinGeckoIds: [
+      "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
+      // "0xeDd6cA8A4202d4a36611e2fff109648c4863ae19", // cnt
+    ],
+    TopImage:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10232.png",
+    multiRewardTokenPerBlock: ["0.0046491228"],
+    harvest: true,
+    tokenPerBlock: "0.0046491228",
+    sortOrder: 999,
+    isFinished: false,
+    tokenDecimals: 18,
+    metamaskImg:
+      "https://assets.coingecko.com/coins/images/17173/small/pear200.png?1626793002",
+  },
   {
     sousId: 1,
     tokenName: "MAHA-CNT",
