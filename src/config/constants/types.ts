@@ -168,3 +168,25 @@ export interface MigrateConfig {
     readonly [chainId in ChainId]?: string;
   };
 }
+
+export interface LotteryInfoProps {
+  lotteryId: number;
+  winnerLottery: {
+    lotteryAddress: string;
+    tokenName: string;
+    tokenAddress: string;
+    tokenDecimals: number;
+    tokenLogo: any;
+    metamaskImg?: string;
+    rewardToken: string;
+  };
+  loserLottery: {
+    lotteryAddress: string;
+    tokenName: string;
+    tokenAddress: string;
+    tokenLogo: any;
+    tokenDecimals: number;
+    metamaskImg?: string;
+    rewardToken: string;
+  };
+}

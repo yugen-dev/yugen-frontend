@@ -8,16 +8,38 @@ import { registerToken } from "utils/wallet";
 import { useToast } from "state/hooks";
 import BigNumber from "bignumber.js";
 import QuestionHelper from "components/QuestionHelper";
-import Addresses from "config/constants/contracts";
 import lotteryABI from "config/abi/lottery.json";
-import LUSDlogo from "../images/LUSDlogo.png";
 import Loader from "./Loader";
 import StatusLoader from "./StatusLoader";
 import LoserBtnContainer from "./LoserBtnContainer";
-// import getERC20SmartContract from "../utils/getERC20SmartContract";
-// import getLotterySmartContract from "../utils/getLotterySmartContract";
 
-const SecondChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
+interface TokenInfoProps {
+  lotteryAddress: string;
+  tokenName: string;
+  tokenAddress: string;
+  tokenDecimals: number;
+  tokenLogo: any;
+  metamaskImg?: string;
+  rewardToken: string;
+}
+
+interface TooltipInfoProps {
+  playersText: string;
+  payoutText: string;
+  winnersROIText?: string;
+}
+
+interface SecondChanceCardProps {
+  account: string | undefined;
+  tokenInfo: TokenInfoProps;
+  tooltipInfo: TooltipInfoProps;
+}
+
+const SecondChanceCard: React.FC<SecondChanceCardProps> = ({
+  account,
+  tokenInfo,
+  tooltipInfo,
+}) => {
   const { toastError } = useToast();
   const web3 = new Web3(window.ethereum);
 
@@ -38,32 +60,24 @@ const SecondChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
     const networkId = await web3.eth.net.getId();
 
     if (networkId === 137 && account) {
-      // const lotterySmartContract = await getLotterySmartContract("loser");
-      // const ERC20SmartContract = await getERC20SmartContract(
-      //   tokenInfo.tokenAddr
-      // );
-
       try {
-        // const { playersLimit, registrationAmount } =
-        //   await lotterySmartContract.methods.lotteryConfig().call();
-
         let playersLimit;
         let registrationAmount;
         const calls = [
           {
-            address: Addresses.loserLottery[137],
+            address: tokenInfo.lotteryAddress,
             name: "getCurrentlyActivePlayers",
           },
           {
-            address: Addresses.loserLottery[137],
+            address: tokenInfo.lotteryAddress,
             name: "lotteryStatus",
           },
           {
-            address: Addresses.loserLottery[137],
+            address: tokenInfo.lotteryAddress,
             name: "getWinningAmount",
           },
           {
-            address: Addresses.loserLottery[137],
+            address: tokenInfo.lotteryAddress,
             name: "lotteryConfig",
           },
         ];
@@ -76,14 +90,14 @@ const SecondChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
 
         const callsErc20 = [
           {
-            address: tokenInfo.tokenAddr,
+            address: tokenInfo.tokenAddress,
             name: "balanceOf",
             params: [account],
           },
           {
-            address: tokenInfo.tokenAddr,
+            address: tokenInfo.tokenAddress,
             name: "allowance",
-            params: [account, tokenInfo.lotteryAddr],
+            params: [account, tokenInfo.lotteryAddress],
           },
         ];
 
@@ -128,7 +142,7 @@ const SecondChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
           lotterySize: `${genLotterySize} ${tokenInfo.tokenName}`,
           size: genLotterySize,
           allowance: genAllowance,
-          payout: `${genPayout} CNT`,
+          payout: `${genPayout} ${tokenInfo.rewardToken}`,
           yourBalance: `${genBalance} ${tokenInfo.tokenName}`,
           lotteryStatus: lotteryStatus.toString(),
           players: `${currActivePlayers} / ${playersLimit}`,
@@ -170,7 +184,7 @@ const SecondChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
           <Text>
             <ImageContainer>
               <img
-                src={LUSDlogo}
+                src={tokenInfo.tokenLogo}
                 alt="Lottery Card Header"
                 width="70px"
                 style={{ maxWidth: "100px" }}
@@ -216,7 +230,7 @@ const SecondChanceCard = ({ account, tokenInfo, tooltipInfo }) => {
           <TokenLink
             onClick={() =>
               registerToken(
-                tokenInfo.tokenAddr,
+                tokenInfo.tokenAddress,
                 tokenInfo.tokenName,
                 tokenInfo.tokenDecimals,
                 tokenInfo.metamaskImg
@@ -262,7 +276,7 @@ const Label = styled.div`
   font-size: 18px;
   text-align: left;
   width: 100%;
-  margin-right: 30px;
+  /* margin-right: 30px; */
 `;
 const Text = styled.div`
   color: #86878f;
@@ -274,7 +288,7 @@ const Text = styled.div`
 
 const CardContainer = styled.div`
   width: 100%;
-  max-width: 400px;
+  max-width: 320px;
   padding: 1px;
   /* background: linear-gradient(to bottom, #2082e9, #9208fe); */
   border-radius: 15px;
@@ -285,7 +299,7 @@ const CardContainer = styled.div`
 const Card = styled.div`
   background-color: #1a1b23;
   border-radius: 15px;
-  padding: 40px 27px 27px 27px;
+  padding: 20px 10px 10px 20px;
 `;
 
 export default memo(SecondChanceCard);
