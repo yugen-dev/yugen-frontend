@@ -93,8 +93,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
     USDT,
     USDC,
     ETH,
-    CNT,
-    ARTH
+    CNT
   ],
 };
 
