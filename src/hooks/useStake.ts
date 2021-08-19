@@ -147,7 +147,6 @@ export const useSousStake = (sousId, isUsingBnb = false) => {
         } else {
           toastError("Error...", `Failed to Deposit`);
         }
-        console.log(e);
       }
     },
     [

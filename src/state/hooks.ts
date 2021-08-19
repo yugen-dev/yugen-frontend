@@ -399,7 +399,7 @@ export const useTotalValue = (): BigNumber => {
   const pools = usePoolss();
 
   const totalStakerBalance = useCntStakerTvl();
-  const totalHybridstakingCntBalance = useHybridstakingTvl();
+  // const totalHybridstakingCntBalance = useHybridstakingTvl();
   const bnbPrice = usePriceBnbBusd();
   const cntPrice = usePriceCakeBusd();
   const ethPrice = usePriceEthBusd();
