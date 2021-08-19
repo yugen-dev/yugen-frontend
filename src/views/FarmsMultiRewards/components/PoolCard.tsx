@@ -227,8 +227,9 @@ const PoolCard: React.FC<HarvestProps> = ({
     // eslint-disable-next-line react-hooks/rules-of-hooks
     let tokenPrice = 100;
       
-    tokenPrice = pool.tokenAddressSecondInLp === "0x34C1b299A74588D6Abdc1b85A53345A48428a521" ? RewardTokenCoinGeckoPrice.toNumber() : UseGetApiPrice(pool.coinGeckoIds[i].toLowerCase());
+    tokenPrice = pool.coinGeckoIds[i] === "0x34C1b299A74588D6Abdc1b85A53345A48428a521" && pool.multiReward[i] === "EASY" ? RewardTokenCoinGeckoPrice.toNumber() : UseGetApiPrice(pool.coinGeckoIds[i].toLowerCase());
     // eslint-disable-next-line  no-nested-ternary
+
     const rewardTokenPrice = tokenPrice
       ? new BigNumber(tokenPrice)
       : new BigNumber(1);
