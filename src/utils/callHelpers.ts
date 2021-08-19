@@ -168,6 +168,47 @@ export const stake = async (masterChefContract, pid, amount, account) => {
     });
 };
 
+export const hybridStakingStake = async (
+  masterChefContract,
+  amount,
+  account
+) => {
+  return masterChefContract.methods
+    .deposit(
+      0,
+      new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
+    )
+    .send({ from: account, gasPrice: 10000000000 })
+    .on("transactionHash", (tx) => {
+      return tx.transactionHash;
+    });
+};
+
+export const hybridStakingUnstake = async (
+  masterChefContract,
+  amount,
+  account
+) => {
+  return masterChefContract.methods
+    .withdraw(
+      0,
+      new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
+    )
+    .send({ from: account, gasPrice: 10000000000 })
+    .on("transactionHash", (tx) => {
+      return tx.transactionHash;
+    });
+};
+
+export const hybridStakingHarvest = async (masterChefContract, account) => {
+  return masterChefContract.methods
+    .deposit(0, 0)
+    .send({ from: account, gasPrice: 10000000000 })
+    .on("transactionHash", (tx) => {
+      return tx.transactionHash;
+    });
+};
+
 export const sousStake = async (
   sousChefContract,
   amount,

@@ -13,6 +13,7 @@ import {
   sousEmegencyUnstake,
   GaslessUnStake,
   sousUnstakeGasless,
+  hybridStakingUnstake,
 } from "utils/callHelpers";
 import { useProfile, useToast } from "state/hooks";
 import {
@@ -20,6 +21,7 @@ import {
   useSousChef,
   useMasterchefGasless,
   useSousChefGasless,
+  useHybridStaking,
 } from "./useContract";
 
 const useUnstake = (pid: number) => {
@@ -97,6 +99,7 @@ export const useSousUnstake = (sousId) => {
   const sousChefContract = useSousChef(sousId);
   const sousChefContractsGasless = useSousChefGasless(sousId);
   const isOldSyrup = SYRUPIDS.includes(sousId);
+  const hybridStakingContract = useHybridStaking();
   const { metaTranscation } = useProfile();
   const { toastInfo, toastError, toastSuccess } = useToast();
   const handleUnstake = useCallback(
@@ -106,6 +109,8 @@ export const useSousUnstake = (sousId) => {
         toastInfo("Processing...", `You requested to withdraw `);
         if (isOldSyrup) {
           await sousEmegencyUnstake(sousChefContract, amount, account);
+        } else if (sousId === 0) {
+          await hybridStakingUnstake(hybridStakingContract, amount, account);
         } else if (metaTranscation) {
           resp = await sousUnstakeGasless(
             sousChefContractsGasless,
@@ -158,6 +163,7 @@ export const useSousUnstake = (sousId) => {
       toastInfo,
       toastSuccess,
       toastError,
+      hybridStakingContract,
     ]
   );
 

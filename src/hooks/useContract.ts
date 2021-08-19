@@ -22,6 +22,7 @@ import {
   getCNTStakerContract,
   getClaimRefundContract,
   getSingleSidedLiquidityContract,
+  getHybridStakingContract,
 } from "utils/contractHelpers";
 import polydexMigrator from "config/abi/polydexMigrator.json";
 import ENS_ABI from "../constants/abis/ens-registrar.json";
@@ -79,6 +80,11 @@ export const useLotteryTicket = () => {
 export const useMasterchef = () => {
   const web3 = useWeb3();
   return useMemo(() => getMasterchefContract(web3), [web3]);
+};
+
+export const useHybridStaking = () => {
+  const web3 = useWeb3();
+  return useMemo(() => getHybridStakingContract(web3), [web3]);
 };
 
 export const useSingleSidedLiquidity = () => {
