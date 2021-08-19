@@ -50,7 +50,7 @@ export const ClaimButtons = ({
 
   const handleClaimClick = async () => {
     try {
-      const rewardMgSmartContract = await getRewardsManagerContract();
+      const rewardMgSmartContract = getRewardsManagerContract(web3);
 
       setBtnLoading(() => true);
       toastInfo("Processing...");
