@@ -178,7 +178,7 @@ export default {
   rewardManager: {
     56: "",
     97: "",
-    80001: "0x784804D830dd432B4f1F17aAb56D827F5012C82C",
+    80001: "0x11fb233D4eE3BFb6A2f19E84E5783FcCFB731d1C",
     137: "",
   },
 };
