@@ -24,7 +24,7 @@ const Menu = (props) => {
   const cakePriceBusd = usePriceCakeBusd();
 
   let accountId = "";
-  if (location?.pathname && ETHERJS_PATHS.includes(`/${location?.pathname?.split("/")[1]}`)) {
+  if (ETHERJS_PATHS.includes(`/${location.pathname.split("/")[1]}`)) {
     accountId = useWeb3React().account;
   } else {
     accountId = useWeb3React("web3").account;
@@ -39,14 +39,14 @@ const Menu = (props) => {
       // into the Window object in time causing it to throw an error
       // TODO: Figure out an elegant way to listen for when the BinanceChain object is ready
       if (connectorId && connectorId) {
-        if (ETHERJS_PATHS.includes(`/${location?.pathname?.split("/")[1]}`)) {
+        if (ETHERJS_PATHS.includes(`/${location.pathname?.split("/")[1]}`)) {
           loginEther(connectorId);
         } else {
           login(connectorId);
         }
       }
     }
-  }, [accountId, location?.pathname, login, loginEther]);
+  }, [accountId, location.pathname, login, loginEther]);
   const dispatch = useDispatch();
   const [checkedState, toggleChecked] = React.useState(false);
   const { selectedLanguage, setSelectedLanguage } = useContext(LanguageContext);
@@ -84,18 +84,18 @@ const Menu = (props) => {
       }
       toggleTranscationState={handleMetaToggle}
       login={
-        ETHERJS_PATHS.includes(`/${location?.pathname?.split("/")[1]}`)
+        ETHERJS_PATHS.includes(`/${location.pathname.split("/")[1]}`)
           ? loginEther
           : login
       }
       logout={
-        ETHERJS_PATHS.includes(`/${location?.pathname?.split("/")[1]}`)
+        ETHERJS_PATHS.includes(`/${location.pathname.split("/")[1]}`)
           ? logoutEther
           : logout
       }
       // logoIcon={LogoIcon}
       isDark={isDark}
-      locationUrl={location && location?.pathname ? location?.pathname : "/"}
+      locationUrl={location && location.pathname ? location.pathname : "/"}
       toggleTheme={toggleTheme}
       currentLang={selectedLanguage && selectedLanguage.code}
       langs={allLanguages}
