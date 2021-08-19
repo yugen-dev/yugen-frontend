@@ -24,7 +24,7 @@ const Menu = (props) => {
   const cakePriceBusd = usePriceCakeBusd();
 
   let accountId = "";
-  if (ETHERJS_PATHS.includes(`/${location?.pathname.split("/")[1]}`)) {
+  if (location?.pathname && ETHERJS_PATHS.includes(`/${location?.pathname?.split("/")[1]}`)) {
     accountId = useWeb3React().account;
   } else {
     accountId = useWeb3React("web3").account;
@@ -84,12 +84,12 @@ const Menu = (props) => {
       }
       toggleTranscationState={handleMetaToggle}
       login={
-        ETHERJS_PATHS.includes(`/${location?.pathname.split("/")[1]}`)
+        ETHERJS_PATHS.includes(`/${location?.pathname?.split("/")[1]}`)
           ? loginEther
           : login
       }
       logout={
-        ETHERJS_PATHS.includes(`/${location?.pathname.split("/")[1]}`)
+        ETHERJS_PATHS.includes(`/${location?.pathname?.split("/")[1]}`)
           ? logoutEther
           : logout
       }
