@@ -27,9 +27,9 @@ const pools: PoolConfig[] = [
     ],
     TopImage:
       "https://cryption-network.s3.us-east-2.amazonaws.com/Globe+Gradient.png",
-    multiRewardTokenPerBlock: ["0.0046491228"],
+    multiRewardTokenPerBlock: ["0.05"],
     harvest: true,
-    tokenPerBlock: "0.0046491228",
+    tokenPerBlock: "0.05",
     sortOrder: 999,
     isFinished: false,
     tokenDecimals: 18,
