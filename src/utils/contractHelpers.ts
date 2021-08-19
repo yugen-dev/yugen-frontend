@@ -20,6 +20,8 @@ import {
   getClaimRefundAddress,
   getHybridStakingAddress,
   getSingleSidedLiquidityAddress,
+  getWinnerLotteryAddress,
+  getLoserLotteryAddress,
 } from "utils/addressHelpers";
 
 // ABI
@@ -33,13 +35,13 @@ import hybridStakingAbi from "config/abi/hybridstaking.json";
 import singleSidedLiquidityAbi from "config/abi/singleSidedLiquidity.json";
 import ifoAbi from "config/abi/ifo.json";
 import pointCenterIfo from "config/abi/pointCenterIfo.json";
-import lotteryAbi from "config/abi/lottery.json";
 import lotteryTicketAbi from "config/abi/lotteryNft.json";
 import farmABI from "config/abi/farm.json";
 import cntStaker from "config/abi/cntStaker.json";
 import sousChef from "config/abi/sousChef.json";
 import sousChefBnb from "config/abi/sousChefBnb.json";
 import claimRefundAbi from "config/abi/claimRefund.json";
+import lotteryAbi from "config/abi/lottery.json";
 // import prToken from "config/abi/claimRefund.json";
 
 export const getContract = (abi: any, address: string, web3?: Web3) => {
@@ -104,4 +106,10 @@ export const getMasterchefContract = (web3?: Web3) => {
 };
 export const getClaimRefundContract = (web3?: Web3) => {
   return getContract(claimRefundAbi, getClaimRefundAddress(), web3);
+};
+export const getWinnerLotteryContract = (web3?: Web3) => {
+  return getContract(lotteryAbi, getWinnerLotteryAddress(), web3);
+};
+export const getLoserLotteryContract = (web3?: Web3) => {
+  return getContract(lotteryAbi, getLoserLotteryAddress(), web3);
 };

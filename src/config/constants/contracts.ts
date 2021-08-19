@@ -127,4 +127,52 @@ export default {
     80001: "0xEcbF5f2A16DAa2Ace84A1845341FB9B62302CB43",
     137: "0xaD4C94313BF3aC2641A2C6F0A3802c4990A034fe",
   },
+  winnerLottery: {
+    56: "",
+    97: "",
+    80001: "0x7A75050c800d15b78fAd0A9271a50eF12BFcAb89",
+    137: "0x653441299ec28E0301d640006E2ceC4776ebA671",
+  },
+  loserLottery: {
+    56: "",
+    97: "",
+    80001: "0x4E833b70b226781C65d9BA49d6d640Da02D93148",
+    137: "0xC598adCEBfB0E3503149142A663f65B5ac2482f1",
+  },
+  lotteryUSDC: {
+    56: "",
+    97: "",
+    80001: "0x671b68fb02778D37a885699dA79c13Faf0d3C560",
+    137: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+  },
+  lotteryLUSD: {
+    56: "",
+    97: "",
+    80001: "0x996D0eE46047CD169b8A6854E4F76D6E816653c8",
+    137: "0xb032512A23Ef041bEc2e48e9b3f07286408B2B26",
+  },
+  winnerLottery2: {
+    56: "",
+    97: "",
+    80001: "0x43E386E32D17e325e1601db9Ad1C35eAD3e17a28",
+    137: "0x4C544Daf1dC9f0C4f34E9c3620cd10bDb8b15a73",
+  },
+  loserLottery2: {
+    56: "",
+    97: "",
+    80001: "0xf32EE32d4F08629014516AdCa0473f3C3C0c1ac7",
+    137: "0x3B3b97D186A019c55078d2f7163f23FE349B586c",
+  },
+  lotteryARTH: {
+    56: "",
+    97: "",
+    80001: "0x7085798475A01f1C4e787069433abA4518A6456B",
+    137: "0xe52509181feb30eb4979e29ec70d50fd5c44d590",
+  },
+  lotteryLARTH: {
+    56: "",
+    97: "",
+    80001: "0x3661901C42D416f26Eb6c8DD094fFE47EF158726",
+    137: "0x20a2D84ec22F47B07d6A20209D84Bb7544ac5E95",
+  },
 };

@@ -5,12 +5,39 @@ import UnlockButton from "components/UnlockButton";
 import Web3 from "web3";
 import { useToast } from "state/hooks";
 import BigNumber from "bignumber.js";
+import { getERC20Contract, getContract } from "utils/contractHelpers";
+import lotteryAbi from "config/abi/lottery.json";
 import Loader from "./Loader";
 import BtnLoader from "./BtnLoader";
-import getERC20SmartContract from "../utils/getERC20SmartContract";
-import getLotterySmartContract from "../utils/getLotterySmartContract";
 
-const LoserBtnContainer = ({
+interface FetchValueProps {
+  lotterySize: string;
+  size: string;
+  allowance: string;
+  payout: string;
+  yourBalance: string;
+  lotteryStatus: string;
+  players: string;
+  settling: boolean;
+}
+
+interface TokenInfoProps {
+  lotteryAddress: string;
+  tokenName: string;
+  tokenAddress: string;
+  tokenDecimals: number;
+  metamaskImg?: string;
+  rewardToken: string;
+}
+
+interface LoserBtnContainerProps {
+  fetchValue: FetchValueProps;
+  account: string | undefined;
+  loadBlockchainData: any;
+  tokenInfo: TokenInfoProps;
+}
+
+const LoserBtnContainer: React.FC<LoserBtnContainerProps> = ({
   fetchValue,
   account,
   tokenInfo,
@@ -31,7 +58,11 @@ const LoserBtnContainer = ({
     setBtnLoading(() => true);
 
     try {
-      const lotterySmartContract = await getLotterySmartContract("loser");
+      const lotterySmartContract = getContract(
+        lotteryAbi,
+        tokenInfo.lotteryAddress,
+        web3
+      );
       await lotterySmartContract.methods.enterLottery().send({ from: account });
       await loadBlockchainData();
       toastSuccess("Congrats", "You have successfully entered the lottery");
@@ -47,11 +78,9 @@ const LoserBtnContainer = ({
     setBtnLoading(() => true);
 
     try {
-      const ERC20SmartContract = await getERC20SmartContract(
-        tokenInfo.tokenAddr
-      );
+      const ERC20SmartContract = getERC20Contract(tokenInfo.tokenAddress, web3);
       await ERC20SmartContract.methods
-        .approve(tokenInfo.lotteryAddr, web3.utils.toBN(infiniteValue))
+        .approve(tokenInfo.lotteryAddress, web3.utils.toBN(infiniteValue))
         .send({ from: account });
       toastSuccess("Success", "Account successfully approved");
       setBtnLoading(() => false);
@@ -65,7 +94,11 @@ const LoserBtnContainer = ({
     toastInfo("Processing...", "Settling the lottery");
     setBtnLoading(() => true);
 
-    const lotterySmartContract = await getLotterySmartContract("loser");
+    const lotterySmartContract = getContract(
+      lotteryAbi,
+      tokenInfo.lotteryAddress,
+      web3
+    );
     try {
       await lotterySmartContract.methods
         .settleLottery()

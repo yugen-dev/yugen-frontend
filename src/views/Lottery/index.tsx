@@ -1,35 +1,14 @@
+/* eslint-disable import/no-named-as-default */
 import React from "react";
 import styled from "styled-components";
-import { Heading, Text, LinkExternal } from "cryption-uikit";
 import { useWeb3React } from "@web3-react/core";
-import {
-  LotteryUSDC,
-  LotteryLUSD,
-  WinnerLotteryAddress,
-  LoserLotteryAddress,
-} from "config";
+import { Heading, Text, LinkExternal } from "cryption-uikit";
+import LotteryInfo from "config/constants/lottery";
 import FirstChanceCard from "./components/FirstChanceCard";
 import SecondChanceCard from "./components/SecondChanceCard";
 
 const Lottery = () => {
   const { account } = useWeb3React("web3");
-
-  const tokenWinnerInfo = {
-    tokenName: "USDC",
-    tokenAddr: LotteryUSDC,
-    tokenDecimals: 6,
-    metamaskImg: "",
-    lotteryAddr: WinnerLotteryAddress,
-  };
-
-  const tokenLoserInfo = {
-    tokenName: "L-USD",
-    tokenAddr: LotteryLUSD,
-    tokenDecimals: 18,
-    metamaskImg:
-      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10300.png",
-    lotteryAddr: LoserLotteryAddress,
-  };
 
   const tooltipInfo = {
     playersText:
@@ -66,18 +45,20 @@ const Lottery = () => {
             </LinkExternal>
           </Text>
         </Container>
-        <PageSubContainer>
-          <FirstChanceCard
-            account={account}
-            tokenInfo={tokenWinnerInfo}
-            tooltipInfo={tooltipInfo}
-          />
-          <SecondChanceCard
-            account={account}
-            tokenInfo={tokenLoserInfo}
-            tooltipInfo={tooltipInfo}
-          />
-        </PageSubContainer>
+        {LotteryInfo.map((lottery) => (
+          <PageSubContainer key={lottery.lotteryId}>
+            <FirstChanceCard
+              account={account}
+              tokenInfo={lottery.winnerLottery}
+              tooltipInfo={tooltipInfo}
+            />
+            <SecondChanceCard
+              account={account}
+              tokenInfo={lottery.loserLottery}
+              tooltipInfo={tooltipInfo}
+            />
+          </PageSubContainer>
+        ))}
       </Page>
     </>
   );
@@ -86,9 +67,12 @@ const Lottery = () => {
 const PageSubContainer = styled.div`
   margin-top: 20px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
   margin-bottom: 40px;
+  border-radius: 20px;
+  border: 3px solid #86878f;
 `;
 
 const Container = styled.div`
