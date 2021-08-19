@@ -70,28 +70,6 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     TopImage,
   } = pool;
 
-  console.log({
-    sousId,
-    tokenName,
-    tokenAddress,
-    stakingTokenName,
-    stakingTokenDecimals,
-    projectLink,
-    harvest,
-    tokenDecimals,
-    poolCategory,
-    totalStaked,
-    startBlock,
-    endBlock,
-    isFinished,
-    userData,
-    stakingLimit,
-    poolHarvestInterval,
-    poolwithdrawalFeeBP,
-    metamaskImg,
-    TopImage,
-  })
-
   const { account } = useWeb3React("web3");
   const isBnbPool = poolCategory === PoolCategory.BINANCE;
   const [show, setShow] = useState(false);
@@ -275,7 +253,10 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
           <CardTitle isFinished={isFinished}>
             {TranslateString(348, "Stake")} {isOldSyrup && "[OLD]"} {tokenName}
           </CardTitle>
-          <Image src={TopImage} width={100} height={94} alt={tokenName} />
+          {
+            pool.sousId === 0 ? <Image src={TopImage} width={70} height={64} alt={tokenName} /> : <Image src={TopImage} width={100} height={94} alt={tokenName} />
+          }
+    
         </div>
       </div>
       <div style={{ padding: "24px" }}>

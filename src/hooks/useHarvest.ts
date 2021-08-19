@@ -7,7 +7,6 @@ import {
   updateUserBalance,
   updateUserPendingReward,
 } from "state/actions";
-import { getHybridStakingContract } from "utils/contractHelpers";
 import {
   soushHarvest,
   soushHarvestBnb,

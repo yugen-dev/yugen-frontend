@@ -463,7 +463,7 @@ export const useTotalValue = (): BigNumber => {
   }
 
   value = value.plus(totalStakerBalance.multipliedBy(cntPrice));
-  value = value.plus(totalHybridstakingCntBalance.multipliedBy(cntPrice));
+  // value = value.plus(totalHybridstakingCntBalance.multipliedBy(cntPrice));
 
   return value;
 };

@@ -19,13 +19,13 @@ const pools: PoolConfig[] = [
     projectLink: "https://cryption.network/",
     multiReward: ["CNT"],
     stakingTokenCoinGeckoid: "CNT",
-    rewardTokenCoinGeckoid: "pear",
+    rewardTokenCoinGeckoid: "CNT",
     coinGeckoIds: [
       "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
       // "0xeDd6cA8A4202d4a36611e2fff109648c4863ae19", // cnt
     ],
     TopImage:
-      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10232.png",
+      "https://cryption-network.s3.us-east-2.amazonaws.com/Globe+Gradient.png",
     multiRewardTokenPerBlock: ["0.0046491228"],
     harvest: true,
     tokenPerBlock: "0.0046491228",
@@ -33,7 +33,7 @@ const pools: PoolConfig[] = [
     isFinished: false,
     tokenDecimals: 18,
     metamaskImg:
-      "https://assets.coingecko.com/coins/images/17173/small/pear200.png?1626793002",
+      "https://cryption-network.s3.us-east-2.amazonaws.com/Globe+Gradient.png",
   },
   {
     sousId: 1,

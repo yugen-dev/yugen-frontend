@@ -27,13 +27,12 @@ export const fetchPoolsBlockLimits = async () => {
     .interactionInterval()
     .call();
     const withdrawalCNTfee = await contract.methods.withdrawalFee().call()
-    console.log({interactionInterval , withdrawalCNTfee})
    
 
   return poolsConfig.map((cakePoolConfig, index) => {
    
     if(cakePoolConfig.sousId === 0){
-      console.log("hello zero")
+
       return {
           sousId:0,
           startBlock: new BigNumber("0").toJSON(),
@@ -43,10 +42,10 @@ export const fetchPoolsBlockLimits = async () => {
       }
       // eslint-disable-next-line no-else-return
     }
-    const startBlock = starts[index].startBlock._hex;
-    const endBlock = ends[index].endBlock._hex;
-    const poolHarvestIntervall = starts[index].harvestInterval._hex;
-    const poolwithdrawalFeeBP = starts[index].withdrawalFeeBP;
+    const startBlock = starts[index-1].startBlock._hex;
+    const endBlock = ends[index-1].endBlock._hex;
+    const poolHarvestIntervall = starts[index-1].harvestInterval._hex;
+    const poolwithdrawalFeeBP = starts[index-1].withdrawalFeeBP;
 
     return {
       sousId: cakePoolConfig.sousId,
@@ -60,32 +59,15 @@ export const fetchPoolsBlockLimits = async () => {
   
 };
 
-export const fetchPoolsHarvestInterval = async () => {
-  const poolsWithEnd = poolsConfig.filter((p) => p.sousId !== 0);
-
-  const callsFarmInfo = poolsWithEnd.map((poolConfig) => {
-    return {
-      address: getAddress(poolConfig.contractAddress),
-      name: "farmInfo",
-    };
-  });
-
-  const starts = await multicall(sousChefABI, callsFarmInfo);
-
-  return poolsWithEnd.map((cakePoolConfig, index) => {
-    const poolHarvestIntervall = starts[index].harvestInterval._hex;
-    return {
-      sousId: cakePoolConfig.sousId,
-      poolHarvestInterval: new BigNumber(poolHarvestIntervall).toJSON(),
-    };
-  });
-};
 
 export const fetchPoolsTotalStatking = async () => {
-  const nonBnbPools = poolsConfig.filter(
+
+  const poolsWithEnd = poolsConfig.filter((p) => p.sousId !== 0);
+
+  const nonBnbPools = poolsWithEnd.filter(
     (p) => p.stakingTokenName !== QuoteToken.BNB
   );
-  const bnbPool = poolsConfig.filter(
+  const bnbPool = poolsWithEnd.filter(
     (p) => p.stakingTokenName === QuoteToken.BNB 
   );
 
@@ -108,7 +90,16 @@ export const fetchPoolsTotalStatking = async () => {
   const nonBnbPoolsTotalStaked = await multicall(sousChefABI, callsNonBnbPools);
   const bnbPoolsTotalStaked = await multicall(wbnbABI, callsBnbPools);
 
+  const contract = getHybridStakingContract();
+  const totalCNTStaked = await contract.methods
+    .totalCNTStaked()
+    .call();
+
   return [
+    {
+      sousId: 0,
+      totalStaked: new BigNumber(totalCNTStaked).toJSON(),
+    },
     ...nonBnbPools.map((p, index) => ({
       sousId: p.sousId,
       totalStaked: new BigNumber(nonBnbPoolsTotalStaked[index]).toJSON(),
