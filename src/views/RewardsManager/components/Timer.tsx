@@ -18,7 +18,6 @@ const timerProps = {
 const renderTime = (dimension, time) => {
   return (
     <TimeWrapper>
-      {/* <TimeStyles>{time > 0 ? time : 0}</TimeStyles> */}
       <TimeStyles>{time}</TimeStyles>
       <div style={{ color: "#99a3ba" }}>{dimension}</div>
     </TimeWrapper>
@@ -30,9 +29,14 @@ const getTimeMinutes = (time) => ((time % hourSeconds) / minuteSeconds) | 0;
 const getTimeHours = (time) => ((time % daySeconds) / hourSeconds) | 0;
 const getTimeDays = (time) => (time / daySeconds) | 0;
 
-const VestingCountdownTimer = ({ timerValue }) => {
+const VestingCountdownTimer = ({
+  startDistributionTime,
+  endDistributionTime,
+}) => {
   const stratTime = Date.now() / 1000; // use UNIX timestamp in seconds
-  const endTime = timerValue;
+  let endTime;
+  if (stratTime < startDistributionTime) endTime = startDistributionTime;
+  else endTime = endDistributionTime;
 
   const remainingTime = endTime - stratTime;
 
@@ -44,7 +48,9 @@ const VestingCountdownTimer = ({ timerValue }) => {
       <Container>
         <div>
           <Heading marginBottom="5px" color="#99a3ba">
-            All rewards unlock In
+            {endTime === startDistributionTime
+              ? "Rewards distribution starts in"
+              : "Linear rewards distribution ends in"}
           </Heading>
         </div>
         <CountdownContainer>
@@ -62,7 +68,7 @@ const VestingCountdownTimer = ({ timerValue }) => {
               isLinearGradient
             >
               {({ elapsedTime }) =>
-                renderTime("day", getTimeDays(daysDuration - elapsedTime))
+                renderTime("days", getTimeDays(daysDuration - elapsedTime))
               }
             </CountdownCircleTimer>
           </SingleCountdownContainer>
@@ -84,7 +90,7 @@ const VestingCountdownTimer = ({ timerValue }) => {
               isLinearGradient
             >
               {({ elapsedTime }) =>
-                renderTime("hour", getTimeHours(daySeconds - elapsedTime))
+                renderTime("hours", getTimeHours(daySeconds - elapsedTime))
               }
             </CountdownCircleTimer>
           </SingleCountdownContainer>
@@ -106,7 +112,7 @@ const VestingCountdownTimer = ({ timerValue }) => {
               isLinearGradient
             >
               {({ elapsedTime }) =>
-                renderTime("min", getTimeMinutes(hourSeconds - elapsedTime))
+                renderTime("mins", getTimeMinutes(hourSeconds - elapsedTime))
               }
             </CountdownCircleTimer>
           </SingleCountdownContainer>
@@ -128,7 +134,7 @@ const VestingCountdownTimer = ({ timerValue }) => {
               isLinearGradient
             >
               {({ elapsedTime }) =>
-                renderTime("sec", getTimeSeconds(elapsedTime))
+                renderTime("secs", getTimeSeconds(elapsedTime))
               }
             </CountdownCircleTimer>
           </SingleCountdownContainer>

@@ -26,7 +26,12 @@ const Vesting = () => {
     Claimable: "-1",
     AmountBurnt: "-1",
   });
-  const [timerValue, setTimerValue] = useState(Date.now() / 1000);
+  const [startDistributionTime, setStartDistributionTime] = useState(
+    Date.now() / 1000
+  );
+  const [endDistributionTime, setEndDistributionTime] = useState(
+    Date.now() / 1000
+  );
   const [penaltyValue, setPenaltyValue] = useState(0);
 
   const web3 = new Web3(window.ethereum);
@@ -38,24 +43,36 @@ const Vesting = () => {
     if (networkId === 80001 && account) {
       const rewardMgSmartContract = getRewardsManagerContract(web3);
 
-      // get timer end time
+      // distribution start time
       try {
-        const penalty = await rewardMgSmartContract.methods
-          .endAccumulation()
+        const startTime = await rewardMgSmartContract.methods
+          .startAccumulation()
           .call();
-        if (penalty) {
-          setTimerValue(() => Number(penalty));
+        if (startTime) {
+          setStartDistributionTime(() => Number(startTime));
         }
       } catch (e) {
         console.error("Error while getting timer value: ", e);
       }
 
-      // get pre-mature penalty
+      // distribution end time
       try {
-        const time = await rewardMgSmartContract.methods
+        const endTime = await rewardMgSmartContract.methods
+          .endAccumulation()
+          .call();
+        if (endTime) {
+          setEndDistributionTime(() => Number(endTime));
+        }
+      } catch (e) {
+        console.error("Error while getting timer value: ", e);
+      }
+
+      // percentage of penalty applied
+      try {
+        const penalty = await rewardMgSmartContract.methods
           .preMaturePenalty()
           .call();
-        setPenaltyValue(() => time);
+        setPenaltyValue(() => penalty);
       } catch (e) {
         console.error("Error while getting timer value: ", e);
       }
@@ -92,7 +109,11 @@ const Vesting = () => {
           .replace(/\.00$/, "");
 
         if (!new BigNumber(amountBurnt).isZero()) {
-          claimedRewards = (Number(totalVestedRewards) - Number(rewardsBurnt))
+          claimedRewards = (
+            Number(totalVestedRewards) -
+            Number(rewardsBurnt) -
+            Number(unclaimableRewards)
+          )
             .toFixed(2)
             .toString()
             .replace(/\.00$/, "");
@@ -139,9 +160,12 @@ const Vesting = () => {
           vestedValues={vestedValues}
           account={account}
           penaltyValue={penaltyValue}
-          timerValue={timerValue}
+          endDistributionTime={endDistributionTime}
         />
-        <Timer timerValue={timerValue} />
+        <Timer
+          startDistributionTime={startDistributionTime}
+          endDistributionTime={endDistributionTime}
+        />
       </MainContainer>
     </Page>
   );

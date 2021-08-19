@@ -10,16 +10,18 @@ import Web3 from "web3";
 export const ClaimButtons = ({
   vestedValues,
   account,
-  timerValue,
+  endDistributionTime,
   penaltyValue,
 }) => {
   const [btnLoading, setBtnLoading] = useState(false);
   const web3 = new Web3(window.ethereum);
 
   let formatTimerValue = Date.now().toString();
-  if (timerValue) {
+  if (endDistributionTime) {
     // use toLocaleDateString() for exact time
-    formatTimerValue = new Date(timerValue * 1000).toLocaleDateString("en-US");
+    formatTimerValue = new Date(endDistributionTime * 1000).toLocaleDateString(
+      "en-US"
+    );
   }
 
   const { toastError, toastSuccess, toastInfo, toastWarning } = useToast();
@@ -94,7 +96,7 @@ export const ClaimButtons = ({
                         style={{ marginLeft: "2px", color: "#100C18" }}
                         disabled
                       >
-                        Pre-mature Claim
+                        Force Claim
                       </Button>
                       <div style={{ marginBottom: "25px" }}>
                         <QuestionHelper
@@ -107,7 +109,7 @@ export const ClaimButtons = ({
                   ) : (
                     <>
                       <Button variant="danger" onClick={handleForceClaimClick}>
-                        Pre-mature Claim
+                        Force Claim
                       </Button>
                       <div style={{ marginBottom: "25px" }}>
                         <QuestionHelper
@@ -133,7 +135,7 @@ export const ClaimButtons = ({
                     style={{ marginLeft: "2px" }}
                     variant="danger"
                   >
-                    Pre-mature Claim
+                    Force Claim
                   </Button>
                   <div style={{ marginBottom: "25px" }}>
                     <QuestionHelper
