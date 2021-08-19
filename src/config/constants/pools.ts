@@ -5,6 +5,7 @@ const pools: PoolConfig[] = [
     sousId: 0,
     tokenName: "CNT",
     tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
+    tokenAddressSecondInLp:"0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
     tokenAddress: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
     stakingTokenName: QuoteToken.CNT,
     quoteTokenSymbol: QuoteToken.CNT,
