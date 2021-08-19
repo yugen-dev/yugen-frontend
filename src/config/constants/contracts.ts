@@ -12,7 +12,7 @@ export default {
   farm: {
     97: "0x1d32c2945C8FDCBc7156c553B7cEa4325a17f4f9",
     56: "0x73feaa1eE314F8c655E354234017bE2193C9E24E",
-    80001: "0x3e74C77446CAb24f1F74Ddacf2F4f98d7019bDc1",
+    80001: "0x00866201422aaA8D27FB49eA31681AC56Bd027BE",
     137: "0x7c3a78c3C2B6B90F6A523ae76cb8C2CbBA691464", // farm
   },
   cntStaker: {
@@ -178,7 +178,7 @@ export default {
   rewardManager: {
     56: "",
     97: "",
-    80001: "0x80b0cC6AAB3661CC2CCb9cAb7b40fA5beF432D3a",
+    80001: "0x784804D830dd432B4f1F17aAb56D827F5012C82C",
     137: "",
   },
 };
