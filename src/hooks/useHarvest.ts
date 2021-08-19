@@ -13,12 +13,14 @@ import {
   harvest,
   GaslessHarvest,
   soushHarvestGasless,
+  hybridStakingHarvest,
 } from "utils/callHelpers";
 import {
   useMasterchef,
   useSousChef,
   useSousChefGasless,
   useMasterchefGasless,
+  useHybridStaking,
 } from "./useContract";
 
 export const useHarvest = (farmPid: number) => {
@@ -104,6 +106,7 @@ export const useSousHarvest = (sousId, isUsingBnb = false) => {
   const sousChefContractGasless = useSousChefGasless(sousId);
   const { toastInfo, toastError, toastSuccess } = useToast();
   const { metaTranscation } = useProfile();
+  const hybridStakingContract = useHybridStaking();
 
   const handleHarvest = useCallback(async () => {
     let resp;
@@ -114,6 +117,8 @@ export const useSousHarvest = (sousId, isUsingBnb = false) => {
         toastSuccess("Success", ` Harvested successfully`);
         dispatch(updateUserPendingReward(sousId, account));
         dispatch(updateUserBalance(sousId, account));
+      } else if (sousId === 0) {
+        await hybridStakingHarvest(hybridStakingContract, account);
       } else if (metaTranscation) {
         resp = await soushHarvestGasless(
           sousChefContractGasless,
@@ -161,6 +166,7 @@ export const useSousHarvest = (sousId, isUsingBnb = false) => {
     toastInfo,
     toastSuccess,
     toastError,
+    hybridStakingContract,
   ]);
 
   return { onReward: handleHarvest };

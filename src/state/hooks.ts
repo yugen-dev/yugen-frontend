@@ -399,7 +399,7 @@ export const useTotalValue = (): BigNumber => {
   const pools = usePoolss();
 
   const totalStakerBalance = useCntStakerTvl();
-  const totalHybridstakingCntBalance = useHybridstakingTvl();
+  // const totalHybridstakingCntBalance = useHybridstakingTvl();
   const bnbPrice = usePriceBnbBusd();
   const cntPrice = usePriceCakeBusd();
   const ethPrice = usePriceEthBusd();
@@ -463,7 +463,7 @@ export const useTotalValue = (): BigNumber => {
   }
 
   value = value.plus(totalStakerBalance.multipliedBy(cntPrice));
-  value = value.plus(totalHybridstakingCntBalance.multipliedBy(cntPrice));
+  // value = value.plus(totalHybridstakingCntBalance.multipliedBy(cntPrice));
 
   return value;
 };

@@ -12,6 +12,7 @@ import {
   sousStakeBnb,
   GaslessStake,
   sousStakeGasless,
+  hybridStakingStake,
 } from "utils/callHelpers";
 import { useProfile, useToast } from "state/hooks";
 import {
@@ -19,6 +20,7 @@ import {
   useSousChef,
   useMasterchefGasless,
   useSousChefGasless,
+  useHybridStaking,
 } from "./useContract";
 
 export const useStake = (pid: number) => {
@@ -93,6 +95,7 @@ export const useSousStake = (sousId, isUsingBnb = false) => {
   const { account, library } = useWeb3React("web3");
   const sousChefContract = useSousChef(sousId);
   const sousChefContractGasless = useSousChefGasless(sousId);
+  const hybridStakingContract = useHybridStaking();
   const { toastInfo, toastError, toastSuccess } = useToast();
   const { metaTranscation } = useProfile();
   const handleStake = useCallback(
@@ -105,6 +108,8 @@ export const useSousStake = (sousId, isUsingBnb = false) => {
           toastSuccess("Success", ` Deposited successfully`);
           dispatch(updateUserStakedBalance(sousId, account));
           dispatch(updateUserBalance(sousId, account));
+        } else if (sousId === 0) {
+          await hybridStakingStake(hybridStakingContract, amount, account);
         } else if (metaTranscation) {
           resp = await sousStakeGasless(
             sousChefContractGasless,
@@ -156,6 +161,7 @@ export const useSousStake = (sousId, isUsingBnb = false) => {
       toastInfo,
       toastSuccess,
       toastError,
+      hybridStakingContract,
     ]
   );
 
