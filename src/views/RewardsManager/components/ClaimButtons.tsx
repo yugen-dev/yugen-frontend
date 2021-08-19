@@ -106,7 +106,9 @@ export const ClaimButtons = ({
                     </>
                   ) : (
                     <>
-                      <Button variant="danger">Pre-mature Claim</Button>
+                      <Button variant="danger" onClick={handleForceClaimClick}>
+                        Pre-mature Claim
+                      </Button>
                       <div style={{ marginBottom: "25px" }}>
                         <QuestionHelper
                           text={`Withdrawing before ${formatTimerValue} will incur a loss of ${
