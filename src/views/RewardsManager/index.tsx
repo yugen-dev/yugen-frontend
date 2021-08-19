@@ -92,9 +92,10 @@ const Vesting = () => {
           .replace(/\.00$/, "");
 
         if (!new BigNumber(amountBurnt).isZero()) {
-          claimedRewards = (
-            Number(totalVestedRewards) - Number(rewardsBurnt)
-          ).toString();
+          claimedRewards = (Number(totalVestedRewards) - Number(rewardsBurnt))
+            .toFixed(2)
+            .toString()
+            .replace(/\.00$/, "");
         }
 
         setVestedValues({

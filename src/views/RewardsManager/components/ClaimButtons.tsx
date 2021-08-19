@@ -5,6 +5,7 @@ import { useToast } from "state/hooks";
 import styled from "styled-components";
 import QuestionHelper from "components/QuestionHelper";
 import { getRewardsManagerContract } from "utils/contractHelpers";
+import Web3 from "web3";
 
 export const ClaimButtons = ({
   vestedValues,
@@ -13,6 +14,7 @@ export const ClaimButtons = ({
   penaltyValue,
 }) => {
   const [btnLoading, setBtnLoading] = useState(false);
+  const web3 = new Web3(window.ethereum);
 
   let formatTimerValue = Date.now().toString();
   if (timerValue) {
@@ -30,7 +32,7 @@ export const ClaimButtons = ({
         "35% of rewards will be deducted as burn fees"
       );
 
-      const rewardMgSmartContract = await getRewardsManagerContract();
+      const rewardMgSmartContract = getRewardsManagerContract(web3);
       await rewardMgSmartContract.methods
         .preMatureDraw()
         .send({ from: account });
@@ -48,7 +50,7 @@ export const ClaimButtons = ({
 
   const handleClaimClick = async () => {
     try {
-      const rewardMgSmartContract = await getRewardsManagerContract();
+      const rewardMgSmartContract = getRewardsManagerContract(web3);
 
       setBtnLoading(() => true);
       toastInfo("Processing...");
@@ -85,20 +87,37 @@ export const ClaimButtons = ({
                   <Button style={{ marginRight: "2px" }} disabled>
                     Claim
                   </Button>
-                  <Button
-                    variant="danger"
-                    style={{ marginLeft: "2px", color: "#100C18" }}
-                    disabled
-                  >
-                    Pre-mature Claim
-                  </Button>
-                  <div style={{ marginBottom: "25px" }}>
-                    <QuestionHelper
-                      text={`Withdrawing before ${formatTimerValue} will incur a loss of ${
-                        penaltyValue / 10
-                      }% as burn fees.`}
-                    />
-                  </div>
+                  {vestedValues.Unclaimable === "0" ? (
+                    <>
+                      <Button
+                        variant="danger"
+                        style={{ marginLeft: "2px", color: "#100C18" }}
+                        disabled
+                      >
+                        Pre-mature Claim
+                      </Button>
+                      <div style={{ marginBottom: "25px" }}>
+                        <QuestionHelper
+                          text={`Withdrawing before ${formatTimerValue} will incur a loss of ${
+                            penaltyValue / 10
+                          }% as burn fees.`}
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <Button variant="danger" onClick={handleForceClaimClick}>
+                        Pre-mature Claim
+                      </Button>
+                      <div style={{ marginBottom: "25px" }}>
+                        <QuestionHelper
+                          text={`Withdrawing before ${formatTimerValue} will incur a loss of ${
+                            penaltyValue / 10
+                          }% as burn fees.`}
+                        />
+                      </div>
+                    </>
+                  )}
                 </>
               ) : (
                 <>
