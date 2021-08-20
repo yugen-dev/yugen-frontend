@@ -5,16 +5,15 @@ import DisplayInfo from "./DisplayInfo";
 export const VestingDashBoard = ({ vestedValues }) => {
   return (
     <Container>
+      <DisplayInfo description="CNT locked" value={vestedValues.Unclaimable} />
       <DisplayInfo
-        description="Total CNT locked"
-        value={vestedValues.TotalVested}
+        description="Available to claim"
+        value={vestedValues.Claimable}
       />
-      <DisplayInfo description="Unclaimable" value={vestedValues.Unclaimable} />
-      <DisplayInfo description="Claimable" value={vestedValues.Claimable} />
-      <DisplayInfo description="Claimed" value={vestedValues.Claimed} />
+      <DisplayInfo description="Total claimed" value={vestedValues.Claimed} />
       {vestedValues.AmountBurnt !== "0" ? (
         <DisplayInfo
-          description="Burnt Amount"
+          description="Total burnt"
           value={vestedValues.AmountBurnt}
         />
       ) : (

@@ -12,7 +12,6 @@
         "name": "_endAccumulation",
         "type": "uint256"
       },
-      { "internalType": "address", "name": "_farmContract", "type": "address" },
       {
         "internalType": "uint256",
         "name": "_upfrontUnlock",
@@ -148,13 +147,6 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "farmContract",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       { "internalType": "address", "name": "user", "type": "address" },
       { "internalType": "uint256", "name": "rewardAmount", "type": "uint256" },
@@ -200,6 +192,13 @@
     "name": "renounceOwnership",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "rewardDistributor",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -258,6 +257,16 @@
   },
   {
     "inputs": [
+      { "internalType": "address", "name": "_distributor", "type": "address" },
+      { "internalType": "bool", "name": "status", "type": "bool" }
+    ],
+    "name": "updateRewardDistributor",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
       {
         "internalType": "uint256",
         "name": "_newUpfrontUnlock",
@@ -265,6 +274,20 @@
       }
     ],
     "name": "updateUpfrontUnlock",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_excludeAddress",
+        "type": "address"
+      },
+      { "internalType": "bool", "name": "status", "type": "bool" }
+    ],
+    "name": "updateWhitelistAddress",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -300,19 +323,6 @@
       { "internalType": "uint256", "name": "stillDue", "type": "uint256" }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_excludeAddress",
-        "type": "address"
-      }
-    ],
-    "name": "whitelistAddress",
-    "outputs": [],
-    "stateMutability": "nonpayable",
     "type": "function"
   }
 ]
