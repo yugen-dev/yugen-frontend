@@ -80,6 +80,11 @@ const config: MenuEntry[] = [
     href: "/ifo",
   },
   {
+    label: "Analytics",
+    icon: "InfoIcon",
+    href: "https://analytics.polydex.org/",
+  },
+  {
     label: "More",
     icon: "MoreIcon",
     items: [
