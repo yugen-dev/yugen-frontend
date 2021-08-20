@@ -5,21 +5,22 @@ import ARTHXlogo from "images/ARTHXlogo.png";
 import LARTHXlogo from "images/LARTHXlogo.png";
 import { LotteryInfoProps } from "./types";
 
+const chainID = process.env.REACT_APP_CHAIN_ID;
 const LotteryInfo: LotteryInfoProps[] = [
   {
     lotteryId: 1,
     winnerLottery: {
-      lotteryAddress: Addresses.winnerLottery[80001],
+      lotteryAddress: Addresses.usdcLottery[chainID],
       tokenName: "USDC",
-      tokenAddress: Addresses.lotteryUSDC[80001],
+      tokenAddress: Addresses.usdc[chainID],
       tokenDecimals: 6,
       tokenLogo: USDClogo,
       rewardToken: "USDC",
     },
     loserLottery: {
-      lotteryAddress: Addresses.loserLottery[80001],
+      lotteryAddress: Addresses.lusdLottery[chainID],
       tokenName: "LUSD",
-      tokenAddress: Addresses.lotteryLUSD[80001],
+      tokenAddress: Addresses.lusd[chainID],
       tokenDecimals: 18,
       tokenLogo: LUSDlogo,
       metamaskImg:
@@ -30,22 +31,43 @@ const LotteryInfo: LotteryInfoProps[] = [
   {
     lotteryId: 2,
     winnerLottery: {
-      lotteryAddress: Addresses.winnerLottery2[80001],
+      lotteryAddress: Addresses.arthLottery[chainID],
       tokenName: "ARTH",
-      tokenAddress: Addresses.lotteryARTH[80001],
+      tokenAddress: Addresses.arth[chainID],
       tokenDecimals: 18,
       tokenLogo: ARTHXlogo,
       rewardToken: "ARTH",
     },
     loserLottery: {
-      lotteryAddress: Addresses.loserLottery2[80001],
+      lotteryAddress: Addresses.larthLottery[chainID],
       tokenName: "LARTH",
-      tokenAddress: Addresses.lotteryLARTH[80001],
+      tokenAddress: Addresses.larth[chainID],
       tokenDecimals: 18,
       tokenLogo: LARTHXlogo,
       metamaskImg:
         "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10309.png",
       rewardToken: "MAHA",
+    },
+  },
+  {
+    lotteryId: 3,
+    winnerLottery: {
+      lotteryAddress: Addresses.cntLottery[chainID],
+      tokenName: "CNT",
+      tokenAddress: Addresses.cnt[chainID],
+      tokenDecimals: 18,
+      tokenLogo: ARTHXlogo,
+      rewardToken: "CNT",
+    },
+    loserLottery: {
+      lotteryAddress: Addresses.lcntLottery[chainID],
+      tokenName: "LCNT",
+      tokenAddress: Addresses.lcnt[chainID],
+      tokenDecimals: 18,
+      tokenLogo: LARTHXlogo,
+      metamaskImg:
+        "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10309.png",
+      rewardToken: "USDC",
     },
   },
 ];
