@@ -88,6 +88,10 @@ const config: MenuEntry[] = [
         href: "https://www.certik.org/projects/cryptionnetwork",
       },
       {
+        label: "Analytics",
+        href: "https://analytics.polydex.org/",
+      },
+      {
         label: "Github",
         href: "https://github.com/cryption-network",
       },
