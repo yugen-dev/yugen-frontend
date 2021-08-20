@@ -48,5 +48,26 @@ const LotteryInfo: LotteryInfoProps[] = [
       rewardToken: "MAHA",
     },
   },
+  {
+    lotteryId: 3,
+    winnerLottery: {
+      lotteryAddress: Addresses.cntLottery[80001],
+      tokenName: "CNT",
+      tokenAddress: Addresses.cnt[80001],
+      tokenDecimals: 18,
+      tokenLogo: ARTHXlogo,
+      rewardToken: "CNT",
+    },
+    loserLottery: {
+      lotteryAddress: Addresses.lcntLottery[80001],
+      tokenName: "LCNT",
+      tokenAddress: Addresses.lcnt[80001],
+      tokenDecimals: 18,
+      tokenLogo: LARTHXlogo,
+      metamaskImg:
+        "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10309.png",
+      rewardToken: "USDC",
+    },
+  },
 ];
 export default LotteryInfo;

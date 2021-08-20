@@ -139,6 +139,7 @@ export default {
     80001: "0x4E833b70b226781C65d9BA49d6d640Da02D93148",
     137: "",
   },
+  // Lottery addresses
   lotteryUSDC: {
     56: "",
     97: "",
@@ -174,6 +175,30 @@ export default {
     97: "",
     80001: "0x3661901C42D416f26Eb6c8DD094fFE47EF158726",
     137: "0x20a2D84ec22F47B07d6A20209D84Bb7544ac5E95",
+  },
+  cntLottery: {
+    56: "",
+    97: "",
+    80001: "0x42E8cd4e0203abC764B3765dC221E9A81b951b63",
+    137: "0xDaF054d0F3DA3515deE303fE1B84DfB17BA9Ed31",
+  },
+  lcntLottery: {
+    56: "",
+    97: "",
+    80001: "0x7AD7583935EBDe86B4F0a42ffb4c11da80284c97",
+    137: "0xEd62B43891206B8ccD4D5C91EEa1e8F3Ecfc0b84",
+  },
+  cnt: {
+    56: "",
+    97: "",
+    80001: "0x766f03e47674608cccf7414f6c4ddf3d963ae394",
+    137: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
+  },
+  lcnt: {
+    56: "",
+    97: "",
+    80001: "0x9671cD6a156Dd5908bEdC1D54D73BB9d9ed4586a",
+    137: "0x8623F411F776803173c51e5003E23094574F6c88",
   },
   rewardManager: {
     56: "",
