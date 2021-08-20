@@ -5,21 +5,22 @@ import ARTHXlogo from "images/ARTHXlogo.png";
 import LARTHXlogo from "images/LARTHXlogo.png";
 import { LotteryInfoProps } from "./types";
 
+const chainID = process.env.REACT_APP_CHAIN_ID;
 const LotteryInfo: LotteryInfoProps[] = [
   {
     lotteryId: 1,
     winnerLottery: {
-      lotteryAddress: Addresses.usdcLottery[80001],
+      lotteryAddress: Addresses.usdcLottery[chainID],
       tokenName: "USDC",
-      tokenAddress: Addresses.usdc[80001],
+      tokenAddress: Addresses.usdc[chainID],
       tokenDecimals: 6,
       tokenLogo: USDClogo,
       rewardToken: "USDC",
     },
     loserLottery: {
-      lotteryAddress: Addresses.lusdLottery[80001],
+      lotteryAddress: Addresses.lusdLottery[chainID],
       tokenName: "LUSD",
-      tokenAddress: Addresses.lusd[80001],
+      tokenAddress: Addresses.lusd[chainID],
       tokenDecimals: 18,
       tokenLogo: LUSDlogo,
       metamaskImg:
@@ -30,17 +31,17 @@ const LotteryInfo: LotteryInfoProps[] = [
   {
     lotteryId: 2,
     winnerLottery: {
-      lotteryAddress: Addresses.arthLottery[80001],
+      lotteryAddress: Addresses.arthLottery[chainID],
       tokenName: "ARTH",
-      tokenAddress: Addresses.arth[80001],
+      tokenAddress: Addresses.arth[chainID],
       tokenDecimals: 18,
       tokenLogo: ARTHXlogo,
       rewardToken: "ARTH",
     },
     loserLottery: {
-      lotteryAddress: Addresses.larthLottery[80001],
+      lotteryAddress: Addresses.larthLottery[chainID],
       tokenName: "LARTH",
-      tokenAddress: Addresses.larth[80001],
+      tokenAddress: Addresses.larth[chainID],
       tokenDecimals: 18,
       tokenLogo: LARTHXlogo,
       metamaskImg:
@@ -51,17 +52,17 @@ const LotteryInfo: LotteryInfoProps[] = [
   {
     lotteryId: 3,
     winnerLottery: {
-      lotteryAddress: Addresses.cntLottery[80001],
+      lotteryAddress: Addresses.cntLottery[chainID],
       tokenName: "CNT",
-      tokenAddress: Addresses.cnt[80001],
+      tokenAddress: Addresses.cnt[chainID],
       tokenDecimals: 18,
       tokenLogo: ARTHXlogo,
       rewardToken: "CNT",
     },
     loserLottery: {
-      lotteryAddress: Addresses.lcntLottery[80001],
+      lotteryAddress: Addresses.lcntLottery[chainID],
       tokenName: "LCNT",
-      tokenAddress: Addresses.lcnt[80001],
+      tokenAddress: Addresses.lcnt[chainID],
       tokenDecimals: 18,
       tokenLogo: LARTHXlogo,
       metamaskImg:
