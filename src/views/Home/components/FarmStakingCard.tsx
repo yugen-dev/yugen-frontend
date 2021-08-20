@@ -75,6 +75,7 @@ const FarmedStakingCard = () => {
         </Label>
         <CakeWalletBalance />
       </Block>
+    
     </CNCardBody>
   );
 };
