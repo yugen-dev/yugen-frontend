@@ -9,17 +9,17 @@ const LotteryInfo: LotteryInfoProps[] = [
   {
     lotteryId: 1,
     winnerLottery: {
-      lotteryAddress: Addresses.winnerLottery[80001],
+      lotteryAddress: Addresses.usdcLottery[80001],
       tokenName: "USDC",
-      tokenAddress: Addresses.lotteryUSDC[80001],
+      tokenAddress: Addresses.usdc[80001],
       tokenDecimals: 6,
       tokenLogo: USDClogo,
       rewardToken: "USDC",
     },
     loserLottery: {
-      lotteryAddress: Addresses.loserLottery[80001],
+      lotteryAddress: Addresses.lusdLottery[80001],
       tokenName: "LUSD",
-      tokenAddress: Addresses.lotteryLUSD[80001],
+      tokenAddress: Addresses.lusd[80001],
       tokenDecimals: 18,
       tokenLogo: LUSDlogo,
       metamaskImg:
@@ -30,17 +30,17 @@ const LotteryInfo: LotteryInfoProps[] = [
   {
     lotteryId: 2,
     winnerLottery: {
-      lotteryAddress: Addresses.winnerLottery2[80001],
+      lotteryAddress: Addresses.arthLottery[80001],
       tokenName: "ARTH",
-      tokenAddress: Addresses.lotteryARTH[80001],
+      tokenAddress: Addresses.arth[80001],
       tokenDecimals: 18,
       tokenLogo: ARTHXlogo,
       rewardToken: "ARTH",
     },
     loserLottery: {
-      lotteryAddress: Addresses.loserLottery2[80001],
+      lotteryAddress: Addresses.larthLottery[80001],
       tokenName: "LARTH",
-      tokenAddress: Addresses.lotteryLARTH[80001],
+      tokenAddress: Addresses.larth[80001],
       tokenDecimals: 18,
       tokenLogo: LARTHXlogo,
       metamaskImg:

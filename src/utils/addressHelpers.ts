@@ -64,18 +64,6 @@ export const getBunnySpecialAddress = () => {
 export const getPolydexMigratorAddress = () => {
   return getAddress(addresses.polyDexMigrator);
 };
-export const getWinnerLotteryAddress = () => {
-  return getAddress(addresses.winnerLottery);
-};
-export const getLoserLotteryAddress = () => {
-  return getAddress(addresses.loserLottery);
-};
-export const getWinnerLottery2Address = () => {
-  return getAddress(addresses.winnerLottery2);
-};
-export const getLoserLottery2Address = () => {
-  return getAddress(addresses.loserLottery2);
-};
 export const getRewardsManagerAddress = () => {
   return getAddress(addresses.rewardManager);
 };
