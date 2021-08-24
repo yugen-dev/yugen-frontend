@@ -177,9 +177,12 @@ const CardFooter: React.FC<Props> = ({
             <MetamaskIcon height={15} width={15} ml="4px" />
           </Flex>
           <Flex mb="5px" mt="10px" justifyContent="center">
-            <TokenLink href={projectLink} target="_blank">
+            {
+              projectLink &&  <TokenLink href={projectLink} target="_blank">
               {TranslateString(412, "View project site")}
             </TokenLink>
+            }
+          
           </Flex>
         </Details>
       )}

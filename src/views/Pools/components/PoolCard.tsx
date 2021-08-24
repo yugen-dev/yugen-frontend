@@ -129,6 +129,10 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
 
     if (pool.rewardTokenCoinGeckoid === "pear") {
       tokenPrice = RewardTokenCoinGeckoPrice;
+    } else if(pool.tokenName === "LUSDT"){
+      tokenPrice = 0.08;
+    } else if(pool.tokenName === "LARTH"){
+      tokenPrice = 0.25;
     } else {
       tokenPrice = UseGetApiPrice(pool.coinGeckoIds[i].toLowerCase());
     }
@@ -141,7 +145,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     const currentTokenApy = getPoolApy(
       stakingTokenPrice.toNumber(),
       rewardTokenPrice.toNumber(),
-      getBalanceNumber(pool.totalStaked, stakingTokenDecimals),
+      getBalanceNumber(pool.totalStaked, tokenDecimals),
       parseFloat(element)
     );
 
@@ -207,7 +211,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
           ? `${stakingTokenName} (${stakingLimit} max)`
           : stakingTokenName
       }
-      stakingTokenDecimals={stakingTokenDecimals}
+      stakingTokenDecimals={tokenDecimals}
       pooldepositFeeBP={pooldepositFeeBP}
     />
   );
@@ -217,7 +221,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
       max={stakedBalance}
       onConfirm={onUnstake}
       tokenName={stakingTokenName}
-      stakingTokenDecimals={stakingTokenDecimals}
+      stakingTokenDecimals={tokenDecimals}
       poolwithdrawalFeeBP={poolwithdrawalFeeBP}
     />
   );
@@ -255,10 +259,12 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
           <CardTitle isFinished={isFinished}>
             {TranslateString(348, "Stake")} {isOldSyrup && "[OLD]"} {tokenName}
           </CardTitle>
-          {pool.sousId === Number(1) ? (
-             <Image src={TopImage} width={100} height={94} alt={tokenName} />
+          
+          {/* eslint-disable eqeqeq  */}
+          {sousId == Number(0) || sousId == Number(7) ? (
+               <Image src={TopImage} width={70} height={64} alt={tokenName} />
           ) : (
-            <Image src={TopImage} width={70} height={64} alt={tokenName} />
+            <Image src={TopImage} width={100} height={94} alt={tokenName} />
           )}
         </div>
       </div>
