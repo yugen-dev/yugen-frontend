@@ -66,6 +66,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     stakingLimit,
     poolHarvestInterval,
     poolwithdrawalFeeBP,
+    pooldepositFeeBP,
     metamaskImg,
     TopImage,
   } = pool;
@@ -207,6 +208,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
           : stakingTokenName
       }
       stakingTokenDecimals={stakingTokenDecimals}
+      pooldepositFeeBP={pooldepositFeeBP}
     />
   );
 
@@ -293,6 +295,12 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                 <Text bold>{poolwithdrawalFeeBP / 100}%</Text>
               </StyledDetails>
             )}
+            {
+              pooldepositFeeBP > 0 &&  <StyledDetails>
+              <div>{TranslateString(384, "Deposit fee")}:</div>
+              <Text bold>{pooldepositFeeBP / 100}%</Text>
+            </StyledDetails>
+            }
 
             <StyledDetails>
               <div>{TranslateString(384, "Your Stake")}:</div>

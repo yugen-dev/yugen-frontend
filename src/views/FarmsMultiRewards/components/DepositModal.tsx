@@ -70,6 +70,7 @@ const DepositModal: React.FC<DepositModalProps> = ({
     >
       <TokenInput
         poolwithdrawalFeeBP={0}
+        pooldepositFeeBP={0}
         value={val}
         onSelectMax={handleSelectMax}
         onChange={handleChange}

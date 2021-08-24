@@ -74,6 +74,7 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({
         max={fullBalance}
         symbol={tokenName}
         poolwithdrawalFeeBP={poolwithdrawalFeeBP}
+        pooldepositFeeBP={0}
       />
       <ModalActions>
         <Button variant="secondary" onClick={onDismiss}>

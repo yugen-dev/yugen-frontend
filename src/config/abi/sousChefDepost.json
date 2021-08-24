@@ -1,11 +1,7 @@
 [
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "_feeAddress",
-        "type": "address"
-      }
+      { "internalType": "address", "name": "_feeAddress", "type": "address" }
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
@@ -202,59 +198,38 @@
   },
   {
     "inputs": [],
-    "name": "ERC712_VERSION",
+    "name": "CNT",
     "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
+      { "internalType": "contract IERC20", "name": "", "type": "address" }
     ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "ERC712_VERSION",
+    "outputs": [{ "internalType": "string", "name": "", "type": "string" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "MAXIMUM_HARVEST_INTERVAL",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "MAXIMUM_WITHDRAWAL_FEE_BP",
-    "outputs": [
-      {
-        "internalType": "uint16",
-        "name": "",
-        "type": "uint16"
-      }
-    ],
+    "outputs": [{ "internalType": "uint16", "name": "", "type": "uint16" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "name": "activeRewardTokens",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
     "stateMutability": "view",
     "type": "function"
   },
@@ -270,16 +245,8 @@
         "name": "_lastRewardBlock",
         "type": "uint256"
       },
-      {
-        "internalType": "uint256",
-        "name": "_blockReward",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_amount",
-        "type": "uint256"
-      }
+      { "internalType": "uint256", "name": "_blockReward", "type": "uint256" },
+      { "internalType": "uint256", "name": "_amount", "type": "uint256" }
     ],
     "name": "addRewardToken",
     "outputs": [],
@@ -288,30 +255,38 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "_user",
-        "type": "address"
-      }
+      { "internalType": "address", "name": "_user", "type": "address" }
     ],
     "name": "canHarvest",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint16", "name": "_depositFeeBP", "type": "uint16" }
+    ],
+    "name": "changeDepositFee",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_amount",
+        "name": "_harvestInterval",
         "type": "uint256"
       }
+    ],
+    "name": "changeFarmHarvestInterval",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_amount", "type": "uint256" }
     ],
     "name": "deposit",
     "outputs": [],
@@ -320,16 +295,8 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_amount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "_user",
-        "type": "address"
-      }
+      { "internalType": "uint256", "name": "_amount", "type": "uint256" },
+      { "internalType": "address", "name": "_user", "type": "address" }
     ],
     "name": "depositFor",
     "outputs": [],
@@ -338,36 +305,12 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_amount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "_user",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_deadline",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint8",
-        "name": "_v",
-        "type": "uint8"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "_r",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "_s",
-        "type": "bytes32"
-      }
+      { "internalType": "uint256", "name": "_amount", "type": "uint256" },
+      { "internalType": "address", "name": "_user", "type": "address" },
+      { "internalType": "uint256", "name": "_deadline", "type": "uint256" },
+      { "internalType": "uint8", "name": "_v", "type": "uint8" },
+      { "internalType": "bytes32", "name": "_r", "type": "bytes32" },
+      { "internalType": "bytes32", "name": "_s", "type": "bytes32" }
     ],
     "name": "depositForWithPermit",
     "outputs": [],
@@ -376,31 +319,11 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_amount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_deadline",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint8",
-        "name": "_v",
-        "type": "uint8"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "_r",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "_s",
-        "type": "bytes32"
-      }
+      { "internalType": "uint256", "name": "_amount", "type": "uint256" },
+      { "internalType": "uint256", "name": "_deadline", "type": "uint256" },
+      { "internalType": "uint8", "name": "_v", "type": "uint8" },
+      { "internalType": "bytes32", "name": "_r", "type": "bytes32" },
+      { "internalType": "bytes32", "name": "_s", "type": "bytes32" }
     ],
     "name": "depositWithPermit",
     "outputs": [],
@@ -416,40 +339,14 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "userAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "bytes",
-        "name": "functionSignature",
-        "type": "bytes"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "sigR",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "sigS",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "uint8",
-        "name": "sigV",
-        "type": "uint8"
-      }
+      { "internalType": "address", "name": "userAddress", "type": "address" },
+      { "internalType": "bytes", "name": "functionSignature", "type": "bytes" },
+      { "internalType": "bytes32", "name": "sigR", "type": "bytes32" },
+      { "internalType": "bytes32", "name": "sigS", "type": "bytes32" },
+      { "internalType": "uint8", "name": "sigV", "type": "uint8" }
     ],
     "name": "executeMetaTransaction",
-    "outputs": [
-      {
-        "internalType": "bytes",
-        "name": "",
-        "type": "bytes"
-      }
-    ],
+    "outputs": [{ "internalType": "bytes", "name": "", "type": "bytes" }],
     "stateMutability": "payable",
     "type": "function"
   },
@@ -457,21 +354,9 @@
     "inputs": [],
     "name": "farmInfo",
     "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "startBlock",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "endBlock",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "numFarmers",
-        "type": "uint256"
-      },
+      { "internalType": "uint256", "name": "startBlock", "type": "uint256" },
+      { "internalType": "uint256", "name": "endBlock", "type": "uint256" },
+      { "internalType": "uint256", "name": "numFarmers", "type": "uint256" },
       {
         "internalType": "uint256",
         "name": "harvestInterval",
@@ -482,11 +367,8 @@
         "name": "inputToken",
         "type": "address"
       },
-      {
-        "internalType": "uint16",
-        "name": "withdrawalFeeBP",
-        "type": "uint16"
-      }
+      { "internalType": "uint16", "name": "withdrawalFeeBP", "type": "uint16" },
+      { "internalType": "uint16", "name": "depositFeeBP", "type": "uint16" }
     ],
     "stateMutability": "view",
     "type": "function"
@@ -494,100 +376,50 @@
   {
     "inputs": [],
     "name": "feeAddress",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "getChainId",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "pure",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "getDomainSeperator",
-    "outputs": [
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
+    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "_user",
-        "type": "address"
-      }
+      { "internalType": "address", "name": "_user", "type": "address" }
     ],
     "name": "getHarvestUntil",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_fromBlock",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_to",
-        "type": "uint256"
-      }
+      { "internalType": "uint256", "name": "_fromBlock", "type": "uint256" },
+      { "internalType": "uint256", "name": "_to", "type": "uint256" }
     ],
     "name": "getMultiplier",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "user",
-        "type": "address"
-      }
+      { "internalType": "address", "name": "user", "type": "address" }
     ],
     "name": "getNonce",
     "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "nonce",
-        "type": "uint256"
-      }
+      { "internalType": "uint256", "name": "nonce", "type": "uint256" }
     ],
     "stateMutability": "view",
     "type": "function"
@@ -599,36 +431,21 @@
         "name": "_rewardToken",
         "type": "address"
       },
-      {
-        "internalType": "uint256",
-        "name": "_amount",
-        "type": "uint256"
-      },
+      { "internalType": "uint256", "name": "_amount", "type": "uint256" },
       {
         "internalType": "contract IERC20",
         "name": "_inputToken",
         "type": "address"
       },
-      {
-        "internalType": "uint256",
-        "name": "_blockReward",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_startBlock",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_endBlock",
-        "type": "uint256"
-      },
+      { "internalType": "uint256", "name": "_blockReward", "type": "uint256" },
+      { "internalType": "uint256", "name": "_startBlock", "type": "uint256" },
+      { "internalType": "uint256", "name": "_endBlock", "type": "uint256" },
       {
         "internalType": "uint16",
         "name": "_withdrawalFeeBP",
         "type": "uint16"
       },
+      { "internalType": "uint16", "name": "_depositFeeBP", "type": "uint16" },
       {
         "internalType": "uint256",
         "name": "_harvestInterval",
@@ -641,49 +458,46 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_owner",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_user",
-        "type": "address"
-      }
-    ],
-    "name": "isUserWhiteListed",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
+    "inputs": [],
+    "name": "isInitiated",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
-    "name": "owner",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
+    "name": "isRewardManagerEnabled",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "_user",
-        "type": "address"
-      },
+      { "internalType": "address", "name": "_owner", "type": "address" },
+      { "internalType": "address", "name": "_user", "type": "address" }
+    ],
+    "name": "isUserWhiteListed",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "massUpdatePools",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_user", "type": "address" },
       {
         "internalType": "uint256",
         "name": "_rewardInfoIndex",
@@ -691,23 +505,13 @@
       }
     ],
     "name": "pendingReward",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "_handler",
-        "type": "address"
-      }
+      { "internalType": "address", "name": "_handler", "type": "address" }
     ],
     "name": "removeWhitelistedHandler",
     "outputs": [],
@@ -722,13 +526,14 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "inputs": [],
+    "name": "rewardManager",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "name": "rewardPool",
     "outputs": [
       {
@@ -741,11 +546,7 @@
         "name": "lastRewardBlock",
         "type": "uint256"
       },
-      {
-        "internalType": "uint256",
-        "name": "blockReward",
-        "type": "uint256"
-      },
+      { "internalType": "uint256", "name": "blockReward", "type": "uint256" },
       {
         "internalType": "contract IERC20",
         "name": "rewardToken",
@@ -757,11 +558,7 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "_feeAddress",
-        "type": "address"
-      }
+      { "internalType": "address", "name": "_feeAddress", "type": "address" }
     ],
     "name": "setFeeAddress",
     "outputs": [],
@@ -771,42 +568,22 @@
   {
     "inputs": [],
     "name": "totalInputTokensStaked",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      {
-        "internalType": "contract IERC20",
-        "name": "",
-        "type": "address"
-      }
+      { "internalType": "contract IERC20", "name": "", "type": "address" }
     ],
     "name": "totalLockedUpRewards",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
-      }
+      { "internalType": "address", "name": "newOwner", "type": "address" }
     ],
     "name": "transferOwnership",
     "outputs": [],
@@ -820,11 +597,7 @@
         "name": "_rewardTokenIndex",
         "type": "uint256"
       },
-      {
-        "internalType": "uint256",
-        "name": "_amount",
-        "type": "uint256"
-      }
+      { "internalType": "uint256", "name": "_amount", "type": "uint256" }
     ],
     "name": "transferRewardToken",
     "outputs": [],
@@ -833,11 +606,7 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_blockReward",
-        "type": "uint256"
-      },
+      { "internalType": "uint256", "name": "_blockReward", "type": "uint256" },
       {
         "internalType": "uint256",
         "name": "_rewardTokenIndex",
@@ -851,11 +620,7 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_endBlock",
-        "type": "uint256"
-      }
+      { "internalType": "uint256", "name": "_endBlock", "type": "uint256" }
     ],
     "name": "updateEndBlock",
     "outputs": [],
@@ -877,19 +642,31 @@
   },
   {
     "inputs": [
+      { "internalType": "address", "name": "_rewardManager", "type": "address" }
+    ],
+    "name": "updateRewardManager",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
+        "internalType": "bool",
+        "name": "_isRewardManagerEnabled",
+        "type": "bool"
       }
     ],
+    "name": "updateRewardManagerMode",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "name": "userInfo",
     "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      },
+      { "internalType": "uint256", "name": "amount", "type": "uint256" },
       {
         "internalType": "uint256",
         "name": "nextHarvestUntil",
@@ -901,11 +678,7 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "_handler",
-        "type": "address"
-      }
+      { "internalType": "address", "name": "_handler", "type": "address" }
     ],
     "name": "whitelistHandler",
     "outputs": [],
@@ -914,11 +687,7 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_amount",
-        "type": "uint256"
-      }
+      { "internalType": "uint256", "name": "_amount", "type": "uint256" }
     ],
     "name": "withdraw",
     "outputs": [],
@@ -927,16 +696,8 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_amount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "_user",
-        "type": "address"
-      }
+      { "internalType": "uint256", "name": "_amount", "type": "uint256" },
+      { "internalType": "address", "name": "_user", "type": "address" }
     ],
     "name": "withdrawFor",
     "outputs": [],

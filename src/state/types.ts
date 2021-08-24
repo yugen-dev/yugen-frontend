@@ -45,6 +45,7 @@ export interface Pool extends PoolConfig {
   totalStaked?: BigNumber;
   poolHarvestInterval?: number;
   poolwithdrawalFeeBP?: number;
+  pooldepositFeeBP?:number;
   startBlock?: number;
   endBlock?: number;
   tokenAmount?: BigNumber;
