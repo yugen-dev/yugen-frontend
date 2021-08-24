@@ -20,8 +20,6 @@ import {
   getClaimRefundAddress,
   getHybridStakingAddress,
   getSingleSidedLiquidityAddress,
-  getWinnerLotteryAddress,
-  getLoserLotteryAddress,
 } from "utils/addressHelpers";
 
 // ABI
@@ -106,10 +104,4 @@ export const getMasterchefContract = (web3?: Web3) => {
 };
 export const getClaimRefundContract = (web3?: Web3) => {
   return getContract(claimRefundAbi, getClaimRefundAddress(), web3);
-};
-export const getWinnerLotteryContract = (web3?: Web3) => {
-  return getContract(lotteryAbi, getWinnerLotteryAddress(), web3);
-};
-export const getLoserLotteryContract = (web3?: Web3) => {
-  return getContract(lotteryAbi, getLoserLotteryAddress(), web3);
 };

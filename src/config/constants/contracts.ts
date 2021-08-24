@@ -127,52 +127,77 @@ export default {
     80001: "0xEcbF5f2A16DAa2Ace84A1845341FB9B62302CB43",
     137: "0xaD4C94313BF3aC2641A2C6F0A3802c4990A034fe",
   },
-  winnerLottery: {
+  // Lottery addresses
+  usdcLottery: {
     56: "",
     97: "",
-    80001: "0x7A75050c800d15b78fAd0A9271a50eF12BFcAb89",
-    137: "0x653441299ec28E0301d640006E2ceC4776ebA671",
+    80001: "0x409e98Fa21E3d445F88033A8098E9AB5F3f92C76",
+    137: "0x560BEBAE553d4735D29B82903938beceBA42dE95",
   },
-  loserLottery: {
+  lusdLottery: {
     56: "",
     97: "",
-    80001: "0x4E833b70b226781C65d9BA49d6d640Da02D93148",
-    137: "0xC598adCEBfB0E3503149142A663f65B5ac2482f1",
+    80001: "0x72AcB5659F46c2C081180b663CD19193D825c4b7",
+    137: "0xE91fe96F23aCC6fFd056AE6b906D70fE3FA0a7a0",
   },
-  lotteryUSDC: {
+  usdc: {
     56: "",
     97: "",
     80001: "0x671b68fb02778D37a885699dA79c13Faf0d3C560",
     137: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
   },
-  lotteryLUSD: {
+  lusd: {
     56: "",
     97: "",
-    80001: "0x996D0eE46047CD169b8A6854E4F76D6E816653c8",
+    80001: "0x9b3C411Db385e99d04c7bed208e7546Fc6f85087",
     137: "0xb032512A23Ef041bEc2e48e9b3f07286408B2B26",
   },
-  winnerLottery2: {
+  arthLottery: {
     56: "",
     97: "",
     80001: "0x43E386E32D17e325e1601db9Ad1C35eAD3e17a28",
     137: "0x4C544Daf1dC9f0C4f34E9c3620cd10bDb8b15a73",
   },
-  loserLottery2: {
+  larthLottery: {
     56: "",
     97: "",
     80001: "0xf32EE32d4F08629014516AdCa0473f3C3C0c1ac7",
     137: "0x3B3b97D186A019c55078d2f7163f23FE349B586c",
   },
-  lotteryARTH: {
+  arth: {
     56: "",
     97: "",
     80001: "0x7085798475A01f1C4e787069433abA4518A6456B",
     137: "0xe52509181feb30eb4979e29ec70d50fd5c44d590",
   },
-  lotteryLARTH: {
+  larth: {
     56: "",
     97: "",
     80001: "0x3661901C42D416f26Eb6c8DD094fFE47EF158726",
     137: "0x20a2D84ec22F47B07d6A20209D84Bb7544ac5E95",
+  },
+  cntLottery: {
+    56: "",
+    97: "",
+    80001: "0x42E8cd4e0203abC764B3765dC221E9A81b951b63",
+    137: "0xDaF054d0F3DA3515deE303fE1B84DfB17BA9Ed31",
+  },
+  lcntLottery: {
+    56: "",
+    97: "",
+    80001: "0x7AD7583935EBDe86B4F0a42ffb4c11da80284c97",
+    137: "0xEd62B43891206B8ccD4D5C91EEa1e8F3Ecfc0b84",
+  },
+  cnt: {
+    56: "",
+    97: "",
+    80001: "0x766f03e47674608cccf7414f6c4ddf3d963ae394",
+    137: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
+  },
+  lcnt: {
+    56: "",
+    97: "",
+    80001: "0x9671cD6a156Dd5908bEdC1D54D73BB9d9ed4586a",
+    137: "0x8623F411F776803173c51e5003E23094574F6c88",
   },
 };
