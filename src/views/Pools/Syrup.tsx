@@ -1,6 +1,7 @@
 /* eslint-disable react/no-danger */
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { Route, useRouteMatch } from "react-router-dom";
+import { LinkExternal, Text } from "cryption-uikit";
 import BigNumber from "bignumber.js";
 import orderBy from "lodash/orderBy";
 import Container from "@material-ui/core/Container";
@@ -98,6 +99,13 @@ const Farm: React.FC = () => {
         <Grid container spacing={3} alignItems="center">
           <Grid item xs={12} md={6} lg={6} xl={6}>
             <CNHeading>Pools</CNHeading>
+            <Text fontSize="20px" color="#99a3ba">
+              75% of the rewards will be sent to reward manager and will be
+              vested as per the schedule.{" "}
+              <LinkExternal href="https://docs.cryption.network/products/reward-manager">
+                Learn more
+              </LinkExternal>
+            </Text>
           </Grid>
           <Grid item xs={12} md={6} lg={6} xl={6}>
             <div

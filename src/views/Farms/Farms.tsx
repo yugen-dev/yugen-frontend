@@ -4,7 +4,7 @@ import { Route, useRouteMatch, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import BigNumber from "bignumber.js";
 import { useWeb3React } from "@web3-react/core";
-import { RowType, Toggle, Text } from "cryption-uikit";
+import { RowType, Toggle, Text, LinkExternal } from "cryption-uikit";
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
 import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CAKE_POOL_PID } from "config";
@@ -471,6 +471,13 @@ const Farms: React.FC = () => {
         <Grid container spacing={3} alignItems="center">
           <Grid item xs={12} md={6} lg={6} xl={6}>
             <CNHeading>Core Farms</CNHeading>
+            <Text fontSize="20px" color="#99a3ba">
+              75% of the rewards will be sent to reward manager and will be
+              vested as per the schedule.{" "}
+              <LinkExternal href="https://docs.cryption.network/products/reward-manager">
+                Learn more
+              </LinkExternal>
+            </Text>
             <CountdownTimer unixEndTimeInSeconds={1627569000} />
           </Grid>
           <Grid item xs={12} md={6} lg={6} xl={6}>
