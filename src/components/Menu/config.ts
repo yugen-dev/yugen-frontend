@@ -45,11 +45,11 @@ const config: MenuEntry[] = [
     icon: "TicketIcon",
     href: "/lottery",
   },
-  // {
-  //   label: 'Collectibles',
-  //   icon: 'NftIcon',
-  //   href: '/collectibles',
-  // },
+  {
+    label: "Rewards Manager",
+    icon: "RewardsManagerIcon",
+    href: "/rewardsmanager",
+  },
   // {
   //   label: 'Teams & Profile',
   //   icon: 'GroupsIcon',
@@ -74,11 +74,11 @@ const config: MenuEntry[] = [
   //   icon: "InfoIcon",
   //   items: [],
   // },
-  {
-    label: "IFO",
-    icon: "IfoIcon",
-    href: "/ifo",
-  },
+  // {
+  //   label: "IFO",
+  //   icon: "IfoIcon",
+  //   href: "/ifo",
+  // },
   {
     label: "Analytics",
     icon: "InfoIcon",

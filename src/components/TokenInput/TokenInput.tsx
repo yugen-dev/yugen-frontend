@@ -16,6 +16,7 @@ interface TokenInputProps extends InputProps {
   symbol: string;
   value: string;
   poolwithdrawalFeeBP: number;
+  pooldepositFeeBP: number;
   onSelectMax?: () => void;
   onChange: (evt: React.FormEvent<HTMLInputElement>) => void;
 }
@@ -27,6 +28,7 @@ const TokenInput: React.FC<TokenInputProps> = ({
   onSelectMax,
   value,
   poolwithdrawalFeeBP = 0,
+  pooldepositFeeBP = 0,
 }) => {
   const TranslateString = useI18n();
 
@@ -62,6 +64,14 @@ const TokenInput: React.FC<TokenInputProps> = ({
           {new BigNumber(value || 0)
             .times(poolwithdrawalFeeBP / 10000)
             .toString()}
+          {symbol}
+        </StyledMaxText>
+      ) : null}
+
+      {pooldepositFeeBP > 0 ? (
+        <StyledMaxText>
+          Deposit Fee{" "}
+          {new BigNumber(value || 0).times(pooldepositFeeBP / 10000).toString()}
           {symbol}
         </StyledMaxText>
       ) : null}

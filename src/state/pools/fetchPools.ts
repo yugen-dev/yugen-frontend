@@ -1,5 +1,6 @@
 import poolsConfig from "config/constants/pools";
 import sousChefABI from "config/abi/sousChef.json";
+import sousChefABIDeposit from "config/abi/sousChefDepost.json";
 import wbnbABI from "config/abi/weth.json";
 import { QuoteToken } from "config/constants/types";
 import erc20 from "config/abi/erc20.json";
@@ -11,41 +12,57 @@ import { getHybridStakingContract } from "utils/contractHelpers";
 export const fetchPoolsBlockLimits = async () => {
   const poolsWithEnd = poolsConfig.filter((p) => p.sousId !== 0);
 
+  const poolsWithEndDepositFee = poolsConfig.filter((p) => p.sousId !== 0 && p.sousId >= 8);
+
+  // eslint-disable-next-line array-callback-return
   const callsFarmInfo = poolsWithEnd.map((poolConfig) => {
+      return {
+        address: getAddress(poolConfig.contractAddress),
+        name: "farmInfo",
+      };
+  });
+
+  const starts = await multicall(sousChefABI, callsFarmInfo);
+  const ends = await multicall(sousChefABI, callsFarmInfo);
+
+  const callsFarmWithDepsoitInfo = poolsWithEndDepositFee.map((poolConfig) => {
     return {
       address: getAddress(poolConfig.contractAddress),
       name: "farmInfo",
     };
   });
 
-  const starts = await multicall(sousChefABI, callsFarmInfo);
-  const ends = await multicall(sousChefABI, callsFarmInfo);
-
-
+  const startWithDepostiFee = await multicall(sousChefABIDeposit, callsFarmWithDepsoitInfo);
+  // const endsWithDepostiFee = await multicall(sousChefABIDeposit, callsFarmWithDepsoitInfo);
+  
   const contract = getHybridStakingContract();
+
   const interactionInterval = await contract.methods
     .interactionInterval()
     .call();
-    const withdrawalCNTfee = await contract.methods.withdrawalFee().call()
-   
+  const withdrawalCNTfee = await contract.methods.withdrawalFee().call();
 
   return poolsConfig.map((cakePoolConfig, index) => {
-   
-    if(cakePoolConfig.sousId === 0){
-
+    if (cakePoolConfig.sousId === 0) {
       return {
-          sousId:0,
-          startBlock: new BigNumber("0").toJSON(),
-          endBlock: new BigNumber("0").toJSON(),
-          poolHarvestInterval: new BigNumber(interactionInterval).toJSON(),
-          poolwithdrawalFeeBP: new BigNumber(withdrawalCNTfee).toJSON(),
-      }
+        sousId: cakePoolConfig.sousId,
+        startBlock: new BigNumber("0").toJSON(),
+        endBlock: new BigNumber("0").toJSON(),
+        poolHarvestInterval: new BigNumber(interactionInterval).toJSON(),
+        poolwithdrawalFeeBP: new BigNumber(withdrawalCNTfee).toJSON(),
+      };
       // eslint-disable-next-line no-else-return
     }
-    const startBlock = starts[index-1].startBlock._hex;
-    const endBlock = ends[index-1].endBlock._hex;
-    const poolHarvestIntervall = starts[index-1].harvestInterval._hex;
-    const poolwithdrawalFeeBP = starts[index-1].withdrawalFeeBP;
+
+    const startBlock = starts[index - 1].startBlock._hex;
+    const endBlock = ends[index - 1].endBlock._hex;
+    const poolHarvestIntervall = starts[index - 1].harvestInterval._hex;
+    const poolwithdrawalFeeBP = starts[index - 1].withdrawalFeeBP;
+    let depositFee = 0;
+
+    if(cakePoolConfig.sousId >= 8 ){
+      depositFee = startWithDepostiFee[index-1-7].depositFeeBP;
+    }
 
     return {
       sousId: cakePoolConfig.sousId,
@@ -53,25 +70,21 @@ export const fetchPoolsBlockLimits = async () => {
       endBlock: new BigNumber(endBlock).toJSON(),
       poolHarvestInterval: new BigNumber(poolHarvestIntervall).toJSON(),
       poolwithdrawalFeeBP: new BigNumber(poolwithdrawalFeeBP).toJSON(),
+      pooldepositFeeBP: new BigNumber(depositFee).toJSON(),
     };
-
-  })
-  
+  });
 };
 
-
 export const fetchPoolsTotalStatking = async () => {
-
   const poolsWithEnd = poolsConfig.filter((p) => p.sousId !== 0);
 
   const nonBnbPools = poolsWithEnd.filter(
     (p) => p.stakingTokenName !== QuoteToken.BNB
   );
   const bnbPool = poolsWithEnd.filter(
-    (p) => p.stakingTokenName === QuoteToken.BNB 
+    (p) => p.stakingTokenName === QuoteToken.BNB
   );
 
-  
   const callsNonBnbPools = nonBnbPools.map((poolConfig) => {
     return {
       address: getAddress(poolConfig.contractAddress),
@@ -91,9 +104,7 @@ export const fetchPoolsTotalStatking = async () => {
   const bnbPoolsTotalStaked = await multicall(wbnbABI, callsBnbPools);
 
   const contract = getHybridStakingContract();
-  const totalCNTStaked = await contract.methods
-    .totalCNTStaked()
-    .call();
+  const totalCNTStaked = await contract.methods.totalCNTStaked().call();
 
   return [
     {
@@ -162,7 +173,6 @@ export const fetchPoolsLpData = async () => {
           address: farmConfig.tokenAddressSecondInLp,
           name: "decimals",
         },
-
       ];
 
       const [
@@ -173,7 +183,7 @@ export const fetchPoolsLpData = async () => {
         tokenDecimals,
         quoteTokenDecimals,
         secondTokenInLpBalance,
-        secondTokenInLpDecimal
+        secondTokenInLpDecimal,
       ] = await multicall(erc20, calls);
       // console.log({
       //   tokenBalanceLP: tokenBalanceLP.toString(),
@@ -203,8 +213,10 @@ export const fetchPoolsLpData = async () => {
       const quoteTokenAmount = new BigNumber(quoteTokenBlanceLP)
         .div(new BigNumber(10).pow(quoteTokenDecimals))
         .times(lpTokenRatio);
-        const quoteTokenSecondAmount = new BigNumber(secondTokenInLpBalance).div(new BigNumber(10).pow(secondTokenInLpDecimal)).times(lpTokenRatio);
-        const quoteTokeFirstAmount   = new BigNumber(quoteTokenBlanceLP)
+      const quoteTokenSecondAmount = new BigNumber(secondTokenInLpBalance)
+        .div(new BigNumber(10).pow(secondTokenInLpDecimal))
+        .times(lpTokenRatio);
+      const quoteTokeFirstAmount = new BigNumber(quoteTokenBlanceLP)
         .div(new BigNumber(10).pow(quoteTokenDecimals))
         .times(lpTokenRatio);
       return {
@@ -212,8 +224,8 @@ export const fetchPoolsLpData = async () => {
         tokenAmount: tokenAmount.toJSON(),
         quoteTokenAmount: quoteTokenAmount.toJSON(),
         lpTotalInQuoteToken: lpTotalInQuoteToken.toJSON(),
-        quoteTokenSecondAmount : quoteTokenSecondAmount.toJSON(),
-        quoteTokeFirstAmount : quoteTokeFirstAmount.toJSON(),
+        quoteTokenSecondAmount: quoteTokenSecondAmount.toJSON(),
+        quoteTokeFirstAmount: quoteTokeFirstAmount.toJSON(),
         tokenPriceVsQuote: quoteTokenAmount.div(tokenAmount).toJSON(),
       };
     })

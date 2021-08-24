@@ -64,3 +64,6 @@ export const getBunnySpecialAddress = () => {
 export const getPolydexMigratorAddress = () => {
   return getAddress(addresses.polyDexMigrator);
 };
+export const getRewardsManagerAddress = () => {
+  return getAddress(addresses.rewardsManager);
+};

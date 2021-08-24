@@ -67,6 +67,7 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({
     <Modal title={`Withdraw ${tokenName}`} onDismiss={onDismiss}>
       <TokenInput
         poolwithdrawalFeeBP={0}
+        pooldepositFeeBP={0}
         onSelectMax={handleSelectMax}
         onChange={handleChange}
         value={val}

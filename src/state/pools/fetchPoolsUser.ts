@@ -173,6 +173,6 @@ export const fetchPoolUserHarvestInterval = async (account) => {
   const interactionInterval = await contract.methods
     .interactionInterval()
     .call();
-
-  return { 0 : new BigNumber(mastecheflastInteractionAt).plus(new BigNumber(interactionInterval))  , ...userHarvestInterval };
+  const harvestInervaleCal = (new BigNumber(mastecheflastInteractionAt).plus(new BigNumber(interactionInterval))).toJSON();
+  return { 0 : harvestInervaleCal  , ...userHarvestInterval };
 };
