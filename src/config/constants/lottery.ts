@@ -28,6 +28,7 @@ const LotteryInfo: LotteryInfoProps[] = [
       metamaskImg:
         "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10300.png",
       rewardToken: "CNT",
+      rewardTokenDecimals: 18,
     },
   },
   {
@@ -49,6 +50,7 @@ const LotteryInfo: LotteryInfoProps[] = [
       metamaskImg:
         "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10309.png",
       rewardToken: "MAHA",
+      rewardTokenDecimals: 18,
     },
   },
   {
@@ -70,6 +72,7 @@ const LotteryInfo: LotteryInfoProps[] = [
       metamaskImg:
         "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10310_2.png",
       rewardToken: "USDC",
+      rewardTokenDecimals: 6,
     },
   },
 ];

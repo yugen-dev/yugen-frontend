@@ -187,5 +187,6 @@ export interface LotteryInfoProps {
     tokenDecimals: number;
     metamaskImg?: string;
     rewardToken: string;
+    rewardTokenDecimals: number;
   };
 }
