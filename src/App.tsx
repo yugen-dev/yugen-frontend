@@ -33,7 +33,7 @@ const Pool = lazy(() => import("./views/Pool"));
 const PoolFinder = lazy(() => import("./views/PoolFinder"));
 const MigrateFinder = lazy(() => import("./views/MigrationFinder"));
 const RemoveLiquidity = lazy(() => import("./views/RemoveLiquidity"));
-const IFO = lazy(() => import("./views/IFO"));
+// const IFO = lazy(() => import("./views/IFO"));
 const Lottery = lazy(() => import("./views/Lottery"));
 const RewardsManager = lazy(() => import("./views/RewardsManager"));
 
@@ -104,7 +104,7 @@ const App: React.FC = () => {
                 path="/remove/:currencyIdA/:currencyIdB"
                 component={RemoveLiquidity}
               />
-              <Route exact path="/ifo" component={IFO} />
+              {/* <Route exact path="/ifo" component={IFO} /> */}
               <Route exact path="/lottery" component={Lottery} />
               <Route exact path="/rewardsmanager" component={RewardsManager} />
 
