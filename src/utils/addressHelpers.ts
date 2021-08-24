@@ -3,7 +3,10 @@ import { Address } from "config/constants/types";
 import { poolsConfig } from "config/constants";
 
 export const getAddress = (address: Address): string => {
-  const chainId = window && window.ethereum ? window.ethereum.networkVersion : process.env.REACT_APP_CHAIN_ID;
+  const chainId =
+    window && window.ethereum
+      ? window.ethereum.networkVersion
+      : process.env.REACT_APP_CHAIN_ID;
   return address[chainId];
 };
 
@@ -65,4 +68,7 @@ export const getPolydexMigratorAddress = () => {
 };
 export const getuniversalOneSidedFarmAddress = () => {
   return getAddress(addresses.univerSaloneSidedFarm);
+};
+export const getL2IntermediatorAddress = () => {
+  return getAddress(addresses.l2Intermediator);
 };

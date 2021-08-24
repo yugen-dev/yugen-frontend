@@ -5,11 +5,11 @@ import Web3 from "web3";
 import { provider as ProviderType } from "web3-core";
 import Countdown from "react-countdown";
 import { getAddress, getFarmAddress } from "utils/addressHelpers";
-import { Flex, Text, Radio, Heading, Button, useModal } from "cryption-uikit";
+import { Flex, Text, Radio, Heading, Button } from "cryption-uikit";
 import { Farm } from "state/types";
 import { getBalanceNumber, getFullDisplayBalance } from "utils/formatBalance";
-import { useFarmFromSymbol, useFarmUser, useProfile } from "state/hooks";
-import { useUniversalOneSidedFarm } from "hooks/useContract";
+import { useFarmFromSymbol, useFarmUser, useProfile, useToast } from "state/hooks";
+import { useUniversalOneSidedFarm, useL2Intermediator } from "hooks/useContract";
 import useI18n from "hooks/useI18n";
 import useWeb3 from "hooks/useWeb3";
 import { getERC20Contract } from "utils/contractHelpers";
@@ -20,8 +20,7 @@ import { Subtle } from "../FarmTable/Actions/styles";
 import StakeAction from "./StakeAction";
 import HarvestAction from "./HarvestAction";
 import StakeActionSignleSided from "./StakeActionSignleSided";
-import StakeEthModal from '../StakeEthModal';
-import DepositModal from "../DepositModal";
+import DepositModal from "../DepositModalCrossChain";
 
 const Action = styled.div`
   padding-top: 5px;
@@ -45,8 +44,12 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
   totalValue,
 }) => {
   const universalOneSidedFarm = useUniversalOneSidedFarm();
+  const { toastSuccess } = useToast();
+  const L2IntermediatoryContract = useL2Intermediator();
   const TranslateString = useI18n();
   const [requestedApproval, setRequestedApproval] = useState(false);
+  const [showDepositModal, onPresentDeposit] = useState(false);
+  const [stakeEthProcessEth, setStakeEthProcessEth] = useState(0);
   const { pid, lpAddresses, singleSidedToken, singleSidedToToken } =
     useFarmFromSymbol(farm.lpSymbol);
 
@@ -76,6 +79,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
 
     if (account) {
       fetchBalance();
+      listentToEvents()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account]);
@@ -194,32 +198,45 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
       </div>
     );
   };
-
   const onConfirmStakeEth = async () => {
     try {
       const farmAddress = getFarmAddress();
-      console.log({ farmAddress });
-      // const getEthBal = getFullDisplayBalance(ethBal);
-      console.log(farm.pid, { lpAddress }, { singleSidedAddress }, { farmAddress })
-      const onCrossChainoneSidedFarm = await universalOneSidedFarm.methods.crossChainOneSidedFarm('0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', false, 0, farm.pid, lpAddress, singleSidedAddress, farmAddress, 1).send({ from: account, value: web3.utils.toWei('0.0012', 'ether') });
-        console.log('txhash is ', onCrossChainoneSidedFarm);
+      const getEthBal = getFullDisplayBalance(ethBal);
+      await universalOneSidedFarm.methods.crossChainOneSidedFarm('0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', false, 0, farm.pid, lpAddress, singleSidedAddress, farmAddress, 1).send({ from: account, value: getEthBal });
+      // console.log('txhash is ', onCrossChainoneSidedFarm);
+      setStakeEthProcessEth(1);
     } catch (error) {
-      console.log('error is', error);
+      console.error('error is', error);
     }
   }
-  const [onStakeEth] = useModal(
-    <StakeEthModal
-      activeIndex={1}
-    />
-  );
-  const [onPresentDeposit] = useModal(
-    <DepositModal
-      max={ethBal}
-      onConfirm={onConfirmStakeEth}
-      tokenName="Eth"
-      addLiquidityUrl={addLiquidityUrl}
-    />
-  );
+  const listentToEvents = async () => {
+    L2IntermediatoryContract.events
+      .DepositedCrossChainFarm()
+      .on("data", (event) => {
+        const getEthBal = getFullDisplayBalance(ethBal);
+        if (
+          event &&
+          event.returnValues &&
+          event.returnValues.user === account &&
+          event.returnValues.pid === farm.pid.toString() &&
+          event.returnValues.amount === getEthBal
+        ) {
+          setStakeEthProcessEth(2);
+          toastSuccess("Success", "Your Last Transcation was Successfull");
+        }
+      }).on("error", (error) => {
+        console.error('error is ', error);
+      });
+  };
+  // const [onPresentDeposit] = useModal(
+  //   <DepositModal
+  //     max={ethBal}
+  //     activeIndex={stakeEthProcessEth}
+  //     onConfirm={onConfirmStakeEth}
+  //     tokenName="Eth"
+  //     addLiquidityUrl={addLiquidityUrl}
+  //   />
+  // );
   const RenderNextHarvestIn = () => {
     const check =
       isApproved ||
@@ -257,6 +274,15 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
   const renderApprovalOrStakeButton = () => {
     return (
       <>
+        <DepositModal
+          max={ethBal}
+          isOpen={showDepositModal}
+          activeIndex={stakeEthProcessEth}
+          onDismiss={() => onPresentDeposit(false)}
+          onConfirm={onConfirmStakeEth}
+          tokenName="Eth"
+          addLiquidityUrl={addLiquidityUrl}
+        />
         <Flex mt="15px" justifyContent="space-between" alignItems="center">
           <div style={{ display: "flex" }}>
             <Text
@@ -286,7 +312,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
           </Flex>
         </Flex>
         {window.ethereum.networkVersion === '1' || window.ethereum.networkVersion === '5' ?
-          <Button onClick={onPresentDeposit} variant="secondary" mt="15px">
+          <Button onClick={() => onPresentDeposit(true)} variant="secondary" mt="15px">
             {TranslateString(999, "Stake ETH")}
           </Button>
           :
