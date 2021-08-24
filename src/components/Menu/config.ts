@@ -74,11 +74,11 @@ const config: MenuEntry[] = [
   //   icon: "InfoIcon",
   //   items: [],
   // },
-  {
-    label: "IFO",
-    icon: "IfoIcon",
-    href: "/ifo",
-  },
+  // {
+  //   label: "IFO",
+  //   icon: "IfoIcon",
+  //   href: "/ifo",
+  // },
   {
     label: "Analytics",
     icon: "InfoIcon",
