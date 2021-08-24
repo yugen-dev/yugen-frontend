@@ -255,10 +255,12 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
           <CardTitle isFinished={isFinished}>
             {TranslateString(348, "Stake")} {isOldSyrup && "[OLD]"} {tokenName}
           </CardTitle>
-          {pool.sousId === Number(1) ? (
-             <Image src={TopImage} width={100} height={94} alt={tokenName} />
+          
+          {/* eslint-disable eqeqeq  */}
+          {sousId == Number(0) || sousId == Number(7) ? (
+               <Image src={TopImage} width={70} height={64} alt={tokenName} />
           ) : (
-            <Image src={TopImage} width={70} height={64} alt={tokenName} />
+            <Image src={TopImage} width={100} height={94} alt={tokenName} />
           )}
         </div>
       </div>

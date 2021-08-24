@@ -308,7 +308,7 @@ const pools: PoolConfig[] = [
       "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
     ],
     TopImage:
-    "https://cryptologos.cc/logos/matic-network-matic-logo.svg?v=006",
+    "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10322.png",
     multiRewardTokenPerBlock: ["0.2"],
     harvest: true,
     tokenPerBlock: "0.2",
@@ -342,7 +342,7 @@ const pools: PoolConfig[] = [
       "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
     ],
     TopImage:
-    "https://cryptologos.cc/logos/ethereum-eth-logo.svg",
+    "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10321.png",
     multiRewardTokenPerBlock: ["0.2"],
     harvest: true,
     tokenPerBlock: "0.2",
@@ -376,7 +376,7 @@ const pools: PoolConfig[] = [
       "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
     ],
     TopImage:
-    "https://tokens.1inch.exchange/0x2260fac5e5542a773aa44fbcfedf7c193bc2c599.png",
+    "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10325.png",
     multiRewardTokenPerBlock: ["0.2"],
     harvest: true,
     tokenPerBlock: "0.2",
@@ -411,7 +411,7 @@ const pools: PoolConfig[] = [
       "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
     ],
     TopImage:
-    "https://cryptologos.cc/logos/usd-coin-usdc-logo.svg?v=006",
+    "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10323.png",
     multiRewardTokenPerBlock: ["0.12"],
     harvest: true,
     tokenPerBlock: "0.12",
@@ -445,7 +445,7 @@ const pools: PoolConfig[] = [
       "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
     ],
     TopImage:
-      "https://cryptologos.cc/logos/multi-collateral-dai-dai-logo.svg?v=006",
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10326.png",
     multiRewardTokenPerBlock: ["0.12"],
     harvest: true,
     tokenPerBlock: "0.12",
@@ -479,7 +479,7 @@ const pools: PoolConfig[] = [
       "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
     ],
     TopImage:
-    "https://seeklogo.com/images/T/tether-usdt-logo-FA55C7F397-seeklogo.com.png",
+    "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10328.png",
     multiRewardTokenPerBlock: ["0.12"],
     harvest: true,
     tokenPerBlock: "0.12",
@@ -514,7 +514,7 @@ const pools: PoolConfig[] = [
       "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
     ],
     TopImage:
-      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10300.png",
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10319.png",
     multiRewardTokenPerBlock: ["0.02"],
     harvest: true,
     tokenPerBlock: "0.02",
@@ -548,7 +548,7 @@ const pools: PoolConfig[] = [
       "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
     ],
     TopImage:
-      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10309.png",
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10324.png",
     multiRewardTokenPerBlock: ["0.02"],
     harvest: true,
     tokenPerBlock: "0.02",
