@@ -382,7 +382,7 @@ const pools: PoolConfig[] = [
     tokenPerBlock: "0.2",
     sortOrder: 999,
     isFinished: false,
-    tokenDecimals: 18,
+    tokenDecimals: 8,
     metamaskImg:
       "https://assets.coingecko.com/coins/images/17173/small/pear200.png?1626793002",
   },
@@ -416,7 +416,7 @@ const pools: PoolConfig[] = [
     tokenPerBlock: "0.12",
     sortOrder: 999,
     isFinished: false,
-    tokenDecimals: 18,
+    tokenDecimals: 6,
     metamaskImg:
       "https://assets.coingecko.com/coins/images/17173/small/pear200.png?1626793002",
   },
@@ -484,11 +484,10 @@ const pools: PoolConfig[] = [
     tokenPerBlock: "0.12",
     sortOrder: 999,
     isFinished: false,
-    tokenDecimals: 18,
+    tokenDecimals: 6,
     metamaskImg:
       "https://seeklogo.com/images/T/tether-usdt-logo-FA55C7F397-seeklogo.com.png",
   },
-
   // {
   //   sousId: 14,
   //   tokenName: "LUSDT",

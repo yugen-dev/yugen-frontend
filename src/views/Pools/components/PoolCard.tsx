@@ -145,7 +145,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     const currentTokenApy = getPoolApy(
       stakingTokenPrice.toNumber(),
       rewardTokenPrice.toNumber(),
-      getBalanceNumber(pool.totalStaked, stakingTokenDecimals),
+      getBalanceNumber(pool.totalStaked, tokenDecimals),
       parseFloat(element)
     );
 
@@ -211,7 +211,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
           ? `${stakingTokenName} (${stakingLimit} max)`
           : stakingTokenName
       }
-      stakingTokenDecimals={stakingTokenDecimals}
+      stakingTokenDecimals={tokenDecimals}
       pooldepositFeeBP={pooldepositFeeBP}
     />
   );
@@ -221,7 +221,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
       max={stakedBalance}
       onConfirm={onUnstake}
       tokenName={stakingTokenName}
-      stakingTokenDecimals={stakingTokenDecimals}
+      stakingTokenDecimals={tokenDecimals}
       poolwithdrawalFeeBP={poolwithdrawalFeeBP}
     />
   );
