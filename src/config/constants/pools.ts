@@ -5,7 +5,7 @@ const pools: PoolConfig[] = [
     sousId: 0,
     tokenName: "CNT",
     tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
-    tokenAddressSecondInLp:"0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
+    tokenAddressSecondInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
     tokenAddress: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
     stakingTokenName: QuoteToken.CNT,
     quoteTokenSymbol: QuoteToken.CNT,
@@ -40,7 +40,7 @@ const pools: PoolConfig[] = [
     sousId: 1,
     tokenName: "MAHA-CNT",
     tokenAdressInLp: "0xeDd6cA8A4202d4a36611e2fff109648c4863ae19",
-    tokenAddressSecondInLp : "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
+    tokenAddressSecondInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
     tokenAddress: "0x577aa7cAcBAd94cC0cC12a17209570a1D06bda3A", // maha
     stakingTokenName: QuoteToken.LP,
     quoteTokenSymbol: QuoteToken.MAHA,
@@ -79,7 +79,7 @@ const pools: PoolConfig[] = [
     tokenName: "CNT",
     tokenAdressInLp: "0xc8bcb58caEf1bE972C0B638B1dD8B0748Fdc8A44",
     tokenAddress: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // maha
-    tokenAddressSecondInLp : "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
+    tokenAddressSecondInLp: "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
     stakingTokenName: QuoteToken.CNT,
     quoteTokenSymbol: QuoteToken.CNT,
     stakingTokenAddress: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // lp
@@ -113,7 +113,7 @@ const pools: PoolConfig[] = [
     sousId: 3,
     tokenName: "CNT-ARTH",
     tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
-    tokenAddressSecondInLp : "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
+    tokenAddressSecondInLp: "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
     tokenAddress: "0x9fDe8873DEe5f221023BFEb7b42d503EBCDdcDbD", //  lp
     stakingTokenName: QuoteToken.LP,
     quoteTokenSymbol: QuoteToken.MAHA,
@@ -148,7 +148,7 @@ const pools: PoolConfig[] = [
     sousId: 4,
     tokenName: "MAHA-ARTH",
     tokenAdressInLp: "0xeDd6cA8A4202d4a36611e2fff109648c4863ae19", // maha,
-    tokenAddressSecondInLp : "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
+    tokenAddressSecondInLp: "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
     tokenAddress: "0x881a4c22a1aC1544b40C2AF1d12e4bBC49593a30", //  lp
     stakingTokenName: QuoteToken.LP,
     quoteTokenSymbol: QuoteToken.MAHA,
@@ -183,7 +183,7 @@ const pools: PoolConfig[] = [
     sousId: 5,
     tokenName: "ARTH-USDC",
     tokenAdressInLp: "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
-    tokenAddressSecondInLp : "0x2791bca1f2de4661ed88a30c99a7a9449aa84174", // arth
+    tokenAddressSecondInLp: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174", // arth
     tokenAddress: "0x998D543F618194A519156672E77756F8F6415A0d", //  lp
     stakingTokenName: QuoteToken.LP,
     quoteTokenSymbol: QuoteToken.MAHA,
@@ -218,7 +218,7 @@ const pools: PoolConfig[] = [
     sousId: 6,
     tokenName: "ARTHX-ARTH",
     tokenAdressInLp: "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
-    tokenAddressSecondInLp : "0xD354D56DaE3588F1145dd664bc5094437b889d6F", // arthx
+    tokenAddressSecondInLp: "0xD354D56DaE3588F1145dd664bc5094437b889d6F", // arthx
     tokenAddress: "0xf7902421cA73098e79d16a230727Ab7B3104cB0e", //  lp
     stakingTokenName: QuoteToken.LP,
     quoteTokenSymbol: QuoteToken.MAHA,
@@ -253,7 +253,7 @@ const pools: PoolConfig[] = [
     sousId: 7,
     tokenName: "EASY-CNT",
     tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
-    tokenAddressSecondInLp : "0x34C1b299A74588D6Abdc1b85A53345A48428a521", // easy
+    tokenAddressSecondInLp: "0x34C1b299A74588D6Abdc1b85A53345A48428a521", // easy
     tokenAddress: "0x9063F906b3463C8441A1A65b9B25eA081BabD196", //  lp
     stakingTokenName: QuoteToken.LP,
     quoteTokenSymbol: QuoteToken.CNT,
@@ -266,14 +266,14 @@ const pools: PoolConfig[] = [
     },
     poolCategory: PoolCategory.CORE,
     projectLink: "https://cryption.network/",
-    multiReward: ["EASY","CNT"],
+    multiReward: ["EASY", "CNT"],
     stakingTokenCoinGeckoid: "easyfi",
     rewardTokenCoinGeckoid: "easyfi",
     coinGeckoIds: [
       "0x34C1b299A74588D6Abdc1b85A53345A48428a521", // easy
       "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
     ],
-    multiRewardTokenPerBlock: ["0.0005151515152","0.04040404042"],
+    multiRewardTokenPerBlock: ["0.0005151515152", "0.04040404042"],
     harvest: true,
     tokenPerBlock: "1",
     sortOrder: 999,
@@ -289,7 +289,7 @@ const pools: PoolConfig[] = [
     tokenName: "WMATIC",
     tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
     tokenAddress: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270", // maha
-    tokenAddressSecondInLp : "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
+    tokenAddressSecondInLp: "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
     stakingTokenName: QuoteToken.WMATIC,
     quoteTokenSymbol: QuoteToken.WMATIC,
     stakingTokenAddress: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270", // lp
@@ -300,7 +300,7 @@ const pools: PoolConfig[] = [
       137: "0x07503539fBFdccb17923f40B89f9d7dD7cD7bcDa", // staking pool wmatic
     },
     poolCategory: PoolCategory.COMMUNITY,
-    projectLink: "https://app.pearzap.com/",
+    projectLink: "https://cryption.network/",
     multiReward: ["CNT"],
     stakingTokenCoinGeckoid: "CNT",
     rewardTokenCoinGeckoid: "CNT",
@@ -308,7 +308,7 @@ const pools: PoolConfig[] = [
       "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
     ],
     TopImage:
-    "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10322.png",
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10322.png",
     multiRewardTokenPerBlock: ["0.2"],
     harvest: true,
     tokenPerBlock: "0.2",
@@ -323,7 +323,7 @@ const pools: PoolConfig[] = [
     tokenName: "ETH",
     tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
     tokenAddress: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619", // maha
-    tokenAddressSecondInLp : "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
+    tokenAddressSecondInLp: "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
     stakingTokenName: QuoteToken.ETH,
     quoteTokenSymbol: QuoteToken.ETH,
     stakingTokenAddress: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619", // lp
@@ -334,7 +334,7 @@ const pools: PoolConfig[] = [
       137: "0x811445edf24380AdB3C39Ac3CffFdeAf146a0F9D", // staking pool ETH
     },
     poolCategory: PoolCategory.COMMUNITY,
-    projectLink: "https://app.pearzap.com/",
+    projectLink: "https://cryption.network/",
     multiReward: ["CNT"],
     stakingTokenCoinGeckoid: "CNT",
     rewardTokenCoinGeckoid: "CNT",
@@ -342,7 +342,7 @@ const pools: PoolConfig[] = [
       "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
     ],
     TopImage:
-    "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10321.png",
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10321.png",
     multiRewardTokenPerBlock: ["0.2"],
     harvest: true,
     tokenPerBlock: "0.2",
@@ -357,7 +357,7 @@ const pools: PoolConfig[] = [
     tokenName: "wBTC",
     tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
     tokenAddress: "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6", // maha
-    tokenAddressSecondInLp : "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
+    tokenAddressSecondInLp: "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
     stakingTokenName: QuoteToken.BTC,
     quoteTokenSymbol: QuoteToken.BTC,
     stakingTokenAddress: "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6", // lp
@@ -368,7 +368,7 @@ const pools: PoolConfig[] = [
       137: "0xd401a89b0262144CADDB0605b5f55d139ACA8e91", // staking pool ETH
     },
     poolCategory: PoolCategory.COMMUNITY,
-    projectLink: "https://app.pearzap.com/",
+    projectLink: "https://cryption.network/",
     multiReward: ["CNT"],
     stakingTokenCoinGeckoid: "CNT",
     rewardTokenCoinGeckoid: "CNT",
@@ -376,7 +376,7 @@ const pools: PoolConfig[] = [
       "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
     ],
     TopImage:
-    "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10325.png",
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10325.png",
     multiRewardTokenPerBlock: ["0.2"],
     harvest: true,
     tokenPerBlock: "0.2",
@@ -385,14 +385,13 @@ const pools: PoolConfig[] = [
     tokenDecimals: 18,
     metamaskImg:
       "https://assets.coingecko.com/coins/images/17173/small/pear200.png?1626793002",
-  }
-  ,
+  },
   {
     sousId: 11,
     tokenName: "USDC",
     tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
     tokenAddress: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174", // usdc
-    tokenAddressSecondInLp : "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
+    tokenAddressSecondInLp: "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
     stakingTokenName: QuoteToken.USDC,
     quoteTokenSymbol: QuoteToken.USDC,
     stakingTokenAddress: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174", // lp
@@ -403,7 +402,7 @@ const pools: PoolConfig[] = [
       137: "0x0C6932606Cc507e3551B339e20f893b9036e6cad", // staking pool usdc
     },
     poolCategory: PoolCategory.COMMUNITY,
-    projectLink: "https://app.pearzap.com/",
+    projectLink: "https://cryption.network/",
     multiReward: ["CNT"],
     stakingTokenCoinGeckoid: "CNT",
     rewardTokenCoinGeckoid: "CNT",
@@ -411,7 +410,7 @@ const pools: PoolConfig[] = [
       "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
     ],
     TopImage:
-    "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10323.png",
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10323.png",
     multiRewardTokenPerBlock: ["0.12"],
     harvest: true,
     tokenPerBlock: "0.12",
@@ -426,7 +425,7 @@ const pools: PoolConfig[] = [
     tokenName: "DAI",
     tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
     tokenAddress: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063", // usdc
-    tokenAddressSecondInLp : "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
+    tokenAddressSecondInLp: "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
     stakingTokenName: QuoteToken.DAI,
     quoteTokenSymbol: QuoteToken.DAI,
     stakingTokenAddress: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063", // lp
@@ -437,7 +436,7 @@ const pools: PoolConfig[] = [
       137: "0x4Be55222Bc5AE1e80Ec96f5AF7ac04bE957d6402", // staking pool usdc
     },
     poolCategory: PoolCategory.COMMUNITY,
-    projectLink: "https://app.pearzap.com/",
+    projectLink: "https://cryption.network/",
     multiReward: ["CNT"],
     stakingTokenCoinGeckoid: "CNT",
     rewardTokenCoinGeckoid: "CNT",
@@ -460,7 +459,7 @@ const pools: PoolConfig[] = [
     tokenName: "USDT",
     tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
     tokenAddress: "0xc2132d05d31c914a87c6611c10748aeb04b58e8f", // usdc
-    tokenAddressSecondInLp : "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
+    tokenAddressSecondInLp: "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
     stakingTokenName: QuoteToken.USDT,
     quoteTokenSymbol: QuoteToken.USDT,
     stakingTokenAddress: "0xc2132d05d31c914a87c6611c10748aeb04b58e8f", // lp
@@ -471,7 +470,7 @@ const pools: PoolConfig[] = [
       137: "0xE7fa8486a2f881e15cEF350EbFFB70d829C44AA9", // staking pool usdc
     },
     poolCategory: PoolCategory.COMMUNITY,
-    projectLink: "https://app.pearzap.com/",
+    projectLink: "https://cryption.network/",
     multiReward: ["CNT"],
     stakingTokenCoinGeckoid: "CNT",
     rewardTokenCoinGeckoid: "CNT",
@@ -479,7 +478,7 @@ const pools: PoolConfig[] = [
       "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
     ],
     TopImage:
-    "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10328.png",
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10328.png",
     multiRewardTokenPerBlock: ["0.12"],
     harvest: true,
     tokenPerBlock: "0.12",
@@ -489,15 +488,15 @@ const pools: PoolConfig[] = [
     metamaskImg:
       "https://seeklogo.com/images/T/tether-usdt-logo-FA55C7F397-seeklogo.com.png",
   },
-  
+
   {
     sousId: 14,
     tokenName: "LUSDT",
     tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
     tokenAddress: "0xb032512A23Ef041bEc2e48e9b3f07286408B2B26", // usdc
-    tokenAddressSecondInLp : "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
-    stakingTokenName: QuoteToken.USDT,
-    quoteTokenSymbol: QuoteToken.USDT,
+    tokenAddressSecondInLp: "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
+    stakingTokenName: QuoteToken.LUSDT,
+    quoteTokenSymbol: QuoteToken.LUSDT,
     stakingTokenAddress: "0xb032512A23Ef041bEc2e48e9b3f07286408B2B26", // lp
     contractAddress: {
       97: "",
@@ -506,7 +505,7 @@ const pools: PoolConfig[] = [
       137: "0xF1c315e8A83Ef8484ad36e9943160Fd604C52E73", // staking pool usdc
     },
     poolCategory: PoolCategory.COMMUNITY,
-    projectLink: "https://app.pearzap.com/",
+    projectLink: "https://cryption.network/",
     multiReward: ["CNT"],
     stakingTokenCoinGeckoid: "CNT",
     rewardTokenCoinGeckoid: "CNT",
@@ -529,9 +528,9 @@ const pools: PoolConfig[] = [
     tokenName: "LARTH",
     tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
     tokenAddress: "0x20a2D84ec22F47B07d6A20209D84Bb7544ac5E95", // usdc
-    tokenAddressSecondInLp : "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
-    stakingTokenName: QuoteToken.USDT,
-    quoteTokenSymbol: QuoteToken.USDT,
+    tokenAddressSecondInLp: "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
+    stakingTokenName: QuoteToken.LARTH,
+    quoteTokenSymbol: QuoteToken.LARTH,
     stakingTokenAddress: "0x20a2D84ec22F47B07d6A20209D84Bb7544ac5E95", // lp
     contractAddress: {
       97: "",
@@ -540,7 +539,7 @@ const pools: PoolConfig[] = [
       137: "0x513C1b008A3136e9c510eAa374637c95E98126B1", // staking pool usdc
     },
     poolCategory: PoolCategory.COMMUNITY,
-    projectLink: "https://app.pearzap.com/",
+    projectLink: "https://cryption.network/",
     multiReward: ["CNT"],
     stakingTokenCoinGeckoid: "CNT",
     rewardTokenCoinGeckoid: "CNT",
@@ -557,9 +556,8 @@ const pools: PoolConfig[] = [
     tokenDecimals: 18,
     metamaskImg:
       "https://assets.coingecko.com/coins/images/17173/small/pear200.png?1626793002",
-  }
+  },
 
-  
   // {
   //   sousId: 0,
   //   tokenName: "CNT",

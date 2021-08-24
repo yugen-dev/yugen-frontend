@@ -47,7 +47,9 @@ export enum QuoteToken {
   "WMATIC"="WMATIC",
   "USDC"="USDC",
   "DAI"="DAI",
-  "USDT"="USDT"
+  "USDT"="USDT",
+  "LUSDT"="LUSDT",
+  "LARTH"="LARTH"
 }
 
 export enum PoolCategory {
