@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 import styled from "styled-components";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { Button, LinkExternal, AutoRenewIcon, Flex, CloseIcon, IconButton } from "cryption-uikit";
 import Modal from "components/Modal";
 import StepperContainer from 'components/Stepper/Stepper';
@@ -47,9 +47,6 @@ const DepositModal: React.FC<DepositModalProps> = ({
   activeIndex,
   isOpen,
 }) => {
-  useEffect(() => {
-    console.log('check when index updated');
-  }, [activeIndex])
   const [val, setVal] = useState("");
   const [pendingTx, setPendingTx] = useState(false);
   const [showStakerSteps, toggleStakerSteps] = useState(false);
