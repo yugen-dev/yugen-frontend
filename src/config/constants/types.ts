@@ -87,7 +87,7 @@ export interface PoolConfig {
   TopImage?: string;
   tokenName: string;
   tokenAdressInLp: string;
-  tokenAddressSecondInLp:string;
+  tokenAddressSecondInLp: string;
   tokenAddress: string;
   stakingTokenName: QuoteToken;
   quoteTokenSymbol: QuoteToken;
@@ -188,5 +188,6 @@ export interface LotteryInfoProps {
     tokenDecimals: number;
     metamaskImg?: string;
     rewardToken: string;
+    rewardTokenDecimals: number;
   };
 }
