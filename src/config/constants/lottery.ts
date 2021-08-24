@@ -3,6 +3,8 @@ import USDClogo from "images/USDClogo.png";
 import LUSDlogo from "images/LUSDlogo.png";
 import ARTHXlogo from "images/ARTHXlogo.png";
 import LARTHXlogo from "images/LARTHXlogo.png";
+import CNTlogo from "images/CNTlogo.png";
+import LCNTlogo from "images/LCNTlogo.png";
 import { LotteryInfoProps } from "./types";
 
 const chainID = process.env.REACT_APP_CHAIN_ID;
@@ -56,7 +58,7 @@ const LotteryInfo: LotteryInfoProps[] = [
       tokenName: "CNT",
       tokenAddress: Addresses.cnt[chainID],
       tokenDecimals: 18,
-      tokenLogo: ARTHXlogo,
+      tokenLogo: CNTlogo,
       rewardToken: "CNT",
     },
     loserLottery: {
@@ -64,9 +66,9 @@ const LotteryInfo: LotteryInfoProps[] = [
       tokenName: "LCNT",
       tokenAddress: Addresses.lcnt[chainID],
       tokenDecimals: 18,
-      tokenLogo: LARTHXlogo,
+      tokenLogo: LCNTlogo,
       metamaskImg:
-        "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10309.png",
+        "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10310_2.png",
       rewardToken: "USDC",
     },
   },
