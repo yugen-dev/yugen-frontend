@@ -255,10 +255,11 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
           <CardTitle isFinished={isFinished}>
             {TranslateString(348, "Stake")} {isOldSyrup && "[OLD]"} {tokenName}
           </CardTitle>
-          {
-            pool.sousId === 0 ? <Image src={TopImage} width={70} height={64} alt={tokenName} /> : <Image src={TopImage} width={100} height={94} alt={tokenName} />
-          }
-    
+          {pool.sousId === Number(1) ? (
+             <Image src={TopImage} width={100} height={94} alt={tokenName} />
+          ) : (
+            <Image src={TopImage} width={70} height={64} alt={tokenName} />
+          )}
         </div>
       </div>
       <div style={{ padding: "24px" }}>
@@ -295,12 +296,12 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                 <Text bold>{poolwithdrawalFeeBP / 100}%</Text>
               </StyledDetails>
             )}
-            {
-              pooldepositFeeBP > 0 &&  <StyledDetails>
-              <div>{TranslateString(384, "Deposit fee")}:</div>
-              <Text bold>{pooldepositFeeBP / 100}%</Text>
-            </StyledDetails>
-            }
+            {pooldepositFeeBP > 0 && (
+              <StyledDetails>
+                <div>{TranslateString(384, "Deposit fee")}:</div>
+                <Text bold>{pooldepositFeeBP / 100}%</Text>
+              </StyledDetails>
+            )}
 
             <StyledDetails>
               <div>{TranslateString(384, "Your Stake")}:</div>

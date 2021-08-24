@@ -36,6 +36,7 @@ export const fetchPoolsBlockLimits = async () => {
   // const endsWithDepostiFee = await multicall(sousChefABIDeposit, callsFarmWithDepsoitInfo);
   
   const contract = getHybridStakingContract();
+
   const interactionInterval = await contract.methods
     .interactionInterval()
     .call();
@@ -44,7 +45,7 @@ export const fetchPoolsBlockLimits = async () => {
   return poolsConfig.map((cakePoolConfig, index) => {
     if (cakePoolConfig.sousId === 0) {
       return {
-        sousId: 0,
+        sousId: cakePoolConfig.sousId,
         startBlock: new BigNumber("0").toJSON(),
         endBlock: new BigNumber("0").toJSON(),
         poolHarvestInterval: new BigNumber(interactionInterval).toJSON(),
@@ -57,7 +58,7 @@ export const fetchPoolsBlockLimits = async () => {
     const endBlock = ends[index - 1].endBlock._hex;
     const poolHarvestIntervall = starts[index - 1].harvestInterval._hex;
     const poolwithdrawalFeeBP = starts[index - 1].withdrawalFeeBP;
-    let depositFee = new BigNumber(0);
+    let depositFee = 0;
 
     if(cakePoolConfig.sousId >= 8 ){
       depositFee = startWithDepostiFee[index-1-7].depositFeeBP;

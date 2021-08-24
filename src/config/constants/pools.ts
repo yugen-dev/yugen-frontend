@@ -308,7 +308,7 @@ const pools: PoolConfig[] = [
       "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
     ],
     TopImage:
-      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10232.png",
+    "https://cryptologos.cc/logos/matic-network-matic-logo.svg?v=006",
     multiRewardTokenPerBlock: ["0.2"],
     harvest: true,
     tokenPerBlock: "0.2",
@@ -342,7 +342,7 @@ const pools: PoolConfig[] = [
       "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
     ],
     TopImage:
-      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10232.png",
+    "https://cryptologos.cc/logos/ethereum-eth-logo.svg",
     multiRewardTokenPerBlock: ["0.2"],
     harvest: true,
     tokenPerBlock: "0.2",
@@ -376,7 +376,7 @@ const pools: PoolConfig[] = [
       "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
     ],
     TopImage:
-      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10232.png",
+    "https://tokens.1inch.exchange/0x2260fac5e5542a773aa44fbcfedf7c193bc2c599.png",
     multiRewardTokenPerBlock: ["0.2"],
     harvest: true,
     tokenPerBlock: "0.2",
@@ -411,7 +411,7 @@ const pools: PoolConfig[] = [
       "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
     ],
     TopImage:
-      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10232.png",
+    "https://cryptologos.cc/logos/usd-coin-usdc-logo.svg?v=006",
     multiRewardTokenPerBlock: ["0.12"],
     harvest: true,
     tokenPerBlock: "0.12",
@@ -445,7 +445,7 @@ const pools: PoolConfig[] = [
       "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
     ],
     TopImage:
-      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10232.png",
+      "https://cryptologos.cc/logos/multi-collateral-dai-dai-logo.svg?v=006",
     multiRewardTokenPerBlock: ["0.12"],
     harvest: true,
     tokenPerBlock: "0.12",
@@ -453,7 +453,7 @@ const pools: PoolConfig[] = [
     isFinished: false,
     tokenDecimals: 18,
     metamaskImg:
-      "https://assets.coingecko.com/coins/images/17173/small/pear200.png?1626793002",
+      "https://cryptologos.cc/logos/multi-collateral-dai-dai-logo.svg?v=006",
   },
   {
     sousId: 13,
@@ -479,7 +479,7 @@ const pools: PoolConfig[] = [
       "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
     ],
     TopImage:
-      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10232.png",
+    "https://seeklogo.com/images/T/tether-usdt-logo-FA55C7F397-seeklogo.com.png",
     multiRewardTokenPerBlock: ["0.12"],
     harvest: true,
     tokenPerBlock: "0.12",
@@ -487,8 +487,9 @@ const pools: PoolConfig[] = [
     isFinished: false,
     tokenDecimals: 18,
     metamaskImg:
-      "https://assets.coingecko.com/coins/images/17173/small/pear200.png?1626793002",
+      "https://seeklogo.com/images/T/tether-usdt-logo-FA55C7F397-seeklogo.com.png",
   },
+  
   {
     sousId: 14,
     tokenName: "LUSDT",
@@ -513,7 +514,7 @@ const pools: PoolConfig[] = [
       "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
     ],
     TopImage:
-      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10232.png",
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10300.png",
     multiRewardTokenPerBlock: ["0.02"],
     harvest: true,
     tokenPerBlock: "0.02",
@@ -536,7 +537,7 @@ const pools: PoolConfig[] = [
       97: "",
       56: "",
       80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
-      137: "0x62cB613648453dC106991bD0128dBd9eEb4fb619", // staking pool usdc
+      137: "0x513C1b008A3136e9c510eAa374637c95E98126B1", // staking pool usdc
     },
     poolCategory: PoolCategory.COMMUNITY,
     projectLink: "https://app.pearzap.com/",
@@ -547,7 +548,7 @@ const pools: PoolConfig[] = [
       "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
     ],
     TopImage:
-      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10232.png",
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10309.png",
     multiRewardTokenPerBlock: ["0.02"],
     harvest: true,
     tokenPerBlock: "0.02",
