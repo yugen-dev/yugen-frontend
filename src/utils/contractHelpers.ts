@@ -20,6 +20,7 @@ import {
   getClaimRefundAddress,
   getHybridStakingAddress,
   getSingleSidedLiquidityAddress,
+  getRewardsManagerAddress,
 } from "utils/addressHelpers";
 
 // ABI
@@ -40,6 +41,7 @@ import sousChef from "config/abi/sousChef.json";
 import sousChefBnb from "config/abi/sousChefBnb.json";
 import claimRefundAbi from "config/abi/claimRefund.json";
 import lotteryAbi from "config/abi/lottery.json";
+import rewardsManagerAbi from "config/abi/rewardsmanager.json";
 // import prToken from "config/abi/claimRefund.json";
 
 export const getContract = (abi: any, address: string, web3?: Web3) => {
@@ -104,4 +106,7 @@ export const getMasterchefContract = (web3?: Web3) => {
 };
 export const getClaimRefundContract = (web3?: Web3) => {
   return getContract(claimRefundAbi, getClaimRefundAddress(), web3);
+};
+export const getRewardsManagerContract = (web3?: Web3) => {
+  return getContract(rewardsManagerAbi, getRewardsManagerAddress(), web3);
 };
