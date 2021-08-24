@@ -86,38 +86,53 @@ export const ClaimButtons = ({
               {vestedValues.Claimable === "0" ||
               vestedValues.Claimable === "-1" ? (
                 <>
-                  <Button style={{ marginRight: "2px" }} disabled>
+                  <Button style={{ marginRight: "20px" }} disabled>
                     Claim
                   </Button>
                   {vestedValues.Unclaimable === "0" ? (
                     <>
                       <Button
                         variant="danger"
-                        style={{ marginLeft: "2px", color: "#100C18" }}
+                        style={{
+                          marginLeft: "20px",
+                          color: "#100C18",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
                         disabled
                       >
-                        Force Claim
+                        <div>Force Claim</div>
+                        <div>
+                          <QuestionHelper
+                            text={`Withdrawing before ${formatTimerValue} will incur a loss of ${
+                              penaltyValue / 10
+                            }% as burn fees.`}
+                          />
+                        </div>
                       </Button>
-                      <div style={{ marginBottom: "25px" }}>
-                        <QuestionHelper
-                          text={`Withdrawing before ${formatTimerValue} will incur a loss of ${
-                            penaltyValue / 10
-                          }% as burn fees.`}
-                        />
-                      </div>
                     </>
                   ) : (
                     <>
-                      <Button variant="danger" onClick={handleForceClaimClick}>
-                        Force Claim
+                      <Button
+                        variant="danger"
+                        onClick={handleForceClaimClick}
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          marginLeft: "20px",
+                        }}
+                      >
+                        <div>Force Claim</div>
+                        <div>
+                          <QuestionHelper
+                            text={`Withdrawing before ${formatTimerValue} will incur a loss of ${
+                              penaltyValue / 10
+                            }% as burn fees.`}
+                          />
+                        </div>
                       </Button>
-                      <div style={{ marginBottom: "25px" }}>
-                        <QuestionHelper
-                          text={`Withdrawing before ${formatTimerValue} will incur a loss of ${
-                            penaltyValue / 10
-                          }% as burn fees.`}
-                        />
-                      </div>
                     </>
                   )}
                 </>
@@ -125,25 +140,30 @@ export const ClaimButtons = ({
                 <>
                   <Button
                     onClick={handleClaimClick}
-                    style={{ marginRight: "2px" }}
+                    style={{ marginRight: "20px" }}
                     variant="success"
                   >
                     Claim
                   </Button>
                   <Button
                     onClick={handleForceClaimClick}
-                    style={{ marginLeft: "2px" }}
+                    style={{
+                      marginLeft: "20px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
                     variant="danger"
                   >
-                    Force Claim
+                    <div>Force Claim</div>
+                    <div>
+                      <QuestionHelper
+                        text={`Withdrawing before ${formatTimerValue} will incur a loss of ${
+                          penaltyValue / 10
+                        }% as burn fees.`}
+                      />
+                    </div>
                   </Button>
-                  <div style={{ marginBottom: "25px" }}>
-                    <QuestionHelper
-                      text={`Withdrawing before ${formatTimerValue} will incur a loss of ${
-                        penaltyValue / 10
-                      }% as burn fees.`}
-                    />
-                  </div>
                 </>
               )}
             </>
