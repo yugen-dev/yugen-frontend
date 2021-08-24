@@ -132,7 +132,7 @@ export default {
     56: "",
     97: "",
     80001: "0x409e98Fa21E3d445F88033A8098E9AB5F3f92C76",
-    137: "0x653441299ec28E0301d640006E2ceC4776ebA671",
+    137: "0x560BEBAE553d4735D29B82903938beceBA42dE95",
   },
   lusdLottery: {
     56: "",
