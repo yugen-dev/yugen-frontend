@@ -129,6 +129,10 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
 
     if (pool.rewardTokenCoinGeckoid === "pear") {
       tokenPrice = RewardTokenCoinGeckoPrice;
+    } else if(pool.tokenName === "LUSDT"){
+      tokenPrice = 0.08;
+    } else if(pool.tokenName === "LARTH"){
+      tokenPrice = 0.25;
     } else {
       tokenPrice = UseGetApiPrice(pool.coinGeckoIds[i].toLowerCase());
     }
