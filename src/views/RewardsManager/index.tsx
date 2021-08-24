@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default */
 import React, { memo, useEffect, useState } from "react";
 import styled from "styled-components";
 import Page from "components/layout/Page";
@@ -7,6 +8,7 @@ import { useWeb3React } from "@web3-react/core";
 import BigNumber from "bignumber.js";
 import { getRewardsManagerContract } from "utils/contractHelpers";
 import Timer from "./components/Timer";
+import Banner from "./components/Banner";
 import Dashboard from "./components/Dashboard";
 import { ClaimButtons } from "./components/ClaimButtons";
 
@@ -155,6 +157,7 @@ const Vesting = () => {
   return (
     <Page>
       <MainContainer>
+        <Banner />
         <Dashboard vestedValues={vestedValues} />
         <ClaimButtons
           vestedValues={vestedValues}
