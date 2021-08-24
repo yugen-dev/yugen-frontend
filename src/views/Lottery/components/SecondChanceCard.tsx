@@ -21,6 +21,7 @@ interface TokenInfoProps {
   tokenLogo: any;
   metamaskImg?: string;
   rewardToken: string;
+  rewardTokenDecimals: number;
 }
 
 interface TooltipInfoProps {
@@ -112,7 +113,7 @@ const SecondChanceCard: React.FC<SecondChanceCardProps> = ({
 
         const genPayout = Number(
           new BigNumber(payout).div(
-            new BigNumber(10).pow(tokenInfo.tokenDecimals)
+            new BigNumber(10).pow(tokenInfo.rewardTokenDecimals)
           )
         )
           .toFixed(2)
