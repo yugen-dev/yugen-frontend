@@ -18,7 +18,7 @@ import PoolTabButtons from "./components/PoolTabButtons";
 import PoolCard from "./components/PoolCard";
 import MrCNTaah from "../../images/MrCNTaah.png";
 
-const NUMBER_OF_POOLS_VISIBLE = 12;
+const NUMBER_OF_POOLS_VISIBLE = 20;
 const Farm: React.FC = () => {
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const { path } = useRouteMatch();
