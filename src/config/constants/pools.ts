@@ -284,6 +284,280 @@ const pools: PoolConfig[] = [
     metamaskImg:
       "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/maha-cnt.png",
   },
+  {
+    sousId: 8,
+    tokenName: "WMATIC",
+    tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
+    tokenAddress: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270", // maha
+    tokenAddressSecondInLp : "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
+    stakingTokenName: QuoteToken.WMATIC,
+    quoteTokenSymbol: QuoteToken.WMATIC,
+    stakingTokenAddress: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270", // lp
+    contractAddress: {
+      97: "",
+      56: "",
+      80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
+      137: "0x07503539fBFdccb17923f40B89f9d7dD7cD7bcDa", // staking pool wmatic
+    },
+    poolCategory: PoolCategory.COMMUNITY,
+    projectLink: "https://app.pearzap.com/",
+    multiReward: ["CNT"],
+    stakingTokenCoinGeckoid: "CNT",
+    rewardTokenCoinGeckoid: "CNT",
+    coinGeckoIds: [
+      "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
+    ],
+    TopImage:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10232.png",
+    multiRewardTokenPerBlock: ["0.2"],
+    harvest: true,
+    tokenPerBlock: "0.2",
+    sortOrder: 999,
+    isFinished: false,
+    tokenDecimals: 18,
+    metamaskImg:
+      "https://assets.coingecko.com/coins/images/17173/small/pear200.png?1626793002",
+  },
+  {
+    sousId: 9,
+    tokenName: "ETH",
+    tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
+    tokenAddress: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619", // maha
+    tokenAddressSecondInLp : "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
+    stakingTokenName: QuoteToken.ETH,
+    quoteTokenSymbol: QuoteToken.ETH,
+    stakingTokenAddress: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619", // lp
+    contractAddress: {
+      97: "",
+      56: "",
+      80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
+      137: "0x811445edf24380AdB3C39Ac3CffFdeAf146a0F9D", // staking pool ETH
+    },
+    poolCategory: PoolCategory.COMMUNITY,
+    projectLink: "https://app.pearzap.com/",
+    multiReward: ["CNT"],
+    stakingTokenCoinGeckoid: "CNT",
+    rewardTokenCoinGeckoid: "CNT",
+    coinGeckoIds: [
+      "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
+    ],
+    TopImage:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10232.png",
+    multiRewardTokenPerBlock: ["0.2"],
+    harvest: true,
+    tokenPerBlock: "0.2",
+    sortOrder: 999,
+    isFinished: false,
+    tokenDecimals: 18,
+    metamaskImg:
+      "https://assets.coingecko.com/coins/images/17173/small/pear200.png?1626793002",
+  },
+  {
+    sousId: 10,
+    tokenName: "wBTC",
+    tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
+    tokenAddress: "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6", // maha
+    tokenAddressSecondInLp : "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
+    stakingTokenName: QuoteToken.BTC,
+    quoteTokenSymbol: QuoteToken.BTC,
+    stakingTokenAddress: "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6", // lp
+    contractAddress: {
+      97: "",
+      56: "",
+      80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
+      137: "0xd401a89b0262144CADDB0605b5f55d139ACA8e91", // staking pool ETH
+    },
+    poolCategory: PoolCategory.COMMUNITY,
+    projectLink: "https://app.pearzap.com/",
+    multiReward: ["CNT"],
+    stakingTokenCoinGeckoid: "CNT",
+    rewardTokenCoinGeckoid: "CNT",
+    coinGeckoIds: [
+      "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
+    ],
+    TopImage:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10232.png",
+    multiRewardTokenPerBlock: ["0.2"],
+    harvest: true,
+    tokenPerBlock: "0.2",
+    sortOrder: 999,
+    isFinished: false,
+    tokenDecimals: 18,
+    metamaskImg:
+      "https://assets.coingecko.com/coins/images/17173/small/pear200.png?1626793002",
+  }
+  ,
+  {
+    sousId: 11,
+    tokenName: "USDC",
+    tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
+    tokenAddress: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174", // usdc
+    tokenAddressSecondInLp : "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
+    stakingTokenName: QuoteToken.USDC,
+    quoteTokenSymbol: QuoteToken.USDC,
+    stakingTokenAddress: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174", // lp
+    contractAddress: {
+      97: "",
+      56: "",
+      80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
+      137: "0x0C6932606Cc507e3551B339e20f893b9036e6cad", // staking pool usdc
+    },
+    poolCategory: PoolCategory.COMMUNITY,
+    projectLink: "https://app.pearzap.com/",
+    multiReward: ["CNT"],
+    stakingTokenCoinGeckoid: "CNT",
+    rewardTokenCoinGeckoid: "CNT",
+    coinGeckoIds: [
+      "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
+    ],
+    TopImage:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10232.png",
+    multiRewardTokenPerBlock: ["0.12"],
+    harvest: true,
+    tokenPerBlock: "0.12",
+    sortOrder: 999,
+    isFinished: false,
+    tokenDecimals: 18,
+    metamaskImg:
+      "https://assets.coingecko.com/coins/images/17173/small/pear200.png?1626793002",
+  },
+  {
+    sousId: 12,
+    tokenName: "DAI",
+    tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
+    tokenAddress: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063", // usdc
+    tokenAddressSecondInLp : "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
+    stakingTokenName: QuoteToken.DAI,
+    quoteTokenSymbol: QuoteToken.DAI,
+    stakingTokenAddress: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063", // lp
+    contractAddress: {
+      97: "",
+      56: "",
+      80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
+      137: "0x4Be55222Bc5AE1e80Ec96f5AF7ac04bE957d6402", // staking pool usdc
+    },
+    poolCategory: PoolCategory.COMMUNITY,
+    projectLink: "https://app.pearzap.com/",
+    multiReward: ["CNT"],
+    stakingTokenCoinGeckoid: "CNT",
+    rewardTokenCoinGeckoid: "CNT",
+    coinGeckoIds: [
+      "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
+    ],
+    TopImage:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10232.png",
+    multiRewardTokenPerBlock: ["0.12"],
+    harvest: true,
+    tokenPerBlock: "0.12",
+    sortOrder: 999,
+    isFinished: false,
+    tokenDecimals: 18,
+    metamaskImg:
+      "https://assets.coingecko.com/coins/images/17173/small/pear200.png?1626793002",
+  },
+  {
+    sousId: 13,
+    tokenName: "USDT",
+    tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
+    tokenAddress: "0xc2132d05d31c914a87c6611c10748aeb04b58e8f", // usdc
+    tokenAddressSecondInLp : "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
+    stakingTokenName: QuoteToken.USDT,
+    quoteTokenSymbol: QuoteToken.USDT,
+    stakingTokenAddress: "0xc2132d05d31c914a87c6611c10748aeb04b58e8f", // lp
+    contractAddress: {
+      97: "",
+      56: "",
+      80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
+      137: "0xE7fa8486a2f881e15cEF350EbFFB70d829C44AA9", // staking pool usdc
+    },
+    poolCategory: PoolCategory.COMMUNITY,
+    projectLink: "https://app.pearzap.com/",
+    multiReward: ["CNT"],
+    stakingTokenCoinGeckoid: "CNT",
+    rewardTokenCoinGeckoid: "CNT",
+    coinGeckoIds: [
+      "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
+    ],
+    TopImage:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10232.png",
+    multiRewardTokenPerBlock: ["0.12"],
+    harvest: true,
+    tokenPerBlock: "0.12",
+    sortOrder: 999,
+    isFinished: false,
+    tokenDecimals: 18,
+    metamaskImg:
+      "https://assets.coingecko.com/coins/images/17173/small/pear200.png?1626793002",
+  },
+  {
+    sousId: 14,
+    tokenName: "LUSDT",
+    tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
+    tokenAddress: "0xb032512A23Ef041bEc2e48e9b3f07286408B2B26", // usdc
+    tokenAddressSecondInLp : "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
+    stakingTokenName: QuoteToken.USDT,
+    quoteTokenSymbol: QuoteToken.USDT,
+    stakingTokenAddress: "0xb032512A23Ef041bEc2e48e9b3f07286408B2B26", // lp
+    contractAddress: {
+      97: "",
+      56: "",
+      80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
+      137: "0xF1c315e8A83Ef8484ad36e9943160Fd604C52E73", // staking pool usdc
+    },
+    poolCategory: PoolCategory.COMMUNITY,
+    projectLink: "https://app.pearzap.com/",
+    multiReward: ["CNT"],
+    stakingTokenCoinGeckoid: "CNT",
+    rewardTokenCoinGeckoid: "CNT",
+    coinGeckoIds: [
+      "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
+    ],
+    TopImage:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10232.png",
+    multiRewardTokenPerBlock: ["0.02"],
+    harvest: true,
+    tokenPerBlock: "0.02",
+    sortOrder: 999,
+    isFinished: false,
+    tokenDecimals: 18,
+    metamaskImg:
+      "https://assets.coingecko.com/coins/images/17173/small/pear200.png?1626793002",
+  },
+  {
+    sousId: 15,
+    tokenName: "LARTH",
+    tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
+    tokenAddress: "0x20a2D84ec22F47B07d6A20209D84Bb7544ac5E95", // usdc
+    tokenAddressSecondInLp : "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
+    stakingTokenName: QuoteToken.USDT,
+    quoteTokenSymbol: QuoteToken.USDT,
+    stakingTokenAddress: "0x20a2D84ec22F47B07d6A20209D84Bb7544ac5E95", // lp
+    contractAddress: {
+      97: "",
+      56: "",
+      80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
+      137: "0x62cB613648453dC106991bD0128dBd9eEb4fb619", // staking pool usdc
+    },
+    poolCategory: PoolCategory.COMMUNITY,
+    projectLink: "https://app.pearzap.com/",
+    multiReward: ["CNT"],
+    stakingTokenCoinGeckoid: "CNT",
+    rewardTokenCoinGeckoid: "CNT",
+    coinGeckoIds: [
+      "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
+    ],
+    TopImage:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10232.png",
+    multiRewardTokenPerBlock: ["0.02"],
+    harvest: true,
+    tokenPerBlock: "0.02",
+    sortOrder: 999,
+    isFinished: false,
+    tokenDecimals: 18,
+    metamaskImg:
+      "https://assets.coingecko.com/coins/images/17173/small/pear200.png?1626793002",
+  }
+
   
   // {
   //   sousId: 0,

@@ -13,6 +13,7 @@ interface DepositModalProps {
   tokenName?: string;
   tokenAmount?: string;
   stakingTokenDecimals?: number;
+  pooldepositFeeBP?:number;
 }
 
 const DepositModal: React.FC<DepositModalProps> = ({
@@ -22,6 +23,7 @@ const DepositModal: React.FC<DepositModalProps> = ({
   tokenName = "",
   tokenAmount,
   stakingTokenDecimals = 18,
+  pooldepositFeeBP = 0
 }) => {
   const [val, setVal] = useState(tokenAmount || "");
   const [pendingTx, setPendingTx] = useState(false);
@@ -70,6 +72,7 @@ const DepositModal: React.FC<DepositModalProps> = ({
     >
       <TokenInput
         poolwithdrawalFeeBP={0}
+        pooldepositFeeBP={pooldepositFeeBP}
         value={val}
         onSelectMax={handleSelectMax}
         onChange={handleChange}
