@@ -102,7 +102,6 @@ const fetchFarms = async () => {
           name: "totalAllocPoint",
         },
       ]);
-
       const allocPoint = new BigNumber(info.allocPoint._hex);
       const poolHarvestInterval = new BigNumber(info.harvestInterval._hex);
 

@@ -44,6 +44,12 @@ export enum QuoteToken {
   "BTC" = "BTC",
   "MAHA" = "MAHA",
   "PEAR" = "PEAR",
+  "WMATIC" = "WMATIC",
+  "USDC" = "USDC",
+  "DAI" = "DAI",
+  "USDT" = "USDT",
+  "LUSDT" = "LUSDT",
+  "LARTH" = "LARTH",
 }
 
 export enum PoolCategory {
@@ -55,8 +61,10 @@ export enum PoolCategory {
 export interface Address {
   97?: string;
   56: string;
+  5?: string;
   80001: string;
   137: string;
+  1?: string;
 }
 
 export interface FarmConfig {
@@ -87,6 +95,7 @@ export interface PoolConfig {
   TopImage?: string;
   tokenName: string;
   tokenAdressInLp: string;
+  tokenAddressSecondInLp?: string;
   tokenAddress: string;
   stakingTokenName: QuoteToken;
   quoteTokenSymbol: QuoteToken;

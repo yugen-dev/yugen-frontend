@@ -29,3 +29,4 @@ export const CNT_CIRCULATING_SUPPLY_LINK =
   "https://api.cryption.network/circulating-supply";
 export const CNT_TOTAL_SUPPLY_LINK =
   "https://api.cryption.network/total-supply";
+export const SUPPORTED_NETWORK_IDS = [137, 80001, 1, 5]

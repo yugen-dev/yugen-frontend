@@ -42,7 +42,9 @@ import { fetchPrices } from "./prices";
 
 const ZERO = new BigNumber(0);
 
-const chainID = process.env.REACT_APP_CHAIN_ID;
+const chainID = window.ethereum.networkVersion
+  ? window.ethereum.networkVersion
+  : process.env.REACT_APP_CHAIN_ID;
 export const useFetchPublicData = () => {
   const dispatch = useDispatch();
   const { slowRefresh } = useRefresh();
@@ -149,7 +151,10 @@ export const usePoolFromPid = (sousId): Pool => {
 // Prices
 
 export const usePriceBnbBusd = (): BigNumber => {
-  if (window.ethereum.networkVersion === "80001") {
+  if (
+    window.ethereum.networkVersion === "80001" ||
+    window.ethereum.networkVersion === "5"
+  ) {
     return new BigNumber(10);
   }
   const pid = 3; // USD-MATIC LP, BUSD-BNB LP
@@ -173,7 +178,10 @@ export const usePriceCakeBusd = (): BigNumber => {
 };
 
 export const usePriceEthBusd = (): BigNumber => {
-  if (window.ethereum.networkVersion === "80001") {
+  if (
+    window.ethereum.networkVersion === "80001" ||
+    window.ethereum.networkVersion === "5"
+  ) {
     return new BigNumber(10);
   }
   const pid = 8; // ETH-MATIC LP ,ETH-BNB LP
@@ -185,7 +193,10 @@ export const usePriceEthBusd = (): BigNumber => {
 };
 
 export const usePriceBtcBusd = (): BigNumber => {
-  if (window.ethereum.networkVersion === "80001") {
+  if (
+    window.ethereum.networkVersion === "80001" ||
+    window.ethereum.networkVersion === "5"
+  ) {
     return new BigNumber(10);
   }
   const pid = 5; // ETH-MATIC LP ,ETH-BNB LP
@@ -386,11 +397,15 @@ export const useHybridstakingTvl = (): BigNumber => {
 
   useEffect(() => {
     const fetchPriceHybridCNT = async () => {
-      const contract = getHybridStakingContract();
-      const res = await contract.methods.totalCNTStaked().call();
-      setHybridstakingTvlPrice(
-        new BigNumber(res).dividedBy(new BigNumber(10).pow(18))
-      );
+      try {
+        const contract = getHybridStakingContract();
+        const res = await contract.methods.totalCNTStaked().call();
+        setHybridstakingTvlPrice(
+          new BigNumber(res).dividedBy(new BigNumber(10).pow(18))
+        );
+      } catch (error) {
+        console.error("error in useHybridstakingTvl", error);
+      }
     };
 
     fetchPriceHybridCNT();
@@ -409,7 +424,7 @@ export const useTotalValue = (): BigNumber => {
   const pools = usePoolss();
 
   const totalStakerBalance = useCntStakerTvl();
-  const totalHybridstakingCntBalance = useHybridstakingTvl();
+  // const totalHybridstakingCntBalance = useHybridstakingTvl();
   const bnbPrice = usePriceBnbBusd();
   const cntPrice = usePriceCakeBusd();
   const ethPrice = usePriceEthBusd();
@@ -442,7 +457,13 @@ export const useTotalValue = (): BigNumber => {
     const pool = pools[i];
     if (pool.poolCategory === PoolCategory.COMMUNITY) {
       const balance = getBalanceNumber(pool.totalStaked, pool.tokenDecimals);
-      const priceoftoken = UseGetApiPrice(pool.stakingTokenAddress);
+      let priceoftoken = UseGetApiPrice(pool.stakingTokenAddress);
+      if (pool.tokenName === "LUSDT") {
+        priceoftoken = 0.08;
+      } else if (pool.tokenName === "LARTH") {
+        priceoftoken = 0.25;
+      }
+
       const val = priceoftoken * balance;
       value = value.plus(val);
     }
@@ -473,7 +494,7 @@ export const useTotalValue = (): BigNumber => {
   }
 
   value = value.plus(totalStakerBalance.multipliedBy(cntPrice));
-  value = value.plus(totalHybridstakingCntBalance.multipliedBy(cntPrice));
+  // value = value.plus(totalHybridstakingCntBalance.multipliedBy(cntPrice));
 
   return value;
 };

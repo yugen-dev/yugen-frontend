@@ -1,11 +1,7 @@
 import React from "react";
 import BigNumber from "bignumber.js";
-import {
-  Button,
-  useModal,
-} from "cryption-uikit";
+import { Button, useModal } from "cryption-uikit";
 import Row from "components/Row";
-
 import useI18n from "hooks/useI18n";
 import { useStake } from "hooks/useStake";
 import { useStakeWithPermit } from "hooks/useStakeWithPermit";
@@ -13,6 +9,7 @@ import useUnstake from "hooks/useUnstake";
 import { getBalanceNumber } from "utils/formatBalance";
 import DepositModal from "../DepositModal";
 import WithdrawModal from "../WithdrawModal";
+
 
 interface FarmCardActionsProps {
   stakedBalance?: BigNumber;
