@@ -32,6 +32,7 @@ import { useSousApprove } from "hooks/useApprove";
 import DepositModal from "./DepositModal";
 import WithdrawModal from "./WithdrawModal";
 import CardTitle from "./CardTitle";
+import CardSubTitle from './CardSubTitle'
 import Card from "./Card";
 import OldSyrupTitle from "./OldSyrupTitle";
 import CardFooter from "./CardFooter";
@@ -256,29 +257,22 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
             padding: "24px",
           }}
         >
-          <CardTitle isFinished={isFinished}>
-            {TranslateString(348, "Stake")} {isOldSyrup && "[OLD]"} {tokenName}
-          </CardTitle>
-
+          <div>
+            <CardTitle isFinished={isFinished}>
+              {TranslateString(348, "Stake")} {isOldSyrup && "[OLD]"} {tokenName}
+            </CardTitle>
+            <CardSubTitle isFinished={isFinished}>
+              {TranslateString(348, "Earn")} {isOldSyrup && "[OLD]"}{" "}
+              {pool.multiReward.toString()}
+            </CardSubTitle>
+          </div>
           {/* eslint-disable eqeqeq  */}
-          {sousId == Number(0) || sousId == Number(7) ? (
+          <Image src={TopImage} width={70} height={64} alt={tokenName} />
+          {/* {sousId == Number(0) || sousId == Number(7) ? (
             <Image src={TopImage} width={70} height={64} alt={tokenName} />
           ) : (
-            <Image src={TopImage} width={100} height={94} alt={tokenName} />
-          )}
-        </div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: "24px",
-          }}
-        >
-          <CardTitle isFinished={isFinished}>
-            {TranslateString(348, "Earn")} {isOldSyrup && "[OLD]"}{" "}
-            {pool.multiReward[0]}
-          </CardTitle>
+            <Image src={TopImage} width={70} height={64} alt={tokenName} />
+          )} */}
         </div>
       </div>
       <div style={{ padding: "24px" }}>
@@ -342,8 +336,8 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                   ? `${poolHarvestIntervalinHours.toString()} Hours`
                   : ""}
                 {!isDaysGreater &&
-                !isHoursGreater &&
-                poolHarvestIntervalinMinutes > 0
+                  !isHoursGreater &&
+                  poolHarvestIntervalinMinutes > 0
                   ? `${poolHarvestIntervalinMinutes.toString()} Minutes`
                   : ""}
               </Text>
@@ -440,10 +434,10 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                   onClick={
                     isOldSyrup
                       ? async () => {
-                          setPendingTx(true);
-                          await onUnstake("0", tokenDecimals);
-                          setPendingTx(false);
-                        }
+                        setPendingTx(true);
+                        await onUnstake("0", tokenDecimals);
+                        setPendingTx(false);
+                      }
                       : onPresentWithdraw
                   }
                 >
