@@ -488,74 +488,74 @@ const pools: PoolConfig[] = [
     metamaskImg:
       "https://seeklogo.com/images/T/tether-usdt-logo-FA55C7F397-seeklogo.com.png",
   },
-  // {
-  //   sousId: 14,
-  //   tokenName: "LUSDT",
-  //   tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
-  //   tokenAddress: "0xb032512A23Ef041bEc2e48e9b3f07286408B2B26", // usdc
-  //   tokenAddressSecondInLp: "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
-  //   stakingTokenName: QuoteToken.LUSDT,
-  //   quoteTokenSymbol: QuoteToken.LUSDT,
-  //   stakingTokenAddress: "0xb032512A23Ef041bEc2e48e9b3f07286408B2B26", // lp
-  //   contractAddress: {
-  //     97: "",
-  //     56: "",
-  //     80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
-  //     137: "0xF1c315e8A83Ef8484ad36e9943160Fd604C52E73", // staking pool usdc
-  //   },
-  //   poolCategory: PoolCategory.COMMUNITY,
-  //   projectLink: "https://cryption.network/",
-  //   multiReward: ["CNT"],
-  //   stakingTokenCoinGeckoid: "CNT",
-  //   rewardTokenCoinGeckoid: "CNT",
-  //   coinGeckoIds: [
-  //     "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
-  //   ],
-  //   TopImage:
-  //     "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10319.png",
-  //   multiRewardTokenPerBlock: ["0.02"],
-  //   harvest: true,
-  //   tokenPerBlock: "0.02",
-  //   sortOrder: 999,
-  //   isFinished: false,
-  //   tokenDecimals: 18,
-  //   metamaskImg:
-  //     "https://assets.coingecko.com/coins/images/17173/small/pear200.png?1626793002",
-  // },
-  // {
-  //   sousId: 15,
-  //   tokenName: "LARTH",
-  //   tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
-  //   tokenAddress: "0x20a2D84ec22F47B07d6A20209D84Bb7544ac5E95", // usdc
-  //   tokenAddressSecondInLp: "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
-  //   stakingTokenName: QuoteToken.LARTH,
-  //   quoteTokenSymbol: QuoteToken.LARTH,
-  //   stakingTokenAddress: "0x20a2D84ec22F47B07d6A20209D84Bb7544ac5E95", // lp
-  //   contractAddress: {
-  //     97: "",
-  //     56: "",
-  //     80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
-  //     137: "0x513C1b008A3136e9c510eAa374637c95E98126B1", // staking pool usdc
-  //   },
-  //   poolCategory: PoolCategory.COMMUNITY,
-  //   projectLink: "https://cryption.network/",
-  //   multiReward: ["CNT"],
-  //   stakingTokenCoinGeckoid: "CNT",
-  //   rewardTokenCoinGeckoid: "CNT",
-  //   coinGeckoIds: [
-  //     "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
-  //   ],
-  //   TopImage:
-  //     "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10324.png",
-  //   multiRewardTokenPerBlock: ["0.02"],
-  //   harvest: true,
-  //   tokenPerBlock: "0.02",
-  //   sortOrder: 999,
-  //   isFinished: false,
-  //   tokenDecimals: 18,
-  //   metamaskImg:
-  //     "https://assets.coingecko.com/coins/images/17173/small/pear200.png?1626793002",
-  // },
+  {
+    sousId: 14,
+    tokenName: "LUSDT",
+    tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
+    tokenAddress: "0xb032512A23Ef041bEc2e48e9b3f07286408B2B26", // usdc
+    tokenAddressSecondInLp: "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
+    stakingTokenName: QuoteToken.LUSDT,
+    quoteTokenSymbol: QuoteToken.LUSDT,
+    stakingTokenAddress: "0xb032512A23Ef041bEc2e48e9b3f07286408B2B26", // lp
+    contractAddress: {
+      97: "",
+      56: "",
+      80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
+      137: "0xF1c315e8A83Ef8484ad36e9943160Fd604C52E73", // staking pool usdc
+    },
+    poolCategory: PoolCategory.COMMUNITY,
+    projectLink: "https://cryption.network/",
+    multiReward: ["CNT"],
+    stakingTokenCoinGeckoid: "CNT",
+    rewardTokenCoinGeckoid: "CNT",
+    coinGeckoIds: [
+      "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
+    ],
+    TopImage:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10319.png",
+    multiRewardTokenPerBlock: ["0.02"],
+    harvest: true,
+    tokenPerBlock: "0.02",
+    sortOrder: 999,
+    isFinished: false,
+    tokenDecimals: 18,
+    metamaskImg:
+      "https://assets.coingecko.com/coins/images/17173/small/pear200.png?1626793002",
+  },
+  {
+    sousId: 15,
+    tokenName: "LARTH",
+    tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
+    tokenAddress: "0x20a2D84ec22F47B07d6A20209D84Bb7544ac5E95", // usdc
+    tokenAddressSecondInLp: "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
+    stakingTokenName: QuoteToken.LARTH,
+    quoteTokenSymbol: QuoteToken.LARTH,
+    stakingTokenAddress: "0x20a2D84ec22F47B07d6A20209D84Bb7544ac5E95", // lp
+    contractAddress: {
+      97: "",
+      56: "",
+      80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
+      137: "0x513C1b008A3136e9c510eAa374637c95E98126B1", // staking pool usdc
+    },
+    poolCategory: PoolCategory.COMMUNITY,
+    projectLink: "https://cryption.network/",
+    multiReward: ["CNT"],
+    stakingTokenCoinGeckoid: "CNT",
+    rewardTokenCoinGeckoid: "CNT",
+    coinGeckoIds: [
+      "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // cnt
+    ],
+    TopImage:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/Group_10324.png",
+    multiRewardTokenPerBlock: ["0.02"],
+    harvest: true,
+    tokenPerBlock: "0.02",
+    sortOrder: 999,
+    isFinished: false,
+    tokenDecimals: 18,
+    metamaskImg:
+      "https://assets.coingecko.com/coins/images/17173/small/pear200.png?1626793002",
+  },
 
   // {
   //   sousId: 0,
