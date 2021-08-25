@@ -386,7 +386,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                                 new BigNumber(pool.multiRewardTokenPerBlock[0])
                               )
                             ),
-                            tokenDecimals
+                            18
                           )}
                           isDisabled={isFinished}
                         />
