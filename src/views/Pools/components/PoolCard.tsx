@@ -120,9 +120,12 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   let apy = 0;
   let apyString = "";
   const apyArray = [];
-  const StakingTokenPrice = UseGetApiPrice(
+  let StakingTokenPrice = UseGetApiPrice(
     pool.stakingTokenAddress.toLowerCase()
   );
+
+  StakingTokenPrice = tokenName === "LUSDT" ? 0.08 : StakingTokenPrice;
+  StakingTokenPrice = tokenName === "LARTH" ? 0.25 : StakingTokenPrice;
 
   pool.multiRewardTokenPerBlock.forEach(async (element, i) => {
     const stakingTokenPrice = new BigNumber(StakingTokenPrice);
@@ -130,10 +133,6 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
 
     if (pool.rewardTokenCoinGeckoid === "pear") {
       tokenPrice = RewardTokenCoinGeckoPrice;
-    } else if (pool.tokenName === "LUSDT") {
-      tokenPrice = 0.08;
-    } else if (pool.tokenName === "LARTH") {
-      tokenPrice = 0.25;
     } else {
       tokenPrice = UseGetApiPrice(pool.coinGeckoIds[i].toLowerCase());
     }
