@@ -22,7 +22,7 @@ import useWeb3 from "hooks/useWeb3";
 import { useSousUnstake } from "hooks/useUnstake";
 import { getBalanceNumber } from "utils/formatBalance";
 // import { useSousChefGasless } from "hooks/useContract";
-import { getPoolApyMultiRewards} from "utils/apy";
+import { getPoolApyMultiRewards } from "utils/apy";
 import { useSousHarvest } from "hooks/useHarvest";
 import Balance from "components/Balance";
 import { fetchPrice, UseGetApiPrice, useProfile } from "state/hooks";
@@ -80,7 +80,7 @@ const PoolCard: React.FC<HarvestProps> = ({
     quoteTokenSymbol,
     lpTotalInQuoteToken,
     quoteTokenSecondAmount,
-    quoteTokeFirstAmount
+    quoteTokeFirstAmount,
   } = pool;
 
   const [RewardTokenCoinGeckoPrice, setRewardTokenCoinGeckoPrice] = useState(
@@ -89,17 +89,15 @@ const PoolCard: React.FC<HarvestProps> = ({
 
   useEffect(() => {
     const pricefunc = async () => {
-      if(pool.rewardTokenCoinGeckoid.length >0){
+      if (pool.rewardTokenCoinGeckoid.length > 0) {
+        const rewardTokenPriceCoinGeckoPrice = await fetchPrice(
+          pool.rewardTokenCoinGeckoid
+        );
 
-    
-      const rewardTokenPriceCoinGeckoPrice = await fetchPrice(
-        pool.rewardTokenCoinGeckoid
-      );
-
-      if (rewardTokenPriceCoinGeckoPrice) {
-        setRewardTokenCoinGeckoPrice(rewardTokenPriceCoinGeckoPrice);
+        if (rewardTokenPriceCoinGeckoPrice) {
+          setRewardTokenCoinGeckoPrice(rewardTokenPriceCoinGeckoPrice);
+        }
       }
-    }
     };
     pricefunc();
   }, [pool]);
@@ -107,34 +105,51 @@ const PoolCard: React.FC<HarvestProps> = ({
   const tokenInLpPrice = UseGetApiPrice(pool.tokenAdressInLp);
 
   let tokenInLpSeconPrice = UseGetApiPrice(pool.tokenAddressSecondInLp);
-  
-  tokenInLpSeconPrice = pool.tokenAddressSecondInLp === "0x34C1b299A74588D6Abdc1b85A53345A48428a521" ? RewardTokenCoinGeckoPrice.toNumber() : tokenInLpSeconPrice;
-  
+
+  tokenInLpSeconPrice =
+    pool.tokenAddressSecondInLp === "0x34C1b299A74588D6Abdc1b85A53345A48428a521"
+      ? RewardTokenCoinGeckoPrice.toNumber()
+      : tokenInLpSeconPrice;
+
   const totalValue: BigNumber = useMemo(() => {
     if (!lpTotalInQuoteToken) {
       return null;
     }
 
-    if(pool.tokenAddressSecondInLp === "0x34C1b299A74588D6Abdc1b85A53345A48428a521"){
+    if (
+      pool.tokenAddressSecondInLp ===
+      "0x34C1b299A74588D6Abdc1b85A53345A48428a521"
+    ) {
       return tokenInLpSeconPrice && tokenInLpPrice
-      ? (new BigNumber(tokenInLpPrice).multipliedBy(quoteTokeFirstAmount)).plus((new BigNumber(RewardTokenCoinGeckoPrice).multipliedBy(new BigNumber(quoteTokenSecondAmount))))
-      : new BigNumber(100000);
-    }
-
- 
-    if (stakingTokenName === QuoteToken.LP) {
-      return tokenInLpSeconPrice && tokenInLpPrice
-        ? (new BigNumber(tokenInLpPrice).multipliedBy(quoteTokeFirstAmount)).plus((new BigNumber(tokenInLpSeconPrice).multipliedBy(new BigNumber(quoteTokenSecondAmount))))
+        ? new BigNumber(tokenInLpPrice)
+            .multipliedBy(quoteTokeFirstAmount)
+            .plus(
+              new BigNumber(RewardTokenCoinGeckoPrice).multipliedBy(
+                new BigNumber(quoteTokenSecondAmount)
+              )
+            )
         : new BigNumber(100000);
     }
-   
+
+    if (stakingTokenName === QuoteToken.LP) {
+      return tokenInLpSeconPrice && tokenInLpPrice
+        ? new BigNumber(tokenInLpPrice)
+            .multipliedBy(quoteTokeFirstAmount)
+            .plus(
+              new BigNumber(tokenInLpSeconPrice).multipliedBy(
+                new BigNumber(quoteTokenSecondAmount)
+              )
+            )
+        : new BigNumber(100000);
+    }
+
     if (quoteTokenSymbol === QuoteToken.BNB) {
       return bnbPrice.times(lpTotalInQuoteToken);
     }
     if (quoteTokenSymbol === QuoteToken.CNT) {
       return valueOfCNTinUSD.times(lpTotalInQuoteToken);
     }
-  
+
     if (quoteTokenSymbol === QuoteToken.ETH) {
       return ethPrice.times(lpTotalInQuoteToken);
     }
@@ -161,12 +176,11 @@ const PoolCard: React.FC<HarvestProps> = ({
     lpTotalInQuoteToken,
     tokenInLpPrice,
     quoteTokenSymbol,
-    tokenInLpSeconPrice ,
+    tokenInLpSeconPrice,
     quoteTokeFirstAmount,
     quoteTokenSecondAmount,
     RewardTokenCoinGeckoPrice,
-    pool.tokenAddressSecondInLp
-
+    pool.tokenAddressSecondInLp,
   ]);
 
   const [signatureData, setSignatureData] = useState<{
@@ -226,8 +240,12 @@ const PoolCard: React.FC<HarvestProps> = ({
   pool.multiRewardTokenPerBlock.forEach(async (element, i) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     let tokenPrice = 100;
-      
-    tokenPrice = pool.coinGeckoIds[i] === "0x34C1b299A74588D6Abdc1b85A53345A48428a521" && pool.multiReward[i] === "EASY" ? RewardTokenCoinGeckoPrice.toNumber() : UseGetApiPrice(pool.coinGeckoIds[i].toLowerCase());
+
+    tokenPrice =
+      pool.coinGeckoIds[i] === "0x34C1b299A74588D6Abdc1b85A53345A48428a521" &&
+      pool.multiReward[i] === "EASY"
+        ? RewardTokenCoinGeckoPrice.toNumber()
+        : UseGetApiPrice(pool.coinGeckoIds[i].toLowerCase());
     // eslint-disable-next-line  no-nested-ternary
 
     const rewardTokenPrice = tokenPrice
@@ -238,13 +256,20 @@ const PoolCard: React.FC<HarvestProps> = ({
     //   ? new BigNumber(tokenPriceVsQuote).plus(new BigNumber(tokenInLpPrice))
     //   : new BigNumber(1);
     // console.log(pool.sousId)
-//     console.log(pool.multiReward[i])
-// console.log( (new BigNumber(tokenInLpPrice).times(quoteTokeFirstAmount)).plus((new BigNumber(tokenInLpSeconPrice).times(new BigNumber(quoteTokenSecondAmount)))).toNumber())
-// console.log((new BigNumber(tokenInLpSeconPrice).times(new BigNumber(quoteTokenSecondAmount))).toNumber())
-// console.log(quoteTokeFirstAmount)
-// console.log(quoteTokenSecondAmount)
+    //     console.log(pool.multiReward[i])
+    // console.log( (new BigNumber(tokenInLpPrice).times(quoteTokeFirstAmount)).plus((new BigNumber(tokenInLpSeconPrice).times(new BigNumber(quoteTokenSecondAmount)))).toNumber())
+    // console.log((new BigNumber(tokenInLpSeconPrice).times(new BigNumber(quoteTokenSecondAmount))).toNumber())
+    // console.log(quoteTokeFirstAmount)
+    // console.log(quoteTokenSecondAmount)
     const currentTokenApy = getPoolApyMultiRewards(
-      (new BigNumber(tokenInLpPrice).times(quoteTokeFirstAmount)).plus((new BigNumber(tokenInLpSeconPrice).times(new BigNumber(quoteTokenSecondAmount)))).toNumber(),
+      new BigNumber(tokenInLpPrice)
+        .times(quoteTokeFirstAmount)
+        .plus(
+          new BigNumber(tokenInLpSeconPrice).times(
+            new BigNumber(quoteTokenSecondAmount)
+          )
+        )
+        .toNumber(),
       rewardTokenPrice.toNumber(),
       getBalanceNumber(pool.totalStaked, stakingTokenDecimals),
       parseFloat(element)
@@ -391,6 +416,26 @@ const PoolCard: React.FC<HarvestProps> = ({
   ]);
   const open = useCallback(() => setShow(true), [setShow]);
   const close = useCallback(() => setShow(false), [setShow]);
+
+  const userStakedBalance = getBalanceNumber(stakedBalance, tokenDecimals);
+  let totalValueNumber = 0;
+  let totalStakedNumber = 0;
+  if (totalValue === null) {
+    totalValueNumber = 0;
+  } else {
+    totalValueNumber = totalValue.toNumber();
+  }
+  if (totalStaked === undefined) {
+    totalStakedNumber = 0;
+  } else {
+    totalStakedNumber = Number(totalStaked);
+  }
+  const userValue = (
+    (totalValueNumber * userStakedBalance) /
+    totalStakedNumber
+  ).toFixed(2);
+  const formattedUserValue = `( $${userValue} )`;
+
   return (
     <Card isActive={isCardActive} isFinished={isFinished}>
       {isFinished && <PoolFinishedSash />}
@@ -463,6 +508,7 @@ const PoolCard: React.FC<HarvestProps> = ({
                 fontSize="16px"
                 isDisabled={isFinished}
                 value={getBalanceNumber(stakedBalance, stakingTokenDecimals)}
+                subText={formattedUserValue}
               />
             </StyledDetails>
             <Flex justifyContent="space-between" mb="15px">
