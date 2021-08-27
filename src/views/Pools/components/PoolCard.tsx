@@ -32,7 +32,7 @@ import { useSousApprove } from "hooks/useApprove";
 import DepositModal from "./DepositModal";
 import WithdrawModal from "./WithdrawModal";
 import CardTitle from "./CardTitle";
-import CardSubTitle from './CardSubTitle'
+import CardSubTitle from "./CardSubTitle";
 import Card from "./Card";
 import OldSyrupTitle from "./OldSyrupTitle";
 import CardFooter from "./CardFooter";
@@ -242,6 +242,12 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     }
   }, [onApprove]);
 
+  // get user staked value in dollars
+
+  const userStakedBalance = getBalanceNumber(stakedBalance, tokenDecimals);
+  const userValue = (StakingTokenPrice * userStakedBalance).toFixed(2);
+  const formattedUserValue = `( $${userValue} )`;
+
   const open = useCallback(() => setShow(true), [setShow]);
   const close = useCallback(() => setShow(false), [setShow]);
   return (
@@ -258,7 +264,8 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
         >
           <div>
             <CardTitle isFinished={isFinished}>
-              {TranslateString(348, "Stake")} {isOldSyrup && "[OLD]"} {tokenName}
+              {TranslateString(348, "Stake")} {isOldSyrup && "[OLD]"}{" "}
+              {tokenName}
             </CardTitle>
             <CardSubTitle isFinished={isFinished}>
               {TranslateString(348, "Earn")} {isOldSyrup && "[OLD]"}{" "}
@@ -321,6 +328,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                   fontSize="16px"
                   isDisabled={isFinished}
                   value={getBalanceNumber(stakedBalance, tokenDecimals)}
+                  subText={formattedUserValue}
                 />
               </StyledDetails>
             )}
@@ -335,8 +343,8 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                   ? `${poolHarvestIntervalinHours.toString()} Hours`
                   : ""}
                 {!isDaysGreater &&
-                  !isHoursGreater &&
-                  poolHarvestIntervalinMinutes > 0
+                !isHoursGreater &&
+                poolHarvestIntervalinMinutes > 0
                   ? `${poolHarvestIntervalinMinutes.toString()} Minutes`
                   : ""}
               </Text>
@@ -433,10 +441,10 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                   onClick={
                     isOldSyrup
                       ? async () => {
-                        setPendingTx(true);
-                        await onUnstake("0", tokenDecimals);
-                        setPendingTx(false);
-                      }
+                          setPendingTx(true);
+                          await onUnstake("0", tokenDecimals);
+                          setPendingTx(false);
+                        }
                       : onPresentWithdraw
                   }
                 >
