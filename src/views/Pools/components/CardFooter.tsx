@@ -6,16 +6,16 @@ import useI18n from "hooks/useI18n";
 import { ChevronDown, ChevronUp } from "react-feather";
 import { Flex, MetamaskIcon } from "cryption-uikit";
 import Balance from "components/Balance";
-import { CommunityTag, CoreTag, BinanceTag } from "components/Tags";
+// import { CommunityTag, CoreTag, BinanceTag } from "components/Tags";
 // import { useBlock } from "state/hooks";
 import { PoolCategory } from "config/constants/types";
 import { registerToken } from "utils/wallet";
 
-const tags = {
-  [PoolCategory.BINANCE]: BinanceTag,
-  [PoolCategory.CORE]: CoreTag,
-  [PoolCategory.COMMUNITY]: CommunityTag,
-};
+// const tags = {
+//   [PoolCategory.BINANCE]: BinanceTag,
+//   [PoolCategory.CORE]: CoreTag,
+//   [PoolCategory.COMMUNITY]: CommunityTag,
+// };
 
 interface Props {
   projectLink: string;
@@ -68,6 +68,7 @@ const Details = styled.div`
 
 const Row = styled(Flex)`
   align-items: center;
+  justify-content: center;
 `;
 
 const FlexFull = styled.div`
@@ -91,7 +92,7 @@ const CardFooter: React.FC<Props> = ({
   // tokenName,
   tokenDecimals,
   isFinished,
-  poolCategory,
+  // poolCategory,
   metamaskImg,
   StakingTokenPrice,
   rewardTokenName,
@@ -102,14 +103,14 @@ const CardFooter: React.FC<Props> = ({
   const Icon = isOpen ? ChevronUp : ChevronDown;
 
   const handleClick = () => setIsOpen(!isOpen);
-  const Tag = tags[poolCategory];
+  // const Tag = tags[poolCategory];
 
   return (
     <StyledFooter isFinished={isFinished}>
       <Row>
-        <FlexFull>
+        {/* <FlexFull>
           <Tag />
-        </FlexFull>
+        </FlexFull> */}
         <StyledDetailsButton onClick={handleClick}>
           {isOpen
             ? TranslateString(1066, "Hide")
@@ -177,12 +178,11 @@ const CardFooter: React.FC<Props> = ({
             <MetamaskIcon height={15} width={15} ml="4px" />
           </Flex>
           <Flex mb="5px" mt="10px" justifyContent="center">
-            {
-              projectLink &&  <TokenLink href={projectLink} target="_blank">
-              {TranslateString(412, "View project site")}
-            </TokenLink>
-            }
-          
+            {projectLink && (
+              <TokenLink href={projectLink} target="_blank">
+                {TranslateString(412, "View project site")}
+              </TokenLink>
+            )}
           </Flex>
         </Details>
       )}
