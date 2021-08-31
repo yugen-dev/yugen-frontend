@@ -11,6 +11,7 @@ import useI18n from "hooks/useI18n";
 import useWeb3 from "hooks/useWeb3";
 import getCntPrice from "utils/getCntPrice";
 import useInterval from "hooks/useInterval";
+import { useWeb3React } from "@web3-react/core";
 import { dayDatasQuery, burnQuery, cntStakerQuery } from "apollo/queries";
 import {
   CNT_CIRCULATING_SUPPLY_LINK,
@@ -38,9 +39,7 @@ import StatsCard from "views/Home/components/StatsCard";
 import Areachart from "components/Areachart";
 import TotalValueLockedCard from "views/Home/components/TotalValueLockedCard";
 import EarnAssetCard from "views/Home/components/EarnAssetCard";
-import GetFarmsMultirewardsAPY, {
-  calculateFunc,
-} from "hooks/GetFarmsMultirewardsAPY";
+import calculateFunc from "utils/getFarmsAPy";
 // import WinCard from "views/Home/components/WinCard";
 
 const Hero = styled.div`
@@ -95,6 +94,7 @@ const Home: React.FC = () => {
 
   const cakePriceUsd = usePriceCakeBusd();
   const farmsLP = useFarms();
+  const { account } = useWeb3React("web3");
   const poolsMultirewardFarms = usePoolss();
   const ethPriceUsd = usePriceEthBusd();
   const btcPriceUsd = usePriceBtcBusd();
@@ -141,30 +141,26 @@ const Home: React.FC = () => {
 
     return (maxAPY.current * 100).toLocaleString("en-US").slice(0, -1);
   };
-
+  const prices = useGetApiPrices();
   const calculateMultirewardsAPY = async () => {
-    const prices = useGetApiPrices();
-
+    // const prices = [];
     // farms/multirewards
     const activeMultirewardFarms = poolsMultirewardFarms.filter(
       (farm) =>
         farm.poolCategory === PoolCategory.CORE && farm.isFinished !== true
     );
 
-    const multirewardsAPR = activeMultirewardFarms.map((pool) =>
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      calculateFunc(
+    const multirewardsAPR = await Promise.all(activeMultirewardFarms.map(async (pool) => {
+      const apy = await calculateFunc(
         pool,
-        prices[pool.tokenAdressInLp],
-        prices[pool.tokenAddressSecondInLp]
+        prices
       )
-    );
+      return apy;
+    }));
 
     const Test = await Promise.all(multirewardsAPR);
     const maxAPRInCoreAndMultirewards = Math.max(...Test);
-    // eslint-disable-next-line no-console
     console.log("all multireward APRs: ", multirewardsAPR);
-    // eslint-disable-next-line no-console
     console.log("highest APR multireward: ", maxAPRInCoreAndMultirewards);
   };
 
@@ -172,7 +168,7 @@ const Home: React.FC = () => {
     (farmsToDisplay) => {
       const cakePriceVsBNB = new BigNumber(
         farmsLP.find((farm) => farm.pid === CAKE_POOL_PID)?.tokenPriceVsQuote ||
-          0
+        0
       );
 
       farmsToDisplay.map((farm) => {

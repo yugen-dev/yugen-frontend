@@ -1,16 +1,10 @@
 import BigNumber from "bignumber.js";
-import { fetchPrice, GetApiPrice } from "state/hooks";
+import { fetchPrice } from "state/hooks";
 import { getPoolApyMultiRewards } from "utils/apy";
 import { getBalanceNumber } from "utils/formatBalance";
 
-export const calculateFunc = async (
-  pool,
-  tokenInLpPrice,
-  tokenInLpSecondPrice,
-  prices
-) => {
+const calculateFunc = async (pool, prices) => {
   let rewardTokenCoinGeckoPrice = new BigNumber(1);
-
   const pricefunc = async () => {
     if (pool.rewardTokenCoinGeckoid.length > 0) {
       rewardTokenCoinGeckoPrice = await fetchPrice(pool.rewardTokenCoinGeckoid);
@@ -21,8 +15,11 @@ export const calculateFunc = async (
   const tokenInLpSeconPrice =
     pool.tokenAddressSecondInLp === "0x34C1b299A74588D6Abdc1b85A53345A48428a521"
       ? rewardTokenCoinGeckoPrice.toNumber()
-      : tokenInLpSecondPrice;
-
+      : prices[pool.tokenAddressSecondInLp];
+  const tokenInLpPrice =
+    pool.tokenAdressInLp === "0x34C1b299A74588D6Abdc1b85A53345A48428a521"
+      ? rewardTokenCoinGeckoPrice.toNumber()
+      : prices[pool.tokenAdressInLp];
   let apy = 0;
   pool.multiRewardTokenPerBlock.forEach(async (element, i) => {
     let tokenPrice = 100;
@@ -57,11 +54,4 @@ export const calculateFunc = async (
   return apy;
 };
 
-const GetFarmsMultirewardsAPY = async (pool) => {
-  const tokenInLpPrice = GetApiPrice(pool.tokenAdressInLp);
-  const tokenInLpSeconPrice = GetApiPrice(pool.tokenAddressSecondInLp);
-
-  // calculateFunc(pool, tokenInLpPrice, tokenInLpSeconPrice);
-};
-
-export default GetFarmsMultirewardsAPY;
+export default calculateFunc;
