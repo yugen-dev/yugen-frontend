@@ -25,7 +25,7 @@ import { getBalanceNumber } from "utils/formatBalance";
 import { getPoolApyMultiRewards } from "utils/apy";
 import { useSousHarvest } from "hooks/useHarvest";
 import Balance from "components/Balance";
-import { fetchPrice, UseGetApiPrice, useProfile } from "state/hooks";
+import { fetchPrice, GetApiPrice, useProfile } from "state/hooks";
 import Tooltip from "components/Tooltip";
 import { useSousApproveWithPermit } from "hooks/useApprove";
 import { QuoteToken, PoolCategory } from "config/constants/types";
@@ -102,9 +102,9 @@ const PoolCard: React.FC<HarvestProps> = ({
     pricefunc();
   }, [pool]);
 
-  const tokenInLpPrice = UseGetApiPrice(pool.tokenAdressInLp);
+  const tokenInLpPrice = GetApiPrice(pool.tokenAdressInLp);
 
-  let tokenInLpSeconPrice = UseGetApiPrice(pool.tokenAddressSecondInLp);
+  let tokenInLpSeconPrice = GetApiPrice(pool.tokenAddressSecondInLp);
 
   tokenInLpSeconPrice =
     pool.tokenAddressSecondInLp === "0x34C1b299A74588D6Abdc1b85A53345A48428a521"
@@ -245,7 +245,7 @@ const PoolCard: React.FC<HarvestProps> = ({
       pool.coinGeckoIds[i] === "0x34C1b299A74588D6Abdc1b85A53345A48428a521" &&
       pool.multiReward[i] === "EASY"
         ? RewardTokenCoinGeckoPrice.toNumber()
-        : UseGetApiPrice(pool.coinGeckoIds[i].toLowerCase());
+        : GetApiPrice(pool.coinGeckoIds[i].toLowerCase());
     // eslint-disable-next-line  no-nested-ternary
 
     const rewardTokenPrice = tokenPrice

@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useEffect, useState } from "react";
+import React, { useRef, useCallback, useEffect, useState, memo } from "react";
 import styled from "styled-components";
 import BigNumber from "bignumber.js";
 import { PoolCategory, QuoteToken } from "config/constants/types";
@@ -21,7 +21,9 @@ import {
 } from "config";
 import { getDayData } from "apollo/exchange";
 import {
+  GetApiPrice,
   useFarms,
+  useGetApiPrices,
   usePoolss,
   usePriceBnbBusd,
   usePriceBtcBusd,
@@ -36,7 +38,9 @@ import StatsCard from "views/Home/components/StatsCard";
 import Areachart from "components/Areachart";
 import TotalValueLockedCard from "views/Home/components/TotalValueLockedCard";
 import EarnAssetCard from "views/Home/components/EarnAssetCard";
-import useGetFarmsMultirewardsAPY from "hooks/useGetFarmsMultirewardsAPY";
+import GetFarmsMultirewardsAPY, {
+  calculateFunc,
+} from "hooks/GetFarmsMultirewardsAPY";
 // import WinCard from "views/Home/components/WinCard";
 
 const Hero = styled.div`
@@ -114,40 +118,56 @@ const Home: React.FC = () => {
   // ).slice(0, 3);
   // Always include CAKE
   // const assets = [...latestPools.map((pool) => pool.tokenName)].join(", ");
-  const getHightestPoolsAPY = () => {
-    const activePools = poolsMultirewardFarms.filter(
-      (farm) => farm.poolCategory === PoolCategory.COMMUNITY
-    );
 
-    const poolsAPR = activePools.map((pool) =>
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      useGetFarmsMultirewardsAPY(pool)
-    );
+  // const getHightestPoolsAPY = () => {
+  //   const activePools = poolsMultirewardFarms.filter(
+  //     (farm) => farm.poolCategory === PoolCategory.COMMUNITY
+  //   );
 
-    console.log("max pools apr: ", Math.max(...poolsAPR));
-  };
+  //   const poolsAPR = activePools.map((pool) =>
+  //     // eslint-disable-next-line react-hooks/rules-of-hooks
+  //     GetFarmsMultirewardsAPY(pool)
+  //   );
 
-  const getHighestAPY = () => {
+  //   console.log("max pools apr: ", Math.max(...poolsAPR));
+  // };
+
+  const getHighestAPY = async () => {
     // farms/core
     const activeFarms = farmsLP.filter((farm) => farm.multiplier !== "0X");
+
+    calculateAPY(activeFarms);
+    await calculateMultirewardsAPY();
+
+    return (maxAPY.current * 100).toLocaleString("en-US").slice(0, -1);
+  };
+
+  const calculateMultirewardsAPY = async () => {
+    const prices = useGetApiPrices();
+
     // farms/multirewards
     const activeMultirewardFarms = poolsMultirewardFarms.filter(
       (farm) =>
         farm.poolCategory === PoolCategory.CORE && farm.isFinished !== true
     );
 
-    calculateAPY(activeFarms);
-
     const multirewardsAPR = activeMultirewardFarms.map((pool) =>
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      useGetFarmsMultirewardsAPY(pool)
+      calculateFunc(
+        pool,
+        prices[pool.tokenAdressInLp],
+        prices[pool.tokenAddressSecondInLp]
+      )
     );
-    console.log("APRs: ", multirewardsAPR);
 
-    const maxAPRInCoreAndMultirewards = Math.max(...multirewardsAPR);
-
-    return (maxAPY.current * 100).toLocaleString("en-US").slice(0, -1);
+    const Test = await Promise.all(multirewardsAPR);
+    const maxAPRInCoreAndMultirewards = Math.max(...Test);
+    // eslint-disable-next-line no-console
+    console.log("all multireward APRs: ", multirewardsAPR);
+    // eslint-disable-next-line no-console
+    console.log("highest APR multireward: ", maxAPRInCoreAndMultirewards);
   };
+
   const calculateAPY = useCallback(
     (farmsToDisplay) => {
       const cakePriceVsBNB = new BigNumber(
@@ -216,6 +236,7 @@ const Home: React.FC = () => {
     },
     [bnbPrice, farmsLP, cakePriceUsd, ethPriceUsd, btcPriceUsd]
   );
+
   const dayDatas = useQuery(dayDatasQuery, {
     context: {
       clientName: "exchange",

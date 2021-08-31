@@ -19,7 +19,7 @@ import { getERC20Contract } from "utils/contractHelpers";
 import useI18n from "hooks/useI18n";
 import { useSousStake } from "hooks/useStake";
 import useWeb3 from "hooks/useWeb3";
-import { fetchPrice, UseGetApiPrice } from "state/hooks";
+import { fetchPrice, GetApiPrice } from "state/hooks";
 import { useSousUnstake } from "hooks/useUnstake";
 import { getBalanceNumber } from "utils/formatBalance";
 import { getPoolApy } from "utils/apy";
@@ -120,9 +120,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   let apy = 0;
   let apyString = "";
   const apyArray = [];
-  let StakingTokenPrice = UseGetApiPrice(
-    pool.stakingTokenAddress.toLowerCase()
-  );
+  let StakingTokenPrice = GetApiPrice(pool.stakingTokenAddress.toLowerCase());
 
   StakingTokenPrice = tokenName === "LUSDT" ? 0.08 : StakingTokenPrice;
   StakingTokenPrice = tokenName === "LARTH" ? 0.25 : StakingTokenPrice;
@@ -134,7 +132,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     if (pool.rewardTokenCoinGeckoid === "pear") {
       tokenPrice = RewardTokenCoinGeckoPrice;
     } else {
-      tokenPrice = UseGetApiPrice(pool.coinGeckoIds[i].toLowerCase());
+      tokenPrice = GetApiPrice(pool.coinGeckoIds[i].toLowerCase());
     }
 
     // eslint-disable-next-line  no-nested-ternary
