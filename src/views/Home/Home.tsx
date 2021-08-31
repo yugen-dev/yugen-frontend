@@ -1,7 +1,7 @@
 import React, { useRef, useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import BigNumber from "bignumber.js";
-import { QuoteToken } from "config/constants/types";
+import { PoolCategory, QuoteToken } from "config/constants/types";
 import { ParentSize } from "@visx/responsive";
 import Grid from "@material-ui/core/Grid";
 // import orderBy from "lodash/orderBy";
@@ -22,6 +22,7 @@ import {
 import { getDayData } from "apollo/exchange";
 import {
   useFarms,
+  usePoolss,
   usePriceBnbBusd,
   usePriceBtcBusd,
   usePriceCakeBusd,
@@ -35,6 +36,7 @@ import StatsCard from "views/Home/components/StatsCard";
 import Areachart from "components/Areachart";
 import TotalValueLockedCard from "views/Home/components/TotalValueLockedCard";
 import EarnAssetCard from "views/Home/components/EarnAssetCard";
+import useGetFarmsMultirewardsAPY from "hooks/useGetFarmsMultirewardsAPY";
 // import WinCard from "views/Home/components/WinCard";
 
 const Hero = styled.div`
@@ -89,6 +91,7 @@ const Home: React.FC = () => {
 
   const cakePriceUsd = usePriceCakeBusd();
   const farmsLP = useFarms();
+  const poolsMultirewardFarms = usePoolss();
   const ethPriceUsd = usePriceEthBusd();
   const btcPriceUsd = usePriceBtcBusd();
   let totalBurned = 0;
@@ -111,9 +114,38 @@ const Home: React.FC = () => {
   // ).slice(0, 3);
   // Always include CAKE
   // const assets = [...latestPools.map((pool) => pool.tokenName)].join(", ");
+  const getHightestPoolsAPY = () => {
+    const activePools = poolsMultirewardFarms.filter(
+      (farm) => farm.poolCategory === PoolCategory.COMMUNITY
+    );
+
+    const poolsAPR = activePools.map((pool) =>
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      useGetFarmsMultirewardsAPY(pool)
+    );
+
+    console.log("max pools apr: ", Math.max(...poolsAPR));
+  };
+
   const getHighestAPY = () => {
+    // farms/core
     const activeFarms = farmsLP.filter((farm) => farm.multiplier !== "0X");
+    // farms/multirewards
+    const activeMultirewardFarms = poolsMultirewardFarms.filter(
+      (farm) =>
+        farm.poolCategory === PoolCategory.CORE && farm.isFinished !== true
+    );
+
     calculateAPY(activeFarms);
+
+    const multirewardsAPR = activeMultirewardFarms.map((pool) =>
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      useGetFarmsMultirewardsAPY(pool)
+    );
+    console.log("APRs: ", multirewardsAPR);
+
+    const maxAPRInCoreAndMultirewards = Math.max(...multirewardsAPR);
+
     return (maxAPY.current * 100).toLocaleString("en-US").slice(0, -1);
   };
   const calculateAPY = useCallback(
@@ -242,9 +274,9 @@ const Home: React.FC = () => {
         },
         [[], []]
       );
-    totalFees = (parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.003).toFixed(
-      4
-    );
+    totalFees = (
+      parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.003
+    ).toFixed(4);
     lpFees = (parseFloat(totalFees) * (5 / 6)).toFixed(4);
     stakerFees = ((parseFloat(totalFees) / 6) * 0.35).toFixed(4);
     burnerFees = ((parseFloat(totalFees) / 6) * 0.55).toFixed(4);
@@ -334,7 +366,6 @@ const Home: React.FC = () => {
             <Grid item xs={12} md={6} lg={6} xl={6}>
               <EarnAssetCard
                 topTitle="Earn"
-                description={`${cntStakingRatio.toFixed(2)}%`}
                 bottomTitle="on staking CNT"
                 descriptionColor="#29bb89"
                 redirectLink="/cntstaker"
