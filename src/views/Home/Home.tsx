@@ -367,6 +367,7 @@ const Home: React.FC = () => {
               <EarnAssetCard
                 topTitle="Earn"
                 bottomTitle="on staking CNT"
+                description={`${cntStakingRatio.toFixed(2)}%`}
                 descriptionColor="#29bb89"
                 redirectLink="/cntstaker"
               />
