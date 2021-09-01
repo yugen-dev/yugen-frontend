@@ -109,11 +109,11 @@ const Home: React.FC = () => {
   const maxAPY = useRef(Number.MIN_VALUE);
   const TranslateString = useI18n();
 
-  const getHighestAPY = async () => {
+  const getHighestAPY = () => {
     const activeFarms = farmsLP.filter((farm) => farm.multiplier !== "0X");
     calculateAPY(activeFarms);
     calculateMultirewardsAPY();
-    return (maxAPY.current * 100).toLocaleString("en-US").slice(0, -1);
+    return maxAPY.current.toLocaleString("en-US").slice(0, -1);
   };
 
   const calculateMultirewardsAPY = async () => {
@@ -132,9 +132,9 @@ const Home: React.FC = () => {
       const Test = multirewardsAPR;
       const maxAPRInCoreAndMultirewards = Math.max(...Test);
       // eslint-disable-next-line no-console
-      console.log("all multireward APRs: ", multirewardsAPR);
+      // console.log("all multireward APRs: ", multirewardsAPR);
       // eslint-disable-next-line no-console
-      console.log("highest APR multireward: ", maxAPRInCoreAndMultirewards);
+      // console.log("highest APR multireward: ", maxAPRInCoreAndMultirewards);
 
       if (maxAPY.current < maxAPRInCoreAndMultirewards)
         maxAPY.current = maxAPRInCoreAndMultirewards;
@@ -279,6 +279,7 @@ const Home: React.FC = () => {
     devFees = ((parseFloat(totalFees) / 6) * 0.1).toFixed(4);
   }
   useInterval(() => Promise.all([getDayData]), 60000);
+
   return (
     <Container
       maxWidth="lg"
