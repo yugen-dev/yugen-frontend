@@ -38,6 +38,7 @@ import Areachart from "components/Areachart";
 import TotalValueLockedCard from "views/Home/components/TotalValueLockedCard";
 import EarnAssetCard from "views/Home/components/EarnAssetCard";
 import calculateFunc from "utils/getFarmsAPY";
+import calculatePoolsFunc from "utils/getPoolsAPY";
 // import WinCard from "views/Home/components/WinCard";
 
 const Hero = styled.div`
@@ -156,14 +157,13 @@ const Home: React.FC = () => {
     if (prices) {
       const poolsAPR = await Promise.all(
         activePools.map(async (pool) => {
-          const apy = await calculateFunc(pool, prices);
+          const apy = await calculatePoolsFunc(pool, prices, cakePriceUsd);
           return apy;
         })
       );
 
       const Test = poolsAPR;
       const maxAPRInPools = Math.max(...Test);
-      console.log("max pools APR: ", maxAPRInPools);
       if (maxPoolsAPYRef.current < maxAPRInPools)
         maxPoolsAPYRef.current = maxAPRInPools;
       return maxAPRInPools;
@@ -409,7 +409,7 @@ const Home: React.FC = () => {
                 bottomTitle="APR in pools"
                 description={`${maxPoolsAPY}%`}
                 descriptionColor="#29bb89"
-                redirectLink="/cntstaker"
+                redirectLink="/pools"
               />
             </Grid>
           </Grid>
