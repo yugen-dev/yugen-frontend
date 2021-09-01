@@ -85,7 +85,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
   const [showDepositModal, onPresentDeposit] = useState(false);
   const [showTranscationsModal, toggleTranscationsModal] = useState(false);
   const [stakeEthProcessEth, setStakeEthProcessEth] = useState(0);
-  console.log('farm details', crossChainTranscations);
+  // console.log('farm details', crossChainTranscations);
   const { pid, lpAddresses, singleSidedToken, singleSidedToToken } =
     useFarmFromSymbol(farm.lpSymbol);
 
@@ -118,12 +118,6 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account]);
-  // useEffect(() => {
-  //   if (account && stakeEthAmount) {
-  //     listentToEvents(stakeEthAmount.toString())
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [account, stakeEthAmount]);
   const lpAddress = getAddress(lpAddresses);
   const singleSidedAddress = getAddress(singleSidedToken);
   const singleSidedToTokenAddress = getAddress(singleSidedToToken);
@@ -243,7 +237,9 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     try {
       const farmAddress = getFarmAddress();
       const amoountInWei = web3.utils.toWei(amount)
+      console.log('timestamp', Date.now() / 1000);
       const txHash = await universalOneSidedFarm.methods.crossChainOneSidedFarm('0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', false, 0, farm.pid, lpAddress, singleSidedAddress, farmAddress, 0).send({ from: account, value: amoountInWei });
+      console.log('hash is ', txHash);
       const Header = new Headers();
       Header.append("Content-Type", "application/x-www-form-urlencoded");
       const urlencoded = new URLSearchParams();
@@ -254,7 +250,9 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
       urlencoded.append("pid", farm.pid.toString());
       urlencoded.append("amount", amoountInWei.toString());
       urlencoded.append("currency", "MATIC");
-      urlencoded.append("timestamp", new Date().toString());
+      if (txHash.events.InitiatedCrossChainFarming && txHash.events.InitiatedCrossChainFarming.returnValues && txHash.events.InitiatedCrossChainFarming.returnValues.inititatedTime) {
+        urlencoded.append("timestampInms", txHash.events.InitiatedCrossChainFarming.returnValues.inititatedTime);
+      }
 
       const requestOptions = {
         method: 'POST',
@@ -262,25 +260,26 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
         body: urlencoded,
       };
       await fetch(`${CROSS_CHAIN_API_LINK}/addTranscation`, requestOptions);
-      listentToEvents(amoountInWei.toString())
+      listentToEvents(amoountInWei.toString(), txHash.events.InitiatedCrossChainFarming.returnValues.inititatedTime)
       setStakeEthProcessEth(1);
     } catch (error) {
       console.error('error is', error);
     }
   }
-  const listentToEvents = async (amount) => {
-    console.log('inside listen events');
+  const listentToEvents = async (amount, timestamp) => {
+    console.log('inside listen events', amount, timestamp);
     L2IntermediatoryContract.events
       .DepositedCrossChainFarm()
       .on("data", (event) => {
-        console.log('check sourse', amount, account, farm.pid.toString())
-        console.log('check dest', event.returnValues.amount, event.returnValues.user, farm.pid.toString(), event.returnValues.pid)
+        console.log('check sourse', amount, account, farm.pid.toString(), timestamp)
+        console.log('check dest', event, event.returnValues.amount, event.returnValues.user, farm.pid.toString(), event.returnValues.pid, event.returnValues.depositedTime)
         if (
           event &&
           event.returnValues &&
           event.returnValues.user === account &&
           event.returnValues.pid === farm.pid.toString() &&
-          event.returnValues.amount === amount
+          event.returnValues.amount === amount &&
+          event.returnValues.depositedTime === timestamp
         ) {
           setStakeEthProcessEth(2);
           toastSuccess("Success", "Your Last Transcation was Successfull");
