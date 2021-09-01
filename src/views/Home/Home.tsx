@@ -37,7 +37,7 @@ import StatsCard from "views/Home/components/StatsCard";
 import Areachart from "components/Areachart";
 import TotalValueLockedCard from "views/Home/components/TotalValueLockedCard";
 import EarnAssetCard from "views/Home/components/EarnAssetCard";
-import calculateFunc from "utils/getFarmsAPY";
+import calculateFunc from "utils/getAllFarmsAPY";
 import calculatePoolsFunc from "utils/getPoolsAPY";
 // import WinCard from "views/Home/components/WinCard";
 
