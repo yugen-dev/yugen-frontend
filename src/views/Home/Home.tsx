@@ -256,22 +256,22 @@ const Home: React.FC = () => {
       clientName: "burn",
     },
   });
-  if (
-    getCNTStakerInfo &&
-    getCNTStakerInfo.data &&
-    getCNTStakerInfo.data.cntstaker &&
-    dayDatas &&
-    dayDatas.data &&
-    dayDatas.data.dayDatas &&
-    cakePriceUsd
-  ) {
-    cntStakingRatio =
-      (((parseFloat(dayDatas.data.dayDatas[1].volumeUSD) * 0.0005 * 0.35) /
-        parseFloat(getCNTStakerInfo.data.cntstaker.totalSupply)) *
-        365) /
-      (parseFloat(getCNTStakerInfo.data.cntstaker.ratio) *
-        parseFloat(valueOfCNTinUSD.toString()));
-  }
+  // if (
+  //   getCNTStakerInfo &&
+  //   getCNTStakerInfo.data &&
+  //   getCNTStakerInfo.data.cntstaker &&
+  //   dayDatas &&
+  //   dayDatas.data &&
+  //   dayDatas.data.dayDatas &&
+  //   cakePriceUsd
+  // ) {
+  //   cntStakingRatio =
+  //     (((parseFloat(dayDatas.data.dayDatas[1].volumeUSD) * 0.0005 * 0.35) /
+  //       parseFloat(getCNTStakerInfo.data.cntstaker.totalSupply)) *
+  //       365) /
+  //     (parseFloat(getCNTStakerInfo.data.cntstaker.ratio) *
+  //       parseFloat(valueOfCNTinUSD.toString()));
+  // }
   if (
     burnData &&
     burnData.data &&
