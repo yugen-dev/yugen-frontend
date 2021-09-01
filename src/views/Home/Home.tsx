@@ -55,6 +55,8 @@ const Card = styled.div`
 `;
 
 const Home: React.FC = () => {
+  const maxAPY = useRef(Number.MIN_VALUE);
+  const [maxFarmsAPY, setMaxFarmsAPY] = useState("0");
   const [ciculatingSupply, setciculatingSupply] = useState(0);
   const [valueOfCNTinUSD, setCNTVal] = useState(0);
   const [totalSupplyVal, setTotalSupply] = useState(0);
@@ -106,13 +108,12 @@ const Home: React.FC = () => {
   const bnbPrice = usePriceBnbBusd();
   const web3 = useWeb3();
   let cntStakingRatio = 0.0;
-  const maxAPY = useRef(Number.MIN_VALUE);
   const TranslateString = useI18n();
 
-  const getHighestAPY = () => {
+  const getHighestAPY = async () => {
     const activeFarms = farmsLP.filter((farm) => farm.multiplier !== "0X");
     calculateAPY(activeFarms);
-    calculateMultirewardsAPY();
+    await calculateMultirewardsAPY();
     return maxAPY.current.toLocaleString("en-US").slice(0, -1);
   };
 
@@ -280,6 +281,14 @@ const Home: React.FC = () => {
   }
   useInterval(() => Promise.all([getDayData]), 60000);
 
+  const runFunc = async () => {
+    const maxValue = await getHighestAPY();
+    setMaxFarmsAPY(() => maxValue);
+  };
+  useEffect(() => {
+    runFunc();
+  });
+
   return (
     <Container
       maxWidth="lg"
@@ -342,7 +351,7 @@ const Home: React.FC = () => {
             <Grid item xs={12} md={6} lg={6} xl={6}>
               <EarnAssetCard
                 topTitle="Earn up to"
-                description={getHighestAPY() ? `${getHighestAPY()}%` : "0%"}
+                description={`${maxFarmsAPY} %`}
                 descriptionColor="#29bb89"
                 bottomTitle="APR in farms"
                 redirectLink="/farms"
