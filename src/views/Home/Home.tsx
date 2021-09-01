@@ -55,8 +55,10 @@ const Card = styled.div`
 `;
 
 const Home: React.FC = () => {
-  const maxAPY = useRef(Number.MIN_VALUE);
+  const maxFarmsAPYRef = useRef(Number.MIN_VALUE);
+  const maxPoolsAPYRef = useRef(Number.MIN_VALUE);
   const [maxFarmsAPY, setMaxFarmsAPY] = useState("0");
+  const [maxPoolsAPY, setMaxPoolsAPY] = useState("0");
   const [ciculatingSupply, setciculatingSupply] = useState(0);
   const [valueOfCNTinUSD, setCNTVal] = useState(0);
   const [totalSupplyVal, setTotalSupply] = useState(0);
@@ -110,11 +112,16 @@ const Home: React.FC = () => {
   let cntStakingRatio = 0.0;
   const TranslateString = useI18n();
 
-  const getHighestAPY = async () => {
+  const getHighestPoolsAPY = async () => {
+    await calculatePoolsAPY();
+    return maxPoolsAPYRef.current.toLocaleString("en-US").slice(0, -1);
+  };
+
+  const getHighestFarmsAPY = async () => {
     const activeFarms = farmsLP.filter((farm) => farm.multiplier !== "0X");
     calculateAPY(activeFarms);
     await calculateMultirewardsAPY();
-    return maxAPY.current.toLocaleString("en-US").slice(0, -1);
+    return maxFarmsAPYRef.current.toLocaleString("en-US").slice(0, -1);
   };
 
   const calculateMultirewardsAPY = async () => {
@@ -132,14 +139,34 @@ const Home: React.FC = () => {
 
       const Test = multirewardsAPR;
       const maxAPRInCoreAndMultirewards = Math.max(...Test);
-      // eslint-disable-next-line no-console
-      // console.log("all multireward APRs: ", multirewardsAPR);
-      // eslint-disable-next-line no-console
-      // console.log("highest APR multireward: ", maxAPRInCoreAndMultirewards);
-
-      if (maxAPY.current < maxAPRInCoreAndMultirewards)
-        maxAPY.current = maxAPRInCoreAndMultirewards;
+      if (maxFarmsAPYRef.current < maxAPRInCoreAndMultirewards)
+        maxFarmsAPYRef.current = maxAPRInCoreAndMultirewards;
       return maxAPRInCoreAndMultirewards;
+    }
+    return 0;
+  };
+
+  const calculatePoolsAPY = async () => {
+    const activePools = poolsMultirewardFarms.filter(
+      (pool) =>
+        pool.poolCategory === PoolCategory.COMMUNITY &&
+        pool.isFinished !== true &&
+        pool.sousId !== 0
+    );
+    if (prices) {
+      const poolsAPR = await Promise.all(
+        activePools.map(async (pool) => {
+          const apy = await calculateFunc(pool, prices);
+          return apy;
+        })
+      );
+
+      const Test = poolsAPR;
+      const maxAPRInPools = Math.max(...Test);
+      console.log("max pools APR: ", maxAPRInPools);
+      if (maxPoolsAPYRef.current < maxAPRInPools)
+        maxPoolsAPYRef.current = maxAPRInPools;
+      return maxAPRInPools;
     }
     return 0;
   };
@@ -205,7 +232,8 @@ const Home: React.FC = () => {
 
           apy = cakeApy && dualApy && cakeApy.plus(dualApy);
         }
-        if (maxAPY.current < apy.toNumber()) maxAPY.current = apy.toNumber();
+        if (maxFarmsAPYRef.current < apy.toNumber())
+          maxFarmsAPYRef.current = apy.toNumber();
 
         return apy;
       });
@@ -281,12 +309,18 @@ const Home: React.FC = () => {
   }
   useInterval(() => Promise.all([getDayData]), 60000);
 
-  const runFunc = async () => {
-    const maxValue = await getHighestAPY();
+  const farmsGetterFunc = async () => {
+    const maxValue = await getHighestFarmsAPY();
     setMaxFarmsAPY(() => maxValue);
   };
+  const poolsGetterFunc = async () => {
+    const maxValue = await getHighestPoolsAPY();
+    setMaxPoolsAPY(() => maxValue);
+  };
+
   useEffect(() => {
-    runFunc();
+    farmsGetterFunc();
+    poolsGetterFunc();
   });
 
   return (
@@ -351,7 +385,7 @@ const Home: React.FC = () => {
             <Grid item xs={12} md={6} lg={6} xl={6}>
               <EarnAssetCard
                 topTitle="Earn up to"
-                description={`${maxFarmsAPY} %`}
+                description={`${maxFarmsAPY}%`}
                 descriptionColor="#29bb89"
                 bottomTitle="APR in farms"
                 redirectLink="/farms"
@@ -372,8 +406,8 @@ const Home: React.FC = () => {
             <Grid item xs={12} md={6} lg={6} xl={6}>
               <EarnAssetCard
                 topTitle="Earn"
-                bottomTitle="on staking CNT"
-                description={`${cntStakingRatio.toFixed(2)}%`}
+                bottomTitle="APR in pools"
+                description={`${maxPoolsAPY}%`}
                 descriptionColor="#29bb89"
                 redirectLink="/cntstaker"
               />
