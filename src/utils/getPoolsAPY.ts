@@ -5,24 +5,10 @@ import { getBalanceNumber } from "utils/formatBalance";
 
 const calculatePoolsFunc = async (pool, prices, cntPrice) => {
   if (prices) {
-    let rewardTokenCoinGeckoPrice = new BigNumber(1);
-    const getPriceFromCoinGecko = async () => {
-      if (pool.rewardTokenCoinGeckoid.length > 0) {
-        if (pool.rewardTokenCoinGeckoid === "CNT")
-          rewardTokenCoinGeckoPrice = cntPrice;
-        else
-          rewardTokenCoinGeckoPrice = await fetchPrice(
-            pool.rewardTokenCoinGeckoid
-          );
-      }
-    };
-    await getPriceFromCoinGecko();
-
     let tempStakingTokenPrice;
     if (pool.tokenName === "LUSDT") tempStakingTokenPrice = 0.08;
-    if (pool.tokenName === "LARTH") tempStakingTokenPrice = 0.25;
-
-    if (prices[`${pool.stakingTokenAddress}`.toLowerCase()]) {
+    else if (pool.tokenName === "LARTH") tempStakingTokenPrice = 0.25;
+    else {
       tempStakingTokenPrice =
         prices[`${pool.stakingTokenAddress}`.toLowerCase()];
     }
@@ -30,17 +16,19 @@ const calculatePoolsFunc = async (pool, prices, cntPrice) => {
     let apy = 0;
 
     pool.multiRewardTokenPerBlock.forEach(async (element, i) => {
-      let tokenPrice;
+      let tempRewardTokenPrice;
       const stakingTokenPrice = new BigNumber(tempStakingTokenPrice);
 
       if (pool.rewardTokenCoinGeckoid === "pear") {
-        tokenPrice = rewardTokenCoinGeckoPrice;
+        tempRewardTokenPrice = await fetchPrice(pool.rewardTokenCoinGeckoid);
+      } else if (pool.rewardTokenCoinGeckoid === "CNT") {
+        tempRewardTokenPrice = cntPrice;
       } else {
-        tokenPrice = prices[`${pool.coinGeckoIds[i]}`.toLowerCase()];
+        tempRewardTokenPrice = prices[`${pool.coinGeckoIds[i]}`.toLowerCase()];
       }
 
-      const rewardTokenPrice = tokenPrice
-        ? new BigNumber(tokenPrice)
+      const rewardTokenPrice = tempRewardTokenPrice
+        ? new BigNumber(tempRewardTokenPrice)
         : new BigNumber(1);
 
       const currentTokenApy = getPoolApy(

@@ -177,11 +177,7 @@ const Home: React.FC = () => {
       );
 
       farmsToDisplay.map((farm) => {
-        if (
-          !farm.tokenAmount ||
-          !farm.lpTotalInQuoteToken ||
-          !farm.lpTotalInQuoteToken
-        ) {
+        if (!farm.tokenAmount || !farm.lpTotalInQuoteToken) {
           return farm;
         }
         const cakeRewardPerBlock = CAKE_PER_BLOCK.times(farm.poolWeight);
