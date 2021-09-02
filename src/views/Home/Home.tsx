@@ -150,9 +150,7 @@ const Home: React.FC = () => {
   const calculatePoolsAPY = async () => {
     const activePools = poolsMultirewardFarms.filter(
       (pool) =>
-        pool.poolCategory === PoolCategory.COMMUNITY &&
-        pool.isFinished !== true &&
-        pool.sousId !== 0
+        pool.poolCategory === PoolCategory.COMMUNITY && pool.isFinished !== true
     );
     if (prices) {
       const poolsAPR = await Promise.all(
