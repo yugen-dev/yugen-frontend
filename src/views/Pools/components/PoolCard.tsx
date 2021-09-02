@@ -19,7 +19,7 @@ import { getERC20Contract } from "utils/contractHelpers";
 import useI18n from "hooks/useI18n";
 import { useSousStake } from "hooks/useStake";
 import useWeb3 from "hooks/useWeb3";
-import { fetchPrice, GetApiPrice } from "state/hooks";
+import { fetchPrice, GetApiPrice, usePriceCakeBusd } from "state/hooks";
 import { useSousUnstake } from "hooks/useUnstake";
 import { getBalanceNumber } from "utils/formatBalance";
 import { getPoolApy } from "utils/apy";
@@ -72,6 +72,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     TopImage,
   } = pool;
 
+  const cntPrice = usePriceCakeBusd();
   const { account } = useWeb3React("web3");
   const isBnbPool = poolCategory === PoolCategory.BINANCE;
   const [show, setShow] = useState(false);
@@ -82,16 +83,21 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
 
   useEffect(() => {
     const pricefunc = async () => {
-      const rewardTokenPriceCoinGeckoPrice = await fetchPrice(
-        pool.rewardTokenCoinGeckoid
-      );
+      let rewardTokenPriceCoinGeckoPrice;
+      if (pool.rewardTokenCoinGeckoid === "CNT")
+        rewardTokenPriceCoinGeckoPrice = cntPrice;
+      else {
+        rewardTokenPriceCoinGeckoPrice = await fetchPrice(
+          pool.rewardTokenCoinGeckoid
+        );
+      }
 
       if (rewardTokenPriceCoinGeckoPrice) {
         setRewardTokenCoinGeckoPrice(rewardTokenPriceCoinGeckoPrice);
       }
     };
     pricefunc();
-  }, [pool]);
+  }, [pool, cntPrice]);
 
   /// harvest interval
   // const staketokennameprice = useGetApiPrice(stakingTokenAddress.toLowerCase());
