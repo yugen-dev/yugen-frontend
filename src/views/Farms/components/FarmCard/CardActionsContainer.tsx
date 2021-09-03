@@ -237,9 +237,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     try {
       const farmAddress = getFarmAddress();
       const amoountInWei = web3.utils.toWei(amount)
-      console.log('timestamp', Date.now() / 1000);
       const txHash = await universalOneSidedFarm.methods.crossChainOneSidedFarm('0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', false, 0, farm.pid, lpAddress, singleSidedAddress, farmAddress, 0).send({ from: account, value: amoountInWei });
-      console.log('hash is ', txHash);
       const Header = new Headers();
       Header.append("Content-Type", "application/x-www-form-urlencoded");
       const urlencoded = new URLSearchParams();
@@ -267,12 +265,9 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     }
   }
   const listentToEvents = async (amount, timestamp) => {
-    console.log('inside listen events', amount, timestamp);
     L2IntermediatoryContract.events
       .DepositedCrossChainFarm()
       .on("data", (event) => {
-        console.log('check sourse', amount, account, farm.pid.toString(), timestamp)
-        console.log('check dest', event, event.returnValues.amount, event.returnValues.user, farm.pid.toString(), event.returnValues.pid, event.returnValues.depositedTime)
         if (
           event &&
           event.returnValues &&
@@ -386,10 +381,11 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
             </Button> */}
             {crossChainTranscations && crossChainTranscations.length > 0 &&
               <BellContainer onClick={() => toggleTranscationsModal(true)}>
-                {pendingTranscations && pendingTranscations > 0 &&
+                {pendingTranscations && pendingTranscations > 0 ?
                   <UnreadCount>
                     {pendingTranscations}
                   </UnreadCount>
+                  : <div />
                 }
                 <NotificationsIcon />
               </BellContainer>

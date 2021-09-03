@@ -36,6 +36,11 @@
         "internalType": "uint256",
         "name": "depositedTime",
         "type": "uint256"
+    }, {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "lpOutput",
+        "type": "uint256"
     }],
     "name": "DepositedCrossChainFarm",
     "type": "event"

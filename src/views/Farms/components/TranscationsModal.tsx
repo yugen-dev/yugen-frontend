@@ -1,10 +1,9 @@
 import styled from "styled-components";
 import React, { } from "react";
 import { Flex, CloseIcon, IconButton } from "cryption-uikit";
-import { makeStyles, withStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles, createStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Collapse from '@material-ui/core/Collapse';
-import IconButtonMui from '@material-ui/core/IconButton';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -13,8 +12,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Modal from "components/Modal";
 import useWeb3 from "hooks/useWeb3";
 import StepperContainer from 'components/Stepper/Stepper';
@@ -34,6 +31,7 @@ interface Transcation {
   status: string;
   timestamp: string;
   userAddress: string;
+  liquidity: string;
 }
 interface DepositModalProps {
   transcations: Transcation[];
@@ -65,21 +63,34 @@ const useRowStyles = makeStyles({
     '& > *': {
       borderBottom: 'unset',
     },
+    '&:hover': {
+      background: "#272935",
+    },
+    background: '#1E202A',
   },
 });
-const StyledTableCell = withStyles((theme: Theme) =>
+const StyledTableCell = withStyles(() =>
   createStyles({
     head: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
+      backgroundColor: '#1E202A',
+      color: '#626363',
+      fontWeight: 900,
+      borderBottom: '1px solid #504F4F'
     },
     body: {
       fontSize: 14,
-      background: '#1B1D25',
-      color: 'white'
+      background: 'transparent',
+      color: '#E8E8E8',
+      fontWeight: 900,
+      borderBottom: '1px solid #2A2D39',
+      cursor: 'pointer',
+      '&:hover': {
+        background: "transparent",
+      },
     },
   }),
 )(TableCell);
+
 function Row(props: { row: Transcation }) {
   const web3 = useWeb3();
   const { row } = props;
@@ -93,12 +104,12 @@ function Row(props: { row: Transcation }) {
   }
   return (
     <>
-      <TableRow className={classes.root}>
-        <StyledTableCell>
+      <TableRow className={classes.root} onClick={() => setOpen(!open)}>
+        {/* <StyledTableCell>
           <IconButtonMui aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
             {open ? <KeyboardArrowUpIcon style={{ color: 'white' }} /> : <KeyboardArrowDownIcon style={{ color: 'white' }} />}
           </IconButtonMui>
-        </StyledTableCell>
+        </StyledTableCell> */}
         <StyledTableCell>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             {`${row.etherTxHash.slice(0, 12)}...${row.etherTxHash.slice(row.etherTxHash.length - 4)}`}
@@ -106,9 +117,10 @@ function Row(props: { row: Transcation }) {
           </div>
         </StyledTableCell>
         <StyledTableCell >{web3.utils.fromWei(row.amount, 'ether')} Eth</StyledTableCell>
+        <StyledTableCell >{web3.utils.fromWei(row.liquidity, 'ether')} Eth</StyledTableCell>
         <StyledTableCell>{row.status}</StyledTableCell>
       </TableRow>
-      <TableRow>
+      <TableRow className={classes.root}>
         <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={4}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
@@ -149,9 +161,10 @@ const TranscationsModal: React.FC<DepositModalProps> = ({
           <Table aria-label="collapsible table">
             <TableHead>
               <TableRow>
-                <StyledTableCell />
+                {/* <StyledTableCell /> */}
                 <StyledTableCell>Transcation Hash</StyledTableCell>
                 <StyledTableCell>Amount</StyledTableCell>
+                <StyledTableCell>LP Amount</StyledTableCell>
                 <StyledTableCell>status</StyledTableCell>
               </TableRow>
             </TableHead>
