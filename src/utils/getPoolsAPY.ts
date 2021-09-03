@@ -19,7 +19,7 @@ const calculatePoolsFunc = async (pool, prices, cntPrice) => {
       let tempRewardTokenPrice;
       const stakingTokenPrice = new BigNumber(tempStakingTokenPrice);
 
-      if (pool.rewardTokenCoinGeckoid === "PEAR") {
+      if (pool.rewardTokenCoinGeckoid === "pear") {
         tempRewardTokenPrice = await fetchPrice(pool.rewardTokenCoinGeckoid);
       } else if (pool.rewardTokenCoinGeckoid === "CNT") {
         tempRewardTokenPrice = cntPrice;

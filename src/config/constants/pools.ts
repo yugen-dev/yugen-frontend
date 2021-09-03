@@ -93,7 +93,7 @@ const pools: PoolConfig[] = [
     projectLink: "https://app.pearzap.com/",
     multiReward: ["PEAR"],
     stakingTokenCoinGeckoid: "CNT",
-    rewardTokenCoinGeckoid: "PEAR",
+    rewardTokenCoinGeckoid: "pear",
     coinGeckoIds: [
       "0xc8bcb58caEf1bE972C0B638B1dD8B0748Fdc8A44", // pearl
       // "0xeDd6cA8A4202d4a36611e2fff109648c4863ae19", // maha

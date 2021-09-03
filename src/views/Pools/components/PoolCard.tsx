@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import BigNumber from "bignumber.js";
 import styled from "styled-components";
 import {
@@ -43,6 +43,9 @@ interface HarvestProps {
 
 const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   // const [tokenprices, Settokenprices] = useState([null]);
+  const [RewardTokenCoinGeckoPrice, setRewardTokenCoinGeckoPrice] = useState(
+    new BigNumber(1)
+  );
   const {
     sousId,
     // image,
@@ -78,6 +81,24 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   const { onUnstake } = useSousUnstake(sousId);
   const { onReward } = useSousHarvest(sousId, isBnbPool);
 
+  useEffect(() => {
+    const pricefunc = async () => {
+      let rewardTokenPriceCoinGeckoPrice;
+      if (pool.rewardTokenCoinGeckoid === "CNT")
+        rewardTokenPriceCoinGeckoPrice = cntPrice;
+      else {
+        rewardTokenPriceCoinGeckoPrice = await fetchPrice(
+          pool.rewardTokenCoinGeckoid
+        );
+      }
+
+      if (rewardTokenPriceCoinGeckoPrice) {
+        setRewardTokenCoinGeckoPrice(rewardTokenPriceCoinGeckoPrice);
+      }
+    };
+    pricefunc();
+  }, [pool, cntPrice]);
+
   /// harvest interval
   // const staketokennameprice = useGetApiPrice(stakingTokenAddress.toLowerCase());
 
@@ -105,28 +126,24 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   let apy = 0;
   let apyString = "";
   const apyArray = [];
-  let tempStakingTokenPrice;
+  let StakingTokenPrice = GetApiPrice(pool.stakingTokenAddress.toLowerCase());
 
-  if (tokenName === "LUSD") tempStakingTokenPrice = 0.08;
-  else if (tokenName === "LARTH") tempStakingTokenPrice = 0.25;
-  else
-    tempStakingTokenPrice = GetApiPrice(pool.stakingTokenAddress.toLowerCase());
+  StakingTokenPrice = tokenName === "LUSD" ? 0.08 : StakingTokenPrice;
+  StakingTokenPrice = tokenName === "LARTH" ? 0.25 : StakingTokenPrice;
 
   pool.multiRewardTokenPerBlock.forEach(async (element, i) => {
-    const stakingTokenPrice = new BigNumber(tempStakingTokenPrice);
-    let tempRewardTokenPrice;
+    const stakingTokenPrice = new BigNumber(StakingTokenPrice);
+    let tokenPrice;
 
-    if (pool.rewardTokenCoinGeckoid === "PEAR") {
-      tempRewardTokenPrice = await fetchPrice(pool.rewardTokenCoinGeckoid);
-    } else if (pool.rewardTokenCoinGeckoid === "CNT") {
-      tempRewardTokenPrice = cntPrice;
+    if (pool.rewardTokenCoinGeckoid === "pear") {
+      tokenPrice = RewardTokenCoinGeckoPrice;
     } else {
-      tempRewardTokenPrice = GetApiPrice(pool.coinGeckoIds[i].toLowerCase());
+      tokenPrice = GetApiPrice(pool.coinGeckoIds[i].toLowerCase());
     }
 
     // eslint-disable-next-line  no-nested-ternary
-    const rewardTokenPrice = tempRewardTokenPrice
-      ? new BigNumber(tempRewardTokenPrice)
+    const rewardTokenPrice = tokenPrice
+      ? new BigNumber(tokenPrice)
       : new BigNumber(1);
 
     const currentTokenApy = getPoolApy(
@@ -232,7 +249,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   // get user staked value in dollars
 
   const userStakedBalance = getBalanceNumber(stakedBalance, tokenDecimals);
-  const userValue = (tempStakingTokenPrice * userStakedBalance).toFixed(2);
+  const userValue = (StakingTokenPrice * userStakedBalance).toFixed(2);
   const formattedUserValue = `( $${userValue} )`;
 
   const open = useCallback(() => setShow(true), [setShow]);
@@ -451,7 +468,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
         projectLink={projectLink}
         decimals={tokenDecimals}
         totalStaked={totalStaked}
-        StakingTokenPrice={tempStakingTokenPrice}
+        StakingTokenPrice={StakingTokenPrice}
         startBlock={startBlock}
         endBlock={endBlock}
         isFinished={isFinished}
