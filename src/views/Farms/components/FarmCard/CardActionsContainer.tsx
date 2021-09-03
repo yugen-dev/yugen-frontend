@@ -325,7 +325,6 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
       </Flex>
     );
   };
-  // console.log('chec bal', ethBal, new BigNumber(ethBal))
   const renderApprovalOrStakeButton = () => {
     return (
       <>
@@ -372,7 +371,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
           </Flex>
         </Flex>
         {window.ethereum.networkVersion === '1' || window.ethereum.networkVersion === '5' ?
-          <Flex justifyContent="space-between" alignItems="center" mt="20px">
+          <Flex justifyContent={crossChainTranscations && crossChainTranscations.length > 0 ? "space-between" : "center"} alignItems="center" mt="20px">
             <Button onClick={() => onPresentDeposit(true)} variant="secondary" mr="15px">
               {TranslateString(999, "Stake ETH")}
             </Button>

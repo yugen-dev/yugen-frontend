@@ -1,11 +1,11 @@
 import BigNumber from "bignumber.js";
 import styled from "styled-components";
 import React, { useCallback, useMemo, useState } from "react";
-import { Button, LinkExternal, AutoRenewIcon, Flex, CloseIcon, IconButton } from "cryption-uikit";
+import { Button, AutoRenewIcon, Flex, CloseIcon, IconButton } from "cryption-uikit";
 import Modal from "components/Modal";
 import StepperContainer from 'components/Stepper/Stepper';
 import ModalActions from "components/ModalActions";
-import ModalInput from "components/ModalInput";
+import ModalInput from "components/ModalInputCrossChain";
 import useI18n from "hooks/useI18n";
 import { getFullDisplayBalance } from "utils/formatBalance";
 
@@ -119,25 +119,8 @@ const DepositModal: React.FC<DepositModalProps> = ({
               <Button variant="secondary" onClick={onDismiss} width="100%">
                 {TranslateString(462, "Cancel")}
               </Button>
-              {/* <Button
-          width="100%"
-          disabled={pendingTx || fullBalance === "0" || val === "0"}
-          onClick={async () => {
-            setPendingTx(true);
-            await onConfirm(val);
-            setPendingTx(false);
-            onDismiss();
-          }}
-        >
-          {pendingTx
-            ? TranslateString(488, "Pending Confirmation")
-            : TranslateString(464, "Confirm")}
-        </Button> */}
               {BtnLoadingComp}
             </ModalActions>
-            <LinkExternal href={addLiquidityUrl} style={{ alignSelf: "center" }}>
-              {TranslateString(999, "Get")} {tokenName}
-            </LinkExternal>
           </div>
         }
       </Flex>
