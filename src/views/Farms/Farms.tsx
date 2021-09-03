@@ -174,6 +174,7 @@ const Farms: React.FC = () => {
       if (accountId) {
         const Header = new Headers();
         Header.append("Content-Type", "application/x-www-form-urlencoded");
+        Header.append("Access-Control-Allow-Origin", "*")
         const urlencoded = new URLSearchParams();
         urlencoded.append("account", account.toLowerCase());
         const requestOptions = {
