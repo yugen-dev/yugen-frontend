@@ -170,16 +170,27 @@ const Farms: React.FC = () => {
     }
   }, [account, dispatch, fastRefresh]);
   useEffect(() => {
-    const getAllCrossChainTranscations = async () => {
-      const getAllTrx = await fetch(`${CROSS_CHAIN_API_LINK}/getAllTranscations`)
-      const resp = await getAllTrx.json();
-      setCrossChainData(resp)
+    const getAllCrossChainTranscations = async (accountId) => {
+      if (accountId) {
+        const Header = new Headers();
+        Header.append("Content-Type", "application/x-www-form-urlencoded");
+        const urlencoded = new URLSearchParams();
+        urlencoded.append("account", account.toLowerCase());
+        const requestOptions = {
+          method: 'POST',
+          headers: Header,
+          body: urlencoded,
+        };
+        const getAllTrx = await fetch(`${CROSS_CHAIN_API_LINK}/getAllTranscations`, requestOptions)
+        const resp = await getAllTrx.json();
+        setCrossChainData(resp)
+      }
     }
     if (account) {
-      getAllCrossChainTranscations();
+      getAllCrossChainTranscations(account);
     }
     const interval = setInterval(() => {
-      getAllCrossChainTranscations()
+      getAllCrossChainTranscations(account)
     }, 5000);
     return () => clearInterval(interval);
   }, [account]);
