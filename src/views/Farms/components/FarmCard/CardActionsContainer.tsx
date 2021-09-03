@@ -241,7 +241,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
       const Header = new Headers();
       Header.append("Content-Type", "application/x-www-form-urlencoded");
       const urlencoded = new URLSearchParams();
-      urlencoded.append("userAddress", account);
+      urlencoded.append("userAddress", account.toLowerCase());
       urlencoded.append("etherTxHash", txHash.transactionHash);
       urlencoded.append("status", "depositeOnEthereum");
       urlencoded.append("farmContract", farmAddress);

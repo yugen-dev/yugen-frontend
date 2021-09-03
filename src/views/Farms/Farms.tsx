@@ -175,7 +175,7 @@ const Farms: React.FC = () => {
         const Header = new Headers();
         Header.append("Content-Type", "application/x-www-form-urlencoded");
         const urlencoded = new URLSearchParams();
-        urlencoded.append("account", account);
+        urlencoded.append("account", account.toLowerCase());
         const requestOptions = {
           method: 'POST',
           headers: Header,
