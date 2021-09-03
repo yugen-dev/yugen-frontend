@@ -97,7 +97,8 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
       }
     };
     pricefunc();
-  }, [pool, cntPrice]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pool]);
 
   /// harvest interval
   // const staketokennameprice = useGetApiPrice(stakingTokenAddress.toLowerCase());
@@ -135,7 +136,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     const stakingTokenPrice = new BigNumber(StakingTokenPrice);
     let tokenPrice;
 
-    if (pool.rewardTokenCoinGeckoid === "pear") {
+    if (pool.rewardTokenCoinGeckoid === "PEAR") {
       tokenPrice = RewardTokenCoinGeckoPrice;
     } else {
       tokenPrice = GetApiPrice(pool.coinGeckoIds[i].toLowerCase());
