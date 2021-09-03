@@ -39,16 +39,16 @@ const StyledDialogContent = styled(({ ...rest }) => (
     overflow: hidden;
     align-self: ${({ mobile }) => (mobile ? "flex-end" : "center")};
     width: 100%;
-    max-width: 500px;
+    max-width: ${({ maxWidth }) => (`${maxWidth}px` || "500px")};
 
     ${({ maxHeight }) =>
-      maxHeight &&
-      css`
+    maxHeight &&
+    css`
         max-height: ${maxHeight}vh;
       `}
     ${({ minHeight }) =>
-      minHeight &&
-      css`
+    minHeight &&
+    css`
         min-height: ${minHeight}vh;
       `}
     display: flex;
@@ -61,6 +61,7 @@ interface ModalProps {
   onDismiss: () => void;
   minHeight?: number | false;
   maxHeight?: number;
+  maxWidth?: number;
   initialFocusRef?: React.RefObject<any>;
   children?: React.ReactNode;
 }
@@ -70,6 +71,7 @@ export default function Modal({
   onDismiss,
   minHeight = false,
   maxHeight = 50,
+  maxWidth = 500,
   initialFocusRef,
   children,
 }: ModalProps) {
@@ -96,6 +98,7 @@ export default function Modal({
                 minHeight={minHeight}
                 maxHeight={maxHeight}
                 mobile={isMobile}
+                maxWidth={maxWidth}
               >
                 {/* prevents the automatic focusing of inputs on mobile by the reach dialog */}
                 {/* eslint-disable */}

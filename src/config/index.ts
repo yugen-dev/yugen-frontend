@@ -29,4 +29,6 @@ export const CNT_CIRCULATING_SUPPLY_LINK =
   "https://api.cryption.network/circulating-supply";
 export const CNT_TOTAL_SUPPLY_LINK =
   "https://api.cryption.network/total-supply";
-export const SUPPORTED_NETWORK_IDS = [137, 80001, 1, 5]
+export const SUPPORTED_NETWORK_IDS = [137, 80001, 1, 5];
+export const CROSS_CHAIN_API_LINK =
+  "http://ec2-3-133-93-252.us-east-2.compute.amazonaws.com:5000/transcation";
