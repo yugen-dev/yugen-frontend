@@ -6,7 +6,7 @@ import { getBalanceNumber } from "utils/formatBalance";
 const calculatePoolsFunc = async (pool, prices, cntPrice) => {
   if (prices) {
     let tempStakingTokenPrice;
-    if (pool.tokenName === "LUSDT") tempStakingTokenPrice = 0.08;
+    if (pool.tokenName === "LUSD") tempStakingTokenPrice = 0.08;
     else if (pool.tokenName === "LARTH") tempStakingTokenPrice = 0.25;
     else {
       tempStakingTokenPrice =

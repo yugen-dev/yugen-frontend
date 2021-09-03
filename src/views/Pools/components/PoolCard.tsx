@@ -128,7 +128,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   const apyArray = [];
   let StakingTokenPrice = GetApiPrice(pool.stakingTokenAddress.toLowerCase());
 
-  StakingTokenPrice = tokenName === "LUSDT" ? 0.08 : StakingTokenPrice;
+  StakingTokenPrice = tokenName === "LUSD" ? 0.08 : StakingTokenPrice;
   StakingTokenPrice = tokenName === "LARTH" ? 0.25 : StakingTokenPrice;
 
   pool.multiRewardTokenPerBlock.forEach(async (element, i) => {

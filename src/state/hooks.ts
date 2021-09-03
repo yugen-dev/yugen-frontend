@@ -433,7 +433,7 @@ export const useTotalValue = (): BigNumber => {
     if (pool.poolCategory === PoolCategory.COMMUNITY) {
       const balance = getBalanceNumber(pool.totalStaked, pool.tokenDecimals);
       let priceoftoken = GetApiPrice(pool.stakingTokenAddress);
-      if (pool.tokenName === "LUSDT") {
+      if (pool.tokenName === "LUSD") {
         priceoftoken = 0.08;
       } else if (pool.tokenName === "LARTH") {
         priceoftoken = 0.25;

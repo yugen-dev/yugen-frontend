@@ -44,12 +44,12 @@ export enum QuoteToken {
   "BTC" = "BTC",
   "MAHA" = "MAHA",
   "PEAR" = "PEAR",
-  "WMATIC"="WMATIC",
-  "USDC"="USDC",
-  "DAI"="DAI",
-  "USDT"="USDT",
-  "LUSDT"="LUSDT",
-  "LARTH"="LARTH"
+  "WMATIC" = "WMATIC",
+  "USDC" = "USDC",
+  "DAI" = "DAI",
+  "USDT" = "USDT",
+  "LUSD" = "LUSD",
+  "LARTH" = "LARTH",
 }
 
 export enum PoolCategory {
