@@ -1,14 +1,10 @@
 import React, { useCallback, useRef } from "react";
 import styled from "styled-components";
 import {
-  Heading,
   Card,
-  CardBody,
   Flex,
-  ArrowForwardIcon,
   Skeleton,
 } from "cryption-uikit";
-import { NavLink } from "react-router-dom";
 import useI18n from "hooks/useI18n";
 import BigNumber from "bignumber.js";
 import { QuoteToken } from "config/constants/types";
@@ -57,7 +53,7 @@ const EarnAPYCard = () => {
     (farmsToDisplay) => {
       const cakePriceVsBNB = new BigNumber(
         farmsLP.find((farm) => farm.pid === CAKE_POOL_PID)?.tokenPriceVsQuote ||
-          0
+        0
       );
 
       farmsToDisplay.map((farm) => {

@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardBody, Heading, Text } from "cryption-uikit";
+import { Card, Text } from "cryption-uikit";
 import styled from "styled-components";
 import { getBalanceNumber } from "utils/formatBalance";
 import { useTotalSupply, useBurnedBalance } from "hooks/useTokenBalance";
