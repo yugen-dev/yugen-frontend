@@ -153,7 +153,6 @@ function Row(props: { row: Transcation }) {
         <StyledTableCell >{web3.utils.fromWei(row.amount, 'ether')} Eth</StyledTableCell>
         <StyledTableCell >{web3.utils.fromWei(row.liquidity, 'ether')} Eth</StyledTableCell>
         <StyledTableCell>{`${convertSecondsToReadableString()} ago`}</StyledTableCell>
-        <StyledTableCell>{row.status}</StyledTableCell>
       </TableRow>
       <TableRow className={classes.root}>
         <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={5}>
@@ -201,7 +200,6 @@ const TranscationsModal: React.FC<DepositModalProps> = ({
                 <StyledTableCell>Amount</StyledTableCell>
                 <StyledTableCell>LP Amount</StyledTableCell>
                 <StyledTableCell>Timestamp</StyledTableCell>
-                <StyledTableCell>status</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
