@@ -183,4 +183,14 @@
     }],
     "stateMutability": "view",
     "type": "function"
+}, {
+    "inputs": [{
+        "internalType": "address",
+        "name": "_newIntermediator",
+        "type": "address"
+    }],
+    "name": "updateFarmIntermediate",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
 }]
