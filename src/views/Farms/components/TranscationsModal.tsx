@@ -151,7 +151,7 @@ function Row(props: { row: Transcation }) {
           </div>
         </StyledTableCell>
         <StyledTableCell >{web3.utils.fromWei(row.amount, 'ether')} Eth</StyledTableCell>
-        <StyledTableCell >{web3.utils.fromWei(row.liquidity, 'ether')} Eth</StyledTableCell>
+        <StyledTableCell >{web3.utils.fromWei(row.liquidity, 'ether')} LP</StyledTableCell>
         <StyledTableCell>{`${convertSecondsToReadableString()} ago`}</StyledTableCell>
       </TableRow>
       <TableRow className={classes.root}>
