@@ -88,7 +88,7 @@ function ColorlibStepIcon(props: StepIconProps) {
 }
 
 function getSteps() {
-  return ["Approved", "Deposited on Ethereum", "Staked on Polygon"];
+  return ["Initiated", "Deposited on Ethereum", "Staked on Polygon"];
 }
 
 const StepperContainer = ({ activeIndex = 1 }) => {

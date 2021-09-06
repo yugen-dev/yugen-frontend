@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Web3 from "web3";
 import { provider as ProviderType } from "web3-core";
 import Countdown from "react-countdown";
-import NotificationsIcon from '@material-ui/icons/Notifications';
+import HistoryIcon from '@material-ui/icons/History';
 import { getAddress, getFarmAddress } from "utils/addressHelpers";
 import { Flex, Text, Radio, Heading, Button } from "cryption-uikit";
 import { Farm } from "state/types";
@@ -78,10 +78,12 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
   crossChainTranscations
 }) => {
   const universalOneSidedFarm = useUniversalOneSidedFarm();
-  const { toastSuccess } = useToast();
+  const { toastSuccess, toastError } = useToast();
   const L2IntermediatoryContract = useL2Intermediator();
   const TranslateString = useI18n();
   const [requestedApproval, setRequestedApproval] = useState(false);
+  const [showSteps, toggleShowSteps] = useState(false);
+  const [pendingCrossChainTrx, togglependingCrossChainTrx] = useState(false);
   const [showDepositModal, onPresentDeposit] = useState(false);
   const [showTranscationsModal, toggleTranscationsModal] = useState(false);
   const [stakeEthProcessEth, setStakeEthProcessEth] = useState(0);
@@ -126,7 +128,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
   const singleSidedTokenName = farm.singleSidedTokenName.toUpperCase();
   const singleSidedtoTokenName = farm.singleSidedToTokenName.toUpperCase();
   const isApproved = account && allowance && allowance.isGreaterThan(0);
-  const pendingTranscations = crossChainTranscations.filter(transcation => transcation.status === 'depositeOnEthereum').length;
+  const pendingTranscations = crossChainTranscations.filter(transcation => (transcation.status === 'depositeOnEthereum' || transcation.status === 'initiated')).length;
   const isSignleSidedTokenApproved =
     account && SingleSidedAllowances && SingleSidedAllowances.isGreaterThan(0);
   const isSingleSidedToTokenApproved =
@@ -236,32 +238,70 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
   const onConfirmStakeEth = async (amount) => {
     try {
       const farmAddress = getFarmAddress();
-      const amoountInWei = web3.utils.toWei(amount)
-      const txHash = await universalOneSidedFarm.methods.crossChainOneSidedFarm('0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', false, 0, farm.pid, lpAddress, singleSidedAddress, farmAddress, 0).send({ from: account, value: amoountInWei });
-      const Header = new Headers();
-      Header.append("Content-Type", "application/x-www-form-urlencoded");
-      const urlencoded = new URLSearchParams();
-      urlencoded.append("userAddress", account.toLowerCase());
-      urlencoded.append("etherTxHash", txHash.transactionHash);
-      urlencoded.append("status", "depositeOnEthereum");
-      urlencoded.append("farmContract", farmAddress);
-      urlencoded.append("pid", farm.pid.toString());
-      urlencoded.append("amount", amoountInWei.toString());
-      urlencoded.append("currency", "MATIC");
-      if (txHash.events.InitiatedCrossChainFarming && txHash.events.InitiatedCrossChainFarming.returnValues && txHash.events.InitiatedCrossChainFarming.returnValues.inititatedTime) {
-        urlencoded.append("timestampInms", txHash.events.InitiatedCrossChainFarming.returnValues.inititatedTime);
+      let amoountInWei = web3.utils.toWei(amount).toString()
+      // const eastimedGas = await universalOneSidedFarm.methods.crossChainOneSidedFarm('0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', false, 0, farm.pid, lpAddress, singleSidedAddress, farmAddress, 0).estimateGas({ from: account, value: amoountInWei });
+      if (ethBal.toString() === amoountInWei.toString()) {
+        const amoountDiff = parseFloat(amoountInWei.toString()) - 1000000000000000
+        // @ts-ignore
+        amoountInWei = amoountDiff.toString()
       }
-
-      const requestOptions = {
-        method: 'POST',
-        headers: Header,
-        body: urlencoded,
-      };
-      await fetch(`${CROSS_CHAIN_API_LINK}/addTranscation`, requestOptions);
-      listentToEvents(amoountInWei.toString(), txHash.events.InitiatedCrossChainFarming.returnValues.inititatedTime)
-      setStakeEthProcessEth(1);
+      togglependingCrossChainTrx(true);
+      universalOneSidedFarm.methods.crossChainOneSidedFarm('0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', false, 0, farm.pid, lpAddress, singleSidedAddress, farmAddress, 0).send({ from: account, value: amoountInWei })
+        .on('transactionHash', async (hash) => {
+          toggleShowSteps(true);
+          const Header = new Headers();
+          Header.append("Content-Type", "application/x-www-form-urlencoded");
+          const urlencoded = new URLSearchParams();
+          urlencoded.append("userAddress", account.toLowerCase());
+          urlencoded.append("etherTxHash", hash);
+          urlencoded.append("status", "initiated");
+          urlencoded.append("farmContract", farmAddress);
+          urlencoded.append("pid", farm.pid.toString());
+          urlencoded.append("amount", amoountInWei.toString());
+          urlencoded.append("currency", "MATIC");
+          urlencoded.append("timestampInms", "0");
+          const requestOptions = {
+            method: 'POST',
+            headers: Header,
+            body: urlencoded,
+          };
+          await fetch(`${CROSS_CHAIN_API_LINK}/addTranscation`, requestOptions);
+          setStakeEthProcessEth(0);
+        }).on('receipt', async (receipt) => {
+          toggleShowSteps(true);
+          const Header = new Headers();
+          Header.append("Content-Type", "application/x-www-form-urlencoded");
+          const urlencoded = new URLSearchParams();
+          urlencoded.append("userAddress", account.toLowerCase());
+          urlencoded.append("etherTxHash", receipt.transactionHash);
+          urlencoded.append("status", "depositeOnEthereum");
+          urlencoded.append("farmContract", farmAddress);
+          urlencoded.append("pid", farm.pid.toString());
+          urlencoded.append("amount", amoountInWei.toString());
+          urlencoded.append("currency", "MATIC");
+          if (receipt.events.InitiatedCrossChainFarming && receipt.events.InitiatedCrossChainFarming.returnValues && receipt.events.InitiatedCrossChainFarming.returnValues.inititatedTime) {
+            urlencoded.append("timestampInms", receipt.events.InitiatedCrossChainFarming.returnValues.inititatedTime);
+          }
+          const requestOptions = {
+            method: 'POST',
+            headers: Header,
+            body: urlencoded,
+          };
+          await fetch(`${CROSS_CHAIN_API_LINK}/updateTranscation`, requestOptions);
+          listentToEvents(amoountInWei.toString(), receipt.events.InitiatedCrossChainFarming.returnValues.inititatedTime)
+          setStakeEthProcessEth(1);
+        })
+        .on('error', async (error) => { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
+          if (error.code === 4001) {
+            toastError('Transcation is denied by User')
+          }
+          toastError('Transcation failed')
+          toggleShowSteps(false);
+          togglependingCrossChainTrx(false);
+        });
     } catch (error) {
       console.error('error is', error);
+      togglependingCrossChainTrx(false);
     }
   }
   const listentToEvents = async (amount, timestamp) => {
@@ -330,9 +370,11 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
       <>
         <DepositModal
           max={ethBal}
+          showSteps={showSteps}
           isOpen={showDepositModal}
+          pendingTx={pendingCrossChainTrx}
           activeIndex={stakeEthProcessEth}
-          onDismiss={() => onPresentDeposit(false)}
+          onDismiss={() => { onPresentDeposit(false); toggleShowSteps(false); togglependingCrossChainTrx(false) }}
           onConfirm={onConfirmStakeEth}
           tokenName="Eth"
           addLiquidityUrl={addLiquidityUrl}
@@ -372,7 +414,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
         </Flex>
         {window.ethereum.networkVersion === '1' || window.ethereum.networkVersion === '5' ?
           <Flex justifyContent={crossChainTranscations && crossChainTranscations.length > 0 ? "space-between" : "center"} alignItems="center" mt="20px">
-            <Button onClick={() => onPresentDeposit(true)} variant="secondary" mr="15px">
+            <Button onClick={() => onPresentDeposit(true)} variant="primary" mr="15px">
               {TranslateString(999, "Stake ETH")}
             </Button>
             {/* <Button onClick={() => onPresentDeposit(true)} variant="success" mt="15px">
@@ -386,7 +428,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
                   </UnreadCount>
                   : <div />
                 }
-                <NotificationsIcon />
+                <HistoryIcon />
               </BellContainer>
             }
           </Flex>

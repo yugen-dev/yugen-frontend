@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 import styled from "styled-components";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState, useEffect } from "react";
 import { Button, AutoRenewIcon, Flex, CloseIcon, IconButton } from "cryption-uikit";
 import Modal from "components/Modal";
 import StepperContainer from 'components/Stepper/Stepper';
@@ -17,6 +17,8 @@ interface DepositModalProps {
   activeIndex?: number;
   isOpen: boolean;
   addLiquidityUrl?: string;
+  showSteps: boolean;
+  pendingTx: boolean;
 }
 const ModalHeader = styled.div`
   display: flex;
@@ -46,10 +48,12 @@ const DepositModal: React.FC<DepositModalProps> = ({
   addLiquidityUrl,
   activeIndex,
   isOpen,
+  pendingTx,
+  showSteps,
 }) => {
   const [val, setVal] = useState("");
-  const [pendingTx, setPendingTx] = useState(false);
-  const [showStakerSteps, toggleStakerSteps] = useState(false);
+  // const [pendingTx, setPendingTx] = useState(false);
+  const [showStakerSteps, toggleStakerSteps] = useState(showSteps);
   const TranslateString = useI18n();
   const fullBalance = useMemo(() => {
     return getFullDisplayBalance(max);
@@ -65,16 +69,19 @@ const DepositModal: React.FC<DepositModalProps> = ({
   const handleSelectMax = useCallback(() => {
     setVal(fullBalance);
   }, [fullBalance, setVal]);
-
+  useEffect(() => {
+    toggleStakerSteps(showSteps)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showSteps])
   const BtnLoadingComp =
     pendingTx === false ? (
       <Button
         width="100%"
         onClick={async () => {
-          setPendingTx(true);
+          // setPendingTx(true);
           await onConfirm(val);
-          setPendingTx(false);
-          toggleStakerSteps(true)
+          // setPendingTx(false);
+          // toggleStakerSteps(true)
           // onDismiss();
         }}
       >

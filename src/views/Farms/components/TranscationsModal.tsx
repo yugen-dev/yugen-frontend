@@ -31,6 +31,7 @@ interface Transcation {
   status: string;
   timestamp: string;
   userAddress: string;
+  timestampInms: string
   liquidity: string;
 }
 interface DepositModalProps {
@@ -75,7 +76,9 @@ const StyledTableCell = withStyles(() =>
       backgroundColor: '#1E202A',
       color: '#626363',
       fontWeight: 900,
-      borderBottom: '1px solid #504F4F'
+      borderBottom: '1px solid #504F4F',
+      fontFamily: 'Wavehaus',
+      fontSize: 18
     },
     body: {
       fontSize: 14,
@@ -84,6 +87,7 @@ const StyledTableCell = withStyles(() =>
       fontWeight: 900,
       borderBottom: '1px solid #2A2D39',
       cursor: 'pointer',
+      fontFamily: 'Wavehaus',
       '&:hover': {
         background: "transparent",
       },
@@ -102,6 +106,36 @@ function Row(props: { row: Transcation }) {
   } else if (row.status === 'depositeOnEthereum') {
     activeIndex = 1
   }
+
+  const convertSecondsToReadableString = () => {
+    const utcTimeStamp = Math.floor(+new Date() / 1000);
+    let seconds = utcTimeStamp - parseFloat(row.timestampInms);
+    seconds = Number(seconds);
+    seconds = Math.abs(seconds);
+
+    const days = Math.floor(seconds / (3600 * 24));
+    const hours = Math.floor(seconds % (3600 * 24) / 3600);
+    const minutes = Math.floor(seconds % 3600 / 60);
+    const secondDiff = Math.floor(seconds % 60);
+    const parts = [];
+
+    if (days > 0) {
+      parts.push(`${days} day${days > 1 ? 's' : ''}`);
+    }
+
+    if (hours > 0) {
+      parts.push(`${hours} hr${hours > 1 ? 's' : ''}`);
+    }
+
+    if (minutes > 0) {
+      parts.push(`${minutes} min${minutes > 1 ? 's' : ''}`);
+    }
+
+    if (secondDiff > 0) {
+      parts.push(`${secondDiff} sec${secondDiff > 1 ? 's' : ''}`);
+    }
+    return parts.join(', ');
+  }
   return (
     <>
       <TableRow className={classes.root} onClick={() => setOpen(!open)}>
@@ -118,10 +152,11 @@ function Row(props: { row: Transcation }) {
         </StyledTableCell>
         <StyledTableCell >{web3.utils.fromWei(row.amount, 'ether')} Eth</StyledTableCell>
         <StyledTableCell >{web3.utils.fromWei(row.liquidity, 'ether')} Eth</StyledTableCell>
+        <StyledTableCell>{`${convertSecondsToReadableString()} ago`}</StyledTableCell>
         <StyledTableCell>{row.status}</StyledTableCell>
       </TableRow>
       <TableRow className={classes.root}>
-        <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={4}>
+        <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={5}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <Typography variant="h6" gutterBottom component="div">
@@ -145,7 +180,7 @@ const TranscationsModal: React.FC<DepositModalProps> = ({
       // title={TranslateString(1068, "Stake LP tokens")}
       isOpen={isOpen}
       maxHeight={100}
-      maxWidth={700}
+      maxWidth={800}
       onDismiss={onDismiss}
     >
       <Flex flexDirection="column" width="100%">
@@ -165,6 +200,7 @@ const TranscationsModal: React.FC<DepositModalProps> = ({
                 <StyledTableCell>Transcation Hash</StyledTableCell>
                 <StyledTableCell>Amount</StyledTableCell>
                 <StyledTableCell>LP Amount</StyledTableCell>
+                <StyledTableCell>Timestamp</StyledTableCell>
                 <StyledTableCell>status</StyledTableCell>
               </TableRow>
             </TableHead>
