@@ -120,7 +120,7 @@ const Home: React.FC = () => {
     (farmsToDisplay) => {
       const cakePriceVsBNB = new BigNumber(
         farmsLP.find((farm) => farm.pid === CAKE_POOL_PID)?.tokenPriceVsQuote ||
-          0
+        0
       );
 
       farmsToDisplay.map((farm) => {
@@ -334,7 +334,7 @@ const Home: React.FC = () => {
             <Grid item xs={12} md={6} lg={6} xl={6}>
               <EarnAssetCard
                 topTitle="Earn"
-                description={`${cntStakingRatio.toFixed(2)}%`}
+                description={`${parseFloat(cntStakingRatio.toFixed(2)) * 100}%`}
                 bottomTitle="on staking CNT"
                 descriptionColor="#29bb89"
                 redirectLink="/cntstaker"
