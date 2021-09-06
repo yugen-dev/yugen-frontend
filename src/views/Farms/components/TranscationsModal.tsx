@@ -17,7 +17,7 @@ import useWeb3 from "hooks/useWeb3";
 import StepperContainer from 'components/Stepper/Stepper';
 import CopyToClipboard from 'components/CopyToClipboard';
 
-interface Transcation {
+interface Transaction {
   amount: string;
   currency: string;
   etherTxHash: string;
@@ -35,7 +35,7 @@ interface Transcation {
   liquidity: string;
 }
 interface DepositModalProps {
-  transcations: Transcation[];
+  transcations: Transaction[];
   onDismiss?: () => void;
   isOpen: boolean;
 }
@@ -95,7 +95,7 @@ const StyledTableCell = withStyles(() =>
   }),
 )(TableCell);
 
-function Row(props: { row: Transcation }) {
+function Row(props: { row: Transaction }) {
   const web3 = useWeb3();
   const { row } = props;
   const [open, setOpen] = React.useState(false);
@@ -158,8 +158,8 @@ function Row(props: { row: Transcation }) {
         <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={5}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
-              <Typography variant="h6" gutterBottom component="div">
-                Transcation Status
+              <Typography variant="h6" style={{ marginBottom: '9px' }} component="div">
+                Transaction Status
               </Typography>
               <StepperContainer activeIndex={activeIndex} />
             </Box>
@@ -196,7 +196,7 @@ const TranscationsModal: React.FC<DepositModalProps> = ({
             <TableHead>
               <TableRow>
                 {/* <StyledTableCell /> */}
-                <StyledTableCell>Transcation Hash</StyledTableCell>
+                <StyledTableCell>Transaction Hash</StyledTableCell>
                 <StyledTableCell>Amount</StyledTableCell>
                 <StyledTableCell>LP Amount</StyledTableCell>
                 <StyledTableCell>Timestamp</StyledTableCell>
