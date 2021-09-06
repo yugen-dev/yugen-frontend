@@ -13,9 +13,19 @@ interface BalanceProps extends TextProps {
   value?: number;
   decimals?: number;
   unit?: string;
+  subText?: string;
 }
 
 const StyledText = styled(Text)<TextProps>`
+  color: ${({ isDisabled, color, theme }) =>
+    isDisabled ? theme.colors.textDisabled : color};
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const StyledSubText = styled(Text)<TextProps>`
   color: ${({ isDisabled, color, theme }) =>
     isDisabled ? theme.colors.textDisabled : color};
 `;
@@ -27,6 +37,7 @@ const Balance: React.FC<BalanceProps> = ({
   decimals,
   isDisabled,
   unit,
+  subText,
 }) => {
   const previousValue = useRef(0);
 
@@ -36,14 +47,17 @@ const Balance: React.FC<BalanceProps> = ({
 
   return (
     <StyledText bold color={color} fontSize={fontSize} isDisabled={isDisabled}>
-      <CountUp
-        start={previousValue.current}
-        end={value}
-        decimals={decimals}
-        duration={1}
-        separator=","
-      />
-      {value && unit && <span>{unit}</span>}
+      <div>
+        <CountUp
+          start={previousValue.current}
+          end={value}
+          decimals={decimals}
+          duration={1}
+          separator=","
+        />
+        {value && unit ? <span>{unit}</span> : <></>}
+      </div>
+      <StyledSubText>{subText}</StyledSubText>
     </StyledText>
   );
 };
