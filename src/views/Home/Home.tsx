@@ -9,9 +9,9 @@ import { useQuery } from "@apollo/client";
 import Container from "@material-ui/core/Container";
 import useI18n from "hooks/useI18n";
 import useWeb3 from "hooks/useWeb3";
-// import getCntPrice from "utils/getCntPrice";
+import getCntPrice from "utils/getCntPrice";
 import useInterval from "hooks/useInterval";
-import { dayDatasQuery, burnQuery } from "apollo/queries";
+import { dayDatasQuery, burnQuery, cntStakerQuery } from "apollo/queries";
 import {
   CNT_CIRCULATING_SUPPLY_LINK,
   BLOCKS_PER_YEAR,
@@ -61,15 +61,15 @@ const Home: React.FC = () => {
   const [maxFarmsAPY, setMaxFarmsAPY] = useState("0");
   const [maxPoolsAPY, setMaxPoolsAPY] = useState("0");
   const [ciculatingSupply, setciculatingSupply] = useState(0);
-  // const [valueOfCNTinUSD, setCNTVal] = useState(0);
+  const [valueOfCNTinUSD, setCNTVal] = useState(0);
   const [totalSupplyVal, setTotalSupply] = useState(0);
-  // useEffect(() => {
-  //   const getPrice = async () => {
-  //     const apiResp = await getCntPrice();
-  //     // setCNTVal(apiResp);
-  //   };
-  //   getPrice();
-  // }, []);
+  useEffect(() => {
+    const getPrice = async () => {
+      const apiResp = await getCntPrice();
+      setCNTVal(apiResp);
+    };
+    getPrice();
+  }, []);
   const getCirculatingSupply = async () => {
     try {
       const res = await fetch(CNT_CIRCULATING_SUPPLY_LINK);
@@ -110,7 +110,7 @@ const Home: React.FC = () => {
   let burnerFees = "";
   const bnbPrice = usePriceBnbBusd();
   const web3 = useWeb3();
-  // let cntStakingRatio = 0.0;
+  let cntStakingRatio = 0.0;
   const TranslateString = useI18n();
 
   const getHighestPoolsAPY = async () => {
@@ -240,32 +240,32 @@ const Home: React.FC = () => {
       clientName: "exchange",
     },
   });
-  // const getCNTStakerInfo = useQuery(cntStakerQuery, {
-  //   context: {
-  //     clientName: "cntstaker",
-  //   },
-  // });
+  const getCNTStakerInfo = useQuery(cntStakerQuery, {
+    context: {
+      clientName: "cntstaker",
+    },
+  });
   const burnData = useQuery(burnQuery, {
     context: {
       clientName: "burn",
     },
   });
-  // if (
-  //   getCNTStakerInfo &&
-  //   getCNTStakerInfo.data &&
-  //   getCNTStakerInfo.data.cntstaker &&
-  //   dayDatas &&
-  //   dayDatas.data &&
-  //   dayDatas.data.dayDatas &&
-  //   cakePriceUsd
-  // ) {
-  //   cntStakingRatio =
-  //     (((parseFloat(dayDatas.data.dayDatas[1].volumeUSD) * 0.0005 * 0.35) /
-  //       parseFloat(getCNTStakerInfo.data.cntstaker.totalSupply)) *
-  //       365) /
-  //     (parseFloat(getCNTStakerInfo.data.cntstaker.ratio) *
-  //       parseFloat(valueOfCNTinUSD.toString()));
-  // }
+  if (
+    getCNTStakerInfo &&
+    getCNTStakerInfo.data &&
+    getCNTStakerInfo.data.cntstaker &&
+    dayDatas &&
+    dayDatas.data &&
+    dayDatas.data.dayDatas &&
+    cakePriceUsd
+  ) {
+    cntStakingRatio =
+      (((parseFloat(dayDatas.data.dayDatas[1].volumeUSD) * 0.0005 * 0.35) /
+        parseFloat(getCNTStakerInfo.data.cntstaker.totalSupply)) *
+        365) /
+      (parseFloat(getCNTStakerInfo.data.cntstaker.ratio) *
+        parseFloat(valueOfCNTinUSD.toString()));
+  }
   if (
     burnData &&
     burnData.data &&
@@ -391,19 +391,20 @@ const Home: React.FC = () => {
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={6} xl={6}>
               <EarnAssetCard
-                topTitle="Earn"
-                bottomTitle="in Farms "
-                description="CNT, MAHA"
-                redirectLink="/multirewards"
+                topTitle="Earn up to"
+                bottomTitle="APR in pools"
+                description={`${maxPoolsAPY}%`}
+                descriptionColor="#29bb89"
+                redirectLink="/pools"
               />
             </Grid>
             <Grid item xs={12} md={6} lg={6} xl={6}>
               <EarnAssetCard
                 topTitle="Earn"
-                bottomTitle="APR in pools"
-                description={`${maxPoolsAPY}%`}
+                description={`${parseFloat(cntStakingRatio.toFixed(2)) * 100}%`}
+                bottomTitle="on staking CNT"
                 descriptionColor="#29bb89"
-                redirectLink="/pools"
+                redirectLink="/cntstaker"
               />
             </Grid>
           </Grid>
