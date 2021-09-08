@@ -103,7 +103,7 @@ const DepositModal: React.FC<DepositModalProps> = ({
       <Flex flexDirection="column" width="100%">
         <ModalHeader>
           <ModalTitle>
-            <Heading>Stake LP tokens</Heading>
+            <Heading>Stake Eth</Heading>
           </ModalTitle>
           <IconButton variant="text" onClick={onDismiss} aria-label="Close the dialog" size="23px">
             <CloseIcon color="#86878F" />

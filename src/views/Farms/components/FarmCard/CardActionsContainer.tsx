@@ -2,6 +2,7 @@ import React, { useState, useCallback, useMemo, useEffect } from "react";
 import BigNumber from "bignumber.js";
 import styled from "styled-components";
 import Web3 from "web3";
+import { useDispatch } from "react-redux";
 import { provider as ProviderType } from "web3-core";
 import Countdown from "react-countdown";
 import HistoryIcon from '@material-ui/icons/History';
@@ -17,6 +18,9 @@ import { getERC20Contract } from "utils/contractHelpers";
 import useEthBalance from "hooks/useEthBalance";
 import { useApprove } from "hooks/useApprove";
 import UnlockButton from "components/UnlockButton";
+import {
+  fetchFarmUserDataAsync,
+} from "state/actions";
 import { CROSS_CHAIN_API_LINK } from 'config'
 import { Subtle } from "../FarmTable/Actions/styles";
 import StakeAction from "./StakeAction";
@@ -121,6 +125,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account]);
   const lpAddress = getAddress(lpAddresses);
+  const dispatch = useDispatch();
   const singleSidedAddress = getAddress(singleSidedToken);
   const singleSidedToTokenAddress = getAddress(singleSidedToToken);
 
@@ -316,6 +321,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
           event.returnValues.amount === amount &&
           event.returnValues.depositedTime === timestamp
         ) {
+          dispatch(fetchFarmUserDataAsync(account));
           setStakeEthProcessEth(2);
           toastSuccess("Success", "Your Last Transcation was Successfull");
         }
@@ -415,7 +421,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
         {window.ethereum.networkVersion === '1' || window.ethereum.networkVersion === '5' ?
           <Flex justifyContent={crossChainTranscations && crossChainTranscations.length > 0 ? "space-between" : "center"} alignItems="center" mt="20px">
             <Button onClick={() => onPresentDeposit(true)} variant="primary" mr="15px">
-              {TranslateString(999, "Stake ETH")}
+              {TranslateString(999, "Deposit ETH")}
             </Button>
             {/* <Button onClick={() => onPresentDeposit(true)} variant="success" mt="15px">
               Transcations
