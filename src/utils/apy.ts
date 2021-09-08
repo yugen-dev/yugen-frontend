@@ -21,11 +21,10 @@ export const getPoolApy = (
   const totalStakingTokenInPool = new BigNumber(stakingTokenPrice).times(
     totalStaked
   );
- 
+
   const apy = totalRewardPricePerYear.div(totalStakingTokenInPool).times(100);
   return apy.isNaN() || !apy.isFinite() ? null : apy.toNumber();
 };
-
 
 export const getPoolApyMultiRewards = (
   stakingTokenTVL: number,
@@ -41,7 +40,5 @@ export const getPoolApyMultiRewards = (
   const apy = totalRewardPricePerYear.div(totalStakingTokenInPool).times(100);
   return apy.isNaN() || !apy.isFinite() ? null : apy.toNumber();
 };
-
-
 
 export default null;

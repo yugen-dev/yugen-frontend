@@ -337,7 +337,7 @@ export const useGetApiPrices = () => {
   return prices;
 };
 
-export const UseGetApiPrice = (token: string) => {
+export const GetApiPrice = (token: string) => {
   const prices = useGetApiPrices();
 
   if (!prices) {
@@ -432,13 +432,13 @@ export const useTotalValue = (): BigNumber => {
     const pool = pools[i];
     if (pool.poolCategory === PoolCategory.COMMUNITY) {
       const balance = getBalanceNumber(pool.totalStaked, pool.tokenDecimals);
-      let priceoftoken = UseGetApiPrice(pool.stakingTokenAddress);
-      if(pool.tokenName === "LUSDT"){
-        priceoftoken = 0.08 
-      } else if(pool.tokenName === "LARTH"){
-        priceoftoken =  0.25 
+      let priceoftoken = GetApiPrice(pool.stakingTokenAddress);
+      if (pool.tokenName === "LUSD") {
+        priceoftoken = 0.08;
+      } else if (pool.tokenName === "LARTH") {
+        priceoftoken = 0.25;
       }
-      
+
       const val = priceoftoken * balance;
       value = value.plus(val);
     }
@@ -446,7 +446,7 @@ export const useTotalValue = (): BigNumber => {
 
   for (let i = 0; i < pools.length; i++) {
     const pool = pools[i];
-    const tokenInLpPrice = UseGetApiPrice(pool.tokenAdressInLp);
+    const tokenInLpPrice = GetApiPrice(pool.tokenAdressInLp);
     if (pool.poolCategory === PoolCategory.CORE) {
       let val;
       if (pool.quoteTokenSymbol === QuoteToken.BNB) {

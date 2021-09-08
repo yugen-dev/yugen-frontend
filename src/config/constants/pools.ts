@@ -93,7 +93,7 @@ const pools: PoolConfig[] = [
     projectLink: "https://app.pearzap.com/",
     multiReward: ["PEAR"],
     stakingTokenCoinGeckoid: "CNT",
-    rewardTokenCoinGeckoid: "pear",
+    rewardTokenCoinGeckoid: "PEAR",
     coinGeckoIds: [
       "0xc8bcb58caEf1bE972C0B638B1dD8B0748Fdc8A44", // pearl
       // "0xeDd6cA8A4202d4a36611e2fff109648c4863ae19", // maha
@@ -490,12 +490,12 @@ const pools: PoolConfig[] = [
   },
   {
     sousId: 14,
-    tokenName: "LUSDT",
+    tokenName: "LUSD",
     tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
     tokenAddress: "0xb032512A23Ef041bEc2e48e9b3f07286408B2B26", // usdc
     tokenAddressSecondInLp: "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
-    stakingTokenName: QuoteToken.LUSDT,
-    quoteTokenSymbol: QuoteToken.LUSDT,
+    stakingTokenName: QuoteToken.LUSD,
+    quoteTokenSymbol: QuoteToken.LUSD,
     stakingTokenAddress: "0xb032512A23Ef041bEc2e48e9b3f07286408B2B26", // lp
     contractAddress: {
       97: "",

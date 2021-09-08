@@ -19,7 +19,7 @@ import { getERC20Contract } from "utils/contractHelpers";
 import useI18n from "hooks/useI18n";
 import { useSousStake } from "hooks/useStake";
 import useWeb3 from "hooks/useWeb3";
-import { fetchPrice, UseGetApiPrice } from "state/hooks";
+import { fetchPrice, GetApiPrice, usePriceCakeBusd } from "state/hooks";
 import { useSousUnstake } from "hooks/useUnstake";
 import { getBalanceNumber } from "utils/formatBalance";
 import { getPoolApy } from "utils/apy";
@@ -72,6 +72,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     TopImage,
   } = pool;
 
+  const cntPrice = usePriceCakeBusd();
   const { account } = useWeb3React("web3");
   const isBnbPool = poolCategory === PoolCategory.BINANCE;
   const [show, setShow] = useState(false);
@@ -82,15 +83,21 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
 
   useEffect(() => {
     const pricefunc = async () => {
-      const rewardTokenPriceCoinGeckoPrice = await fetchPrice(
-        pool.rewardTokenCoinGeckoid
-      );
+      let rewardTokenPriceCoinGeckoPrice;
+      if (pool.rewardTokenCoinGeckoid === "CNT")
+        rewardTokenPriceCoinGeckoPrice = cntPrice;
+      else {
+        rewardTokenPriceCoinGeckoPrice = await fetchPrice(
+          pool.rewardTokenCoinGeckoid
+        );
+      }
 
       if (rewardTokenPriceCoinGeckoPrice) {
         setRewardTokenCoinGeckoPrice(rewardTokenPriceCoinGeckoPrice);
       }
     };
     pricefunc();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pool]);
 
   /// harvest interval
@@ -120,21 +127,19 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   let apy = 0;
   let apyString = "";
   const apyArray = [];
-  let StakingTokenPrice = UseGetApiPrice(
-    pool.stakingTokenAddress.toLowerCase()
-  );
+  let StakingTokenPrice = GetApiPrice(pool.stakingTokenAddress.toLowerCase());
 
-  StakingTokenPrice = tokenName === "LUSDT" ? 0.08 : StakingTokenPrice;
+  StakingTokenPrice = tokenName === "LUSD" ? 0.08 : StakingTokenPrice;
   StakingTokenPrice = tokenName === "LARTH" ? 0.25 : StakingTokenPrice;
 
   pool.multiRewardTokenPerBlock.forEach(async (element, i) => {
     const stakingTokenPrice = new BigNumber(StakingTokenPrice);
     let tokenPrice;
 
-    if (pool.rewardTokenCoinGeckoid === "pear") {
+    if (pool.rewardTokenCoinGeckoid === "PEAR") {
       tokenPrice = RewardTokenCoinGeckoPrice;
     } else {
-      tokenPrice = UseGetApiPrice(pool.coinGeckoIds[i].toLowerCase());
+      tokenPrice = GetApiPrice(pool.coinGeckoIds[i].toLowerCase());
     }
 
     // eslint-disable-next-line  no-nested-ternary

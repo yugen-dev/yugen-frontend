@@ -20,7 +20,8 @@ import PoolCard from "./components/PoolCard";
 import MrCNTaah from "../../images/MrCNTaah.png";
 
 const NUMBER_OF_POOLS_VISIBLE = 20;
-const Farm: React.FC = () => {
+
+const Pools: React.FC = () => {
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const { path } = useRouteMatch();
   const cake = getCakeContract();
@@ -217,4 +218,4 @@ const CNHeading = styled.div`
   margin-bottom: 20px;
 `;
 
-export default Farm;
+export default Pools;

@@ -25,7 +25,7 @@ import { getBalanceNumber } from "utils/formatBalance";
 import { getPoolApy } from "utils/apy";
 import { useSousHarvest } from "hooks/useHarvest";
 import Balance from "components/Balance";
-import { UseGetApiPrice, useProfile } from "state/hooks";
+import { GetApiPrice, useProfile } from "state/hooks";
 import Tooltip from "components/Tooltip";
 import { useSousApproveWithPermit } from "hooks/useApprove";
 import { QuoteToken, PoolCategory } from "config/constants/types";
@@ -158,7 +158,7 @@ const PoolCard: React.FC<HarvestProps> = ({
 
   pool.multiRewardTokenPerBlock.forEach(async (element, i) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const tokenPrice = UseGetApiPrice(pool.coinGeckoIds[i].toLowerCase());
+    const tokenPrice = GetApiPrice(pool.coinGeckoIds[i].toLowerCase());
 
     // eslint-disable-next-line  no-nested-ternary
     const rewardTokenPrice = tokenPrice
