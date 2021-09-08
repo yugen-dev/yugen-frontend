@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable default-case */
 
 import { useMemo } from "react";
@@ -231,6 +232,13 @@ export const useUniversalOneSidedFarm = () => {
 export const useL2Intermediator = () => {
   // const web3 = useWeb3();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const web3 = new Web3(process.env.REACT_APP_WEBSOCKET_TEST_NODE_MATIC);
+  let nodeRpc = process.env.REACT_APP_WEBSOCKET_MAIN_NODE_MATIC;
+  if (
+    window.ethereum.networkVersion === "80001" ||
+    window.ethereum.networkVersion === "5"
+  ) {
+    nodeRpc = process.env.REACT_APP_WEBSOCKET_TEST_NODE_MATIC;
+  }
+  const web3 = new Web3(nodeRpc);
   return useMemo(() => getL2IntermediatorContract(web3), [web3]);
 };
