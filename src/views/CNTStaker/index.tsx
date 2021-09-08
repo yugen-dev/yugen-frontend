@@ -586,7 +586,7 @@ const CNTStaker = () => {
                     style={{ whiteSpace: "nowrap" }}
                     fontSize="24px"
                   >
-                    {cntStakingRatio.toFixed(2)}%
+                    {parseFloat(cntStakingRatio.toFixed(2)) * 100}%
                   </Text>
                   <Text
                     color="#9d9fa8"
