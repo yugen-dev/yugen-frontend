@@ -1,3 +1,4 @@
+/* eslint-disable dot-notation */
 /* eslint-disable camelcase */
 import React, { useCallback, useState } from "react";
 import { BigNumber } from "@ethersproject/bignumber";
@@ -100,8 +101,8 @@ export default function AddLiquidity({
 
   const oneCurrencyIsWETH = Boolean(
     chainId &&
-      ((currencyA && currencyEquals(currencyA, WETH[chainId])) ||
-        (currencyB && currencyEquals(currencyB, WETH[chainId])))
+    ((currencyA && currencyEquals(currencyA, WETH[chainId])) ||
+      (currencyB && currencyEquals(currencyB, WETH[chainId])))
   );
   const expertMode = useIsExpertMode();
 
@@ -389,7 +390,7 @@ export default function AddLiquidity({
         } catch (e) {
           setAttemptingTxn(false);
           // we only care if the error is something _other_ than the user rejected the tx
-          if (e?.code !== 4001) {
+          if (e["code"] !== 4001) {
             console.error(e);
           }
         }
@@ -403,9 +404,8 @@ export default function AddLiquidity({
         <LightCard mt="20px" borderRadius="20px">
           <RowFlat>
             <UIKitText fontSize="40px" mr="8px">
-              {`${currencies[Field.CURRENCY_A]?.symbol}/${
-                currencies[Field.CURRENCY_B]?.symbol
-              }`}
+              {`${currencies[Field.CURRENCY_A]?.symbol}/${currencies[Field.CURRENCY_B]?.symbol
+                }`}
             </UIKitText>
             <DoubleCurrencyLogo
               currency0={currencies[Field.CURRENCY_A]}
@@ -435,9 +435,8 @@ export default function AddLiquidity({
         </RowFlat>
         <Row>
           <UIKitText fontSize="24px">
-            {`${currencies[Field.CURRENCY_A]?.symbol}/${
-              currencies[Field.CURRENCY_B]?.symbol
-            } Pool Tokens`}
+            {`${currencies[Field.CURRENCY_A]?.symbol}/${currencies[Field.CURRENCY_B]?.symbol
+              } Pool Tokens`}
           </UIKitText>
         </Row>
         <UIKitText
@@ -446,9 +445,8 @@ export default function AddLiquidity({
           padding="8px 0 0 0 "
           style={{ fontStyle: "italic" }}
         >
-          {`Output is estimated. If the price changes by more than ${
-            allowedSlippage / 100
-          }% your transaction will revert.`}
+          {`Output is estimated. If the price changes by more than ${allowedSlippage / 100
+            }% your transaction will revert.`}
         </UIKitText>
       </AutoColumn>
     );
@@ -469,11 +467,9 @@ export default function AddLiquidity({
 
   const pendingText = `Supplying ${parsedAmounts[
     Field.CURRENCY_A
-  ]?.toSignificant(6)} ${
-    currencies[Field.CURRENCY_A]?.symbol
-  } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${
-    currencies[Field.CURRENCY_B]?.symbol
-  }`;
+  ]?.toSignificant(6)} ${currencies[Field.CURRENCY_A]?.symbol
+    } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencies[Field.CURRENCY_B]?.symbol
+    }`;
 
   const handleCurrencyASelect = useCallback(
     (currA: Currency) => {
@@ -688,8 +684,8 @@ export default function AddLiquidity({
               }}
               className={
                 !isValid ||
-                approvalA !== ApprovalState.APPROVED ||
-                approvalB !== ApprovalState.APPROVED
+                  approvalA !== ApprovalState.APPROVED ||
+                  approvalB !== ApprovalState.APPROVED
                   ? "button-disabled"
                   : "button-style"
               }
@@ -700,8 +696,8 @@ export default function AddLiquidity({
               }
               variant={
                 !isValid &&
-                !!parsedAmounts[Field.CURRENCY_A] &&
-                !!parsedAmounts[Field.CURRENCY_B]
+                  !!parsedAmounts[Field.CURRENCY_A] &&
+                  !!parsedAmounts[Field.CURRENCY_B]
                   ? "danger"
                   : "primary"
               }

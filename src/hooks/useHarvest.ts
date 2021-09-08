@@ -1,3 +1,4 @@
+/* eslint-disable dot-notation */
 import { useCallback } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { useDispatch } from "react-redux";
@@ -51,13 +52,14 @@ export const useHarvest = (farmPid: number) => {
         toastSuccess("Success", ` Harvested successfully`);
         dispatch(fetchFarmUserDataAsync(account));
       }
-    } catch (e) {
+    } catch (error) {
       if (
-        e.message ===
-          "MetaMask Tx Signature: User denied transaction signature." ||
-        e.message ===
+        (error &&
+          error["message"] ===
+            "MetaMask Tx Signature: User denied transaction signature.") ||
+        error["message"] ===
           "MetaMask Message Signature: User denied message signature." ||
-        e.code === 4001
+        error["code"] === 4001
       ) {
         // toastInfo("canceled...", `cancelled signature `);
         toastError("canceled", ` signautures rejected`);
@@ -135,13 +137,13 @@ export const useSousHarvest = (sousId, isUsingBnb = false) => {
         dispatch(updateUserPendingReward(sousId, account));
         dispatch(updateUserBalance(sousId, account));
       }
-    } catch (e) {
+    } catch (error) {
       if (
-        e.message ===
+        error["message"] ===
           "MetaMask Tx Signature: User denied transaction signature." ||
-        e.message ===
+        error["message"] ===
           "MetaMask Message Signature: User denied message signature." ||
-        e.code === 4001
+        error["code"] === 4001
       ) {
         // toastInfo("canceled...", `cancelled signature `);
         toastError("canceled", ` signautures rejected`);

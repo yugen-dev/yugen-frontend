@@ -494,7 +494,7 @@ const Farms: React.FC = () => {
           {TranslateString(999, "Stake Liquidity Pool (LP) tokens to earn.")}
         </Heading> 
       </Header> */}
-      <Container>
+      <Container style={{ marginTop: '40px' }}>
         <Grid container spacing={3} alignItems="center">
           <Grid item xs={12} md={6} lg={6} xl={6}>
             <CNHeading>Core Farms</CNHeading>

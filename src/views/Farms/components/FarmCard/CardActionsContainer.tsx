@@ -1,3 +1,4 @@
+/* eslint-disable dot-notation */
 import React, { useState, useCallback, useMemo, useEffect } from "react";
 import BigNumber from "bignumber.js";
 import styled from "styled-components";
@@ -297,7 +298,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
           setStakeEthProcessEth(1);
         })
         .on('error', async (error) => { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
-          if (error.code === 4001) {
+          if (error["code"] === 4001) {
             toastError('Transcation is denied by User')
           }
           toastError('Transcation failed')
