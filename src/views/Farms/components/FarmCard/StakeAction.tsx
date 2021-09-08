@@ -122,11 +122,11 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
             disabled={approvalDisabled}
             onClick={handleApprove}
             minWidth="120px"
-            width="auto"
+            width="100%"
           >
             {approvalDisabled ? "Approving..." : "Approve"}
           </Button>
-          <Button
+          {/* <Button
             mt="8px"
             scale="md"
             height="45px"
@@ -136,8 +136,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
             width="auto"
           >
             Unstake
-            {/* {approvalDisabled ? "Unstaking..." : "Unstake"} */}
-          </Button>
+          </Button> */}
         </Row>
       </div>
     );
