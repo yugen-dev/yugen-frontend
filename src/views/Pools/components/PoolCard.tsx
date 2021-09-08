@@ -155,7 +155,8 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
         .multipliedBy(100)
         .dividedBy(
           getBalanceNumber(
-            new BigNumber(totalStaked).multipliedBy(stakingTokenPrice)
+            new BigNumber(totalStaked).multipliedBy(stakingTokenPrice),
+            pool.tokenDecimals
           )
         )
         .toFixed(2)
