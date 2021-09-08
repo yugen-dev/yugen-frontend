@@ -172,10 +172,15 @@ const Farms: React.FC = () => {
   useEffect(() => {
     const getAllCrossChainTranscations = async (accountId) => {
       if (accountId) {
+        let network = 'mainnet';
+        if (window.ethereum.networkVersion === '80001' || window.ethereum.networkVersion === '5') {
+          network = 'testnet';
+        }
         const Header = new Headers();
         Header.append("Content-Type", "application/x-www-form-urlencoded");
         const urlencoded = new URLSearchParams();
         urlencoded.append("account", account.toLowerCase());
+        urlencoded.append("network", network);
         const requestOptions = {
           method: 'POST',
           headers: Header,

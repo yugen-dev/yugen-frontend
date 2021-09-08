@@ -256,6 +256,10 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
         .on('transactionHash', async (hash) => {
           toggleShowSteps(true);
           const Header = new Headers();
+          let network = 'mainnet';
+          if (window.ethereum.networkVersion === '80001' || window.ethereum.networkVersion === '5') {
+            network = 'testnet';
+          }
           Header.append("Content-Type", "application/x-www-form-urlencoded");
           const urlencoded = new URLSearchParams();
           urlencoded.append("userAddress", account.toLowerCase());
@@ -266,6 +270,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
           urlencoded.append("amount", amoountInWei.toString());
           urlencoded.append("currency", "MATIC");
           urlencoded.append("timestampInms", "0");
+          urlencoded.append("network", network);
           const requestOptions = {
             method: 'POST',
             headers: Header,
