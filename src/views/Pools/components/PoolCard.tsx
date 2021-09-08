@@ -22,13 +22,14 @@ import useWeb3 from "hooks/useWeb3";
 import { fetchPrice, GetApiPrice, usePriceCakeBusd } from "state/hooks";
 import { useSousUnstake } from "hooks/useUnstake";
 import { getBalanceNumber } from "utils/formatBalance";
-import { getPoolApy } from "utils/apy";
+// import { getPoolApy } from "utils/apy";
 import { useSousHarvest } from "hooks/useHarvest";
 import Balance from "components/Balance";
 import { QuoteToken, PoolCategory } from "config/constants/types";
 import { Pool } from "state/types";
 import Tooltip from "components/Tooltip";
 import { useSousApprove } from "hooks/useApprove";
+import { BLOCKS_PER_YEAR } from "config";
 import DepositModal from "./DepositModal";
 import WithdrawModal from "./WithdrawModal";
 import CardTitle from "./CardTitle";
@@ -147,11 +148,18 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
       ? new BigNumber(tokenPrice)
       : new BigNumber(1);
 
-    const currentTokenApy = getPoolApy(
-      stakingTokenPrice.toNumber(),
-      rewardTokenPrice.toNumber(),
-      getBalanceNumber(pool.totalStaked, tokenDecimals),
-      parseFloat(element)
+    const currentTokenApy = Number(
+      rewardTokenPrice
+        .multipliedBy(pool.multiRewardTokenPerBlock[i])
+        .multipliedBy(BLOCKS_PER_YEAR)
+        .multipliedBy(100)
+        .dividedBy(
+          getBalanceNumber(
+            new BigNumber(totalStaked).multipliedBy(stakingTokenPrice)
+          )
+        )
+        .toFixed(2)
+        .toString()
     );
 
     if (currentTokenApy && pool.multiRewardTokenPerBlock.length === i + 1) {
