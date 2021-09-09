@@ -11,7 +11,7 @@ const UnlockButton = (props) => {
   const location = useLocation();
   let loginFunc = useAuth().login;
   let logoutFunc = useAuth().logout;
-  if (ETHERJS_PATHS.includes(`/${location.pathname.split('/')[1]}`)) {
+  if (ETHERJS_PATHS.includes(`/${location?.pathname.split("/")[1]}`)) {
     loginFunc = useAuth().loginEther;
     logoutFunc = useAuth().logoutEther;
   }

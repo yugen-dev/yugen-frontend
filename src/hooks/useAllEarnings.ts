@@ -8,7 +8,6 @@ import sousChefABI from "config/abi/sousChef.json";
 import { farmsConfig, poolsConfig } from "config/constants";
 import useRefresh from "./useRefresh";
 
-
 const useAllEarnings = () => {
   const [balances, setBalance] = useState([]);
   const { account } = useWeb3React("web3");
@@ -40,7 +39,6 @@ const useAllEarnings = () => {
       const pendingRewardHybridStaking = await contract.methods
         .pendingCNT("0", account)
         .call();
-    
       const response = res.concat(resPools).concat(pendingRewardHybridStaking);
       setBalance(response);
     };

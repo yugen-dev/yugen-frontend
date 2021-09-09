@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect, useMemo, useState } from "react";
 import BigNumber from "bignumber.js";
 import { kebabCase } from "lodash";
@@ -41,7 +42,9 @@ import { fetchPrices } from "./prices";
 
 const ZERO = new BigNumber(0);
 
-const chainID = process.env.REACT_APP_CHAIN_ID;
+const chainID = window.ethereum.networkVersion
+  ? window.ethereum.networkVersion
+  : process.env.REACT_APP_CHAIN_ID;
 export const useFetchPublicData = () => {
   const dispatch = useDispatch();
   const { slowRefresh } = useRefresh();
@@ -148,11 +151,17 @@ export const usePoolFromPid = (sousId): Pool => {
 // Prices
 
 export const usePriceBnbBusd = (): BigNumber => {
+  if (
+    window.ethereum.networkVersion === "80001" ||
+    window.ethereum.networkVersion === "5"
+  ) {
+    return new BigNumber(10);
+  }
   const pid = 3; // USD-MATIC LP, BUSD-BNB LP
   const farm = useFarmFromPid(pid);
 
-  return farm.tokenPriceVsQuote
-    ? new BigNumber(1).div(farm.tokenPriceVsQuote)
+  return farm?.tokenPriceVsQuote
+    ? new BigNumber(1).div(farm?.tokenPriceVsQuote)
     : ZERO;
   // return new BigNumber(10);
 };
@@ -162,28 +171,40 @@ export const usePriceCakeBusd = (): BigNumber => {
   const bnbPriceUSD = usePriceBnbBusd();
 
   const farm = useFarmFromPid(pid);
-  return farm.tokenPriceVsQuote
-    ? bnbPriceUSD.times(farm.tokenPriceVsQuote)
+  return farm?.tokenPriceVsQuote
+    ? bnbPriceUSD.times(farm?.tokenPriceVsQuote)
     : ZERO;
   // return new BigNumber(10);
 };
 
 export const usePriceEthBusd = (): BigNumber => {
+  if (
+    window.ethereum.networkVersion === "80001" ||
+    window.ethereum.networkVersion === "5"
+  ) {
+    return new BigNumber(10);
+  }
   const pid = 8; // ETH-MATIC LP ,ETH-BNB LP
   const farm = useFarmFromPid(pid);
-  return farm.tokenPriceVsQuote
-    ? new BigNumber(1).div(farm.tokenPriceVsQuote)
+  return farm?.tokenPriceVsQuote
+    ? new BigNumber(1).div(farm?.tokenPriceVsQuote)
     : ZERO;
   // return new BigNumber(10);
 };
 
 export const usePriceBtcBusd = (): BigNumber => {
+  if (
+    window.ethereum.networkVersion === "80001" ||
+    window.ethereum.networkVersion === "5"
+  ) {
+    return new BigNumber(10);
+  }
   const pid = 5; // ETH-MATIC LP ,ETH-BNB LP
   // const bnbPriceUSD = usePriceBnbBusd();
   const farm = useFarmFromPid(pid);
 
-  return farm.tokenPriceVsQuote
-    ? new BigNumber(1).div(farm.tokenPriceVsQuote)
+  return farm?.tokenPriceVsQuote
+    ? new BigNumber(1).div(farm?.tokenPriceVsQuote)
     : ZERO;
   // return new BigNumber(10);
 };
@@ -337,7 +358,7 @@ export const useGetApiPrices = () => {
   return prices;
 };
 
-export const UseGetApiPrice = (token: string) => {
+export const GetApiPrice = (token: string) => {
   const prices = useGetApiPrices();
 
   if (!prices) {
@@ -376,11 +397,15 @@ export const useHybridstakingTvl = (): BigNumber => {
 
   useEffect(() => {
     const fetchPriceHybridCNT = async () => {
-      const contract = getHybridStakingContract();
-      const res = await contract.methods.totalCNTStaked().call();
-      setHybridstakingTvlPrice(
-        new BigNumber(res).dividedBy(new BigNumber(10).pow(18))
-      );
+      try {
+        const contract = getHybridStakingContract();
+        const res = await contract.methods.totalCNTStaked().call();
+        setHybridstakingTvlPrice(
+          new BigNumber(res).dividedBy(new BigNumber(10).pow(18))
+        );
+      } catch (error) {
+        console.error("error in useHybridstakingTvl", error);
+      }
     };
 
     fetchPriceHybridCNT();
@@ -432,13 +457,13 @@ export const useTotalValue = (): BigNumber => {
     const pool = pools[i];
     if (pool.poolCategory === PoolCategory.COMMUNITY) {
       const balance = getBalanceNumber(pool.totalStaked, pool.tokenDecimals);
-      let priceoftoken = UseGetApiPrice(pool.stakingTokenAddress);
-      if(pool.tokenName === "LUSDT"){
-        priceoftoken = 0.08 
-      } else if(pool.tokenName === "LARTH"){
-        priceoftoken =  0.25 
+      let priceoftoken = GetApiPrice(pool.stakingTokenAddress);
+      if (pool.tokenName === "LUSD") {
+        priceoftoken = 0.08;
+      } else if (pool.tokenName === "LARTH") {
+        priceoftoken = 0.25;
       }
-      
+
       const val = priceoftoken * balance;
       value = value.plus(val);
     }
@@ -446,7 +471,7 @@ export const useTotalValue = (): BigNumber => {
 
   for (let i = 0; i < pools.length; i++) {
     const pool = pools[i];
-    const tokenInLpPrice = UseGetApiPrice(pool.tokenAdressInLp);
+    const tokenInLpPrice = GetApiPrice(pool.tokenAdressInLp);
     if (pool.poolCategory === PoolCategory.CORE) {
       let val;
       if (pool.quoteTokenSymbol === QuoteToken.BNB) {

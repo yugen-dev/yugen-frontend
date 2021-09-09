@@ -219,7 +219,7 @@ const CardValue: React.FC<CardValueProps> = ({
                   }}
                 >
                   {" "}
-                  {numberWithCommas((totalSuply - burnedSupply).toFixed(2))}
+                  {numberWithCommas((totalSuply).toFixed(2))}
                   <Text color="#C1C5CB" fontSize="12px">
                     {" "}
                     CNT
@@ -385,7 +385,7 @@ const CardValue: React.FC<CardValueProps> = ({
                 }}
               >
                 {" "}
-                {numberWithCommas((totalSuply - burnedSupply).toFixed(2))}
+                {numberWithCommas((totalSuply).toFixed(2))}
                 <Text color="#C1C5CB" fontSize="12px" ml="5px">
                   {" "}
                   CNT

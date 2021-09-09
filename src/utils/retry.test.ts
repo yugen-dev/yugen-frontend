@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { retry, RetryableError } from "./retry";
 
 describe("retry", () => {

@@ -9,6 +9,7 @@ import useI18n from "hooks/useI18n";
 import ExpandableSectionButton from "components/ExpandableSectionButton";
 import { QuoteToken } from "config/constants/types";
 import getLiquidityUrlPathParts from "utils/getLiquidityUrlPathParts";
+import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK } from "config";
 import DetailsSection from "./DetailsSection";
 import CardHeading from "./CardHeading";
 import CardActionsContainer from "./CardActionsContainer";
@@ -86,6 +87,7 @@ interface FarmCardProps {
   btcPrice?: BigNumber;
   provider?: ProviderType;
   account?: string;
+  crossChainTranscations?: any;
 }
 
 const FarmCard: React.FC<FarmCardProps> = ({
@@ -96,6 +98,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
   ethPrice,
   btcPrice,
   account,
+  crossChainTranscations
 }) => {
   const TranslateString = useI18n();
 
@@ -146,8 +149,8 @@ const FarmCard: React.FC<FarmCardProps> = ({
 
   const totalValueFormated = totalValue
     ? `$${Number(totalValue).toLocaleString(undefined, {
-        maximumFractionDigits: 2,
-      })}`
+      maximumFractionDigits: 2,
+    })}`
     : "-";
 
   const lpLabel =
@@ -174,12 +177,12 @@ const FarmCard: React.FC<FarmCardProps> = ({
     ? (farm.poolHarvestInterval / 60).toFixed(0)
     : 0;
 
-  const farmAPY =
-    farm.apy &&
-    farm.apy
-      .times(new BigNumber(100))
-      .toNumber()
-      .toLocaleString("en-US", { maximumFractionDigits: 2 });
+  // const farmAPY =
+  //   farm.apy &&
+  //   farm.apy
+  //     .times(new BigNumber(100))
+  //     .toNumber()
+  //     .toLocaleString("en-US", { maximumFractionDigits: 2 });
 
   const { quoteTokenAdresses, quoteTokenSymbol, tokenAddresses } = farm;
   const liquidityUrlPathParts = getLiquidityUrlPathParts({
@@ -188,6 +191,13 @@ const FarmCard: React.FC<FarmCardProps> = ({
     tokenAddresses,
   });
   const addLiquidityUrl = `add/${liquidityUrlPathParts}`;
+
+  const calculatedAPY = cakePrice
+    .multipliedBy(BLOCKS_PER_YEAR)
+    .multipliedBy(CAKE_PER_BLOCK)
+    .multipliedBy(farm?.multiplier?.replace(/[^\d.-]/g, ""))
+    .dividedBy(totalValue)
+    .toFixed(2);
 
   return (
     <FCard>
@@ -212,7 +222,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
           <Flex justifyContent="space-between" alignItems="center">
             <Text>{TranslateString(736, "APR")}:</Text>
             <Text bold style={{ display: "flex", alignItems: "center" }}>
-              {farm.apy ? (
+              {calculatedAPY !== "NaN" ? (
                 <>
                   {false && (
                     <ApyButton
@@ -222,7 +232,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
                       apy={farm.apy}
                     />
                   )}
-                  <span style={{ letterSpacing: "1px" }}>{farmAPY}%</span>
+                  <span style={{ letterSpacing: "1px" }}>{calculatedAPY}%</span>
                 </>
               ) : (
                 <Skeleton height={24} width={80} />
@@ -244,8 +254,8 @@ const FarmCard: React.FC<FarmCardProps> = ({
               ? `${poolHarvestIntervalinHours.toString()} Hours`
               : ""}
             {!isDaysGreater &&
-            !isHoursGreater &&
-            poolHarvestIntervalinMinutes > 0
+              !isHoursGreater &&
+              poolHarvestIntervalinMinutes > 0
               ? `${poolHarvestIntervalinMinutes.toString()} Minutes`
               : ""}
           </Text>
@@ -253,6 +263,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
 
         <CardActionsContainer
           farm={farm}
+          crossChainTranscations={crossChainTranscations}
           account={account}
           addLiquidityUrl={addLiquidityUrl}
           totalValue={totalValue}
@@ -265,9 +276,8 @@ const FarmCard: React.FC<FarmCardProps> = ({
       <ExpandingWrapper expanded={showExpandableSection}>
         <DetailsSection
           removed={removed}
-          maticExplorerAddress={`https://polygonscan.com/address/${
-            farm.lpAddresses[process.env.REACT_APP_CHAIN_ID]
-          }`}
+          maticExplorerAddress={`https://polygonscan.com/address/${farm.lpAddresses[process.env.REACT_APP_CHAIN_ID]
+            }`}
           totalValueFormated={totalValueFormated}
           lpLabel={lpLabel}
           addLiquidityUrl={addLiquidityUrl}

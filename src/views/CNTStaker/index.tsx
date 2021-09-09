@@ -154,7 +154,7 @@ const CNTStaker = () => {
   const [tokenBalance, setTokenBalance] = React.useState(new BigNumber(0));
   const [xCNTBalance, setxCNTBalance] = React.useState(new BigNumber(0));
   const [CntAllowance, setCntAllowance] = React.useState(new BigNumber(0));
-  const CHAINID = process.env.REACT_APP_CHAIN_ID;
+  const CHAINID = window.ethereum.networkVersion ? window.ethereum.networkVersion : process.env.REACT_APP_CHAIN_ID;
   // const { onEnter } = useEnter();
   const [requestedApproval, setRequestedApproval] = useState(false);
   const [tokenAmount, handleTokenAmount] = useState("");
@@ -586,7 +586,7 @@ const CNTStaker = () => {
                     style={{ whiteSpace: "nowrap" }}
                     fontSize="24px"
                   >
-                    {cntStakingRatio.toFixed(2)}%
+                    {parseFloat(cntStakingRatio.toFixed(2)) * 100}%
                   </Text>
                   <Text
                     color="#9d9fa8"

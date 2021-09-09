@@ -1,11 +1,7 @@
 import React from "react";
 import BigNumber from "bignumber.js";
-import {
-  Button,
-  useModal,
-} from "cryption-uikit";
+import { Button, useModal } from "cryption-uikit";
 import Row from "components/Row";
-
 import useI18n from "hooks/useI18n";
 import { useStake } from "hooks/useStake";
 import { useStakeWithPermit } from "hooks/useStakeWithPermit";
@@ -13,6 +9,7 @@ import useUnstake from "hooks/useUnstake";
 import { getBalanceNumber } from "utils/formatBalance";
 import DepositModal from "../DepositModal";
 import WithdrawModal from "../WithdrawModal";
+
 
 interface FarmCardActionsProps {
   stakedBalance?: BigNumber;
@@ -125,11 +122,11 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
             disabled={approvalDisabled}
             onClick={handleApprove}
             minWidth="120px"
-            width="auto"
+            width="100%"
           >
             {approvalDisabled ? "Approving..." : "Approve"}
           </Button>
-          <Button
+          {/* <Button
             mt="8px"
             scale="md"
             height="45px"
@@ -139,8 +136,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
             width="auto"
           >
             Unstake
-            {/* {approvalDisabled ? "Unstaking..." : "Unstake"} */}
-          </Button>
+          </Button> */}
         </Row>
       </div>
     );

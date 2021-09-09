@@ -54,6 +54,16 @@ const App: React.FC = () => {
   // To be removed when web3 1.3.5 is released
   useEffect(() => {
     console.warn = () => null;
+    if (window.ethereum) {
+      window.ethereum.on("chainChanged", () => {
+        // Handle the new chain.
+        // Correctly handling chain changes can be complicated.
+        // We recommend reloading the page unless you have good reason not to.
+        window.location.reload()
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        // window.location.reload();
+      });
+    }
   }, []);
 
   useEagerConnect();
@@ -126,15 +136,6 @@ const App: React.FC = () => {
                 component={RedirectOldRemoveLiquidityPathStructure}
               />
 
-              {/* <Route path="/lottery">
-              <Lottery />
-            </Route> */}
-              {/* <Route path="/ifo">
-                <Ifos />
-              </Route> */}
-              {/* <Route path="/collectibles">
-              <Collectibles />
-            </Route> */}
               {/* <Route exact path="/teams">
               <Teams />
             </Route> */}

@@ -1,7 +1,7 @@
 import React, { useRef, useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import BigNumber from "bignumber.js";
-import { QuoteToken } from "config/constants/types";
+import { PoolCategory, QuoteToken } from "config/constants/types";
 import { ParentSize } from "@visx/responsive";
 import Grid from "@material-ui/core/Grid";
 // import orderBy from "lodash/orderBy";
@@ -22,6 +22,8 @@ import {
 import { getDayData } from "apollo/exchange";
 import {
   useFarms,
+  useGetApiPrices,
+  usePoolss,
   usePriceBnbBusd,
   usePriceBtcBusd,
   usePriceCakeBusd,
@@ -35,6 +37,8 @@ import StatsCard from "views/Home/components/StatsCard";
 import Areachart from "components/Areachart";
 import TotalValueLockedCard from "views/Home/components/TotalValueLockedCard";
 import EarnAssetCard from "views/Home/components/EarnAssetCard";
+import calculateFunc from "utils/getAllFarmsAPY";
+import calculatePoolsFunc from "utils/getPoolsAPY";
 // import WinCard from "views/Home/components/WinCard";
 
 const Hero = styled.div`
@@ -52,6 +56,10 @@ const Card = styled.div`
 `;
 
 const Home: React.FC = () => {
+  const maxFarmsAPYRef = useRef(Number.MIN_VALUE);
+  const maxPoolsAPYRef = useRef(Number.MIN_VALUE);
+  const [maxFarmsAPY, setMaxFarmsAPY] = useState("0");
+  const [maxPoolsAPY, setMaxPoolsAPY] = useState("0");
   const [ciculatingSupply, setciculatingSupply] = useState(0);
   const [valueOfCNTinUSD, setCNTVal] = useState(0);
   const [totalSupplyVal, setTotalSupply] = useState(0);
@@ -89,8 +97,10 @@ const Home: React.FC = () => {
 
   const cakePriceUsd = usePriceCakeBusd();
   const farmsLP = useFarms();
+  const poolsMultirewardFarms = usePoolss();
   const ethPriceUsd = usePriceEthBusd();
   const btcPriceUsd = usePriceBtcBusd();
+  const prices = useGetApiPrices();
   let totalBurned = 0;
   let liquidity = [];
   let totalFees = "";
@@ -101,34 +111,73 @@ const Home: React.FC = () => {
   const bnbPrice = usePriceBnbBusd();
   const web3 = useWeb3();
   let cntStakingRatio = 0.0;
-  const maxAPY = useRef(Number.MIN_VALUE);
   const TranslateString = useI18n();
-  // const activeNonCakePools = pools.filter((pool) => !pool.isFinished);
-  // const latestPools: Pool[] = orderBy(
-  //   activeNonCakePools,
-  //   ["sortOrder", "pid"],
-  //   ["desc", "desc"]
-  // ).slice(0, 3);
-  // Always include CAKE
-  // const assets = [...latestPools.map((pool) => pool.tokenName)].join(", ");
-  const getHighestAPY = () => {
+
+  const getHighestPoolsAPY = async () => {
+    await calculatePoolsAPY();
+    return maxPoolsAPYRef.current.toLocaleString("en-US").slice(0, -1);
+  };
+
+  const getHighestFarmsAPY = async () => {
     const activeFarms = farmsLP.filter((farm) => farm.multiplier !== "0X");
     calculateAPY(activeFarms);
-    return (maxAPY.current * 100).toLocaleString("en-US").slice(0, -1);
+    await calculateMultirewardsAPY();
+    return maxFarmsAPYRef.current.toLocaleString("en-US").slice(0, -1);
   };
+
+  const calculateMultirewardsAPY = async () => {
+    const activeMultirewardFarms = poolsMultirewardFarms.filter(
+      (farm) =>
+        farm.poolCategory === PoolCategory.CORE && farm.isFinished !== true
+    );
+    if (prices) {
+      const multirewardsAPR = await Promise.all(
+        activeMultirewardFarms.map(async (pool) => {
+          const apy = await calculateFunc(pool, prices);
+          return apy;
+        })
+      );
+
+      const Test = multirewardsAPR;
+      const maxAPRInCoreAndMultirewards = Math.max(...Test);
+      if (maxFarmsAPYRef.current < maxAPRInCoreAndMultirewards)
+        maxFarmsAPYRef.current = maxAPRInCoreAndMultirewards;
+      return maxAPRInCoreAndMultirewards;
+    }
+    return 0;
+  };
+
+  const calculatePoolsAPY = async () => {
+    const activePools = poolsMultirewardFarms.filter(
+      (pool) =>
+        pool.poolCategory === PoolCategory.COMMUNITY && pool.isFinished !== true
+    );
+    if (prices) {
+      const poolsAPR = await Promise.all(
+        activePools.map(async (pool) => {
+          const apy = await calculatePoolsFunc(pool, prices, cakePriceUsd);
+          return apy;
+        })
+      );
+
+      const Test = poolsAPR;
+      const maxAPRInPools = Math.max(...Test);
+      if (maxPoolsAPYRef.current < maxAPRInPools)
+        maxPoolsAPYRef.current = maxAPRInPools;
+      return maxAPRInPools;
+    }
+    return 0;
+  };
+
   const calculateAPY = useCallback(
     (farmsToDisplay) => {
       const cakePriceVsBNB = new BigNumber(
         farmsLP.find((farm) => farm.pid === CAKE_POOL_PID)?.tokenPriceVsQuote ||
-        0
+          0
       );
 
       farmsToDisplay.map((farm) => {
-        if (
-          !farm.tokenAmount ||
-          !farm.lpTotalInQuoteToken ||
-          !farm.lpTotalInQuoteToken
-        ) {
+        if (!farm.tokenAmount || !farm.lpTotalInQuoteToken) {
           return farm;
         }
         const cakeRewardPerBlock = CAKE_PER_BLOCK.times(farm.poolWeight);
@@ -177,13 +226,15 @@ const Home: React.FC = () => {
 
           apy = cakeApy && dualApy && cakeApy.plus(dualApy);
         }
-        if (maxAPY.current < apy.toNumber()) maxAPY.current = apy.toNumber();
+        if (maxFarmsAPYRef.current < apy.toNumber())
+          maxFarmsAPYRef.current = apy.toNumber();
 
         return apy;
       });
     },
     [bnbPrice, farmsLP, cakePriceUsd, ethPriceUsd, btcPriceUsd]
   );
+
   const dayDatas = useQuery(dayDatasQuery, {
     context: {
       clientName: "exchange",
@@ -242,15 +293,30 @@ const Home: React.FC = () => {
         },
         [[], []]
       );
-    totalFees = (parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.003).toFixed(
-      4
-    );
+    totalFees = (
+      parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.003
+    ).toFixed(4);
     lpFees = (parseFloat(totalFees) * (5 / 6)).toFixed(4);
     stakerFees = ((parseFloat(totalFees) / 6) * 0.35).toFixed(4);
     burnerFees = ((parseFloat(totalFees) / 6) * 0.55).toFixed(4);
     devFees = ((parseFloat(totalFees) / 6) * 0.1).toFixed(4);
   }
   useInterval(() => Promise.all([getDayData]), 60000);
+
+  const farmsGetterFunc = async () => {
+    const maxValue = await getHighestFarmsAPY();
+    setMaxFarmsAPY(() => maxValue);
+  };
+  const poolsGetterFunc = async () => {
+    const maxValue = await getHighestPoolsAPY();
+    setMaxPoolsAPY(() => maxValue);
+  };
+
+  useEffect(() => {
+    farmsGetterFunc();
+    poolsGetterFunc();
+  });
+
   return (
     <Container
       maxWidth="lg"
@@ -258,20 +324,19 @@ const Home: React.FC = () => {
     >
       <Grid container spacing={5} justify="center">
         <Grid item xs={12} md={6} lg={6} xl={6}>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              flexDirection: "column",
-            }}
-          >
-            <Hero>
-              <CNHeading>{TranslateString(576, "PolyDEX")}</CNHeading>
-            </Hero>
-            <FarmStakingCard />
-          </div>
+          <Hero>
+            <CNHeading>{TranslateString(576, "PolyDEX")}</CNHeading>
+          </Hero>
+          <FarmStakingCard />
         </Grid>
-        <Grid item xs={12} md={6} lg={6} xl={6}>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          lg={6}
+          xl={6}
+          style={{ alignItems: "flex-start" }}
+        >
           <LotteryCard />
         </Grid>
         <Grid item xs={12} md={6} lg={6} xl={6}>
@@ -313,7 +378,7 @@ const Home: React.FC = () => {
             <Grid item xs={12} md={6} lg={6} xl={6}>
               <EarnAssetCard
                 topTitle="Earn up to"
-                description={getHighestAPY() ? `${getHighestAPY()}%` : "0%"}
+                description={`${maxFarmsAPY}%`}
                 descriptionColor="#29bb89"
                 bottomTitle="APR in farms"
                 redirectLink="/farms"
@@ -325,10 +390,11 @@ const Home: React.FC = () => {
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={6} xl={6}>
               <EarnAssetCard
-                topTitle="Earn"
-                bottomTitle="in Farms "
-                description="CNT, MAHA"
-                redirectLink="/multirewards"
+                topTitle="Earn up to"
+                bottomTitle="APR in pools"
+                description={`${maxPoolsAPY}%`}
+                descriptionColor="#29bb89"
+                redirectLink="/pools"
               />
             </Grid>
             <Grid item xs={12} md={6} lg={6} xl={6}>

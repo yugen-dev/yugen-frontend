@@ -19,16 +19,17 @@ import { getERC20Contract } from "utils/contractHelpers";
 import useI18n from "hooks/useI18n";
 import { useSousStake } from "hooks/useStake";
 import useWeb3 from "hooks/useWeb3";
-import { fetchPrice, UseGetApiPrice } from "state/hooks";
+import { fetchPrice, GetApiPrice, usePriceCakeBusd } from "state/hooks";
 import { useSousUnstake } from "hooks/useUnstake";
 import { getBalanceNumber } from "utils/formatBalance";
-import { getPoolApy } from "utils/apy";
+// import { getPoolApy } from "utils/apy";
 import { useSousHarvest } from "hooks/useHarvest";
 import Balance from "components/Balance";
 import { QuoteToken, PoolCategory } from "config/constants/types";
 import { Pool } from "state/types";
 import Tooltip from "components/Tooltip";
 import { useSousApprove } from "hooks/useApprove";
+import { BLOCKS_PER_YEAR } from "config";
 import DepositModal from "./DepositModal";
 import WithdrawModal from "./WithdrawModal";
 import CardTitle from "./CardTitle";
@@ -72,6 +73,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
     TopImage,
   } = pool;
 
+  const cntPrice = usePriceCakeBusd();
   const { account } = useWeb3React("web3");
   const isBnbPool = poolCategory === PoolCategory.BINANCE;
   const [show, setShow] = useState(false);
@@ -82,15 +84,21 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
 
   useEffect(() => {
     const pricefunc = async () => {
-      const rewardTokenPriceCoinGeckoPrice = await fetchPrice(
-        pool.rewardTokenCoinGeckoid
-      );
+      let rewardTokenPriceCoinGeckoPrice;
+      if (pool.rewardTokenCoinGeckoid === "CNT")
+        rewardTokenPriceCoinGeckoPrice = cntPrice;
+      else {
+        rewardTokenPriceCoinGeckoPrice = await fetchPrice(
+          pool.rewardTokenCoinGeckoid
+        );
+      }
 
       if (rewardTokenPriceCoinGeckoPrice) {
         setRewardTokenCoinGeckoPrice(rewardTokenPriceCoinGeckoPrice);
       }
     };
     pricefunc();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pool]);
 
   /// harvest interval
@@ -120,21 +128,19 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   let apy = 0;
   let apyString = "";
   const apyArray = [];
-  let StakingTokenPrice = UseGetApiPrice(
-    pool.stakingTokenAddress.toLowerCase()
-  );
+  let StakingTokenPrice = GetApiPrice(pool.stakingTokenAddress.toLowerCase());
 
-  StakingTokenPrice = tokenName === "LUSDT" ? 0.08 : StakingTokenPrice;
+  StakingTokenPrice = tokenName === "LUSD" ? 0.08 : StakingTokenPrice;
   StakingTokenPrice = tokenName === "LARTH" ? 0.25 : StakingTokenPrice;
 
   pool.multiRewardTokenPerBlock.forEach(async (element, i) => {
     const stakingTokenPrice = new BigNumber(StakingTokenPrice);
     let tokenPrice;
 
-    if (pool.rewardTokenCoinGeckoid === "pear") {
+    if (pool.rewardTokenCoinGeckoid === "PEAR") {
       tokenPrice = RewardTokenCoinGeckoPrice;
     } else {
-      tokenPrice = UseGetApiPrice(pool.coinGeckoIds[i].toLowerCase());
+      tokenPrice = GetApiPrice(pool.coinGeckoIds[i].toLowerCase());
     }
 
     // eslint-disable-next-line  no-nested-ternary
@@ -142,11 +148,19 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
       ? new BigNumber(tokenPrice)
       : new BigNumber(1);
 
-    const currentTokenApy = getPoolApy(
-      stakingTokenPrice.toNumber(),
-      rewardTokenPrice.toNumber(),
-      getBalanceNumber(pool.totalStaked, tokenDecimals),
-      parseFloat(element)
+    const currentTokenApy = Number(
+      rewardTokenPrice
+        .multipliedBy(pool.multiRewardTokenPerBlock[i])
+        .multipliedBy(BLOCKS_PER_YEAR)
+        .multipliedBy(100)
+        .dividedBy(
+          getBalanceNumber(
+            new BigNumber(totalStaked).multipliedBy(stakingTokenPrice),
+            pool.tokenDecimals
+          )
+        )
+        .toFixed(2)
+        .toString()
     );
 
     if (currentTokenApy && pool.multiRewardTokenPerBlock.length === i + 1) {
@@ -343,8 +357,8 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                   ? `${poolHarvestIntervalinHours.toString()} Hours`
                   : ""}
                 {!isDaysGreater &&
-                !isHoursGreater &&
-                poolHarvestIntervalinMinutes > 0
+                  !isHoursGreater &&
+                  poolHarvestIntervalinMinutes > 0
                   ? `${poolHarvestIntervalinMinutes.toString()} Minutes`
                   : ""}
               </Text>
@@ -441,10 +455,10 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                   onClick={
                     isOldSyrup
                       ? async () => {
-                          setPendingTx(true);
-                          await onUnstake("0", tokenDecimals);
-                          setPendingTx(false);
-                        }
+                        setPendingTx(true);
+                        await onUnstake("0", tokenDecimals);
+                        setPendingTx(false);
+                      }
                       : onPresentWithdraw
                   }
                 >

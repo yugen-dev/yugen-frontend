@@ -1,6 +1,6 @@
 import { PoolConfig, QuoteToken, PoolCategory } from "./types";
 
-const pools: PoolConfig[] = [
+const poolsMainnet: PoolConfig[] = [
   {
     sousId: 0,
     tokenName: "CNT",
@@ -15,6 +15,7 @@ const pools: PoolConfig[] = [
       56: "",
       80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
       137: "0xDC5A8F4D53E6fFb1F5E356f64577702AF9348d7d", // staking pool cnt
+      1: "0xDC5A8F4D53E6fFb1F5E356f64577702AF9348d7d", // staking pool cnt
     },
     poolCategory: PoolCategory.COMMUNITY,
     projectLink: "https://cryption.network/",
@@ -50,6 +51,7 @@ const pools: PoolConfig[] = [
       56: "",
       80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
       137: "0x0Bc444600eFA4349073Ac97e08e28231CD04bFb5", // staking pool cnt-maha
+      1: "0x0Bc444600eFA4349073Ac97e08e28231CD04bFb5", // staking pool cnt-maha
     },
     poolCategory: PoolCategory.CORE,
     projectLink: "https://cryption.network/",
@@ -88,12 +90,13 @@ const pools: PoolConfig[] = [
       56: "",
       80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
       137: "0xC20eaCe3c439915eEeB869722e1c9FC583C857E4", // staking pool cnt-maha
+      1: "0xC20eaCe3c439915eEeB869722e1c9FC583C857E4", // staking pool cnt-maha
     },
     poolCategory: PoolCategory.COMMUNITY,
     projectLink: "https://app.pearzap.com/",
     multiReward: ["PEAR"],
     stakingTokenCoinGeckoid: "CNT",
-    rewardTokenCoinGeckoid: "pear",
+    rewardTokenCoinGeckoid: "PEAR",
     coinGeckoIds: [
       "0xc8bcb58caEf1bE972C0B638B1dD8B0748Fdc8A44", // pearl
       // "0xeDd6cA8A4202d4a36611e2fff109648c4863ae19", // maha
@@ -123,6 +126,7 @@ const pools: PoolConfig[] = [
       56: "",
       80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
       137: "0xE9836901A02574D2203A42c73EF29Da328cd93b5", // staking pool arth-cnt
+      1: "0xE9836901A02574D2203A42c73EF29Da328cd93b5", // staking pool arth-cnt
     },
     poolCategory: PoolCategory.CORE,
     projectLink: "https://cryption.network/",
@@ -158,6 +162,7 @@ const pools: PoolConfig[] = [
       56: "",
       80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
       137: "0x85f1Ab8E6e83C39F65256c8F89d55f6e8AF22f3f", // staking pool arth-maha
+      1: "0x85f1Ab8E6e83C39F65256c8F89d55f6e8AF22f3f", // staking pool arth-maha
     },
     poolCategory: PoolCategory.CORE,
     projectLink: "https://cryption.network/",
@@ -193,6 +198,7 @@ const pools: PoolConfig[] = [
       56: "",
       80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
       137: "0x80C4DC3e48ceB1406993De4Dc11e73fb6709BCEa", // staking pool arth-maha
+      1: "0x80C4DC3e48ceB1406993De4Dc11e73fb6709BCEa", // staking pool arth-maha
     },
     poolCategory: PoolCategory.CORE,
     projectLink: "https://cryption.network/",
@@ -228,6 +234,7 @@ const pools: PoolConfig[] = [
       56: "",
       80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
       137: "0xFf64138D4bf53dd5D5ba2ac166Ab064D7a073a86", // staking pool arth-maha
+      1: "0xFf64138D4bf53dd5D5ba2ac166Ab064D7a073a86", // staking pool arth-maha
     },
     poolCategory: PoolCategory.CORE,
     projectLink: "https://cryption.network/",
@@ -263,6 +270,7 @@ const pools: PoolConfig[] = [
       56: "",
       80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
       137: "0xF1676C1576d0a6dE986395a3a2A1176C519424Ba", // staking pool arth-maha
+      1: "0xF1676C1576d0a6dE986395a3a2A1176C519424Ba", // staking pool arth-maha
     },
     poolCategory: PoolCategory.CORE,
     projectLink: "https://cryption.network/",
@@ -298,6 +306,7 @@ const pools: PoolConfig[] = [
       56: "",
       80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
       137: "0x07503539fBFdccb17923f40B89f9d7dD7cD7bcDa", // staking pool wmatic
+      1: "0x07503539fBFdccb17923f40B89f9d7dD7cD7bcDa", // staking pool wmatic
     },
     poolCategory: PoolCategory.COMMUNITY,
     projectLink: "https://cryption.network/",
@@ -332,6 +341,7 @@ const pools: PoolConfig[] = [
       56: "",
       80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
       137: "0x811445edf24380AdB3C39Ac3CffFdeAf146a0F9D", // staking pool ETH
+      1: "0x811445edf24380AdB3C39Ac3CffFdeAf146a0F9D", // staking pool ETH
     },
     poolCategory: PoolCategory.COMMUNITY,
     projectLink: "https://cryption.network/",
@@ -366,6 +376,7 @@ const pools: PoolConfig[] = [
       56: "",
       80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
       137: "0xd401a89b0262144CADDB0605b5f55d139ACA8e91", // staking pool ETH
+      1: "0xd401a89b0262144CADDB0605b5f55d139ACA8e91", // staking pool ETH
     },
     poolCategory: PoolCategory.COMMUNITY,
     projectLink: "https://cryption.network/",
@@ -400,6 +411,7 @@ const pools: PoolConfig[] = [
       56: "",
       80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
       137: "0x0C6932606Cc507e3551B339e20f893b9036e6cad", // staking pool usdc
+      1: "0x0C6932606Cc507e3551B339e20f893b9036e6cad", // staking pool usdc
     },
     poolCategory: PoolCategory.COMMUNITY,
     projectLink: "https://cryption.network/",
@@ -434,6 +446,7 @@ const pools: PoolConfig[] = [
       56: "",
       80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
       137: "0x4Be55222Bc5AE1e80Ec96f5AF7ac04bE957d6402", // staking pool usdc
+      1: "0x4Be55222Bc5AE1e80Ec96f5AF7ac04bE957d6402", // staking pool usdc
     },
     poolCategory: PoolCategory.COMMUNITY,
     projectLink: "https://cryption.network/",
@@ -468,6 +481,7 @@ const pools: PoolConfig[] = [
       56: "",
       80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
       137: "0xE7fa8486a2f881e15cEF350EbFFB70d829C44AA9", // staking pool usdc
+      1: "0xE7fa8486a2f881e15cEF350EbFFB70d829C44AA9", // staking pool usdc
     },
     poolCategory: PoolCategory.COMMUNITY,
     projectLink: "https://cryption.network/",
@@ -490,18 +504,19 @@ const pools: PoolConfig[] = [
   },
   {
     sousId: 14,
-    tokenName: "LUSDT",
+    tokenName: "LUSD",
     tokenAdressInLp: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF",
     tokenAddress: "0xb032512A23Ef041bEc2e48e9b3f07286408B2B26", // usdc
     tokenAddressSecondInLp: "0xE52509181FEb30EB4979E29EC70D50FD5C44D590", // arth
-    stakingTokenName: QuoteToken.LUSDT,
-    quoteTokenSymbol: QuoteToken.LUSDT,
+    stakingTokenName: QuoteToken.LUSD,
+    quoteTokenSymbol: QuoteToken.LUSD,
     stakingTokenAddress: "0xb032512A23Ef041bEc2e48e9b3f07286408B2B26", // lp
     contractAddress: {
       97: "",
       56: "",
       80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
       137: "0xF1c315e8A83Ef8484ad36e9943160Fd604C52E73", // staking pool usdc
+      1: "0xF1c315e8A83Ef8484ad36e9943160Fd604C52E73", // staking pool usdc
     },
     poolCategory: PoolCategory.COMMUNITY,
     projectLink: "https://cryption.network/",
@@ -536,6 +551,7 @@ const pools: PoolConfig[] = [
       56: "",
       80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
       137: "0x513C1b008A3136e9c510eAa374637c95E98126B1", // staking pool usdc
+      1: "0x513C1b008A3136e9c510eAa374637c95E98126B1", // staking pool usdc
     },
     poolCategory: PoolCategory.COMMUNITY,
     projectLink: "https://cryption.network/",
@@ -556,102 +572,122 @@ const pools: PoolConfig[] = [
     metamaskImg:
       "https://assets.coingecko.com/coins/images/17173/small/pear200.png?1626793002",
   },
-
-  // {
-  //   sousId: 0,
-  //   tokenName: "CNT",
-  //   tokenAdressInLp: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
-  //   tokenAddress: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
-  //   stakingTokenName: QuoteToken.CNT,
-  //   quoteTokenSymbol: QuoteToken.CNT,
-  //   stakingTokenAddress: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
-  //   contractAddress: {
-  //     97: "",
-  //     56: "",
-  //     80001: "0x01b21aFC1415F1Df68d034351699B5c639CF160A",
-  //     137: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // wrong
-  //   },
-  //   poolCategory: PoolCategory.COMMUNITY,
-  //   projectLink: "https://cryption.network/",
-  //   multiReward: ["CNT", "MAHA", "ARTH"],
-  //   metamaskImg:
-  //     "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/cnt.png",
-  //   stakingTokenCoinGeckoid: "cryption-network",
-  //   coinGeckoIds: [
-  //     "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
-  //     "0xa22DDedE7118de4589FCC580D829ede5354821DA",
-  //     "0x62683362864B6aF24C520166f4a9F675D7dad1d9",
-  //   ],
-  //   multiRewardTokenPerBlock: ["0.1", "0.2", "0.3"],
-  //   harvest: true,
-  //   tokenPerBlock: "1",
-  //   sortOrder: 0,
-  //   isFinished: false,
-  //   tokenDecimals: 18,
-  // },
-  // {
-  //   sousId: 1,
-  //   tokenName: "MAHA-CNT",
-  //   tokenAdressInLp: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
-  //   tokenAddress: "0xE6e0f6Ae6419D45109Af6c4630EF468F407eD28f", // maha
-  //   stakingTokenName: QuoteToken.LP,
-  //   quoteTokenSymbol: QuoteToken.CNT,
-  //   stakingTokenAddress: "0xE6e0f6Ae6419D45109Af6c4630EF468F407eD28f", // lp
-  //   contractAddress: {
-  //     97: "",
-  //     56: "",
-  //     80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
-  //     137: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // wrong
-  //   },
-  //   poolCategory: PoolCategory.CORE,
-  //   projectLink: "https://cryption.network/",
-  //   multiReward: ["ARTH", "MAHA", "CNT"],
-  //   stakingTokenCoinGeckoid: "MahaDAO",
-  //   coinGeckoIds: [
-  //     "0x62683362864B6aF24C520166f4a9F675D7dad1d9",
-  //     "0xa22DDedE7118de4589FCC580D829ede5354821DA",
-  //     "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
-  //   ],
-  //   multiRewardTokenPerBlock: ["0.01", "0.02", "0.03"],
-  //   harvest: true,
-  //   tokenPerBlock: "1",
-  //   sortOrder: 999,
-  //   isFinished: false,
-  //   tokenDecimals: 18,
-  //   metamaskImg:
-  //     "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/maha-cnt.png",
-  // },
-  // {
-  //   sousId: 2,
-  //   tokenName: "CNT",
-  //   tokenAdressInLp: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
-  //   tokenAddress: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
-  //   stakingTokenName: QuoteToken.CNT,
-  //   quoteTokenSymbol: QuoteToken.CNT,
-  //   stakingTokenAddress: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
-  //   contractAddress: {
-  //     97: "",
-  //     56: "",
-  //     80001: "0x8766d04916c783E57785cE198D06446A5272b979",
-  //     137: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // wrong
-  //   },
-  //   poolCategory: PoolCategory.COMMUNITY,
-  //   projectLink: "https://cryption.network/",
-  //   multiReward: ["ARTH", "MAHA"],
-  //   metamaskImg:
-  //     "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/cnt.png",
-  //   stakingTokenCoinGeckoid: "cryption-network",
-  //   coinGeckoIds: [
-  //     "0x62683362864B6aF24C520166f4a9F675D7dad1d9",
-  //     "0xa22DDedE7118de4589FCC580D829ede5354821DA",
-  //   ],
-  //   multiRewardTokenPerBlock: ["0.1", "0.2"],
-  //   harvest: true,
-  //   tokenPerBlock: "1",
-  //   sortOrder: 0,
-  //   isFinished: false,
-  //   tokenDecimals: 18,
-  // },
 ];
-
-export default pools;
+const poolsTestNet: PoolConfig[] = [
+  {
+    sousId: 0,
+    tokenName: "CNT",
+    tokenAdressInLp: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
+    tokenAddress: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
+    stakingTokenName: QuoteToken.CNT,
+    quoteTokenSymbol: QuoteToken.CNT,
+    stakingTokenAddress: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
+    contractAddress: {
+      97: "",
+      56: "",
+      80001: "0x01b21aFC1415F1Df68d034351699B5c639CF160A",
+      5: "0x01b21aFC1415F1Df68d034351699B5c639CF160A",
+      1: "0x01b21aFC1415F1Df68d034351699B5c639CF160A",
+      137: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // wrong
+    },
+    poolCategory: PoolCategory.COMMUNITY,
+    projectLink: "https://cryption.network/",
+    multiReward: ["CNT", "MAHA", "ARTH"],
+    metamaskImg:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/cnt.png",
+    stakingTokenCoinGeckoid: "cryption-network",
+    coinGeckoIds: [
+      "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
+      "0xa22DDedE7118de4589FCC580D829ede5354821DA",
+      "0x62683362864B6aF24C520166f4a9F675D7dad1d9",
+    ],
+    multiRewardTokenPerBlock: ["0.1", "0.2", "0.3"],
+    TopImage:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/Globe+Gradient.png",
+    harvest: true,
+    tokenPerBlock: "1",
+    sortOrder: 0,
+    isFinished: false,
+    tokenDecimals: 18,
+  },
+  {
+    sousId: 1,
+    tokenName: "MAHA-CNT",
+    tokenAdressInLp: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
+    tokenAddress: "0xE6e0f6Ae6419D45109Af6c4630EF468F407eD28f", // maha
+    stakingTokenName: QuoteToken.LP,
+    quoteTokenSymbol: QuoteToken.CNT,
+    stakingTokenAddress: "0xE6e0f6Ae6419D45109Af6c4630EF468F407eD28f", // lp
+    TopImage:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/Globe+Gradient.png",
+    contractAddress: {
+      97: "",
+      56: "",
+      80001: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
+      5: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
+      1: "0x718Fa9fA91f4bFF9B57f660D46B53ed39d300731",
+      137: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // wrong
+    },
+    poolCategory: PoolCategory.CORE,
+    projectLink: "https://cryption.network/",
+    multiReward: ["ARTH", "MAHA", "CNT"],
+    stakingTokenCoinGeckoid: "MahaDAO",
+    coinGeckoIds: [
+      "0x62683362864B6aF24C520166f4a9F675D7dad1d9",
+      "0xa22DDedE7118de4589FCC580D829ede5354821DA",
+      "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
+    ],
+    multiRewardTokenPerBlock: ["0.01", "0.02", "0.03"],
+    harvest: true,
+    tokenPerBlock: "1",
+    sortOrder: 999,
+    isFinished: false,
+    tokenDecimals: 18,
+    metamaskImg:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/maha-cnt.png",
+  },
+  {
+    sousId: 2,
+    tokenName: "CNT",
+    tokenAdressInLp: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
+    tokenAddress: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
+    stakingTokenName: QuoteToken.CNT,
+    quoteTokenSymbol: QuoteToken.CNT,
+    stakingTokenAddress: "0x766F03e47674608cCcF7414f6c4DDF3d963Ae394",
+    TopImage:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/Globe+Gradient.png",
+    contractAddress: {
+      97: "",
+      56: "",
+      80001: "0x8766d04916c783E57785cE198D06446A5272b979",
+      5: "0x8766d04916c783E57785cE198D06446A5272b979",
+      1: "0x8766d04916c783E57785cE198D06446A5272b979", // wrong
+      137: "0xD1e6354fb05bF72A8909266203dAb80947dcEccF", // wrong
+    },
+    poolCategory: PoolCategory.COMMUNITY,
+    projectLink: "https://cryption.network/",
+    multiReward: ["ARTH", "MAHA"],
+    metamaskImg:
+      "https://cryption-network.s3.us-east-2.amazonaws.com/tokens/cnt.png",
+    stakingTokenCoinGeckoid: "cryption-network",
+    coinGeckoIds: [
+      "0x62683362864B6aF24C520166f4a9F675D7dad1d9",
+      "0xa22DDedE7118de4589FCC580D829ede5354821DA",
+    ],
+    multiRewardTokenPerBlock: ["0.1", "0.2"],
+    harvest: true,
+    tokenPerBlock: "1",
+    sortOrder: 0,
+    isFinished: false,
+    tokenDecimals: 18,
+  },
+];
+const pools = {
+  "80001": poolsTestNet,
+  "1": poolsMainnet,
+  "137": poolsMainnet,
+  "5": poolsTestNet,
+};
+export default window.ethereum.networkVersion
+  ? pools[window.ethereum.networkVersion]
+  : pools["137"];
