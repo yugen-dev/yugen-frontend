@@ -193,8 +193,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
 
   const { metaTranscation } = useProfile();
   const rawStakedBalance = getBalanceNumber(stakedBalance);
-
-  const displayBalance = rawStakedBalance.toLocaleString();
+  const displayBalance = rawStakedBalance.toFixed(4).toLocaleString();
   const [signatureData, setSignatureData] = useState<{
     v: number;
     r: string;
