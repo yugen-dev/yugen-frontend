@@ -240,8 +240,8 @@ export const useL2Intermediator = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   let nodeRpc = process.env.REACT_APP_WEBSOCKET_MAIN_NODE_MATIC;
   if (
-    (window.ethereum && window.ethereum.networkVersion === "80001") ||
-    (window.ethereum && window.ethereum.networkVersion === "5")
+    (window && window.ethereum && window.ethereum.networkVersion === "80001") ||
+    (window && window.ethereum && window.ethereum.networkVersion === "5")
   ) {
     nodeRpc = process.env.REACT_APP_WEBSOCKET_TEST_NODE_MATIC;
   }

@@ -2,7 +2,7 @@ import Web3 from "web3";
 import { Biconomy } from "@biconomy/mexa";
 
 let biconomyWeb3 = new Web3();
-if (window.ethereum) {
+if (window && window.ethereum) {
   const biconomy = new Biconomy((window as WindowChain).ethereum, {
     apiKey: "CZAhsPdyc.0c58fe26-3fd0-43e3-ac7b-f1198b71840c",
   });

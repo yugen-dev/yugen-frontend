@@ -54,7 +54,7 @@ const App: React.FC = () => {
   // To be removed when web3 1.3.5 is released
   useEffect(() => {
     console.warn = () => null;
-    if (window.ethereum) {
+    if (window && window.ethereum) {
       window.ethereum.on("chainChanged", () => {
         // Handle the new chain.
         // Correctly handling chain changes can be complicated.

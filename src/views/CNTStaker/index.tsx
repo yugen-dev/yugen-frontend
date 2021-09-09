@@ -154,7 +154,7 @@ const CNTStaker = () => {
   const [tokenBalance, setTokenBalance] = React.useState(new BigNumber(0));
   const [xCNTBalance, setxCNTBalance] = React.useState(new BigNumber(0));
   const [CntAllowance, setCntAllowance] = React.useState(new BigNumber(0));
-  const CHAINID = window.ethereum && window.ethereum.networkVersion ? window.ethereum.networkVersion : process.env.REACT_APP_CHAIN_ID;
+  const CHAINID = window && window.ethereum && window.ethereum.networkVersion ? window.ethereum.networkVersion : process.env.REACT_APP_CHAIN_ID;
   // const { onEnter } = useEnter();
   const [requestedApproval, setRequestedApproval] = useState(false);
   const [tokenAmount, handleTokenAmount] = useState("");

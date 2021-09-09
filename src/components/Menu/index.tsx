@@ -96,7 +96,7 @@ const Menu = (props) => {
     }
   }
   let currentNetwork;
-  if (window.ethereum) {
+  if (window && window.ethereum) {
     currentNetwork = networks.filter(eachNetwork => eachNetwork.chainId === window.ethereum.networkVersion)
   }
   return (
@@ -131,8 +131,8 @@ const Menu = (props) => {
       links={config}
       socials={socials}
       currentNetwork={currentNetwork && currentNetwork.length > 0 ? currentNetwork[0] : {}}
-      showNetworkSwitch={!!window.ethereum}
-      activeChainId={window.ethereum && window.ethereum.networkVersion || null}
+      showNetworkSwitch={!!(window && window.ethereum)}
+      activeChainId={window && window.ethereum && window.ethereum.networkVersion || null}
       changeNetwork={changeNetwork}
       networks={networks}
       profile={{

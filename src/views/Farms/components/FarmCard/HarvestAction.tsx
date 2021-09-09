@@ -19,13 +19,12 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({
   const TranslateString = useI18n();
   const [pendingTx, setPendingTx] = useState(false);
   const { onReward } = useHarvest(pid);
-
   const rawEarningsBalance = getBalanceNumber(earnings);
   let harvestDisabled = false;
   if (rawEarningsBalance === 0) {
     harvestDisabled = true;
   }
-  if (window.ethereum && window.ethereum.networkVersion === '1' || window.ethereum.networkVersion === '5') {
+  if (window && window.ethereum && window.ethereum && window.ethereum.networkVersion === '1' || window && window.ethereum && window.ethereum && window.ethereum.networkVersion === '5') {
     harvestDisabled = true;
   }
   const displayBalance = rawEarningsBalance.toLocaleString();
