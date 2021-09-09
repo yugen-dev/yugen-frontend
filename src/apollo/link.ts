@@ -33,7 +33,7 @@ const graphLinks = {
 //   }),
 // ]);
 const finalLinks =
-    window && window.ethereum && window.ethereum.networkVersion
+  window && window.ethereum && window.ethereum.networkVersion
     ? graphLinks[window.ethereum.networkVersion]
     : graphLinks["137"];
 export const cntStaker = from([
