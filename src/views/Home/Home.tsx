@@ -173,7 +173,7 @@ const Home: React.FC = () => {
     (farmsToDisplay) => {
       const cakePriceVsBNB = new BigNumber(
         farmsLP.find((farm) => farm.pid === CAKE_POOL_PID)?.tokenPriceVsQuote ||
-        0
+          0
       );
 
       farmsToDisplay.map((farm) => {
@@ -324,20 +324,19 @@ const Home: React.FC = () => {
     >
       <Grid container spacing={5} justify="center">
         <Grid item xs={12} md={6} lg={6} xl={6}>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              flexDirection: "column",
-            }}
-          >
-            <Hero>
-              <CNHeading>{TranslateString(576, "PolyDEX")}</CNHeading>
-            </Hero>
-            <FarmStakingCard />
-          </div>
+          <Hero>
+            <CNHeading>{TranslateString(576, "PolyDEX")}</CNHeading>
+          </Hero>
+          <FarmStakingCard />
         </Grid>
-        <Grid item xs={12} md={6} lg={6} xl={6}>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          lg={6}
+          xl={6}
+          style={{ alignItems: "flex-start" }}
+        >
           <LotteryCard />
         </Grid>
         <Grid item xs={12} md={6} lg={6} xl={6}>

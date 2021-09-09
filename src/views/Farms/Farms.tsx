@@ -22,7 +22,6 @@ import useI18n from "hooks/useI18n";
 import { getBalanceNumber } from "utils/formatBalance";
 import { orderBy } from "lodash";
 import cntMascot from "images/Cryption Network Mascot Farming.png";
-import CountdownTimer from "components/CountdownTimer";
 import FarmCard, { FarmWithStakedValue } from "./components/FarmCard/FarmCard";
 import Table from "./components/FarmTable/FarmTable";
 import FarmTabButtons from "./components/FarmTabButtons";
@@ -510,7 +509,14 @@ const Farms: React.FC = () => {
                 Learn more
               </LinkExternal>
             </Text>
-            <CountdownTimer unixEndTimeInSeconds={1627569000} />
+            <Text fontSize="20px" color="#ffffff" marginTop="20px">
+              To start Cross-Chain Farming, change your network to Ethereum
+              Mainnet and then you can deposit ETH and farm rewards on Polygon
+              in a single click!{" "}
+              <LinkExternal href="https://docs.cryption.network/products/cross-chain-farming">
+                Learn more
+              </LinkExternal>
+            </Text>
           </Grid>
           <Grid item xs={12} md={6} lg={6} xl={6}>
             <div

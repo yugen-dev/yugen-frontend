@@ -85,6 +85,11 @@ const config: MenuEntry[] = [
     href: "https://analytics.polydex.org/",
   },
   {
+    label: "Docs",
+    icon: "DocsIcon",
+    href: "https://docs.cryption.network/",
+  },
+  {
     label: "More",
     icon: "MoreIcon",
     items: [

@@ -20,7 +20,6 @@ import {
 } from "state/hooks";
 import { getCakeContract } from "utils/contractHelpers";
 import cntMascot from "images/Cryption Network Mascot Farming.png";
-import CountdownTimer from "components/CountdownTimer";
 import PoolTabButtons from "./components/PoolTabButtons";
 // import FlexLayout from "components/layout/Flex";
 // import pools from "config/constants/pools";
@@ -112,7 +111,6 @@ const Farm: React.FC = () => {
                 Learn more
               </LinkExternal>
             </Text>
-            <CountdownTimer unixEndTimeInSeconds={1627569000} />
           </Grid>
           <Grid item xs={12} md={6} lg={6} xl={6}>
             <div

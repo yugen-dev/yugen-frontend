@@ -8614,10 +8614,10 @@ cross-spawn@^6.0.0:
     shebang-command "^1.2.0"
     which "^1.2.9"
 
-cryption-uikit@0.1.32:
-  version "0.1.32"
-  resolved "https://registry.yarnpkg.com/cryption-uikit/-/cryption-uikit-0.1.32.tgz#06a9ae82ca65c43670846f922d3395c1224b392d"
-  integrity sha512-ycD2nZMTfyptReNRrli/upQc+9rsiETjyLuopS1cyKBdzSM2BdQtQ00y+75o9YDLG5aWXiPehYinMS9RfXHeyw==
+cryption-uikit@0.1.33:
+  version "0.1.33"
+  resolved "https://registry.yarnpkg.com/cryption-uikit/-/cryption-uikit-0.1.33.tgz#8fdcf2bf85c2cf1c32f8d93f8272d1e2b174a440"
+  integrity sha512-h0jih0ibHwMcv04uA+kUZa6t+fLBd+muIW2dymzV5NPmR5nunDowopGqUPskCcwi3wO5NCAsB+d5LY7HS3ZSiA==
   dependencies:
     "@material-ui/icons" "^4.11.2"
     "@types/lodash" "^4.14.162"
