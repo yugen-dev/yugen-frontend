@@ -7,7 +7,7 @@ import { useWeb3React } from "@web3-react/core";
 import { RowType, Toggle, Text, LinkExternal } from "cryption-uikit";
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
-import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CAKE_POOL_PID } from "config";
+import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CAKE_POOL_PID, CROSS_CHAIN_API_LINK } from "config";
 import {
   useFarms,
   usePriceBnbBusd,
@@ -159,15 +159,46 @@ const Farms: React.FC = () => {
   const btcPriceUsd = usePriceBtcBusd();
   const { account } = useWeb3React("web3");
   const [sortOption, setSortOption] = useState("hot");
+  const [crossChainData, setCrossChainData] = useState([]);
 
   const dispatch = useDispatch();
   const { fastRefresh } = useRefresh();
+
   useEffect(() => {
     if (account) {
       dispatch(fetchFarmUserDataAsync(account));
     }
   }, [account, dispatch, fastRefresh]);
-
+  useEffect(() => {
+    const getAllCrossChainTranscations = async (accountId) => {
+      if (accountId) {
+        let network = 'mainnet';
+        if (window.ethereum.networkVersion === '80001' || window.ethereum.networkVersion === '5') {
+          network = 'testnet';
+        }
+        const Header = new Headers();
+        Header.append("Content-Type", "application/x-www-form-urlencoded");
+        const urlencoded = new URLSearchParams();
+        urlencoded.append("account", account.toLowerCase());
+        urlencoded.append("network", network);
+        const requestOptions = {
+          method: 'POST',
+          headers: Header,
+          body: urlencoded,
+        };
+        const getAllTrx = await fetch(`${CROSS_CHAIN_API_LINK}/getAllTranscations`, requestOptions)
+        const resp = await getAllTrx.json();
+        setCrossChainData(resp)
+      }
+    }
+    if (account) {
+      getAllCrossChainTranscations(account);
+    }
+    const interval = setInterval(() => {
+      getAllCrossChainTranscations(account)
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [account]);
   const [stackedOnly, setStackedOnly] = useState(false);
 
   const activeFarms = farmsLP.filter((farm) => farm.multiplier !== "0X");
@@ -214,7 +245,7 @@ const Farms: React.FC = () => {
     (farmsToDisplay): FarmWithStakedValue[] => {
       const cakePriceVsBNB = new BigNumber(
         farmsLP.find((farm) => farm.pid === CAKE_POOL_PID)?.tokenPriceVsQuote ||
-          0
+        0
       );
       let farmsToDisplayWithAPY: FarmWithStakedValue[] = farmsToDisplay.map(
         (farm) => {
@@ -333,7 +364,6 @@ const Farms: React.FC = () => {
     const { quoteTokenAdresses, quoteTokenSymbol, tokenAddresses } = farm;
     const lpLabel =
       farm.lpSymbol && farm.lpSymbol.toUpperCase().replace("PANCAKE", "");
-
     const row: RowProps = {
       apr: {
         value:
@@ -413,6 +443,7 @@ const Farms: React.FC = () => {
               <FarmCard
                 key={farm.pid}
                 farm={farm}
+                crossChainTranscations={crossChainData.filter(eachTrx => eachTrx.pid === farm.pid)}
                 bnbPrice={bnbPrice}
                 cakePrice={cakePrice}
                 ethPrice={ethPriceUsd}
@@ -439,6 +470,7 @@ const Farms: React.FC = () => {
               <FarmCard
                 key={farm.pid}
                 farm={farm}
+                crossChainTranscations={crossChainData.filter(eachTrx => eachTrx.pid === farm.pid)}
                 bnbPrice={bnbPrice}
                 cakePrice={cakePrice}
                 ethPrice={ethPriceUsd}
@@ -467,7 +499,7 @@ const Farms: React.FC = () => {
           {TranslateString(999, "Stake Liquidity Pool (LP) tokens to earn.")}
         </Heading> 
       </Header> */}
-      <Container>
+      <Container style={{ marginTop: '40px' }}>
         <Grid container spacing={3} alignItems="center">
           <Grid item xs={12} md={6} lg={6} xl={6}>
             <CNHeading>Core Farms</CNHeading>

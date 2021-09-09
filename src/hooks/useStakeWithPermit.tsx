@@ -1,3 +1,4 @@
+/* eslint-disable dot-notation */
 import { useCallback } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { useDispatch } from "react-redux";
@@ -48,13 +49,13 @@ export const useStakeWithPermit = (
           toastSuccess("Success", ` Deposited successfully`);
           dispatch(fetchFarmUserDataAsync(account));
         }
-      } catch (e) {
+      } catch (error) {
         if (
-          e.message ===
-            "MetaMask Tx Signature: User denied transaction signature." ||
-          e.message ===
-            "MetaMask Message Signature: User denied message signature." ||
-          e.code === 4001
+          error["message"] ===
+          "MetaMask Tx Signature: User denied transaction signature." ||
+          error["message"] ===
+          "MetaMask Message Signature: User denied message signature." ||
+          error["code"] === 4001
         ) {
           // toastInfo("canceled...", `cancelled signature `);
           toastError("canceled", ` signautures rejected`);

@@ -1,3 +1,4 @@
+/* eslint-disable dot-notation */
 /* eslint-disable camelcase */
 import { BigNumber } from "@ethersproject/bignumber";
 import { Contract } from "@ethersproject/contracts";
@@ -386,13 +387,14 @@ export function useSwapCallback(
             }
           } catch (error) {
             // if the user rejected the tx, pass this along
-            if (error?.code === 4001) {
+            if (error["code"] === 4001) {
               throw new Error("Transaction rejected.");
             } else {
               // otherwise, the error was unexpected and we need to convey that
               console.error(`Swap failed`, error, methodName, args, value);
-              throw new Error(`Swap failed: ${error.message}`);
+              throw new Error(`Swap failed:`);
             }
+            // @ts-ignore
             return error;
           }
         }

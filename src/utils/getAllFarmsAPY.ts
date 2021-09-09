@@ -7,7 +7,10 @@ const calculateFunc = async (pool, prices) => {
   if (prices) {
     let rewardTokenCoinGeckoPrice = new BigNumber(1);
     const pricefunc = async () => {
-      if (pool.rewardTokenCoinGeckoid.length > 0) {
+      if (
+        pool.rewardTokenCoinGeckoid &&
+        pool.rewardTokenCoinGeckoid.length > 0
+      ) {
         rewardTokenCoinGeckoPrice = await fetchPrice(
           pool.rewardTokenCoinGeckoid
         );

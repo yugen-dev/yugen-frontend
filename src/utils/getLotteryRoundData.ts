@@ -33,7 +33,7 @@ const getLotteryRoundData = async (
 
     return data;
   } catch (error) {
-    throw new Error(error);
+    throw new Error("Error occured while fetching price");
   }
 };
 

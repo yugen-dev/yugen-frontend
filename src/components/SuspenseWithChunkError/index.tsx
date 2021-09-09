@@ -1,3 +1,4 @@
+/* eslint-disable dot-notation */
 import React, { Suspense, SuspenseProps } from "react";
 
 interface State {
@@ -17,7 +18,7 @@ class SuspenseWithChunkError extends React.Component<SuspenseProps, State> {
 
   componentDidCatch(error) {
     const isJsChunkLoadError = error.name === "ChunkLoadError";
-    const isCssChunkLoadError = error.code === "CSS_CHUNK_LOAD_FAILED";
+    const isCssChunkLoadError = error["code"] === "CSS_CHUNK_LOAD_FAILED";
     const isChunkLoadError = isJsChunkLoadError || isCssChunkLoadError;
 
     // Save a flag on the window object indicating that we have already had a chunk error.

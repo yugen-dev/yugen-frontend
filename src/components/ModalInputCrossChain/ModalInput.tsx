@@ -29,21 +29,24 @@ const StyledTokenInput = styled.div<InputProps>`
   border-radius: 16px;
   box-shadow: ${getBoxShadow};
   color: ${({ theme }) => theme.colors.text};
-  padding: 16px 16px 16px 0px;
+  padding: 16px;
   width: 100%;
 `;
 
 const StyledInput = styled(Input)`
-  box-shadow: none;
+  box-shadow: none !important;
   width: 60px;
-  margin-right: 8px;
-
+  margin: 0px;
+  padding: 0px;
   ${({ theme }) => theme.mediaQueries.xs} {
     width: 80px;
   }
 
   ${({ theme }) => theme.mediaQueries.sm} {
     width: auto;
+  }
+  :focus: {
+    box-shadow: none
   }
 `;
 
@@ -78,12 +81,14 @@ const ModalInput: React.FC<ModalInputProps> = ({
             {displayBalance.toLocaleString()}
           </Text>
         </Flex>
-        <Flex alignItems="center" justifyContent="space-around">
+        <Flex alignItems="center" justifyContent="space-between" style={{ backgroundColor: '#1A1B23', padding: '3px 10px' }} borderRadius="14px" mt="16px">
           <StyledInput onInputChange={onChange} placeholder="0" value={value} />
-          <Button scale="sm" onClick={onSelectMax} mr="8px">
-            {TranslateString(452, "Max")}
-          </Button>
-          <Text fontSize="16px">{symbol}</Text>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Button scale="sm" onClick={onSelectMax} mr="8px">
+              {TranslateString(452, "Max")}
+            </Button>
+            <Text fontSize="16px">{symbol}</Text>
+          </div>
         </Flex>
       </StyledTokenInput>
       {isBalanceZero && (

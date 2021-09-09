@@ -101,7 +101,7 @@ const Farm: React.FC = () => {
 
   return (
     <div>
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" style={{ marginTop: '40px' }}>
         <Grid container spacing={3} alignItems="center">
           <Grid item xs={12} md={6} lg={6} xl={6}>
             <CNHeading>Multi-Rewards Farms</CNHeading>
@@ -141,52 +141,52 @@ const Farm: React.FC = () => {
           >
             {stakedOnly
               ? orderBy(stakedOnlyOpenPools, ["sortOrder"])
-                  .slice(0, numberOfPoolsVisible)
-                  .map(
-                    (pool) =>
-                      pool.poolCategory === PoolCategory.CORE && (
-                        <Grid item xs={12} md={6} lg={4} xl={4}>
-                          <PoolCard
-                            key={pool.sousId}
-                            pool={pool}
-                            valueOfCNTinUSD={cntPrice}
-                            bnbPrice={bnbPrice}
-                            ethPrice={ethPrice}
-                            btcPrice={btcPrice}
-                          />{" "}
-                        </Grid>
-                      )
-                  )
+                .slice(0, numberOfPoolsVisible)
+                .map(
+                  (pool) =>
+                    pool.poolCategory === PoolCategory.CORE && (
+                      <Grid item xs={12} md={6} lg={4} xl={4}>
+                        <PoolCard
+                          key={pool.sousId}
+                          pool={pool}
+                          valueOfCNTinUSD={cntPrice}
+                          bnbPrice={bnbPrice}
+                          ethPrice={ethPrice}
+                          btcPrice={btcPrice}
+                        />{" "}
+                      </Grid>
+                    )
+                )
               : orderBy(openPools, ["sortOrder"])
-                  .slice(0, numberOfPoolsVisible)
-                  .map(
-                    (pool) =>
-                      pool.poolCategory === PoolCategory.CORE && (
-                        <Grid item xs={12} md={6} lg={4} xl={4}>
-                          <PoolCard
-                            key={pool.sousId}
-                            pool={pool}
-                            valueOfCNTinUSD={cntPrice}
-                            bnbPrice={bnbPrice}
-                            ethPrice={ethPrice}
-                            btcPrice={btcPrice}
-                          />{" "}
-                        </Grid>
-                      )
-                  )}
+                .slice(0, numberOfPoolsVisible)
+                .map(
+                  (pool) =>
+                    pool.poolCategory === PoolCategory.CORE && (
+                      <Grid item xs={12} md={6} lg={4} xl={4}>
+                        <PoolCard
+                          key={pool.sousId}
+                          pool={pool}
+                          valueOfCNTinUSD={cntPrice}
+                          bnbPrice={bnbPrice}
+                          ethPrice={ethPrice}
+                          btcPrice={btcPrice}
+                        />{" "}
+                      </Grid>
+                    )
+                )}
           </Grid>
           {((stakedOnly && stakedOnlyOpenPools.length === 0) ||
             (!stakedOnly && openPools.length === 0)) && (
-            <div
-              style={{
-                width: "100%",
-                display: "grid",
-                justifyContent: "center",
-              }}
-            >
-              <img src={MrCNTaah} alt="Cannot find" width="250px" />
-            </div>
-          )}
+              <div
+                style={{
+                  width: "100%",
+                  display: "grid",
+                  justifyContent: "center",
+                }}
+              >
+                <img src={MrCNTaah} alt="Cannot find" width="250px" />
+              </div>
+            )}
         </Route>
         <Route path={`${path}/history`}>
           <Grid
@@ -197,46 +197,46 @@ const Farm: React.FC = () => {
           >
             {stakedOnly
               ? orderBy(stakedOnlyFinishedPools, ["sortOrder"])
-                  .slice(0, numberOfPoolsVisible)
-                  .map((pool) => (
-                    <Grid item xs={12} md={6} lg={4} xl={4}>
-                      <PoolCard
-                        key={pool.sousId}
-                        pool={pool}
-                        valueOfCNTinUSD={cntPrice}
-                        bnbPrice={bnbPrice}
-                        ethPrice={ethPrice}
-                        btcPrice={btcPrice}
-                      />
-                    </Grid>
-                  ))
+                .slice(0, numberOfPoolsVisible)
+                .map((pool) => (
+                  <Grid item xs={12} md={6} lg={4} xl={4}>
+                    <PoolCard
+                      key={pool.sousId}
+                      pool={pool}
+                      valueOfCNTinUSD={cntPrice}
+                      bnbPrice={bnbPrice}
+                      ethPrice={ethPrice}
+                      btcPrice={btcPrice}
+                    />
+                  </Grid>
+                ))
               : orderBy(finishedPools, ["sortOrder"])
-                  .slice(0, numberOfPoolsVisible)
-                  .map((pool) => (
-                    <Grid item xs={12} md={6} lg={4} xl={4}>
-                      <PoolCard
-                        key={pool.sousId}
-                        pool={pool}
-                        valueOfCNTinUSD={cntPrice}
-                        bnbPrice={bnbPrice}
-                        ethPrice={ethPrice}
-                        btcPrice={btcPrice}
-                      />
-                    </Grid>
-                  ))}
+                .slice(0, numberOfPoolsVisible)
+                .map((pool) => (
+                  <Grid item xs={12} md={6} lg={4} xl={4}>
+                    <PoolCard
+                      key={pool.sousId}
+                      pool={pool}
+                      valueOfCNTinUSD={cntPrice}
+                      bnbPrice={bnbPrice}
+                      ethPrice={ethPrice}
+                      btcPrice={btcPrice}
+                    />
+                  </Grid>
+                ))}
           </Grid>
           {((stakedOnly && stakedOnlyFinishedPools.length === 0) ||
             (!stakedOnly && finishedPools.length === 0)) && (
-            <div
-              style={{
-                width: "100%",
-                display: "grid",
-                justifyContent: "center",
-              }}
-            >
-              <img src={MrCNTaah} alt="Cannot find" width="250px" />
-            </div>
-          )}
+              <div
+                style={{
+                  width: "100%",
+                  display: "grid",
+                  justifyContent: "center",
+                }}
+              >
+                <img src={MrCNTaah} alt="Cannot find" width="250px" />
+              </div>
+            )}
         </Route>
         <div ref={loadMoreRef} />
       </Container>

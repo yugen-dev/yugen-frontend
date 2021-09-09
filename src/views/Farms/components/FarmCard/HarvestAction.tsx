@@ -21,12 +21,19 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({
   const { onReward } = useHarvest(pid);
 
   const rawEarningsBalance = getBalanceNumber(earnings);
+  let harvestDisabled = false;
+  if (rawEarningsBalance === 0) {
+    harvestDisabled = true;
+  }
+  if (window.ethereum.networkVersion === '1' || window.ethereum.networkVersion === '5') {
+    harvestDisabled = true;
+  }
   const displayBalance = rawEarningsBalance.toLocaleString();
 
   const BtnLoadingComp =
     pendingTx === false ? (
       <Button
-        disabled={rawEarningsBalance === 0}
+        disabled={harvestDisabled}
         onClick={async () => {
           setPendingTx(true);
           await onReward();
