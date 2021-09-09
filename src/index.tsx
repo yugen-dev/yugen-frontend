@@ -10,7 +10,7 @@ import Providers from "./Providers";
 declare const window: any;
 
 if ("ethereum" in window) {
-  (window.ethereum as any).autoRefreshOnNetworkChange = false;
+  (window && window.ethereum as any).autoRefreshOnNetworkChange = false;
 }
 
 window.addEventListener("error", () => {
