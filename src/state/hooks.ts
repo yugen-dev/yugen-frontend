@@ -378,7 +378,7 @@ export const useCntStakerTvl = (): BigNumber => {
     const fetchPriceXCNT = async () => {
       const contract = getCakeContract();
       const res = await contract.methods
-        .balanceOf(contracts.cntStaker[chainID])
+        .balanceOf(contracts.cntStaker[chainID || "137"])
         .call();
       setCntStakerTvlPrice(
         new BigNumber(res).dividedBy(new BigNumber(10).pow(18))

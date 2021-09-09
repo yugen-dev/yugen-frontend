@@ -7,7 +7,7 @@ export const getAddress = (address: Address): string => {
     window && window.ethereum
       ? window.ethereum.networkVersion
       : process.env.REACT_APP_CHAIN_ID;
-  return address[chainId];
+  return address[chainId || "137"];
 };
 
 export const getSouschefContract = (id: number) => {

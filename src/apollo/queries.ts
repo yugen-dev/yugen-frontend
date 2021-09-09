@@ -34,7 +34,11 @@ export const burnQuery = gql`
 const cntStakerAddress = getCNTStakerAddress();
 //  Value of `id` must not be checksummed.
 export const cntStakerQuery = gql`
-  query cntStaker($id: String! = "${cntStakerAddress.toLocaleLowerCase()}") {
+  query cntStaker($id: String! = "${
+    cntStakerAddress
+      ? cntStakerAddress.toLocaleLowerCase()
+      : "0x82C2Fb7410dcfFEd4e9147413BD5005a0a6F58aA"
+  }") {
     cntstaker(id: $id) {
       id
       totalSupply
