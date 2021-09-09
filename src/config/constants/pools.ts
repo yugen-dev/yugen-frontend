@@ -688,6 +688,6 @@ const pools = {
   "137": poolsMainnet,
   "5": poolsTestNet,
 };
-export default window.ethereum.networkVersion
+export default window.ethereum && window.ethereum.networkVersion
   ? pools[window.ethereum.networkVersion]
   : pools["137"];

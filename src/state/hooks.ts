@@ -42,9 +42,10 @@ import { fetchPrices } from "./prices";
 
 const ZERO = new BigNumber(0);
 
-const chainID = window.ethereum.networkVersion
-  ? window.ethereum.networkVersion
-  : process.env.REACT_APP_CHAIN_ID;
+const chainID =
+  window.ethereum && window.ethereum.networkVersion
+    ? window.ethereum.networkVersion
+    : process.env.REACT_APP_CHAIN_ID;
 export const useFetchPublicData = () => {
   const dispatch = useDispatch();
   const { slowRefresh } = useRefresh();
@@ -152,8 +153,8 @@ export const usePoolFromPid = (sousId): Pool => {
 
 export const usePriceBnbBusd = (): BigNumber => {
   if (
-    window.ethereum.networkVersion === "80001" ||
-    window.ethereum.networkVersion === "5"
+    (window.ethereum && window.ethereum.networkVersion === "80001") ||
+    (window.ethereum && window.ethereum.networkVersion === "5")
   ) {
     return new BigNumber(10);
   }
@@ -179,8 +180,8 @@ export const usePriceCakeBusd = (): BigNumber => {
 
 export const usePriceEthBusd = (): BigNumber => {
   if (
-    window.ethereum.networkVersion === "80001" ||
-    window.ethereum.networkVersion === "5"
+    (window.ethereum && window.ethereum.networkVersion === "80001") ||
+    (window.ethereum && window.ethereum.networkVersion === "5")
   ) {
     return new BigNumber(10);
   }
@@ -194,8 +195,8 @@ export const usePriceEthBusd = (): BigNumber => {
 
 export const usePriceBtcBusd = (): BigNumber => {
   if (
-    window.ethereum.networkVersion === "80001" ||
-    window.ethereum.networkVersion === "5"
+    (window.ethereum && window.ethereum.networkVersion === "80001") ||
+    (window.ethereum && window.ethereum.networkVersion === "5")
   ) {
     return new BigNumber(10);
   }

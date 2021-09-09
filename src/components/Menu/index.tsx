@@ -131,8 +131,8 @@ const Menu = (props) => {
       links={config}
       socials={socials}
       currentNetwork={currentNetwork && currentNetwork.length > 0 ? currentNetwork[0] : {}}
-      showNetworkSwitch
-      activeChainId={window.ethereum.networkVersion || null}
+      showNetworkSwitch={!!window.ethereum}
+      activeChainId={window.ethereum && window.ethereum.networkVersion || null}
       changeNetwork={changeNetwork}
       networks={networks}
       profile={{

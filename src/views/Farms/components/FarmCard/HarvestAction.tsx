@@ -25,7 +25,7 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({
   if (rawEarningsBalance === 0) {
     harvestDisabled = true;
   }
-  if (window.ethereum.networkVersion === '1' || window.ethereum.networkVersion === '5') {
+  if (window.ethereum && window.ethereum.networkVersion === '1' || window.ethereum.networkVersion === '5') {
     harvestDisabled = true;
   }
   const displayBalance = rawEarningsBalance.toLocaleString();

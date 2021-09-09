@@ -256,7 +256,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
           toggleShowSteps(true);
           const Header = new Headers();
           let network = 'mainnet';
-          if (window.ethereum.networkVersion === '80001' || window.ethereum.networkVersion === '5') {
+          if (window.ethereum && window.ethereum.networkVersion === '80001' || window.ethereum.networkVersion === '5') {
             network = 'testnet';
           }
           Header.append("Content-Type", "application/x-www-form-urlencoded");
@@ -423,7 +423,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
             <Subtle> ( {totalValueOfUserFormated} )</Subtle>
           </Flex>
         </Flex>
-        {window.ethereum.networkVersion === '1' || window.ethereum.networkVersion === '5' ?
+        {window.ethereum && window.ethereum.networkVersion === '1' || window.ethereum.networkVersion === '5' ?
           <Flex justifyContent={crossChainTranscations && crossChainTranscations.length > 0 ? "space-between" : "center"} alignItems="center" mt="20px">
             <Button onClick={() => onPresentDeposit(true)} variant="primary" mr="15px">
               {TranslateString(999, "Deposit ETH")}

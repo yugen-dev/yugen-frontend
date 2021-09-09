@@ -656,6 +656,6 @@ const farms = {
   "137": farmsMainnet,
   "5": farmsTestnet,
 };
-export default window.ethereum.networkVersion
+export default window.ethereum && window.ethereum.networkVersion
   ? farms[window.ethereum.networkVersion]
   : farms["137"];

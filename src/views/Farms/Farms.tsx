@@ -172,7 +172,7 @@ const Farms: React.FC = () => {
     const getAllCrossChainTranscations = async (accountId) => {
       if (accountId) {
         let network = 'mainnet';
-        if (window.ethereum.networkVersion === '80001' || window.ethereum.networkVersion === '5') {
+        if (window.ethereum && window.ethereum.networkVersion === '80001' || window.ethereum && window.ethereum.networkVersion === '5') {
           network = 'testnet';
         }
         const Header = new Headers();

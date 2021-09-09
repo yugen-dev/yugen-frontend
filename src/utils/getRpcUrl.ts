@@ -9,9 +9,10 @@ export const nodes = {
 };
 
 const getNodeUrl = () => {
-  const nodesData = window.ethereum.networkVersion
-    ? nodes[window.ethereum.networkVersion]
-    : nodes["137"];
+  const nodesData =
+    window.ethereum && window.ethereum.networkVersion
+      ? nodes[window.ethereum.networkVersion]
+      : nodes["137"];
   const randomIndex = random(0, nodesData.length - 1);
   return nodesData[randomIndex];
 };
