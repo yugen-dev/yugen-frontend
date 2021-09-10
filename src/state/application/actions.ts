@@ -30,3 +30,4 @@ export const addPopup = createAction<{
   content: PopupContent;
 }>("app/addPopup");
 export const removePopup = createAction<{ key: string }>("app/removePopup");
+export const setChainId = createAction<{ chainId: string }>("app/setChainId");

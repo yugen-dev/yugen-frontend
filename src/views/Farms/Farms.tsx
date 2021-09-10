@@ -19,6 +19,7 @@ import useRefresh from "hooks/useRefresh";
 import { fetchFarmUserDataAsync } from "state/actions";
 import { QuoteToken } from "config/constants/types";
 import useI18n from "hooks/useI18n";
+import { useChainId } from 'state/application/hooks'
 import { getBalanceNumber } from "utils/formatBalance";
 import { orderBy } from "lodash";
 import cntMascot from "images/Cryption Network Mascot Farming.png";
@@ -159,7 +160,7 @@ const Farms: React.FC = () => {
   const { account } = useWeb3React("web3");
   const [sortOption, setSortOption] = useState("hot");
   const [crossChainData, setCrossChainData] = useState([]);
-
+  const chainId = useChainId().toString();
   const dispatch = useDispatch();
   const { fastRefresh } = useRefresh();
 
@@ -172,7 +173,7 @@ const Farms: React.FC = () => {
     const getAllCrossChainTranscations = async (accountId) => {
       if (accountId) {
         let network = 'mainnet';
-        if (window && window.ethereum && window.ethereum.networkVersion === '80001' || window && window.ethereum && window.ethereum.networkVersion === '5') {
+        if (chainId === '80001' || chainId === '5') {
           network = 'testnet';
         }
         const Header = new Headers();
@@ -197,7 +198,7 @@ const Farms: React.FC = () => {
       getAllCrossChainTranscations(account)
     }, 5000);
     return () => clearInterval(interval);
-  }, [account]);
+  }, [account, chainId]);
   const [stackedOnly, setStackedOnly] = useState(false);
 
   const activeFarms = farmsLP.filter((farm) => farm.multiplier !== "0X");

@@ -7,6 +7,7 @@ import {
   toggleWalletModal,
   toggleSettingsMenu,
   updateBlockNumber,
+  setChainId,
 } from "./actions";
 
 type PopupList = Array<{
@@ -20,12 +21,14 @@ export interface ApplicationState {
   blockNumber: { [chainId: number]: number };
   popupList: PopupList;
   walletModalOpen: boolean;
+  chainId?: number | string | null;
   settingsMenuOpen: boolean;
 }
 
 const initialState: ApplicationState = {
   blockNumber: {},
   popupList: [],
+  chainId: 137,
   walletModalOpen: false,
   settingsMenuOpen: false,
 };
@@ -72,5 +75,8 @@ export default createReducer(initialState, (builder) =>
           p.show = false;
         }
       });
+    })
+    .addCase(setChainId, (state, { payload: { chainId } }) => {
+      state.chainId = chainId;
     })
 );

@@ -28,6 +28,7 @@ import {
   getUnivesalOneSidedContract,
   getL2IntermediatorContract,
 } from "utils/contractHelpers";
+import { useChainId } from "state/application/hooks";
 import polydexMigrator from "config/abi/polydexMigrator.json";
 import ENS_ABI from "../constants/abis/ens-registrar.json";
 import ENS_PUBLIC_RESOLVER_ABI from "../constants/abis/ens-public-resolver.json";
@@ -239,10 +240,13 @@ export const useL2Intermediator = () => {
   // const web3 = useWeb3();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   let nodeRpc = process.env.REACT_APP_WEBSOCKET_MAIN_NODE_MATIC;
-  if (
-    (window && window.ethereum && window.ethereum.networkVersion === "80001") ||
-    (window && window.ethereum && window.ethereum.networkVersion === "5")
-  ) {
+  let chainId = useChainId() || "137";
+  if (window && window.ethereum) {
+    chainId = window.ethereum.networkVersion;
+  } else if (localStorage && localStorage.getItem("chainId")) {
+    chainId = localStorage.getItem("chainId");
+  }
+  if (chainId === "80001" || chainId === "5") {
     nodeRpc = process.env.REACT_APP_WEBSOCKET_TEST_NODE_MATIC;
   }
   const web3 = new Web3(nodeRpc);

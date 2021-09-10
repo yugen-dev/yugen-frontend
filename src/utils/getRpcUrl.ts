@@ -9,10 +9,13 @@ export const nodes = {
 };
 
 const getNodeUrl = () => {
-  const nodesData =
-    window && window.ethereum && window.ethereum.networkVersion
-      ? nodes[window.ethereum.networkVersion]
-      : nodes["137"];
+  let chainId = "137";
+  if (window && window.ethereum) {
+    chainId = process.env.REACT_APP_CHAIN_ID;
+  } else if (localStorage && localStorage.getItem("chainId")) {
+    chainId = localStorage.getItem("chainId");
+  }
+  const nodesData = nodes[chainId];
   const randomIndex = random(0, nodesData.length - 1);
   return nodesData[randomIndex];
 };

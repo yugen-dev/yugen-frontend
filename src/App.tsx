@@ -2,10 +2,12 @@ import React, { useEffect, lazy } from "react";
 import { Router, Redirect, Route, Switch } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
 import { ResetCSS } from "cryption-uikit";
+import Web3 from "web3";
 import BigNumber from "bignumber.js";
 import useEagerConnect from "hooks/useEagerConnect";
 import { useFetchPriceList, useFetchPublicData } from "state/hooks";
 import { useApollo } from "apollo/index";
+import { useSetChainId } from "state/application/hooks";
 import GlobalStyle from "./style/Global";
 import Menu from "./components/Menu";
 import {
@@ -50,6 +52,7 @@ BigNumber.config({
 });
 
 const App: React.FC = () => {
+  const setChainId = useSetChainId();
   // Monkey patch warn() because of web3 flood
   // To be removed when web3 1.3.5 is released
   useEffect(() => {
@@ -64,7 +67,16 @@ const App: React.FC = () => {
         // window.location.reload();
       });
     }
-  }, []);
+    const getChainID = async () => {
+      const web3 = new Web3(window && window.ethereum ? window.ethereum : process.env.REACT_APP_NETWORK_URL)
+      const chianId = await web3.eth.net.getId();
+      setChainId(chianId)
+      if (localStorage) {
+        localStorage.setItem('chainId', chianId.toString());
+      }
+    }
+    getChainID()
+  }, [setChainId]);
 
   useEagerConnect();
   useFetchPublicData();

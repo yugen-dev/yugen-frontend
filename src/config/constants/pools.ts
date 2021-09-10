@@ -688,6 +688,11 @@ const pools = {
   "137": poolsMainnet,
   "5": poolsTestNet,
 };
-export default window && window.ethereum && window.ethereum.networkVersion
-  ? pools[window.ethereum.networkVersion]
-  : pools["137"];
+let chainId =
+  window && window.ethereum
+    ? window.ethereum.networkVersion
+    : process.env.REACT_APP_CHAIN_ID;
+if (localStorage && localStorage.getItem("chainId")) {
+  chainId = localStorage.getItem("chainId");
+}
+export default pools[chainId || "137"];

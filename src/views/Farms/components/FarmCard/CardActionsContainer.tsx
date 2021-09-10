@@ -8,6 +8,7 @@ import { provider as ProviderType } from "web3-core";
 import Countdown from "react-countdown";
 import HistoryIcon from '@material-ui/icons/History';
 import { getAddress, getFarmAddress } from "utils/addressHelpers";
+import { useChainId } from 'state/application/hooks'
 import { Flex, Text, Radio, Heading, Button } from "cryption-uikit";
 import { Farm } from "state/types";
 import { getBalanceNumber } from "utils/formatBalance";
@@ -92,6 +93,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
   const [showDepositModal, onPresentDeposit] = useState(false);
   const [showTranscationsModal, toggleTranscationsModal] = useState(false);
   const [stakeEthProcessEth, setStakeEthProcessEth] = useState(0);
+  const chainId = useChainId().toString();
   // console.log('farm details', crossChainTranscations);
   const { pid, lpAddresses, singleSidedToken, singleSidedToToken } =
     useFarmFromSymbol(farm.lpSymbol);
@@ -256,7 +258,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
           toggleShowSteps(true);
           const Header = new Headers();
           let network = 'mainnet';
-          if (window && window.ethereum && window.ethereum.networkVersion === '80001' || window && window.ethereum && window.ethereum.networkVersion === '5') {
+          if (chainId === '80001' || chainId === '5') {
             network = 'testnet';
           }
           Header.append("Content-Type", "application/x-www-form-urlencoded");
@@ -423,7 +425,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
             <Subtle> ( {totalValueOfUserFormated} )</Subtle>
           </Flex>
         </Flex>
-        {window && window.ethereum && window.ethereum.networkVersion === '1' || window && window.ethereum && window.ethereum.networkVersion === '5' ?
+        {chainId === '1' || chainId === '5' ?
           <Flex justifyContent={crossChainTranscations && crossChainTranscations.length > 0 ? "space-between" : "center"} alignItems="center" mt="20px">
             <Button onClick={() => onPresentDeposit(true)} variant="primary" mr="15px">
               {TranslateString(999, "Deposit ETH")}

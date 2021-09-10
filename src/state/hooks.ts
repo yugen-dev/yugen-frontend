@@ -42,10 +42,12 @@ import { fetchPrices } from "./prices";
 
 const ZERO = new BigNumber(0);
 
-const chainID =
-  window && window.ethereum && window.ethereum.networkVersion
-    ? window.ethereum.networkVersion
-    : process.env.REACT_APP_CHAIN_ID;
+let chainID = "137";
+if (window && window.ethereum) {
+  chainID = window.ethereum.networkVersion;
+} else if (localStorage && localStorage.getItem("chainId")) {
+  chainID = localStorage.getItem("chainId");
+}
 export const useFetchPublicData = () => {
   const dispatch = useDispatch();
   const { slowRefresh } = useRefresh();
@@ -152,10 +154,7 @@ export const usePoolFromPid = (sousId): Pool => {
 // Prices
 
 export const usePriceBnbBusd = (): BigNumber => {
-  if (
-    (window && window.ethereum && window.ethereum.networkVersion === "80001") ||
-    (window && window.ethereum && window.ethereum.networkVersion === "5")
-  ) {
+  if (chainID === "80001" || chainID === "5") {
     return new BigNumber(10);
   }
   const pid = 3; // USD-MATIC LP, BUSD-BNB LP
@@ -179,10 +178,7 @@ export const usePriceCakeBusd = (): BigNumber => {
 };
 
 export const usePriceEthBusd = (): BigNumber => {
-  if (
-    (window && window.ethereum && window.ethereum.networkVersion === "80001") ||
-    (window && window.ethereum && window.ethereum.networkVersion === "5")
-  ) {
+  if (chainID === "80001" || chainID === "5") {
     return new BigNumber(10);
   }
   const pid = 8; // ETH-MATIC LP ,ETH-BNB LP
@@ -194,10 +190,7 @@ export const usePriceEthBusd = (): BigNumber => {
 };
 
 export const usePriceBtcBusd = (): BigNumber => {
-  if (
-    (window && window.ethereum && window.ethereum.networkVersion === "80001") ||
-    (window && window.ethereum && window.ethereum.networkVersion === "5")
-  ) {
+  if (chainID === "80001" || chainID === "5") {
     return new BigNumber(10);
   }
   const pid = 5; // ETH-MATIC LP ,ETH-BNB LP

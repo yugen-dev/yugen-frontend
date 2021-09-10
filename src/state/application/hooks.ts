@@ -7,6 +7,7 @@ import {
   removePopup,
   toggleWalletModal,
   toggleSettingsMenu,
+  setChainId,
 } from "./actions";
 import { AppState } from "../index";
 
@@ -63,4 +64,18 @@ export function useRemovePopup(): (key: string) => void {
 export function useActivePopups(): AppState["application"]["popupList"] {
   const list = useSelector((state: AppState) => state.application.popupList);
   return useMemo(() => list.filter((item) => item.show), [list]);
+}
+
+export function useSetChainId(): (chainId) => void {
+  const dispatch = useDispatch();
+  return useCallback(
+    (chainId) => {
+      dispatch(setChainId({ chainId }));
+    },
+    [dispatch]
+  );
+}
+
+export function useChainId(): AppState["application"]["chainId"] {
+  return useSelector((state: AppState) => state.application.chainId);
 }

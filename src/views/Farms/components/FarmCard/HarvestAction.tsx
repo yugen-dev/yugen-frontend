@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import BigNumber from "bignumber.js";
 import { AutoRenewIcon, Button, Flex, Heading } from "cryption-uikit";
 import useI18n from "hooks/useI18n";
+import { useChainId } from 'state/application/hooks'
 import { useHarvest } from "hooks/useHarvest";
 import { getBalanceNumber } from "utils/formatBalance";
 
@@ -20,11 +21,12 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({
   const [pendingTx, setPendingTx] = useState(false);
   const { onReward } = useHarvest(pid);
   const rawEarningsBalance = getBalanceNumber(earnings);
+  const chainId = useChainId().toString();
   let harvestDisabled = false;
   if (rawEarningsBalance === 0) {
     harvestDisabled = true;
   }
-  if (window && window.ethereum && window.ethereum && window.ethereum.networkVersion === '1' || window && window.ethereum && window.ethereum && window.ethereum.networkVersion === '5') {
+  if (chainId === '1' || chainId === '5') {
     harvestDisabled = true;
   }
   const displayBalance = rawEarningsBalance.toLocaleString();

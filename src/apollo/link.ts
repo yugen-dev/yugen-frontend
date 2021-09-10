@@ -32,10 +32,13 @@ const graphLinks = {
 //
 //   }),
 // ]);
-const finalLinks =
-  window && window.ethereum && window.ethereum.networkVersion
-    ? graphLinks[window.ethereum.networkVersion]
-    : graphLinks["137"];
+let chainId = "137";
+if (window && window.ethereum) {
+  chainId = process.env.REACT_APP_CHAIN_ID;
+} else if (localStorage && localStorage.getItem("chainId")) {
+  chainId = localStorage.getItem("chainId");
+}
+const finalLinks = graphLinks[chainId];
 export const cntStaker = from([
   new RetryLink(),
   new HttpLink({

@@ -3,10 +3,13 @@ import { Address } from "config/constants/types";
 import { poolsConfig } from "config/constants";
 
 export const getAddress = (address: Address): string => {
-  const chainId =
+  let chainId =
     window && window.ethereum
       ? window.ethereum.networkVersion
       : process.env.REACT_APP_CHAIN_ID;
+  if (localStorage && localStorage.getItem("chainId")) {
+    chainId = localStorage.getItem("chainId");
+  }
   return address[chainId || "137"];
 };
 

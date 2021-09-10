@@ -656,6 +656,11 @@ const farms = {
   "137": farmsMainnet,
   "5": farmsTestnet,
 };
-export default window && window.ethereum && window.ethereum.networkVersion
-  ? farms[window.ethereum.networkVersion]
-  : farms["137"];
+let chainId =
+  window && window.ethereum
+    ? window.ethereum.networkVersion
+    : process.env.REACT_APP_CHAIN_ID;
+if (localStorage && localStorage.getItem("chainId")) {
+  chainId = localStorage.getItem("chainId");
+}
+export default farms[chainId || "137"];

@@ -22,6 +22,7 @@ import Grid from "@material-ui/core/Grid";
 import { useQuery } from "@apollo/client";
 import { dayDatasQuery, cntStakerQuery } from "apollo/queries";
 import { useApproveStaking } from "hooks/useApprove";
+import { useChainId } from 'state/application/hooks'
 import contracts from "config/constants/contracts";
 import { useProfile, useToast } from "state/hooks";
 import { enter, enterGasless, leave, leaveGasless } from "utils/callHelpers";
@@ -154,7 +155,7 @@ const CNTStaker = () => {
   const [tokenBalance, setTokenBalance] = React.useState(new BigNumber(0));
   const [xCNTBalance, setxCNTBalance] = React.useState(new BigNumber(0));
   const [CntAllowance, setCntAllowance] = React.useState(new BigNumber(0));
-  const CHAINID = window && window.ethereum && window.ethereum.networkVersion ? window.ethereum.networkVersion : process.env.REACT_APP_CHAIN_ID;
+  const CHAINID = useChainId().toString();
   // const { onEnter } = useEnter();
   const [requestedApproval, setRequestedApproval] = useState(false);
   const [tokenAmount, handleTokenAmount] = useState("");

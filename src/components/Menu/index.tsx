@@ -7,6 +7,7 @@ import {
 } from "cryption-uikit";
 import { useLocation } from "react-router-dom";
 import { useWeb3React } from "@web3-react/core";
+import { useChainId } from "state/application/hooks";
 import { useDispatch } from "react-redux";
 import { allLanguages } from "config/localisation/languageCodes";
 import { LanguageContext } from "contexts/Localisation/languageContext";
@@ -95,10 +96,8 @@ const Menu = (props) => {
       // handle other "switch" errors
     }
   }
-  let currentNetwork;
-  if (window && window.ethereum) {
-    currentNetwork = networks.filter(eachNetwork => eachNetwork.chainId === window.ethereum.networkVersion)
-  }
+  const chainId = useChainId().toString();
+  const currentNetwork = networks.filter(eachNetwork => eachNetwork.chainId === chainId)
   return (
     <UikitMenu
       account={accountId}
@@ -132,7 +131,7 @@ const Menu = (props) => {
       socials={socials}
       currentNetwork={currentNetwork && currentNetwork.length > 0 ? currentNetwork[0] : {}}
       showNetworkSwitch={!!(window && window.ethereum)}
-      activeChainId={window && window.ethereum && window.ethereum.networkVersion || null}
+      activeChainId={chainId}
       changeNetwork={changeNetwork}
       networks={networks}
       profile={{
