@@ -1,4 +1,4 @@
-import { ChainId } from "@cryption-network/polydex-sdk";
+// import { ChainId } from "@cryption-network/polydex-sdk";
 import random from "lodash/random";
 
 // Array of available nodes to connect to
