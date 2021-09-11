@@ -22,7 +22,7 @@ export const setupNetwork = async () => {
               symbol: "MATIC",
               decimals: 18,
             },
-            rpcUrls: nodes,
+            rpcUrls: nodes[chainId],
             blockExplorerUrls: ["https://polygonscan.com/"],
           },
         ],

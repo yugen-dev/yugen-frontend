@@ -663,4 +663,7 @@ let chainId =
 if (localStorage && localStorage.getItem("chainId")) {
   chainId = localStorage.getItem("chainId");
 }
-export default farms[chainId || "137"];
+
+export default farms[chainId || "137"]
+  ? farms[chainId || "137"]
+  : farms[process.env.REACT_APP_CHAIN_ID];

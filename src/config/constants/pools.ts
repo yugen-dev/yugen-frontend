@@ -695,4 +695,7 @@ let chainId =
 if (localStorage && localStorage.getItem("chainId")) {
   chainId = localStorage.getItem("chainId");
 }
-export default pools[chainId || "137"];
+
+export default pools[chainId || "137"]
+  ? pools[chainId || "137"]
+  : pools[process.env.REACT_APP_CHAIN_ID];

@@ -10,7 +10,9 @@ const rpcUrl = getNodeUrl();
 
 // eslint-disable-next-line func-names
 export default function () {
-  const injected = new InjectedConnector({ supportedChainIds: SUPPORTED_NETWORK_IDS });
+  const injected = new InjectedConnector({
+    supportedChainIds: SUPPORTED_NETWORK_IDS,
+  });
 
   const walletConnectConnector = new WalletConnectConnector({
     rpc: { [SUPPORTED_NETWORK_IDS[0]]: rpcUrl },

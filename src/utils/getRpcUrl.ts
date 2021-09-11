@@ -1,3 +1,4 @@
+import { ChainId } from "@cryption-network/polydex-sdk";
 import random from "lodash/random";
 
 // Array of available nodes to connect to
@@ -14,6 +15,9 @@ const getNodeUrl = () => {
     chainId = process.env.REACT_APP_CHAIN_ID;
   } else if (localStorage && localStorage.getItem("chainId")) {
     chainId = localStorage.getItem("chainId");
+  }
+  if (nodes[chainId] === null || nodes[chainId] === undefined) {
+    chainId = process.env.REACT_APP_CHAIN_ID;
   }
   const nodesData = nodes[chainId];
   const randomIndex = random(0, nodesData.length - 1);
