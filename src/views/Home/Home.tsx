@@ -9,9 +9,9 @@ import { useQuery } from "@apollo/client";
 import Container from "@material-ui/core/Container";
 import useI18n from "hooks/useI18n";
 import useWeb3 from "hooks/useWeb3";
-import getCntPrice from "utils/getCntPrice";
+// import getCntPrice from "utils/getCntPrice";
 import useInterval from "hooks/useInterval";
-import { dayDatasQuery, burnQuery, cntStakerQuery } from "apollo/queries";
+import { dayDatasQuery, burnQuery, cntStakerQuery, stakerAllocatedQquery } from "apollo/queries";
 import {
   CNT_CIRCULATING_SUPPLY_LINK,
   BLOCKS_PER_YEAR,
@@ -61,15 +61,15 @@ const Home: React.FC = () => {
   const [maxFarmsAPY, setMaxFarmsAPY] = useState("0");
   const [maxPoolsAPY, setMaxPoolsAPY] = useState("0");
   const [ciculatingSupply, setciculatingSupply] = useState(0);
-  const [valueOfCNTinUSD, setCNTVal] = useState(0);
+  // const [valueOfCNTinUSD, setCNTVal] = useState(0);
   const [totalSupplyVal, setTotalSupply] = useState(0);
-  useEffect(() => {
-    const getPrice = async () => {
-      const apiResp = await getCntPrice();
-      setCNTVal(apiResp);
-    };
-    getPrice();
-  }, []);
+  // useEffect(() => {
+  //   const getPrice = async () => {
+  //     const apiResp = await getCntPrice();
+  //     setCNTVal(apiResp);
+  //   };
+  //   getPrice();
+  // }, []);
   const getCirculatingSupply = async () => {
     try {
       const res = await fetch(CNT_CIRCULATING_SUPPLY_LINK);
@@ -173,7 +173,7 @@ const Home: React.FC = () => {
     (farmsToDisplay) => {
       const cakePriceVsBNB = new BigNumber(
         farmsLP.find((farm) => farm.pid === CAKE_POOL_PID)?.tokenPriceVsQuote ||
-          0
+        0
       );
 
       farmsToDisplay.map((farm) => {
@@ -245,6 +245,11 @@ const Home: React.FC = () => {
       clientName: "cntstaker",
     },
   });
+  const getStakerallocated = useQuery(stakerAllocatedQquery, {
+    context: {
+      clientName: "convertor",
+    },
+  })
   const burnData = useQuery(burnQuery, {
     context: {
       clientName: "burn",
@@ -254,17 +259,10 @@ const Home: React.FC = () => {
     getCNTStakerInfo &&
     getCNTStakerInfo.data &&
     getCNTStakerInfo.data.cntstaker &&
-    dayDatas &&
-    dayDatas.data &&
-    dayDatas.data.dayDatas &&
-    cakePriceUsd
+    getStakerallocated && getStakerallocated.data && getStakerallocated.data.weekDatas
   ) {
     cntStakingRatio =
-      (((parseFloat(dayDatas.data.dayDatas[1].volumeUSD) * 0.0005 * 0.35) /
-        parseFloat(getCNTStakerInfo.data.cntstaker.totalSupply)) *
-        365) /
-      (parseFloat(getCNTStakerInfo.data.cntstaker.ratio) *
-        parseFloat(valueOfCNTinUSD.toString()));
+      ((((parseFloat(getStakerallocated.data.weekDatas[0].stakersAllocated) / 10e18) * 0.35) / (parseFloat(getCNTStakerInfo.data.cntstaker.totalSupply) * parseFloat(getCNTStakerInfo.data.cntstaker.ratio))) * 365) * 100;
   }
   if (
     burnData &&
@@ -399,9 +397,9 @@ const Home: React.FC = () => {
             </Grid>
             <Grid item xs={12} md={6} lg={6} xl={6}>
               <EarnAssetCard
-                topTitle="Earn"
+                topTitle="Last Week's APR"
                 description={`${(
-                  Number(cntStakingRatio.toFixed(2)) * 100
+                  Number(cntStakingRatio.toFixed(2))
                 ).toFixed(2)} %`}
                 bottomTitle="on staking CNT"
                 descriptionColor="#29bb89"

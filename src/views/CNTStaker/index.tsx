@@ -20,14 +20,14 @@ import {
 } from "cryption-uikit";
 import Grid from "@material-ui/core/Grid";
 import { useQuery } from "@apollo/client";
-import { dayDatasQuery, cntStakerQuery } from "apollo/queries";
+import { cntStakerQuery, stakerAllocatedQquery } from "apollo/queries";
 import { useApproveStaking } from "hooks/useApprove";
 import { useChainId } from 'state/application/hooks'
 import contracts from "config/constants/contracts";
 import { useProfile, useToast } from "state/hooks";
 import { enter, enterGasless, leave, leaveGasless } from "utils/callHelpers";
 import UnlockButton from "components/UnlockButton";
-import getCntPrice from "utils/getCntPrice";
+// import getCntPrice from "utils/getCntPrice";
 import useWeb3 from "hooks/useWeb3";
 import cntMascot from "images/CRYPTION NETWORK-Mascots-10.png";
 import {
@@ -148,7 +148,7 @@ const StyledOl = styled.ol`
 `;
 const CNTStaker = () => {
   // const tokenName = "CNT";
-  const [valueOfCNTinUSD, setCNTVal] = useState(0);
+  // const [valueOfCNTinUSD, setCNTVal] = useState(0);
   const xCNTLogo = "https://i.ibb.co/zfhRMxc/xCNT.png";
   const CNTLogo = "https://i.ibb.co/8D5r4Hp/CNT.png";
   const [index, setIndex] = React.useState(0);
@@ -228,24 +228,24 @@ const CNTStaker = () => {
     }
   }, [account, setTotalSupply]);
 
-  useEffect(() => {
-    const getPrice = async () => {
-      const apiResp = await getCntPrice();
-      setCNTVal(apiResp);
-    };
-    getPrice();
-  }, []);
+  // useEffect(() => {
+  //   const getPrice = async () => {
+  //     const apiResp = await getCntPrice();
+  //     setCNTVal(apiResp);
+  //   };
+  //   getPrice();
+  // }, []);
   useEffect(() => {
     if (account) {
       getTokenBalances();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account]);
-  const dayDatas = useQuery(dayDatasQuery, {
+  const getStakerallocated = useQuery(stakerAllocatedQquery, {
     context: {
-      clientName: "exchange",
+      clientName: "convertor",
     },
-  });
+  })
   const getCNTStakerInfo = useQuery(cntStakerQuery, {
     context: {
       clientName: "cntstaker",
@@ -255,17 +255,10 @@ const CNTStaker = () => {
     getCNTStakerInfo &&
     getCNTStakerInfo.data &&
     getCNTStakerInfo.data.cntstaker &&
-    dayDatas &&
-    dayDatas.data &&
-    dayDatas.data.dayDatas &&
-    valueOfCNTinUSD
+    getStakerallocated && getStakerallocated.data && getStakerallocated.data.weekDatas
   ) {
     cntStakingRatio =
-      (((parseFloat(dayDatas.data.dayDatas[1].volumeUSD) * 0.0005 * 0.35) /
-        parseFloat(getCNTStakerInfo.data.cntstaker.totalSupply)) *
-        365) /
-      (parseFloat(getCNTStakerInfo.data.cntstaker.ratio) *
-        parseFloat(valueOfCNTinUSD.toString()));
+      ((((parseFloat(getStakerallocated.data.weekDatas[0].stakersAllocated) / 10e18) * 0.35) / (parseFloat(getCNTStakerInfo.data.cntstaker.totalSupply) * parseFloat(getCNTStakerInfo.data.cntstaker.ratio))) * 365) * 100;
   }
   const onChange = (event) => {
     handleTokenAmount(event.target.value);
@@ -587,14 +580,14 @@ const CNTStaker = () => {
                     style={{ whiteSpace: "nowrap" }}
                     fontSize="24px"
                   >
-                    {parseFloat(cntStakingRatio.toFixed(2)) * 100}%
+                    {parseFloat(cntStakingRatio.toFixed(2))} %
                   </Text>
                   <Text
                     color="#9d9fa8"
                     style={{ whiteSpace: "nowrap" }}
                     fontSize="16px"
                   >
-                    Yesterday's APR
+                    Last Week's APR
                   </Text>
                 </div>
               </Flex>

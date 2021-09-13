@@ -8,6 +8,8 @@ const testNetLink = {
   block: "https://api.thegraph.com/subgraphs/name/samarth30/mumbai",
   lockup: "https://api.thegraph.com/subgraphs/name/matthewlilley/lockup",
   burn: "https://api.thegraph.com/subgraphs/name/gulshanvas/cntsubgraph",
+  convertor:
+    "https://api.thegraph.com/subgraphs/name/gulshancryption/converter",
 };
 const maintNetLink = {
   cntStaker:
@@ -18,6 +20,8 @@ const maintNetLink = {
   block: "https://api.thegraph.com/subgraphs/name/sameepsi/maticblocks",
   lockup: "https://api.thegraph.com/subgraphs/name/matthewlilley/lockup",
   burn: "https://api.thegraph.com/subgraphs/name/gulshancryption/cnt",
+  convertor:
+    "https://api.thegraph.com/subgraphs/name/gulshancryption/converter",
 };
 const graphLinks = {
   "80001": testNetLink,
@@ -79,6 +83,12 @@ export const burn = from([
     uri: finalLinks.burn,
   }),
 ]);
+export const convertor = from([
+  new RetryLink(),
+  new HttpLink({
+    uri: finalLinks.convertor,
+  }),
+]);
 
 export default split(
   (operation) => {
@@ -105,9 +115,15 @@ export default split(
             return operation.getContext().clientName === "burn";
           },
           burn,
-          split((operation) => {
-            return operation.getContext().clientName === "exchange";
-          }, exchange)
+          split(
+            (operation) => {
+              return operation.getContext().clientName === "convertor";
+            },
+            convertor,
+            split((operation) => {
+              return operation.getContext().clientName === "exchange";
+            }, exchange)
+          )
         )
       )
     )

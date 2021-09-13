@@ -107,7 +107,7 @@ const poolsMainnet: PoolConfig[] = [
     harvest: true,
     tokenPerBlock: "0.0046491228",
     sortOrder: 999,
-    isFinished: false,
+    isFinished: true,
     tokenDecimals: 18,
     metamaskImg:
       "https://assets.coingecko.com/coins/images/17173/small/pear200.png?1626793002",

@@ -69,3 +69,12 @@ export const cntStakerQuery = gql`
     }
   }
 `;
+
+export const stakerAllocatedQquery = gql`
+  query weekDatas($first: Int! = 1, $orderBy: String! = "blockNumber") {
+    weekDatas(first: $first, orderBy: $orderBy, orderDirection: desc) {
+      blockNumber
+      stakersAllocated
+    }
+  }
+`;
