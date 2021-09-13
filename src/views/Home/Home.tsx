@@ -400,7 +400,9 @@ const Home: React.FC = () => {
             <Grid item xs={12} md={6} lg={6} xl={6}>
               <EarnAssetCard
                 topTitle="Earn"
-                description={`${parseFloat(cntStakingRatio.toFixed(2)) * 100}%`}
+                description={`${(
+                  Number(cntStakingRatio.toFixed(2)) * 100
+                ).toFixed(2)} %`}
                 bottomTitle="on staking CNT"
                 descriptionColor="#29bb89"
                 redirectLink="/cntstaker"
