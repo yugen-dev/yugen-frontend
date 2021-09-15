@@ -9,26 +9,12 @@ const config: MenuEntry[] = [
   {
     label: "Exchange",
     icon: "TradeIcon",
-    href: "/swap",
+    href: "https://cryption.network/",
   },
   {
     label: "Farms",
     icon: "FarmIcon",
-    items: [
-      {
-        label: "Core",
-        href: "/farms",
-      },
-      {
-        label: "Multi Reward",
-        href: "/multirewards",
-      },
-    ],
-  },
-  {
-    label: "Pools",
-    icon: "PoolIcon",
-    href: "/pools",
+    href: "/farms",
   },
   {
     label: "CNT Staker",
@@ -36,81 +22,9 @@ const config: MenuEntry[] = [
     href: "/cntstaker",
   },
   {
-    label: "Migrate",
-    icon: "NftIcon",
-    href: "/migrate",
-  },
-  {
-    label: "Lottery",
-    icon: "TicketIcon",
-    href: "/lottery",
-  },
-  {
     label: "Rewards Manager",
     icon: "RewardsManagerIcon",
     href: "/rewardsmanager",
-  },
-  // {
-  //   label: 'Teams & Profile',
-  //   icon: 'GroupsIcon',
-  //   calloutClass: 'rainbow',
-  //   items: [
-  //     {
-  //       label: 'Leaderboard',
-  //       href: '/teams',
-  //     },
-  //     {
-  //       label: 'Task Center',
-  //       href: '/profile/tasks',
-  //     },
-  //     {
-  //       label: 'Your Profile',
-  //       href: '/profile',
-  //     },
-  //   ],
-  // },
-  // {
-  //   label: "Analytics (Coming Soon)",
-  //   icon: "InfoIcon",
-  //   items: [],
-  // },
-  // {
-  //   label: "IFO",
-  //   icon: "IfoIcon",
-  //   href: "/ifo",
-  // },
-  {
-    label: "Analytics",
-    icon: "InfoIcon",
-    href: "https://analytics.polydex.org/",
-  },
-  {
-    label: "Docs",
-    icon: "DocsIcon",
-    href: "https://docs.cryption.network/",
-  },
-  {
-    label: "More",
-    icon: "MoreIcon",
-    items: [
-      {
-        label: "Audit Report",
-        href: "https://www.certik.org/projects/cryptionnetwork",
-      },
-      {
-        label: "Github",
-        href: "https://github.com/cryption-network",
-      },
-      // hiding bcoz Menu bar will highlight if pointed to home otherwise
-      {
-        label: "Docs",
-        href: "https://docs.cryption.network/",
-      },
-      {
-        label: "Blog",
-        href: "https://blog.cryption.network/",
-      },
-    ],
   },
 ];
 
