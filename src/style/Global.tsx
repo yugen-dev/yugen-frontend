@@ -1,7 +1,8 @@
 import { createGlobalStyle } from "styled-components";
 // eslint-disable-next-line import/no-unresolved
 import { PancakeTheme } from "cryption-uikit/dist/theme";
-import WavehausOTF from "../fonts/wavehaus/Wavehaus-66Book.otf";
+import DirtyBg from "images/dirty-white-grunge-texture.png";
+import KoreanTTF from "../fonts/Korean-Calligraphy.ttf";
 
 declare module "styled-components" {
   /* eslint-disable @typescript-eslint/no-empty-interface */
@@ -10,15 +11,15 @@ declare module "styled-components" {
 
 const GlobalStyle = createGlobalStyle`
   @font-face{
-    font-family: 'Wavehaus';
-    src: url(${WavehausOTF}) format("opentype");
+    font-family: 'Korean';
+    src: url(${KoreanTTF}) format("opentype");
   }
   * {
-    font-family: 'Wavehaus';
+    font-family: 'Korean';
   }
   body {
-    font-family: 'Wavehaus';
-    background-color: #100C18;
+    font-family: 'Korean';
+    background-image: url(${DirtyBg});
 
     img {
       height: auto;
