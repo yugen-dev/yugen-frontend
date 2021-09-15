@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ThemeProvider as SCThemeProvider } from "styled-components";
-import { dark } from "cryption-uikit";
+import { light } from "cryption-uikit";
 
 const CACHE_KEY = "IS_DARK";
 
@@ -25,7 +25,9 @@ const ThemeContextProvider = ({ children }) => {
 
   return (
     <ThemeContext.Provider value={{ isDark, toggleTheme }}>
-      <SCThemeProvider theme={isDark ? dark : dark}>{children}</SCThemeProvider>
+      <SCThemeProvider theme={isDark ? light : light}>
+        {children}
+      </SCThemeProvider>
     </ThemeContext.Provider>
   );
 };
