@@ -33,7 +33,7 @@ const RainbowLight = keyframes`
 `;
 
 const StyledCardAccent = styled.div`
-  background: linear-gradient(
+  /* background: linear-gradient(
     45deg,
     rgba(42, 118, 235, 0.1) 0%,
     rgba(42, 118, 235, 0.2) 10%,
@@ -46,7 +46,7 @@ const StyledCardAccent = styled.div`
     rgba(151, 2, 255, 0.6) 80%,
     rgba(151, 2, 255, 0.4) 90%,
     rgba(151, 2, 255, 0.2) 100%
-  );
+  ); */
   background-size: 300% 300%;
   animation: ${RainbowLight} 2s linear infinite;
   border-radius: 0.625rem !important;
@@ -62,9 +62,9 @@ const StyledCardAccent = styled.div`
 
 const FCard = styled.div`
   align-self: baseline;
-  background: #1e202a;
+  background: #ffffff;
   border-radius: 0.625rem !important;
-  box-shadow: 1px 2px 4px 3px rgba(0, 0, 0, 0.16);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -98,7 +98,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
   ethPrice,
   btcPrice,
   account,
-  crossChainTranscations
+  crossChainTranscations,
 }) => {
   const TranslateString = useI18n();
 
@@ -149,8 +149,8 @@ const FarmCard: React.FC<FarmCardProps> = ({
 
   const totalValueFormated = totalValue
     ? `$${Number(totalValue).toLocaleString(undefined, {
-      maximumFractionDigits: 2,
-    })}`
+        maximumFractionDigits: 2,
+      })}`
     : "-";
 
   const lpLabel =
@@ -254,8 +254,8 @@ const FarmCard: React.FC<FarmCardProps> = ({
               ? `${poolHarvestIntervalinHours.toString()} Hours`
               : ""}
             {!isDaysGreater &&
-              !isHoursGreater &&
-              poolHarvestIntervalinMinutes > 0
+            !isHoursGreater &&
+            poolHarvestIntervalinMinutes > 0
               ? `${poolHarvestIntervalinMinutes.toString()} Minutes`
               : ""}
           </Text>
@@ -276,8 +276,9 @@ const FarmCard: React.FC<FarmCardProps> = ({
       <ExpandingWrapper expanded={showExpandableSection}>
         <DetailsSection
           removed={removed}
-          maticExplorerAddress={`https://polygonscan.com/address/${farm.lpAddresses[process.env.REACT_APP_CHAIN_ID]
-            }`}
+          maticExplorerAddress={`https://polygonscan.com/address/${
+            farm.lpAddresses[process.env.REACT_APP_CHAIN_ID]
+          }`}
           totalValueFormated={totalValueFormated}
           lpLabel={lpLabel}
           addLiquidityUrl={addLiquidityUrl}

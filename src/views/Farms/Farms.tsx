@@ -4,10 +4,20 @@ import { Route, useRouteMatch, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import BigNumber from "bignumber.js";
 import { useWeb3React } from "@web3-react/core";
-import { RowType, Toggle, Text, LinkExternal } from "cryption-uikit";
+import {
+  RowType,
+  Toggle,
+  Text,
+  Button,
+  ArrowForwardIcon,
+} from "cryption-uikit";
 import styled from "styled-components";
-import Grid from "@material-ui/core/Grid";
-import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CAKE_POOL_PID, CROSS_CHAIN_API_LINK } from "config";
+import {
+  BLOCKS_PER_YEAR,
+  CAKE_PER_BLOCK,
+  CAKE_POOL_PID,
+  CROSS_CHAIN_API_LINK,
+} from "config";
 import {
   useFarms,
   usePriceBnbBusd,
@@ -19,10 +29,9 @@ import useRefresh from "hooks/useRefresh";
 import { fetchFarmUserDataAsync } from "state/actions";
 import { QuoteToken } from "config/constants/types";
 import useI18n from "hooks/useI18n";
-import { useChainId } from 'state/application/hooks'
+import { useChainId } from "state/application/hooks";
 import { getBalanceNumber } from "utils/formatBalance";
 import { orderBy } from "lodash";
-import cntMascot from "images/Cryption Network Mascot Farming.png";
 import FarmCard, { FarmWithStakedValue } from "./components/FarmCard/FarmCard";
 import Table from "./components/FarmTable/FarmTable";
 import FarmTabButtons from "./components/FarmTabButtons";
@@ -137,13 +146,6 @@ const LabelWrapper = styled.div`
     margin-right: 15px;
   }
 `;
-const CNHeading = styled.div`
-  font-size: 45px;
-  font-weight: bold;
-  text-align: center;
-  color: white;
-  margin-bottom: 20px;
-`;
 
 const Farms: React.FC = () => {
   const { path } = useRouteMatch();
@@ -172,9 +174,9 @@ const Farms: React.FC = () => {
   useEffect(() => {
     const getAllCrossChainTranscations = async (accountId) => {
       if (accountId) {
-        let network = 'mainnet';
-        if (chainId === '80001' || chainId === '5') {
-          network = 'testnet';
+        let network = "mainnet";
+        if (chainId === "80001" || chainId === "5") {
+          network = "testnet";
         }
         const Header = new Headers();
         Header.append("Content-Type", "application/x-www-form-urlencoded");
@@ -182,20 +184,23 @@ const Farms: React.FC = () => {
         urlencoded.append("account", account.toLowerCase());
         urlencoded.append("network", network);
         const requestOptions = {
-          method: 'POST',
+          method: "POST",
           headers: Header,
           body: urlencoded,
         };
-        const getAllTrx = await fetch(`${CROSS_CHAIN_API_LINK}/getAllTranscations`, requestOptions)
+        const getAllTrx = await fetch(
+          `${CROSS_CHAIN_API_LINK}/getAllTranscations`,
+          requestOptions
+        );
         const resp = await getAllTrx.json();
-        setCrossChainData(resp)
+        setCrossChainData(resp);
       }
-    }
+    };
     if (account) {
       getAllCrossChainTranscations(account);
     }
     const interval = setInterval(() => {
-      getAllCrossChainTranscations(account)
+      getAllCrossChainTranscations(account);
     }, 5000);
     return () => clearInterval(interval);
   }, [account, chainId]);
@@ -245,7 +250,7 @@ const Farms: React.FC = () => {
     (farmsToDisplay): FarmWithStakedValue[] => {
       const cakePriceVsBNB = new BigNumber(
         farmsLP.find((farm) => farm.pid === CAKE_POOL_PID)?.tokenPriceVsQuote ||
-        0
+          0
       );
       let farmsToDisplayWithAPY: FarmWithStakedValue[] = farmsToDisplay.map(
         (farm) => {
@@ -443,7 +448,9 @@ const Farms: React.FC = () => {
               <FarmCard
                 key={farm.pid}
                 farm={farm}
-                crossChainTranscations={crossChainData.filter(eachTrx => eachTrx.pid === farm.pid)}
+                crossChainTranscations={crossChainData.filter(
+                  (eachTrx) => eachTrx.pid === farm.pid
+                )}
                 bnbPrice={bnbPrice}
                 cakePrice={cakePrice}
                 ethPrice={ethPriceUsd}
@@ -470,7 +477,9 @@ const Farms: React.FC = () => {
               <FarmCard
                 key={farm.pid}
                 farm={farm}
-                crossChainTranscations={crossChainData.filter(eachTrx => eachTrx.pid === farm.pid)}
+                crossChainTranscations={crossChainData.filter(
+                  (eachTrx) => eachTrx.pid === farm.pid
+                )}
                 bnbPrice={bnbPrice}
                 cakePrice={cakePrice}
                 ethPrice={ethPriceUsd}
@@ -489,49 +498,50 @@ const Farms: React.FC = () => {
     setSortOption(option.value);
   };
 
+  const StyledContainer = styled(Container)`
+    margin-top: 40px;
+    background-color: #887963;
+    display: flex;
+    min-height: 200px;
+    align-items: center;
+  `;
+  const StyledSubContainer = styled(Container)`
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  `;
+  const StyledHeading = styled.div`
+    font-size: 45px;
+    color: #ffffff;
+    font-weight: bold;
+  `;
+  const StyledSubHeading = styled.div`
+    font-size: 35px;
+    color: #ffffff;
+  `;
+
   return (
     <>
-      {/* <Header>
-        <Heading as="h1" size="xxl" color="secondary" mb="24px">
-          {TranslateString(999, "Farms")}
-        </Heading>
-        <Heading size="lg" color="text">
-          {TranslateString(999, "Stake Liquidity Pool (LP) tokens to earn.")}
-        </Heading> 
-      </Header> */}
-      <Container style={{ marginTop: '40px' }}>
-        <Grid container spacing={3} alignItems="center">
-          <Grid item xs={12} md={6} lg={6} xl={6}>
-            <CNHeading>Core Farms</CNHeading>
-            <Text fontSize="20px" color="#99a3ba">
-              75% of the rewards will be sent to reward manager and will be
-              vested as per the schedule.{" "}
-              <LinkExternal href="https://docs.cryption.network/products/reward-manager">
-                Learn more
-              </LinkExternal>
-            </Text>
-            <Text fontSize="20px" color="#ffffff" marginTop="20px">
-              To start Cross-Chain Farming, change your network to Ethereum
-              Mainnet and then you can deposit ETH and farm rewards on Polygon
-              in a single click!{" "}
-              <LinkExternal href="https://docs.cryption.network/products/cross-chain-farming">
-                Learn more
-              </LinkExternal>
-            </Text>
-          </Grid>
-          <Grid item xs={12} md={6} lg={6} xl={6}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <img src={cntMascot} alt="Cryption Netwrok" width="250px" />
-            </div>
-          </Grid>
-        </Grid>
-      </Container>
+      <StyledContainer>
+        <StyledSubContainer>
+          <StyledHeading>Farms</StyledHeading>
+          <StyledSubHeading>stake LP tokens to ean</StyledSubHeading>
+        </StyledSubContainer>
+        <StyledSubContainer>
+          <Button
+            style={{
+              backgroundColor: "#fbf3ed",
+              color: "#887263",
+              boxShadow: "",
+            }}
+          >
+            Community auctions
+            <ArrowForwardIcon color="#887263" />
+          </Button>
+        </StyledSubContainer>
+      </StyledContainer>
       <Page>
         <ControlContainer>
           <ViewControls>
@@ -553,6 +563,7 @@ const Farms: React.FC = () => {
           <FilterContainer>
             <LabelWrapper>
               <Text>SORT BY</Text>
+
               <Select
                 options={[
                   {
