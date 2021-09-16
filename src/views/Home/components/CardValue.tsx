@@ -44,8 +44,8 @@ const CardValue: React.FC<CardValueProps> = ({
       style={{ lineHeight, letterSpacing: "2px" }}
       color={color}
     >
-      {countUp}
       {prefix}
+      {countUp}
     </Text>
   );
 };

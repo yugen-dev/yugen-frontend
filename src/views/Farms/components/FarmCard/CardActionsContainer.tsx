@@ -196,9 +196,9 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
   ]);
 
   const totalValueOfUserFormated = totalValueOfUser
-    ? `${Number(totalValueOfUser).toLocaleString(undefined, {
+    ? `$${Number(totalValueOfUser).toLocaleString(undefined, {
         maximumFractionDigits: 2,
-      })}usd`
+      })}`
     : "-";
 
   const lpContract = getERC20Contract(lpAddress, web3);

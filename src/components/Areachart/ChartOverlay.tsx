@@ -18,13 +18,22 @@ export default function ChartOverlay({ overlay, onTimespanChange }) {
   return (
     <>
       <div style={{ position: "absolute", top: 24, left: 24 }}>
-        <Typography variant="subtitle2" style={{ color: "#424945" }}>
+        <Typography
+          variant="subtitle2"
+          style={{ color: "#424945", fontFamily: "Korean" }}
+        >
           {title}
         </Typography>
-        <Typography variant="h5" style={{ color: "#424945" }}>
+        <Typography
+          variant="h5"
+          style={{ color: "#424945", fontFamily: "Korean" }}
+        >
           {value}
         </Typography>
-        <Typography variant="subtitle1" style={{ color: "#424945" }}>
+        <Typography
+          variant="subtitle1"
+          style={{ color: "#424945", fontFamily: "Korean" }}
+        >
           {formatDate(date * 1e3)}
         </Typography>
       </div>

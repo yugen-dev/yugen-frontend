@@ -63,7 +63,7 @@ const HarvestAction: React.FunctionComponent<FarmWithStakedValue> = ({
       <ActionContent>
         <div>
           <Earned>{displayBalance}</Earned>
-          <Staked>~{countUp}USD</Staked>
+          <Staked>~ ${countUp}</Staked>
         </div>
         {/* // TODO: re-implement Button CNButton or imported Button  */}
         <Button

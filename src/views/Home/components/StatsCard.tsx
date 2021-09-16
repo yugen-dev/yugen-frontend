@@ -286,7 +286,7 @@ const CardValue: React.FC<CardValueProps> = ({
                       letterSpacing: "1.5px",
                     }}
                   >
-                    {totalFees}usd{" "}
+                    ${totalFees}{" "}
                   </Text>
                 </ProgressText>
               )}
@@ -310,7 +310,7 @@ const CardValue: React.FC<CardValueProps> = ({
                     style={{ letterSpacing: "1.5px" }}
                   >
                     {" "}
-                    {lpFees}usd{" "}
+                    ${lpFees}{" "}
                   </Text>
                 </ProgressText>
               )}
@@ -326,7 +326,7 @@ const CardValue: React.FC<CardValueProps> = ({
                     style={{ letterSpacing: "1.5px" }}
                   >
                     {" "}
-                    {burnerFees}usd{" "}
+                    ${burnerFees}{" "}
                   </Text>
                 </ProgressText>
               )}
@@ -342,7 +342,7 @@ const CardValue: React.FC<CardValueProps> = ({
                     style={{ letterSpacing: "1.5px" }}
                   >
                     {" "}
-                    {stakerFees}usd{" "}
+                    ${stakerFees}{" "}
                   </Text>
                 </ProgressText>
               )}
@@ -358,7 +358,7 @@ const CardValue: React.FC<CardValueProps> = ({
                     style={{ letterSpacing: "1.5px" }}
                   >
                     {" "}
-                    {devFees}usd{" "}
+                    ${devFees}{" "}
                   </Text>
                 </ProgressText>
               )}
@@ -452,7 +452,7 @@ const CardValue: React.FC<CardValueProps> = ({
                     letterSpacing: "1.5px",
                   }}
                 >
-                  {totalFees}usd{" "}
+                  ${totalFees}{" "}
                 </Text>
               </ProgressText>
             )}
@@ -473,7 +473,7 @@ const CardValue: React.FC<CardValueProps> = ({
                   letterSpacing="1.5px"
                 >
                   {" "}
-                  {lpFees}usd{" "}
+                  ${lpFees}{" "}
                 </Text>
               </ProgressText>
             )}
@@ -489,7 +489,7 @@ const CardValue: React.FC<CardValueProps> = ({
                   style={{ letterSpacing: "1.5px" }}
                 >
                   {" "}
-                  {burnerFees}usd{" "}
+                  ${burnerFees}{" "}
                 </Text>
               </ProgressText>
             )}
@@ -505,7 +505,7 @@ const CardValue: React.FC<CardValueProps> = ({
                   style={{ letterSpacing: "1.5px" }}
                 >
                   {" "}
-                  {stakerFees}usd{" "}
+                  ${stakerFees}{" "}
                 </Text>
               </ProgressText>
             )}
@@ -521,7 +521,7 @@ const CardValue: React.FC<CardValueProps> = ({
                   style={{ letterSpacing: "1.5px" }}
                 >
                   {" "}
-                  {devFees}usd{" "}
+                  ${devFees}{" "}
                 </Text>
               </ProgressText>
             )}
