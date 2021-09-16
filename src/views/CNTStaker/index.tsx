@@ -22,7 +22,7 @@ import Grid from "@material-ui/core/Grid";
 import { useQuery } from "@apollo/client";
 import { cntStakerQuery, stakerAllocatedQquery } from "apollo/queries";
 import { useApproveStaking } from "hooks/useApprove";
-import { useChainId } from 'state/application/hooks'
+import { useChainId } from "state/application/hooks";
 import contracts from "config/constants/contracts";
 import { useProfile, useToast } from "state/hooks";
 import { enter, enterGasless, leave, leaveGasless } from "utils/callHelpers";
@@ -57,17 +57,18 @@ const PoolsContainer = styled.div`
 const StakingContainer = styled.div`
   border-radius: 0.625rem !important;
   padding: 30px 15px;
-  background-color: #1e202a;
+  background-color: #ffffff;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 const CustomInputPannel = styled.div`
   margin: 25px 0px;
   width: 100%;
   max-width: 420px;
-  background-color: #202231;
+  background-color: #f7f0ed;
   display: flex;
   padding: 0px 15px;
   border-radius: 10px;
@@ -81,8 +82,9 @@ const InputWrapper = styled.div`
     > input {
       width: 100%;
       padding: 0px;
-      background-color: #202231;
+      background-color: #f7f0ed;
       box-shadow: none !important;
+      color: black;
     }
   }
 `;
@@ -102,10 +104,10 @@ const ConversionInfo = styled.div`
   padding-left: 0.875rem !important;
   padding-top: 0.125rem !important;
   padding-bottom: 0.125rem !important;
-  color: white;
+  color: #ffffff;
   padding-right: 0.875rem !important;
   background: linear-gradient(90deg, #4e3034, #4e3034),
-    linear-gradient(90deg, #fe5a75, #fec464) !important;
+    linear-gradient(90deg, #9c2c2c, #c4ac3d) !important;
   background-clip: padding-box, border-box !important;
   border-width: 1px !important;
   border-radius: 1.5rem !important;
@@ -114,10 +116,11 @@ const ConversionInfo = styled.div`
 `;
 
 const StakingInfo = styled.div`
-  background: #383357;
+  background: #ffffff;
   padding: 20px;
   margin-bottom: 20px;
   border-radius: 0.625rem !important;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 
 const HeaderGrid = styled(Grid)`
@@ -245,7 +248,7 @@ const CNTStaker = () => {
     context: {
       clientName: "convertor",
     },
-  })
+  });
   const getCNTStakerInfo = useQuery(cntStakerQuery, {
     context: {
       clientName: "cntstaker",
@@ -255,10 +258,18 @@ const CNTStaker = () => {
     getCNTStakerInfo &&
     getCNTStakerInfo.data &&
     getCNTStakerInfo.data.cntstaker &&
-    getStakerallocated && getStakerallocated.data && getStakerallocated.data.weekDatas
+    getStakerallocated &&
+    getStakerallocated.data &&
+    getStakerallocated.data.weekDatas
   ) {
     cntStakingRatio =
-      ((((parseFloat(getStakerallocated.data.weekDatas[0].stakersAllocated) / 10e18) * 0.35) / (parseFloat(getCNTStakerInfo.data.cntstaker.totalSupply) * parseFloat(getCNTStakerInfo.data.cntstaker.ratio))) * 365) * 100;
+      (((parseFloat(getStakerallocated.data.weekDatas[0].stakersAllocated) /
+        10e18) *
+        0.35) /
+        (parseFloat(getCNTStakerInfo.data.cntstaker.totalSupply) *
+          parseFloat(getCNTStakerInfo.data.cntstaker.ratio))) *
+      365 *
+      100;
   }
   const onChange = (event) => {
     handleTokenAmount(event.target.value);
@@ -458,7 +469,14 @@ const CNTStaker = () => {
     <PoolsContainer>
       <Container maxWidth="lg">
         <HeaderGrid container spacing={3}>
-          <Grid item xs={12} md={6} lg={6} xl={6}>
+          <div
+            style={{
+              backgroundColor: "#887963",
+              width: "100%",
+              borderRadius: "10px",
+              padding: "20px 10px",
+            }}
+          >
             <CNHeading>CNT Staker</CNHeading>
             <StyledOl>
               <DescriptionTextLi>Stake CNT to earn more CNT.</DescriptionTextLi>
@@ -471,18 +489,7 @@ const CNTStaker = () => {
                 swap fees, convert xCNT back to CNT.
               </DescriptionTextLi>
             </StyledOl>
-          </Grid>
-          <Grid item xs={12} md={6} lg={6} xl={6}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <img src={cntMascot} alt="Cryption Netwrok" width="250px" />
-            </div>
-          </Grid>
+          </div>
         </HeaderGrid>
         <Grid container spacing={3} style={{ marginTop: "30px" }}>
           <Grid item xs={12} md={6} lg={6} xl={6}>
@@ -503,7 +510,7 @@ const CNTStaker = () => {
               <InfoDiv>
                 <Text
                   bold
-                  color="white"
+                  color="#424945"
                   textTransform="uppercase"
                   style={{ whiteSpace: "nowrap" }}
                   fontSize="18px"
@@ -530,7 +537,7 @@ const CNTStaker = () => {
                 <Flex alignItems="center">
                   <Text
                     bold
-                    color="#9d9fa8"
+                    color="#887263"
                     textTransform="uppercase"
                     mr="10px"
                     style={{ whiteSpace: "nowrap" }}
@@ -559,7 +566,7 @@ const CNTStaker = () => {
                 <div>
                   <Text
                     bold
-                    color="white"
+                    color="#424945"
                     textTransform="uppercase"
                     style={{ whiteSpace: "nowrap" }}
                     fontSize="18px"
@@ -575,7 +582,7 @@ const CNTStaker = () => {
                 <div>
                   <Text
                     bold
-                    color="white"
+                    color="#424945"
                     textTransform="uppercase"
                     style={{ whiteSpace: "nowrap" }}
                     fontSize="24px"
@@ -583,7 +590,7 @@ const CNTStaker = () => {
                     {parseFloat(cntStakingRatio.toFixed(2))} %
                   </Text>
                   <Text
-                    color="#9d9fa8"
+                    color="#887263"
                     style={{ whiteSpace: "nowrap" }}
                     fontSize="16px"
                   >
@@ -595,7 +602,7 @@ const CNTStaker = () => {
             <StakingContainer>
               <Text
                 bold
-                color="white"
+                color="#424945"
                 textTransform="uppercase"
                 style={{ whiteSpace: "nowrap" }}
                 fontSize="22px"
@@ -615,12 +622,15 @@ const CNTStaker = () => {
                   />
                   <Text
                     bold
-                    color="#9d9fa8"
+                    color="#887263"
                     textTransform="uppercase"
                     style={{ whiteSpace: "nowrap" }}
                     fontSize="18px"
                   >
-                    CNT: {getBalanceNumber(tokenBalance).toFixed(2)}
+                    CNT:{" "}
+                    <span style={{ color: "#424945" }}>
+                      {getBalanceNumber(tokenBalance).toFixed(2)}
+                    </span>
                   </Text>
                 </div>
                 <div style={{ display: "flex", alignItems: "center" }}>
@@ -640,11 +650,14 @@ const CNTStaker = () => {
                   />
                   <Text
                     bold
-                    color="#9d9fa8"
+                    color="#887263"
                     style={{ whiteSpace: "nowrap" }}
                     fontSize="18px"
                   >
-                    xCNT: {getBalanceNumber(xCNTBalance).toFixed(2)}
+                    xCNT:{" "}
+                    <span style={{ color: "#424945" }}>
+                      {getBalanceNumber(xCNTBalance).toFixed(2)}
+                    </span>
                   </Text>
                 </div>
               </InfoDiv>
