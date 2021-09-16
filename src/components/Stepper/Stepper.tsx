@@ -10,7 +10,7 @@ import { StepIconProps } from "@material-ui/core/StepIcon";
 import StepLabel from "@material-ui/core/StepLabel";
 
 const StepperContainerDiv = styled.div`
-  background: rgb(30, 32, 42);
+  background: #f7f0ed;
   border-radius: 0.625rem;
   height: 100%;
   align-items: center;
@@ -19,7 +19,7 @@ const StepperContainerDiv = styled.div`
 const TipText = styled.p`
   padding: 0px 24px;
   text-align: center;
-  color: rgb(207, 204, 204);
+  color: #424945;
   font-weight: 500;
   font-size: 13px;
 `;
@@ -31,13 +31,13 @@ const ColorlibConnector = withStyles({
   active: {
     "& $line": {
       backgroundImage:
-        "linear-gradient(101.01deg,#9900FF 41.86%,#2082E9 88.75%)",
+        "linear-gradient(101.01deg,#887863 41.86%,#424945 88.75%)",
     },
   },
   completed: {
     "& $line": {
       backgroundImage:
-        "linear-gradient(101.01deg,#9900FF 41.86%,#2082E9 88.75%)",
+        "linear-gradient(101.01deg,#887863 41.86%,#424945 88.75%)",
     },
   },
   line: {
@@ -61,12 +61,12 @@ const useColorlibStepIconStyles = makeStyles({
     alignItems: "center",
   },
   active: {
-    backgroundImage: "linear-gradient(101.01deg,#9900FF 41.86%,#2082E9 88.75%)",
+    backgroundImage: "linear-gradient(101.01deg,#887863 41.86%,#424945 88.75%)",
     boxShadow: "0 4px 10px 0 rgba(0,0,0,.25)",
     color: "#ffffff",
   },
   completed: {
-    backgroundImage: "linear-gradient(101.01deg,#9900FF 41.86%,#2082E9 88.75%)",
+    backgroundImage: "linear-gradient(101.01deg,#887863 41.86%,#424945 88.75%)",
     color: "#ffffff",
   },
 });
@@ -103,12 +103,12 @@ const StepperContainer = ({ activeIndex = 1 }) => {
         alternativeLabel
         activeStep={activeStep}
         connector={<ColorlibConnector />}
-        style={{ background: "#1e202a", borderRadius: "0.625rem" }}
+        style={{ background: "#f7f0ed", borderRadius: "0.625rem" }}
       >
         {steps.map((label) => (
           <Step key={label}>
             <StepLabel StepIconComponent={ColorlibStepIcon}>
-              <span style={{ color: "white" }}>{label}</span>
+              <span>{label}</span>
             </StepLabel>
           </Step>
         ))}

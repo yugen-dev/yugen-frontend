@@ -1,21 +1,21 @@
 import styled from "styled-components";
-import React, { } from "react";
+import React from "react";
 import { Flex, CloseIcon, IconButton } from "cryption-uikit";
-import { makeStyles, withStyles, createStyles } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
-import Collapse from '@material-ui/core/Collapse';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
+import { makeStyles, withStyles, createStyles } from "@material-ui/core/styles";
+import Box from "@material-ui/core/Box";
+import Collapse from "@material-ui/core/Collapse";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Typography from "@material-ui/core/Typography";
+import Paper from "@material-ui/core/Paper";
 import Modal from "components/Modal";
 import useWeb3 from "hooks/useWeb3";
-import StepperContainer from 'components/Stepper/Stepper';
-import CopyToClipboard from 'components/CopyToClipboard';
+import StepperContainer from "components/Stepper/Stepper";
+import CopyToClipboard from "components/CopyToClipboard";
 
 interface Transaction {
   amount: string;
@@ -31,7 +31,7 @@ interface Transaction {
   status: string;
   timestamp: string;
   userAddress: string;
-  timestampInms: string
+  timestampInms: string;
   liquidity: string;
 }
 interface DepositModalProps {
@@ -52,7 +52,7 @@ const ModalTitle = styled(Flex)`
   align-items: center;
   flex: 1;
   font-size: 23px;
-  color: #86878f;
+  color: #424945;
 `;
 const Heading = styled.div`
   font-weight: 600;
@@ -61,38 +61,38 @@ const Heading = styled.div`
 `;
 const useRowStyles = makeStyles({
   root: {
-    '& > *': {
-      borderBottom: 'unset',
+    "& > *": {
+      borderBottom: "unset",
     },
-    '&:hover': {
-      background: "#272935",
+    "&:hover": {
+      background: "#c1ac9d",
     },
-    background: '#1E202A',
+    background: "#FFFFFF",
   },
 });
 const StyledTableCell = withStyles(() =>
   createStyles({
     head: {
-      backgroundColor: '#1E202A',
-      color: '#626363',
+      backgroundColor: "#FFFFFF",
+      color: "#887263",
       fontWeight: 900,
-      borderBottom: '1px solid #504F4F',
-      fontFamily: 'Wavehaus',
-      fontSize: 18
+      // borderBottom: "1px solid #504F4F",
+      fontFamily: "Korean",
+      fontSize: 18,
     },
     body: {
       fontSize: 14,
-      background: 'transparent',
-      color: '#E8E8E8',
+      background: "transparent",
+      color: "#424945",
       fontWeight: 900,
-      borderBottom: '1px solid #2A2D39',
-      cursor: 'pointer',
-      fontFamily: 'Wavehaus',
-      '&:hover': {
+      // borderBottom: "1px solid #2A2D39",
+      fontFamily: "Korean",
+      cursor: "pointer",
+      "&:hover": {
         background: "transparent",
       },
     },
-  }),
+  })
 )(TableCell);
 
 function Row(props: { row: Transaction }) {
@@ -101,10 +101,10 @@ function Row(props: { row: Transaction }) {
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
   let activeIndex = 0;
-  if (row.status === 'stakedOnPolygon') {
+  if (row.status === "stakedOnPolygon") {
     activeIndex = 2;
-  } else if (row.status === 'depositeOnEthereum') {
-    activeIndex = 1
+  } else if (row.status === "depositeOnEthereum") {
+    activeIndex = 1;
   }
 
   const convertSecondsToReadableString = () => {
@@ -114,28 +114,28 @@ function Row(props: { row: Transaction }) {
     seconds = Math.abs(seconds);
 
     const days = Math.floor(seconds / (3600 * 24));
-    const hours = Math.floor(seconds % (3600 * 24) / 3600);
-    const minutes = Math.floor(seconds % 3600 / 60);
+    const hours = Math.floor((seconds % (3600 * 24)) / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
     const secondDiff = Math.floor(seconds % 60);
     const parts = [];
 
     if (days > 0) {
-      parts.push(`${days} day${days > 1 ? 's' : ''}`);
+      parts.push(`${days} day${days > 1 ? "s" : ""}`);
     }
 
     if (hours > 0) {
-      parts.push(`${hours} hr${hours > 1 ? 's' : ''}`);
+      parts.push(`${hours} hr${hours > 1 ? "s" : ""}`);
     }
 
     if (minutes > 0) {
-      parts.push(`${minutes} min${minutes > 1 ? 's' : ''}`);
+      parts.push(`${minutes} min${minutes > 1 ? "s" : ""}`);
     }
 
     if (secondDiff > 0) {
-      parts.push(`${secondDiff} sec${secondDiff > 1 ? 's' : ''}`);
+      parts.push(`${secondDiff} sec${secondDiff > 1 ? "s" : ""}`);
     }
-    return parts.join(', ');
-  }
+    return parts.join(", ");
+  };
   return (
     <>
       <TableRow className={classes.root} onClick={() => setOpen(!open)}>
@@ -145,20 +145,33 @@ function Row(props: { row: Transaction }) {
           </IconButtonMui>
         </StyledTableCell> */}
         <StyledTableCell>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            {`${row.etherTxHash.slice(0, 12)}...${row.etherTxHash.slice(row.etherTxHash.length - 4)}`}
+          <div style={{ display: "flex", alignItems: "center" }}>
+            {`${row.etherTxHash.slice(0, 12)}...${row.etherTxHash.slice(
+              row.etherTxHash.length - 4
+            )}`}
             <CopyToClipboard toCopy={row.etherTxHash} />
           </div>
         </StyledTableCell>
-        <StyledTableCell >{web3.utils.fromWei(row.amount, 'ether')} Eth</StyledTableCell>
-        <StyledTableCell >{web3.utils.fromWei(row.liquidity, 'ether')} LP</StyledTableCell>
+        <StyledTableCell>
+          {web3.utils.fromWei(row.amount, "ether")} Eth
+        </StyledTableCell>
+        <StyledTableCell>
+          {web3.utils.fromWei(row.liquidity, "ether")} LP
+        </StyledTableCell>
         <StyledTableCell>{`${convertSecondsToReadableString()} ago`}</StyledTableCell>
       </TableRow>
       <TableRow className={classes.root}>
-        <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={5}>
+        <StyledTableCell
+          style={{ paddingBottom: 0, paddingTop: 0 }}
+          colSpan={5}
+        >
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
-              <Typography variant="h6" style={{ marginBottom: '9px' }} component="div">
+              <Typography
+                variant="h6"
+                style={{ marginBottom: "9px", fontFamily: "Korean" }}
+                component="div"
+              >
                 Transaction Status
               </Typography>
               <StepperContainer activeIndex={activeIndex} />
@@ -187,7 +200,12 @@ const TranscationsModal: React.FC<DepositModalProps> = ({
           <ModalTitle>
             <Heading>All Cross Chain Transcations</Heading>
           </ModalTitle>
-          <IconButton variant="text" onClick={onDismiss} aria-label="Close the dialog" size="23px">
+          <IconButton
+            variant="text"
+            onClick={onDismiss}
+            aria-label="Close the dialog"
+            size="23px"
+          >
             <CloseIcon color="#86878F" />
           </IconButton>
         </ModalHeader>

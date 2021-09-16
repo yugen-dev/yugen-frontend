@@ -545,7 +545,7 @@ const Farms: React.FC = () => {
             style={{
               backgroundColor: "#fbf3ed",
               color: "#887263",
-              boxShadow: "",
+              boxShadow: "0px 2px 0px rgba(0, 0, 0, 0.25)",
             }}
           >
             Community auctions

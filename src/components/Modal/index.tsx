@@ -33,22 +33,22 @@ const StyledDialogContent = styled(({ ...rest }) => (
   &[data-reach-dialog-content] {
     margin: 0 0 2rem 0;
     border: 1px solid ${({ theme }) => theme.colors.invertedContrast};
-    background-color: #1e202a;
+    background-color: #ffffff;
     box-shadow: 0 4px 8px 0 ${transparentize(0.95, "#191326")};
     padding: 20px;
     overflow: hidden;
     align-self: ${({ mobile }) => (mobile ? "flex-end" : "center")};
     width: 100%;
-    max-width: ${({ maxWidth }) => (`${maxWidth}px` || "500px")};
+    max-width: ${({ maxWidth }) => `${maxWidth}px` || "500px"};
 
     ${({ maxHeight }) =>
-    maxHeight &&
-    css`
+      maxHeight &&
+      css`
         max-height: ${maxHeight}vh;
       `}
     ${({ minHeight }) =>
-    minHeight &&
-    css`
+      minHeight &&
+      css`
         min-height: ${minHeight}vh;
       `}
     display: flex;
