@@ -95,7 +95,6 @@ export const ClaimButtons = ({
                         variant="danger"
                         style={{
                           marginLeft: "20px",
-                          color: "#100C18",
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center",
