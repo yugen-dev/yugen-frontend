@@ -19,7 +19,7 @@ const renderTime = (dimension, time) => {
   return (
     <TimeWrapper>
       <TimeStyles>{time}</TimeStyles>
-      <div style={{ color: "#99a3ba" }}>{dimension}</div>
+      <div style={{ color: "#887263" }}>{dimension}</div>
     </TimeWrapper>
   );
 };
@@ -47,7 +47,7 @@ const VestingCountdownTimer = ({
     return (
       <Container>
         <div>
-          <Heading marginBottom="5px" color="#99a3ba">
+          <Heading marginBottom="5px" color="#887263">
             {endTime === startDistributionTime
               ? "Rewards distribution starts in"
               : "Linear rewards distribution ends in"}
@@ -166,7 +166,7 @@ const SingleCountdownContainer = styled.div`
 const TimeWrapper = styled.div``;
 const TimeStyles = styled.div`
   font-size: 22px;
-  color: white;
+  color: #424945;
 `;
 
 export default memo(VestingCountdownTimer);

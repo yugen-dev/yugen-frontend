@@ -13,13 +13,15 @@ const DisplayInfo = ({ description, value }) => {
   }
   return (
     <SubContainer>
-      <Heading textAlign="center">{description}</Heading>
+      <Heading textAlign="center" color="#887263">
+        {description}
+      </Heading>
       <Heading size="xl" textAlign="center" marginTop="1px">
         <span>{value}</span>
         <Text
           style={{ display: "inline-block" }}
           fontSize="20px"
-          color="#99a3ba"
+          color="#424945"
           marginLeft="3px"
           bold
         >
