@@ -25,7 +25,8 @@ const getBoxShadow = ({ isWarning = false, theme }) => {
 const StyledTokenInput = styled.div<InputProps>`
   display: flex;
   flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.71);
+  /* background-color: rgba(0, 0, 0, 0.71); */
+  background-color: #ebc5ab;
   border-radius: 16px;
   box-shadow: ${getBoxShadow};
   color: ${({ theme }) => theme.colors.text};
