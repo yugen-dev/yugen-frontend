@@ -514,9 +514,9 @@ const Farms: React.FC = () => {
     min-height: 200px;
     align-items: center;
     border-radius: 10px;
+    text-align: left;
   `;
   const StyledSubContainer = styled(Container)`
-    flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -528,6 +528,7 @@ const Farms: React.FC = () => {
     font-weight: bold;
   `;
   const StyledSubHeading = styled.div`
+    margin-top: 30px;
     font-size: 35px;
     color: #ffffff;
   `;
