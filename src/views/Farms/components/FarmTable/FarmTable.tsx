@@ -88,10 +88,10 @@ const FarmTable: React.FC<ITableProps> = (props) => {
           <Button
             variant="text"
             onClick={scrollToTop}
-            style={{ color: "#3869EE", fontWeight: "bold", fontSize: "20px" }}
+            style={{ color: "#424945", fontWeight: "bold", fontSize: "20px" }}
           >
             {TranslateString(999, "To Top")}
-            <ChevronUpIcon color="#415FEF" />
+            <ChevronUpIcon color="#424945" />
           </Button>
         </ScrollButtonContainer>
       </TableContainer>

@@ -51,7 +51,7 @@ const Liquidity: React.FunctionComponent<LiquidityProps> = ({ liquidity }) => {
           "The total value of the funds in this farm’s liquidity pool"
         )}
       >
-        <HelpIcon color="#2082E9" />
+        <HelpIcon color="#424945;" />
       </Tooltip>
     </Container>
   );

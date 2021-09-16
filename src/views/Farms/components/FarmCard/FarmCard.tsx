@@ -220,7 +220,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
       >
         {!removed && (
           <Flex justifyContent="space-between" alignItems="center">
-            <Text>{TranslateString(736, "APR")}:</Text>
+            <Text color="#9b9382">{TranslateString(736, "APR")}</Text>
             <Text bold style={{ display: "flex", alignItems: "center" }}>
               {calculatedAPY !== "NaN" ? (
                 <>
@@ -232,7 +232,9 @@ const FarmCard: React.FC<FarmCardProps> = ({
                       apy={farm.apy}
                     />
                   )}
-                  <span style={{ letterSpacing: "1px" }}>{calculatedAPY}%</span>
+                  <span style={{ letterSpacing: "1px", color: "#424945" }}>
+                    {calculatedAPY}%
+                  </span>
                 </>
               ) : (
                 <Skeleton height={24} width={80} />
@@ -241,12 +243,16 @@ const FarmCard: React.FC<FarmCardProps> = ({
           </Flex>
         )}
         <Flex justifyContent="space-between">
-          <Text>{TranslateString(318, "Earn")}:</Text>
-          <Text bold>{earnLabel} </Text>
+          <Text color="#9b9382">{TranslateString(318, "Earn")}</Text>
+          <Text bold color="#424945">
+            {earnLabel}{" "}
+          </Text>
         </Flex>
         <Flex justifyContent="space-between">
-          <Text>{TranslateString(318, "Harvest Lock Interval")}:</Text>
-          <Text bold>
+          <Text color="#9b9382">
+            {TranslateString(318, "Harvest Lock Interval")}
+          </Text>
+          <Text bold color="#424945">
             {poolHarvestIntervalInDays > 0
               ? `${poolHarvestIntervalInDays.toString()} Days`
               : ""}

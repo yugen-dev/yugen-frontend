@@ -125,6 +125,7 @@ const ViewControls = styled.div`
       padding: 0;
     }
   }
+  margin-top: 10px;
 `;
 const FilterContainer = styled.div`
   display: flex;
@@ -136,6 +137,8 @@ const FilterContainer = styled.div`
     width: auto;
     padding: 0;
   }
+  flex-wrap: wrap;
+  justify-content: space-around;
 `;
 const LabelWrapper = styled.div`
   display: flex;
@@ -144,6 +147,12 @@ const LabelWrapper = styled.div`
   > ${Text} {
     font-size: 15px;
     margin-right: 15px;
+  }
+
+  margin: 10px 10px 0px 10px;
+
+  @media (max-width: 570px) {
+    margin: 10px 0px 0px 0px;
   }
 `;
 
@@ -504,6 +513,7 @@ const Farms: React.FC = () => {
     display: flex;
     min-height: 200px;
     align-items: center;
+    border-radius: 10px;
   `;
   const StyledSubContainer = styled(Container)`
     flex-grow: 1;
@@ -527,7 +537,7 @@ const Farms: React.FC = () => {
       <StyledContainer>
         <StyledSubContainer>
           <StyledHeading>Farms</StyledHeading>
-          <StyledSubHeading>stake LP tokens to ean</StyledSubHeading>
+          <StyledSubHeading>stake LP tokens to earn</StyledSubHeading>
         </StyledSubContainer>
         <StyledSubContainer>
           <Button
@@ -545,10 +555,6 @@ const Farms: React.FC = () => {
       <Page>
         <ControlContainer>
           <ViewControls>
-            {/* <ToggleView
-              viewMode={viewMode}
-              onToggle={(mode: ViewMode) => setViewMode(mode)}
-            /> */}
             <ToggleWrapper>
               <Toggle
                 checked={stackedOnly}
@@ -563,7 +569,6 @@ const Farms: React.FC = () => {
           <FilterContainer>
             <LabelWrapper>
               <Text>SORT BY</Text>
-
               <Select
                 options={[
                   {
@@ -590,7 +595,7 @@ const Farms: React.FC = () => {
                 onChange={handleSortOptionChange}
               />
             </LabelWrapper>
-            <LabelWrapper style={{ marginLeft: 20 }}>
+            <LabelWrapper style={{ minWidth: "300px" }}>
               <Text>SEARCH</Text>
               <SearchInput onChange={handleChangeQuery} value={query} />
             </LabelWrapper>

@@ -18,7 +18,7 @@ const Wrapper = styled.div`
 const StyledLinkExternal = styled(LinkExternal)`
   text-decoration: none;
   font-weight: normal;
-  color: #2082e9;
+  color: #424945;
   display: flex;
   align-items: center;
 
@@ -26,7 +26,7 @@ const StyledLinkExternal = styled(LinkExternal)`
     padding-left: 4px;
     height: 18px;
     width: auto;
-    fill: #2082e9;
+    fill: #424945;
   }
 `;
 
@@ -42,19 +42,21 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({
   return (
     <Wrapper>
       <Flex justifyContent="space-between">
-        <Text>{TranslateString(316, "Get LP")}</Text>
-        <StyledLinkExternal href={addLiquidityUrl}>
+        <Text color="#887263">{TranslateString(316, "Get LP")}</Text>
+        <StyledLinkExternal href={addLiquidityUrl} color="#424945">
           {lpLabel}
         </StyledLinkExternal>
       </Flex>
       {!removed && (
         <Flex justifyContent="space-between">
-          <Text>{TranslateString(23, "Liquidity in Farm")}</Text>
-          <Text>{totalValueFormated}</Text>
+          <Text color="#887263">
+            {TranslateString(23, "Liquidity in Farm")}
+          </Text>
+          <Text color="#424945">{totalValueFormated}</Text>
         </Flex>
       )}
       <Flex justifyContent="center">
-        <Link external href={maticExplorerAddress} bold={false} color="#3869EE">
+        <Link external href={maticExplorerAddress} bold={false} color="#887263">
           {TranslateString(356, "View on PolygonScan")}
         </Link>
       </Flex>

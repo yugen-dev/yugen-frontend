@@ -20,7 +20,7 @@ const Wrapper = styled(Flex)`
 
 const MultiplierTag = styled(Tag)`
   margin-left: 10px;
-  background: linear-gradient(161.46deg, #2a76eb 12.56%, #9702ff 90.36%);
+  background: #887963;
 `;
 
 const CardHeading: React.FC<ExpandableSectionProps> = ({

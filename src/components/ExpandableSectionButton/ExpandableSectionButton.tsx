@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   cursor: pointer;
 
   svg {
-    fill: #2082e9;
+    fill: #424945;
   }
 `;
 
@@ -28,10 +28,14 @@ const ExpandableSectionButton: React.FC<ExpandableSectionButtonProps> = ({
       role="button"
       onClick={() => onClick()}
     >
-      <Text color="#2082E9" bold>
+      <Text color="#424945" bold>
         {expanded ? "Hide" : "Details"}
       </Text>
-      {expanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
+      {expanded ? (
+        <ChevronUpIcon color="#424945" />
+      ) : (
+        <ChevronDownIcon color="#424945" />
+      )}
     </Wrapper>
   );
 };
