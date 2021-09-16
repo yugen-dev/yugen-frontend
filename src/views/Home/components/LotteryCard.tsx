@@ -2,7 +2,6 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 import { Card, Button } from "cryption-uikit";
 import { Link } from "react-router-dom";
-import CrossChainFarmingBg from "../../../images/CrossChainFarmingBg.png";
 
 const RainbowLight = keyframes`
 	0% {
@@ -19,17 +18,17 @@ const StyledCardAccent = styled.div`
   visibility: hidden;
   background: linear-gradient(
     45deg,
-    rgba(42, 118, 235, 0.1) 0%,
-    rgba(42, 118, 235, 0.2) 10%,
-    rgba(42, 118, 235, 0.4) 20%,
-    rgba(42, 118, 235, 0.6) 30%,
-    rgba(42, 118, 235, 0.6) 40%,
-    #2a76eb 50%,
-    #9702ff 60%,
-    rgba(151, 2, 255, 0.6) 70%,
-    rgba(151, 2, 255, 0.6) 80%,
-    rgba(151, 2, 255, 0.4) 90%,
-    rgba(151, 2, 255, 0.2) 100%
+    rgba(235, 129, 42, 0.1) 0%,
+    rgba(235, 145, 42, 0.2) 10%,
+    rgba(235, 119, 42, 0.4) 20%,
+    rgba(235, 135, 42, 0.6) 30%,
+    rgba(235, 158, 42, 0.6) 40%,
+    #eba82a 50%,
+    #ff9102 60%,
+    rgba(255, 137, 2, 0.6) 70%,
+    rgba(255, 124, 2, 0.6) 80%,
+    rgba(255, 95, 2, 0.4) 90%,
+    rgba(255, 116, 2, 0.2) 100%
   );
   background-size: 300% 300%;
   animation: ${RainbowLight} 2s linear infinite;
@@ -45,7 +44,7 @@ const StyledCardAccent = styled.div`
 `;
 
 const StyledFarmStakingCard = styled(Card)<{ redirectLink?: boolean }>`
-  background-color: #1e202a;
+  background-color: #ffffff;
   overflow: initial;
   position: relative;
   border-radius: 0.625rem !important;
@@ -61,7 +60,6 @@ const StyledFarmStakingCard = styled(Card)<{ redirectLink?: boolean }>`
   ${StyledCardAccent} {
     visibility: visible;
   }
-  background-image: url(${CrossChainFarmingBg});
 
   @media (max-width: 650px) {
     padding: 10px 10px;

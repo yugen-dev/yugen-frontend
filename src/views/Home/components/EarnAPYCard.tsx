@@ -1,10 +1,6 @@
 import React, { useCallback, useRef } from "react";
 import styled from "styled-components";
-import {
-  Card,
-  Flex,
-  Skeleton,
-} from "cryption-uikit";
+import { Card, Flex, Skeleton } from "cryption-uikit";
 import useI18n from "hooks/useI18n";
 import BigNumber from "bignumber.js";
 import { QuoteToken } from "config/constants/types";
@@ -14,7 +10,7 @@ import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CAKE_POOL_PID } from "config";
 const StyledFarmStakingCard = styled(Card)`
   height: 100%;
   padding: 20px;
-  background: #1e202a;
+  background: #ffffff;
   box-shadow: 1px 2px 4px 3px rgba(0, 0, 0, 0.16);
   margin-left: auto;
   margin-right: auto;
@@ -53,7 +49,7 @@ const EarnAPYCard = () => {
     (farmsToDisplay) => {
       const cakePriceVsBNB = new BigNumber(
         farmsLP.find((farm) => farm.pid === CAKE_POOL_PID)?.tokenPriceVsQuote ||
-        0
+          0
       );
 
       farmsToDisplay.map((farm) => {

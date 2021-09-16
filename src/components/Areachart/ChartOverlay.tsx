@@ -1,11 +1,6 @@
 import React from "react";
-import {
-  Button,
-  Typography,
-  makeStyles,
-} from "@material-ui/core";
+import { Button, Typography, makeStyles } from "@material-ui/core";
 import { timeFormat } from "d3-time-format";
-
 
 const formatDate = timeFormat("%b %d, '%y");
 const useStyles = makeStyles((theme) => ({
@@ -23,13 +18,13 @@ export default function ChartOverlay({ overlay, onTimespanChange }) {
   return (
     <>
       <div style={{ position: "absolute", top: 24, left: 24 }}>
-        <Typography variant="subtitle2" style={{ color: "white" }}>
+        <Typography variant="subtitle2" style={{ color: "#424945" }}>
           {title}
         </Typography>
-        <Typography variant="h5" style={{ color: "white" }}>
+        <Typography variant="h5" style={{ color: "#424945" }}>
           {value}
         </Typography>
-        <Typography variant="subtitle1" style={{ color: "white" }}>
+        <Typography variant="subtitle1" style={{ color: "#424945" }}>
           {formatDate(date * 1e3)}
         </Typography>
       </div>
@@ -41,7 +36,6 @@ export default function ChartOverlay({ overlay, onTimespanChange }) {
             aria-label="1 week timespan"
             variant="text"
             size="small"
-            color="primary"
             onClick={onTimespanChange}
           >
             1W
@@ -52,7 +46,6 @@ export default function ChartOverlay({ overlay, onTimespanChange }) {
             aria-label="1 month timespan"
             variant="text"
             size="small"
-            color="primary"
             onClick={onTimespanChange}
           >
             1M
@@ -63,7 +56,6 @@ export default function ChartOverlay({ overlay, onTimespanChange }) {
             aria-label="ALL timespan"
             variant="text"
             size="small"
-            color="primary"
             onClick={onTimespanChange}
           >
             ALL

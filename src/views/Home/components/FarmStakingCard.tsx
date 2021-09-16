@@ -24,7 +24,7 @@ const CardImage = styled.img`
 `;
 
 const Label = styled.div`
-  color: white;
+  color: #887263;
   font-size: 16px;
   font-weight: 500;
   text-align: center;
@@ -75,7 +75,6 @@ const FarmedStakingCard = () => {
         </Label>
         <CakeWalletBalance />
       </Block>
-    
     </CNCardBody>
   );
 };
@@ -83,8 +82,7 @@ const FarmedStakingCard = () => {
 const CNHeading = styled.div`
   font-size: 30px;
   font-weight: 700;
-
-  color: white;
+  color: #424945;
 `;
 const HeadingSection = styled.div`
   display: flex;
@@ -98,7 +96,7 @@ const CNCardBody = styled.div`
   text-align: center;
   border-radius: 0.625rem !important;
   padding: 30px 15px;
-  background-color: #1e202a;
+  background-color: #ffffff;
   align-self: center;
   display: flex;
   width: 100%;
@@ -106,7 +104,7 @@ const CNCardBody = styled.div`
   justify-content: space-between;
   align-items: center;
   border-radius: 0.625rem !important;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 
 export default FarmedStakingCard;

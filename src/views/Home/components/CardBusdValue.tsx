@@ -7,7 +7,7 @@ const CardBusdValue: React.FC<CardValueProps> = (props) => {
       fontSize="14px"
       lineHeight="1.1"
       color="#86878f"
-      prefix="~$"
+      prefix="usd"
       bold={false}
       decimals={2}
       {...props}

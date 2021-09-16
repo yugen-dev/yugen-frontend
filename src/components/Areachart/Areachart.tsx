@@ -161,8 +161,8 @@ const Areachart: React.FC<AreaChartPropsProps> = ({
         <LinearGradient
           id="teal"
           fromOffset={0.5}
-          to="#9900FF"
-          from="#2082E9"
+          to="#9B9382"
+          from="#424945"
         />
         <rect x={0} y={0} width={width} height={height} fill="transparent" />
 

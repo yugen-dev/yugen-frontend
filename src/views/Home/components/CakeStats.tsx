@@ -10,7 +10,7 @@ import CardValue from "./CardValue";
 const StyledCakeStats = styled(Card)`
   height: 100%;
   padding: 30px 40px;
-  background: #1e202a;
+  background: #ffffff;
   box-shadow: 1px 2px 4px 3px rgba(0, 0, 0, 0.16);
   margin-left: auto;
   margin-right: auto;

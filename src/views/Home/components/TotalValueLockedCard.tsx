@@ -9,8 +9,8 @@ const StyledTotalValueLockedCard = styled(Card)`
   height: 100%;
   border-radius: 0.625rem !important;
   padding: 30px 15px;
-  background-color: #1e202a;
-  box-shadow: 1px 2px 4px 3px rgba(0, 0, 0, 0.16);
+  background-color: #ffffff;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   align-items: center;
   display: flex;
   flex: 1;
@@ -31,7 +31,7 @@ const TotalValueLockedCard = () => {
           <CardValue
             value={data.toNumber()}
             lineHeight="1.5"
-            prefix="$"
+            prefix="usd"
             fontSize="28px"
             decimals={0}
             color="#2082E9"
@@ -47,16 +47,15 @@ const TotalValueLockedCard = () => {
   );
 };
 
-
 const CNText = styled.div`
   font-size: 16px;
   text-align: center;
   font-weight: normal;
-  color: #cfcccc;
+  color: #bfb1a6;
 `;
 
 const CNHeading = styled.div`
-  color: #686b7a;
+  color: #887263;
   font-size: 20px;
   font-weight: bold;
   text-align: center;
