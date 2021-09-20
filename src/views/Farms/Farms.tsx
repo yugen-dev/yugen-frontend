@@ -183,7 +183,7 @@ const Farms: React.FC = () => {
   useEffect(() => {
     const getAllCrossChainTranscations = async (accountId) => {
       if (accountId) {
-        let network = "mainnet";
+        let network = "testnet";
         if (chainId === "80001" || chainId === "5") {
           network = "testnet";
         }
