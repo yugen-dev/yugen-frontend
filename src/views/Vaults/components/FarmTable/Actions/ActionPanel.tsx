@@ -22,7 +22,6 @@ export interface ActionPanelProps {
 
 const Container = styled.div`
   background: #252836;
-  outline: 3px solid red;
   display: flex;
   width: 100%;
   flex-direction: column-reverse;

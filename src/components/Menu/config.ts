@@ -17,6 +17,11 @@ const config: MenuEntry[] = [
     href: "/farms",
   },
   {
+    label: "Vaults",
+    icon: "FarmIcon",
+    href: "/vaults",
+  },
+  {
     label: "CNT Staker",
     icon: "TicketIcon",
     href: "/cntstaker",

@@ -8,6 +8,8 @@ import useEagerConnect from "hooks/useEagerConnect";
 import { useFetchPriceList, useFetchPublicData } from "state/hooks";
 import { useApollo } from "apollo/index";
 import { useSetChainId } from "state/application/hooks";
+import Farms from "views/Farms";
+import Vaults from "views/Vaults";
 import GlobalStyle from "./style/Global";
 import Menu from "./components/Menu";
 import SuspenseWithChunkError from "./components/SuspenseWithChunkError";
@@ -19,7 +21,6 @@ import history from "./routerHistory";
 // Route-based code splitting
 // Only pool is included in the main bundle because of it's the most visited page
 const Home = lazy(() => import("./views/Home"));
-const Farms = lazy(() => import("./views/Farms"));
 const CNTStaker = lazy(() => import("./views/CNTStaker"));
 const RewardsManager = lazy(() => import("./views/RewardsManager"));
 
@@ -81,6 +82,9 @@ const App: React.FC = () => {
               </Route>
               <Route path="/farms">
                 <Farms />
+              </Route>
+              <Route path="/vaults">
+                <Vaults />
               </Route>
               <Route path="/cntstaker">
                 <CNTStaker />
