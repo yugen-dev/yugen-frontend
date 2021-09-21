@@ -17,18 +17,18 @@ const useAllEarnings = () => {
     const fetchAllBalances = async () => {
       const calls = farmsConfig.map((farm) => ({
         address: getFarmAddress(),
-        name: "pendingCNT",
+        name: "pendingYGN",
         params: [farm.pid, account],
       }));
       const poolCalls = [];
       const poolsWithEnd = poolsConfig.filter((p) => p.sousId !== 0);
       // eslint-disable-next-line array-callback-return
       poolsWithEnd.map((pool) => {
-        if (pool.multiReward.indexOf("CNT") > -1) {
+        if (pool.multiReward.indexOf("YGN") > -1) {
           poolCalls.push({
             address: getAddress(pool.contractAddress),
             name: "pendingReward",
-            params: [account, pool.multiReward.indexOf("CNT")],
+            params: [account, pool.multiReward.indexOf("YGN")],
           });
         }
       });
@@ -37,7 +37,7 @@ const useAllEarnings = () => {
       const resPools = await multicall(sousChefABI, poolCalls);
       const contract = getHybridStakingContract();
       const pendingRewardHybridStaking = await contract.methods
-        .pendingCNT("0", account)
+        .pendingYGN("0", account)
         .call();
       const response = res.concat(resPools).concat(pendingRewardHybridStaking);
       setBalance(response);
