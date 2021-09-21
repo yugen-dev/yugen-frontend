@@ -6,7 +6,7 @@ export const ActionContainer = styled.div`
   flex-grow: 1;
   flex-basis: 0;
   margin-bottom: 16px;
-  background: #1e202a;
+  background: #ffffff;
 
   ${({ theme }) => theme.mediaQueries.sm} {
     margin-left: 12px;
@@ -19,7 +19,7 @@ export const ActionContainer = styled.div`
     margin-right: 0;
     margin-bottom: 0;
   }
-  box-shadow: 1px 1px 0 2px #2082e9, -1px -1px 0 2px #9208fe;
+  border: 1px solid #887963;
 `;
 
 export const ActionTitles = styled.div`
@@ -31,12 +31,12 @@ export const ActionTitles = styled.div`
 export const Title = styled.span`
   color: #b7b7b8;
   font-size: 16px;
-  font-weigth: 600;
+  font-weight: 600;
 `;
 
 export const Subtle = styled.span`
   font-size: 16px;
-  font-weigth: 600;
+  font-weight: 600;
   color: #86878f;
 `;
 

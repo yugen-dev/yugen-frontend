@@ -158,7 +158,6 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({
   }
 
   return (
-    // <GradientBorder>
     <ActionContainer>
       <ActionTitles>
         <Subtle>{TranslateString(999, "ENABLE FARM")}</Subtle>
@@ -174,15 +173,7 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({
         </Button>
       </ActionContent>
     </ActionContainer>
-    // </GradientBorder>
   );
 };
-
-// const GradientBorder = styled.div`
-//   background: linear-gradient(180deg, #2082E9 0%, #9208FE 100%);
-
-//   padding: 2px;
-//   border-radius: 14px;
-// `;
 
 export default Staked;

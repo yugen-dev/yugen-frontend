@@ -54,7 +54,6 @@ const HarvestAction: React.FunctionComponent<FarmWithStakedValue> = ({
   }, [earningsBusd, updateValue]);
 
   return (
-    // <GradientBorder>
     <ActionContainer>
       <ActionTitles>
         <Title>CAKE </Title>
@@ -79,15 +78,7 @@ const HarvestAction: React.FunctionComponent<FarmWithStakedValue> = ({
         </Button>
       </ActionContent>
     </ActionContainer>
-    //  </GradientBorder>
   );
 };
-
-// const GradientBorder = styled.div`
-//   background: linear-gradient(180deg, #2082E9 0%, #9208FE 100%);
-
-//   padding: 2px;
-//   border-radius: 14px;
-// `;
 
 export default HarvestAction;

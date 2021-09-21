@@ -21,7 +21,7 @@ export interface ActionPanelProps {
 }
 
 const Container = styled.div`
-  background: #252836;
+  background: #ffffff;
   outline: 3px solid red;
   display: flex;
   width: 100%;

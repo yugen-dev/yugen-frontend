@@ -40,7 +40,6 @@ import { RowProps } from "./components/FarmTable/Row";
 import { DesktopColumnSchema, ViewMode } from "./components/types";
 import Select, { OptionProps } from "./components/Select/Select";
 import MrCNTaah from "../../images/MrCNTaah.png";
-import ToggleView from "./components/ToggleView/ToggleView";
 
 const FlexLayout = styled.div`
   display: flex;
@@ -557,10 +556,6 @@ const Vaults: React.FC = () => {
       <Page>
         <ControlContainer>
           <ViewControls>
-            <ToggleView
-              viewMode={viewMode}
-              onToggle={(mode: ViewMode) => setViewMode(mode)}
-            />
             <ToggleWrapper>
               <Toggle
                 checked={stackedOnly}
