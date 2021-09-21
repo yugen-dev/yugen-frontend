@@ -170,11 +170,11 @@ export const usePriceCakeBusd = (): BigNumber => {
   const pid = 0; // CNT-MATIC LP ,CAKE-BNB LP
   const bnbPriceUSD = usePriceBnbBusd();
 
-  const farm = useFarmFromPid(pid);
-  return farm?.tokenPriceVsQuote
-    ? bnbPriceUSD.times(farm?.tokenPriceVsQuote)
-    : ZERO;
-  // return new BigNumber(10);
+  // const farm = useFarmFromPid(pid);
+  // return farm?.tokenPriceVsQuote
+  //   ? bnbPriceUSD.times(farm?.tokenPriceVsQuote)
+  //   : ZERO;
+  return new BigNumber(10);
 };
 
 export const usePriceEthBusd = (): BigNumber => {
