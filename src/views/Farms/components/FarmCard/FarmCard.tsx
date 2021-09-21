@@ -177,13 +177,6 @@ const FarmCard: React.FC<FarmCardProps> = ({
     ? (farm.poolHarvestInterval / 60).toFixed(0)
     : 0;
 
-  // const farmAPY =
-  //   farm.apy &&
-  //   farm.apy
-  //     .times(new BigNumber(100))
-  //     .toNumber()
-  //     .toLocaleString("en-US", { maximumFractionDigits: 2 });
-
   const { quoteTokenAdresses, quoteTokenSymbol, tokenAddresses } = farm;
   const liquidityUrlPathParts = getLiquidityUrlPathParts({
     quoteTokenAdresses,
