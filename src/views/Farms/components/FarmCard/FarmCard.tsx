@@ -155,7 +155,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
 
   const lpLabel =
     farm.lpSymbol && farm.lpSymbol.toUpperCase().replace("PANCAKE", "");
-  const earnLabel = farm.dual ? farm.dual.earnLabel : "CNT";
+  const earnLabel = farm.dual ? farm.dual.earnLabel : "YGN";
 
   let isDaysGreater = false;
   let isHoursGreater = false;
@@ -194,7 +194,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
 
   return (
     <FCard>
-      {farm.tokenSymbol === "CNT" && <StyledCardAccent />}
+      {farm.tokenSymbol === "YGN" && <StyledCardAccent />}
       <div style={{ borderBottom: "1px solid #524B63", paddingBottom: "10px" }}>
         <CardHeading
           lpLabel={lpLabel}
