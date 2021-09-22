@@ -22,12 +22,6 @@ const fetchFarms = async () => {
           name: "balanceOf",
           params: [lpAdress],
         },
-        // Balance of LP tokens in the master chef contract
-        {
-          address: lpAdress,
-          name: "balanceOf",
-          params: [getFarmAddress()],
-        },
         // Total supply of LP tokens
         {
           address: lpAdress,
@@ -56,13 +50,37 @@ const fetchFarms = async () => {
       const [
         tokenBalanceLP,
         quoteTokenBlanceLP,
-        lpTokenBalanceMC,
         lpTotalSupply,
         tokenDecimals,
         quoteTokenDecimals,
         singleSidedTokenDecimal,
         singleSidedToTokenDecimal,
       ] = await multicall(erc20, calls);
+
+      const [info, totalAllocPoint, lpTokenBalanceMC] = await multicall(
+        farmABI,
+        [
+          {
+            address: getFarmAddress(),
+            name: "poolInfo",
+            params: [farmConfig.pid],
+          },
+          {
+            address: getFarmAddress(),
+            name: "totalAllocPoint",
+          },
+          // Balance of LP tokens in the master chef contract
+          {
+            address: getFarmAddress(),
+            name: "getLpTokenValue",
+            params: [farmConfig.pid],
+          },
+        ]
+      );
+      const allocPoint = new BigNumber(info.allocPoint._hex);
+      const poolHarvestInterval = new BigNumber(info.harvestInterval._hex);
+
+      const poolWeight = allocPoint.div(new BigNumber(totalAllocPoint));
 
       const singleSidedTokenDecimalLocal = new BigNumber(
         singleSidedTokenDecimal
@@ -90,22 +108,6 @@ const fetchFarms = async () => {
       const quoteTokenAmount = new BigNumber(quoteTokenBlanceLP)
         .div(new BigNumber(10).pow(quoteTokenDecimals))
         .times(lpTokenRatio);
-
-      const [info, totalAllocPoint] = await multicall(farmABI, [
-        {
-          address: getFarmAddress(),
-          name: "poolInfo",
-          params: [farmConfig.pid],
-        },
-        {
-          address: getFarmAddress(),
-          name: "totalAllocPoint",
-        },
-      ]);
-      const allocPoint = new BigNumber(info.allocPoint._hex);
-      const poolHarvestInterval = new BigNumber(info.harvestInterval._hex);
-
-      const poolWeight = allocPoint.div(new BigNumber(totalAllocPoint));
 
       return {
         ...farmConfig,
