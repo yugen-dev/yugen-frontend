@@ -9,7 +9,7 @@ import Countdown from "react-countdown";
 import HistoryIcon from "@material-ui/icons/History";
 import { getAddress, getFarmAddress } from "utils/addressHelpers";
 import { useChainId } from "state/application/hooks";
-import { Flex, Text, Radio, Heading, Button } from "cryption-uikit";
+import { Flex, Text, Heading, Button } from "cryption-uikit";
 import { Farm } from "state/types";
 import { getBalanceNumber } from "utils/formatBalance";
 import {
@@ -163,17 +163,17 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     ? farm.singleSidedToTokenDecimal
     : new BigNumber(18);
 
-  const [radioValue, setRadioValue] = React.useState("LP");
-  const [radioTrue, SetradioTrue] = React.useState(true);
+  const [radioValue] = React.useState("LP");
+  const [radioTrue] = React.useState(true);
   const valueOfEthBalance = useEthBalance();
-  const handleRadioChange = (value) => {
-    if (value === "LP") {
-      SetradioTrue(true);
-    } else {
-      SetradioTrue(false);
-    }
-    setRadioValue(() => value);
-  };
+  // const handleRadioChange = (value) => {
+  //   if (value === "LP") {
+  //     SetradioTrue(true);
+  //   } else {
+  //     SetradioTrue(false);
+  //   }
+  //   setRadioValue(() => value);
+  // };
 
   const totalValueOfUser: BigNumber = useMemo(() => {
     if (!account) {
@@ -508,7 +508,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
           </Flex>
         ) : (
           <div>
-            <Flex>
+            {/* <Flex>
               <div
                 style={{
                   display: "flex",
@@ -572,7 +572,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
                   </div>
                 )}
               </div>
-            </Flex>
+            </Flex> */}
             {radioTrue && radioValue !== singleSidedtoTokenName && (
               <StakeAction
                 stakedBalance={stakedBalance}
@@ -651,7 +651,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
           pr="5px"
         >
           {/* TODO: Is there a way to get a dynamic value here from useFarmFromSymbol? */}
-          CNT
+          YGN
         </Text>
         <Text
           bold
