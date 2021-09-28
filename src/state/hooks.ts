@@ -154,10 +154,10 @@ export const usePoolFromPid = (sousId): Pool => {
 // Prices
 
 export const usePriceBnbBusd = (): BigNumber => {
-  if (chainID === "80001" || chainID === "5") {
-    return new BigNumber(10);
-  }
-  const pid = 3; // USD-MATIC LP, BUSD-BNB LP
+  // if (chainID === "80001" || chainID === "5") {
+  //   return new BigNumber(10);
+  // }
+  const pid = getBnbBusdPoolId(); // USD-MATIC LP, BUSD-BNB LP
   const farm = useFarmFromPid(pid);
 
   return farm?.tokenPriceVsQuote
@@ -166,17 +166,42 @@ export const usePriceBnbBusd = (): BigNumber => {
   // return new BigNumber(10);
 };
 
-export const usePriceCakeBusd = (): BigNumber => {
-  const pid = 0; // CNT-MATIC LP ,CAKE-BNB LP
-  const bnbPriceUSD = usePriceBnbBusd();
-
-  // const farm = useFarmFromPid(pid);
-  // return farm?.tokenPriceVsQuote
-  //   ? bnbPriceUSD.times(farm?.tokenPriceVsQuote)
-  //   : ZERO;
-  return new BigNumber(10);
+// add for mainnet and fetch poolId from constants
+export const getBnbBusdPoolId = (): number => {
+  const poolIDs = {
+    1: "",
+    97: "",
+    56: "",
+    80001: "2",
+    5: "",
+    137: "",
+  };
+  return Number(poolIDs[`${chainID}`]);
 };
 
+// add for mainnet and fetch poolId from constants
+export const getCakeBnbPoolId = (): number => {
+  const poolIDs = {
+    1: "",
+    97: "",
+    56: "",
+    80001: "3",
+    5: "",
+    137: "",
+  };
+  return Number(poolIDs[`${chainID}`]);
+};
+
+export const usePriceCakeBusd = (): BigNumber => {
+  const pid = getCakeBnbPoolId(); // YGN-MATIC LP ,CAKE-BNB LP
+  const bnbPriceUSD = usePriceBnbBusd();
+  const farm = useFarmFromPid(pid);
+  return farm?.tokenPriceVsQuote
+    ? bnbPriceUSD.times(farm?.tokenPriceVsQuote)
+    : ZERO;
+};
+
+// pending
 export const usePriceEthBusd = (): BigNumber => {
   if (chainID === "80001" || chainID === "5") {
     return new BigNumber(10);
@@ -189,6 +214,7 @@ export const usePriceEthBusd = (): BigNumber => {
   // return new BigNumber(10);
 };
 
+// pending
 export const usePriceBtcBusd = (): BigNumber => {
   if (chainID === "80001" || chainID === "5") {
     return new BigNumber(10);

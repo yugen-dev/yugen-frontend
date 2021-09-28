@@ -119,6 +119,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
     if (farm.quoteTokenSymbol === QuoteToken.CAKE) {
       return cakePrice.times(farm.lpTotalInQuoteToken);
     }
+    // if we want to keep cnt add and use CNT hook
     if (farm.quoteTokenSymbol === QuoteToken.CNT) {
       return cakePrice.times(farm.lpTotalInQuoteToken);
     }
