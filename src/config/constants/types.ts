@@ -119,6 +119,16 @@ export interface PoolConfig {
   metamaskImg?: string;
 }
 
+export interface VaultConfig {
+  pid: number;
+  lpTokenName: string;
+  lpTokenAddress: Address;
+  lpTokenPart1Address: Address;
+  lpTokenPart2Address: Address;
+  vaultAddress: Address;
+  strategyAddress: Address;
+}
+
 export type Images = {
   lg: string;
   md: string;

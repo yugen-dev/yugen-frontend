@@ -1,6 +1,7 @@
 import { save, load } from "redux-localstorage-simple";
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import farmsReducer from "./farms";
+import vaultsReducer from "./vaults";
 import toastsReducer from "./toasts";
 import poolsReducer from "./pools";
 import pricesReducer from "./prices";
@@ -36,6 +37,7 @@ if (loadedState.user) {
 const store = configureStore({
   devTools: process.env.NODE_ENV !== "production",
   reducer: {
+    vaults: vaultsReducer,
     farms: farmsReducer,
     toasts: toastsReducer,
     pools: poolsReducer,

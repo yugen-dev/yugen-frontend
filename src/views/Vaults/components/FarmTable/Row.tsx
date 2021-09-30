@@ -15,21 +15,25 @@ import CellLayout from "./CellLayout";
 import { DesktopColumnSchema, MobileColumnSchema } from "../types";
 
 export interface RowProps {
-  apr: AprProps;
   farm: FarmProps;
+  apy: AprProps;
+  apr: AprProps;
+  wallet: AprProps;
   earned: EarnedProps;
-  multiplier: MultiplierProps;
-  liquidity: LiquidityProps;
   details: FarmWithStakedValue;
+  liquidity: LiquidityProps;
+  multiplier: MultiplierProps;
 }
 
 const cells = {
-  apr: Apr,
   farm: Farm,
+  apy: Apr,
+  apr: Apr,
+  wallet: Apr,
   earned: Earned,
   details: Details,
-  multiplier: Multiplier,
   liquidity: Liquidity,
+  multiplier: Multiplier,
 };
 
 const CellInner = styled.div`
@@ -102,7 +106,7 @@ const Row: React.FunctionComponent<RowProps> = (props) => {
                 return (
                   <td key={key}>
                     <CellInner>
-                      <CellLayout label={TranslateString(736, "APR")}>
+                      <CellLayout label={TranslateString(736, "APY")}>
                         <Apr {...props.apr} hideButton={isMobile} />
                       </CellLayout>
                     </CellInner>

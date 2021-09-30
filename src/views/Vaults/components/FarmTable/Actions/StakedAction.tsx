@@ -99,7 +99,7 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({
       // <GradientBorder>
       <ActionContainer>
         <ActionTitles>
-          <Subtle>{TranslateString(999, "START FARMING")}</Subtle>
+          <Subtle>{TranslateString(999, `${lpSymbol} Vault`)}</Subtle>
         </ActionTitles>
         <ActionContent>
           <UnlockButton width="100%" />
@@ -144,12 +144,12 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({
       // <GradientBorder>
       <ActionContainer>
         <ActionTitles>
-          <Subtle>{TranslateString(999, "STAKE")} </Subtle>
+          <Subtle>{TranslateString(999, "Deposit")} </Subtle>
           <Title>{lpSymbol}</Title>
         </ActionTitles>
         <ActionContent>
           <Button width="100%" onClick={onPresentDeposit} variant="secondary">
-            {TranslateString(999, "Stake LP")}
+            {TranslateString(999, "Deposit LP")}
           </Button>
         </ActionContent>
       </ActionContainer>
@@ -158,10 +158,9 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({
   }
 
   return (
-    // <GradientBorder>
     <ActionContainer>
       <ActionTitles>
-        <Subtle>{TranslateString(999, "ENABLE FARM")}</Subtle>
+        <Subtle>{TranslateString(999, "Approve Vault")}</Subtle>
       </ActionTitles>
       <ActionContent>
         <Button
@@ -170,19 +169,11 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({
           onClick={handleApprove}
           variant="primary"
         >
-          {TranslateString(999, "Enable")}
+          {TranslateString(999, "Approve")}
         </Button>
       </ActionContent>
     </ActionContainer>
-    // </GradientBorder>
   );
 };
-
-// const GradientBorder = styled.div`
-//   background: linear-gradient(180deg, #2082E9 0%, #9208FE 100%);
-
-//   padding: 2px;
-//   border-radius: 14px;
-// `;
 
 export default Staked;

@@ -6,6 +6,7 @@ import {
   Nft,
   PoolConfig,
   Team,
+  VaultConfig,
 } from "config/constants/types";
 
 export type TranslatableText =
@@ -18,6 +19,16 @@ export type TranslatableText =
       };
     };
 
+export interface Vault extends VaultConfig {
+  lpTotalSupply: BigNumber;
+  userData?: {
+    allowance: BigNumber;
+    lpTokenBalance: BigNumber;
+    lp1stTokenBalance: BigNumber;
+    lp2ndTokenBalance: BigNumber;
+    lpStakedBalance: BigNumber;
+  };
+}
 export interface Farm extends FarmConfig {
   tokenAmount?: BigNumber;
   quoteTokenAmount?: BigNumber;
@@ -45,15 +56,15 @@ export interface Pool extends PoolConfig {
   totalStaked?: BigNumber;
   poolHarvestInterval?: number;
   poolwithdrawalFeeBP?: number;
-  pooldepositFeeBP?:number;
+  pooldepositFeeBP?: number;
   startBlock?: number;
   endBlock?: number;
   tokenAmount?: BigNumber;
   quoteTokenAmount?: BigNumber;
   lpTotalInQuoteToken?: BigNumber;
   tokenPriceVsQuote?: BigNumber;
-  quoteTokenSecondAmount?:BigNumber;
-  quoteTokeFirstAmount?:BigNumber;
+  quoteTokenSecondAmount?: BigNumber;
+  quoteTokeFirstAmount?: BigNumber;
   userData?: {
     allowance: BigNumber;
     stakingTokenBalance: BigNumber;
@@ -85,6 +96,10 @@ export interface ToastsState {
 
 export interface FarmsState {
   data: Farm[];
+}
+
+export interface VaultsState {
+  data: Vault[];
 }
 
 export interface PoolsState {
@@ -157,6 +172,7 @@ export interface Block {
 // Global state
 
 export interface State {
+  vaults: VaultsState;
   farms: FarmsState;
   toasts: ToastsState;
   prices: PriceState;

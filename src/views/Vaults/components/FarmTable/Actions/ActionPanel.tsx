@@ -7,7 +7,7 @@ import getLiquidityUrlPathParts from "utils/getLiquidityUrlPathParts";
 import { communityFarms } from "config/constants";
 import { CommunityTag, CoreTag, DualTag } from "components/Tags";
 
-import HarvestAction from "./HarvestAction";
+// import HarvestAction from "./HarvestAction";
 import StakedAction from "./StakedAction";
 import Apr, { AprProps } from "../Apr";
 import Multiplier, { MultiplierProps } from "../Multiplier";
@@ -34,6 +34,11 @@ const Container = styled.div`
 `;
 
 const StyledLinkExternal = styled(LinkExternal)`
+  font-weight: 400;
+  color: #424945;
+`;
+
+const StyledText = styled(Text)`
   font-weight: 400;
   color: #424945;
 `;
@@ -126,7 +131,6 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
   });
   const lpAddress = farm.lpAddresses[process.env.REACT_APP_CHAIN_ID];
   const bsc = `https://polygonscan.com/address/${lpAddress}`;
-  const info = `https://pancakeswap.info/pair/${lpAddress}`;
   const isCommunityFarm = communityFarms.includes(tokenSymbol);
 
   return (
@@ -134,17 +138,22 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
       <InfoContainer>
         <StakeContainer>
           <StyledLinkExternal
-            href={`https://exchange.pancakeswap.finance/#/add/${liquidityUrlPathParts}`}
+            href={`https://app.polydex.org/add/ETH/${liquidityUrlPathParts}`}
           >
-            {TranslateString(999, `Stake:  ${lpLabel}`, { name: lpLabel })}
+            {TranslateString(999, `Get  ${lpLabel}`, { name: lpLabel })}
           </StyledLinkExternal>
         </StakeContainer>
         <StyledLinkExternal href={bsc}>
           {TranslateString(999, "PolygonScan")}
         </StyledLinkExternal>
-        <StyledLinkExternal href={info}>
-          {TranslateString(999, "Info Site")}
-        </StyledLinkExternal>
+        <StyledText>Deposited: 5 BTC-ETH LP</StyledText>
+        <StyledText>BTC balance: 1 BTC ($ 10000)</StyledText>
+        <StyledText>ETH balance: 2 BTC ($ 5000)</StyledText>
+        <StyledText>Total balance: $ 15000</StyledText>
+        <StyledText>In Wallet: 10 BTC-ETH LP</StyledText>
+        <StyledText>Daily ROI: 0.34%</StyledText>
+        <StyledText>APY ROI: 34%</StyledText>
+
         <TagsContainer>
           {isCommunityFarm ? <CommunityTag /> : <CoreTag />}
           {dual ? <DualTag /> : null}
@@ -165,7 +174,7 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
         </ValueWrapper>
       </ValueContainer>
       <ActionContainer>
-        <HarvestAction {...farm} />
+        {/* <HarvestAction {...farm} /> */}
         <StakedAction {...farm} />
       </ActionContainer>
     </Container>

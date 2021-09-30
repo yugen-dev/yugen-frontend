@@ -30,6 +30,7 @@ import { useApprove } from "hooks/useApprove";
 import UnlockButton from "components/UnlockButton";
 import { fetchFarmUserDataAsync } from "state/actions";
 import { CROSS_CHAIN_API_LINK } from "config";
+import { fetchVaultUserDataAsync } from "state/vaults";
 import { Subtle } from "../FarmTable/Actions/styles";
 import StakeAction from "./StakeAction";
 import HarvestAction from "./HarvestAction";
@@ -369,6 +370,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
           event.returnValues.depositedTime === timestamp
         ) {
           dispatch(fetchFarmUserDataAsync(account));
+          dispatch(fetchVaultUserDataAsync(account));
           setStakeEthProcessEth(2);
           toastSuccess("Success", "Your Last Transcation was Successfull");
         }

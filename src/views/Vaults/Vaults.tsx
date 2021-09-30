@@ -24,6 +24,7 @@ import {
   usePriceBtcBusd,
   usePriceCakeBusd,
   usePriceEthBusd,
+  useVaults,
 } from "state/hooks";
 import useRefresh from "hooks/useRefresh";
 import { fetchFarmUserDataAsync } from "state/actions";
@@ -32,6 +33,7 @@ import useI18n from "hooks/useI18n";
 import { useChainId } from "state/application/hooks";
 import { getBalanceNumber } from "utils/formatBalance";
 import { orderBy } from "lodash";
+import { fetchVaultUserDataAsync } from "state/vaults";
 import FarmCard, { FarmWithStakedValue } from "./components/FarmCard/FarmCard";
 import Table from "./components/FarmTable/FarmTable";
 import FarmTabButtons from "./components/FarmTabButtons";
@@ -161,6 +163,7 @@ const Vaults: React.FC = () => {
   const { pathname } = useLocation();
   const TranslateString = useI18n();
   const farmsLP = useFarms();
+  const vaultsLP = useVaults();
   const cakePrice = usePriceCakeBusd();
   const bnbPrice = usePriceBnbBusd();
   const [query, setQuery] = useState("");
@@ -178,6 +181,7 @@ const Vaults: React.FC = () => {
   useEffect(() => {
     if (account) {
       dispatch(fetchFarmUserDataAsync(account));
+      dispatch(fetchVaultUserDataAsync(account));
     }
   }, [account, dispatch, fastRefresh]);
   useEffect(() => {
@@ -379,6 +383,21 @@ const Vaults: React.FC = () => {
     const lpLabel =
       farm.lpSymbol && farm.lpSymbol.toUpperCase().replace("PANCAKE", "");
     const row: RowProps = {
+      apy: {
+        value:
+          farm.apy &&
+          farm.apy
+            .times(new BigNumber(100))
+            .toNumber()
+            .toLocaleString("en-US", { maximumFractionDigits: 2 }),
+        multiplier: farm.multiplier,
+        lpLabel,
+        quoteTokenAdresses,
+        quoteTokenSymbol,
+        tokenAddresses,
+        cakePrice,
+        originalValue: farm.apy,
+      },
       apr: {
         value:
           farm.apy &&
@@ -394,6 +413,23 @@ const Vaults: React.FC = () => {
         cakePrice,
         originalValue: farm.apy,
       },
+
+      wallet: {
+        value:
+          farm.apy &&
+          farm.apy
+            .times(new BigNumber(100))
+            .toNumber()
+            .toLocaleString("en-US", { maximumFractionDigits: 2 }),
+        multiplier: farm.multiplier,
+        lpLabel,
+        quoteTokenAdresses,
+        quoteTokenSymbol,
+        tokenAddresses,
+        cakePrice,
+        originalValue: farm.apy,
+      },
+
       farm: {
         image: farm.lpSymbol.split(" ")[0].toLocaleLowerCase(),
         label: lpLabel,

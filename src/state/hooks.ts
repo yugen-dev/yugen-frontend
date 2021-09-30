@@ -33,6 +33,7 @@ import {
   TeamsState,
   AchievementState,
   PriceState,
+  Vault,
 } from "./types";
 
 import { fetchProfile } from "./profile";
@@ -72,6 +73,11 @@ export const useFetchPublicData = () => {
 export const useFarms = (): Farm[] => {
   const farms = useSelector((state: State) => state.farms.data);
   return farms;
+};
+
+export const useVaults = (): Vault[] => {
+  const vaults = useSelector((state: State) => state.vaults.data);
+  return vaults;
 };
 
 export const usePoolss = (): Pool[] => {
