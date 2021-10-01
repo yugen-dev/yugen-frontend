@@ -9,16 +9,15 @@ import {
 } from "cryption-uikit";
 import UnlockButton from "components/UnlockButton";
 import { useWeb3React } from "@web3-react/core";
-import { useFarmUser } from "state/hooks";
-import { FarmWithStakedValue } from "views/Farms/components/FarmCard/FarmCard";
+import { useVaultUser } from "state/hooks";
+import { VaultWithStakedValue } from "views/Farms/components/FarmCard/FarmCard";
 import useI18n from "hooks/useI18n";
-import { useApprove } from "hooks/useApprove";
+import { useVaultApprove } from "hooks/useApprove";
 import { getERC20Contract } from "utils/contractHelpers";
 import { BASE_ADD_LIQUIDITY_URL } from "config";
-import getLiquidityUrlPathParts from "utils/getLiquidityUrlPathParts";
 import { getBalanceNumber } from "utils/formatBalance";
-import { useStake } from "hooks/useStake";
-import useUnstake from "hooks/useUnstake";
+import { useVaultStake } from "hooks/useStake";
+import { useVaultUnstake } from "hooks/useUnstake";
 import useWeb3 from "hooks/useWeb3";
 
 import DepositModal from "../../DepositModal";
@@ -36,30 +35,25 @@ const IconButtonWrapper = styled.div`
   display: flex;
 `;
 
-const Staked: React.FunctionComponent<FarmWithStakedValue> = ({
+const Staked: React.FunctionComponent<VaultWithStakedValue> = ({
   pid,
-  lpSymbol,
-  lpAddresses,
-  quoteTokenAdresses,
-  quoteTokenSymbol,
-  tokenAddresses,
+  lpTokenName,
+  lpTokenAddress,
+  vaultAddress,
 }) => {
   const TranslateString = useI18n();
   const { account } = useWeb3React("web3");
   const [requestedApproval, setRequestedApproval] = useState(false);
-  const { allowance, tokenBalance, stakedBalance } = useFarmUser(pid);
-  const { onStake } = useStake(pid);
-  const { onUnstake } = useUnstake(pid);
+  const { allowance, tokenBalance, stakedBalance } = useVaultUser(pid);
+  const vaultContractAddress = vaultAddress[process.env.REACT_APP_CHAIN_ID];
+  const { onStake } = useVaultStake(pid, vaultContractAddress);
+  const { onUnstake } = useVaultUnstake(pid, vaultContractAddress);
   const web3 = useWeb3();
 
   const isApproved = account && allowance && allowance.isGreaterThan(0);
 
-  const lpAddress = lpAddresses[process.env.REACT_APP_CHAIN_ID];
-  const liquidityUrlPathParts = getLiquidityUrlPathParts({
-    quoteTokenAdresses,
-    quoteTokenSymbol,
-    tokenAddresses,
-  });
+  const lpAddress = lpTokenAddress[process.env.REACT_APP_CHAIN_ID];
+  const liquidityUrlPathParts = "";
   const addLiquidityUrl = `${BASE_ADD_LIQUIDITY_URL}/${liquidityUrlPathParts}`;
   const rawStakedBalance = getBalanceNumber(stakedBalance);
   const displayBalance = rawStakedBalance.toLocaleString();
@@ -68,7 +62,7 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({
     <DepositModal
       max={tokenBalance}
       onConfirm={onStake}
-      tokenName={lpSymbol}
+      tokenName={lpTokenName}
       addLiquidityUrl={addLiquidityUrl}
     />
   );
@@ -76,13 +70,13 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({
     <WithdrawModal
       max={stakedBalance}
       onConfirm={onUnstake}
-      tokenName={lpSymbol}
+      tokenName={lpTokenName}
     />
   );
 
   const lpContract = getERC20Contract(lpAddress, web3);
 
-  const { onApprove } = useApprove(lpContract);
+  const { onApprove } = useVaultApprove(lpContract, vaultContractAddress);
 
   const handleApprove = useCallback(async () => {
     try {
@@ -90,32 +84,29 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({
       await onApprove();
       setRequestedApproval(false);
     } catch (e) {
-      console.error(e);
+      console.error("Error while trying to approve: ", e);
     }
   }, [onApprove]);
 
   if (!account) {
     return (
-      // <GradientBorder>
       <ActionContainer>
         <ActionTitles>
-          <Subtle>{TranslateString(999, `${lpSymbol} Vault`)}</Subtle>
+          <Subtle>{TranslateString(999, `${lpTokenName} Vault`)}</Subtle>
         </ActionTitles>
         <ActionContent>
           <UnlockButton width="100%" />
         </ActionContent>
       </ActionContainer>
-      //  </GradientBorder>
     );
   }
 
   if (isApproved) {
     if (rawStakedBalance) {
       return (
-        // <GradientBorder>
         <ActionContainer>
           <ActionTitles>
-            <Title>{lpSymbol} </Title>
+            <Title>{lpTokenName} </Title>
             <Subtle>{TranslateString(999, "STAKED")}</Subtle>
           </ActionTitles>
           <ActionContent>
@@ -136,16 +127,14 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({
             </IconButtonWrapper>
           </ActionContent>
         </ActionContainer>
-        //  </GradientBorder>
       );
     }
 
     return (
-      // <GradientBorder>
       <ActionContainer>
         <ActionTitles>
           <Subtle>{TranslateString(999, "Deposit")} </Subtle>
-          <Title>{lpSymbol}</Title>
+          <Title>{lpTokenName}</Title>
         </ActionTitles>
         <ActionContent>
           <Button width="100%" onClick={onPresentDeposit} variant="secondary">
@@ -153,7 +142,6 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({
           </Button>
         </ActionContent>
       </ActionContainer>
-      //  </GradientBorder>
     );
   }
 

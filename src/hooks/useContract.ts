@@ -27,6 +27,7 @@ import {
   getHybridStakingContract,
   getUnivesalOneSidedContract,
   getL2IntermediatorContract,
+  getVaultContract,
 } from "utils/contractHelpers";
 import { useChainId } from "state/application/hooks";
 import polydexMigrator from "config/abi/polydexMigrator.json";
@@ -85,6 +86,11 @@ export const useLotteryTicket = () => {
 export const useMasterchef = () => {
   const web3 = useWeb3();
   return useMemo(() => getMasterchefContract(web3), [web3]);
+};
+
+export const useVaultchef = (vaultAddress) => {
+  const web3 = useWeb3();
+  return useMemo(() => getVaultContract(vaultAddress, web3), [web3]);
 };
 
 export const useHybridStaking = () => {

@@ -1,28 +1,28 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { FarmWithStakedValue } from "views/Farms/components/FarmCard/FarmCard";
+import { VaultWithStakedValue } from "views/Farms/components/FarmCard/FarmCard";
 import { useMatchBreakpoints } from "cryption-uikit";
 import useI18n from "hooks/useI18n";
 
 import Apr, { AprProps } from "./Apr";
 import Farm, { FarmProps } from "./Farm";
-import Earned, { EarnedProps } from "./Earned";
 import Details from "./Details";
-import Multiplier, { MultiplierProps } from "./Multiplier";
 import Liquidity, { LiquidityProps } from "./Liquidity";
 import ActionPanel from "./Actions/ActionPanel";
 import CellLayout from "./CellLayout";
 import { DesktopColumnSchema, MobileColumnSchema } from "../types";
+import Apy, { ApyProps } from "./Apy";
+import Wallet, { WalletProps } from "./Wallet";
+import Deposited, { DepositedProps } from "./Deposited";
 
 export interface RowProps {
   farm: FarmProps;
   apy: AprProps;
-  apr: AprProps;
-  wallet: AprProps;
-  earned: EarnedProps;
-  details: FarmWithStakedValue;
+  apr: ApyProps;
+  wallet: WalletProps;
   liquidity: LiquidityProps;
-  multiplier: MultiplierProps;
+  deposited: DepositedProps;
+  details: VaultWithStakedValue;
 }
 
 const cells = {
@@ -30,10 +30,9 @@ const cells = {
   apy: Apr,
   apr: Apr,
   wallet: Apr,
-  earned: Earned,
-  details: Details,
   liquidity: Liquidity,
-  multiplier: Multiplier,
+  deposited: Deposited,
+  details: Details,
 };
 
 const CellInner = styled.div`
@@ -106,8 +105,38 @@ const Row: React.FunctionComponent<RowProps> = (props) => {
                 return (
                   <td key={key}>
                     <CellInner>
-                      <CellLayout label={TranslateString(736, "APY")}>
-                        <Apr {...props.apr} hideButton={isMobile} />
+                      <CellLayout label="APR">
+                        <Apr {...props.apr} />
+                      </CellLayout>
+                    </CellInner>
+                  </td>
+                );
+              case "apy":
+                return (
+                  <td key={key}>
+                    <CellInner>
+                      <CellLayout label="APY">
+                        <Apy {...props.apy} />
+                      </CellLayout>
+                    </CellInner>
+                  </td>
+                );
+              case "wallet":
+                return (
+                  <td key={key}>
+                    <CellInner>
+                      <CellLayout label="Wallet">
+                        <Wallet {...props.wallet} />
+                      </CellLayout>
+                    </CellInner>
+                  </td>
+                );
+              case "deposited":
+                return (
+                  <td key={key}>
+                    <CellInner>
+                      <CellLayout label="Deposited">
+                        <Deposited {...props.deposited} />
                       </CellLayout>
                     </CellInner>
                   </td>
@@ -146,12 +175,12 @@ const Row: React.FunctionComponent<RowProps> = (props) => {
           <tr>
             <EarnedMobileCell>
               <CellLayout label={TranslateString(1072, "Earned")}>
-                <Earned {...props.earned} />
+                <Deposited {...props.deposited} />
               </CellLayout>
             </EarnedMobileCell>
             <AprMobileCell>
               <CellLayout label={TranslateString(736, "APR")}>
-                <Apr {...props.apr} hideButton />
+                <Apr {...props.apr} />
               </CellLayout>
             </AprMobileCell>
           </tr>

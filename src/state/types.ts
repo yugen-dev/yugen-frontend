@@ -22,11 +22,12 @@ export type TranslatableText =
 export interface Vault extends VaultConfig {
   lpTotalSupply: BigNumber;
   userData?: {
+    index: number;
     allowance: BigNumber;
     lpTokenBalance: BigNumber;
-    lp1stTokenBalance: BigNumber;
-    lp2ndTokenBalance: BigNumber;
-    lpStakedBalance: BigNumber;
+    firstLpTokenBalance: BigNumber;
+    secondLpTokenBalance: BigNumber;
+    stakedBalance: BigNumber;
   };
 }
 export interface Farm extends FarmConfig {

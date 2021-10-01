@@ -16,6 +16,19 @@ export const approve = async (lpContract, masterChefContract, account) => {
     .send({ from: account });
 };
 
+export const vaultapprove = async (
+  lpContract,
+  vaultContractAddress: string,
+  account
+) => {
+  return lpContract.methods
+    .approve(
+      vaultContractAddress,
+      "115792089237316195423570985008687907853269984665640564039457584007913129639935"
+    )
+    .send({ from: account });
+};
+
 export const getSignatureParameters = (signature) => {
   if (!ethers.utils.isHexString(signature)) {
     throw new Error(
@@ -168,6 +181,18 @@ export const stake = async (masterChefContract, pid, amount, account) => {
     });
 };
 
+export const vaultstake = async (vaultContract, pid, amount, account) => {
+  return vaultContract.methods
+    .deposit(
+      pid,
+      new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
+    )
+    .send({ from: account, gasPrice: 10000000000 })
+    .on("transactionHash", (tx) => {
+      return tx.transactionHash;
+    });
+};
+
 export const hybridStakingStake = async (
   masterChefContract,
   amount,
@@ -297,6 +322,18 @@ export const sousStakeBnb = async (sousChefContract, amount, account) => {
 
 export const unstake = async (masterChefContract, pid, amount, account) => {
   return masterChefContract.methods
+    .withdraw(
+      pid,
+      new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
+    )
+    .send({ from: account, gasPrice: 10000000000 })
+    .on("transactionHash", (tx) => {
+      return tx.transactionHash;
+    });
+};
+
+export const vaultunstake = async (vaultContract, pid, amount, account) => {
+  return vaultContract.methods
     .withdraw(
       pid,
       new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()

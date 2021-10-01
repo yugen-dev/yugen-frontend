@@ -4,11 +4,12 @@ import { Contract } from "web3-eth-contract";
 import { ethers } from "ethers";
 import { useDispatch } from "react-redux";
 import { fetchFarmUserDataAsync, updateUserAllowance } from "state/actions";
-import { approve } from "utils/callHelpers";
+import { approve, vaultapprove } from "utils/callHelpers";
 import { useProfile } from "state/hooks";
 import { splitSignature } from "@ethersproject/bytes";
 import { getFarmAddress } from "utils/addressHelpers";
 import { getBiconomyWeb3 } from "utils/biconomyweb3";
+import { fetchVaultUserDataAsync } from "state/vaults";
 import {
   useMasterchef,
   useCake,
@@ -105,6 +106,26 @@ export const useApprove = (lpContract: Contract) => {
     chainId,
     library,
   ]);
+
+  return { onApprove: handleApprove };
+};
+
+export const useVaultApprove = (
+  lpContract: Contract,
+  vaultContractAddress: string
+) => {
+  const dispatch = useDispatch();
+  const { account } = useWeb3React("web3");
+
+  const handleApprove = useCallback(async () => {
+    try {
+      const tx = await vaultapprove(lpContract, vaultContractAddress, account);
+      dispatch(fetchVaultUserDataAsync(account));
+      return tx;
+    } catch (e) {
+      return false;
+    }
+  }, [account, dispatch, lpContract, vaultContractAddress]);
 
   return { onApprove: handleApprove };
 };

@@ -1,6 +1,6 @@
 /* eslint-disable react/no-danger */
 import React, { useEffect, useCallback, useState } from "react";
-import { Route, useRouteMatch, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import BigNumber from "bignumber.js";
 import { useWeb3React } from "@web3-react/core";
@@ -12,50 +12,23 @@ import {
   ArrowForwardIcon,
 } from "cryption-uikit";
 import styled from "styled-components";
-import {
-  BLOCKS_PER_YEAR,
-  CAKE_PER_BLOCK,
-  CAKE_POOL_PID,
-  CROSS_CHAIN_API_LINK,
-} from "config";
-import {
-  useFarms,
-  usePriceBnbBusd,
-  usePriceBtcBusd,
-  usePriceCakeBusd,
-  usePriceEthBusd,
-  useVaults,
-} from "state/hooks";
+import { CROSS_CHAIN_API_LINK } from "config";
+import { useVaults } from "state/hooks";
 import useRefresh from "hooks/useRefresh";
 import { fetchFarmUserDataAsync } from "state/actions";
-import { QuoteToken } from "config/constants/types";
 import useI18n from "hooks/useI18n";
 import { useChainId } from "state/application/hooks";
-import { getBalanceNumber } from "utils/formatBalance";
 import { orderBy } from "lodash";
 import { fetchVaultUserDataAsync } from "state/vaults";
-import FarmCard, { FarmWithStakedValue } from "./components/FarmCard/FarmCard";
+import { getBalanceNumber } from "utils/formatBalance";
+import { VaultWithStakedValue } from "./components/FarmCard/FarmCard";
 import Table from "./components/FarmTable/FarmTable";
 import FarmTabButtons from "./components/FarmTabButtons";
 import SearchInput from "./components/SearchInput";
 import { RowProps } from "./components/FarmTable/Row";
 import { DesktopColumnSchema, ViewMode } from "./components/types";
 import Select, { OptionProps } from "./components/Select/Select";
-import MrCNTaah from "../../images/MrCNTaah.png";
 
-const FlexLayout = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-top: 25px;
-  & > * {
-    min-width: 280px;
-    max-width: 31.5%;
-    width: 100%;
-    margin: 0 8px;
-    margin-bottom: 32px;
-  }
-`;
 const Container = styled.div`
   margin-left: auto;
   margin-right: auto;
@@ -159,21 +132,15 @@ const LabelWrapper = styled.div`
 `;
 
 const Vaults: React.FC = () => {
-  const { path } = useRouteMatch();
   const { pathname } = useLocation();
   const TranslateString = useI18n();
-  const farmsLP = useFarms();
   const vaultsLP = useVaults();
-  const cakePrice = usePriceCakeBusd();
-  const bnbPrice = usePriceBnbBusd();
   const [query, setQuery] = useState("");
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [viewMode, setViewMode] = useState(ViewMode.TABLE);
-  const ethPriceUsd = usePriceEthBusd();
-  const btcPriceUsd = usePriceBtcBusd();
   const { account } = useWeb3React("web3");
   const [sortOption, setSortOption] = useState("hot");
-  const [crossChainData, setCrossChainData] = useState([]);
+  const [, setCrossChainData] = useState([]);
   const chainId = useChainId().toString();
   const dispatch = useDispatch();
   const { fastRefresh } = useRefresh();
@@ -219,147 +186,57 @@ const Vaults: React.FC = () => {
   }, [account, chainId]);
   const [stackedOnly, setStackedOnly] = useState(false);
 
-  const activeFarms = farmsLP.filter((farm) => farm.multiplier !== "0X");
-  const inactiveFarms = farmsLP.filter((farm) => farm.multiplier === "0X");
+  const activeVaults = vaultsLP.filter((vault) => vault);
+  const inactiveVaults = vaultsLP.filter((vault) => vault);
 
-  const stackedOnlyFarms = activeFarms.filter(
-    (farm) =>
-      farm.userData &&
-      new BigNumber(farm.userData.stakedBalance).isGreaterThan(0)
+  const stackedOnlyVaults = activeVaults.filter(
+    (vault) =>
+      vault.userData &&
+      new BigNumber(vault.userData.stakedBalance).isGreaterThan(0)
   );
 
-  const sortFarms = (farms: FarmWithStakedValue[]): FarmWithStakedValue[] => {
+  const sortVaults = (vaults) => {
     switch (sortOption) {
       case "apr":
-        return orderBy(farms, "apy", "desc");
-      case "multiplier":
-        return orderBy(
-          farms,
-          (farm: FarmWithStakedValue) => Number(farm.multiplier.slice(0, -1)),
-          "desc"
-        );
-      case "earned":
-        return orderBy(
-          farms,
-          (farm: FarmWithStakedValue) =>
-            farm.userData ? farm.userData.earnings : 0,
-          "desc"
-        );
+        return orderBy(vaults, "apy", "desc");
       case "liquidity":
-        return orderBy(
-          farms,
-          (farm: FarmWithStakedValue) => Number(farm.liquidity),
-          "desc"
-        );
+        return orderBy(vaults, (vault) => Number(vault.liquidity), "desc");
       default:
-        return farms;
+        return vaults;
     }
   };
 
   // /!\ This function will be removed soon
   // This function compute the APY for each farm and will be replaced when we have a reliable API
   // to retrieve assets prices against USD
-  const farmsList = useCallback(
-    (farmsToDisplay): FarmWithStakedValue[] => {
-      const cakePriceVsBNB = new BigNumber(
-        farmsLP.find((farm) => farm.pid === CAKE_POOL_PID)?.tokenPriceVsQuote ||
-          0
-      );
-      let farmsToDisplayWithAPY: FarmWithStakedValue[] = farmsToDisplay.map(
-        (farm) => {
-          if (!farm.tokenAmount || !farm.lpTotalInQuoteToken) {
-            return farm;
+  const vaultsList = useCallback(
+    (vaultsToDisplay): VaultWithStakedValue[] => {
+      let vaultsToDisplayWithAPY: VaultWithStakedValue[] = vaultsToDisplay.map(
+        (vault) => {
+          if (!vault.lpTokenBalance) {
+            return vault;
           }
-          const cakeRewardPerBlock = CAKE_PER_BLOCK.times(farm.poolWeight);
-          const cakeRewardPerYear = cakeRewardPerBlock.times(BLOCKS_PER_YEAR);
+          const apy = new BigNumber(0);
+          const liquidity = new BigNumber(0);
 
-          // cakePriceInQuote * cakeRewardPerYear / lpTotalInQuoteToken
-          let apy = cakePriceVsBNB
-            .times(cakeRewardPerYear)
-            .div(farm.lpTotalInQuoteToken);
-
-          if (
-            farm.quoteTokenSymbol === QuoteToken.BUSD ||
-            farm.quoteTokenSymbol === QuoteToken.UST
-          ) {
-            apy = cakePriceVsBNB
-              .times(cakeRewardPerYear)
-              .div(new BigNumber(farm.tokenAmount).plus(farm.quoteTokenAmount))
-              .times(bnbPrice);
-          } else if (farm.quoteTokenSymbol === QuoteToken.ETH) {
-            apy = cakePrice
-              .div(ethPriceUsd)
-              .times(cakeRewardPerYear)
-              .div(farm.lpTotalInQuoteToken);
-          } else if (farm.quoteTokenSymbol === QuoteToken.BTC) {
-            const usdcBTCAmt = new BigNumber(farm.tokenAmount).div(btcPriceUsd);
-            const totalTokensInLp = new BigNumber(farm.quoteTokenAmount).plus(
-              usdcBTCAmt
-            );
-            apy = cakePrice
-              .div(btcPriceUsd)
-              .times(cakeRewardPerYear)
-              .div(totalTokensInLp);
-          } else if (farm.quoteTokenSymbol === QuoteToken.CAKE) {
-            apy = cakeRewardPerYear.div(farm.lpTotalInQuoteToken);
-          } else if (farm.dual) {
-            const cakeApy =
-              farm &&
-              cakePriceVsBNB
-                .times(cakeRewardPerBlock)
-                .times(BLOCKS_PER_YEAR)
-                .div(farm.lpTotalInQuoteToken);
-            const dualApy =
-              farm.tokenPriceVsQuote &&
-              new BigNumber(farm.tokenPriceVsQuote)
-                .times(farm.dual.rewardPerBlock)
-                .times(BLOCKS_PER_YEAR)
-                .div(farm.lpTotalInQuoteToken);
-
-            apy = cakeApy && dualApy && cakeApy.plus(dualApy);
-          }
-
-          let liquidity = farm.lpTotalInQuoteToken;
-
-          if (!farm.lpTotalInQuoteToken) {
-            liquidity = null;
-          }
-          if (farm.quoteTokenSymbol === QuoteToken.BNB) {
-            liquidity = bnbPrice.times(farm.lpTotalInQuoteToken);
-          }
-          if (farm.quoteTokenSymbol === QuoteToken.CAKE) {
-            liquidity = cakePrice.times(farm.lpTotalInQuoteToken);
-          }
-
-          if (farm.quoteTokenSymbol === QuoteToken.ETH) {
-            liquidity = ethPriceUsd.times(farm.lpTotalInQuoteToken);
-          }
-
-          if (farm.quoteTokenSymbol === QuoteToken.BTC) {
-            liquidity = btcPriceUsd
-              .times(farm.quoteTokenAmount)
-              .plus(new BigNumber(farm.tokenAmount));
-          }
-
-          return { ...farm, apy, liquidity };
+          return { ...vault, apy, liquidity };
         }
       );
 
       if (query) {
         const lowercaseQuery = query.toLowerCase();
-        farmsToDisplayWithAPY = farmsToDisplayWithAPY.filter(
-          (farm: FarmWithStakedValue) => {
-            if (farm.lpSymbol.toLowerCase().includes(lowercaseQuery)) {
+        vaultsToDisplayWithAPY = vaultsToDisplayWithAPY.filter(
+          (vault: VaultWithStakedValue) => {
+            if (vault.lpTokenName.toLowerCase().includes(lowercaseQuery)) {
               return true;
             }
-
             return false;
           }
         );
       }
-      return farmsToDisplayWithAPY;
+      return vaultsToDisplayWithAPY;
     },
-    [bnbPrice, farmsLP, query, cakePrice, ethPriceUsd, btcPriceUsd]
+    [query]
   );
 
   const handleChangeQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -367,87 +244,69 @@ const Vaults: React.FC = () => {
   };
 
   const isActive = !pathname.includes("history");
-  let farmsStaked = [];
+  let vaultsStaked = [];
   if (isActive) {
-    farmsStaked = stackedOnly
-      ? farmsList(stackedOnlyFarms)
-      : farmsList(activeFarms);
+    vaultsStaked = stackedOnly
+      ? vaultsList(stackedOnlyVaults)
+      : vaultsList(activeVaults);
   } else {
-    farmsStaked = farmsList(inactiveFarms);
+    vaultsStaked = vaultsList(inactiveVaults);
   }
 
-  farmsStaked = sortFarms(farmsStaked);
+  vaultsStaked = sortVaults(vaultsStaked);
 
-  const rowData = farmsStaked.map((farm) => {
-    const { quoteTokenAdresses, quoteTokenSymbol, tokenAddresses } = farm;
+  const rowData = vaultsStaked.map((vault) => {
     const lpLabel =
-      farm.lpSymbol && farm.lpSymbol.toUpperCase().replace("PANCAKE", "");
+      vault.lpTokenName &&
+      vault.lpTokenName.toUpperCase().replace("PANCAKE", "");
     const row: RowProps = {
+      farm: {
+        image: vault.lpTokenName.split(" ")[0].toLocaleLowerCase(),
+        label: lpLabel,
+        pid: vault.pid,
+      },
       apy: {
         value:
-          farm.apy &&
-          farm.apy
+          vault.apy &&
+          vault.apy
             .times(new BigNumber(100))
             .toNumber()
             .toLocaleString("en-US", { maximumFractionDigits: 2 }),
-        multiplier: farm.multiplier,
-        lpLabel,
-        quoteTokenAdresses,
-        quoteTokenSymbol,
-        tokenAddresses,
-        cakePrice,
-        originalValue: farm.apy,
+        originalValue: vault.apy,
       },
       apr: {
         value:
-          farm.apy &&
-          farm.apy
+          vault.apy &&
+          vault.apy
             .times(new BigNumber(100))
             .toNumber()
             .toLocaleString("en-US", { maximumFractionDigits: 2 }),
-        multiplier: farm.multiplier,
-        lpLabel,
-        quoteTokenAdresses,
-        quoteTokenSymbol,
-        tokenAddresses,
-        cakePrice,
-        originalValue: farm.apy,
+        originalValue: vault.apy,
       },
-
       wallet: {
-        value:
-          farm.apy &&
-          farm.apy
-            .times(new BigNumber(100))
-            .toNumber()
-            .toLocaleString("en-US", { maximumFractionDigits: 2 }),
-        multiplier: farm.multiplier,
-        lpLabel,
-        quoteTokenAdresses,
-        quoteTokenSymbol,
-        tokenAddresses,
-        cakePrice,
-        originalValue: farm.apy,
-      },
-
-      farm: {
-        image: farm.lpSymbol.split(" ")[0].toLocaleLowerCase(),
-        label: lpLabel,
-        pid: farm.pid,
-      },
-      earned: {
-        earnings: farm.userData
-          ? getBalanceNumber(new BigNumber(farm.userData.earnings))
+        value: vault.userData
+          ? getBalanceNumber(new BigNumber(vault.userData.lpTokenBalance))
+              .toFixed(2)
+              .toString()
+          : "0",
+        originalValue: vault.userData
+          ? new BigNumber(vault.userData.lpTokenBalance)
           : null,
-        pid: farm.pid,
+      },
+      deposited: {
+        value: vault.userData
+          ? getBalanceNumber(new BigNumber(vault.userData.stakedBalance))
+              .toFixed(2)
+              .toString()
+          : "0",
+        originalValue: vault.userData
+          ? new BigNumber(vault.userData.stakedBalance)
+          : null,
       },
       liquidity: {
-        liquidity: farm.liquidity,
+        liquidity: vault.liquidity,
       },
-      multiplier: {
-        multiplier: farm.multiplier,
-      },
-      details: farm,
+      details: vault,
     };
 
     return row;
@@ -473,8 +332,6 @@ const Vaults: React.FC = () => {
               }
 
               return 0;
-            case "earned":
-              return a.original.earned.earnings - b.original.earned.earnings;
             default:
               return 1;
           }
@@ -485,58 +342,7 @@ const Vaults: React.FC = () => {
       return <Table data={rowData} columns={columns} />;
     }
 
-    return (
-      <div>
-        <FlexLayout>
-          <Route exact path={`${path}`}>
-            {farmsStaked.map((farm) => (
-              <FarmCard
-                key={farm.pid}
-                farm={farm}
-                crossChainTranscations={crossChainData.filter(
-                  (eachTrx) => eachTrx.pid === farm.pid
-                )}
-                bnbPrice={bnbPrice}
-                cakePrice={cakePrice}
-                ethPrice={ethPriceUsd}
-                btcPrice={btcPriceUsd}
-                account={account}
-                removed={false}
-              />
-            ))}
-
-            {farmsStaked.length === 0 && (
-              <div
-                style={{
-                  width: "100%",
-                  display: "grid",
-                  justifyContent: "center",
-                }}
-              >
-                <img src={MrCNTaah} alt="Cannot find" width="250px" />
-              </div>
-            )}
-          </Route>
-          <Route exact path={`${path}/history`}>
-            {farmsStaked.map((farm) => (
-              <FarmCard
-                key={farm.pid}
-                farm={farm}
-                crossChainTranscations={crossChainData.filter(
-                  (eachTrx) => eachTrx.pid === farm.pid
-                )}
-                bnbPrice={bnbPrice}
-                cakePrice={cakePrice}
-                ethPrice={ethPriceUsd}
-                btcPrice={btcPriceUsd}
-                account={account}
-                removed
-              />
-            ))}
-          </Route>
-        </FlexLayout>
-      </div>
-    );
+    return <></>;
   };
 
   const handleSortOptionChange = (option: OptionProps): void => {
@@ -615,14 +421,6 @@ const Vaults: React.FC = () => {
                   {
                     label: "APR",
                     value: "apr",
-                  },
-                  {
-                    label: "Multiplier",
-                    value: "multiplier",
-                  },
-                  {
-                    label: "Earned",
-                    value: "earned",
                   },
                   {
                     label: "Liquidity",

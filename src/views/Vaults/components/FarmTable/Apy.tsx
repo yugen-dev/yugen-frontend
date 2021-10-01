@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import BigNumber from "bignumber.js";
 
-export interface AprProps {
+export interface ApyProps {
   value: string;
   originalValue: BigNumber;
 }
@@ -24,7 +24,7 @@ const Container = styled.div`
   }
 `;
 
-const AprWrapper = styled.div`
+const ApyWrapper = styled.div`
   min-width: 60px;
   text-align: left;
   font-size: 20px;
@@ -32,16 +32,16 @@ const AprWrapper = styled.div`
   color: #86878f;
 `;
 
-const Apr: React.FC<AprProps> = ({ value, originalValue }) => {
+const Apy: React.FC<ApyProps> = ({ value, originalValue }) => {
   return (
     <Container>
       {originalValue ? (
-        <AprWrapper>{value}%</AprWrapper>
+        <ApyWrapper>{value}%</ApyWrapper>
       ) : (
-        <AprWrapper>Loading...</AprWrapper>
+        <ApyWrapper>Loading...</ApyWrapper>
       )}
     </Container>
   );
 };
 
-export default Apr;
+export default Apy;

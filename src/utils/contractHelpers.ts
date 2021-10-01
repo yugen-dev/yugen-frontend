@@ -38,6 +38,7 @@ import ifoAbi from "config/abi/ifo.json";
 import pointCenterIfo from "config/abi/pointCenterIfo.json";
 import lotteryTicketAbi from "config/abi/lotteryNft.json";
 import farmABI from "config/abi/farm.json";
+import vaultAbi from "config/abi/vault.json";
 import cntStaker from "config/abi/cntStaker.json";
 import sousChef from "config/abi/sousChef.json";
 import sousChefBnb from "config/abi/sousChefBnb.json";
@@ -55,6 +56,9 @@ export const getContract = (abi: any, address: string, web3?: Web3) => {
 
 export const getERC20Contract = (address: string, web3?: Web3) => {
   return getContract(erc20Abi, address, web3);
+};
+export const getVaultContract = (address: string, web3?: Web3) => {
+  return getContract(vaultAbi, address, web3);
 };
 export const getIfoContract = (address: string, web3?: Web3) => {
   return getContract(ifoAbi, address, web3);

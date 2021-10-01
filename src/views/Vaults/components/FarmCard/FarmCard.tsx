@@ -3,7 +3,7 @@ import BigNumber from "bignumber.js";
 import styled, { keyframes } from "styled-components";
 import { Flex, Text, Skeleton } from "cryption-uikit";
 import { communityFarms } from "config/constants";
-import { Farm } from "state/types";
+import { Farm, Vault } from "state/types";
 import { provider as ProviderType } from "web3-core";
 import useI18n from "hooks/useI18n";
 import ExpandableSectionButton from "components/ExpandableSectionButton";
@@ -16,6 +16,10 @@ import CardActionsContainer from "./CardActionsContainer";
 import ApyButton from "./ApyButton";
 
 export interface FarmWithStakedValue extends Farm {
+  apy?: BigNumber;
+  liquidity?: BigNumber;
+}
+export interface VaultWithStakedValue extends Vault {
   apy?: BigNumber;
   liquidity?: BigNumber;
 }

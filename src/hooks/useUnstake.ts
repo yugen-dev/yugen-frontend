@@ -10,6 +10,7 @@ import {
 } from "state/actions";
 import {
   unstake,
+  vaultunstake,
   sousUnstake,
   sousEmegencyUnstake,
   GaslessUnStake,
@@ -17,12 +18,14 @@ import {
   hybridStakingUnstake,
 } from "utils/callHelpers";
 import { useProfile, useToast } from "state/hooks";
+import { fetchVaultUserDataAsync } from "state/vaults";
 import {
   useMasterchef,
   useSousChef,
   useMasterchefGasless,
   useSousChefGasless,
   useHybridStaking,
+  useVaultchef,
 } from "./useContract";
 
 const useUnstake = (pid: number) => {
@@ -85,6 +88,62 @@ const useUnstake = (pid: number) => {
       toastInfo,
       toastSuccess,
       toastError,
+    ]
+  );
+
+  return { onUnstake: handleUnstake };
+};
+
+export const useVaultUnstake = (pid: number, vaultContractAddress: string) => {
+  const dispatch = useDispatch();
+  const { account } = useWeb3React("web3");
+  const vaultContract = useVaultchef(vaultContractAddress);
+  const { metaTranscation } = useProfile();
+  const { toastInfo, toastError, toastSuccess } = useToast();
+
+  const handleUnstake = useCallback(
+    async (amount: string) => {
+      try {
+        let resp;
+        toastInfo("Processing...", `You requested to withdraw `);
+        if (metaTranscation) {
+          resp = await vaultunstake(vaultContract, pid, amount, account);
+          // @ts-ignore
+          if (typeof resp !== "undefined" && resp.code === 4001) {
+            toastError("Cancelled", "Signautures rejected");
+          } else {
+            toastSuccess("Success", "Withdraw successfull");
+          }
+
+          dispatch(fetchVaultUserDataAsync(account));
+        } else {
+          await vaultunstake(vaultContract, pid, amount, account);
+          toastSuccess("Success", "Withdraw successfull");
+          dispatch(fetchVaultUserDataAsync(account));
+        }
+      } catch (error) {
+        if (
+          error["message"] ===
+            "MetaMask Tx Signature: User denied transaction signature." ||
+          error["message"] ===
+            "MetaMask Message Signature: User denied message signature." ||
+          error["code"] === 4001
+        ) {
+          toastError("Cancelled", "Signautures rejected");
+        } else {
+          toastError("Error...", "Failed to withdraw");
+        }
+      }
+    },
+    [
+      toastInfo,
+      metaTranscation,
+      vaultContract,
+      pid,
+      account,
+      dispatch,
+      toastError,
+      toastSuccess,
     ]
   );
 

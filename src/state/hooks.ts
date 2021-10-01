@@ -80,6 +80,13 @@ export const useVaults = (): Vault[] => {
   return vaults;
 };
 
+export const useVaultFromPid = (pid): Vault => {
+  const vault = useSelector((state: State) =>
+    state.vaults.data.find((v) => v.pid === pid)
+  );
+  return vault;
+};
+
 export const usePoolss = (): Pool[] => {
   const pools = useSelector((state: State) => state.pools.data);
   return pools;
@@ -97,6 +104,22 @@ export const useFarmFromSymbol = (lpSymbol: string): Farm => {
     state.farms.data.find((f) => f.lpSymbol === lpSymbol)
   );
   return farm;
+};
+
+export const useVaultUser = (pid) => {
+  const vault = useVaultFromPid(pid);
+
+  return {
+    allowance: vault.userData
+      ? new BigNumber(vault.userData.allowance)
+      : new BigNumber(0),
+    tokenBalance: vault.userData
+      ? new BigNumber(vault.userData.lpTokenBalance)
+      : new BigNumber(0),
+    stakedBalance: vault.userData
+      ? new BigNumber(vault.userData.stakedBalance)
+      : new BigNumber(0),
+  };
 };
 
 export const useFarmUser = (pid) => {
