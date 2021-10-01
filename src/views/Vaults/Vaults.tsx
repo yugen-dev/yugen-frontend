@@ -15,11 +15,10 @@ import styled from "styled-components";
 import { CROSS_CHAIN_API_LINK } from "config";
 import { useVaults } from "state/hooks";
 import useRefresh from "hooks/useRefresh";
-import { fetchFarmUserDataAsync } from "state/actions";
 import useI18n from "hooks/useI18n";
 import { useChainId } from "state/application/hooks";
 import { orderBy } from "lodash";
-import { fetchVaultUserDataAsync } from "state/vaults";
+import { fetchVaultUserDataAsync } from "state/actions";
 import { getBalanceNumber } from "utils/formatBalance";
 import { VaultWithStakedValue } from "./components/FarmCard/FarmCard";
 import Table from "./components/FarmTable/FarmTable";
@@ -147,7 +146,6 @@ const Vaults: React.FC = () => {
 
   useEffect(() => {
     if (account) {
-      dispatch(fetchFarmUserDataAsync(account));
       dispatch(fetchVaultUserDataAsync(account));
     }
   }, [account, dispatch, fastRefresh]);

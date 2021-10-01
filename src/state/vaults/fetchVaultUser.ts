@@ -17,8 +17,8 @@ export const fetchVaultUserAllowances = async (account: string) => {
   });
 
   const rawLpAllowances = await multicall(erc20ABI, calls);
-  const parsedLpAllowances = rawLpAllowances.map((lpBalance) => {
-    return new BigNumber(lpBalance).toJSON();
+  const parsedLpAllowances = rawLpAllowances.map((lpAllowance) => {
+    return new BigNumber(lpAllowance).toJSON();
   });
   return parsedLpAllowances;
 };
@@ -76,9 +76,9 @@ export const fetchVaultSecondLpTokenBalance = async (account: string) => {
 
 export const fetchVaultUserStakedBalances = async (account: string) => {
   const calls = vaultsConfig.map((vault) => {
-    const vaultAdress = getAddress(vault.vaultAddress);
+    const vaultAddress = getAddress(vault.vaultAddress);
     return {
-      address: vaultAdress,
+      address: vaultAddress,
       name: "stakedWantTokens",
       params: [vault.pid, account],
     };

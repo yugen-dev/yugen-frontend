@@ -19,6 +19,7 @@ import {
   fetchFarmsPublicDataAsync,
   fetchPoolsPublicDataAsync,
   fetchPoolsUserDataAsync,
+  fetchVaultsPublicDataAsync,
   push as pushToast,
   remove as removeToast,
   clear as clearToast,
@@ -54,6 +55,7 @@ export const useFetchPublicData = () => {
   const { slowRefresh } = useRefresh();
   useEffect(() => {
     dispatch(fetchFarmsPublicDataAsync());
+    dispatch(fetchVaultsPublicDataAsync());
     dispatch(fetchPoolsPublicDataAsync());
   }, [dispatch, slowRefresh]);
 
