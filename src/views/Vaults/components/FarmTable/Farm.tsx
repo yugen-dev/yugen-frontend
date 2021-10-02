@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { useFarmUser } from "state/hooks";
+import { useVaultUser } from "state/hooks";
 import useI18n from "hooks/useI18n";
 import { Text, Image } from "cryption-uikit";
 import { getBalanceNumber } from "utils/formatBalance";
@@ -32,7 +32,7 @@ const Container = styled.div`
 `;
 
 const Farm: React.FunctionComponent<FarmProps> = ({ image, label, pid }) => {
-  const { stakedBalance } = useFarmUser(pid);
+  const { stakedBalance } = useVaultUser(pid);
   const TranslateString = useI18n();
   const rawStakedBalance = getBalanceNumber(stakedBalance);
 
