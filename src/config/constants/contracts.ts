@@ -1,23 +1,23 @@
 export default {
   cake: {
-    1: "",
-    97: "",
-    56: "",
+    1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+    97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+    56: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     80001: "0xac0ec8a0a5062feecb496ac1ef7d2177f06f88b0",
-    5: "",
-    137: "",
+    5: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+    137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
   },
   syrup: {
     97: "0xfE1e507CeB712BDe086f3579d2c03248b2dB77f9",
     56: "0x009cF7bC57584b7998236eff51b98A168DceA9B0",
   },
   farm: {
-    1: "",
-    97: "",
-    56: "",
+    1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+    97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+    56: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     80001: "0x62ACC6FA3C8c6a8161620d487Bf3a02B6765E4D0",
-    5: "",
-    137: "", // farm
+    5: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+    137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd", // farm
   },
   cntStaker: {
     97: "",
