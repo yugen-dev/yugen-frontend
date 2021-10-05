@@ -3,14 +3,19 @@ import styled from "styled-components";
 import useI18n from "hooks/useI18n";
 import { LinkExternal, Text } from "cryption-uikit";
 import { VaultWithStakedValue } from "views/Farms/components/FarmCard/FarmCard";
+import { BigNumber } from "bignumber.js";
 import StakedAction from "./StakedAction";
 import Apr, { AprProps } from "../Apr";
 import Liquidity, { LiquidityProps } from "../Liquidity";
+import { ApyProps } from "../Apy";
+import { WalletProps } from "../Wallet";
 
 export interface ActionPanelProps {
   apr: AprProps;
   liquidity: LiquidityProps;
   details: VaultWithStakedValue;
+  apy: ApyProps;
+  wallet: WalletProps;
 }
 
 const Container = styled.div`
@@ -81,15 +86,26 @@ const ValueWrapper = styled.div`
 const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
   details,
   apr,
+  apy,
   liquidity,
+  wallet,
 }) => {
   const vault = details;
+  const priceOf1LP = new BigNumber(liquidity.liquidity)
+    .dividedBy(vault.totalLPTokensStakedInFarms)
+    .toFixed(2);
+
+  let totalBalanceValue = new BigNumber(0);
+  if (priceOf1LP && !new BigNumber(priceOf1LP).isNaN()) {
+    totalBalanceValue = new BigNumber(wallet.value).multipliedBy(priceOf1LP);
+  }
 
   const TranslateString = useI18n();
   const lpLabel =
     vault.lpTokenName && vault.lpTokenName.toUpperCase().replace("PANCAKE", "");
   const liquidityUrlPathParts = "";
   const bsc = "";
+  const splitLP = vault.lpTokenName.split("-");
 
   return (
     <Container>
@@ -104,13 +120,23 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
         <StyledLinkExternal href={bsc}>
           {TranslateString(999, "PolygonScan")}
         </StyledLinkExternal>
-        <StyledText>Deposited: 5 BTC-ETH LP</StyledText>
-        <StyledText>BTC balance: 1 BTC ($ 10000)</StyledText>
-        <StyledText>ETH balance: 2 BTC ($ 5000)</StyledText>
-        <StyledText>Total balance: $ 15000</StyledText>
-        <StyledText>In Wallet: 10 BTC-ETH LP</StyledText>
-        <StyledText>Daily ROI: 0.34%</StyledText>
-        <StyledText>APY ROI: 34%</StyledText>
+        <StyledText>
+          Deposited: {vault?.userData?.stakedBalance} {vault?.lpTokenName} LP
+        </StyledText>
+        <StyledText>
+          {splitLP[0]} balance: {vault?.userData?.firstLpTokenBalance}{" "}
+          {splitLP[0]} ($10000)
+        </StyledText>
+        <StyledText>
+          {splitLP[1]} balance: {vault?.userData?.secondLpTokenBalance}{" "}
+          {splitLP[1]} ($5000)
+        </StyledText>
+        <StyledText>Total balance: ${totalBalanceValue.toString()}</StyledText>
+        <StyledText>
+          In Wallet: {wallet?.value} {vault?.lpTokenName} LP
+        </StyledText>
+        <StyledText>Daily ROI: {apr?.value}%</StyledText>
+        <StyledText>APY ROI: {apy?.value}%</StyledText>
       </InfoContainer>
       <ValueContainer>
         <ValueWrapper>
