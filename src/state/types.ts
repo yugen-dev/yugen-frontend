@@ -20,7 +20,14 @@ export type TranslatableText =
     };
 
 export interface Vault extends VaultConfig {
-  lpTotalSupply: BigNumber;
+  nonQuoteTokenAmount?: BigNumber;
+  quoteTokenAmount?: BigNumber;
+  lpTotalInQuoteToken?: BigNumber;
+  nonQuoteVsQuote?: BigNumber;
+  poolWeight?: BigNumber;
+  multiplier?: string;
+  // poolHarvestInterval?: number;
+  totalLPTokensStakedInFarms?: BigNumber;
   userData?: {
     index: number;
     allowance: BigNumber;

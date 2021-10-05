@@ -12,14 +12,22 @@ import {
   ArrowForwardIcon,
 } from "cryption-uikit";
 import styled from "styled-components";
-import { CROSS_CHAIN_API_LINK } from "config";
-import { useVaults } from "state/hooks";
+import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CROSS_CHAIN_API_LINK } from "config";
+import {
+  usePriceBnbBusd,
+  usePriceBtcBusd,
+  usePriceCakeBusd,
+  usePriceEthBusd,
+  useVaults,
+} from "state/hooks";
 import useRefresh from "hooks/useRefresh";
 import useI18n from "hooks/useI18n";
 import { useChainId } from "state/application/hooks";
 import { orderBy } from "lodash";
 import { fetchVaultUserDataAsync } from "state/actions";
 import { getBalanceNumber } from "utils/formatBalance";
+import { QuoteToken } from "config/constants/types";
+import { Vault } from "state/types";
 import { VaultWithStakedValue } from "./components/FarmCard/FarmCard";
 import Table from "./components/FarmTable/FarmTable";
 import FarmTabButtons from "./components/FarmTabButtons";
@@ -134,9 +142,12 @@ const Vaults: React.FC = () => {
   const { pathname } = useLocation();
   const TranslateString = useI18n();
   const vaultsLP = useVaults();
+  const cakePrice = usePriceCakeBusd();
+  const bnbPrice = usePriceBnbBusd();
+  const ethPriceUsd = usePriceEthBusd();
+  const btcPriceUsd = usePriceBtcBusd();
   const [query, setQuery] = useState("");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [viewMode, setViewMode] = useState(ViewMode.TABLE);
+  const [viewMode] = useState(ViewMode.TABLE);
   const { account } = useWeb3React("web3");
   const [sortOption, setSortOption] = useState("hot");
   const [, setCrossChainData] = useState([]);
@@ -184,8 +195,10 @@ const Vaults: React.FC = () => {
   }, [account, chainId]);
   const [stackedOnly, setStackedOnly] = useState(false);
 
-  const activeVaults = vaultsLP.filter((vault) => vault);
-  const inactiveVaults = vaultsLP.filter((vault) => vault);
+  const activeVaults = vaultsLP.filter((vault) => vault.multiplier === "0.00X");
+  const inactiveVaults = vaultsLP.filter(
+    (vault) => vault.multiplier !== "0.00X"
+  );
 
   const stackedOnlyVaults = activeVaults.filter(
     (vault) =>
@@ -195,7 +208,7 @@ const Vaults: React.FC = () => {
 
   const sortVaults = (vaults) => {
     switch (sortOption) {
-      case "apr":
+      case "apy":
         return orderBy(vaults, "apy", "desc");
       case "liquidity":
         return orderBy(vaults, (vault) => Number(vault.liquidity), "desc");
@@ -210,14 +223,46 @@ const Vaults: React.FC = () => {
   const vaultsList = useCallback(
     (vaultsToDisplay): VaultWithStakedValue[] => {
       let vaultsToDisplayWithAPY: VaultWithStakedValue[] = vaultsToDisplay.map(
-        (vault) => {
-          if (!vault.lpTokenBalance) {
+        (vault: Vault) => {
+          if (!vault.nonQuoteTokenAmount || !vault.lpTotalInQuoteToken) {
             return vault;
           }
-          const apy = new BigNumber(0);
-          const liquidity = new BigNumber(0);
 
-          return { ...vault, apy, liquidity };
+          let liquidity = new BigNumber(vault.lpTotalInQuoteToken);
+          if (vault.quoteTokenSymbol === QuoteToken.BNB) {
+            liquidity = bnbPrice.times(vault.lpTotalInQuoteToken);
+          }
+          if (vault.quoteTokenSymbol === QuoteToken.CAKE) {
+            liquidity = cakePrice.times(vault.lpTotalInQuoteToken);
+          }
+
+          if (vault.quoteTokenSymbol === QuoteToken.ETH) {
+            liquidity = ethPriceUsd.times(vault.lpTotalInQuoteToken);
+          }
+
+          if (vault.quoteTokenSymbol === QuoteToken.BTC) {
+            liquidity = btcPriceUsd
+              .times(vault.quoteTokenAmount)
+              .plus(new BigNumber(vault.nonQuoteTokenAmount));
+          }
+
+          const priceOf1LP = liquidity.dividedBy(
+            vault.totalLPTokensStakedInFarms
+          );
+
+          const apr = new BigNumber(
+            priceOf1LP
+              .multipliedBy(BLOCKS_PER_YEAR)
+              .multipliedBy(CAKE_PER_BLOCK)
+              .multipliedBy(vault?.multiplier?.replace(/[^\d.-]/g, ""))
+              .dividedBy(liquidity)
+              .toFixed(2)
+          );
+
+          const n = new BigNumber(365 * 4);
+          const apy = apr.dividedBy(n).plus(1).pow(n).minus(1);
+
+          return { ...vault, apy, apr, liquidity };
         }
       );
 
@@ -234,7 +279,7 @@ const Vaults: React.FC = () => {
       }
       return vaultsToDisplayWithAPY;
     },
-    [query]
+    [bnbPrice, btcPriceUsd, cakePrice, ethPriceUsd, query]
   );
 
   const handleChangeQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -274,12 +319,12 @@ const Vaults: React.FC = () => {
       },
       apr: {
         value:
-          vault.apy &&
-          vault.apy
+          vault.apr &&
+          vault.apr
             .times(new BigNumber(100))
             .toNumber()
             .toLocaleString("en-US", { maximumFractionDigits: 2 }),
-        originalValue: vault.apy,
+        originalValue: vault.apr,
       },
       wallet: {
         value: vault.userData

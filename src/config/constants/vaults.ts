@@ -1,4 +1,5 @@
-import { VaultConfig } from "./types";
+import contracts from "./contracts";
+import { QuoteToken, VaultConfig } from "./types";
 
 const vaultsMainnet: VaultConfig[] = [
   {
@@ -39,50 +40,27 @@ const vaultsMainnet: VaultConfig[] = [
       137: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
       1: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
     },
+    quoteTokenSymbol: QuoteToken.WMATIC,
+    nonQuoteTokenSymbol: QuoteToken.CAKE,
+    quoteTokenAddress: {
+      97: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
+      56: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
+      80001: "0xBC659F08bf439ff856bCF4119fE6B2617C3706eD",
+      137: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
+      1: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
+    },
+    nonQuoteTokenAddress: {
+      97: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
+      56: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
+      80001: "0xBC659F08bf439ff856bCF4119fE6B2617C3706eD",
+      137: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
+      1: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
+    },
   },
 ];
 const vaultsTestnet: VaultConfig[] = [
-  // {
-  //   pid: 0,
-  //   lpTokenName: "xCNT-wMATIC",
-  //   lpTokenAddress: {
-  //     97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-  //     56: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-  //     80001: "0x926ac671daaf3265c56a6b0bb619b63c0aaac66a",
-  //     137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-  //     1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-  //   },
-  //   lpTokenPart1Address: {
-  //     97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-  //     56: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-  //     80001: "0x5DA1f601486252ca41D04e6cAa49B19DD0bfa888",
-  //     137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-  //     1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-  //   },
-  //   lpTokenPart2Address: {
-  //     97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-  //     56: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-  //     80001: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
-  //     137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-  //     1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-  //   },
-  //   vaultAddress: {
-  //     97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-  //     56: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-  //     80001: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-  //     137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-  //     1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-  //   },
-  //   strategyAddress: {
-  //     97: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
-  //     56: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
-  //     80001: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
-  //     137: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
-  //     1: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
-  //   },
-  // },
   {
-    pid: 0,
+    pid: 1,
     lpTokenName: "wMATIC-YGN",
     lpTokenAddress: {
       97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
@@ -115,10 +93,14 @@ const vaultsTestnet: VaultConfig[] = [
     strategyAddress: {
       97: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
       56: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
-      80001: "0xBC659F08bf439ff856bCF4119fE6B2617C3706eD",
+      80001: "0x44aE00cbd1A4751938F17Bc4bE20aB73285f172F",
       137: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
       1: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
     },
+    quoteTokenSymbol: QuoteToken.WMATIC,
+    quoteTokenAddress: contracts.wbnb,
+    nonQuoteTokenSymbol: QuoteToken.CAKE,
+    nonQuoteTokenAddress: contracts.cake,
   },
 ];
 const vaults = {

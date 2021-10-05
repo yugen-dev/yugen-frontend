@@ -127,6 +127,10 @@ export interface VaultConfig {
   lpTokenPart2Address: Address;
   vaultAddress: Address;
   strategyAddress: Address;
+  quoteTokenSymbol: string;
+  quoteTokenAddress: Address;
+  nonQuoteTokenSymbol: string;
+  nonQuoteTokenAddress: Address;
 }
 
 export type Images = {
