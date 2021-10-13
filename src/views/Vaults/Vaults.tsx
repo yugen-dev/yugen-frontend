@@ -195,9 +195,9 @@ const Vaults: React.FC = () => {
   }, [account, chainId]);
   const [stackedOnly, setStackedOnly] = useState(false);
 
-  const activeVaults = vaultsLP.filter((vault) => vault.multiplier === "0.00X");
+  const activeVaults = vaultsLP.filter((vault) => vault.multiplier !== "0.00X");
   const inactiveVaults = vaultsLP.filter(
-    (vault) => vault.multiplier !== "0.00X"
+    (vault) => vault.multiplier === "0.00X"
   );
 
   const stackedOnlyVaults = activeVaults.filter(

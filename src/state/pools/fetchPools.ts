@@ -12,14 +12,16 @@ import { getHybridStakingContract } from "utils/contractHelpers";
 export const fetchPoolsBlockLimits = async () => {
   const poolsWithEnd = poolsConfig.filter((p) => p.sousId !== 0);
 
-  const poolsWithEndDepositFee = poolsConfig.filter((p) => p.sousId !== 0 && p.sousId >= 8);
+  const poolsWithEndDepositFee = poolsConfig.filter(
+    (p) => p.sousId !== 0 && p.sousId >= 8
+  );
 
   // eslint-disable-next-line array-callback-return
   const callsFarmInfo = poolsWithEnd.map((poolConfig) => {
-      return {
-        address: getAddress(poolConfig.contractAddress),
-        name: "farmInfo",
-      };
+    return {
+      address: getAddress(poolConfig.contractAddress),
+      name: "farmInfo",
+    };
   });
 
   const starts = await multicall(sousChefABI, callsFarmInfo);
@@ -32,9 +34,12 @@ export const fetchPoolsBlockLimits = async () => {
     };
   });
 
-  const startWithDepostiFee = await multicall(sousChefABIDeposit, callsFarmWithDepsoitInfo);
+  const startWithDepostiFee = await multicall(
+    sousChefABIDeposit,
+    callsFarmWithDepsoitInfo
+  );
   // const endsWithDepostiFee = await multicall(sousChefABIDeposit, callsFarmWithDepsoitInfo);
-  
+
   const contract = getHybridStakingContract();
 
   const interactionInterval = await contract.methods
@@ -60,8 +65,8 @@ export const fetchPoolsBlockLimits = async () => {
     const poolwithdrawalFeeBP = starts[index - 1].withdrawalFeeBP;
     let depositFee = 0;
 
-    if(cakePoolConfig.sousId >= 8 ){
-      depositFee = startWithDepostiFee[index-1-7].depositFeeBP;
+    if (cakePoolConfig.sousId >= 8) {
+      depositFee = startWithDepostiFee[index - 1 - 7].depositFeeBP;
     }
 
     return {
