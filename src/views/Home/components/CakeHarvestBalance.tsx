@@ -38,7 +38,7 @@ const CakeHarvestBalance = () => {
         value={earningsSum}
         lineHeight="1.5"
         decimals={4}
-        color="#2082E9"
+        color="#424945"
       />
       <CardBusdValue value={earningsBusd} />
     </Block>
