@@ -2,8 +2,6 @@ import React, { useRef, useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import BigNumber from "bignumber.js";
 import { QuoteToken } from "config/constants/types";
-import { ParentSize } from "@visx/responsive";
-import Grid from "@material-ui/core/Grid";
 // import orderBy from "lodash/orderBy";
 import { useQuery } from "@apollo/client";
 import Container from "@material-ui/core/Container";
@@ -33,13 +31,16 @@ import {
   usePriceEthBusd,
 } from "state/hooks";
 
-import FarmStakingCard from "views/Home/components/FarmStakingCard";
 import LotteryCard from "views/Home/components/LotteryCard";
 // import CakeStats from "views/Home/components/CakeStats";
 import StatsCard from "views/Home/components/StatsCard";
 import Areachart from "components/Areachart";
 import TotalValueLockedCard from "views/Home/components/TotalValueLockedCard";
 import EarnAssetCard from "views/Home/components/EarnAssetCard";
+import { Heading, Text } from "cryption-uikit";
+import FarmedStakingCard from "views/Home/components/FarmStakingCard";
+import APRcards from "./components/APRcards";
+import CardValue from "./components/CardValue";
 // import WinCard from "views/Home/components/WinCard";
 
 const Hero = styled.div`
@@ -269,107 +270,102 @@ const Home: React.FC = () => {
   return (
     <Container
       maxWidth="lg"
-      style={{ marginTop: "50px", marginBottom: "80px" }}
+      style={{ marginTop: "20px", marginBottom: "80px" }}
     >
-      <Grid container spacing={5} justify="center">
-        <Grid item xs={12} md={6} lg={6} xl={6}>
-          <Hero>
-            <CNHeading>{TranslateString(576, "YuGen")}</CNHeading>
-          </Hero>
-          <FarmStakingCard />
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          md={6}
-          lg={6}
-          xl={6}
-          style={{ alignItems: "flex-start" }}
-        >
-          <LotteryCard />
-        </Grid>
-        <Grid item xs={12} md={6} lg={6} xl={6}>
-          <StatsCard
-            totalSuply={Number(totalSupplyVal.toFixed(2))}
-            burnedSupply={Number(totalBurned.toFixed(2))}
-            circulatingSupply={Number(ciculatingSupply.toFixed(2))}
-            totalFees={Number(totalFees).toFixed(2)}
-            devFees={Number(devFees).toFixed(2)}
-            stakerFees={Number(stakerFees).toFixed(2)}
-            lpFees={Number(lpFees).toFixed(2)}
-            burnerFees={Number(burnerFees).toFixed(2)}
-          />
-        </Grid>
-        <Grid item xs={12} md={6} lg={6} xl={6} style={{ alignSelf: "center" }}>
-          <Card style={{ height: 373 }}>
-            {liquidity && liquidity.length > 0 && (
-              <ParentSize>
-                {({ width, height }) => (
-                  <Areachart
-                    title="Liquidity"
-                    width={width}
-                    height={height}
-                    data={liquidity}
-                    margin={{ top: 125, right: 0, bottom: 0, left: 0 }}
-                    tooltipDisabled
-                    overlayEnabled
-                  />
-                )}
-              </ParentSize>
-            )}
-          </Card>
-        </Grid>
-        <Grid item xs={12} md={6} lg={6} xl={6}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={6} xl={6}>
-              <TotalValueLockedCard />
-            </Grid>
-            <Grid item xs={12} md={6} lg={6} xl={6}>
-              <EarnAssetCard
-                topTitle="Earn up to"
-                description={`${maxFarmsAPY}%`}
-                descriptionColor="#29bb89"
-                bottomTitle="APR in farms"
-                redirectLink="/farms"
-              />
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid item xs={12} md={6} lg={6} xl={6}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={6} xl={6}>
-              <EarnAssetCard
-                topTitle="Earn up to"
-                bottomTitle="APR in vaults"
-                description={`${10}%`}
-                descriptionColor="#29bb89"
-                redirectLink="/vaults"
-              />
-            </Grid>
-            <Grid item xs={12} md={6} lg={6} xl={6}>
-              <EarnAssetCard
-                topTitle="Last Week's APR"
-                description={`${Number(cntStakingRatio.toFixed(2)).toFixed(
-                  2
-                )} %`}
-                bottomTitle="on staking CNT"
-                descriptionColor="#29bb89"
-                redirectLink="/cntstaker"
-              />
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
+      <CardContainer>
+        <Heading size="xxl" textAlign="center">
+          YuGen
+        </Heading>
+        <Card1>
+          <FarmedStakingCard />
+          <APRcards />
+        </Card1>
+        <Card2>
+          <Heading size="lg">Total Value Locked</Heading>
+          <Heading size="xl">
+            <CardValue
+              value={423423423424321.24}
+              lineHeight="1.5"
+              prefix="$"
+              fontSize="38px"
+              decimals={0}
+            />
+
+            <SubTVLContainer>
+              <FarmsTVL>
+                <Text>Farms</Text>
+                <CardValue
+                  value={23423424321.24}
+                  lineHeight="1.5"
+                  prefix="$"
+                  fontSize="30px"
+                  decimals={0}
+                />
+              </FarmsTVL>
+              <VaultsTVL>
+                <Text>Vaults</Text>
+                <CardValue
+                  value={243424321.24}
+                  lineHeight="1.5"
+                  prefix="$"
+                  fontSize="30px"
+                  decimals={0}
+                />
+              </VaultsTVL>
+            </SubTVLContainer>
+          </Heading>
+        </Card2>
+      </CardContainer>
     </Container>
   );
 };
 
-const CNHeading = styled.div`
-  font-size: 50px;
-  font-weight: bold;
-  text-align: center;
-  color: #424945;
-  margin-bottom: 20px;
+const SubTVLContainer = styled.div`
+  min-width: 100%;
+  display: flex;
+
+  @media (max-width: 550px) {
+    flex-wrap: wrap;
+  }
+`;
+
+const FarmsTVL = styled.div`
+  margin-top: 20px;
+  width: 100%;
+`;
+const VaultsTVL = styled.div`
+  margin-top: 20px;
+  width: 100%;
+`;
+
+const CardContainer = styled.div`
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: space-between;
+`;
+
+const Card1 = styled.div`
+  background: #ffffff;
+  width: 100%;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border-radius: 1rem;
+  display: flex;
+  margin: 20px 0px;
+  padding: 15px 15px;
+
+  @media (max-width: 750px) {
+    flex-wrap: wrap;
+  }
+`;
+
+const Card2 = styled.div`
+  background: #ffffff;
+  width: 100%;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border-radius: 1rem;
+  padding: 35px 35px;
 `;
 
 export default Home;

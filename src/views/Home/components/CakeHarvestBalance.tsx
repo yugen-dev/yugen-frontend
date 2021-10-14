@@ -1,7 +1,6 @@
 import React from "react";
 import { useWeb3React } from "@web3-react/core";
 import BigNumber from "bignumber.js";
-import useI18n from "hooks/useI18n";
 import useAllEarnings from "hooks/useAllEarnings";
 import { usePriceCakeBusd } from "state/hooks";
 import styled from "styled-components";
@@ -10,7 +9,7 @@ import CardBusdValue from "./CardBusdValue";
 
 const CNText = styled.div`
   color: #d04863;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 500;
   text-transform: uppercase;
 `;
@@ -18,7 +17,6 @@ const CNText = styled.div`
 const Block = styled.div``;
 
 const CakeHarvestBalance = () => {
-  const TranslateString = useI18n();
   const { account } = useWeb3React("web3");
   const allEarnings = useAllEarnings();
   const earningsSum = allEarnings.reduce((accum, earning) => {
@@ -31,7 +29,7 @@ const CakeHarvestBalance = () => {
     .toNumber();
 
   if (!account) {
-    return <CNText>{TranslateString(298, "Locked")}</CNText>;
+    return <CNText>Locked</CNText>;
   }
 
   return (

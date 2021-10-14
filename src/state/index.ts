@@ -35,7 +35,7 @@ if (loadedState.user) {
   loadedState.user.userDarkMode = getThemeCache();
 }
 const store = configureStore({
-  devTools: process.env.NODE_ENV !== "production",
+  // devTools: process.env.NODE_ENV !== "production",
   reducer: {
     vaults: vaultsReducer,
     farms: farmsReducer,

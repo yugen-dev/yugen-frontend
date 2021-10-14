@@ -41,7 +41,7 @@ const CardValue: React.FC<CardValueProps> = ({
     <Text
       bold={bold}
       fontSize={fontSize}
-      style={{ lineHeight, letterSpacing: "2px" }}
+      style={{ lineHeight, letterSpacing: "2px", wordBreak: "break-all" }}
       color={color}
     >
       {prefix}

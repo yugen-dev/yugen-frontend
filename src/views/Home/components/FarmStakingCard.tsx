@@ -3,7 +3,6 @@ import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { Heading, Card, CardBody, Button } from "cryption-uikit";
 import { useWeb3React } from "@web3-react/core";
-import useI18n from "hooks/useI18n";
 import { useAllHarvest } from "hooks/useHarvest";
 import useFarmsWithBalance from "hooks/useFarmsWithBalance";
 import UnlockButton from "components/UnlockButton";
@@ -25,7 +24,7 @@ const CardImage = styled.img`
 
 const Label = styled.div`
   color: #887263;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 500;
   text-align: center;
 `;
@@ -37,7 +36,6 @@ const Actions = styled.div`
 const FarmedStakingCard = () => {
   const [pendingTx, setPendingTx] = useState(false);
   const { account } = useWeb3React("web3");
-  const TranslateString = useI18n();
   const farmsWithBalance = useFarmsWithBalance();
   const balancesWithValue = farmsWithBalance.filter(
     (balanceType) => balanceType.balance.toNumber() > 0
@@ -61,29 +59,28 @@ const FarmedStakingCard = () => {
   return (
     <CNCardBody>
       <HeadingSection>
-        <CNHeading>{TranslateString(542, "Farms & Staking")}</CNHeading>
+        <Heading color="#424945" size="xl" fontWeight="700">
+          Farms & Staking
+        </Heading>
       </HeadingSection>
       <Block>
-        <Label>
-          {TranslateString(544, "CNT to Harvest")} {`  `}:
-        </Label>
+        <Label>CNT to Harvest{`  `}:</Label>
         <CakeHarvestBalance />
       </Block>
       <Block style={{ marginBottom: "0px" }}>
-        <Label>
-          {TranslateString(546, "CNT in Wallet")} {` `}:
-        </Label>
+        <Label>CNT in Wallet{` `}:</Label>
         <CakeWalletBalance />
       </Block>
+
+      {!account && (
+        <Block style={{ marginTop: "15px" }}>
+          <UnlockButton width="100%" />
+        </Block>
+      )}
     </CNCardBody>
   );
 };
 
-const CNHeading = styled.div`
-  font-size: 30px;
-  font-weight: 700;
-  color: #424945;
-`;
 const HeadingSection = styled.div`
   display: flex;
   align-items: center;
@@ -96,15 +93,12 @@ const CNCardBody = styled.div`
   text-align: center;
   border-radius: 0.625rem !important;
   padding: 30px 15px;
-  background-color: #ffffff;
   align-self: center;
   display: flex;
-  width: 100%;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  border-radius: 0.625rem !important;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  width: 100%;
 `;
 
 export default FarmedStakingCard;

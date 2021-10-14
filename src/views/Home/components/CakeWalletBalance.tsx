@@ -12,7 +12,7 @@ import CardBusdValue from "./CardBusdValue";
 
 const CNText = styled.div`
   color: #d04863;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 500;
   text-transform: uppercase;
 `;
