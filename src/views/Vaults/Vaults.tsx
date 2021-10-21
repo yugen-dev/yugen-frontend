@@ -259,8 +259,13 @@ const Vaults: React.FC = () => {
               .toFixed(2)
           );
 
-          const n = new BigNumber(365 * 24);
-          const apy = apr.dividedBy(n).plus(1).pow(n).minus(1);
+          const days = new BigNumber(365);
+          const hours = new BigNumber(24);
+          const n = days.times(hours);
+          const base = apr.dividedBy(new BigNumber(100)).dividedBy(n).plus(1);
+          const part1 = base.pow(days);
+          const part2 = base.pow(hours);
+          const apy = part1.times(part2).minus(1);
 
           return { ...vault, apy, apr, liquidity };
         }
@@ -321,7 +326,6 @@ const Vaults: React.FC = () => {
         value:
           vault.apr &&
           vault.apr
-            .times(new BigNumber(100))
             .toNumber()
             .toLocaleString("en-US", { maximumFractionDigits: 2 }),
         originalValue: vault.apr,
