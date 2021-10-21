@@ -31,25 +31,25 @@ import {
   usePriceEthBusd,
 } from "state/hooks";
 
-import LotteryCard from "views/Home/components/LotteryCard";
+// import LotteryCard from "views/Home/components/LotteryCard";
 // import CakeStats from "views/Home/components/CakeStats";
-import StatsCard from "views/Home/components/StatsCard";
-import Areachart from "components/Areachart";
-import TotalValueLockedCard from "views/Home/components/TotalValueLockedCard";
-import EarnAssetCard from "views/Home/components/EarnAssetCard";
+// import StatsCard from "views/Home/components/StatsCard";
+// import Areachart from "components/Areachart";
+// import TotalValueLockedCard from "views/Home/components/TotalValueLockedCard";
+// import EarnAssetCard from "views/Home/components/EarnAssetCard";
 import { Heading, Text } from "cryption-uikit";
 import FarmedStakingCard from "views/Home/components/FarmStakingCard";
 import APRcards from "./components/APRcards";
 import CardValue from "./components/CardValue";
 // import WinCard from "views/Home/components/WinCard";
 
-const Hero = styled.div`
-  align-items: left;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 32px;
-  text-align: center;
-`;
+// const Hero = styled.div`
+//   align-items: left;
+//   display: flex;
+//   flex-direction: column;
+//   margin-bottom: 32px;
+//   text-align: center;
+// `;
 
 const Card = styled.div`
   border-radius: 0.625rem !important;
@@ -110,7 +110,6 @@ const Home: React.FC = () => {
   const bnbPrice = usePriceBnbBusd();
   const web3 = useWeb3();
   let cntStakingRatio = 0.0;
-  const TranslateString = useI18n();
 
   const getHighestFarmsAPY = async () => {
     const activeFarms = farmsLP.filter((farm) => farm.multiplier !== "0X");
@@ -278,13 +277,13 @@ const Home: React.FC = () => {
         </Heading>
         <Card1>
           <FarmedStakingCard />
-          <APRcards />
+          <APRcards farmsMaxAPR={maxFarmsAPY} vaultsMaxAPR={maxFarmsAPY} />
         </Card1>
         <Card2>
           <Heading size="lg">Total Value Locked</Heading>
           <Heading size="xl">
             <CardValue
-              value={423423423424321.24}
+              value={ciculatingSupply}
               lineHeight="1.5"
               prefix="$"
               fontSize="38px"

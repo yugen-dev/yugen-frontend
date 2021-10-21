@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Heading, Text, Card, CardBody, Button } from "cryption-uikit";
 import { useWeb3React } from "@web3-react/core";
 
-const APRcards = () => {
+const APRcards = ({ farmsMaxAPR, vaultsMaxAPR }) => {
   const { account } = useWeb3React("web3");
 
   return (
@@ -17,7 +17,7 @@ const APRcards = () => {
             size="lg"
             style={{ wordBreak: "break-all", maxWidth: "75%" }}
           >
-            2000000000000.3132342%
+            {farmsMaxAPR}%
           </Heading>
           <Text textTransform="uppercase">APR</Text>
         </div>
@@ -30,7 +30,7 @@ const APRcards = () => {
             size="lg"
             style={{ wordBreak: "break-all", maxWidth: "75%" }}
           >
-            2000000000000.3132342%
+            {vaultsMaxAPR} %
           </Heading>
           <Text textTransform="uppercase">APR</Text>
         </div>

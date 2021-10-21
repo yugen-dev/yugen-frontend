@@ -64,11 +64,11 @@ const FarmedStakingCard = () => {
         </Heading>
       </HeadingSection>
       <Block>
-        <Label>CNT to Harvest{`  `}:</Label>
+        <Label>YGN to Harvest{`  `}:</Label>
         <CakeHarvestBalance />
       </Block>
       <Block style={{ marginBottom: "0px" }}>
-        <Label>CNT in Wallet{` `}:</Label>
+        <Label>YGN in Wallet{` `}:</Label>
         <CakeWalletBalance />
       </Block>
 
