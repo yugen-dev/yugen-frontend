@@ -121,6 +121,7 @@ export interface PoolConfig {
 
 export interface VaultConfig {
   pid: number;
+  farmpid?: number;
   lpTokenName: string;
   lpTokenAddress: Address;
   lpTokenPart1Address: Address;

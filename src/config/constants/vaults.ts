@@ -4,6 +4,7 @@ import { QuoteToken, VaultConfig } from "./types";
 const vaultsMainnet: VaultConfig[] = [
   {
     pid: 0,
+    farmpid: 0,
     lpTokenName: "xCNT-wMATIC",
     lpTokenAddress: {
       97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
@@ -61,25 +62,26 @@ const vaultsMainnet: VaultConfig[] = [
 const vaultsTestnet: VaultConfig[] = [
   {
     pid: 6,
-    lpTokenName: "YGN-CNT",
+    farmpid: 5,
+    lpTokenName: "YGN-WMATIC",
     lpTokenAddress: {
       97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       56: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-      80001: "0x6eEAc368378A5729F6957B5A42Bee41A062d1Da1",
+      80001: "0xeF4E6c3119A7a7260C1d3fA90939B32De02e363A",
       137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     lpTokenPart1Address: {
       97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       56: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-      80001: "0xac0ec8a0a5062feecb496ac1ef7d2177f06f88b0",
+      80001: "0x86652c1301843b4e06fbfbbdaa6849266fb2b5e7",
       137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     lpTokenPart2Address: {
       97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       56: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-      80001: "0x766f03e47674608cccf7414f6c4ddf3d963ae394",
+      80001: "0xac0ec8a0a5062feecb496ac1ef7d2177f06f88b0",
       137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
