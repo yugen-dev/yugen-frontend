@@ -60,12 +60,12 @@ const vaultsMainnet: VaultConfig[] = [
 ];
 const vaultsTestnet: VaultConfig[] = [
   {
-    pid: 5,
+    pid: 6,
     lpTokenName: "wMATIC-YGN",
     lpTokenAddress: {
       97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       56: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-      80001: "0xef4e6c3119a7a7260c1d3fa90939b32de02e363a",
+      80001: "0x6eEAc368378A5729F6957B5A42Bee41A062d1Da1",
       137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
@@ -93,7 +93,7 @@ const vaultsTestnet: VaultConfig[] = [
     strategyAddress: {
       97: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
       56: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
-      80001: "0x1d2c09A7B6A4e0d0AA2A472E5E04B088fC556CB1",
+      80001: "0xa26E07C7842159a316FB9348A59eCFBC0c011494",
       137: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
       1: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
     },
