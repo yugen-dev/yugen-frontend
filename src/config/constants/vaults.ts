@@ -61,7 +61,7 @@ const vaultsMainnet: VaultConfig[] = [
 const vaultsTestnet: VaultConfig[] = [
   {
     pid: 6,
-    lpTokenName: "wMATIC-YGN",
+    lpTokenName: "YGN-CNT",
     lpTokenAddress: {
       97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       56: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
@@ -72,14 +72,14 @@ const vaultsTestnet: VaultConfig[] = [
     lpTokenPart1Address: {
       97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       56: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-      80001: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      80001: "0xac0ec8a0a5062feecb496ac1ef7d2177f06f88b0",
       137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     lpTokenPart2Address: {
       97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       56: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-      80001: "0xac0ec8a0a5062feecb496ac1ef7d2177f06f88b0",
+      80001: "0x766f03e47674608cccf7414f6c4ddf3d963ae394",
       137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },

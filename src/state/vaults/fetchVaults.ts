@@ -55,7 +55,7 @@ const fetchVaults = async () => {
         {
           address: getFarmAddress(),
           name: "poolInfo",
-          params: [vaultConfig.pid],
+          params: [5],
         },
         {
           address: getFarmAddress(),
