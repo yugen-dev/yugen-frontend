@@ -1,4 +1,5 @@
 export { fetchFarmsPublicDataAsync, fetchFarmUserDataAsync } from "./farms";
+// eslint-disable-next-line import/no-cycle
 export { fetchVaultsPublicDataAsync, fetchVaultUserDataAsync } from "./vaults";
 export { clear, remove, push } from "./toasts";
 export {

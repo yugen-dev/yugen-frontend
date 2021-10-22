@@ -95,7 +95,7 @@ const fetchVaults = async () => {
         quoteTokenAmount: quoteTokenAmount.toJSON(),
         lpTotalInQuoteToken: lpTotalInQuoteToken.toJSON(),
         nonQuoteVsQuote: quoteTokenAmount.div(nonQuotetokenAmount).toJSON(),
-        priceOfRewardToken,
+        priceOfRewardToken: priceOfRewardToken.toJSON(),
         totalLPTokensStakedInFarms: lpTokenBalanceInMCInBN.toJSON(),
       };
     })

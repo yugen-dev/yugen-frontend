@@ -246,7 +246,7 @@ const Vaults: React.FC = () => {
               .plus(new BigNumber(vault.nonQuoteTokenAmount));
           }
 
-          const priceOf1RewardToken = vault.priceOfRewardToken;
+          const priceOf1RewardToken = new BigNumber(vault?.priceOfRewardToken);
 
           const apr = new BigNumber(
             priceOf1RewardToken
