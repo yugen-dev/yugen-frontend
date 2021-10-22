@@ -1,11 +1,11 @@
 import BigNumber from "bignumber.js";
 import erc20 from "config/abi/erc20.json";
-import farmABI from "config/abi/farm.json";
 import vaultStratergyABI from "config/abi/vaultStratergy.json";
 import multicall from "utils/multicall";
-import { getAddress, getFarmAddress } from "utils/addressHelpers";
+import { getAddress } from "utils/addressHelpers";
 import vaultsConfig from "config/constants/vaults";
 import { VaultConfig } from "config/constants/types";
+import { fetchPrice } from "state/hooks";
 
 const fetchVaults = async () => {
   const data = await Promise.all(
@@ -51,18 +51,6 @@ const fetchVaults = async () => {
         quoteTokenDecimals,
       ] = await multicall(erc20, calls);
 
-      const [info, totalAllocPoint] = await multicall(farmABI, [
-        {
-          address: getFarmAddress(),
-          name: "poolInfo",
-          params: [vaultConfig.farmpid],
-        },
-        {
-          address: getFarmAddress(),
-          name: "totalAllocPoint",
-        },
-      ]);
-
       const [lpTokenBalanceInMC] = await multicall(vaultStratergyABI, [
         // Balance of LP tokens in the master chef contract
         {
@@ -70,11 +58,6 @@ const fetchVaults = async () => {
           name: "wantLockedTotal",
         },
       ]);
-
-      const allocPoint = new BigNumber(info.allocPoint._hex);
-      // const poolHarvestInterval = new BigNumber(info.harvestInterval._hex);
-
-      const poolWeight = allocPoint.div(new BigNumber(totalAllocPoint));
 
       // Ratio in % a LP tokens that are in staking, vs the total number in circulation
       const lpTokenRatio = new BigNumber(lpTokenBalanceInMC).div(
@@ -100,19 +83,19 @@ const fetchVaults = async () => {
         .div(new BigNumber(10).pow(quoteTokenDecimals))
         .times(lpTokenRatio);
 
+      // fetch price of underlying token from coin gecko here... & calculate APR
+      let priceOfRewardToken = new BigNumber(1);
+      if (vaultConfig.rewardToken === "YGN")
+        priceOfRewardToken = new BigNumber(1.2);
+      else priceOfRewardToken = await fetchPrice(vaultConfig.rewardToken);
+
       return {
         ...vaultConfig,
         nonQuoteTokenAmount: nonQuotetokenAmount.toJSON(),
         quoteTokenAmount: quoteTokenAmount.toJSON(),
         lpTotalInQuoteToken: lpTotalInQuoteToken.toJSON(),
         nonQuoteVsQuote: quoteTokenAmount.div(nonQuotetokenAmount).toJSON(),
-        poolWeight: poolWeight.toJSON(),
-        multiplier: `${allocPoint
-          .div(totalAllocPoint)
-          .multipliedBy(100)
-          .toFixed(2)
-          .toString()}X`,
-        // poolHarvestInterval: poolHarvestInterval.toString(),
+        priceOfRewardToken,
         totalLPTokensStakedInFarms: lpTokenBalanceInMCInBN.toJSON(),
       };
     })

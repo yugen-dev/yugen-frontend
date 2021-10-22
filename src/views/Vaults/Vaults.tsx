@@ -12,7 +12,7 @@ import {
   ArrowForwardIcon,
 } from "cryption-uikit";
 import styled from "styled-components";
-import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CROSS_CHAIN_API_LINK } from "config";
+import { CROSS_CHAIN_API_LINK } from "config";
 import {
   usePriceBnbBusd,
   usePriceBtcBusd,
@@ -246,15 +246,13 @@ const Vaults: React.FC = () => {
               .plus(new BigNumber(vault.nonQuoteTokenAmount));
           }
 
-          const priceOf1LP = liquidity.dividedBy(
-            vault.totalLPTokensStakedInFarms
-          );
+          const priceOf1RewardToken = vault.priceOfRewardToken;
 
           const apr = new BigNumber(
-            priceOf1LP
-              .multipliedBy(BLOCKS_PER_YEAR)
-              .multipliedBy(CAKE_PER_BLOCK)
-              .multipliedBy(vault?.multiplier?.replace(/[^\d.-]/g, ""))
+            priceOf1RewardToken
+              .multipliedBy(vault.blocksPerYearOfRewardToken)
+              .multipliedBy(vault.rewardTokenPerBlock)
+              .multipliedBy(vault?.rewardMultiplier?.replace(/[^\d.-]/g, ""))
               .dividedBy(liquidity)
               .toFixed(2)
           );

@@ -4,8 +4,11 @@ import { QuoteToken, VaultConfig } from "./types";
 const vaultsMainnet: VaultConfig[] = [
   {
     pid: 0,
-    farmpid: 0,
     lpTokenName: "xCNT-wMATIC",
+    rewardToken: "wMATIC",
+    blocksPerYearOfRewardToken: 1,
+    rewardTokenPerBlock: 1,
+    rewardMultiplier: "1x",
     lpTokenAddress: {
       97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       56: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
@@ -62,8 +65,11 @@ const vaultsMainnet: VaultConfig[] = [
 const vaultsTestnet: VaultConfig[] = [
   {
     pid: 6,
-    farmpid: 5,
     lpTokenName: "YGN-WMATIC",
+    rewardToken: "YGN",
+    blocksPerYearOfRewardToken: 1,
+    rewardTokenPerBlock: 1,
+    rewardMultiplier: "1x",
     lpTokenAddress: {
       97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       56: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",

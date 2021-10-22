@@ -121,7 +121,10 @@ export interface PoolConfig {
 
 export interface VaultConfig {
   pid: number;
-  farmpid?: number;
+  rewardToken: string;
+  blocksPerYearOfRewardToken: number;
+  rewardTokenPerBlock: number;
+  rewardMultiplier: string;
   lpTokenName: string;
   lpTokenAddress: Address;
   lpTokenPart1Address: Address;
