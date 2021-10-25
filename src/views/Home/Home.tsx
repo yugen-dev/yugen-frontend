@@ -5,7 +5,6 @@ import { QuoteToken } from "config/constants/types";
 // import orderBy from "lodash/orderBy";
 import { useQuery } from "@apollo/client";
 import Container from "@material-ui/core/Container";
-import useI18n from "hooks/useI18n";
 import useWeb3 from "hooks/useWeb3";
 // import getCntPrice from "utils/getCntPrice";
 import useInterval from "hooks/useInterval";
@@ -25,10 +24,13 @@ import {
 import { getDayData } from "apollo/exchange";
 import {
   useFarms,
+  useFarmsTotalValue,
+  useVaultsTotalValue,
   usePriceBnbBusd,
   usePriceBtcBusd,
   usePriceCakeBusd,
   usePriceEthBusd,
+  useVaultsApr,
 } from "state/hooks";
 
 // import LotteryCard from "views/Home/components/LotteryCard";
@@ -59,6 +61,11 @@ const Card = styled.div`
 `;
 
 const Home: React.FC = () => {
+  const farmsTVL = useFarmsTotalValue();
+  const vaultsTVL = useVaultsTotalValue();
+  const maxVaultsAPY = useVaultsApr();
+  const totalTVL = BigNumber.sum(farmsTVL, vaultsTVL).toFixed(2);
+
   const maxFarmsAPYRef = useRef(Number.MIN_VALUE);
   const [maxFarmsAPY, setMaxFarmsAPY] = useState("0");
   const [ciculatingSupply, setciculatingSupply] = useState(0);
@@ -277,13 +284,16 @@ const Home: React.FC = () => {
         </Heading>
         <Card1>
           <FarmedStakingCard />
-          <APRcards farmsMaxAPR={maxFarmsAPY} vaultsMaxAPR={maxFarmsAPY} />
+          <APRcards
+            farmsMaxAPR={maxFarmsAPY}
+            vaultsMaxAPR={new BigNumber(maxVaultsAPY).toFixed(2)}
+          />
         </Card1>
         <Card2>
           <Heading size="lg">Total Value Locked</Heading>
           <Heading size="xl">
             <CardValue
-              value={ciculatingSupply}
+              value={Number(totalTVL)}
               lineHeight="1.5"
               prefix="$"
               fontSize="38px"
@@ -294,7 +304,7 @@ const Home: React.FC = () => {
               <FarmsTVL>
                 <Text>Farms</Text>
                 <CardValue
-                  value={23423424321.24}
+                  value={farmsTVL?.toNumber()}
                   lineHeight="1.5"
                   prefix="$"
                   fontSize="30px"
@@ -304,7 +314,7 @@ const Home: React.FC = () => {
               <VaultsTVL>
                 <Text>Vaults</Text>
                 <CardValue
-                  value={243424321.24}
+                  value={vaultsTVL?.toNumber()}
                   lineHeight="1.5"
                   prefix="$"
                   fontSize="30px"

@@ -89,6 +89,9 @@ const fetchVaults = async () => {
         priceOfRewardToken = new BigNumber(1.2);
       else priceOfRewardToken = await fetchPrice(vaultConfig.rewardToken);
 
+      let priceOfQuoteToken = new BigNumber(1);
+      priceOfQuoteToken = await fetchPrice(vaultConfig.quoteTokenSymbol);
+
       return {
         ...vaultConfig,
         nonQuoteTokenAmount: nonQuotetokenAmount.toJSON(),
@@ -96,6 +99,7 @@ const fetchVaults = async () => {
         lpTotalInQuoteToken: lpTotalInQuoteToken.toJSON(),
         nonQuoteVsQuote: quoteTokenAmount.div(nonQuotetokenAmount).toJSON(),
         priceOfRewardToken: priceOfRewardToken.toJSON(),
+        priceOfQuoteToken: priceOfQuoteToken.toJSON(),
         totalLPTokensStakedInFarms: lpTokenBalanceInMCInBN.toJSON(),
       };
     })

@@ -549,3 +549,99 @@ export const useTotalValue = (): BigNumber => {
 
   return value;
 };
+
+export const useFarmsTotalValue = (): BigNumber => {
+  const farms = useFarms();
+
+  const totalStakerBalance = useCntStakerTvl();
+  // const totalHybridstakingCntBalance = useHybridstakingTvl();
+  const bnbPrice = usePriceBnbBusd();
+  const cntPrice = usePriceCakeBusd();
+  const ethPrice = usePriceEthBusd();
+  const btcPrice = usePriceBtcBusd();
+
+  let value = new BigNumber(0);
+  for (let i = 0; i < farms.length; i++) {
+    const farm = farms[i];
+    if (farm.lpTotalInQuoteToken) {
+      let val;
+      if (farm.quoteTokenSymbol === QuoteToken.BNB) {
+        val = bnbPrice.times(farm.lpTotalInQuoteToken);
+      } else if (farm.quoteTokenSymbol === QuoteToken.CAKE) {
+        val = cntPrice.times(farm.lpTotalInQuoteToken);
+      } else if (farm.quoteTokenSymbol === QuoteToken.ETH) {
+        val = ethPrice.times(farm.lpTotalInQuoteToken);
+      } else if (farm.quoteTokenSymbol === QuoteToken.BTC) {
+        val = btcPrice.times(farm.lpTotalInQuoteToken);
+      } else if (farm.quoteTokenSymbol === QuoteToken.BUSD) {
+        val = new BigNumber(farm.tokenAmount).plus(farm.quoteTokenAmount);
+      } else {
+        val = farm.lpTotalInQuoteToken;
+      }
+
+      value = value.plus(val);
+    }
+  }
+
+  value = value.plus(totalStakerBalance.multipliedBy(cntPrice));
+  // value = value.plus(totalHybridstakingCntBalance.multipliedBy(cntPrice));
+
+  return value;
+};
+
+export const useVaultsTotalValue = (): BigNumber => {
+  const vaults = useVaults();
+
+  let maxLiq = new BigNumber(0);
+  vaults.map((vault) => {
+    if (!vault.nonQuoteTokenAmount || !vault.lpTotalInQuoteToken) {
+      return new BigNumber(1);
+    }
+
+    let liquidity = new BigNumber(vault.lpTotalInQuoteToken);
+    liquidity = new BigNumber(vault?.priceOfQuoteToken).times(
+      vault.lpTotalInQuoteToken
+    );
+
+    if (liquidity?.isGreaterThan(maxLiq)) maxLiq = liquidity;
+    return maxLiq;
+  });
+
+  const value = maxLiq;
+
+  return value;
+};
+
+export const useVaultsApr = (): BigNumber => {
+  const vaults = useVaults();
+
+  let maxApr = new BigNumber(0);
+  vaults.map((vault) => {
+    if (!vault.nonQuoteTokenAmount || !vault.lpTotalInQuoteToken) {
+      return new BigNumber(1);
+    }
+
+    let liquidity = new BigNumber(vault.lpTotalInQuoteToken);
+    liquidity = new BigNumber(vault?.priceOfQuoteToken).times(
+      vault.lpTotalInQuoteToken
+    );
+
+    const priceOf1RewardToken = new BigNumber(vault?.priceOfRewardToken);
+
+    const apr = new BigNumber(
+      priceOf1RewardToken
+        .multipliedBy(vault.blocksPerYearOfRewardToken)
+        .multipliedBy(vault.rewardTokenPerBlock)
+        .multipliedBy(vault?.rewardMultiplier?.replace(/[^\d.-]/g, ""))
+        .dividedBy(liquidity)
+        .toFixed(2)
+    );
+
+    if (apr?.isGreaterThan(maxApr)) maxApr = apr;
+    return maxApr;
+  });
+
+  const value = maxApr;
+
+  return value;
+};

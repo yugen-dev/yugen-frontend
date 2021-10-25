@@ -11,7 +11,7 @@ const APRcards = ({ farmsMaxAPR, vaultsMaxAPR }) => {
     <CardContainer>
       <FarmsAPR>
         <Text>In Farms</Text>
-        <div>
+        <div style={{ width: "100%" }}>
           <Text>Earn upto</Text>
           <Heading
             size="lg"
