@@ -152,8 +152,8 @@ const StyledOl = styled.ol`
 const CNTStaker = () => {
   // const tokenName = "CNT";
   // const [valueOfCNTinUSD, setCNTVal] = useState(0);
-  const xCNTLogo = "https://i.ibb.co/zfhRMxc/xCNT.png";
-  const CNTLogo = "https://i.ibb.co/8D5r4Hp/CNT.png";
+  const xYGNLogo = "https://i.ibb.co/zfhRMxc/xCNT.png";
+  const YGNLogo = "https://i.ibb.co/8D5r4Hp/CNT.png";
   const [index, setIndex] = React.useState(0);
   const [tokenBalance, setTokenBalance] = React.useState(new BigNumber(0));
   const [xCNTBalance, setxCNTBalance] = React.useState(new BigNumber(0));
@@ -304,22 +304,22 @@ const CNTStaker = () => {
           await enterGasless(cntStakerGasless, tokenAmount, account, library);
           toastSuccess(
             "Success!",
-            `You have successfully staked ${tokenAmount} CNT !`
+            `You have successfully staked ${tokenAmount} YGN !`
           );
         } catch (e) {
-          toastError("An error occurred while staking CNT");
+          toastError("An error occurred while staking YGN");
         }
       } else {
         await enter(cntStaker, tokenAmount, account);
         toastSuccess(
           "Success!",
-          `You have successfully staked ${tokenAmount} CNT !`
+          `You have successfully staked ${tokenAmount} YGN !`
         );
       }
 
       await getTokenBalances();
     } catch (error) {
-      toastError("An error occurred while staking CNT");
+      toastError("An error occurred while staking YGN");
     }
     setPendingDepositTx(false);
   };
@@ -335,10 +335,10 @@ const CNTStaker = () => {
       await getTokenBalances();
       toastSuccess(
         "Success!",
-        `You have successfully unstaked ${tokenAmount} xCNT !`
+        `You have successfully unstaked ${tokenAmount} xYGN !`
       );
     } catch (error) {
-      toastError("An error occurred while unstaking xCNT");
+      toastError("An error occurred while unstaking xYGN");
     }
     setPendingTx(false);
   };
@@ -353,11 +353,11 @@ const CNTStaker = () => {
           setPendingTx(false);
         }}
       >
-        Approve CNT
+        Approve YGN
       </Button>
     ) : (
       <Button isLoading endIcon={<AutoRenewIcon spin color="currentColor" />}>
-        Approving CNT ...
+        Approving YGN...
       </Button>
     );
 
@@ -378,7 +378,7 @@ const CNTStaker = () => {
                 setPendingTx(false);
               }}
             >
-              Approve CNT
+              Approve YGN
             </Button>
           ) : (
             <Button
@@ -386,14 +386,14 @@ const CNTStaker = () => {
               style={{ maxWidth: "400px", width: "100%" }}
               endIcon={<AutoRenewIcon spin color="currentColor" />}
             >
-              Approving CNT ...
+              Approving YGN...
             </Button>
           );
         }
       } else {
         return (
           <Button style={{ maxWidth: "400px", width: "100%" }} disabled>
-            Insufficent Cnt Balance
+            Insufficent YGN Balance
           </Button>
         );
       }
@@ -415,7 +415,7 @@ const CNTStaker = () => {
               setPendingTx(false);
             }}
           >
-            Stake CNT
+            Stake YGN
           </Button>
         ) : (
           <Button
@@ -423,7 +423,7 @@ const CNTStaker = () => {
             style={{ maxWidth: "400px", width: "100%" }}
             endIcon={<AutoRenewIcon spin color="currentColor" />}
           >
-            Staking CNT...
+            Staking YGN...
           </Button>
         )
       );
@@ -431,7 +431,7 @@ const CNTStaker = () => {
     if (xCNTBalance.toNumber() <= 0) {
       return (
         <Button style={{ maxWidth: "400px", width: "100%" }} disabled>
-          Insufficent xCnt Balance
+          Insufficent xYGN Balance
         </Button>
       );
     }
@@ -452,7 +452,7 @@ const CNTStaker = () => {
             setPendingTx(false);
           }}
         >
-          Convert to CNT
+          Convert to YGN
         </Button>
       ) : (
         <Button
@@ -460,7 +460,7 @@ const CNTStaker = () => {
           style={{ maxWidth: "400px", width: "100%" }}
           endIcon={<AutoRenewIcon spin color="currentColor" />}
         >
-          Converting to CNT...
+          Converting to YGN...
         </Button>
       )
     );
@@ -477,16 +477,16 @@ const CNTStaker = () => {
               padding: "20px 10px",
             }}
           >
-            <CNHeading>CNT Staker</CNHeading>
+            <CNHeading>YGN Staker</CNHeading>
             <StyledOl>
-              <DescriptionTextLi>Stake CNT to earn more CNT.</DescriptionTextLi>
+              <DescriptionTextLi>Stake YGN to earn more YGN.</DescriptionTextLi>
               <DescriptionTextLi>
                 You will earn a portion of the swap fees based on the amount of
-                xCNT held relative to the weight of the staking.
+                xYGN held relative to the weight of the staking.
               </DescriptionTextLi>
               <DescriptionTextLi>
-                xCNT can be minted by staking CNT. To redeem the CNT staked plus
-                swap fees, convert xCNT back to CNT.
+                xYGN can be minted by staking YGN. To redeem the YGN staked plus
+                swap fees, convert xYGN back to YGN.
               </DescriptionTextLi>
             </StyledOl>
           </div>
@@ -515,13 +515,13 @@ const CNTStaker = () => {
                   style={{ whiteSpace: "nowrap" }}
                   fontSize="18px"
                 >
-                  {index === 0 ? "Stake CNT" : "Unstake CNT"}
+                  {index === 0 ? "Stake YGN" : "Unstake YGN"}
                 </Text>
                 {totalSupply && (
                   <ConversionInfo>
                     {`There are currently ${getBalanceNumber(
                       totalSupply
-                    ).toFixed(2)} xCNT`}
+                    ).toFixed(2)} xYGN`}
                   </ConversionInfo>
                 )}
               </InfoDiv>
@@ -530,7 +530,7 @@ const CNTStaker = () => {
                 <InputWrapper>
                   <Input
                     onInputChange={onChange}
-                    placeholder="0 CNT"
+                    placeholder="0 YGN"
                     value={tokenAmount}
                   />
                 </InputWrapper>
@@ -612,12 +612,12 @@ const CNTStaker = () => {
               <InfoDiv>
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <img
-                    src="/images/CNT.png"
-                    alt="CNT"
+                    src="/images/YGN.png"
+                    alt="YGN"
                     width="24px"
                     style={{ marginRight: "10px", cursor: "pointer" }}
                     onClick={() =>
-                      registerToken(contracts.cake[CHAINID], "CNT", 18, CNTLogo)
+                      registerToken(contracts.cake[CHAINID], "YGN", 18, YGNLogo)
                     }
                   />
                   <Text
@@ -627,7 +627,7 @@ const CNTStaker = () => {
                     style={{ whiteSpace: "nowrap" }}
                     fontSize="18px"
                   >
-                    CNT:{" "}
+                    YGN:{" "}
                     <span style={{ color: "#424945" }}>
                       {getBalanceNumber(tokenBalance).toFixed(2)}
                     </span>
@@ -635,15 +635,15 @@ const CNTStaker = () => {
                 </div>
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <img
-                    src="/images/xCNT.png"
-                    alt="xCNT"
+                    src="/images/xYGN.png"
+                    alt="xYGN"
                     width="24px"
                     onClick={() =>
                       registerToken(
                         contracts.cntStaker[CHAINID],
-                        "xCNT",
+                        "xYGN",
                         18,
-                        xCNTLogo
+                        xYGNLogo
                       )
                     }
                     style={{ marginRight: "10px", cursor: "pointer" }}
@@ -654,7 +654,7 @@ const CNTStaker = () => {
                     style={{ whiteSpace: "nowrap" }}
                     fontSize="18px"
                   >
-                    xCNT:{" "}
+                    xYGN:{" "}
                     <span style={{ color: "#424945" }}>
                       {getBalanceNumber(xCNTBalance).toFixed(2)}
                     </span>
