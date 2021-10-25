@@ -13,20 +13,13 @@ import {
 } from "cryption-uikit";
 import styled from "styled-components";
 import { CROSS_CHAIN_API_LINK } from "config";
-import {
-  usePriceBnbBusd,
-  usePriceBtcBusd,
-  usePriceCakeBusd,
-  usePriceEthBusd,
-  useVaults,
-} from "state/hooks";
+import { useVaults } from "state/hooks";
 import useRefresh from "hooks/useRefresh";
 import useI18n from "hooks/useI18n";
 import { useChainId } from "state/application/hooks";
 import { orderBy } from "lodash";
 import { fetchVaultUserDataAsync } from "state/actions";
 import { getBalanceNumber } from "utils/formatBalance";
-import { QuoteToken } from "config/constants/types";
 import { Vault } from "state/types";
 import { VaultWithStakedValue } from "./components/FarmCard/FarmCard";
 import Table from "./components/FarmTable/FarmTable";
@@ -142,10 +135,6 @@ const Vaults: React.FC = () => {
   const { pathname } = useLocation();
   const TranslateString = useI18n();
   const vaultsLP = useVaults();
-  const cakePrice = usePriceCakeBusd();
-  const bnbPrice = usePriceBnbBusd();
-  const ethPriceUsd = usePriceEthBusd();
-  const btcPriceUsd = usePriceBtcBusd();
   const [query, setQuery] = useState("");
   const [viewMode] = useState(ViewMode.TABLE);
   const { account } = useWeb3React("web3");
@@ -229,22 +218,9 @@ const Vaults: React.FC = () => {
           }
 
           let liquidity = new BigNumber(vault.lpTotalInQuoteToken);
-          if (vault.quoteTokenSymbol === QuoteToken.BNB) {
-            liquidity = bnbPrice.times(vault.lpTotalInQuoteToken);
-          }
-          if (vault.quoteTokenSymbol === QuoteToken.CAKE) {
-            liquidity = cakePrice.times(vault.lpTotalInQuoteToken);
-          }
-
-          if (vault.quoteTokenSymbol === QuoteToken.ETH) {
-            liquidity = ethPriceUsd.times(vault.lpTotalInQuoteToken);
-          }
-
-          if (vault.quoteTokenSymbol === QuoteToken.BTC) {
-            liquidity = btcPriceUsd
-              .times(vault.quoteTokenAmount)
-              .plus(new BigNumber(vault.nonQuoteTokenAmount));
-          }
+          liquidity = new BigNumber(vault?.priceOfQuoteToken).times(
+            vault.lpTotalInQuoteToken
+          );
 
           const priceOf1RewardToken = new BigNumber(vault?.priceOfRewardToken);
 
@@ -282,7 +258,7 @@ const Vaults: React.FC = () => {
       }
       return vaultsToDisplayWithAPY;
     },
-    [bnbPrice, btcPriceUsd, cakePrice, ethPriceUsd, query]
+    [query]
   );
 
   const handleChangeQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
