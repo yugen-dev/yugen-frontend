@@ -22,7 +22,7 @@ const config: MenuEntry[] = [
     href: "/vaults",
   },
   {
-    label: "CNT Staker",
+    label: "YGN Staker",
     icon: "TicketIcon",
     href: "/cntstaker",
   },
