@@ -99,6 +99,8 @@ const CNCardBody = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 
 export default FarmedStakingCard;

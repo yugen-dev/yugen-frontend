@@ -41,8 +41,13 @@ import {
 // import EarnAssetCard from "views/Home/components/EarnAssetCard";
 import { Heading, Text } from "cryption-uikit";
 import FarmedStakingCard from "views/Home/components/FarmStakingCard";
+import Grid from "@material-ui/core/Grid";
 import APRcards from "./components/APRcards";
 import CardValue from "./components/CardValue";
+import EarnAssetCard from "./components/EarnAssetCard";
+import StatsCard from "./components/StatsCard";
+import TotalValueLockedCard from "./components/TotalValueLockedCard";
+import LotteryCard from "./components/LotteryCard";
 // import WinCard from "views/Home/components/WinCard";
 
 // const Hero = styled.div`
@@ -274,7 +279,108 @@ const Home: React.FC = () => {
   });
 
   return (
-    <Container
+    <>
+      <Container
+        maxWidth="lg"
+        style={{
+          marginTop: "50px",
+          marginBottom: "80px",
+        }}
+      >
+        <Grid container spacing={5} justify="center">
+          <Grid item xs={12} md={6} lg={6} xl={6}>
+            <Hero>
+              <Heading size="xxl">Yugen</Heading>
+            </Hero>
+            <LotteryCard />
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            md={6}
+            lg={6}
+            xl={6}
+            style={{ display: "flex", alignItems: "flex-end" }}
+          >
+            <FarmedStakingCard />
+          </Grid>
+          <Grid item xs={12} md={6} lg={6} xl={6}>
+            <Card2>
+              <Heading size="lg">Total Value Locked</Heading>
+              <CardValue
+                value={Number(totalTVL)}
+                lineHeight="1.5"
+                prefix="$"
+                fontSize="38px"
+                decimals={0}
+              />
+
+              <SubTVLContainer>
+                <FarmsTVL>
+                  <Text>Farms</Text>
+                  <CardValue
+                    value={farmsTVL?.toNumber()}
+                    lineHeight="1.5"
+                    prefix="$"
+                    fontSize="30px"
+                    decimals={0}
+                  />
+                </FarmsTVL>
+                <VaultsTVL>
+                  <Text>Vaults</Text>
+                  <CardValue
+                    value={vaultsTVL?.toNumber()}
+                    lineHeight="1.5"
+                    prefix="$"
+                    fontSize="30px"
+                    decimals={0}
+                  />
+                </VaultsTVL>
+              </SubTVLContainer>
+            </Card2>
+          </Grid>
+          {/* <Grid item xs={12} md={6} lg={6} xl={6} style={{ alignSelf: "center" }}>
+        </Grid> */}
+          <Grid item xs={12} md={6} lg={6} xl={6}>
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={6} lg={6} xl={6}>
+                <EarnAssetCard
+                  topTitle="Earn up to"
+                  description={`${maxFarmsAPY}%`}
+                  descriptionColor="#29bb89"
+                  bottomTitle="APR in farms"
+                  redirectLink="/farms"
+                />
+              </Grid>
+              <Grid item xs={12} md={6} lg={6} xl={6}>
+                <EarnAssetCard
+                  topTitle="Earn up to"
+                  bottomTitle="APR in vaults"
+                  description={`${new BigNumber(maxVaultsAPY).toFixed(2)}%`}
+                  descriptionColor="#29bb89"
+                  redirectLink="/vaults"
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <StatsCard
+              totalSuply={Number(totalSupplyVal.toFixed(2))}
+              burnedSupply={Number(totalBurned.toFixed(2))}
+              circulatingSupply={Number(ciculatingSupply.toFixed(2))}
+              totalFees={Number(totalFees).toFixed(2)}
+              devFees={Number(devFees).toFixed(2)}
+              stakerFees={Number(stakerFees).toFixed(2)}
+              lpFees={Number(lpFees).toFixed(2)}
+              burnerFees={Number(burnerFees).toFixed(2)}
+            />
+          </Grid>
+        </Grid>
+      </Container>
+
+      {/*  */}
+
+      {/* <Container
       maxWidth="lg"
       style={{ marginTop: "20px", marginBottom: "80px" }}
     >
@@ -283,7 +389,6 @@ const Home: React.FC = () => {
           YuGen
         </Heading>
         <Card1>
-          <FarmedStakingCard />
           <APRcards
             farmsMaxAPR={maxFarmsAPY}
             vaultsMaxAPR={new BigNumber(maxVaultsAPY).toFixed(2)}
@@ -291,7 +396,6 @@ const Home: React.FC = () => {
         </Card1>
         <Card2>
           <Heading size="lg">Total Value Locked</Heading>
-          <Heading size="xl">
             <CardValue
               value={Number(totalTVL)}
               lineHeight="1.5"
@@ -325,9 +429,17 @@ const Home: React.FC = () => {
           </Heading>
         </Card2>
       </CardContainer>
-    </Container>
+    </Container> */}
+    </>
   );
 };
+
+const Hero = styled.div`
+  align-items: left;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+`;
 
 const SubTVLContainer = styled.div`
   min-width: 100%;
