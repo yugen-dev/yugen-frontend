@@ -71,5 +71,17 @@ export const networks = [
     imgSrc: "",
     rpcUrl: "https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
   },
+  {
+    title: "Fantom Opera",
+    chainId: "250",
+    imgSrc: "",
+    rpcUrl: "https://rpc.ftm.tools/",
+  },
+  {
+    title: "Fantom Testnet",
+    chainId: "0xfa2",
+    imgSrc: "",
+    rpcUrl: "https://rpc.testnet.fantom.network/",
+  },
 ];
 export default config;
