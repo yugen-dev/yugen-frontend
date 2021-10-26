@@ -25,7 +25,7 @@ const DisplayInfo = ({ description, value }) => {
           marginLeft="3px"
           bold
         >
-          CNT
+          YGN
         </Text>
       </Heading>
     </SubContainer>
