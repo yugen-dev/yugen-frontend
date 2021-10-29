@@ -1,7 +1,73 @@
 import contracts from "./contracts";
 import { QuoteToken, VaultConfig } from "./types";
 
-const vaultsMainnet: VaultConfig[] = [
+const vaultsEthereumMainnet: VaultConfig[] = [];
+const vaultsEthereumTestnet: VaultConfig[] = [];
+
+const vaultsMaticMainnet: VaultConfig[] = [];
+const vaultsMaticTestnet: VaultConfig[] = [
+  {
+    pid: 6,
+    lpTokenName: "YGN-WMATIC",
+    coinGeckoLpTokenName: "YGN-WMATIC",
+    rewardTokenCoinGecko: "YGN",
+    quoteTokenCoinGecko: "WMATIC",
+    blocksPerYearOfRewardToken: 1,
+    rewardTokenPerBlock: 1,
+    rewardMultiplier: "1x",
+    lpTokenAddress: {
+      97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      56: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      80001: "0xeF4E6c3119A7a7260C1d3fA90939B32De02e363A",
+      137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+    },
+    lpTokenPart1Address: {
+      97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      56: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      80001: "0x86652c1301843b4e06fbfbbdaa6849266fb2b5e7",
+      137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+    },
+    lpTokenPart2Address: {
+      97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      56: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      80001: "0xac0ec8a0a5062feecb496ac1ef7d2177f06f88b0",
+      137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+    },
+    vaultAddress: {
+      97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      56: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      80001: "0x6E7a487CC89c36d146F03E6d1b08DC26b6C0649A",
+      137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+    },
+    strategyAddress: {
+      97: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
+      56: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
+      80001: "0xa26E07C7842159a316FB9348A59eCFBC0c011494",
+      137: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
+      1: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
+      250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+    },
+    quoteTokenSymbol: QuoteToken.WMATIC,
+    quoteTokenAddress: contracts.wbnb,
+    nonQuoteTokenSymbol: QuoteToken.CAKE,
+    nonQuoteTokenAddress: contracts.cake,
+  },
+];
+
+const vaultsFantomMainnet: VaultConfig[] = [
   {
     pid: 0,
     lpTokenName: "FTM-BOO",
@@ -78,74 +144,15 @@ const vaultsMainnet: VaultConfig[] = [
     },
   },
 ];
-const vaultsTestnet: VaultConfig[] = [
-  {
-    pid: 6,
-    lpTokenName: "YGN-WMATIC",
-    coinGeckoLpTokenName: "YGN-WMATIC",
-    rewardTokenCoinGecko: "YGN",
-    quoteTokenCoinGecko: "WMATIC",
-    blocksPerYearOfRewardToken: 1,
-    rewardTokenPerBlock: 1,
-    rewardMultiplier: "1x",
-    lpTokenAddress: {
-      97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-      56: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-      80001: "0xeF4E6c3119A7a7260C1d3fA90939B32De02e363A",
-      137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-      1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-      250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-    },
-    lpTokenPart1Address: {
-      97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-      56: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-      80001: "0x86652c1301843b4e06fbfbbdaa6849266fb2b5e7",
-      137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-      1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-      250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-    },
-    lpTokenPart2Address: {
-      97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-      56: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-      80001: "0xac0ec8a0a5062feecb496ac1ef7d2177f06f88b0",
-      137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-      1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-      250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-    },
-    vaultAddress: {
-      97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-      56: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-      80001: "0x6E7a487CC89c36d146F03E6d1b08DC26b6C0649A",
-      137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-      1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-      250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-    },
-    strategyAddress: {
-      97: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
-      56: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
-      80001: "0xa26E07C7842159a316FB9348A59eCFBC0c011494",
-      137: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
-      1: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
-      250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-    },
-    quoteTokenSymbol: QuoteToken.WMATIC,
-    quoteTokenAddress: contracts.wbnb,
-    nonQuoteTokenSymbol: QuoteToken.CAKE,
-    nonQuoteTokenAddress: contracts.cake,
-  },
-];
+const vaultsFantomTestnet: VaultConfig[] = [];
+
 const vaults = {
-  "80001": vaultsTestnet,
-  "1": vaultsMainnet,
-  "137": vaultsMainnet,
-  "5": vaultsTestnet,
-  "4002": vaultsTestnet,
-  "250": vaultsMainnet,
+  "80001": vaultsMaticTestnet,
+  "1": vaultsEthereumMainnet,
+  "137": vaultsMaticMainnet,
+  "5": vaultsEthereumTestnet,
+  "4002": vaultsFantomTestnet,
+  "250": vaultsFantomMainnet,
 };
 let chainId =
   window && window.ethereum
