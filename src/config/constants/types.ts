@@ -51,6 +51,9 @@ export enum QuoteToken {
   "LUSD" = "LUSD",
   "LUSDT" = "LUSDT",
   "LARTH" = "LARTH",
+  "WFTM" = "WFTM",
+  "FTM" = "FTM",
+  "BOO" = "BOO",
 }
 
 export enum PoolCategory {
@@ -66,6 +69,8 @@ export interface Address {
   80001: string;
   137: string;
   1?: string;
+  250?: string;
+  4002?: string;
 }
 
 export interface FarmConfig {
@@ -121,11 +126,13 @@ export interface PoolConfig {
 
 export interface VaultConfig {
   pid: number;
-  rewardToken: string;
+  rewardTokenCoinGecko?: string;
+  quoteTokenCoinGecko?: string;
   blocksPerYearOfRewardToken: number;
   rewardTokenPerBlock: number;
   rewardMultiplier: string;
   lpTokenName: string;
+  coinGeckoLpTokenName?: string;
   lpTokenAddress: Address;
   lpTokenPart1Address: Address;
   lpTokenPart2Address: Address;

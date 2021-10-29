@@ -85,12 +85,13 @@ const fetchVaults = async () => {
 
       // fetch price of underlying token from coin gecko here... & calculate APR
       let priceOfRewardToken = new BigNumber(1);
-      if (vaultConfig.rewardToken === "YGN")
+      if (vaultConfig.rewardTokenCoinGecko === "YGN")
         priceOfRewardToken = new BigNumber(1.2);
-      else priceOfRewardToken = await fetchPrice(vaultConfig.rewardToken);
+      else
+        priceOfRewardToken = await fetchPrice(vaultConfig.rewardTokenCoinGecko);
 
       let priceOfQuoteToken = new BigNumber(1);
-      priceOfQuoteToken = await fetchPrice(vaultConfig.quoteTokenSymbol);
+      priceOfQuoteToken = await fetchPrice(vaultConfig.quoteTokenCoinGecko);
 
       return {
         ...vaultConfig,

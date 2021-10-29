@@ -77,17 +77,24 @@ const Menu = (props) => {
   const changeNetwork = async (networkData) => {
     try {
       await window.ethereum.request({
-        method: 'wallet_switchEthereumChain',
+        method: "wallet_switchEthereumChain",
         // params: [{ chainId: '0x1' }],
-        params: [{ chainId: `0x${parseFloat(networkData.chainId).toString(16)}` }],
+        params: [
+          { chainId: `0x${parseFloat(networkData.chainId).toString(16)}` },
+        ],
       });
     } catch (switchError) {
       // This error code indicates that the chain has not been added to MetaMask.
       if (switchError) {
         try {
           await window.ethereum.request({
-            method: 'wallet_addEthereumChain',
-            params: [{ chainId: `0x${parseFloat(networkData.chainId).toString(16)}`, rpcUrl: networkData.rpcUrl /* ... */ }],
+            method: "wallet_addEthereumChain",
+            params: [
+              {
+                chainId: `0x${parseFloat(networkData.chainId).toString(16)}`,
+                rpcUrl: networkData.rpcUrl /* ... */,
+              },
+            ],
           });
         } catch (addError) {
           // handle "add" error
@@ -95,9 +102,11 @@ const Menu = (props) => {
       }
       // handle other "switch" errors
     }
-  }
+  };
   const chainId = useChainId().toString();
-  const currentNetwork = networks.filter(eachNetwork => eachNetwork.chainId === chainId)
+  const currentNetwork = networks.filter(
+    (eachNetwork) => eachNetwork.chainId === chainId
+  );
   return (
     <UikitMenu
       account={accountId}
@@ -129,7 +138,9 @@ const Menu = (props) => {
       logoSize="53px"
       links={config}
       socials={socials}
-      currentNetwork={currentNetwork && currentNetwork.length > 0 ? currentNetwork[0] : {}}
+      currentNetwork={
+        currentNetwork && currentNetwork.length > 0 ? currentNetwork[0] : {}
+      }
       showNetworkSwitch={!!(window && window.ethereum)}
       activeChainId={chainId}
       changeNetwork={changeNetwork}

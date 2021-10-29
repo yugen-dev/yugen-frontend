@@ -20,6 +20,7 @@ import { useVaultStake } from "hooks/useStake";
 import { useVaultUnstake } from "hooks/useUnstake";
 import useWeb3 from "hooks/useWeb3";
 
+import { getAddress } from "utils/addressHelpers";
 import DepositModal from "../../DepositModal";
 import WithdrawModal from "../../WithdrawModal";
 import {
@@ -45,14 +46,14 @@ const Staked: React.FunctionComponent<VaultWithStakedValue> = ({
   const { account } = useWeb3React("web3");
   const [requestedApproval, setRequestedApproval] = useState(false);
   const { allowance, tokenBalance, stakedBalance } = useVaultUser(pid);
-  const vaultContractAddress = vaultAddress[process.env.REACT_APP_CHAIN_ID];
+  const vaultContractAddress = getAddress(vaultAddress);
   const { onStake } = useVaultStake(pid, vaultContractAddress);
   const { onUnstake } = useVaultUnstake(pid, vaultContractAddress);
   const web3 = useWeb3();
 
   const isApproved = account && allowance && allowance.isGreaterThan(0);
 
-  const lpAddress = lpTokenAddress[process.env.REACT_APP_CHAIN_ID];
+  const lpAddress = getAddress(lpTokenAddress);
   const liquidityUrlPathParts = "";
   const addLiquidityUrl = `${BASE_ADD_LIQUIDITY_URL}/${liquidityUrlPathParts}`;
   const rawStakedBalance = getBalanceNumber(stakedBalance);

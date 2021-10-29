@@ -28,6 +28,8 @@ const graphLinks = {
   "1": maintNetLink,
   "5": testNetLink,
   "137": maintNetLink,
+  "250": maintNetLink,
+  "40002": testNetLink,
 };
 // export const uniswap = from([
 //   new RetryLink(),

@@ -114,7 +114,7 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
   const bsc = `https://polygonscan.com/address/${getAddress(
     vault.lpTokenAddress
   )}`;
-  const splitLP = vault.lpTokenName.split("-");
+  const splitLP = vault.coinGeckoLpTokenName.split("-");
 
   const getLpPrices = useCallback(
     async (arrayOfLP) => {

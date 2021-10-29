@@ -79,7 +79,7 @@ export const networks = [
   },
   {
     title: "Fantom Testnet",
-    chainId: "0xfa2",
+    chainId: "4002",
     imgSrc: "",
     rpcUrl: "https://rpc.testnet.fantom.network/",
   },

@@ -4,8 +4,10 @@ import { QuoteToken, VaultConfig } from "./types";
 const vaultsMainnet: VaultConfig[] = [
   {
     pid: 0,
-    lpTokenName: "xCNT-wMATIC",
-    rewardToken: "wMATIC",
+    lpTokenName: "FTM-BOO",
+    coinGeckoLpTokenName: "fantom-spookyswap",
+    rewardTokenCoinGecko: "spookyswap",
+    quoteTokenCoinGecko: "fantom",
     blocksPerYearOfRewardToken: 1,
     rewardTokenPerBlock: 1,
     rewardMultiplier: "1x",
@@ -15,6 +17,8 @@ const vaultsMainnet: VaultConfig[] = [
       80001: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      250: "0xEc7178F4C41f346b2721907F5cF7628E388A7a58",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     lpTokenPart1Address: {
       97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
@@ -22,6 +26,8 @@ const vaultsMainnet: VaultConfig[] = [
       80001: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      250: "0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     lpTokenPart2Address: {
       97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
@@ -29,6 +35,8 @@ const vaultsMainnet: VaultConfig[] = [
       80001: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      250: "0x841fad6eae12c286d1fd18d1d525dffa75c7effe",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     vaultAddress: {
       97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
@@ -36,6 +44,8 @@ const vaultsMainnet: VaultConfig[] = [
       80001: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      250: "0x429876c4a6f89FB470E92456B8313879DF98B63c",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     strategyAddress: {
       97: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
@@ -43,15 +53,19 @@ const vaultsMainnet: VaultConfig[] = [
       80001: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
       137: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
       1: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
+      250: "0x6Fc377F3a73b243D8Cbae5a723AF1261B268Ae2E",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
-    quoteTokenSymbol: QuoteToken.WMATIC,
-    nonQuoteTokenSymbol: QuoteToken.CAKE,
+    quoteTokenSymbol: QuoteToken.FTM,
+    nonQuoteTokenSymbol: QuoteToken.BOO,
     quoteTokenAddress: {
       97: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
       56: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
       80001: "0xBC659F08bf439ff856bCF4119fE6B2617C3706eD",
       137: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
       1: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
+      250: "0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     nonQuoteTokenAddress: {
       97: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
@@ -59,6 +73,8 @@ const vaultsMainnet: VaultConfig[] = [
       80001: "0xBC659F08bf439ff856bCF4119fE6B2617C3706eD",
       137: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
       1: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
+      250: "0x841fad6eae12c286d1fd18d1d525dffa75c7effe",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
   },
 ];
@@ -66,7 +82,9 @@ const vaultsTestnet: VaultConfig[] = [
   {
     pid: 6,
     lpTokenName: "YGN-WMATIC",
-    rewardToken: "YGN",
+    coinGeckoLpTokenName: "YGN-WMATIC",
+    rewardTokenCoinGecko: "YGN",
+    quoteTokenCoinGecko: "WMATIC",
     blocksPerYearOfRewardToken: 1,
     rewardTokenPerBlock: 1,
     rewardMultiplier: "1x",
@@ -76,6 +94,8 @@ const vaultsTestnet: VaultConfig[] = [
       80001: "0xeF4E6c3119A7a7260C1d3fA90939B32De02e363A",
       137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     lpTokenPart1Address: {
       97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
@@ -83,6 +103,8 @@ const vaultsTestnet: VaultConfig[] = [
       80001: "0x86652c1301843b4e06fbfbbdaa6849266fb2b5e7",
       137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     lpTokenPart2Address: {
       97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
@@ -90,6 +112,8 @@ const vaultsTestnet: VaultConfig[] = [
       80001: "0xac0ec8a0a5062feecb496ac1ef7d2177f06f88b0",
       137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     vaultAddress: {
       97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
@@ -97,6 +121,8 @@ const vaultsTestnet: VaultConfig[] = [
       80001: "0x6E7a487CC89c36d146F03E6d1b08DC26b6C0649A",
       137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     strategyAddress: {
       97: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
@@ -104,6 +130,8 @@ const vaultsTestnet: VaultConfig[] = [
       80001: "0xa26E07C7842159a316FB9348A59eCFBC0c011494",
       137: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
       1: "0x83C0b42CAa58735447EcE72c3DD584EbD19405B2",
+      250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     quoteTokenSymbol: QuoteToken.WMATIC,
     quoteTokenAddress: contracts.wbnb,
@@ -116,6 +144,8 @@ const vaults = {
   "1": vaultsMainnet,
   "137": vaultsMainnet,
   "5": vaultsTestnet,
+  "4002": vaultsTestnet,
+  "250": vaultsMainnet,
 };
 let chainId =
   window && window.ethereum
