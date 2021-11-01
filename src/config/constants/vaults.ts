@@ -74,9 +74,9 @@ const vaultsFantomMainnet: VaultConfig[] = [
     coinGeckoLpTokenName: "fantom-spookyswap",
     rewardTokenCoinGecko: "spookyswap",
     quoteTokenCoinGecko: "fantom",
-    blocksPerYearOfRewardToken: 1,
+    blocksPerYearOfRewardToken: 10,
     rewardTokenPerBlock: 1,
-    rewardMultiplier: "1x",
+    rewardMultiplier: "1.01x",
     lpTokenAddress: {
       97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       56: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",

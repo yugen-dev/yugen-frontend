@@ -229,17 +229,15 @@ const Vaults: React.FC = () => {
               .multipliedBy(vault.blocksPerYearOfRewardToken)
               .multipliedBy(vault.rewardTokenPerBlock)
               .multipliedBy(vault?.rewardMultiplier?.replace(/[^\d.-]/g, ""))
-              .dividedBy(liquidity)
+              .dividedBy(liquidity.toFixed(3))
               .toFixed(2)
           );
 
-          const days = new BigNumber(365);
-          const hours = new BigNumber(24);
-          const n = days.times(hours);
-          const base = apr.dividedBy(new BigNumber(100)).dividedBy(n).plus(1);
-          const part1 = base.pow(days);
-          const part2 = base.pow(hours);
-          const apy = part1.times(part2).minus(1);
+          const n = 365 * 24;
+          const test = new BigNumber(apr.dividedBy(n).plus(1).toFixed(6))
+            .pow(n)
+            .minus(1);
+          const apy = new BigNumber(test.toFixed(2));
 
           return { ...vault, apy, apr, liquidity };
         }
@@ -291,7 +289,6 @@ const Vaults: React.FC = () => {
         value:
           vault.apy &&
           vault.apy
-            .times(new BigNumber(100))
             .toNumber()
             .toLocaleString("en-US", { maximumFractionDigits: 2 }),
         originalValue: vault.apy,
