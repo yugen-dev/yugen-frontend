@@ -3,7 +3,6 @@ import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import farmsReducer from "./farms";
 import vaultsReducer from "./vaults";
 import toastsReducer from "./toasts";
-import poolsReducer from "./pools";
 import pricesReducer from "./prices";
 import profileReducer from "./profile";
 import teamsReducer from "./teams";
@@ -40,7 +39,6 @@ const store = configureStore({
     vaults: vaultsReducer,
     farms: farmsReducer,
     toasts: toastsReducer,
-    pools: poolsReducer,
     prices: pricesReducer,
     profile: profileReducer,
     teams: teamsReducer,

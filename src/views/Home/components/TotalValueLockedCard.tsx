@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Card, Skeleton } from "cryption-uikit";
 import useI18n from "hooks/useI18n";
-import { useTotalValue } from "state/hooks";
+import BigNumber from "bignumber.js";
 import CardValue from "./CardValue";
 
 const StyledTotalValueLockedCard = styled(Card)`
@@ -19,7 +19,7 @@ const StyledTotalValueLockedCard = styled(Card)`
 
 const TotalValueLockedCard = () => {
   const TranslateString = useI18n();
-  const data = useTotalValue();
+  const data = new BigNumber(100);
 
   return (
     <StyledTotalValueLockedCard>

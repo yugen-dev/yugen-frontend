@@ -3,14 +3,6 @@ export { fetchFarmsPublicDataAsync, fetchFarmUserDataAsync } from "./farms";
 export { fetchVaultsPublicDataAsync, fetchVaultUserDataAsync } from "./vaults";
 export { clear, remove, push } from "./toasts";
 export {
-  fetchPoolsPublicDataAsync,
-  fetchPoolsUserDataAsync,
-  updateUserAllowance,
-  updateUserBalance,
-  updateUserPendingReward,
-  updateUserStakedBalance,
-} from "./pools";
-export {
   profileFetchStart,
   profileFetchSucceeded,
   profileFetchFailed,

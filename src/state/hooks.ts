@@ -10,15 +10,12 @@ import {
 import contracts from "config/constants/contracts";
 import { Toast, toastTypes } from "cryption-uikit";
 import { useSelector, useDispatch } from "react-redux";
-import { PoolCategory, QuoteToken, Team } from "config/constants/types";
+import { QuoteToken, Team } from "config/constants/types";
 import { getWeb3NoAccount } from "utils/web3";
 import useRefresh from "hooks/useRefresh";
-import { getBalanceNumber } from "utils/formatBalance";
 import CoinGecko from "coingecko-api";
 import {
   fetchFarmsPublicDataAsync,
-  fetchPoolsPublicDataAsync,
-  fetchPoolsUserDataAsync,
   fetchVaultsPublicDataAsync,
   push as pushToast,
   remove as removeToast,
@@ -56,7 +53,6 @@ export const useFetchPublicData = () => {
   useEffect(() => {
     dispatch(fetchFarmsPublicDataAsync());
     dispatch(fetchVaultsPublicDataAsync());
-    dispatch(fetchPoolsPublicDataAsync());
   }, [dispatch, slowRefresh]);
 
   useEffect(() => {
@@ -87,11 +83,6 @@ export const useVaultFromPid = (pid): Vault => {
     state.vaults.data.find((v) => v.pid === pid)
   );
   return vault;
-};
-
-export const usePoolss = (): Pool[] => {
-  const pools = useSelector((state: State) => state.pools.data);
-  return pools;
 };
 
 export const useFarmFromPid = (pid): Farm => {
@@ -160,19 +151,6 @@ export const useFarmUser = (pid) => {
 };
 
 // Pools
-
-export const usePools = (account): Pool[] => {
-  const { fastRefresh } = useRefresh();
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (account) {
-      dispatch(fetchPoolsUserDataAsync(account));
-    }
-  }, [account, dispatch, fastRefresh]);
-
-  const pools = useSelector((state: State) => state.pools.data);
-  return pools;
-};
 
 export const usePoolFromPid = (sousId): Pool => {
   const pool = useSelector((state: State) =>
@@ -468,86 +446,6 @@ export const useHybridstakingTvl = (): BigNumber => {
 // Block
 export const useBlock = (): Block => {
   return useSelector((state: State) => state.block);
-};
-
-export const useTotalValue = (): BigNumber => {
-  const farms = useFarms();
-  const pools = usePoolss();
-
-  const totalStakerBalance = useCntStakerTvl();
-  // const totalHybridstakingCntBalance = useHybridstakingTvl();
-  const bnbPrice = usePriceBnbBusd();
-  const cntPrice = usePriceCakeBusd();
-  const ethPrice = usePriceEthBusd();
-  const btcPrice = usePriceBtcBusd();
-
-  let value = new BigNumber(0);
-  for (let i = 0; i < farms.length; i++) {
-    const farm = farms[i];
-    if (farm.lpTotalInQuoteToken) {
-      let val;
-      if (farm.quoteTokenSymbol === QuoteToken.BNB) {
-        val = bnbPrice.times(farm.lpTotalInQuoteToken);
-      } else if (farm.quoteTokenSymbol === QuoteToken.CAKE) {
-        val = cntPrice.times(farm.lpTotalInQuoteToken);
-      } else if (farm.quoteTokenSymbol === QuoteToken.ETH) {
-        val = ethPrice.times(farm.lpTotalInQuoteToken);
-      } else if (farm.quoteTokenSymbol === QuoteToken.BTC) {
-        val = btcPrice.times(farm.lpTotalInQuoteToken);
-      } else if (farm.quoteTokenSymbol === QuoteToken.BUSD) {
-        val = new BigNumber(farm.tokenAmount).plus(farm.quoteTokenAmount);
-      } else {
-        val = farm.lpTotalInQuoteToken;
-      }
-
-      value = value.plus(val);
-    }
-  }
-
-  for (let i = 0; i < pools.length; i++) {
-    const pool = pools[i];
-    if (pool.poolCategory === PoolCategory.COMMUNITY) {
-      const balance = getBalanceNumber(pool.totalStaked, pool.tokenDecimals);
-      let priceoftoken = GetApiPrice(pool.stakingTokenAddress);
-      if (pool.tokenName === "LUSD") {
-        priceoftoken = 0.08;
-      } else if (pool.tokenName === "LARTH") {
-        priceoftoken = 0.25;
-      }
-
-      const val = priceoftoken * balance;
-      value = value.plus(val);
-    }
-  }
-
-  for (let i = 0; i < pools.length; i++) {
-    const pool = pools[i];
-    const tokenInLpPrice = GetApiPrice(pool.tokenAdressInLp);
-    if (pool.poolCategory === PoolCategory.CORE) {
-      let val;
-      if (pool.quoteTokenSymbol === QuoteToken.BNB) {
-        val = bnbPrice.times(pool.lpTotalInQuoteToken);
-      } else if (pool.quoteTokenSymbol === QuoteToken.CAKE) {
-        val = cntPrice.times(pool.lpTotalInQuoteToken);
-      } else if (pool.quoteTokenSymbol === QuoteToken.ETH) {
-        val = ethPrice.times(pool.lpTotalInQuoteToken);
-      } else if (pool.quoteTokenSymbol === QuoteToken.BTC) {
-        val = btcPrice.times(pool.lpTotalInQuoteToken);
-      } else if (pool.quoteTokenSymbol === QuoteToken.BUSD) {
-        val = new BigNumber(pool.tokenAmount).plus(pool.quoteTokenAmount);
-      } else if (pool.stakingTokenName === QuoteToken.LP) {
-        val = new BigNumber(tokenInLpPrice).times(pool.lpTotalInQuoteToken);
-      } else {
-        val = pool.lpTotalInQuoteToken;
-      }
-      value = value.plus(val);
-    }
-  }
-
-  value = value.plus(totalStakerBalance.multipliedBy(cntPrice));
-  // value = value.plus(totalHybridstakingCntBalance.multipliedBy(cntPrice));
-
-  return value;
 };
 
 export const useFarmsTotalValue = (): BigNumber => {

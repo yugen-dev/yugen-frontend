@@ -13,6 +13,7 @@ export interface CardValueProps {
   lpFees?: string;
   burnerFees?: string;
   devFees?: string;
+  cntStakerRatio?: string;
 }
 const Card = styled.div`
   border-radius: 0.625rem !important;

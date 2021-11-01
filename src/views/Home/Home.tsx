@@ -46,7 +46,6 @@ import APRcards from "./components/APRcards";
 import CardValue from "./components/CardValue";
 import EarnAssetCard from "./components/EarnAssetCard";
 import StatsCard from "./components/StatsCard";
-import TotalValueLockedCard from "./components/TotalValueLockedCard";
 import LotteryCard from "./components/LotteryCard";
 // import WinCard from "views/Home/components/WinCard";
 

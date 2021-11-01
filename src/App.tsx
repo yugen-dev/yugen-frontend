@@ -103,12 +103,6 @@ const App: React.FC = () => {
               <Profile />
             </Route> */}
               {/* Redirect */}
-              <Route path="/staking">
-                <Redirect to="/pools" />
-              </Route>
-              <Route path="/syrup">
-                <Redirect to="/pools" />
-              </Route>
               <Route path="/nft">
                 <Redirect to="/collectibles" />
               </Route>
