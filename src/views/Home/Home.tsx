@@ -42,7 +42,6 @@ import {
 import { Heading, Text } from "cryption-uikit";
 import FarmedStakingCard from "views/Home/components/FarmStakingCard";
 import Grid from "@material-ui/core/Grid";
-import APRcards from "./components/APRcards";
 import CardValue from "./components/CardValue";
 import EarnAssetCard from "./components/EarnAssetCard";
 import StatsCard from "./components/StatsCard";
@@ -56,13 +55,6 @@ import LotteryCard from "./components/LotteryCard";
 //   margin-bottom: 32px;
 //   text-align: center;
 // `;
-
-const Card = styled.div`
-  border-radius: 0.625rem !important;
-  padding: 30px 15px;
-  background-color: #ffffff;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-`;
 
 const Home: React.FC = () => {
   const farmsTVL = useFarmsTotalValue();
@@ -372,6 +364,7 @@ const Home: React.FC = () => {
               stakerFees={Number(stakerFees).toFixed(2)}
               lpFees={Number(lpFees).toFixed(2)}
               burnerFees={Number(burnerFees).toFixed(2)}
+              liquidity={Number(liquidity).toFixed(2)}
             />
           </Grid>
         </Grid>
@@ -456,28 +449,6 @@ const FarmsTVL = styled.div`
 const VaultsTVL = styled.div`
   margin-top: 20px;
   width: 100%;
-`;
-
-const CardContainer = styled.div`
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  justify-content: space-between;
-`;
-
-const Card1 = styled.div`
-  background: #ffffff;
-  width: 100%;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  border-radius: 1rem;
-  display: flex;
-  margin: 20px 0px;
-  padding: 15px 15px;
-
-  @media (max-width: 750px) {
-    flex-wrap: wrap;
-  }
 `;
 
 const Card2 = styled.div`
