@@ -297,14 +297,25 @@ const Home: React.FC = () => {
           </Grid>
           <Grid item xs={12} md={6} lg={6} xl={6}>
             <Card2>
-              <Heading size="lg">Total Value Locked</Heading>
-              <CardValue
-                value={Number(totalTVL)}
-                lineHeight="1.5"
-                prefix="$"
-                fontSize="38px"
-                decimals={0}
-              />
+              <Heading size="lg" textAlign="center">
+                Total Value Locked
+              </Heading>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <CardValue
+                  value={Number(totalTVL)}
+                  lineHeight="1.5"
+                  prefix="$"
+                  fontSize="38px"
+                  decimals={0}
+                />
+              </div>
 
               <SubTVLContainer>
                 <FarmsTVL>
@@ -369,59 +380,6 @@ const Home: React.FC = () => {
           </Grid>
         </Grid>
       </Container>
-
-      {/*  */}
-
-      {/* <Container
-      maxWidth="lg"
-      style={{ marginTop: "20px", marginBottom: "80px" }}
-    >
-      <CardContainer>
-        <Heading size="xxl" textAlign="center">
-          YuGen
-        </Heading>
-        <Card1>
-          <APRcards
-            farmsMaxAPR={maxFarmsAPY}
-            vaultsMaxAPR={new BigNumber(maxVaultsAPY).toFixed(2)}
-          />
-        </Card1>
-        <Card2>
-          <Heading size="lg">Total Value Locked</Heading>
-            <CardValue
-              value={Number(totalTVL)}
-              lineHeight="1.5"
-              prefix="$"
-              fontSize="38px"
-              decimals={0}
-            />
-
-            <SubTVLContainer>
-              <FarmsTVL>
-                <Text>Farms</Text>
-                <CardValue
-                  value={farmsTVL?.toNumber()}
-                  lineHeight="1.5"
-                  prefix="$"
-                  fontSize="30px"
-                  decimals={0}
-                />
-              </FarmsTVL>
-              <VaultsTVL>
-                <Text>Vaults</Text>
-                <CardValue
-                  value={vaultsTVL?.toNumber()}
-                  lineHeight="1.5"
-                  prefix="$"
-                  fontSize="30px"
-                  decimals={0}
-                />
-              </VaultsTVL>
-            </SubTVLContainer>
-          </Heading>
-        </Card2>
-      </CardContainer>
-    </Container> */}
     </>
   );
 };
@@ -445,10 +403,18 @@ const SubTVLContainer = styled.div`
 const FarmsTVL = styled.div`
   margin-top: 20px;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;
 const VaultsTVL = styled.div`
   margin-top: 20px;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;
 
 const Card2 = styled.div`

@@ -60,104 +60,126 @@ const CardValue: React.FC<CardValueProps> = ({
         style={{
           flexWrap: "wrap",
           justifyContent: "space-evenly",
+          flexDirection: "column",
+          width: "100%",
         }}
       >
-        <ProgressItemText>
-          <Text color="#887263" fontSize="15px" textAlign="center">
-            Circulating Supply
-          </Text>
-          <Text
-            fontSize="22px"
-            fontWeight="700"
-            style={{ display: "flex", alignItems: "center" }}
-          >
-            {numberWithCommas(circulatingSupply)}{" "}
-            <Text color="#887263" fontSize="15px" ml="8px">
-              {" "}
-              YGN{" "}
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "space-evenly",
+            width: "100%",
+          }}
+        >
+          <ProgressItemText>
+            <Text color="#887263" fontSize="15px" textAlign="center">
+              Circulating Supply
             </Text>
-          </Text>
-        </ProgressItemText>
-        <ProgressItemText>
-          <Text color="#887263" fontSize="15px" textAlign="center">
-            Total Burned
-          </Text>
-          <Text
-            fontSize="22px"
-            fontWeight="700"
-            style={{ display: "flex", alignItems: "center" }}
-          >
-            {numberWithCommas(burnedSupply)}{" "}
-            <Text color="#887263" fontSize="15px" ml="8px">
-              {" "}
-              YGN{" "}
+            <Text
+              fontSize="22px"
+              fontWeight="700"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              {numberWithCommas(circulatingSupply)}{" "}
+              <Text color="#887263" fontSize="15px" ml="8px">
+                {" "}
+                YGN{" "}
+              </Text>
             </Text>
-          </Text>
-        </ProgressItemText>
-        <ProgressItemText>
-          <Text color="#887263" fontSize="15px" textAlign="center">
-            Total Supply
-          </Text>
-          <Text
-            fontSize="22px"
-            fontWeight="700"
-            style={{ display: "flex", alignItems: "center" }}
-          >
-            {numberWithCommas(100000000)}{" "}
-            <Text color="#887263" fontSize="15px" ml="8px">
-              {" "}
-              YGN
+          </ProgressItemText>
+          <ProgressItemText>
+            <Text color="#887263" fontSize="15px" textAlign="center">
+              Total Burned
             </Text>
-          </Text>
-        </ProgressItemText>
-        <ProgressItemText>
-          <Text color="#887263" fontSize="15px" textAlign="center">
-            Current Market Cap
-          </Text>
-          <Text
-            fontSize="22px"
-            fontWeight="700"
-            style={{ display: "flex", alignItems: "center" }}
-          >
-            {numberWithCommas(100000000)}{" "}
-            <Text color="#887263" fontSize="15px" ml="8px">
-              {" "}
-              YGN
+            <Text
+              fontSize="22px"
+              fontWeight="700"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              {numberWithCommas(burnedSupply)}{" "}
+              <Text color="#887263" fontSize="15px" ml="8px">
+                {" "}
+                YGN{" "}
+              </Text>
             </Text>
-          </Text>
-        </ProgressItemText>
-        <ProgressItemText>
-          <Text color="#887263" fontSize="15px" textAlign="center">
-            Total YGN staked
-          </Text>
-          <Text
-            fontSize="22px"
-            fontWeight="700"
-            style={{ display: "flex", alignItems: "center" }}
-          >
-            {numberWithCommas(100000000)}{" "}
-            <Text color="#887263" fontSize="15px" ml="8px">
-              {" "}
-              YGN
+          </ProgressItemText>
+          <ProgressItemText>
+            <Text color="#887263" fontSize="15px" textAlign="center">
+              Total Supply
             </Text>
-          </Text>
-        </ProgressItemText>
-        <ProgressItemText>
-          <Text color="#887263" fontSize="15px" textAlign="center">
-            xYGN price
-          </Text>
-          <Text
-            fontSize="22px"
-            fontWeight="700"
-            style={{ display: "flex", alignItems: "center" }}
-          >
-            $1.21
-            <Text color="#887263" fontSize="15px" ml="8px">
-              {" "}
-              YGN
+            <Text
+              fontSize="22px"
+              fontWeight="700"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              {numberWithCommas(100000000)}{" "}
+              <Text color="#887263" fontSize="15px" ml="8px">
+                {" "}
+                YGN
+              </Text>
             </Text>
-          </Text>
-        </ProgressItemText>
+          </ProgressItemText>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-evenly",
+            flexWrap: "wrap",
+            width: "100%",
+          }}
+        >
+          <ProgressItemText>
+            <Text color="#887263" fontSize="15px" textAlign="center">
+              Current Market Cap
+            </Text>
+            <Text
+              fontSize="22px"
+              fontWeight="700"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              {numberWithCommas(100000000)}{" "}
+              <Text color="#887263" fontSize="15px" ml="8px">
+                {" "}
+                YGN
+              </Text>
+            </Text>
+          </ProgressItemText>
+
+          <ProgressItemText>
+            <Text color="#887263" fontSize="15px" textAlign="center">
+              Total YGN staked
+            </Text>
+            <Text
+              fontSize="22px"
+              fontWeight="700"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              {numberWithCommas(100000000)}{" "}
+              <Text color="#887263" fontSize="15px" ml="8px">
+                {" "}
+                YGN
+              </Text>
+            </Text>
+          </ProgressItemText>
+
+          <ProgressItemText>
+            <Text color="#887263" fontSize="15px" textAlign="center">
+              xYGN price
+            </Text>
+            <Text
+              fontSize="22px"
+              fontWeight="700"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              $1.21
+              <Text color="#887263" fontSize="15px" ml="8px">
+                {" "}
+                YGN
+              </Text>
+            </Text>
+          </ProgressItemText>
+        </div>
       </ProgressText>
     </Card>
   );
