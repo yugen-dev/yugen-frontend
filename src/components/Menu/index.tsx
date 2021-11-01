@@ -17,7 +17,7 @@ import { toggleMetaTranscationState } from "state/actions";
 import { ETHERJS_PATHS } from "config";
 import { usePriceCakeBusd, useProfile } from "state/hooks";
 // import LogoIcon from "images/PolyDEX White Text (2).svg";
-import config, { socials, networks } from "./config";
+import config, { socials, networks, maticTestnetConfig } from "./config";
 
 const Menu = (props) => {
   const { login, logout, loginEther, logoutEther } = useAuth();
@@ -104,6 +104,10 @@ const Menu = (props) => {
     }
   };
   const chainId = useChainId().toString();
+
+  let menuConfig = config;
+  if (chainId === "80001") menuConfig = maticTestnetConfig;
+
   const currentNetwork = networks.filter(
     (eachNetwork) => eachNetwork.chainId === chainId
   );
@@ -136,7 +140,7 @@ const Menu = (props) => {
       setLang={setSelectedLanguage}
       cakePriceUsd={cakePriceBusd.toNumber()}
       logoSize="53px"
-      links={config}
+      links={menuConfig}
       socials={socials}
       currentNetwork={
         currentNetwork && currentNetwork.length > 0 ? currentNetwork[0] : {}

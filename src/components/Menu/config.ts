@@ -22,6 +22,34 @@ const config: MenuEntry[] = [
     href: "/vaults",
   },
   {
+    label: "Rewards Manager",
+    icon: "RewardsManagerIcon",
+    href: "/rewardsmanager",
+  },
+];
+
+export const maticTestnetConfig: MenuEntry[] = [
+  {
+    label: "Home",
+    icon: "HomeIcon",
+    href: "/",
+  },
+  {
+    label: "Exchange",
+    icon: "TradeIcon",
+    href: "https://cryption.network/",
+  },
+  {
+    label: "Farms",
+    icon: "FarmIcon",
+    href: "/farms",
+  },
+  {
+    label: "Vaults",
+    icon: "FarmIcon",
+    href: "/vaults",
+  },
+  {
     label: "YGN Staker",
     icon: "TicketIcon",
     href: "/cntstaker",
