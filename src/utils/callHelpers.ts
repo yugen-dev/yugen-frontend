@@ -175,7 +175,7 @@ export const stake = async (masterChefContract, pid, amount, account) => {
       pid,
       new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
     )
-    .send({ from: account, gasPrice: 10000000000 })
+    .send({ from: account })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -187,7 +187,7 @@ export const vaultstake = async (vaultContract, pid, amount, account) => {
       pid,
       new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
     )
-    .send({ from: account, gasPrice: 10000000000 })
+    .send({ from: account })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -203,7 +203,7 @@ export const hybridStakingStake = async (
       0,
       new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
     )
-    .send({ from: account, gasPrice: 10000000000 })
+    .send({ from: account })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -219,7 +219,7 @@ export const hybridStakingUnstake = async (
       0,
       new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
     )
-    .send({ from: account, gasPrice: 10000000000 })
+    .send({ from: account })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -228,7 +228,7 @@ export const hybridStakingUnstake = async (
 export const hybridStakingHarvest = async (masterChefContract, account) => {
   return masterChefContract.methods
     .deposit(0, 0)
-    .send({ from: account, gasPrice: 10000000000 })
+    .send({ from: account })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -244,7 +244,7 @@ export const sousStake = async (
     .deposit(
       new BigNumber(amount).times(new BigNumber(10).pow(decimals)).toString()
     )
-    .send({ from: account, gasPrice: 10000000000 })
+    .send({ from: account })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -312,7 +312,6 @@ export const sousStakeBnb = async (sousChefContract, amount, account) => {
     .deposit()
     .send({
       from: account,
-      gasPrice: 10000000000,
       value: new BigNumber(amount).times(new BigNumber(10).pow(18)).toString(),
     })
     .on("transactionHash", (tx) => {
@@ -326,7 +325,7 @@ export const unstake = async (masterChefContract, pid, amount, account) => {
       pid,
       new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
     )
-    .send({ from: account, gasPrice: 10000000000 })
+    .send({ from: account })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -338,7 +337,7 @@ export const vaultunstake = async (vaultContract, pid, amount, account) => {
       pid,
       new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
     )
-    .send({ from: account, gasPrice: 10000000000 })
+    .send({ from: account })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -424,7 +423,7 @@ export const sousEmegencyUnstake = async (
 export const harvest = async (masterChefContract, pid, account) => {
   return masterChefContract.methods
     .deposit(pid, "0")
-    .send({ from: account, gasPrice: 10000000000 })
+    .send({ from: account })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -433,7 +432,7 @@ export const harvest = async (masterChefContract, pid, account) => {
 export const soushHarvest = async (sousChefContract, account) => {
   return sousChefContract.methods
     .deposit("0")
-    .send({ from: account, gasPrice: 10000000000 })
+    .send({ from: account })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -462,7 +461,7 @@ export const soushHarvestGasless = async (
 export const soushHarvestBnb = async (sousChefContract, account) => {
   return sousChefContract.methods
     .deposit()
-    .send({ from: account, gasPrice: 10000000000, value: new BigNumber(0) })
+    .send({ from: account, value: new BigNumber(0) })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -711,7 +710,6 @@ export const provideSingleSidedLiquidity = async (
       )
       .send({
         from: account,
-        gasPrice: 10000000000,
         value: new BigNumber(amount)
           .times(new BigNumber(10).pow(decimal))
           .toString(),
@@ -733,7 +731,7 @@ export const provideSingleSidedLiquidity = async (
         getFarmAddress(),
         pid
       )
-      .send({ from: account, gasPrice: 10000000000 })
+      .send({ from: account })
       .on("transactionHash", (tx) => {
         return tx.transactionHash;
       });

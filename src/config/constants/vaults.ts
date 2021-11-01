@@ -92,7 +92,7 @@ const vaultsFantomMainnet: VaultConfig[] = [
       80001: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-      250: "0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83",
+      250: "0x90C3a126c0738338aC46177A088ccac534fef4F9",
       4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     lpTokenPart2Address: {
