@@ -78,8 +78,7 @@ export const networks = [
     title: "Polygon Mainnet",
     chainId: "137",
     imgSrc: "",
-    rpcUrl:
-      "https://billowing-ancient-wave.matic.quiknode.pro/ff002e91f8c0779e0c7295f4a8bf3908546404ca/",
+    rpcUrl: "https://rpc-mainnet.maticvigil.com",
   },
   {
     title: "Ethereum Mainnet",
