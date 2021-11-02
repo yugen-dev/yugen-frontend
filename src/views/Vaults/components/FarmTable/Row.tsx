@@ -201,7 +201,7 @@ const Row: React.FunctionComponent<RowProps> = (props) => {
       {handleRenderRow()}
       {actionPanelToggled && details && (
         <tr>
-          <td colSpan={6}>
+          <td colSpan={8}>
             <ActionPanel {...props} />
           </td>
         </tr>

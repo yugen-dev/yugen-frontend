@@ -25,7 +25,7 @@ const Container = styled.div`
   background: #ffffff;
   display: flex;
   width: 100%;
-  flex-direction: column-reverse;
+  flex-direction: column;
   padding: 24px;
 
   ${({ theme }) => theme.mediaQueries.lg} {
@@ -53,6 +53,7 @@ const StakeContainer = styled.div`
   ${({ theme }) => theme.mediaQueries.sm} {
     justify-content: flex-start;
   }
+  margin-top: 10px;
 `;
 
 const ActionContainer = styled.div`
@@ -148,7 +149,54 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
 
   return (
     <Container>
+      <ValueContainer>
+        <ValueWrapper>
+          <Text>APY</Text>
+          <Apr {...apy} />
+        </ValueWrapper>
+        <ValueWrapper>
+          <Text>Liquidity</Text>
+          <Liquidity {...liquidity} />
+        </ValueWrapper>
+      </ValueContainer>
+      <ActionContainer>
+        <StakedAction {...vault} />
+      </ActionContainer>
       <InfoContainer>
+        <StyledText>
+          Deposited:{" "}
+          {getBalanceNumber(
+            new BigNumber(vault?.userData?.stakedBalance)
+          ).toFixed(2)}{" "}
+          {vault?.lpTokenName} LP
+        </StyledText>
+
+        <StyledText>
+          {splitLP[0]} balance:{" "}
+          {getBalanceNumber(
+            new BigNumber(vault?.userData?.firstLpTokenBalance)
+          ).toFixed(2)}{" "}
+          {splitLP[0]} ($
+          {arrayOfTokenBalances[0]})
+        </StyledText>
+
+        <StyledText>
+          {splitLP[1]} balance:{" "}
+          {getBalanceNumber(
+            new BigNumber(vault?.userData?.secondLpTokenBalance)
+          ).toFixed(2)}
+          {splitLP[1]} (${arrayOfTokenBalances[1]})
+        </StyledText>
+
+        <StyledText style={{ marginTop: "10px" }}>
+          In Wallet: {wallet?.value} {vault?.lpTokenName} LP ($
+          {totalBalanceValue.toString()})
+        </StyledText>
+        <StyledText style={{ marginTop: "10px" }}>
+          Daily ROI: {apr?.value}%
+        </StyledText>
+        <StyledText>APY ROI: {apy?.value}%</StyledText>
+
         <StakeContainer>
           <StyledLinkExternal
             href={`https://app.polydex.org/add/${liquidityUrlPathParts}`}
@@ -159,52 +207,7 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
         <StyledLinkExternal href={bsc}>
           {TranslateString(999, "PolygonScan")}
         </StyledLinkExternal>
-
-        <StyledText>
-          Deposited:{" "}
-          {getBalanceNumber(
-            new BigNumber(vault?.userData?.stakedBalance)
-          ).toFixed(2)}{" "}
-          {vault?.lpTokenName} LP
-        </StyledText>
-
-        <StyledText>
-          {splitLP[0]} Balance:{" "}
-          {getBalanceNumber(
-            new BigNumber(vault?.userData?.firstLpTokenBalance)
-          ).toFixed(2)}{" "}
-          {splitLP[0]} ($
-          {arrayOfTokenBalances[0]})
-        </StyledText>
-
-        <StyledText>
-          {splitLP[1]} Balance:{" "}
-          {getBalanceNumber(
-            new BigNumber(vault?.userData?.secondLpTokenBalance)
-          ).toFixed(2)}
-          {splitLP[1]} (${arrayOfTokenBalances[1]})
-        </StyledText>
-
-        <StyledText>Total Balance: ${totalBalanceValue.toString()}</StyledText>
-        <StyledText>
-          In Wallet: {wallet?.value} {vault?.lpTokenName} LP
-        </StyledText>
-        <StyledText>Daily ROI: {apr?.value}%</StyledText>
-        <StyledText>APY ROI: {apy?.value}%</StyledText>
       </InfoContainer>
-      <ValueContainer>
-        <ValueWrapper>
-          <Text>APR</Text>
-          <Apr {...apr} />
-        </ValueWrapper>
-        <ValueWrapper>
-          <Text>Liquidity</Text>
-          <Liquidity {...liquidity} />
-        </ValueWrapper>
-      </ValueContainer>
-      <ActionContainer>
-        <StakedAction {...vault} />
-      </ActionContainer>
     </Container>
   );
 };

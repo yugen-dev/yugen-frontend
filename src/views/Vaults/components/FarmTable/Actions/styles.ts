@@ -5,18 +5,16 @@ export const ActionContainer = styled.div`
   border-radius: 14px;
   flex-grow: 1;
   flex-basis: 0;
-  margin-bottom: 16px;
+  margin: 16px 0px;
   background: #ffffff;
 
   ${({ theme }) => theme.mediaQueries.sm} {
-    margin-left: 12px;
-    margin-right: 12px;
-    margin-bottom: 0;
+    margin: 16px 12px;
   }
 
   ${({ theme }) => theme.mediaQueries.xl} {
-    margin-left: 48px;
-    margin-right: 0;
+    margin-left: 0;
+    margin-right: 48px;
     margin-bottom: 0;
   }
   border: 1px solid #887963;
