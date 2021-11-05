@@ -128,12 +128,13 @@ export interface VaultConfig {
   pid: number;
   rewardTokenCoinGecko?: string;
   quoteTokenCoinGecko?: string;
+  nonQuoteTokenCoinGecko?: string;
   blocksPerYearOfRewardToken: number;
-  rewardTokenPerBlock: number;
-  rewardMultiplier: string;
+  rewardTokenPerBlockPerPool: number;
   lpTokenName: string;
   coinGeckoLpTokenName?: string;
   lpTokenAddress: Address;
+  lpTokenFarmAddress: Address;
   lpTokenPart1Address: Address;
   lpTokenPart2Address: Address;
   vaultAddress: Address;

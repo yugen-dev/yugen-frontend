@@ -529,9 +529,9 @@ export const useVaultsApr = (): BigNumber => {
     const apr = new BigNumber(
       priceOf1RewardToken
         .multipliedBy(vault.blocksPerYearOfRewardToken)
-        .multipliedBy(vault.rewardTokenPerBlock)
-        .multipliedBy(vault?.rewardMultiplier?.replace(/[^\d.-]/g, ""))
-        .dividedBy(liquidity)
+        .multipliedBy(vault.rewardTokenPerBlockPerPool)
+        .dividedBy(liquidity.toFixed(3))
+        .multipliedBy(100)
         .toFixed(2)
     );
 

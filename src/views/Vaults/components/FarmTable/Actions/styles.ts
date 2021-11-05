@@ -13,9 +13,9 @@ export const ActionContainer = styled.div`
   }
 
   ${({ theme }) => theme.mediaQueries.xl} {
+    width: 400px;
     margin-left: 0;
     margin-right: 48px;
-    margin-bottom: 0;
   }
   border: 1px solid #887963;
 `;

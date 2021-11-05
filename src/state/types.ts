@@ -25,6 +25,7 @@ export interface Vault extends VaultConfig {
   lpTotalInQuoteToken?: BigNumber;
   nonQuoteVsQuote?: BigNumber;
   priceOfQuoteToken?: BigNumber;
+  priceOfNonQuoteToken?: BigNumber;
   priceOfRewardToken?: BigNumber;
   poolWeight?: BigNumber;
   multiplier?: string;

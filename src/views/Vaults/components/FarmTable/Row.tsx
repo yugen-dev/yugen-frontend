@@ -105,7 +105,7 @@ const Row: React.FunctionComponent<RowProps> = (props) => {
                 return (
                   <td key={key}>
                     <CellInner>
-                      <CellLayout label="APR">
+                      <CellLayout label="Daily APR">
                         <Apr {...props.apr} />
                       </CellLayout>
                     </CellInner>

@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import useI18n from "hooks/useI18n";
 import { LinkExternal, Text } from "cryption-uikit";
 import { VaultWithStakedValue } from "views/Farms/components/FarmCard/FarmCard";
 import { BigNumber } from "bignumber.js";
-import { fetchPrice, usePriceCakeBusd } from "state/hooks";
 import { getBalanceNumber } from "utils/formatBalance";
 import { getAddress } from "utils/addressHelpers";
 import StakedAction from "./StakedAction";
@@ -39,19 +38,14 @@ const StyledLinkExternal = styled(LinkExternal)`
   color: #424945;
 `;
 
-const StyledText = styled(Text)`
-  font-weight: 400;
-  color: #424945;
-`;
-
 const StakeContainer = styled.div`
   color: ${({ theme }) => theme.colors.text};
   align-items: center;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
 
   ${({ theme }) => theme.mediaQueries.sm} {
-    justify-content: flex-start;
+    justify-content: space-between;
   }
   margin-top: 10px;
 `;
@@ -69,7 +63,7 @@ const ActionContainer = styled.div`
 `;
 
 const InfoContainer = styled.div`
-  min-width: 200px;
+  width: 100%;
 `;
 
 const ValueContainer = styled.div`
@@ -87,6 +81,29 @@ const ValueWrapper = styled.div`
   margin: 4px 0px;
 `;
 
+const StyledText = styled(Text)`
+  margin: 10px;
+`;
+
+const StyledTextLabelItem = styled.div`
+  text-align: center;
+  color: #887263;
+  font-weight: 400;
+`;
+
+const StyledTextValueItem = styled.div`
+  text-align: center;
+  color: #424945;
+  font-weight: 400;
+`;
+
+const MainInfoContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+`;
+
 const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
   details,
   apr,
@@ -94,8 +111,6 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
   liquidity,
   wallet,
 }) => {
-  const [arrayOfTokenBalances, setArrayOfTokenBalances] = useState(["0", "0"]);
-  const ygnPrice = usePriceCakeBusd();
   const vault = details;
   const priceOf1LP = new BigNumber(liquidity.liquidity)
     .dividedBy(vault.totalLPTokensStakedInFarms)
@@ -115,37 +130,6 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
   const bsc = `https://polygonscan.com/address/${getAddress(
     vault.lpTokenAddress
   )}`;
-  const splitLP = vault.coinGeckoLpTokenName.split("-");
-
-  const getLpPrices = useCallback(
-    async (arrayOfLP) => {
-      const arrayOfLpPrices = new Array(2);
-      arrayOfLpPrices[0] = await fetchPrice(arrayOfLP[0]);
-      if (arrayOfLP[1] === "YGN") arrayOfLpPrices[1] = ygnPrice;
-      else arrayOfLpPrices[1] = await fetchPrice(arrayOfLP[1]);
-
-      if (vault?.userData) {
-        const lpTokenBalancesInUSD = new Array(2);
-        lpTokenBalancesInUSD[0] = new BigNumber(arrayOfLpPrices[0])
-          .multipliedBy(getBalanceNumber(vault.userData.firstLpTokenBalance))
-          .toFixed(2)
-          .toString();
-        lpTokenBalancesInUSD[1] = new BigNumber(arrayOfLpPrices[1])
-          .multipliedBy(getBalanceNumber(vault.userData.secondLpTokenBalance))
-          .toFixed(2)
-          .toString();
-
-        setArrayOfTokenBalances(lpTokenBalancesInUSD);
-      }
-    },
-    [vault.userData, ygnPrice]
-  );
-
-  useEffect(() => {
-    if (splitLP.length === 2) getLpPrices(splitLP);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <Container>
@@ -163,50 +147,88 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
         <StakedAction {...vault} />
       </ActionContainer>
       <InfoContainer>
-        <StyledText>
-          Deposited:{" "}
-          {getBalanceNumber(
-            new BigNumber(vault?.userData?.stakedBalance)
-          ).toFixed(2)}{" "}
-          {vault?.lpTokenName} LP
-        </StyledText>
+        <MainInfoContainer>
+          <StyledText>
+            <StyledTextLabelItem>Deposited</StyledTextLabelItem>
+            <StyledTextValueItem>
+              {getBalanceNumber(
+                new BigNumber(vault?.userData?.stakedBalance)
+              ).toFixed(2)}{" "}
+              {vault?.lpTokenName} LP
+            </StyledTextValueItem>
+          </StyledText>
 
-        <StyledText>
-          {splitLP[0]} balance:{" "}
-          {getBalanceNumber(
-            new BigNumber(vault?.userData?.firstLpTokenBalance)
-          ).toFixed(2)}{" "}
-          {splitLP[0]} ($
-          {arrayOfTokenBalances[0]})
-        </StyledText>
+          <StyledText>
+            <StyledTextLabelItem>
+              {" "}
+              {vault.quoteTokenSymbol} balance{" "}
+            </StyledTextLabelItem>
+            <StyledTextValueItem>
+              {getBalanceNumber(
+                new BigNumber(vault?.userData?.stakedBalance)
+                  .multipliedBy(vault.quoteTokenAmount)
+                  .dividedBy(vault.totalLPTokensStakedInFarms)
+              ).toFixed(2)}{" "}
+              {vault.quoteTokenSymbol} ($
+              {getBalanceNumber(
+                new BigNumber(vault?.userData?.stakedBalance)
+                  .multipliedBy(vault.quoteTokenAmount)
+                  .dividedBy(vault.totalLPTokensStakedInFarms)
+                  .multipliedBy(vault.priceOfQuoteToken)
+              ).toFixed(2)}
+              )
+            </StyledTextValueItem>
+          </StyledText>
 
-        <StyledText>
-          {splitLP[1]} balance:{" "}
-          {getBalanceNumber(
-            new BigNumber(vault?.userData?.secondLpTokenBalance)
-          ).toFixed(2)}
-          {splitLP[1]} (${arrayOfTokenBalances[1]})
-        </StyledText>
+          <StyledText>
+            <StyledTextLabelItem>
+              {" "}
+              {vault.nonQuoteTokenSymbol} balance{" "}
+            </StyledTextLabelItem>
+            <StyledTextValueItem>
+              {getBalanceNumber(
+                new BigNumber(vault?.userData?.stakedBalance)
+                  .multipliedBy(vault.nonQuoteTokenAmount)
+                  .dividedBy(vault.totalLPTokensStakedInFarms)
+              ).toFixed(2)}{" "}
+              {vault.quoteTokenSymbol} ($
+              {getBalanceNumber(
+                new BigNumber(vault?.userData?.stakedBalance)
+                  .multipliedBy(vault.nonQuoteTokenAmount)
+                  .dividedBy(vault.totalLPTokensStakedInFarms)
+                  .multipliedBy(vault.priceOfNonQuoteToken)
+              ).toFixed(2)}
+              )
+            </StyledTextValueItem>
+          </StyledText>
 
-        <StyledText style={{ marginTop: "10px" }}>
-          In Wallet: {wallet?.value} {vault?.lpTokenName} LP ($
-          {totalBalanceValue.toString()})
-        </StyledText>
-        <StyledText style={{ marginTop: "10px" }}>
-          Daily ROI: {apr?.value}%
-        </StyledText>
-        <StyledText>APY ROI: {apy?.value}%</StyledText>
-
+          <StyledText style={{ marginTop: "10px" }}>
+            <StyledTextLabelItem>In Wallet</StyledTextLabelItem>
+            <StyledTextValueItem>
+              {" "}
+              {wallet?.value} {vault?.lpTokenName} LP ($
+              {totalBalanceValue.toFixed(2)})
+            </StyledTextValueItem>
+          </StyledText>
+          <StyledText style={{ marginTop: "10px" }}>
+            <StyledTextLabelItem> Daily ROI</StyledTextLabelItem>{" "}
+            <StyledTextValueItem>{apr?.value}%</StyledTextValueItem>
+          </StyledText>
+          <StyledText>
+            <StyledTextLabelItem> APY ROI </StyledTextLabelItem>
+            <StyledTextValueItem> {apy?.value}%</StyledTextValueItem>
+          </StyledText>
+        </MainInfoContainer>
         <StakeContainer>
           <StyledLinkExternal
             href={`https://app.polydex.org/add/${liquidityUrlPathParts}`}
           >
             {TranslateString(999, `Get  ${lpLabel}`, { name: lpLabel })}
           </StyledLinkExternal>
+          <StyledLinkExternal href={bsc}>
+            {TranslateString(999, "PolygonScan")}
+          </StyledLinkExternal>
         </StakeContainer>
-        <StyledLinkExternal href={bsc}>
-          {TranslateString(999, "PolygonScan")}
-        </StyledLinkExternal>
       </InfoContainer>
     </Container>
   );

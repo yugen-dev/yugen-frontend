@@ -1,6 +1,5 @@
 import BigNumber from "bignumber.js";
 import erc20 from "config/abi/erc20.json";
-import vaultStratergyABI from "config/abi/vaultStratergy.json";
 import multicall from "utils/multicall";
 import { getAddress } from "utils/addressHelpers";
 import vaultsConfig from "config/constants/vaults";
@@ -11,7 +10,7 @@ const fetchVaults = async () => {
   const data = await Promise.all(
     vaultsConfig.map(async (vaultConfig: VaultConfig) => {
       const lpAddress = getAddress(vaultConfig.lpTokenAddress);
-      const stratergyAddress = getAddress(vaultConfig.strategyAddress);
+      const lpFarmAddress = getAddress(vaultConfig.lpTokenFarmAddress);
 
       const calls = [
         // Balance of non-quote token in the LP contract
@@ -41,6 +40,11 @@ const fetchVaults = async () => {
           address: getAddress(vaultConfig.quoteTokenAddress),
           name: "decimals",
         },
+        {
+          address: lpAddress,
+          name: "balanceOf",
+          params: [lpFarmAddress],
+        },
       ];
 
       const [
@@ -49,15 +53,10 @@ const fetchVaults = async () => {
         lpTotalSupply,
         nonQuoteTokenDecimals,
         quoteTokenDecimals,
+        lpTokenBalanceMC,
       ] = await multicall(erc20, calls);
 
-      const [lpTokenBalanceInMC] = await multicall(vaultStratergyABI, [
-        // Balance of LP tokens in the master chef contract
-        {
-          address: stratergyAddress,
-          name: "wantLockedTotal",
-        },
-      ]);
+      const lpTokenBalanceInMC = lpTokenBalanceMC;
 
       // Ratio in % a LP tokens that are in staking, vs the total number in circulation
       const lpTokenRatio = new BigNumber(lpTokenBalanceInMC).div(
@@ -93,6 +92,11 @@ const fetchVaults = async () => {
       let priceOfQuoteToken = new BigNumber(1);
       priceOfQuoteToken = await fetchPrice(vaultConfig.quoteTokenCoinGecko);
 
+      let priceOfNonQuoteToken = new BigNumber(1);
+      priceOfNonQuoteToken = await fetchPrice(
+        vaultConfig.nonQuoteTokenCoinGecko
+      );
+
       return {
         ...vaultConfig,
         nonQuoteTokenAmount: nonQuotetokenAmount.toJSON(),
@@ -101,6 +105,7 @@ const fetchVaults = async () => {
         nonQuoteVsQuote: quoteTokenAmount.div(nonQuotetokenAmount).toJSON(),
         priceOfRewardToken: priceOfRewardToken.toJSON(),
         priceOfQuoteToken: priceOfQuoteToken.toJSON(),
+        priceOfNonQuoteToken: priceOfNonQuoteToken.toJSON(),
         totalLPTokensStakedInFarms: lpTokenBalanceInMCInBN.toJSON(),
       };
     })

@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { Text } from "cryption-uikit";
+import { usePriceCakeBusd } from "state/hooks";
+import BigNumber from "bignumber.js";
 
 export interface CardValueProps {
   totalSuply?: number;
@@ -44,6 +46,8 @@ const CardValue: React.FC<CardValueProps> = ({
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return parts.join(".");
   };
+
+  const ygnPrice = usePriceCakeBusd();
 
   return (
     <Card>
@@ -138,7 +142,13 @@ const CardValue: React.FC<CardValueProps> = ({
               fontWeight="700"
               style={{ display: "flex", alignItems: "center" }}
             >
-              {numberWithCommas(100000000)}{" "}
+              {numberWithCommas(
+                Number(
+                  new BigNumber(circulatingSupply)
+                    .multipliedBy(ygnPrice)
+                    .toFixed(2)
+                )
+              )}{" "}
               <Text color="#887263" fontSize="15px" ml="8px">
                 {" "}
                 YGN
@@ -172,7 +182,7 @@ const CardValue: React.FC<CardValueProps> = ({
               fontWeight="700"
               style={{ display: "flex", alignItems: "center" }}
             >
-              $1.21
+              ${ygnPrice.toFixed(2)}
               <Text color="#887263" fontSize="15px" ml="8px">
                 {" "}
                 YGN

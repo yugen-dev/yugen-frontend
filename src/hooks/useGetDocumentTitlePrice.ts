@@ -6,7 +6,7 @@ const useGetDocumentTitlePrice = () => {
   useEffect(() => {
     document.title = `PolyDex - $${Number(
       cakePriceUsd.toNumber()
-    ).toLocaleString(undefined, {
+    ).toLocaleString("en-US", {
       minimumFractionDigits: 3,
       maximumFractionDigits: 3,
     })}`;

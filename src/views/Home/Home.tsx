@@ -8,12 +8,7 @@ import Container from "@material-ui/core/Container";
 import useWeb3 from "hooks/useWeb3";
 // import getCntPrice from "utils/getCntPrice";
 import useInterval from "hooks/useInterval";
-import {
-  dayDatasQuery,
-  burnQuery,
-  cntStakerQuery,
-  stakerAllocatedQquery,
-} from "apollo/queries";
+import { dayDatasQuery, burnQuery } from "apollo/queries";
 import {
   CNT_CIRCULATING_SUPPLY_LINK,
   BLOCKS_PER_YEAR,
@@ -112,7 +107,6 @@ const Home: React.FC = () => {
   let burnerFees = "";
   const bnbPrice = usePriceBnbBusd();
   const web3 = useWeb3();
-  let cntStakingRatio = 0.0;
 
   const getHighestFarmsAPY = async () => {
     const activeFarms = farmsLP.filter((farm) => farm.multiplier !== "0X");
@@ -191,38 +185,12 @@ const Home: React.FC = () => {
       clientName: "exchange",
     },
   });
-  const getCNTStakerInfo = useQuery(cntStakerQuery, {
-    context: {
-      clientName: "cntstaker",
-    },
-  });
-  const getStakerallocated = useQuery(stakerAllocatedQquery, {
-    context: {
-      clientName: "convertor",
-    },
-  });
   const burnData = useQuery(burnQuery, {
     context: {
       clientName: "burn",
     },
   });
-  if (
-    getCNTStakerInfo &&
-    getCNTStakerInfo.data &&
-    getCNTStakerInfo.data.cntstaker &&
-    getStakerallocated &&
-    getStakerallocated.data &&
-    getStakerallocated.data.weekDatas
-  ) {
-    cntStakingRatio =
-      (((parseFloat(getStakerallocated.data.weekDatas[0].stakersAllocated) /
-        10e18) *
-        0.35) /
-        (parseFloat(getCNTStakerInfo.data.cntstaker.totalSupply) *
-          parseFloat(getCNTStakerInfo.data.cntstaker.ratio))) *
-      365 *
-      100;
-  }
+
   if (
     burnData &&
     burnData.data &&

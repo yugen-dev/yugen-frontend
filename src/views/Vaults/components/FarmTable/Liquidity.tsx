@@ -30,7 +30,7 @@ const Container = styled.div`
 
 const Liquidity: React.FunctionComponent<LiquidityProps> = ({ liquidity }) => {
   const displayLiquidity = liquidity
-    ? `$${Number(liquidity).toLocaleString(undefined, {
+    ? `$${Number(liquidity).toLocaleString("en-US", {
         maximumFractionDigits: 2,
       })}`
     : "-";

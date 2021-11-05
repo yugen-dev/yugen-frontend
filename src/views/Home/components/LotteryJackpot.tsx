@@ -11,7 +11,7 @@ const LotteryJackpot = () => {
   const TranslateString = useI18n();
   const lotteryPrizeAmount = useTotalRewards();
   const balance = getBalanceNumber(lotteryPrizeAmount);
-  const lotteryPrizeAmoutCake = balance.toLocaleString(undefined, {
+  const lotteryPrizeAmoutCake = balance.toLocaleString("en-US", {
     maximumFractionDigits: 2,
   });
   const lotteryPrizeAmountBusd = new BigNumber(balance)
