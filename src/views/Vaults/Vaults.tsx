@@ -231,7 +231,6 @@ const Vaults: React.FC = () => {
               .multipliedBy(vault.rewardTokenPerBlockPerPool)
               .dividedBy(liquidity.toFixed(3))
               .multipliedBy(100)
-              .dividedBy(365)
               .toFixed(2)
           );
 
@@ -297,11 +296,12 @@ const Vaults: React.FC = () => {
       },
       apr: {
         value:
-          vault.apr &&
-          vault.apr
+          new BigNumber(vault.apr).dividedBy(365).toString() &&
+          new BigNumber(vault.apr)
+            .dividedBy(365)
             .toNumber()
             .toLocaleString("en-US", { maximumFractionDigits: 2 }),
-        originalValue: vault.apr,
+        originalValue: new BigNumber(vault.apr).dividedBy(365),
       },
       wallet: {
         value: vault.userData
