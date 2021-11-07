@@ -73,6 +73,10 @@ const vaultsMaticTestnet: VaultConfig[] = [
     quoteTokenAddress: contracts.wbnb,
     nonQuoteTokenSymbol: QuoteToken.CAKE,
     nonQuoteTokenAddress: contracts.cake,
+    addLiquidityLink:
+      "https://app.polydex.org/add/0x86652c1301843b4e06fbfbbdaa6849266fb2b5e7/0xac0ec8a0a5062feecb496ac1ef7d2177f06f88b0",
+    blockExplorerLink:
+      "https://mumbai.polygonscan.com/address/0xeF4E6c3119A7a7260C1d3fA90939B32De02e363A",
   },
 ];
 
@@ -160,6 +164,10 @@ const vaultsFantomMainnet: VaultConfig[] = [
       250: "0x841fad6eae12c286d1fd18d1d525dffa75c7effe",
       4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
+    addLiquidityLink:
+      "https://spookyswap.finance/add/FTM/0x841fad6eae12c286d1fd18d1d525dffa75c7effe",
+    blockExplorerLink:
+      "https://ftmscan.com/address/0xEc7178F4C41f346b2721907F5cF7628E388A7a58",
   },
 ];
 const vaultsFantomTestnet: VaultConfig[] = [];

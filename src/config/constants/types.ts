@@ -143,6 +143,8 @@ export interface VaultConfig {
   quoteTokenAddress: Address;
   nonQuoteTokenSymbol: string;
   nonQuoteTokenAddress: Address;
+  addLiquidityLink: string;
+  blockExplorerLink: string;
 }
 
 export type Images = {

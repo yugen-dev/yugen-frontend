@@ -5,7 +5,6 @@ import { LinkExternal, Text } from "cryption-uikit";
 import { VaultWithStakedValue } from "views/Farms/components/FarmCard/FarmCard";
 import { BigNumber } from "bignumber.js";
 import { getBalanceNumber } from "utils/formatBalance";
-import { getAddress } from "utils/addressHelpers";
 import StakedAction from "./StakedAction";
 import Apr, { AprProps } from "../Apr";
 import Liquidity, { LiquidityProps } from "../Liquidity";
@@ -124,12 +123,6 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
   const TranslateString = useI18n();
   const lpLabel =
     vault.lpTokenName && vault.lpTokenName.toUpperCase().replace("PANCAKE", "");
-  const liquidityUrlPathParts = `${getAddress(
-    vault.lpTokenPart1Address
-  )}/${getAddress(vault.lpTokenPart1Address)}`;
-  const bsc = `https://polygonscan.com/address/${getAddress(
-    vault.lpTokenAddress
-  )}`;
 
   return (
     <Container>
@@ -220,13 +213,11 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
           </StyledText>
         </MainInfoContainer>
         <StakeContainer>
-          <StyledLinkExternal
-            href={`https://app.polydex.org/add/${liquidityUrlPathParts}`}
-          >
+          <StyledLinkExternal href={vault.addLiquidityLink}>
             {TranslateString(999, `Get  ${lpLabel}`, { name: lpLabel })}
           </StyledLinkExternal>
-          <StyledLinkExternal href={bsc}>
-            {TranslateString(999, "PolygonScan")}
+          <StyledLinkExternal href={vault.blockExplorerLink}>
+            {TranslateString(999, "BlockExplorer")}
           </StyledLinkExternal>
         </StakeContainer>
       </InfoContainer>
