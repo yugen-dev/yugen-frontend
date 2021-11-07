@@ -325,6 +325,9 @@ const Vaults: React.FC = () => {
       },
       liquidity: {
         liquidity: vault.liquidity,
+        realLiquidityInVaults: new BigNumber(vault?.priceOfQuoteToken)
+          .times(vault.lpTotalInQuoteTokenOfVaults)
+          .toNumber(),
       },
       details: vault,
     };

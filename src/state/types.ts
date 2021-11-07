@@ -23,6 +23,7 @@ export interface Vault extends VaultConfig {
   nonQuoteTokenAmount?: BigNumber;
   quoteTokenAmount?: BigNumber;
   lpTotalInQuoteToken?: BigNumber;
+  lpTotalInQuoteTokenOfVaults?: BigNumber;
   nonQuoteVsQuote?: BigNumber;
   priceOfQuoteToken?: BigNumber;
   priceOfNonQuoteToken?: BigNumber;
@@ -30,6 +31,7 @@ export interface Vault extends VaultConfig {
   poolWeight?: BigNumber;
   multiplier?: string;
   totalLPTokensStakedInFarms?: BigNumber;
+  totalLPTokensStakedInVaults?: BigNumber;
   userData?: {
     index: number;
     allowance: BigNumber;

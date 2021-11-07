@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 export interface LiquidityProps {
   liquidity: number;
+  realLiquidityInVaults?: number;
 }
 
 const LiquidityWrapper = styled.div`
@@ -28,9 +29,11 @@ const Container = styled.div`
   }
 `;
 
-const Liquidity: React.FunctionComponent<LiquidityProps> = ({ liquidity }) => {
-  const displayLiquidity = liquidity
-    ? `$${Number(liquidity).toLocaleString("en-US", {
+const Liquidity: React.FunctionComponent<LiquidityProps> = ({
+  realLiquidityInVaults,
+}) => {
+  const displayLiquidity = realLiquidityInVaults
+    ? `$${Number(realLiquidityInVaults).toLocaleString("en-US", {
         maximumFractionDigits: 2,
       })}`
     : "-";
