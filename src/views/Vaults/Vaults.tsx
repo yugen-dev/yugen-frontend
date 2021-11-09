@@ -235,10 +235,12 @@ const Vaults: React.FC = () => {
           );
 
           const n = 365 * 24;
-          const test = new BigNumber(apr.dividedBy(n).plus(1).toFixed(6))
+          const apyValueInBN = new BigNumber(
+            apr.dividedBy(100).dividedBy(n).plus(1).toFixed(6)
+          )
             .pow(n)
             .minus(1);
-          const apy = new BigNumber(test.toFixed(2));
+          const apy = new BigNumber(apyValueInBN.toFixed(2));
 
           return { ...vault, apy, apr, liquidity };
         }
