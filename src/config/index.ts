@@ -6,8 +6,8 @@ BigNumber.config({
 });
 
 // To-Do ask Ashwin if we need to get this dynamically
-export const CAKE_PER_BLOCK = new BigNumber(1);
-export const BLOCKS_PER_YEAR = new BigNumber(1);
+export const CAKE_PER_BLOCK = new BigNumber(0.75);
+export const BLOCKS_PER_YEAR = new BigNumber(15768000);
 export const BSC_BLOCK_TIME = 2.1;
 export const CAKE_POOL_PID = 0;
 export const BASE_URL = "https://pancakeswap.finance";
