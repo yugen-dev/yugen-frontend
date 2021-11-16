@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Text } from "cryption-uikit";
+import { useQuery } from "@apollo/client";
+import { cntStakerQuery } from "apollo/queries";
+import { useWeb3React } from "@web3-react/core";
 import { usePriceCakeBusd } from "state/hooks";
 import BigNumber from "bignumber.js";
+import { getCNTStakerContract } from "utils/contractHelpers";
 
 export interface CardValueProps {
   totalSuply?: number;
@@ -38,9 +42,29 @@ const ProgressItemText = styled.div`
 const CardValue: React.FC<CardValueProps> = ({
   // totalSuply,
   circulatingSupply,
-  burnedSupply,
   // liquidity,
 }) => {
+  const { account } = useWeb3React("web3");
+
+  const [totoalYGNStakedInStaker, setTotalYGNStakedInStaker] = useState(
+    new BigNumber(0)
+  );
+
+  let cntStakingRatio = new BigNumber(0.0);
+
+  const getCNTStakerInfo = useQuery(cntStakerQuery, {
+    context: {
+      clientName: "cntstaker",
+    },
+  });
+  if (
+    getCNTStakerInfo &&
+    getCNTStakerInfo.data &&
+    getCNTStakerInfo.data.cntstaker
+  ) {
+    cntStakingRatio = new BigNumber(getCNTStakerInfo?.data?.cntstaker?.ratio);
+  }
+
   const numberWithCommas = (number) => {
     const parts = number.toString().split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -48,6 +72,17 @@ const CardValue: React.FC<CardValueProps> = ({
   };
 
   const ygnPrice = usePriceCakeBusd();
+
+  useEffect(() => {
+    async function fetchTotalSupply() {
+      const xCNTContract = getCNTStakerContract();
+      const supply = await xCNTContract.methods.totalSupply().call();
+      setTotalYGNStakedInStaker(new BigNumber(supply).dividedBy(1e18));
+    }
+    if (account) {
+      fetchTotalSupply();
+    }
+  }, [account, setTotalYGNStakedInStaker]);
 
   return (
     <Card>
@@ -94,18 +129,14 @@ const CardValue: React.FC<CardValueProps> = ({
           </ProgressItemText>
           <ProgressItemText>
             <Text color="#887263" fontSize="15px" textAlign="center">
-              Total Burned
+              YGN price
             </Text>
             <Text
               fontSize="22px"
               fontWeight="700"
               style={{ display: "flex", alignItems: "center" }}
             >
-              {numberWithCommas(burnedSupply)}{" "}
-              <Text color="#887263" fontSize="15px" ml="8px">
-                {" "}
-                YGN{" "}
-              </Text>
+              ${numberWithCommas(ygnPrice.toFixed(2))}{" "}
             </Text>
           </ProgressItemText>
           <ProgressItemText>
@@ -142,6 +173,7 @@ const CardValue: React.FC<CardValueProps> = ({
               fontWeight="700"
               style={{ display: "flex", alignItems: "center" }}
             >
+              $
               {numberWithCommas(
                 Number(
                   new BigNumber(circulatingSupply)
@@ -149,10 +181,6 @@ const CardValue: React.FC<CardValueProps> = ({
                     .toFixed(2)
                 )
               )}{" "}
-              <Text color="#887263" fontSize="15px" ml="8px">
-                {" "}
-                YGN
-              </Text>
             </Text>
           </ProgressItemText>
 
@@ -165,7 +193,7 @@ const CardValue: React.FC<CardValueProps> = ({
               fontWeight="700"
               style={{ display: "flex", alignItems: "center" }}
             >
-              {numberWithCommas(100000000)}{" "}
+              {numberWithCommas(totoalYGNStakedInStaker.toFixed(2))}{" "}
               <Text color="#887263" fontSize="15px" ml="8px">
                 {" "}
                 YGN
@@ -182,11 +210,7 @@ const CardValue: React.FC<CardValueProps> = ({
               fontWeight="700"
               style={{ display: "flex", alignItems: "center" }}
             >
-              ${ygnPrice.toFixed(2)}
-              <Text color="#887263" fontSize="15px" ml="8px">
-                {" "}
-                YGN
-              </Text>
+              ${ygnPrice.multipliedBy(cntStakingRatio).toFixed(2)}
             </Text>
           </ProgressItemText>
         </div>
