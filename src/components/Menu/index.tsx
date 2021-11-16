@@ -17,7 +17,11 @@ import { toggleMetaTranscationState } from "state/actions";
 import { ETHERJS_PATHS } from "config";
 import { usePriceCakeBusd, useProfile } from "state/hooks";
 // import LogoIcon from "images/PolyDEX White Text (2).svg";
-import config, { socials, networks, maticTestnetConfig } from "./config";
+import fantomMainnetConfig, {
+  socials,
+  networks,
+  maticTestnetConfig,
+} from "./config";
 
 const Menu = (props) => {
   const { login, logout, loginEther, logoutEther } = useAuth();
@@ -105,7 +109,7 @@ const Menu = (props) => {
   };
   const chainId = useChainId().toString();
 
-  let menuConfig = config;
+  let menuConfig = fantomMainnetConfig;
   if (chainId === "80001") menuConfig = maticTestnetConfig;
 
   const currentNetwork = networks.filter(

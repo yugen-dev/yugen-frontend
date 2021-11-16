@@ -1,6 +1,6 @@
 import { MenuEntry } from "cryption-uikit";
 
-const config: MenuEntry[] = [
+const fantomMainnetConfig: MenuEntry[] = [
   {
     label: "Home",
     icon: "HomeIcon",
@@ -20,6 +20,11 @@ const config: MenuEntry[] = [
     label: "Vaults",
     icon: "FarmIcon",
     href: "/vaults",
+  },
+  {
+    label: "YGN Staker",
+    icon: "TicketIcon",
+    href: "/ygnstaker",
   },
   {
     label: "Rewards Manager",
@@ -52,7 +57,7 @@ export const maticTestnetConfig: MenuEntry[] = [
   {
     label: "YGN Staker",
     icon: "TicketIcon",
-    href: "/cntstaker",
+    href: "/ygnstaker",
   },
   {
     label: "Rewards Manager",
@@ -111,4 +116,4 @@ export const networks = [
     rpcUrl: "https://rpc.testnet.fantom.network/",
   },
 ];
-export default config;
+export default fantomMainnetConfig;
