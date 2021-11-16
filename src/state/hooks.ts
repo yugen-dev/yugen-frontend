@@ -498,7 +498,7 @@ export const useVaultsTotalValue = (): BigNumber => {
 
     let liquidity = new BigNumber(vault.lpTotalInQuoteToken);
     liquidity = new BigNumber(vault?.priceOfQuoteToken).times(
-      vault.lpTotalInQuoteToken
+      vault.lpTotalInQuoteTokenOfVaults
     );
 
     if (liquidity?.isGreaterThan(maxLiq)) maxLiq = liquidity;
