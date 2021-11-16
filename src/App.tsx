@@ -86,7 +86,7 @@ const App: React.FC = () => {
               <Route path="/vaults">
                 <Vaults />
               </Route>
-              <Route path="/cntstaker">
+              <Route path="/ygnstaker">
                 <CNTStaker />
               </Route>
 
