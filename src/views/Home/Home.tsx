@@ -334,17 +334,7 @@ const Home: React.FC = () => {
             </Grid>
           </Grid>
           <Grid item xs={12}>
-            <StatsCard
-              totalSuply={Number(totalSupplyVal.toFixed(2))}
-              burnedSupply={Number(totalBurned.toFixed(2))}
-              circulatingSupply={Number(ciculatingSupply.toFixed(2))}
-              totalFees={Number(totalFees).toFixed(2)}
-              devFees={Number(devFees).toFixed(2)}
-              stakerFees={Number(stakerFees).toFixed(2)}
-              lpFees={Number(lpFees).toFixed(2)}
-              burnerFees={Number(burnerFees).toFixed(2)}
-              liquidity={Number(liquidity).toFixed(2)}
-            />
+            <StatsCard />
           </Grid>
         </Grid>
       </Container>

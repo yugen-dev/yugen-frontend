@@ -8,18 +8,6 @@ import { usePriceCakeBusd } from "state/hooks";
 import BigNumber from "bignumber.js";
 import { getCNTStakerContract } from "utils/contractHelpers";
 
-export interface CardValueProps {
-  totalSuply?: number;
-  burnedSupply?: number;
-  circulatingSupply?: number;
-  totalFees?: string;
-  stakerFees?: string;
-  lpFees?: string;
-  burnerFees?: string;
-  devFees?: string;
-  cntStakerRatio?: string;
-  liquidity?: string;
-}
 const Card = styled.div`
   border-radius: 0.625rem !important;
   padding: 30px 15px;
@@ -39,12 +27,9 @@ const ProgressItemText = styled.div`
   margin: 10px;
 `;
 
-const CardValue: React.FC<CardValueProps> = ({
-  // totalSuply,
-  circulatingSupply,
-  // liquidity,
-}) => {
+const CardValue = () => {
   const { account } = useWeb3React("web3");
+  const totalSupply = 100_000_000;
 
   const [totoalYGNStakedInStaker, setTotalYGNStakedInStaker] = useState(
     new BigNumber(0)
@@ -113,22 +98,6 @@ const CardValue: React.FC<CardValueProps> = ({
         >
           <ProgressItemText>
             <Text color="#887263" fontSize="15px" textAlign="center">
-              Circulating Supply
-            </Text>
-            <Text
-              fontSize="22px"
-              fontWeight="700"
-              style={{ display: "flex", alignItems: "center" }}
-            >
-              {numberWithCommas(circulatingSupply)}{" "}
-              <Text color="#887263" fontSize="15px" ml="8px">
-                {" "}
-                YGN{" "}
-              </Text>
-            </Text>
-          </ProgressItemText>
-          <ProgressItemText>
-            <Text color="#887263" fontSize="15px" textAlign="center">
               YGN price
             </Text>
             <Text
@@ -148,7 +117,7 @@ const CardValue: React.FC<CardValueProps> = ({
               fontWeight="700"
               style={{ display: "flex", alignItems: "center" }}
             >
-              {numberWithCommas(100000000)}{" "}
+              {numberWithCommas(totalSupply)}{" "}
               <Text color="#887263" fontSize="15px" ml="8px">
                 {" "}
                 YGN
@@ -166,7 +135,7 @@ const CardValue: React.FC<CardValueProps> = ({
         >
           <ProgressItemText>
             <Text color="#887263" fontSize="15px" textAlign="center">
-              Current Market Cap
+              Total Market Cap
             </Text>
             <Text
               fontSize="22px"
@@ -176,9 +145,7 @@ const CardValue: React.FC<CardValueProps> = ({
               $
               {numberWithCommas(
                 Number(
-                  new BigNumber(circulatingSupply)
-                    .multipliedBy(ygnPrice)
-                    .toFixed(2)
+                  new BigNumber(totalSupply).multipliedBy(ygnPrice).toFixed(2)
                 )
               )}{" "}
             </Text>
