@@ -239,7 +239,8 @@ const Vaults: React.FC = () => {
             apr.dividedBy(100).dividedBy(n).plus(1).toFixed(6)
           )
             .pow(n)
-            .minus(1);
+            .minus(1)
+            .multipliedBy(100);
           const apy = new BigNumber(apyValueInBN.toFixed(2));
 
           return { ...vault, apy, apr, liquidity };
