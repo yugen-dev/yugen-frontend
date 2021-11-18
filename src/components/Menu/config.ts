@@ -31,6 +31,11 @@ const fantomMainnetConfig: MenuEntry[] = [
     icon: "RewardsManagerIcon",
     href: "/rewardsmanager",
   },
+  {
+    label: "Bonds (Coming soon)",
+    icon: "RewardsManagerIcon",
+    href: "/bonds",
+  },
 ];
 
 export const maticTestnetConfig: MenuEntry[] = [
@@ -63,6 +68,11 @@ export const maticTestnetConfig: MenuEntry[] = [
     label: "Rewards Manager",
     icon: "RewardsManagerIcon",
     href: "/rewardsmanager",
+  },
+  {
+    label: "Bonds (Coming soon)",
+    icon: "RewardsManagerIcon",
+    href: "/bonds",
   },
 ];
 
