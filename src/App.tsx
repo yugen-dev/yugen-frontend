@@ -23,6 +23,7 @@ import history from "./routerHistory";
 const Home = lazy(() => import("./views/Home"));
 const CNTStaker = lazy(() => import("./views/CNTStaker"));
 const RewardsManager = lazy(() => import("./views/RewardsManager"));
+const Bonds = lazy(() => import("./views/Bonds"));
 
 const NotFound = lazy(() => import("./views/NotFound"));
 
@@ -88,6 +89,9 @@ const App: React.FC = () => {
               </Route>
               <Route path="/ygnstaker">
                 <CNTStaker />
+              </Route>
+              <Route path="/bonds">
+                <Bonds />
               </Route>
 
               <Route exact path="/rewardsmanager" component={RewardsManager} />

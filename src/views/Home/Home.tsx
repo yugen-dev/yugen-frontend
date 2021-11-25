@@ -28,12 +28,6 @@ import {
   useVaultsApr,
 } from "state/hooks";
 
-// import LotteryCard from "views/Home/components/LotteryCard";
-// import CakeStats from "views/Home/components/CakeStats";
-// import StatsCard from "views/Home/components/StatsCard";
-// import Areachart from "components/Areachart";
-// import TotalValueLockedCard from "views/Home/components/TotalValueLockedCard";
-// import EarnAssetCard from "views/Home/components/EarnAssetCard";
 import { Heading, Text } from "cryption-uikit";
 import FarmedStakingCard from "views/Home/components/FarmStakingCard";
 import Grid from "@material-ui/core/Grid";
@@ -41,15 +35,6 @@ import CardValue from "./components/CardValue";
 import EarnAssetCard from "./components/EarnAssetCard";
 import StatsCard from "./components/StatsCard";
 import LotteryCard from "./components/LotteryCard";
-// import WinCard from "views/Home/components/WinCard";
-
-// const Hero = styled.div`
-//   align-items: left;
-//   display: flex;
-//   flex-direction: column;
-//   margin-bottom: 32px;
-//   text-align: center;
-// `;
 
 const Home: React.FC = () => {
   const farmsTVL = useFarmsTotalValue();
@@ -238,107 +223,105 @@ const Home: React.FC = () => {
   });
 
   return (
-    <>
-      <Container
-        maxWidth="lg"
-        style={{
-          marginTop: "50px",
-          marginBottom: "80px",
-        }}
-      >
-        <Grid container spacing={5} justify="center">
-          <Grid item xs={12} md={6} lg={6} xl={6}>
-            <Hero>
-              <Heading size="xxl">Yugen</Heading>
-            </Hero>
-            <LotteryCard />
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            md={6}
-            lg={6}
-            xl={6}
-            style={{ display: "flex", alignItems: "flex-end" }}
-          >
-            <FarmedStakingCard />
-          </Grid>
-          <Grid item xs={12} md={6} lg={6} xl={6}>
-            <Card2>
-              <Heading size="lg" textAlign="center">
-                Total Value Locked
-              </Heading>
-              <div
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
+    <Container
+      maxWidth="lg"
+      style={{
+        marginTop: "50px",
+        marginBottom: "80px",
+      }}
+    >
+      <Grid container spacing={5} justify="center">
+        <Grid item xs={12} md={6} lg={6} xl={6}>
+          <Hero>
+            <Heading size="xxl">Yugen</Heading>
+          </Hero>
+          <LotteryCard />
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          lg={6}
+          xl={6}
+          style={{ display: "flex", alignItems: "flex-end" }}
+        >
+          <FarmedStakingCard />
+        </Grid>
+        <Grid item xs={12} md={6} lg={6} xl={6}>
+          <Card2>
+            <Heading size="lg" textAlign="center">
+              Total Value Locked
+            </Heading>
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CardValue
+                value={Number(totalTVL)}
+                lineHeight="1.5"
+                prefix="$"
+                fontSize="38px"
+                decimals={0}
+              />
+            </div>
+
+            <SubTVLContainer>
+              <FarmsTVL>
+                <Text>Farms</Text>
                 <CardValue
-                  value={Number(totalTVL)}
+                  value={farmsTVL?.toNumber()}
                   lineHeight="1.5"
                   prefix="$"
-                  fontSize="38px"
+                  fontSize="30px"
                   decimals={0}
                 />
-              </div>
-
-              <SubTVLContainer>
-                <FarmsTVL>
-                  <Text>Farms</Text>
-                  <CardValue
-                    value={farmsTVL?.toNumber()}
-                    lineHeight="1.5"
-                    prefix="$"
-                    fontSize="30px"
-                    decimals={0}
-                  />
-                </FarmsTVL>
-                <VaultsTVL>
-                  <Text>Vaults</Text>
-                  <CardValue
-                    value={vaultsTVL?.toNumber()}
-                    lineHeight="1.5"
-                    prefix="$"
-                    fontSize="30px"
-                    decimals={0}
-                  />
-                </VaultsTVL>
-              </SubTVLContainer>
-            </Card2>
-          </Grid>
-          {/* <Grid item xs={12} md={6} lg={6} xl={6} style={{ alignSelf: "center" }}>
+              </FarmsTVL>
+              <VaultsTVL>
+                <Text>Vaults</Text>
+                <CardValue
+                  value={vaultsTVL?.toNumber()}
+                  lineHeight="1.5"
+                  prefix="$"
+                  fontSize="30px"
+                  decimals={0}
+                />
+              </VaultsTVL>
+            </SubTVLContainer>
+          </Card2>
+        </Grid>
+        {/* <Grid item xs={12} md={6} lg={6} xl={6} style={{ alignSelf: "center" }}>
         </Grid> */}
-          <Grid item xs={12} md={6} lg={6} xl={6}>
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={6} lg={6} xl={6}>
-                <EarnAssetCard
-                  topTitle="Earn up to"
-                  description={`${maxFarmsAPY}%`}
-                  descriptionColor="#29bb89"
-                  bottomTitle="APR in farms"
-                  redirectLink="/farms"
-                />
-              </Grid>
-              <Grid item xs={12} md={6} lg={6} xl={6}>
-                <EarnAssetCard
-                  topTitle="Earn up to"
-                  bottomTitle="APR in vaults"
-                  description={`${new BigNumber(maxVaultsAPY).toFixed(2)}%`}
-                  descriptionColor="#29bb89"
-                  redirectLink="/vaults"
-                />
-              </Grid>
+        <Grid item xs={12} md={6} lg={6} xl={6}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6} lg={6} xl={6}>
+              <EarnAssetCard
+                topTitle="Earn up to"
+                description={`${maxFarmsAPY}%`}
+                descriptionColor="#29bb89"
+                bottomTitle="APR in farms"
+                redirectLink="/farms"
+              />
+            </Grid>
+            <Grid item xs={12} md={6} lg={6} xl={6}>
+              <EarnAssetCard
+                topTitle="Earn up to"
+                bottomTitle="APR in vaults"
+                description={`${new BigNumber(maxVaultsAPY).toFixed(2)}%`}
+                descriptionColor="#29bb89"
+                redirectLink="/vaults"
+              />
             </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <StatsCard />
-          </Grid>
         </Grid>
-      </Container>
-    </>
+        <Grid item xs={12}>
+          <StatsCard />
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 
