@@ -5,10 +5,10 @@ import { Grid } from "@material-ui/core";
 const BondInfo = ({ heading, value }) => {
   return (
     <Grid container>
-      <Grid item lg={12}>
+      <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
         <Heading>{heading}</Heading>
       </Grid>
-      <Grid item lg={12}>
+      <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
         <Value>&#36;{value}</Value>
       </Grid>
     </Grid>

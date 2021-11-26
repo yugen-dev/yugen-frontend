@@ -16,20 +16,20 @@ const Bonds = () => {
 
       <BondMainCard container lg={12} spacing={2}>
         <Grid item lg={12}>
-          <Heading>Bond (1, 1)</Heading>
+          <Heading>Bond</Heading>
         </Grid>
         <Grid item lg={12}>
           <Grid container xs={12} lg={12} spacing={2}>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <BondInfo heading="Treasury Balance" value="765,613,296" />
+            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+              <BondInfo heading="Treasury Balance" value="899,523,071" />
             </Grid>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <BondInfo heading="CNT price" value="850.72" />
+            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+              <BondInfo heading="YGN price" value="1.65" />
             </Grid>
           </Grid>
         </Grid>
 
-        <Grid item lg={12}>
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
           <BondTable />
         </Grid>
       </BondMainCard>
@@ -71,7 +71,7 @@ const BondMainCard = styled(Grid)`
   min-height: 100%;
   padding: 20px 10px;
   border-radius: 12px;
-  opacity: 0.6;
+  opacity: 0.4;
   z-index: 1;
   position: relative;
 
