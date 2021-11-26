@@ -32,7 +32,8 @@ const fantomMainnetConfig: MenuEntry[] = [
     href: "/rewardsmanager",
   },
   {
-    label: "Bonds (Coming soon)",
+    label: "Bonds",
+    subText: "Coming soon",
     icon: "RewardsManagerIcon",
     href: "/bonds",
   },
