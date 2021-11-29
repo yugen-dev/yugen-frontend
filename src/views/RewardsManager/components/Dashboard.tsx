@@ -11,22 +11,6 @@ export const VestingDashBoard = ({ vestedValues }) => {
         value={vestedValues.Claimable}
       />
       <DisplayInfo description="Total claimed" value={vestedValues.Claimed} />
-      {vestedValues.AmountBurnt !== "0" ? (
-        <DisplayInfo
-          description="Total burnt"
-          value={vestedValues.AmountBurnt}
-        />
-      ) : (
-        <></>
-      )}
-      {vestedValues.BonusRewards !== "0" ? (
-        <DisplayInfo
-          description="Bonus rewards"
-          value={vestedValues.BonusRewards}
-        />
-      ) : (
-        <></>
-      )}
     </Container>
   );
 };

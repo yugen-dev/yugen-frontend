@@ -5,10 +5,8 @@ import Page from "components/layout/Page";
 import Web3 from "web3";
 import { useToast } from "state/hooks";
 import { useWeb3React } from "@web3-react/core";
-import BigNumber from "bignumber.js";
 import { getRewardsManagerContract } from "utils/contractHelpers";
 import Timer from "./components/Timer";
-import Banner from "./components/Banner";
 import Dashboard from "./components/Dashboard";
 import { ClaimButtons } from "./components/ClaimButtons";
 
@@ -26,8 +24,6 @@ const Vesting = () => {
     Unclaimable: "-1",
     Claimed: "-1",
     Claimable: "-1",
-    AmountBurnt: "-1",
-    BonusRewards: "-1",
   });
   const [startDistributionTime, setStartDistributionTime] = useState(
     Date.now() / 1000
@@ -35,7 +31,6 @@ const Vesting = () => {
   const [endDistributionTime, setEndDistributionTime] = useState(
     Date.now() / 1000
   );
-  const [penaltyValue, setPenaltyValue] = useState(0);
 
   const web3 = new Web3(window.ethereum);
   const { toastError } = useToast();
@@ -70,26 +65,10 @@ const Vesting = () => {
         console.error("Error while getting timer value: ", e);
       }
 
-      // percentage of penalty applied
-      try {
-        const penalty = await rewardMgSmartContract.methods
-          .preMaturePenalty()
-          .call();
-        setPenaltyValue(() => penalty);
-      } catch (e) {
-        console.error("Error while getting timer value: ", e);
-      }
-
       // get account values
       try {
-        const {
-          totalVested,
-          totalDrawnAmount,
-          amountBurnt,
-          claimable,
-          bonusRewards,
-          stillDue,
-        } = await rewardMgSmartContract.methods.vestingInfo(account).call();
+        const { totalVested, totalDrawnAmount, claimable, stillDue } =
+          await rewardMgSmartContract.methods.vestingInfo(account).call();
 
         const totalVestedRewards = Number(Web3.utils.fromWei(totalVested))
           .toFixed(2)
@@ -107,33 +86,19 @@ const Vesting = () => {
           .toFixed(2)
           .toString()
           .replace(/\.00$/, "");
-        const rewardsBurnt = Number(Web3.utils.fromWei(amountBurnt))
-          .toFixed(2)
-          .toString()
-          .replace(/\.00$/, "");
-        const bonusRewardsGen = Number(Web3.utils.fromWei(bonusRewards))
-          .toFixed(2)
-          .toString()
-          .replace(/\.00$/, "");
 
-        if (!new BigNumber(amountBurnt).isZero()) {
-          claimedRewards = (
-            Number(totalVestedRewards) -
-            Number(rewardsBurnt) -
-            Number(unclaimableRewards)
-          )
-            .toFixed(2)
-            .toString()
-            .replace(/\.00$/, "");
-        }
+        claimedRewards = (
+          Number(totalVestedRewards) - Number(unclaimableRewards)
+        )
+          .toFixed(2)
+          .toString()
+          .replace(/\.00$/, "");
 
         setVestedValues({
           TotalVested: totalVestedRewards,
           Claimed: claimedRewards,
           Claimable: claimableRewards,
           Unclaimable: unclaimableRewards,
-          AmountBurnt: rewardsBurnt,
-          BonusRewards: bonusRewardsGen,
         });
       } catch (err) {
         console.error("Error while fetching account details: ", err);
@@ -164,14 +129,8 @@ const Vesting = () => {
   return (
     <Page>
       <MainContainer>
-        <Banner />
         <Dashboard vestedValues={vestedValues} />
-        <ClaimButtons
-          vestedValues={vestedValues}
-          account={account}
-          penaltyValue={penaltyValue}
-          endDistributionTime={endDistributionTime}
-        />
+        <ClaimButtons vestedValues={vestedValues} account={account} />
         <Timer
           startDistributionTime={startDistributionTime}
           endDistributionTime={endDistributionTime}
