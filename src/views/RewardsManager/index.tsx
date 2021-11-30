@@ -8,7 +8,6 @@ import { useWeb3React } from "@web3-react/core";
 import BigNumber from "bignumber.js";
 import { getRewardsManagerContract } from "utils/contractHelpers";
 import Timer from "./components/Timer";
-import Banner from "./components/Banner";
 import Dashboard from "./components/Dashboard";
 import { ClaimButtons } from "./components/ClaimButtons";
 
@@ -27,7 +26,6 @@ const Vesting = () => {
     Claimed: "-1",
     Claimable: "-1",
     AmountBurnt: "-1",
-    BonusRewards: "-1",
   });
   const [startDistributionTime, setStartDistributionTime] = useState(
     Date.now() / 1000
@@ -87,7 +85,6 @@ const Vesting = () => {
           totalDrawnAmount,
           amountBurnt,
           claimable,
-          bonusRewards,
           stillDue,
         } = await rewardMgSmartContract.methods.vestingInfo(account).call();
 
@@ -111,10 +108,6 @@ const Vesting = () => {
           .toFixed(2)
           .toString()
           .replace(/\.00$/, "");
-        const bonusRewardsGen = Number(Web3.utils.fromWei(bonusRewards))
-          .toFixed(2)
-          .toString()
-          .replace(/\.00$/, "");
 
         if (!new BigNumber(amountBurnt).isZero()) {
           claimedRewards = (
@@ -133,7 +126,6 @@ const Vesting = () => {
           Claimable: claimableRewards,
           Unclaimable: unclaimableRewards,
           AmountBurnt: rewardsBurnt,
-          BonusRewards: bonusRewardsGen,
         });
       } catch (err) {
         console.error("Error while fetching account details: ", err);
@@ -164,7 +156,6 @@ const Vesting = () => {
   return (
     <Page>
       <MainContainer>
-        <Banner />
         <Dashboard vestedValues={vestedValues} />
         <ClaimButtons
           vestedValues={vestedValues}

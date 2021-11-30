@@ -19,14 +19,6 @@ export const VestingDashBoard = ({ vestedValues }) => {
       ) : (
         <></>
       )}
-      {vestedValues.BonusRewards !== "0" ? (
-        <DisplayInfo
-          description="Bonus rewards"
-          value={vestedValues.BonusRewards}
-        />
-      ) : (
-        <></>
-      )}
     </Container>
   );
 };
