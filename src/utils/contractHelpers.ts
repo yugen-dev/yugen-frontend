@@ -23,6 +23,8 @@ import {
   getRewardsManagerAddress,
   getuniversalOneSidedFarmAddress,
   getL2IntermediatorAddress,
+  getFygnBurnerAddress,
+  getFygnAddress,
 } from "utils/addressHelpers";
 
 // ABI
@@ -47,6 +49,8 @@ import lotteryAbi from "config/abi/lottery.json";
 import rewardsManagerAbi from "config/abi/rewardsmanager.json";
 import universalOnesidedFarmAbi from "config/abi/universalOnesidedFarm.json";
 import l2IntermediatorAbi from "config/abi/l2Intermediator.json";
+import fygnAbi from "config/abi/fygn_abi.json";
+import fygnBurnerAbi from "config/abi/fygn_burner.json";
 // import prToken from "config/abi/claimRefund.json";
 
 export const getContract = (abi: any, address: string, web3?: Web3) => {
@@ -127,4 +131,10 @@ export const getUnivesalOneSidedContract = (web3?: Web3) => {
 };
 export const getL2IntermediatorContract = (web3?: Web3) => {
   return getContract(l2IntermediatorAbi, getL2IntermediatorAddress(), web3);
+};
+export const getFygnContract = (web3?: Web3) => {
+  return getContract(fygnAbi, getFygnAddress(), web3);
+};
+export const getFygnBurnerContract = (web3?: Web3) => {
+  return getContract(fygnBurnerAbi, getFygnBurnerAddress(), web3);
 };

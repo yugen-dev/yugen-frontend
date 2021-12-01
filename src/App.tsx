@@ -21,7 +21,8 @@ import history from "./routerHistory";
 // Route-based code splitting
 // Only pool is included in the main bundle because of it's the most visited page
 const Home = lazy(() => import("./views/Home"));
-const CNTStaker = lazy(() => import("./views/CNTStaker"));
+const YGNStaker = lazy(() => import("./views/YGNStaker"));
+const FYGNBurner = lazy(() => import("./views/FYGNBurner"));
 const RewardsManager = lazy(() => import("./views/RewardsManager"));
 const Bonds = lazy(() => import("./views/Bonds"));
 
@@ -88,7 +89,10 @@ const App: React.FC = () => {
                 <Vaults />
               </Route>
               <Route path="/ygnstaker">
-                <CNTStaker />
+                <YGNStaker />
+              </Route>
+              <Route path="/fygnburner">
+                <FYGNBurner />
               </Route>
               <Route path="/bonds">
                 <Bonds />

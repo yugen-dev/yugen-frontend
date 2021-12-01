@@ -78,3 +78,9 @@ export const getuniversalOneSidedFarmAddress = () => {
 export const getL2IntermediatorAddress = () => {
   return getAddress(addresses.l2Intermediator);
 };
+export const getFygnAddress = () => {
+  return getAddress(addresses.fygn);
+};
+export const getFygnBurnerAddress = () => {
+  return getAddress(addresses.fygnBurner);
+};
