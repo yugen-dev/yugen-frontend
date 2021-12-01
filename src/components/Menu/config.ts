@@ -81,7 +81,8 @@ export const maticTestnetConfig: MenuEntry[] = [
     href: "/fygnburner",
   },
   {
-    label: "Bonds (Coming soon)",
+    label: "Bonds",
+    subText: "Coming soon",
     icon: "RewardsManagerIcon",
     href: "/bonds",
   },
