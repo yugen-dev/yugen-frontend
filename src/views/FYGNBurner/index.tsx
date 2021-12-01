@@ -9,39 +9,28 @@ import styled from "styled-components";
 import { useWeb3React } from "@web3-react/core";
 import BigNumber from "bignumber.js";
 import Container from "@material-ui/core/Container";
-import {
-  ButtonMenu,
-  ButtonMenuItem,
-  Button,
-  Flex,
-  Input,
-  Text,
-  AutoRenewIcon,
-} from "cryption-uikit";
+import { Button, Flex, Input, Text, AutoRenewIcon } from "cryption-uikit";
 import Grid from "@material-ui/core/Grid";
-import { useQuery } from "@apollo/client";
-import { cntStakerQuery, stakerAllocatedQquery } from "apollo/queries";
-import { useApproveStaking } from "hooks/useApprove";
+import { useApproveBurner } from "hooks/useApprove";
 import { useChainId } from "state/application/hooks";
 import contracts from "config/constants/contracts";
 import { useProfile, useToast } from "state/hooks";
-import { enter, enterGasless, leave, leaveGasless } from "utils/callHelpers";
+import { burn, burnGasless } from "utils/callHelpers";
 import UnlockButton from "components/UnlockButton";
-// import getCntPrice from "utils/getCntPrice";
 import useWeb3 from "hooks/useWeb3";
-import cntMascot from "images/CRYPTION NETWORK-Mascots-10.png";
 import {
   getBalanceNumber,
   getFullDisplayBalance,
   getFullDisplayBalanceForStaker,
 } from "utils/formatBalance";
 import {
-  getCakeContract,
-  getCNTStakerContract,
   getERC20Contract,
+  getFygnBurnerContract,
+  getFygnContract,
 } from "utils/contractHelpers";
-import { useCNTStaker, useCNTStakerGasless } from "hooks/useContract";
+import { useFygnBurner, useFygnBurnerGasless } from "hooks/useContract";
 import { registerToken } from "utils/wallet";
+import { getCakeAddress, getFygnBurnerAddress } from "utils/addressHelpers";
 
 const CNHeading = styled.div`
   font-size: 45px;
@@ -150,44 +139,29 @@ const StyledOl = styled.ol`
   padding-left: 16px;
 `;
 const FYGNBurner = () => {
-  // const tokenName = "CNT";
-  // const [valueOfCNTinUSD, setCNTVal] = useState(0);
-  const xYGNLogo = "https://i.ibb.co/zfhRMxc/xCNT.png";
+  const [exchangeRate, setExchangeRate] = useState(new BigNumber(1.32));
+  const fYGNLogo = "https://i.ibb.co/zfhRMxc/xCNT.png";
   const YGNLogo = "https://i.ibb.co/8D5r4Hp/CNT.png";
-  const [index, setIndex] = React.useState(0);
-  const [tokenBalance, setTokenBalance] = React.useState(new BigNumber(0));
-  const [xCNTBalance, setxCNTBalance] = React.useState(new BigNumber(0));
-  const [CntAllowance, setCntAllowance] = React.useState(new BigNumber(0));
+  const [fygnBalance, setFygnBalance] = React.useState(new BigNumber(0)); // fygn token balance
+  const [ygnBalance, setYgnBalance] = React.useState(new BigNumber(0));
+  const [fygnAllowance, setFygnAllowance] = React.useState(new BigNumber(0));
   const CHAINID = useChainId().toString();
-  // const { onEnter } = useEnter();
-  const [requestedApproval, setRequestedApproval] = useState(false);
-  const [tokenAmount, handleTokenAmount] = useState("");
-  const handleClick = (newIndex) => {
-    handleTokenAmount("");
-    setIndex(newIndex);
-  };
+  const [tokenAmount, handleTokenAmount] = useState(""); // fygn amount in input box
   const { account, library } = useWeb3React("web3");
   const [pendingTx, setPendingTx] = useState(false);
-  const [pendingDepositTx, setPendingDepositTx] = useState(false);
-  let tokenBal = tokenBalance;
 
-  const { onApprove } = useApproveStaking();
-  const cake = getCakeContract();
-  const [totalSupply, setTotalSupply] = useState<BigNumber>();
-  // const xTokenName = "xCNT";
+  const { onApprove } = useApproveBurner();
+  const [totalSupply, setTotalSupply] = useState<BigNumber>(); // total fygn supply
   const web3 = useWeb3();
-  // const { onLeave } = useLeave();
-  const cntStaker = useCNTStaker();
-  const cntStakerGasless = useCNTStakerGasless();
+  const fygnBurner = useFygnBurner();
+  const fygnBurnerGasless = useFygnBurnerGasless();
   const { metaTranscation } = useProfile();
-  let cntStakingRatio = 0.0;
   const { toastSuccess, toastError } = useToast();
-  if (index === 1) {
-    tokenBal = xCNTBalance;
-  }
-  const fetchBalances = async (tokenAddress) => {
+
+  const fetchYgnBalance = async () => {
     try {
-      const contract = getERC20Contract(tokenAddress, web3);
+      const ygnAddr = getCakeAddress();
+      const contract = getERC20Contract(ygnAddr, web3);
       const res = await contract.methods.balanceOf(account).call();
       return new BigNumber(res);
     } catch (error) {
@@ -195,12 +169,11 @@ const FYGNBurner = () => {
       return new BigNumber(0);
     }
   };
-  const fetchAllowance = async (tokenAddress, stakerAddress) => {
+
+  const fetchFygnBalance = async () => {
     try {
-      const contract = getERC20Contract(tokenAddress, web3);
-      const res = await contract.methods
-        .allowance(account, stakerAddress)
-        .call();
+      const contract = getFygnContract(web3);
+      const res = await contract.methods.balanceOf(account).call();
       return new BigNumber(res);
     } catch (error) {
       console.error({ error });
@@ -208,214 +181,122 @@ const FYGNBurner = () => {
     }
   };
 
+  const fetchFygnAllowance = async () => {
+    try {
+      const contract = getFygnContract(web3);
+      const burnerAddress = getFygnBurnerAddress();
+      const res = await contract.methods
+        .allowance(account, burnerAddress)
+        .call();
+      return new BigNumber(res);
+    } catch (error) {
+      console.error("error: ", error);
+      return new BigNumber(0);
+    }
+  };
+
+  const getExchangeRate = async () => {
+    try {
+      const contract = getFygnBurnerContract(web3);
+      const res = await contract.methods
+        .getYGNAmount(
+          new BigNumber(1).times(new BigNumber(10).pow(18)).toString()
+        )
+        .call();
+      setExchangeRate(new BigNumber(res).dividedBy(new BigNumber(10).pow(18)));
+    } catch (error) {
+      console.error("error: ", error);
+    }
+  };
+
   const getTokenBalances = async () => {
-    const tokenBalanceResp = await fetchBalances(contracts.cake[CHAINID]);
-    const xCNTBalanceResp = await fetchBalances(contracts.cntStaker[CHAINID]);
-    const cntAllowance = await fetchAllowance(
-      contracts.cake[CHAINID],
-      contracts.cntStaker[CHAINID]
-    );
-    setCntAllowance(cntAllowance);
-    setTokenBalance(tokenBalanceResp);
-    setxCNTBalance(xCNTBalanceResp);
+    const fygnBalanceResp = await fetchFygnBalance();
+    const ygnBalanceResp = await fetchYgnBalance();
+    const fygnAllowanceResp = await fetchFygnAllowance();
+    setFygnAllowance(fygnAllowanceResp);
+    setFygnBalance(fygnBalanceResp);
+    setYgnBalance(ygnBalanceResp);
   };
 
   useEffect(() => {
     async function fetchTotalSupply() {
-      const xCNTContract = getCNTStakerContract();
-      const supply = await xCNTContract.methods.totalSupply().call();
-      setTotalSupply(new BigNumber(supply));
+      const fygnContract = getFygnContract();
+      const totalSupplyOfFygn = await fygnContract.methods.totalSupply().call();
+      setTotalSupply(new BigNumber(totalSupplyOfFygn));
     }
     if (account) {
       fetchTotalSupply();
     }
   }, [account, setTotalSupply]);
 
-  // useEffect(() => {
-  //   const getPrice = async () => {
-  //     const apiResp = await getCntPrice();
-  //     setCNTVal(apiResp);
-  //   };
-  //   getPrice();
-  // }, []);
   useEffect(() => {
     if (account) {
       getTokenBalances();
+      getExchangeRate();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account]);
-  const getStakerallocated = useQuery(stakerAllocatedQquery, {
-    context: {
-      clientName: "convertor",
-    },
-  });
-  const getCNTStakerInfo = useQuery(cntStakerQuery, {
-    context: {
-      clientName: "cntstaker",
-    },
-  });
-  if (
-    getCNTStakerInfo &&
-    getCNTStakerInfo.data &&
-    getCNTStakerInfo.data.cntstaker &&
-    getStakerallocated &&
-    getStakerallocated.data &&
-    getStakerallocated.data.weekDatas
-  ) {
-    cntStakingRatio =
-      (((parseFloat(getStakerallocated.data.weekDatas[0].stakersAllocated) /
-        10e18) *
-        0.35) /
-        (parseFloat(getCNTStakerInfo.data.cntstaker.totalSupply) *
-          parseFloat(getCNTStakerInfo.data.cntstaker.ratio))) *
-      365 *
-      100;
-  }
+
   const onChange = (event) => {
     handleTokenAmount(event.target.value);
   };
+
   const onSelectMax = () => {
-    if (index === 0) {
-      handleTokenAmount(getFullDisplayBalance(tokenBalance).toString());
-    } else {
-      handleTokenAmount(getFullDisplayBalance(xCNTBalance).toString());
-    }
+    handleTokenAmount(getFullDisplayBalance(fygnBalance).toString());
   };
 
   const handleApprove = useCallback(async () => {
     try {
-      setRequestedApproval(true);
       const txHash = await onApprove();
-
       // user rejected tx or didn't go thru
-      if (!txHash) {
-        setRequestedApproval(false);
-      }
     } catch (e) {
       console.error(e);
     }
-  }, [onApprove, setRequestedApproval]);
+  }, [onApprove]);
 
-  const stakeCnt = async () => {
-    setPendingDepositTx(true);
+  const burnFygn = async () => {
     try {
       if (metaTranscation) {
         try {
-          await enterGasless(cntStakerGasless, tokenAmount, account, library);
+          await burnGasless(fygnBurnerGasless, tokenAmount, account, library);
           toastSuccess(
             "Success!",
-            `You have successfully staked ${tokenAmount} YGN !`
+            `You have successfully burned ${tokenAmount} fYGN !`
           );
         } catch (e) {
-          toastError("An error occurred while staking YGN");
+          toastError("An error occurred while burning fYGN");
         }
       } else {
-        await enter(cntStaker, tokenAmount, account);
+        await burn(fygnBurner, tokenAmount, account);
         toastSuccess(
           "Success!",
-          `You have successfully staked ${tokenAmount} YGN !`
+          `You have successfully burned ${tokenAmount} fYGN !`
         );
       }
-
       await getTokenBalances();
     } catch (error) {
-      toastError("An error occurred while staking YGN");
+      toastError("An error occurred while burning fYGN");
     }
-    setPendingDepositTx(false);
   };
-  const unstakeCnt = async () => {
-    setPendingTx(true);
-    try {
-      if (metaTranscation) {
-        await leaveGasless(cntStakerGasless, tokenAmount, account, library);
-      } else {
-        await leave(cntStaker, tokenAmount, account);
-      }
-
-      await getTokenBalances();
-      toastSuccess(
-        "Success!",
-        `You have successfully unstaked ${tokenAmount} xYGN !`
-      );
-    } catch (error) {
-      toastError("An error occurred while unstaking xYGN");
-    }
-    setPendingTx(false);
-  };
-
-  const BtnLoadingComp =
-    pendingTx === false ? (
-      <Button
-        width="100%"
-        onClick={async () => {
-          setPendingTx(true);
-          await handleApprove();
-          setPendingTx(false);
-        }}
-      >
-        Approve YGN
-      </Button>
-    ) : (
-      <Button isLoading endIcon={<AutoRenewIcon spin color="currentColor" />}>
-        Approving YGN...
-      </Button>
-    );
 
   const renderBottomButtons = () => {
     if (!account) {
       return <UnlockButton mt="8px" width="100%" />;
     }
-    if (index === 0) {
-      if (tokenBalance.toNumber() > 0) {
-        if (CntAllowance.toNumber() <= 0) {
-          return pendingTx === false ? (
-            <Button
-              style={{ maxWidth: "400px", width: "100%" }}
-              onClick={async () => {
-                setPendingTx(true);
-                await handleApprove();
-                await getTokenBalances();
-                setPendingTx(false);
-              }}
-            >
-              Approve YGN
-            </Button>
-          ) : (
-            <Button
-              isLoading
-              style={{ maxWidth: "400px", width: "100%" }}
-              endIcon={<AutoRenewIcon spin color="currentColor" />}
-            >
-              Approving YGN...
-            </Button>
-          );
-        }
-      } else {
-        return (
-          <Button style={{ maxWidth: "400px", width: "100%" }} disabled>
-            Insufficent YGN Balance
-          </Button>
-        );
-      }
-      return (
-        // <Button
-        //   disabled={tokenBalance.eq(new BigNumber(0)) || pendingDepositTx}
-        //   onClick={stakeCnt}
-        //   style={{ maxWidth: "400px", width: "100%" }}
-        // >
-        //   {pendingDepositTx ? "Staking CNT..." : "Stake CNT"}
-        // </Button>
 
-        pendingTx === false ? (
+    if (!fygnBalance.isZero()) {
+      if (fygnAllowance.isLessThanOrEqualTo(0)) {
+        return pendingTx === false ? (
           <Button
             style={{ maxWidth: "400px", width: "100%" }}
             onClick={async () => {
               setPendingTx(true);
-              await stakeCnt();
+              await handleApprove();
+              await getTokenBalances();
               setPendingTx(false);
             }}
           >
-            Stake YGN
+            Approve fYGN
           </Button>
         ) : (
           <Button
@@ -423,46 +304,37 @@ const FYGNBurner = () => {
             style={{ maxWidth: "400px", width: "100%" }}
             endIcon={<AutoRenewIcon spin color="currentColor" />}
           >
-            Staking YGN...
+            Approving fYGN...
           </Button>
-        )
-      );
-    }
-    if (xCNTBalance.toNumber() <= 0) {
+        );
+      }
+    } else {
       return (
         <Button style={{ maxWidth: "400px", width: "100%" }} disabled>
-          Insufficent xYGN Balance
+          Insufficent fYGN Balance
         </Button>
       );
     }
 
-    return (
-      // <Button
-      //   disabled={!xCNTBalance.toNumber() || pendingTx}
-      //   onClick={unstakeCnt}
-      // >
-      //   {pendingTx ? "Converting to CNT..." : "Convert to CNT"}
-      // </Button>
-      pendingTx === false ? (
-        <Button
-          style={{ maxWidth: "400px", width: "100%" }}
-          onClick={async () => {
-            setPendingTx(true);
-            await unstakeCnt();
-            setPendingTx(false);
-          }}
-        >
-          Convert to YGN
-        </Button>
-      ) : (
-        <Button
-          isLoading
-          style={{ maxWidth: "400px", width: "100%" }}
-          endIcon={<AutoRenewIcon spin color="currentColor" />}
-        >
-          Converting to YGN...
-        </Button>
-      )
+    return pendingTx === false ? (
+      <Button
+        style={{ maxWidth: "400px", width: "100%" }}
+        onClick={async () => {
+          setPendingTx(true);
+          await burnFygn();
+          setPendingTx(false);
+        }}
+      >
+        Burn fYGN
+      </Button>
+    ) : (
+      <Button
+        isLoading
+        style={{ maxWidth: "400px", width: "100%" }}
+        endIcon={<AutoRenewIcon spin color="currentColor" />}
+      >
+        Burning fYGN...
+      </Button>
     );
   };
   return (
@@ -477,7 +349,7 @@ const FYGNBurner = () => {
               padding: "20px 10px",
             }}
           >
-            <CNHeading>YGN Staker</CNHeading>
+            <CNHeading>fYGN Burner</CNHeading>
             <StyledOl>
               <DescriptionTextLi>Stake YGN to earn more YGN.</DescriptionTextLi>
               <DescriptionTextLi>
@@ -494,34 +366,23 @@ const FYGNBurner = () => {
         <Grid container spacing={3} style={{ marginTop: "30px" }}>
           <Grid item xs={12} md={6} lg={6} xl={6}>
             <StakingContainer>
-              <ButtonMenu
-                activeIndex={index}
-                scale="md"
-                variant="primary"
-                onItemClick={handleClick}
-              >
-                <ButtonMenuItem style={{ minWidth: "150px" }}>
-                  Stake
-                </ButtonMenuItem>
-                <ButtonMenuItem style={{ minWidth: "150px" }}>
-                  Unstake
-                </ButtonMenuItem>
-              </ButtonMenu>
+              {/* <Text bold fontSize="32px">
+                fYGN Burner
+              </Text> */}
               <InfoDiv>
                 <Text
                   bold
                   color="#424945"
-                  textTransform="uppercase"
                   style={{ whiteSpace: "nowrap" }}
                   fontSize="18px"
                 >
-                  {index === 0 ? "Stake YGN" : "Unstake YGN"}
+                  BURN fYGN
                 </Text>
                 {totalSupply && (
                   <ConversionInfo>
                     {`There are currently ${getBalanceNumber(
                       totalSupply
-                    ).toFixed(2)} xYGN`}
+                    ).toFixed(2)} fYGN`}
                   </ConversionInfo>
                 )}
               </InfoDiv>
@@ -530,7 +391,7 @@ const FYGNBurner = () => {
                 <InputWrapper>
                   <Input
                     onInputChange={onChange}
-                    placeholder="0 YGN"
+                    placeholder="0 fYGN"
                     value={tokenAmount}
                   />
                 </InputWrapper>
@@ -542,7 +403,7 @@ const FYGNBurner = () => {
                     mr="10px"
                     style={{ whiteSpace: "nowrap" }}
                   >
-                    Balance: {getFullDisplayBalanceForStaker(tokenBal)}
+                    Balance: {getFullDisplayBalanceForStaker(fygnBalance)}
                   </Text>
                   <Button scale="sm" onClick={onSelectMax}>
                     Max
@@ -572,7 +433,7 @@ const FYGNBurner = () => {
                     fontSize="18px"
                     mb="6px"
                   >
-                    Staking APR
+                    Exchange Rate
                   </Text>
                   {/* <Button variant="secondary" scale="sm">
                     {" "}
@@ -586,15 +447,16 @@ const FYGNBurner = () => {
                     textTransform="uppercase"
                     style={{ whiteSpace: "nowrap" }}
                     fontSize="24px"
+                    textAlign="center"
                   >
-                    {parseFloat(cntStakingRatio.toFixed(2))} %
+                    {exchangeRate.toFixed(2)}
                   </Text>
                   <Text
                     color="#887263"
                     style={{ whiteSpace: "nowrap" }}
                     fontSize="16px"
                   >
-                    Last Week's APR
+                    1 fYGN = {exchangeRate.toFixed(2)} YGN
                   </Text>
                 </div>
               </Flex>
@@ -612,12 +474,17 @@ const FYGNBurner = () => {
               <InfoDiv>
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <img
-                    src="/images/YGN.png"
-                    alt="YGN"
+                    src="/images/fYGN.png"
+                    alt="fYGN"
                     width="24px"
                     style={{ marginRight: "10px", cursor: "pointer" }}
                     onClick={() =>
-                      registerToken(contracts.cake[CHAINID], "YGN", 18, YGNLogo)
+                      registerToken(
+                        contracts.cake[CHAINID],
+                        "fYGN",
+                        18,
+                        fYGNLogo
+                      )
                     }
                   />
                   <Text
@@ -627,23 +494,23 @@ const FYGNBurner = () => {
                     style={{ whiteSpace: "nowrap" }}
                     fontSize="18px"
                   >
-                    YGN:{" "}
+                    fYGN:{" "}
                     <span style={{ color: "#424945" }}>
-                      {getBalanceNumber(tokenBalance).toFixed(2)}
+                      {getBalanceNumber(fygnBalance).toFixed(2)}
                     </span>
                   </Text>
                 </div>
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <img
-                    src="/images/xYGN.png"
-                    alt="xYGN"
+                    src="/images/YGN.png"
+                    alt="YGN"
                     width="24px"
                     onClick={() =>
                       registerToken(
                         contracts.cntStaker[CHAINID],
-                        "xYGN",
+                        "YGN",
                         18,
-                        xYGNLogo
+                        YGNLogo
                       )
                     }
                     style={{ marginRight: "10px", cursor: "pointer" }}
@@ -654,9 +521,9 @@ const FYGNBurner = () => {
                     style={{ whiteSpace: "nowrap" }}
                     fontSize="18px"
                   >
-                    xYGN:{" "}
+                    YGN:{" "}
                     <span style={{ color: "#424945" }}>
-                      {getBalanceNumber(xCNTBalance).toFixed(2)}
+                      {getBalanceNumber(ygnBalance).toFixed(2)}
                     </span>
                   </Text>
                 </div>

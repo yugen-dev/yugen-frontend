@@ -28,6 +28,8 @@ import {
   getUnivesalOneSidedContract,
   getL2IntermediatorContract,
   getVaultContract,
+  getFygnContract,
+  getFygnBurnerContract,
 } from "utils/contractHelpers";
 import { useChainId } from "state/application/hooks";
 import polydexMigrator from "config/abi/polydexMigrator.json";
@@ -56,6 +58,11 @@ export const useERC20 = (address: string) => {
 export const useCake = () => {
   const web3 = useWeb3();
   return useMemo(() => getCakeContract(web3), [web3]);
+};
+
+export const useFygn = () => {
+  const web3 = useWeb3();
+  return useMemo(() => getFygnContract(web3), [web3]);
 };
 
 export const useBunnyFactory = () => {
@@ -123,9 +130,19 @@ export const useCNTStaker = () => {
   return useMemo(() => getCNTStakerContract(web3), [web3]);
 };
 
+export const useFygnBurner = () => {
+  const web3 = useWeb3();
+  return useMemo(() => getFygnBurnerContract(web3), [web3]);
+};
+
 export const useCNTStakerGasless = () => {
   const web3 = getBiconomyWeb3();
   return useMemo(() => getCNTStakerContract(web3), [web3]);
+};
+
+export const useFygnBurnerGasless = () => {
+  const web3 = getBiconomyWeb3();
+  return useMemo(() => getFygnBurnerContract(web3), [web3]);
 };
 
 export const usePointCenterIfoContract = () => {

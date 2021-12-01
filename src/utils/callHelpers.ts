@@ -480,9 +480,31 @@ export const enterGasless = async (contract, amount, account, library) => {
   );
 };
 
+export const burnGasless = async (contract, amount, account, library) => {
+  const functionSignature = await contract.methods
+    .leave(new BigNumber(amount).times(new BigNumber(10).pow(18)).toString())
+    .encodeABI();
+
+  await executeMetaTransactionBar(
+    contract,
+    account,
+    functionSignature,
+    library
+  );
+};
+
 export const enter = async (contract, amount, account) => {
   return contract.methods
     .enter(new BigNumber(amount).times(new BigNumber(10).pow(18)).toString())
+    .send({ from: account })
+    .on("transactionHash", (tx) => {
+      return tx.transactionHash;
+    });
+};
+
+export const burn = async (contract, amount, account) => {
+  return contract.methods
+    .leave(new BigNumber(amount).times(new BigNumber(10).pow(18)).toString())
     .send({ from: account })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;

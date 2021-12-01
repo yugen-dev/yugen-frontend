@@ -15,6 +15,8 @@ import {
   useCake,
   useCNTStaker,
   useLottery,
+  useFygn,
+  useFygnBurner,
   // useSousChefGasless,
 } from "./useContract";
 import { useUserDeadline } from "../state/user/hooks";
@@ -132,6 +134,110 @@ export const useVaultApprove = (
 export const useApproveStaking = () => {
   const cakeContract = useCake();
   const cntStakerContract = useCNTStaker();
+
+  const { account, chainId, library } = useWeb3React("web3");
+  const { metaTranscation } = useProfile();
+
+  const handleApprove = useCallback(async () => {
+    try {
+      if (
+        META_TXN_SUPPORTED_TOKENS[cakeContract.options.address.toLowerCase()] &&
+        metaTranscation
+      ) {
+        const metaToken =
+          META_TXN_SUPPORTED_TOKENS[cakeContract.options.address.toLowerCase()];
+        const biconomyweb3 = getBiconomyWeb3();
+        const biconomyContract = new biconomyweb3.eth.Contract(
+          metaToken.abi,
+          cakeContract.options.address
+        );
+        const nonceMethod =
+          biconomyContract.methods.getNonce || biconomyContract.methods.nonces;
+        const biconomyNonce = await nonceMethod(account).call();
+        const res = biconomyContract.methods
+          .approve(
+            cntStakerContract.options.address,
+            ethers.constants.MaxUint256.toString()
+          )
+          .encodeABI();
+        const message: any = {
+          nonce: "",
+          from: "",
+          functionSignature: "",
+        };
+
+        const name = await biconomyContract.methods.name().call();
+
+        message.nonce = parseInt(biconomyNonce);
+        message.from = account;
+        message.functionSignature = res;
+
+        const dataToSign = JSON.stringify({
+          types: {
+            EIP712Domain: [
+              { name: "name", type: "string" },
+              { name: "version", type: "string" },
+              { name: "verifyingContract", type: "address" },
+              { name: "salt", type: "bytes32" },
+            ],
+            MetaTransaction: [
+              { name: "nonce", type: "uint256" },
+              { name: "from", type: "address" },
+              { name: "functionSignature", type: "bytes" },
+            ],
+          },
+          domain: {
+            name,
+            version: "1",
+            verifyingContract: cakeContract.options.address,
+            // @ts-ignore
+            salt: `0x${chainId.toString(16).padStart(64, "0")}`,
+          },
+          primaryType: "MetaTransaction",
+          message,
+        });
+
+        const sig = await library.send("eth_signTypedData_v4", [
+          account,
+          dataToSign,
+        ]);
+
+        const signature = await splitSignature(sig.result);
+        const { v, r, s } = signature;
+
+        return biconomyContract.methods
+          .executeMetaTransaction(account, res, r, s, v)
+          .send({
+            from: account,
+          })
+          .then((response: any) => {
+            return response.hash;
+          })
+          .catch((error: Error) => {
+            console.error("Failed to approve token", error);
+            throw error;
+          });
+      }
+      const tx = await approve(cakeContract, cntStakerContract, account);
+      return tx;
+    } catch (e) {
+      return false;
+    }
+  }, [
+    account,
+    cakeContract,
+    cntStakerContract,
+    metaTranscation,
+    chainId,
+    library,
+  ]);
+
+  return { onApprove: handleApprove };
+};
+
+export const useApproveBurner = () => {
+  const cakeContract = useFygn();
+  const cntStakerContract = useFygnBurner();
 
   const { account, chainId, library } = useWeb3React("web3");
   const { metaTranscation } = useProfile();
