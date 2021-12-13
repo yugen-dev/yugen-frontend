@@ -161,7 +161,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
 
   const lpLabel =
     farm.lpSymbol && farm.lpSymbol.toUpperCase().replace("PANCAKE", "");
-  const earnLabel = farm.dual ? farm.dual.earnLabel : "YGN";
+  const earnLabel = farm.dual ? farm.dual.earnLabel : "fYGN";
 
   let isDaysGreater = false;
   let isHoursGreater = false;

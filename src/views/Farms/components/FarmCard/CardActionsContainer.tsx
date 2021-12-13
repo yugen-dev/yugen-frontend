@@ -649,15 +649,9 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
       <RenderNextHarvestIn />
       <br />
       <Flex>
-        <Text
-          bold
-          textTransform="uppercase"
-          color="#887263"
-          fontSize="12px"
-          pr="5px"
-        >
+        <Text bold color="#887263" fontSize="12px" pr="5px">
           {/* TODO: Is there a way to get a dynamic value here from useFarmFromSymbol? */}
-          YGN
+          fYGN
         </Text>
         <Text
           bold
@@ -666,7 +660,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
           fontSize="12px"
           mb="10px"
         >
-          {TranslateString(1072, "Earned")}
+          Earned
         </Text>
       </Flex>
 
