@@ -449,14 +449,14 @@ const FYGNBurner = () => {
                     fontSize="24px"
                     textAlign="center"
                   >
-                    {exchangeRate.toFixed(2)}
+                    {exchangeRate.toFixed(9)}
                   </Text>
                   <Text
                     color="#887263"
                     style={{ whiteSpace: "nowrap" }}
                     fontSize="16px"
                   >
-                    1 fYGN = {exchangeRate.toFixed(2)} YGN
+                    1 fYGN = {exchangeRate.toFixed(6)} YGN
                   </Text>
                 </div>
               </Flex>
