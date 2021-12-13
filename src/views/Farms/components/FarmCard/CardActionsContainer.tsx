@@ -186,7 +186,13 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
       return null;
     }
 
-    return totalValue.times(stakedBalance).div(farm.lpTotalSupplyInMasterchef);
+    if (totalValue === undefined || totalValue === null) {
+      return new BigNumber(0);
+    }
+
+    return new BigNumber(totalValue)
+      .times(stakedBalance)
+      .div(farm.lpTotalSupplyInMasterchef);
   }, [
     totalValue,
     stakedBalance,

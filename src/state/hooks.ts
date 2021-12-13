@@ -163,9 +163,9 @@ export const usePoolFromPid = (sousId): Pool => {
 // Prices
 
 export const usePriceBnbBusd = (): BigNumber => {
-  // if (chainID === "80001" || chainID === "5") {
-  //   return new BigNumber(10);
-  // }
+  if (chainID === "80001" || chainID === "5") {
+    return new BigNumber(10);
+  }
   const pid = getBnbBusdPoolId(); // USD-MATIC LP, BUSD-BNB LP
   const farm = useFarmFromPid(pid);
 
@@ -202,6 +202,11 @@ export const getCakeBnbPoolId = (): number => {
 };
 
 export const usePriceCakeBusd = (): BigNumber => {
+  // TODO: Remove this when we have a farm in place
+  if (chainID === "80001" || chainID === "5") {
+    return new BigNumber(0.47);
+  }
+
   const pid = getCakeBnbPoolId(); // YGN-MATIC LP ,CAKE-BNB LP
   const bnbPriceUSD = usePriceBnbBusd();
   const farm = useFarmFromPid(pid);

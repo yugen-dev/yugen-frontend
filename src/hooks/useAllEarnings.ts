@@ -15,7 +15,7 @@ const useAllEarnings = () => {
     const fetchAllBalances = async () => {
       const calls = farmsConfig.map((farm) => ({
         address: getFarmAddress(),
-        name: "pendingYGN",
+        name: "pendingFYGN",
         params: [farm.pid, account],
       }));
       // const poolCalls = [];
@@ -35,7 +35,7 @@ const useAllEarnings = () => {
       // const resPools = await multicall(sousChefABI, poolCalls);
       // const contract = getHybridStakingContract();
       // const pendingRewardHybridStaking = await contract.methods
-      //   .pendingYGN("0", account)
+      //   .pendingFYGN("0", account)
       //   .call();
       // const response = res.concat(resPools).concat(pendingRewardHybridStaking);
       // setBalance(response);

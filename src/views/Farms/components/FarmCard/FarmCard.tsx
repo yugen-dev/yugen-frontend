@@ -113,7 +113,8 @@ const FarmCard: React.FC<FarmCardProps> = ({
   // NAR-CAKE LP. The images should be cake-bnb.svg, link-bnb.svg, nar-cake.svg
   const farmImage = farm.lpSymbol.split(" ")[0].toLocaleLowerCase();
 
-  const totalValue: BigNumber = useMemo(() => {
+  let totalValue = new BigNumber(0);
+  totalValue = useMemo(() => {
     if (!farm.lpTotalInQuoteToken) {
       return null;
     }
@@ -190,6 +191,8 @@ const FarmCard: React.FC<FarmCardProps> = ({
   });
   const addLiquidityUrl = `add/${liquidityUrlPathParts}`;
 
+  // TODO: make sure to configure this so that
+  // cakePrice === fygn price & not cake price === ygn price
   const calculatedAPY = cakePrice
     .multipliedBy(BLOCKS_PER_YEAR)
     .multipliedBy(CAKE_PER_BLOCK)

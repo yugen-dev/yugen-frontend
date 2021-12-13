@@ -1,9 +1,9 @@
 [
   {
     "inputs": [
-      { "internalType": "contract IERC20", "name": "_ygn", "type": "address" },
-      { "internalType": "uint256", "name": "_ygnPerBlock", "type": "uint256" },
-      { "internalType": "address", "name": "_feeAddress", "type": "address" },
+      { "internalType": "contract IFYGN", "name": "_fYGN", "type": "address" },
+      { "internalType": "uint256", "name": "_fYGNPerBlock", "type": "uint256" },
+      { "internalType": "address", "name": "_ygnConverter", "type": "address" },
       { "internalType": "uint256", "name": "_startBlock", "type": "uint256" },
       { "internalType": "uint256", "name": "_bonusEndBlock", "type": "uint256" }
     ],
@@ -33,15 +33,15 @@
       },
       {
         "indexed": false,
-        "internalType": "uint16",
-        "name": "childPoolFeeBP",
-        "type": "uint16"
-      },
-      {
-        "indexed": false,
         "internalType": "contract IERC20",
         "name": "childFarmToken",
         "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "childPoolSupportsReferral",
+        "type": "bool"
       }
     ],
     "name": "AddedChildFarm",
@@ -189,15 +189,15 @@
       },
       {
         "indexed": false,
-        "internalType": "uint16",
-        "name": "childPoolFeeBP",
-        "type": "uint16"
-      },
-      {
-        "indexed": false,
         "internalType": "contract IERC20",
         "name": "childFarmToken",
         "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "childPoolSupportsReferral",
+        "type": "bool"
       }
     ],
     "name": "PoolAddition",
@@ -227,7 +227,7 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "accYGNPerShare",
+        "name": "accfYGNPerShare",
         "type": "uint256"
       }
     ],
@@ -290,11 +290,11 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "_devAddress",
+        "name": "ygnConverter",
         "type": "address"
       }
     ],
-    "name": "SetFeeAddress",
+    "name": "SetYGNConverter",
     "type": "event"
   },
   {
@@ -320,15 +320,15 @@
       },
       {
         "indexed": false,
-        "internalType": "uint16",
-        "name": "childPoolFeeBP",
-        "type": "uint16"
-      },
-      {
-        "indexed": false,
         "internalType": "contract IERC20",
         "name": "childFarmToken",
         "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "childPoolSupportsReferral",
+        "type": "bool"
       }
     ],
     "name": "UpdatedChildFarm",
@@ -364,12 +364,12 @@
       },
       {
         "indexed": false,
-        "internalType": "uint256",
-        "name": "childPoolFeeBP",
-        "type": "uint256"
+        "internalType": "bool",
+        "name": "childPoolSupportsReferral",
+        "type": "bool"
       }
     ],
-    "name": "UpdatedChildPoolFeeBP",
+    "name": "UpdatedChildPoolReferralStatus",
     "type": "event"
   },
   {
@@ -575,11 +575,15 @@
         "type": "address"
       },
       { "internalType": "uint256", "name": "_childPoolId", "type": "uint256" },
-      { "internalType": "uint16", "name": "_childPoolFeeBP", "type": "uint16" },
       {
         "internalType": "contract IERC20",
         "name": "_childFarmToken",
         "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "_childPoolSupportsReferral",
+        "type": "bool"
       },
       { "internalType": "bool", "name": "_withUpdate", "type": "bool" }
     ],
@@ -597,11 +601,15 @@
         "type": "address"
       },
       { "internalType": "uint256", "name": "_childPoolId", "type": "uint256" },
-      { "internalType": "uint16", "name": "_childPoolFeeBP", "type": "uint16" },
       {
         "internalType": "contract IERC20",
         "name": "_childFarmToken",
         "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "_childPoolSupportsReferral",
+        "type": "bool"
       },
       { "internalType": "bool", "name": "_withUpdate", "type": "bool" }
     ],
@@ -677,8 +685,17 @@
   },
   {
     "inputs": [],
-    "name": "feeAddress",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "fYGN",
+    "outputs": [
+      { "internalType": "contract IFYGN", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "fYGNPerBlock",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
@@ -747,7 +764,7 @@
       { "internalType": "uint256", "name": "_pid", "type": "uint256" },
       { "internalType": "address", "name": "_user", "type": "address" }
     ],
-    "name": "pendingYGN",
+    "name": "pendingFYGN",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
@@ -769,7 +786,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "accYGNPerShare",
+        "name": "accfYGNPerShare",
         "type": "uint256"
       },
       { "internalType": "uint16", "name": "withdrawalFeeBP", "type": "uint16" },
@@ -784,11 +801,15 @@
         "type": "address"
       },
       { "internalType": "uint256", "name": "childPoolId", "type": "uint256" },
-      { "internalType": "uint16", "name": "childPoolFeeBP", "type": "uint16" },
       {
         "internalType": "contract IERC20",
         "name": "childFarmToken",
         "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "childPoolSupportsReferral",
+        "type": "bool"
       }
     ],
     "stateMutability": "view",
@@ -857,9 +878,9 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "_feeAddress", "type": "address" }
+      { "internalType": "address", "name": "_ygnConverter", "type": "address" }
     ],
-    "name": "setFeeAddress",
+    "name": "setYGNConverter",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -896,7 +917,7 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_ygnPerBlock", "type": "uint256" }
+      { "internalType": "uint256", "name": "_fYGNPerBlock", "type": "uint256" }
     ],
     "name": "updateBlockRate",
     "outputs": [],
@@ -930,14 +951,14 @@
         "type": "uint256"
       },
       {
-        "internalType": "uint16",
-        "name": "_newChildPoolFeeBP",
-        "type": "uint16"
-      },
-      {
         "internalType": "contract IERC20",
         "name": "_newChildFarmToken",
         "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "_newChildPoolSupportsReferral",
+        "type": "bool"
       },
       { "internalType": "bool", "name": "_withUpdate", "type": "bool" }
     ],
@@ -964,10 +985,14 @@
   {
     "inputs": [
       { "internalType": "uint256", "name": "_pid", "type": "uint256" },
-      { "internalType": "uint16", "name": "_childPoolFeeBP", "type": "uint16" },
+      {
+        "internalType": "bool",
+        "name": "_childPoolSupportsReferral",
+        "type": "bool"
+      },
       { "internalType": "bool", "name": "_withUpdate", "type": "bool" }
     ],
-    "name": "updateChildPoolFeeBP",
+    "name": "updateChildPoolReferralSupport",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -1089,6 +1114,15 @@
   },
   {
     "inputs": [
+      { "internalType": "uint256", "name": "_amount", "type": "uint256" }
+    ],
+    "name": "withdrawFYGN",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
       { "internalType": "uint256", "name": "_pid", "type": "uint256" },
       { "internalType": "uint256", "name": "_amount", "type": "uint256" },
       { "internalType": "address", "name": "_user", "type": "address" }
@@ -1099,27 +1133,9 @@
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "uint256", "name": "_amount", "type": "uint256" }
-    ],
-    "name": "withdrawYGN",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [],
-    "name": "ygn",
-    "outputs": [
-      { "internalType": "contract IERC20", "name": "", "type": "address" }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "ygnPerBlock",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "ygnConverter",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"
   }

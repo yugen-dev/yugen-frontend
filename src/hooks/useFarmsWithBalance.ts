@@ -23,7 +23,7 @@ const useFarmsWithBalance = () => {
     const fetchBalances = async () => {
       const calls = farmsConfig.map((farm) => ({
         address: getFarmAddress(),
-        name: "pendingYGN",
+        name: "pendingFYGN",
         params: [farm.pid, account],
       }));
 
