@@ -41,7 +41,7 @@ const Vesting = () => {
   const loadBlockchainData = async () => {
     const networkId = await web3.eth.net.getId();
 
-    if (networkId === 137 && account) {
+    if (networkId && account) {
       const rewardMgSmartContract = getRewardsManagerContract(web3);
 
       // distribution start time
