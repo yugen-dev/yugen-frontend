@@ -1,8 +1,10 @@
-import React, { memo } from "react";
+import React, { memo, useContext } from "react";
+import styled, { ThemeContext } from "styled-components";
 import { Heading, Skeleton, Text } from "cryption-uikit";
-import styled from "styled-components";
 
 const DisplayInfo = ({ description, value }) => {
+  const theme = useContext(ThemeContext);
+
   if (value === "-1") {
     return (
       <SubContainer>
@@ -13,19 +15,19 @@ const DisplayInfo = ({ description, value }) => {
   }
   return (
     <SubContainer>
-      <Heading textAlign="center" color="#887263">
-        {description}
-      </Heading>
+      <Heading textAlign="center">{description}</Heading>
       <Heading size="xl" textAlign="center" marginTop="1px">
         <span>{value}</span>
         <Text
-          style={{ display: "inline-block" }}
+          style={{
+            display: "inline-block",
+            color: `${theme.colors.subHeading}`,
+          }}
           fontSize="20px"
-          color="#424945"
           marginLeft="3px"
           bold
         >
-          YGN
+          fYGN
         </Text>
       </Heading>
     </SubContainer>

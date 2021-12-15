@@ -8,6 +8,7 @@ import { useWeb3React } from "@web3-react/core";
 import BigNumber from "bignumber.js";
 import { getRewardsManagerContract } from "utils/contractHelpers";
 import Timer from "./components/Timer";
+// import Banner from "./components/Banner";
 import Dashboard from "./components/Dashboard";
 import { ClaimButtons } from "./components/ClaimButtons";
 
@@ -18,7 +19,7 @@ declare global {
   }
 }
 
-const Vesting = () => {
+const VestingFactory = () => {
   const { account } = useWeb3React("web3");
   const [vestedValues, setVestedValues] = useState({
     TotalVested: "-1",
@@ -27,13 +28,11 @@ const Vesting = () => {
     Claimable: "-1",
     AmountBurnt: "-1",
   });
-  const [startDistributionTime, setStartDistributionTime] = useState(
-    Date.now() / 1000
-  );
-  const [endDistributionTime, setEndDistributionTime] = useState(
-    Date.now() / 1000
-  );
-  const [penaltyValue, setPenaltyValue] = useState(0);
+  // TODO: hardcoded start time & end time
+  const startDistributionTime = 1639144800;
+  const endDistributionTime = 1654696800;
+
+  const [penaltyValue] = useState(350);
 
   const web3 = new Web3(window.ethereum);
   const { toastError } = useToast();
@@ -44,40 +43,6 @@ const Vesting = () => {
     if (networkId && account) {
       const rewardMgSmartContract = getRewardsManagerContract(web3);
 
-      // distribution start time
-      try {
-        const startTime = await rewardMgSmartContract.methods
-          .startDistribution()
-          .call();
-        if (startTime) {
-          setStartDistributionTime(() => Number(startTime));
-        }
-      } catch (e) {
-        console.error("Error while getting timer value: ", e);
-      }
-
-      // distribution end time
-      try {
-        const endTime = await rewardMgSmartContract.methods
-          .endDistribution()
-          .call();
-        if (endTime) {
-          setEndDistributionTime(() => Number(endTime));
-        }
-      } catch (e) {
-        console.error("Error while getting timer value: ", e);
-      }
-
-      // percentage of penalty applied
-      try {
-        const penalty = await rewardMgSmartContract.methods
-          .preMaturePenalty()
-          .call();
-        setPenaltyValue(() => penalty);
-      } catch (e) {
-        console.error("Error while getting timer value: ", e);
-      }
-
       // get account values
       try {
         const {
@@ -86,7 +51,9 @@ const Vesting = () => {
           amountBurnt,
           claimable,
           stillDue,
-        } = await rewardMgSmartContract.methods.vestingInfo(account).call();
+        } = await rewardMgSmartContract.methods
+          .userTotalVestingInfo(account)
+          .call();
 
         const totalVestedRewards = Number(Web3.utils.fromWei(totalVested))
           .toFixed(2)
@@ -161,7 +128,6 @@ const Vesting = () => {
           vestedValues={vestedValues}
           account={account}
           penaltyValue={penaltyValue}
-          endDistributionTime={endDistributionTime}
         />
         <Timer
           startDistributionTime={startDistributionTime}
@@ -180,4 +146,4 @@ const MainContainer = styled.div`
   min-height: 80vh;
 `;
 
-export default memo(Vesting);
+export default memo(VestingFactory);

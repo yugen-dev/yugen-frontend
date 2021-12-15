@@ -1,61 +1,10 @@
 [
   {
     "inputs": [
-      { "internalType": "contract IERC20", "name": "_cnt", "type": "address" },
-      {
-        "internalType": "uint256",
-        "name": "_startDistribution",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_endDistribution",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_upfrontUnlock",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_preMaturePenalty",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_bonusPercentage",
-        "type": "uint256"
-      },
-      { "internalType": "address", "name": "_burner", "type": "address" }
+      { "internalType": "contract IERC20", "name": "_fYGN", "type": "address" }
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "_beneficiary",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "_amount",
-        "type": "uint256"
-      },
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "bonus",
-        "type": "uint256"
-      }
-    ],
-    "name": "DrawDown",
-    "type": "event"
   },
   {
     "anonymous": false,
@@ -82,88 +31,33 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "_beneficiary",
+        "name": "managerAddress",
         "type": "address"
       },
       {
         "indexed": true,
         "internalType": "uint256",
-        "name": "burntAmount",
+        "name": "startDistributionTime",
         "type": "uint256"
       },
       {
         "indexed": true,
         "internalType": "uint256",
-        "name": "userEffectiveWithdrawn",
+        "name": "endDistributionTime",
         "type": "uint256"
       }
     ],
-    "name": "PreMatureDrawn",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "_beneficiary",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "value",
-        "type": "uint256"
-      }
-    ],
-    "name": "Vested",
+    "name": "RewardManagerLaunched",
     "type": "event"
   },
   {
     "inputs": [
+      { "internalType": "uint256", "name": "_index", "type": "uint256" },
       { "internalType": "uint256", "name": "_bonusRewards", "type": "uint256" }
     ],
     "name": "addBonusRewards",
     "outputs": [],
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "bonusPercentage",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "name": "bonusReward",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "bonusRewardsPool",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "name": "burntAmount",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "cnt",
-    "outputs": [
-      { "internalType": "contract IERC20", "name": "", "type": "address" }
-    ],
-    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -175,15 +69,10 @@
   },
   {
     "inputs": [],
-    "name": "endDistribution",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "name": "excludedAddresses",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "name": "fYGN",
+    "outputs": [
+      { "internalType": "contract IERC20", "name": "", "type": "address" }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
@@ -201,9 +90,71 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "l2Burner",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "inputs": [
+      { "internalType": "contract IERC20", "name": "_fYGN", "type": "address" },
+      {
+        "internalType": "uint256",
+        "name": "_startDistribution",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_endDistribution",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_upfrontUnlock",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_preMaturePenalty",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_bonusPercentage",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes",
+        "name": "_rewardManagerByteCode",
+        "type": "bytes"
+      }
+    ],
+    "name": "launchRewardManager",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "managerIndex",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "managers",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "managerAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "startDistribution",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "endDistribution",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
@@ -222,15 +173,20 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "preMaturePenalty",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
+    "inputs": [
+      { "internalType": "uint256", "name": "_index", "type": "uint256" },
+      { "internalType": "address", "name": "_owner", "type": "address" }
+    ],
+    "name": "removeBonusRewards",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "removeBonusRewards",
+    "inputs": [
+      { "internalType": "uint256", "name": "_index", "type": "uint256" }
+    ],
+    "name": "removeRewardManager",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -251,14 +207,7 @@
   },
   {
     "inputs": [],
-    "name": "startDistribution",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "name": "totalDrawn",
+    "name": "totalRewardManagers",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
@@ -274,6 +223,7 @@
   },
   {
     "inputs": [
+      { "internalType": "uint256", "name": "_index", "type": "uint256" },
       {
         "internalType": "uint256",
         "name": "_newBonusPercentage",
@@ -287,6 +237,7 @@
   },
   {
     "inputs": [
+      { "internalType": "uint256", "name": "_index", "type": "uint256" },
       {
         "internalType": "uint256",
         "name": "_updatedStartTime",
@@ -305,6 +256,7 @@
   },
   {
     "inputs": [
+      { "internalType": "uint256", "name": "_index", "type": "uint256" },
       {
         "internalType": "uint256",
         "name": "_newpreMaturePenalty",
@@ -328,6 +280,7 @@
   },
   {
     "inputs": [
+      { "internalType": "uint256", "name": "_index", "type": "uint256" },
       {
         "internalType": "uint256",
         "name": "_newUpfrontUnlock",
@@ -341,6 +294,7 @@
   },
   {
     "inputs": [
+      { "internalType": "uint256", "name": "_index", "type": "uint256" },
       {
         "internalType": "address",
         "name": "_excludeAddress",
@@ -354,24 +308,10 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "upfrontUnlock",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "name": "vestedAmount",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       { "internalType": "address", "name": "_user", "type": "address" }
     ],
-    "name": "vestingInfo",
+    "name": "userTotalVestingInfo",
     "outputs": [
       { "internalType": "uint256", "name": "totalVested", "type": "uint256" },
       {

@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 /* eslint-disable no-bitwise */
-import React, { memo } from "react";
+import React, { memo, useContext } from "react";
 import { Heading } from "cryption-uikit";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
-import styled from "styled-components";
+import styled, { ThemeContext } from "styled-components";
 
 const minuteSeconds = 60;
 const hourSeconds = 3600;
@@ -15,11 +15,12 @@ const timerProps = {
   strokeWidth: 6,
 };
 
-const renderTime = (dimension, time) => {
+const RenderTime = (dimension, time) => {
+  const theme = useContext(ThemeContext);
   return (
     <TimeWrapper>
       <TimeStyles>{time}</TimeStyles>
-      <div style={{ color: "#887263" }}>{dimension}</div>
+      <div style={{ color: `${theme.colors.subHeading}` }}>{dimension}</div>
     </TimeWrapper>
   );
 };
@@ -47,7 +48,7 @@ const VestingCountdownTimer = ({
     return (
       <Container>
         <div>
-          <Heading marginBottom="5px" color="#887263">
+          <Heading marginBottom="5px">
             {endTime === startDistributionTime
               ? "Rewards distribution starts in"
               : "Linear rewards distribution ends in"}
@@ -68,7 +69,7 @@ const VestingCountdownTimer = ({
               isLinearGradient
             >
               {({ elapsedTime }) =>
-                renderTime("days", getTimeDays(daysDuration - elapsedTime))
+                RenderTime("days", getTimeDays(daysDuration - elapsedTime))
               }
             </CountdownCircleTimer>
           </SingleCountdownContainer>
@@ -90,7 +91,7 @@ const VestingCountdownTimer = ({
               isLinearGradient
             >
               {({ elapsedTime }) =>
-                renderTime("hours", getTimeHours(daySeconds - elapsedTime))
+                RenderTime("hours", getTimeHours(daySeconds - elapsedTime))
               }
             </CountdownCircleTimer>
           </SingleCountdownContainer>
@@ -112,7 +113,7 @@ const VestingCountdownTimer = ({
               isLinearGradient
             >
               {({ elapsedTime }) =>
-                renderTime("mins", getTimeMinutes(hourSeconds - elapsedTime))
+                RenderTime("mins", getTimeMinutes(hourSeconds - elapsedTime))
               }
             </CountdownCircleTimer>
           </SingleCountdownContainer>
@@ -134,7 +135,7 @@ const VestingCountdownTimer = ({
               isLinearGradient
             >
               {({ elapsedTime }) =>
-                renderTime("secs", getTimeSeconds(elapsedTime))
+                RenderTime("secs", getTimeSeconds(elapsedTime))
               }
             </CountdownCircleTimer>
           </SingleCountdownContainer>
@@ -166,7 +167,7 @@ const SingleCountdownContainer = styled.div`
 const TimeWrapper = styled.div``;
 const TimeStyles = styled.div`
   font-size: 22px;
-  color: #424945;
+  color: ${({ theme }) => theme.colors.heading};
 `;
 
 export default memo(VestingCountdownTimer);

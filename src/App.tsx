@@ -23,7 +23,7 @@ import history from "./routerHistory";
 const Home = lazy(() => import("./views/Home"));
 const YGNStaker = lazy(() => import("./views/YGNStaker"));
 const FYGNBurner = lazy(() => import("./views/FYGNBurner"));
-const RewardsManager = lazy(() => import("./views/RewardsManager"));
+const RewardsManager = lazy(() => import("./views/RewardsManagerFactory"));
 const Bonds = lazy(() => import("./views/Bonds"));
 
 const NotFound = lazy(() => import("./views/NotFound"));

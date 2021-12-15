@@ -5,7 +5,7 @@ import DisplayInfo from "./DisplayInfo";
 export const VestingDashBoard = ({ vestedValues }) => {
   return (
     <Container>
-      <DisplayInfo description="YGN locked" value={vestedValues.Unclaimable} />
+      <DisplayInfo description="fYGN locked" value={vestedValues.Unclaimable} />
       <DisplayInfo
         description="Available to claim"
         value={vestedValues.Claimable}

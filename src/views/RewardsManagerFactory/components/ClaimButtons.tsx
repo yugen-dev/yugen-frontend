@@ -7,22 +7,9 @@ import QuestionHelper from "components/QuestionHelper";
 import { getRewardsManagerContract } from "utils/contractHelpers";
 import Web3 from "web3";
 
-export const ClaimButtons = ({
-  vestedValues,
-  account,
-  endDistributionTime,
-  penaltyValue,
-}) => {
+export const ClaimButtons = ({ vestedValues, account, penaltyValue }) => {
   const [btnLoading, setBtnLoading] = useState(false);
   const web3 = new Web3(window.ethereum);
-
-  let formatTimerValue = Date.now().toString();
-  if (endDistributionTime) {
-    // use toLocaleDateString() for exact time
-    formatTimerValue = new Date(endDistributionTime * 1000).toLocaleDateString(
-      "en-US"
-    );
-  }
 
   const { toastError, toastSuccess, toastInfo, toastWarning } = useToast();
 
@@ -37,7 +24,7 @@ export const ClaimButtons = ({
       const rewardMgSmartContract = getRewardsManagerContract(web3);
       await rewardMgSmartContract.methods
         .preMatureDraw()
-        .send({ from: account });
+        .send({ from: account, gasPrice: 32000000000 });
 
       setBtnLoading(() => false);
       toastSuccess(
@@ -57,7 +44,9 @@ export const ClaimButtons = ({
       setBtnLoading(() => true);
       toastInfo("Processing...");
 
-      await rewardMgSmartContract.methods.drawDown().send({ from: account });
+      await rewardMgSmartContract.methods
+        .drawDown()
+        .send({ from: account, gasPrice: 32000000000 });
 
       setBtnLoading(() => false);
       toastSuccess("Success", "you have successfully claimed the rewards");
@@ -104,7 +93,7 @@ export const ClaimButtons = ({
                         <div>Force Claim</div>
                         <div>
                           <QuestionHelper
-                            text={`Withdrawing before ${formatTimerValue} will incur a loss of ${
+                            text={`Force claiming will incur a loss of ${
                               penaltyValue / 10
                             }% as burn fees.`}
                           />
@@ -126,7 +115,7 @@ export const ClaimButtons = ({
                         <div>Force Claim</div>
                         <div>
                           <QuestionHelper
-                            text={`Withdrawing before ${formatTimerValue} will incur a loss of ${
+                            text={`Force claiming will incur a loss of ${
                               penaltyValue / 10
                             }% as burn fees.`}
                           />
@@ -157,7 +146,7 @@ export const ClaimButtons = ({
                     <div>Force Claim</div>
                     <div>
                       <QuestionHelper
-                        text={`Withdrawing before ${formatTimerValue} will incur a loss of ${
+                        text={`Force claiming will incur a loss of ${
                           penaltyValue / 10
                         }% as burn fees.`}
                       />
