@@ -511,6 +511,17 @@ export const burn = async (contract, amount, account) => {
     });
 };
 
+export const burnAndStake = async (contract, amount, account) => {
+  return contract.methods
+    .burnAndStake(
+      new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
+    )
+    .send({ from: account })
+    .on("transactionHash", (tx) => {
+      return tx.transactionHash;
+    });
+};
+
 export const leaveGasless = async (contract, amount, account, library) => {
   const functionSignature = await contract.methods
     .leave(new BigNumber(amount).times(new BigNumber(10).pow(18)).toString())

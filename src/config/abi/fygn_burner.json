@@ -10,10 +10,46 @@
         "internalType": "contract IERC20",
         "name": "_ygnToken",
         "type": "address"
+      },
+      {
+        "internalType": "contract YGNStaker",
+        "name": "_ygnStaker",
+        "type": "address"
       }
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_fYGNShare",
+        "type": "uint256"
+      }
+    ],
+    "name": "burnAndStake",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_account",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_fYGNShare",
+        "type": "uint256"
+      }
+    ],
+    "name": "burnFYGNFor",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
     "inputs": [],
@@ -30,16 +66,30 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_fYGNShare", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_fYGNShare",
+        "type": "uint256"
+      }
     ],
     "name": "getYGNAmount",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_fYGNShare", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_fYGNShare",
+        "type": "uint256"
+      }
     ],
     "name": "leave",
     "outputs": [],
@@ -48,9 +98,26 @@
   },
   {
     "inputs": [],
+    "name": "ygnStaker",
+    "outputs": [
+      {
+        "internalType": "contract YGNStaker",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "ygnToken",
     "outputs": [
-      { "internalType": "contract IERC20", "name": "", "type": "address" }
+      {
+        "internalType": "contract IERC20",
+        "name": "",
+        "type": "address"
+      }
     ],
     "stateMutability": "view",
     "type": "function"

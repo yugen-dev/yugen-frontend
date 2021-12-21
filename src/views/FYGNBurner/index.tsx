@@ -15,7 +15,7 @@ import { useApproveBurner } from "hooks/useApprove";
 import { useChainId } from "state/application/hooks";
 import contracts from "config/constants/contracts";
 import { useProfile, useToast } from "state/hooks";
-import { burn, burnGasless } from "utils/callHelpers";
+import { burn, burnAndStake, burnGasless } from "utils/callHelpers";
 import UnlockButton from "components/UnlockButton";
 import useWeb3 from "hooks/useWeb3";
 import {
@@ -132,6 +132,13 @@ const DescriptionTextLi = styled.li`
   text-align: left;
   margin-bottom: 10px !important;
   color: white;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
 `;
 
 const StyledOl = styled.ol`
@@ -279,6 +286,19 @@ const FYGNBurner = () => {
     }
   };
 
+  const burnAndStakeFygn = async () => {
+    try {
+      await burnAndStake(fygnBurner, tokenAmount, account);
+      toastSuccess(
+        "Success!",
+        `You have successfully burned ${tokenAmount} fYGN !`
+      );
+      await getTokenBalances();
+    } catch (error) {
+      toastError("An error occurred while burning and staking fYGN");
+    }
+  };
+
   const renderBottomButtons = () => {
     if (!account) {
       return <UnlockButton mt="8px" width="100%" />;
@@ -317,23 +337,37 @@ const FYGNBurner = () => {
     }
 
     return pendingTx === false ? (
-      <Button
-        style={{ maxWidth: "400px", width: "100%" }}
-        onClick={async () => {
-          setPendingTx(true);
-          await burnFygn();
-          setPendingTx(false);
-        }}
-      >
-        Burn fYGN
-      </Button>
+      <ButtonContainer>
+        <Button
+          mr="5px"
+          onClick={async () => {
+            setPendingTx(() => true);
+            await burnAndStakeFygn();
+            setPendingTx(() => false);
+          }}
+        >
+          Burn & Stake
+        </Button>
+        <Button
+          ml="5px"
+          style={{ maxWidth: "400px" }}
+          onClick={async () => {
+            setPendingTx(() => true);
+            await burnFygn();
+            setPendingTx(() => false);
+          }}
+          variant="secondary"
+        >
+          Burn fYGN
+        </Button>
+      </ButtonContainer>
     ) : (
       <Button
         isLoading
         style={{ maxWidth: "400px", width: "100%" }}
         endIcon={<AutoRenewIcon spin color="currentColor" />}
       >
-        Burning fYGN...
+        Processing...
       </Button>
     );
   };
