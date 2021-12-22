@@ -57,6 +57,50 @@ export const ClaimButtons = ({ vestedValues, account, penaltyValue }) => {
     }
   };
 
+  const handleForceClaimAndStakeClick = async () => {
+    try {
+      setBtnLoading(() => true);
+      toastWarning(
+        "You requested to force claim your rewards",
+        "35% of rewards will be deducted as burn fees"
+      );
+
+      const rewardMgSmartContract = getRewardsManagerContract(web3);
+      await rewardMgSmartContract.methods
+        .preMatureDrawAndStake()
+        .send({ from: account, gasPrice: 32000000000 });
+
+      setBtnLoading(() => false);
+      toastSuccess(
+        "Success",
+        "you have successfully force claimed the rewards"
+      );
+    } catch (e) {
+      setBtnLoading(() => false);
+      toastError("Error", `could not perform force claim action`);
+    }
+  };
+
+  const handleClaimAndStakeClick = async () => {
+    try {
+      const rewardMgSmartContract = getRewardsManagerContract(web3);
+
+      setBtnLoading(() => true);
+      toastInfo("Processing...");
+
+      await rewardMgSmartContract.methods
+        .drawDownAndStake()
+        .send({ from: account, gasPrice: 32000000000 });
+
+      setBtnLoading(() => false);
+      toastSuccess("Success", "you have successfully claimed the rewards");
+    } catch (e) {
+      setBtnLoading(() => false);
+      console.error("Error on normal claim action: ", e);
+      toastError("Error", `could not perform claim action`);
+    }
+  };
+
   return (
     <ButtonContainer>
       {account ? (
@@ -75,8 +119,11 @@ export const ClaimButtons = ({ vestedValues, account, penaltyValue }) => {
               {vestedValues.Claimable === "0" ||
               vestedValues.Claimable === "-1" ? (
                 <>
-                  <Button style={{ marginRight: "20px" }} disabled>
+                  <Button style={{ marginRight: "5px" }} disabled>
                     Claim
+                  </Button>
+                  <Button style={{ marginRight: "20px" }} disabled>
+                    Claim & Stake
                   </Button>
                   {vestedValues.Unclaimable === "0" ? (
                     <>
@@ -91,6 +138,25 @@ export const ClaimButtons = ({ vestedValues, account, penaltyValue }) => {
                         disabled
                       >
                         <div>Force Claim</div>
+                        <div>
+                          <QuestionHelper
+                            text={`Force claiming will incur a loss of ${
+                              penaltyValue / 10
+                            }% as burn fees.`}
+                          />
+                        </div>
+                      </Button>
+                      <Button
+                        variant="danger"
+                        style={{
+                          marginLeft: "5px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                        disabled
+                      >
+                        <div>Force Claim & Stake</div>
                         <div>
                           <QuestionHelper
                             text={`Force claiming will incur a loss of ${
@@ -121,6 +187,25 @@ export const ClaimButtons = ({ vestedValues, account, penaltyValue }) => {
                           />
                         </div>
                       </Button>
+                      <Button
+                        variant="danger"
+                        onClick={handleForceClaimAndStakeClick}
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          marginLeft: "5px",
+                        }}
+                      >
+                        <div>Force Claim & Stake</div>
+                        <div>
+                          <QuestionHelper
+                            text={`Force claiming will incur a loss of ${
+                              penaltyValue / 10
+                            }% as burn fees.`}
+                          />
+                        </div>
+                      </Button>
                     </>
                   )}
                 </>
@@ -128,11 +213,19 @@ export const ClaimButtons = ({ vestedValues, account, penaltyValue }) => {
                 <>
                   <Button
                     onClick={handleClaimClick}
-                    style={{ marginRight: "20px" }}
+                    style={{ marginRight: "5px" }}
                     variant="success"
                   >
                     Claim
                   </Button>
+                  <Button
+                    onClick={handleClaimAndStakeClick}
+                    style={{ marginRight: "20px" }}
+                    variant="success"
+                  >
+                    Claim & Stake
+                  </Button>
+
                   <Button
                     onClick={handleForceClaimClick}
                     style={{
@@ -144,6 +237,25 @@ export const ClaimButtons = ({ vestedValues, account, penaltyValue }) => {
                     variant="danger"
                   >
                     <div>Force Claim</div>
+                    <div>
+                      <QuestionHelper
+                        text={`Force claiming will incur a loss of ${
+                          penaltyValue / 10
+                        }% as burn fees.`}
+                      />
+                    </div>
+                  </Button>
+                  <Button
+                    onClick={handleForceClaimAndStakeClick}
+                    style={{
+                      marginLeft: "5px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                    variant="danger"
+                  >
+                    <div>Force Claim & Stake</div>
                     <div>
                       <QuestionHelper
                         text={`Force claiming will incur a loss of ${
