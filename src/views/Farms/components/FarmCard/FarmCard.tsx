@@ -200,6 +200,19 @@ const FarmCard: React.FC<FarmCardProps> = ({
     .dividedBy(totalValue)
     .toFixed(2);
 
+  let ygnPerDay = "-";
+  if (farm?.multiplier)
+    ygnPerDay = new BigNumber(BLOCKS_PER_YEAR)
+      .multipliedBy(CAKE_PER_BLOCK)
+      .multipliedBy(farm?.multiplier?.replace(/[^\d.-]/g, ""))
+      .dividedBy(365)
+      .dividedBy(100)
+      .toNumber()
+      .toLocaleString("en-US", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+      });
+
   return (
     <FCard>
       {farm.tokenSymbol === "YGN" && <StyledCardAccent />}
@@ -252,7 +265,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
         <Flex justifyContent="space-between">
           <Text color="#9b9382">fYGN per day</Text>
           <Text bold color="#424945">
-            23.5
+            {ygnPerDay}
           </Text>
         </Flex>
 
