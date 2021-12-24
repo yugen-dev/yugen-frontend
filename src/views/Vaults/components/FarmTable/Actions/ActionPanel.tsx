@@ -85,10 +85,10 @@ const StyledText = styled(Text)`
   min-width: 200px;
 `;
 
-const StyledTextLabelItem = styled.div`
+const StyledTextLabelItem = styled.p`
   text-align: center;
   color: #887263;
-  font-weight: 400;
+  font-weight: 700;
 `;
 
 const StyledTextValueItem = styled.div`
