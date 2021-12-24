@@ -82,6 +82,7 @@ const ValueWrapper = styled.div`
 
 const StyledText = styled(Text)`
   margin: 10px;
+  min-width: 200px;
 `;
 
 const StyledTextLabelItem = styled.div`
