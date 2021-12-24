@@ -214,14 +214,14 @@ export const ClaimButtons = ({ vestedValues, account, penaltyValue }) => {
                   <Button
                     onClick={handleClaimClick}
                     style={{ marginRight: "5px" }}
-                    variant="success"
+                    variant="secondary"
                   >
                     Claim
                   </Button>
                   <Button
                     onClick={handleClaimAndStakeClick}
                     style={{ marginRight: "20px" }}
-                    variant="success"
+                    variant="primary"
                   >
                     Claim & Stake
                   </Button>
