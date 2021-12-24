@@ -250,21 +250,9 @@ const FarmCard: React.FC<FarmCardProps> = ({
           </Text>
         </Flex>
         <Flex justifyContent="space-between">
-          <Text color="#9b9382">
-            {TranslateString(318, "Harvest Lock Interval")}
-          </Text>
+          <Text color="#9b9382">fYGN per day</Text>
           <Text bold color="#424945">
-            {poolHarvestIntervalInDays > 0
-              ? `${poolHarvestIntervalInDays.toString()} Days`
-              : ""}
-            {!isDaysGreater && poolHarvestIntervalinHours > 0
-              ? `${poolHarvestIntervalinHours.toString()} Hours`
-              : ""}
-            {!isDaysGreater &&
-            !isHoursGreater &&
-            poolHarvestIntervalinMinutes > 0
-              ? `${poolHarvestIntervalinMinutes.toString()} Minutes`
-              : ""}
+            23.5
           </Text>
         </Flex>
 
