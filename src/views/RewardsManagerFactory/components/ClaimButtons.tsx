@@ -168,7 +168,7 @@ export const ClaimButtons = ({ vestedValues, account, penaltyValue }) => {
                     </>
                   ) : (
                     <>
-                      <Button
+                      <StyledForceBtn
                         variant="danger"
                         onClick={handleForceClaimClick}
                         style={{
@@ -186,7 +186,7 @@ export const ClaimButtons = ({ vestedValues, account, penaltyValue }) => {
                             }% as burn fees.`}
                           />
                         </div>
-                      </Button>
+                      </StyledForceBtn>
                       <Button
                         variant="danger"
                         onClick={handleForceClaimAndStakeClick}
@@ -226,7 +226,7 @@ export const ClaimButtons = ({ vestedValues, account, penaltyValue }) => {
                     Claim & Stake
                   </Button>
 
-                  <Button
+                  <StyledForceBtn
                     onClick={handleForceClaimClick}
                     style={{
                       marginLeft: "20px",
@@ -244,7 +244,7 @@ export const ClaimButtons = ({ vestedValues, account, penaltyValue }) => {
                         }% as burn fees.`}
                       />
                     </div>
-                  </Button>
+                  </StyledForceBtn>
                   <Button
                     onClick={handleForceClaimAndStakeClick}
                     style={{
@@ -277,6 +277,13 @@ export const ClaimButtons = ({ vestedValues, account, penaltyValue }) => {
     </ButtonContainer>
   );
 };
+
+const StyledForceBtn = styled(Button)`
+  background: #ffffff;
+  color: rgb(156, 44, 44);
+  border: 2px solid rgb(156, 44, 44);
+`;
+
 const ButtonContainer = styled.div`
   min-width: 100%;
   display: flex;
