@@ -51,13 +51,13 @@ const Multiplier: React.FunctionComponent<MultiplierProps> = ({
           <div>
             {TranslateString(
               999,
-              "The multiplier represents the amount of CNT rewards each farm gets."
+              "The multiplier represents the amount of rewards each farm gets."
             )}
             <br />
             <br />
             {TranslateString(
               999,
-              "For example, if a 1x farm was getting 1 CNT per block, a 20.5x farm would be getting 20.5 CNT per block."
+              "For example, if a 1x farm was getting 1 fYGN per block, a 20.5x farm would be getting 20.5 fYGN per block."
             )}
           </div>
         }

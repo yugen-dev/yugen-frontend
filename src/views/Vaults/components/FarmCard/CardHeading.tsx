@@ -43,7 +43,7 @@ const CardHeading: React.FC<ExpandableSectionProps> = ({
         <Flex justifyContent="center">
           {/* {isCommunityFarm ? <CommunityTag /> : <CoreTag />} */}
           <MultiplierTag variant="secondary">{multiplier}</MultiplierTag>
-          <Question text="The multiplier represents the amount of CNT rewards each farm gets. For example, if a 1x farm was getting 1 CNT per block, a 20.5x farm would be getting 20.5 CNTs per block" />
+          <Question text="The multiplier represents the amount of rewards each farm gets. For example, if a 1x farm was getting 1 fYGN per block, a 20.5x farm would be getting 20.5 fYGN per block" />
         </Flex>
       </Flex>
     </Wrapper>
