@@ -8,11 +8,12 @@ const useHarvest = () => {
     try {
       const res = await fetch(CNTinUSDLink);
       const data = await res.json();
+      // TODO: get price of YGN here
       const value = data["cryption-network"].usd;
       setValueOfCNTinUSD(() => value);
     } catch {
       // eslint-disable-next-line no-console
-      console.error("Failed to get CNT price in USD");
+      console.error("Failed to get YGN price in USD");
     }
   };
 

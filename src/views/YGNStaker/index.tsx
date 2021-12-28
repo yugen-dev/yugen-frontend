@@ -29,7 +29,6 @@ import { enter, enterGasless, leave, leaveGasless } from "utils/callHelpers";
 import UnlockButton from "components/UnlockButton";
 // import getCntPrice from "utils/getCntPrice";
 import useWeb3 from "hooks/useWeb3";
-import cntMascot from "images/CRYPTION NETWORK-Mascots-10.png";
 import {
   getBalanceNumber,
   getFullDisplayBalance,
@@ -150,8 +149,6 @@ const StyledOl = styled.ol`
   padding-left: 16px;
 `;
 const CNTStaker = () => {
-  // const tokenName = "CNT";
-  // const [valueOfCNTinUSD, setCNTVal] = useState(0);
   const xYGNLogo = "https://i.ibb.co/zfhRMxc/xCNT.png";
   const YGNLogo = "https://i.ibb.co/8D5r4Hp/CNT.png";
   const [index, setIndex] = React.useState(0);
@@ -397,35 +394,25 @@ const CNTStaker = () => {
           </Button>
         );
       }
-      return (
-        // <Button
-        //   disabled={tokenBalance.eq(new BigNumber(0)) || pendingDepositTx}
-        //   onClick={stakeCnt}
-        //   style={{ maxWidth: "400px", width: "100%" }}
-        // >
-        //   {pendingDepositTx ? "Staking CNT..." : "Stake CNT"}
-        // </Button>
-
-        pendingTx === false ? (
-          <Button
-            style={{ maxWidth: "400px", width: "100%" }}
-            onClick={async () => {
-              setPendingTx(true);
-              await stakeCnt();
-              setPendingTx(false);
-            }}
-          >
-            Stake YGN
-          </Button>
-        ) : (
-          <Button
-            isLoading
-            style={{ maxWidth: "400px", width: "100%" }}
-            endIcon={<AutoRenewIcon spin color="currentColor" />}
-          >
-            Staking YGN...
-          </Button>
-        )
+      return pendingTx === false ? (
+        <Button
+          style={{ maxWidth: "400px", width: "100%" }}
+          onClick={async () => {
+            setPendingTx(true);
+            await stakeCnt();
+            setPendingTx(false);
+          }}
+        >
+          Stake YGN
+        </Button>
+      ) : (
+        <Button
+          isLoading
+          style={{ maxWidth: "400px", width: "100%" }}
+          endIcon={<AutoRenewIcon spin color="currentColor" />}
+        >
+          Staking YGN...
+        </Button>
       );
     }
     if (xCNTBalance.toNumber() <= 0) {
@@ -436,33 +423,25 @@ const CNTStaker = () => {
       );
     }
 
-    return (
-      // <Button
-      //   disabled={!xCNTBalance.toNumber() || pendingTx}
-      //   onClick={unstakeCnt}
-      // >
-      //   {pendingTx ? "Converting to CNT..." : "Convert to CNT"}
-      // </Button>
-      pendingTx === false ? (
-        <Button
-          style={{ maxWidth: "400px", width: "100%" }}
-          onClick={async () => {
-            setPendingTx(true);
-            await unstakeCnt();
-            setPendingTx(false);
-          }}
-        >
-          Convert to YGN
-        </Button>
-      ) : (
-        <Button
-          isLoading
-          style={{ maxWidth: "400px", width: "100%" }}
-          endIcon={<AutoRenewIcon spin color="currentColor" />}
-        >
-          Converting to YGN...
-        </Button>
-      )
+    return pendingTx === false ? (
+      <Button
+        style={{ maxWidth: "400px", width: "100%" }}
+        onClick={async () => {
+          setPendingTx(true);
+          await unstakeCnt();
+          setPendingTx(false);
+        }}
+      >
+        Convert to YGN
+      </Button>
+    ) : (
+      <Button
+        isLoading
+        style={{ maxWidth: "400px", width: "100%" }}
+        endIcon={<AutoRenewIcon spin color="currentColor" />}
+      >
+        Converting to YGN...
+      </Button>
     );
   };
   return (

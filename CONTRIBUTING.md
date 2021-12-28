@@ -1,4 +1,4 @@
-# Contributing to the PolyDEX ecosystem
+# Contributing to the Yugen ecosystem
 
 Thanks for taking the time to contribute !
 ## Setup

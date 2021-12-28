@@ -47,7 +47,7 @@ export const useApprove = (lpContract: Contract) => {
           { name: "verifyingContract", type: "address" },
         ];
         const domain = {
-          name: "Polydex LP Token",
+          name: "Yugen LP Token",
           version: "1",
           chainId,
           // @ts-ignore
