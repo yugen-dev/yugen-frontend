@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { Text } from "cryption-uikit";
-import { useQuery } from "@apollo/client";
-import { cntStakerQuery } from "apollo/queries";
 import { useWeb3React } from "@web3-react/core";
 import { usePriceCakeBusd } from "state/hooks";
 import BigNumber from "bignumber.js";
