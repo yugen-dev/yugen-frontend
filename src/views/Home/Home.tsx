@@ -248,6 +248,12 @@ const Home: React.FC = () => {
         >
           <FarmedStakingCard />
         </Grid>
+        <Grid item xs={12} md={8} lg={8} xl={8}>
+          <StatsCard />
+        </Grid>
+        <Grid item xs={12} md={4} lg={4} xl={4}>
+          <PieChart />
+        </Grid>
         <Grid item xs={12} md={6} lg={6} xl={6}>
           <Card2>
             <Heading size="lg" textAlign="center">
@@ -315,12 +321,6 @@ const Home: React.FC = () => {
               />
             </Grid>
           </Grid>
-        </Grid>
-        <Grid item xs={12} md={8} lg={8} xl={8}>
-          <StatsCard />
-        </Grid>
-        <Grid item xs={12} md={4} lg={4} xl={4}>
-          <PieChart />
         </Grid>
       </Grid>
     </Container>
