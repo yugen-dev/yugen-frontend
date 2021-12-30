@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { Text } from "cryption-uikit";
 import { useQuery } from "@apollo/client";
@@ -6,7 +6,11 @@ import { cntStakerQuery } from "apollo/queries";
 import { useWeb3React } from "@web3-react/core";
 import { usePriceCakeBusd } from "state/hooks";
 import BigNumber from "bignumber.js";
-import { getCNTStakerContract } from "utils/contractHelpers";
+import {
+  getCNTStakerContract,
+  getFygnBurnerContract,
+} from "utils/contractHelpers";
+import useWeb3 from "hooks/useWeb3";
 
 const Card = styled.div`
   border-radius: 0.625rem !important;
@@ -25,30 +29,35 @@ const ProgressItemText = styled.div`
   display: flex;
   flex-direction: column;
   margin: 10px;
+  min-width: 100px;
+  text-align: center;
+  justify-items: center;
+  align-items: center;
 `;
 
 const CardValue = () => {
+  const [exchangeRate, setExchangeRate] = useState(new BigNumber(0));
   const { account } = useWeb3React("web3");
+  const web3 = useWeb3();
   const totalSupply = 100_000_000;
 
   const [totoalYGNStakedInStaker, setTotalYGNStakedInStaker] = useState(
     new BigNumber(0)
   );
 
-  let cntStakingRatio = new BigNumber(0.0);
-
-  const getCNTStakerInfo = useQuery(cntStakerQuery, {
-    context: {
-      clientName: "cntstaker",
-    },
-  });
-  if (
-    getCNTStakerInfo &&
-    getCNTStakerInfo.data &&
-    getCNTStakerInfo.data.cntstaker
-  ) {
-    cntStakingRatio = new BigNumber(getCNTStakerInfo?.data?.cntstaker?.ratio);
-  }
+  const getExchangeRate = useCallback(async () => {
+    try {
+      const contract = getFygnBurnerContract(web3);
+      const res = await contract.methods
+        .getYGNAmount(
+          new BigNumber(1).times(new BigNumber(10).pow(18)).toString()
+        )
+        .call();
+      setExchangeRate(new BigNumber(res).dividedBy(new BigNumber(10).pow(18)));
+    } catch (error) {
+      console.error("error: ", error);
+    }
+  }, [web3]);
 
   const numberWithCommas = (number) => {
     const parts = number.toString().split(".");
@@ -63,11 +72,12 @@ const CardValue = () => {
       const xCNTContract = getCNTStakerContract();
       const supply = await xCNTContract.methods.totalSupply().call();
       setTotalYGNStakedInStaker(new BigNumber(supply).dividedBy(1e18));
+      getExchangeRate();
     }
     if (account) {
       fetchTotalSupply();
     }
-  }, [account, setTotalYGNStakedInStaker]);
+  }, [account, getExchangeRate, setTotalYGNStakedInStaker]);
 
   return (
     <Card>
@@ -124,15 +134,6 @@ const CardValue = () => {
               </Text>
             </Text>
           </ProgressItemText>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-evenly",
-            flexWrap: "wrap",
-            width: "100%",
-          }}
-        >
           <ProgressItemText>
             <Text color="#887263" fontSize="15px" textAlign="center">
               Total Market Cap
@@ -150,7 +151,15 @@ const CardValue = () => {
               )}{" "}
             </Text>
           </ProgressItemText>
-
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-evenly",
+            flexWrap: "wrap",
+            width: "100%",
+          }}
+        >
           <ProgressItemText>
             <Text color="#887263" fontSize="15px" textAlign="center">
               Total YGN staked
@@ -170,14 +179,28 @@ const CardValue = () => {
 
           <ProgressItemText>
             <Text color="#887263" fontSize="15px" textAlign="center">
-              xYGN price
+              fYGN price
             </Text>
             <Text
               fontSize="22px"
               fontWeight="700"
               style={{ display: "flex", alignItems: "center" }}
             >
-              ${ygnPrice.multipliedBy(cntStakingRatio).toFixed(2)}
+              ${ygnPrice.multipliedBy(exchangeRate).toFixed(9)}
+            </Text>
+          </ProgressItemText>
+
+          {/* TODO: Max supply */}
+          <ProgressItemText>
+            <Text color="#887263" fontSize="15px" textAlign="center">
+              fYGN total supply
+            </Text>
+            <Text
+              fontSize="22px"
+              fontWeight="700"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              1,000,000
             </Text>
           </ProgressItemText>
         </div>

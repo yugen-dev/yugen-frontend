@@ -35,6 +35,7 @@ import CardValue from "./components/CardValue";
 import EarnAssetCard from "./components/EarnAssetCard";
 import StatsCard from "./components/StatsCard";
 import LotteryCard from "./components/LotteryCard";
+import PieChart from "./components/PieChart";
 
 const Home: React.FC = () => {
   const farmsTVL = useFarmsTotalValue();
@@ -293,8 +294,6 @@ const Home: React.FC = () => {
             </SubTVLContainer>
           </Card2>
         </Grid>
-        {/* <Grid item xs={12} md={6} lg={6} xl={6} style={{ alignSelf: "center" }}>
-        </Grid> */}
         <Grid item xs={12} md={6} lg={6} xl={6}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={6} xl={6}>
@@ -317,8 +316,11 @@ const Home: React.FC = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} md={8} lg={8} xl={8}>
           <StatsCard />
+        </Grid>
+        <Grid item xs={12} md={4} lg={4} xl={4}>
+          <PieChart />
         </Grid>
       </Grid>
     </Container>
