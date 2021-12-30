@@ -152,6 +152,15 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
             </StyledTextValueItem>
           </StyledText>
 
+          <StyledText style={{ marginTop: "10px" }}>
+            <StyledTextLabelItem>In Wallet</StyledTextLabelItem>
+            <StyledTextValueItem>
+              {" "}
+              {wallet?.value} {vault?.lpTokenName} LP ($
+              {totalBalanceValue.toFixed(2)})
+            </StyledTextValueItem>
+          </StyledText>
+
           <StyledText>
             <StyledTextLabelItem>
               {" "}
@@ -196,14 +205,6 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
             </StyledTextValueItem>
           </StyledText>
 
-          <StyledText style={{ marginTop: "10px" }}>
-            <StyledTextLabelItem>In Wallet</StyledTextLabelItem>
-            <StyledTextValueItem>
-              {" "}
-              {wallet?.value} {vault?.lpTokenName} LP ($
-              {totalBalanceValue.toFixed(2)})
-            </StyledTextValueItem>
-          </StyledText>
           <StyledText style={{ marginTop: "10px" }}>
             <StyledTextLabelItem> Daily ROI</StyledTextLabelItem>{" "}
             <StyledTextValueItem>{apr?.value}%</StyledTextValueItem>
