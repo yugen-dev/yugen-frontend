@@ -126,6 +126,7 @@ export interface PoolConfig {
 
 export interface VaultConfig {
   pid: number;
+  tag?: string;
   rewardTokenCoinGecko?: string;
   quoteTokenCoinGecko?: string;
   nonQuoteTokenCoinGecko?: string;

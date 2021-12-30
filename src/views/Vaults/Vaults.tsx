@@ -4,13 +4,7 @@ import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import BigNumber from "bignumber.js";
 import { useWeb3React } from "@web3-react/core";
-import {
-  RowType,
-  Toggle,
-  Text,
-  Button,
-  ArrowForwardIcon,
-} from "cryption-uikit";
+import { RowType, Toggle, Text } from "cryption-uikit";
 import styled from "styled-components";
 import { CROSS_CHAIN_API_LINK } from "config";
 import { useVaults } from "state/hooks";
@@ -288,6 +282,7 @@ const Vaults: React.FC = () => {
         image: vault.lpTokenName.split(" ")[0].toLocaleLowerCase(),
         label: lpLabel,
         pid: vault.pid,
+        tag: vault.tag,
       },
       apy: {
         value:
@@ -394,31 +389,21 @@ const Vaults: React.FC = () => {
     font-size: 45px;
     color: #ffffff;
     font-weight: bold;
+    text-align: center;
   `;
   const StyledSubHeading = styled.div`
     margin-top: 30px;
     font-size: 35px;
     color: #ffffff;
+    text-align: center;
   `;
 
   return (
     <>
       <StyledContainer>
         <StyledSubContainer>
-          <StyledHeading>Farms</StyledHeading>
+          <StyledHeading>Vaults</StyledHeading>
           <StyledSubHeading>stake LP tokens to earn</StyledSubHeading>
-        </StyledSubContainer>
-        <StyledSubContainer>
-          <Button
-            style={{
-              backgroundColor: "#fbf3ed",
-              color: "#887263",
-              boxShadow: "0px 2px 0px rgba(0, 0, 0, 0.25)",
-            }}
-          >
-            Community auctions
-            <ArrowForwardIcon color="#887263" />
-          </Button>
         </StyledSubContainer>
       </StyledContainer>
       <Page>

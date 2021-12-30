@@ -8,6 +8,7 @@ const vaultsMaticMainnet: VaultConfig[] = [];
 const vaultsMaticTestnet: VaultConfig[] = [
   {
     pid: 6,
+    tag: "SpookySwap",
     lpTokenName: "YGN-WMATIC",
     coinGeckoLpTokenName: "YGN-WMATIC",
     rewardTokenCoinGecko: "YGN",
@@ -83,6 +84,7 @@ const vaultsMaticTestnet: VaultConfig[] = [
 const vaultsFantomMainnet: VaultConfig[] = [
   {
     pid: 0,
+    tag: "SpookySwap",
     lpTokenName: "FTM-BOO",
     coinGeckoLpTokenName: "fantom-spookyswap",
     rewardTokenCoinGecko: "spookyswap",

@@ -1,14 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import { useVaultUser } from "state/hooks";
-import useI18n from "hooks/useI18n";
-import { Text, Image } from "cryption-uikit";
-import { getBalanceNumber } from "utils/formatBalance";
+import { Text, Image, Tag } from "cryption-uikit";
 
 export interface FarmProps {
   label: string;
   pid: number;
   image: string;
+  tag?: string;
 }
 
 const IconImage = styled(Image)`
@@ -31,23 +29,7 @@ const Container = styled.div`
   }
 `;
 
-const Farm: React.FunctionComponent<FarmProps> = ({ image, label, pid }) => {
-  const { stakedBalance } = useVaultUser(pid);
-  const TranslateString = useI18n();
-  const rawStakedBalance = getBalanceNumber(stakedBalance);
-
-  const handleRenderFarming = (): JSX.Element => {
-    if (rawStakedBalance) {
-      return (
-        <Text color="secondary" fontSize="12px" bold>
-          {TranslateString(999, "FARMING")}
-        </Text>
-      );
-    }
-
-    return null;
-  };
-
+const Farm: React.FunctionComponent<FarmProps> = ({ image, label, tag }) => {
   return (
     <Container>
       <IconImage
@@ -58,8 +40,8 @@ const Farm: React.FunctionComponent<FarmProps> = ({ image, label, pid }) => {
         mr="8px"
       />
       <div>
-        {handleRenderFarming()}
         <Text bold>{label}</Text>
+        {tag && <Tag>{tag}</Tag>}
       </div>
     </Container>
   );

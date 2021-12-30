@@ -4,13 +4,7 @@ import { Route, useRouteMatch, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import BigNumber from "bignumber.js";
 import { useWeb3React } from "@web3-react/core";
-import {
-  RowType,
-  Toggle,
-  Text,
-  Button,
-  ArrowForwardIcon,
-} from "cryption-uikit";
+import { RowType, Toggle, Text } from "cryption-uikit";
 import styled from "styled-components";
 import {
   BLOCKS_PER_YEAR,
@@ -526,11 +520,13 @@ const Farms: React.FC = () => {
     font-size: 45px;
     color: #ffffff;
     font-weight: bold;
+    text-align: center;
   `;
   const StyledSubHeading = styled.div`
     margin-top: 30px;
     font-size: 35px;
     color: #ffffff;
+    text-align: center;
   `;
 
   return (
@@ -539,18 +535,6 @@ const Farms: React.FC = () => {
         <StyledSubContainer>
           <StyledHeading>Farms</StyledHeading>
           <StyledSubHeading>stake LP tokens to earn</StyledSubHeading>
-        </StyledSubContainer>
-        <StyledSubContainer>
-          <Button
-            style={{
-              backgroundColor: "#fbf3ed",
-              color: "#887263",
-              boxShadow: "0px 2px 0px rgba(0, 0, 0, 0.25)",
-            }}
-          >
-            Community auctions
-            <ArrowForwardIcon color="#887263" />
-          </Button>
         </StyledSubContainer>
       </StyledContainer>
       <Page>
