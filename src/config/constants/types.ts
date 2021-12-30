@@ -76,6 +76,7 @@ export interface Address {
 export interface FarmConfig {
   pid: number;
   tag?: string;
+  volatility: "failure" | "success" | "binance";
   lpSymbol: string;
   lpAddresses: Address;
   tokenSymbol: string;

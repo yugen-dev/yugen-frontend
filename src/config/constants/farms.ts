@@ -20,6 +20,7 @@ const farmsMaticTestnet: FarmConfig[] = [
       4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     tokenSymbol: "SUPER",
+    volatility: "failure",
     tokenAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",

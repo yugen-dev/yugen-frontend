@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import BigNumber from "bignumber.js";
 import styled, { keyframes } from "styled-components";
-import { Flex, Text, Skeleton } from "cryption-uikit";
+import { Flex, Text, Skeleton, Tag } from "cryption-uikit";
 import { Farm, Vault } from "state/types";
 import { provider as ProviderType } from "web3-core";
 import useI18n from "hooks/useI18n";
@@ -211,6 +211,21 @@ const FarmCard: React.FC<FarmCardProps> = ({
         maximumFractionDigits: 2,
       });
 
+  const renderTag = (riskRating: "failure" | "success" | "binance") => {
+    switch (riskRating) {
+      case "failure":
+        return "High risk";
+        break;
+
+      case "success":
+        return "Low risk";
+        break;
+
+      default:
+        return "Medium risk";
+    }
+  };
+
   return (
     <FCard>
       {farm.tokenSymbol === "YGN" && <StyledCardAccent />}
@@ -265,6 +280,11 @@ const FarmCard: React.FC<FarmCardProps> = ({
           <Text bold color="#424945">
             {ygnPerDay}
           </Text>
+        </Flex>
+
+        <Flex justifyContent="space-between">
+          <Text color="#9b9382">Volatility</Text>
+          <Tag variant={`${farm.volatility}`}>{renderTag(farm.volatility)}</Tag>
         </Flex>
 
         <CardActionsContainer
