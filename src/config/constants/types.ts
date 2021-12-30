@@ -75,6 +75,7 @@ export interface Address {
 
 export interface FarmConfig {
   pid: number;
+  tag?: string;
   lpSymbol: string;
   lpAddresses: Address;
   tokenSymbol: string;

@@ -7,6 +7,7 @@ const farmsMaticMainnet: FarmConfig[] = [];
 const farmsMaticTestnet: FarmConfig[] = [
   {
     pid: 0,
+    tag: "Powered by SpookySwap",
     lpSymbol: "SUPER-wMATIC",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
