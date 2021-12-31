@@ -108,22 +108,10 @@ export const networks = [
     rpcUrl: "https://rpc-mainnet.maticvigil.com",
   },
   {
-    title: "Ethereum Mainnet",
-    chainId: "1",
-    imgSrc: "",
-    rpcUrl: "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
-  },
-  {
     title: "Mumbai Testnet",
     chainId: "80001",
     imgSrc: "",
     rpcUrl: "https://rpc-mumbai.maticvigil.com/",
-  },
-  {
-    title: "Goerli Test Network",
-    chainId: "5",
-    imgSrc: "",
-    rpcUrl: "https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
   },
   {
     title: "Fantom Opera",

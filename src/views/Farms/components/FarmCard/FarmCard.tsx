@@ -90,7 +90,6 @@ interface FarmCardProps {
   btcPrice?: BigNumber;
   provider?: ProviderType;
   account?: string;
-  crossChainTranscations?: any;
 }
 
 const FarmCard: React.FC<FarmCardProps> = ({
@@ -101,7 +100,6 @@ const FarmCard: React.FC<FarmCardProps> = ({
   ethPrice,
   btcPrice,
   account,
-  crossChainTranscations,
 }) => {
   const TranslateString = useI18n();
 
@@ -289,7 +287,6 @@ const FarmCard: React.FC<FarmCardProps> = ({
 
         <CardActionsContainer
           farm={farm}
-          crossChainTranscations={crossChainTranscations}
           account={account}
           addLiquidityUrl={addLiquidityUrl}
           totalValue={totalValue}

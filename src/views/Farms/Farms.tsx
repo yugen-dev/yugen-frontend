@@ -6,12 +6,7 @@ import BigNumber from "bignumber.js";
 import { useWeb3React } from "@web3-react/core";
 import { RowType, Toggle, Text } from "cryption-uikit";
 import styled from "styled-components";
-import {
-  BLOCKS_PER_YEAR,
-  CAKE_PER_BLOCK,
-  CAKE_POOL_PID,
-  CROSS_CHAIN_API_LINK,
-} from "config";
+import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CAKE_POOL_PID } from "config";
 import {
   useFarms,
   usePriceBnbBusd,
@@ -23,7 +18,6 @@ import useRefresh from "hooks/useRefresh";
 import { fetchFarmUserDataAsync } from "state/actions";
 import { QuoteToken } from "config/constants/types";
 import useI18n from "hooks/useI18n";
-import { useChainId } from "state/application/hooks";
 import { getBalanceNumber } from "utils/formatBalance";
 import { orderBy } from "lodash";
 import FarmCard, { FarmWithStakedValue } from "./components/FarmCard/FarmCard";
@@ -33,7 +27,7 @@ import SearchInput from "./components/SearchInput";
 import { RowProps } from "./components/FarmTable/Row";
 import { DesktopColumnSchema, ViewMode } from "./components/types";
 import Select, { OptionProps } from "./components/Select/Select";
-import MrCNTaah from "../../images/MrCNTaah.png";
+import YugenToken from "../../images/YugenToken.svg";
 
 const FlexLayout = styled.div`
   display: flex;
@@ -164,8 +158,6 @@ const Farms: React.FC = () => {
   const btcPriceUsd = usePriceBtcBusd();
   const { account } = useWeb3React("web3");
   const [sortOption, setSortOption] = useState("hot");
-  const [crossChainData, setCrossChainData] = useState([]);
-  const chainId = useChainId().toString();
   const dispatch = useDispatch();
   const { fastRefresh } = useRefresh();
 
@@ -174,39 +166,7 @@ const Farms: React.FC = () => {
       dispatch(fetchFarmUserDataAsync(account));
     }
   }, [account, dispatch, fastRefresh]);
-  useEffect(() => {
-    const getAllCrossChainTranscations = async (accountId) => {
-      if (accountId) {
-        let network = "testnet";
-        if (chainId === "80001" || chainId === "5") {
-          network = "testnet";
-        }
-        const Header = new Headers();
-        Header.append("Content-Type", "application/x-www-form-urlencoded");
-        const urlencoded = new URLSearchParams();
-        urlencoded.append("account", account.toLowerCase());
-        urlencoded.append("network", network);
-        const requestOptions = {
-          method: "POST",
-          headers: Header,
-          body: urlencoded,
-        };
-        const getAllTrx = await fetch(
-          `${CROSS_CHAIN_API_LINK}/getAllTranscations`,
-          requestOptions
-        );
-        const resp = await getAllTrx.json();
-        setCrossChainData(resp);
-      }
-    };
-    if (account) {
-      getAllCrossChainTranscations(account);
-    }
-    const interval = setInterval(() => {
-      getAllCrossChainTranscations(account);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [account, chainId]);
+
   const [stackedOnly, setStackedOnly] = useState(false);
 
   const activeFarms = farmsLP.filter((farm) => farm.multiplier !== "0X");
@@ -451,9 +411,6 @@ const Farms: React.FC = () => {
               <FarmCard
                 key={farm.pid}
                 farm={farm}
-                crossChainTranscations={crossChainData.filter(
-                  (eachTrx) => eachTrx.pid === farm.pid
-                )}
                 bnbPrice={bnbPrice}
                 cakePrice={cakePrice}
                 ethPrice={ethPriceUsd}
@@ -471,7 +428,7 @@ const Farms: React.FC = () => {
                   justifyContent: "center",
                 }}
               >
-                <img src={MrCNTaah} alt="Cannot find" width="250px" />
+                <img src={YugenToken} alt="Cannot find" width="250px" />
               </div>
             )}
           </Route>
@@ -480,9 +437,6 @@ const Farms: React.FC = () => {
               <FarmCard
                 key={farm.pid}
                 farm={farm}
-                crossChainTranscations={crossChainData.filter(
-                  (eachTrx) => eachTrx.pid === farm.pid
-                )}
                 bnbPrice={bnbPrice}
                 cakePrice={cakePrice}
                 ethPrice={ethPriceUsd}
