@@ -59,8 +59,8 @@ const VestingCountdownTimer = ({
             <CountdownCircleTimer
               {...timerProps}
               colors={[
-                ["#2A76EB", 0.5],
-                ["#9702FF", 0.5],
+                ["#887263", 0.5],
+                ["#424945", 0.5],
               ]}
               duration={daysDuration}
               initialRemainingTime={remainingTime}
@@ -77,8 +77,8 @@ const VestingCountdownTimer = ({
             <CountdownCircleTimer
               {...timerProps}
               colors={[
-                ["#2A76EB", 0.5],
-                ["#9702FF", 0.5],
+                ["#887263", 0.5],
+                ["#424945", 0.5],
               ]}
               duration={daySeconds}
               initialRemainingTime={remainingTime % daySeconds}
@@ -99,8 +99,8 @@ const VestingCountdownTimer = ({
             <CountdownCircleTimer
               {...timerProps}
               colors={[
-                ["#2A76EB", 0.5],
-                ["#9702FF", 0.5],
+                ["#887263", 0.5],
+                ["#424945", 0.5],
               ]}
               duration={hourSeconds}
               initialRemainingTime={remainingTime % hourSeconds}
@@ -121,8 +121,8 @@ const VestingCountdownTimer = ({
             <CountdownCircleTimer
               {...timerProps}
               colors={[
-                ["#2A76EB", 0.5],
-                ["#9702FF", 0.5],
+                ["#887263", 0.5],
+                ["#424945", 0.5],
               ]}
               duration={minuteSeconds}
               initialRemainingTime={remainingTime % minuteSeconds}
