@@ -16,7 +16,6 @@ import useAuth from "hooks/useAuth";
 import { toggleMetaTranscationState } from "state/actions";
 import { ETHERJS_PATHS } from "config";
 import { usePriceCakeBusd, useProfile } from "state/hooks";
-// import LogoIcon from "images/PolyDEX White Text (2).svg";
 import fantomMainnetConfig, {
   socials,
   networks,

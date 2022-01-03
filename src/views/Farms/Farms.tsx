@@ -27,7 +27,6 @@ import SearchInput from "./components/SearchInput";
 import { RowProps } from "./components/FarmTable/Row";
 import { DesktopColumnSchema, ViewMode } from "./components/types";
 import Select, { OptionProps } from "./components/Select/Select";
-import YugenToken from "../../images/YugenToken.svg";
 
 const FlexLayout = styled.div`
   display: flex;
@@ -428,7 +427,11 @@ const Farms: React.FC = () => {
                   justifyContent: "center",
                 }}
               >
-                <img src={YugenToken} alt="Cannot find" width="250px" />
+                <img
+                  src="/images/tokens/ygn.webp"
+                  alt="Cannot find"
+                  width="250px"
+                />
               </div>
             )}
           </Route>
@@ -541,12 +544,6 @@ const Farms: React.FC = () => {
           </FilterContainer>
         </ControlContainer>
         {renderContent()}
-        {/* <StyledImage
-          src="/images/3dpan.png"
-          alt="Swapcafe illustration"
-          width={120}
-          height={103}
-        /> */}
       </Page>
     </>
   );

@@ -1,5 +1,5 @@
 import React, { useEffect, lazy } from "react";
-import { Router, Redirect, Route, Switch } from "react-router-dom";
+import { Router, Route, Switch } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
 import { ResetCSS } from "cryption-uikit";
 import Web3 from "web3";
@@ -8,19 +8,18 @@ import useEagerConnect from "hooks/useEagerConnect";
 import { useFetchPriceList, useFetchPublicData } from "state/hooks";
 import { useApollo } from "apollo/index";
 import { useSetChainId } from "state/application/hooks";
-import Farms from "views/Farms";
-import Vaults from "views/Vaults";
 import GlobalStyle from "./style/Global";
 import Menu from "./components/Menu";
 import SuspenseWithChunkError from "./components/SuspenseWithChunkError";
 import ToastListener from "./components/ToastListener";
 import PageLoader from "./components/PageLoader";
-import EasterEgg from "./components/EasterEgg";
 import history from "./routerHistory";
 
 // Route-based code splitting
 // Only pool is included in the main bundle because of it's the most visited page
 const Home = lazy(() => import("./views/Home"));
+const Farms = lazy(() => import("./views/Farms"));
+const Vaults = lazy(() => import("./views/Vaults"));
 const YGNStaker = lazy(() => import("./views/YGNStaker"));
 const FYGNBurner = lazy(() => import("./views/FYGNBurner"));
 const RewardsManager = lazy(() => import("./views/RewardsManagerFactory"));
@@ -67,9 +66,7 @@ const App: React.FC = () => {
 
   useEagerConnect();
   useFetchPublicData();
-  // useFetchProfile();
   useFetchPriceList();
-  // useGetDocumentTitlePrice();
   const client = useApollo();
   return (
     <ApolloProvider client={client}>
@@ -97,29 +94,13 @@ const App: React.FC = () => {
               <Route path="/bonds">
                 <Bonds />
               </Route>
-
               <Route exact path="/rewardsmanager" component={RewardsManager} />
 
-              {/* Redirection: These old routes are still used in the code base */}
-              {/* <Route exact path="/teams">
-              <Teams />
-            </Route> */}
-              {/* <Route path="/teams/:id">
-              <Team />
-            </Route> */}
-              {/* <Route path="/profile">
-              <Profile />
-            </Route> */}
-              {/* Redirect */}
-              <Route path="/nft">
-                <Redirect to="/collectibles" />
-              </Route>
               {/* 404 */}
               <Route component={NotFound} />
             </Switch>
           </SuspenseWithChunkError>
         </Menu>
-        <EasterEgg iterations={2} />
         <ToastListener />
       </Router>
     </ApolloProvider>

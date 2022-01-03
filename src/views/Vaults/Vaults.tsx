@@ -448,12 +448,6 @@ const Vaults: React.FC = () => {
           </FilterContainer>
         </ControlContainer>
         {renderContent()}
-        {/* <StyledImage
-          src="/images/3dpan.png"
-          alt="Swapcafe illustration"
-          width={120}
-          height={103}
-        /> */}
       </Page>
     </>
   );

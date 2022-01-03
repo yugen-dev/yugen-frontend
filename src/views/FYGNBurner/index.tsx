@@ -508,7 +508,7 @@ const FYGNBurner = () => {
               <InfoDiv>
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <img
-                    src="/images/fYGN.png"
+                    src="/images/tokens/ygn.webp"
                     alt="fYGN"
                     width="24px"
                     style={{ marginRight: "10px", cursor: "pointer" }}
@@ -536,7 +536,7 @@ const FYGNBurner = () => {
                 </div>
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <img
-                    src="/images/YGN.png"
+                    src="/images/tokens/ygn.webp"
                     alt="YGN"
                     width="24px"
                     onClick={() =>

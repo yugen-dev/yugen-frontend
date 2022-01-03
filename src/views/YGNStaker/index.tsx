@@ -591,7 +591,7 @@ const CNTStaker = () => {
               <InfoDiv>
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <img
-                    src="/images/YGN.png"
+                    src="/images/tokens/ygn.webp"
                     alt="YGN"
                     width="24px"
                     style={{ marginRight: "10px", cursor: "pointer" }}
@@ -614,7 +614,7 @@ const CNTStaker = () => {
                 </div>
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <img
-                    src="/images/xYGN.png"
+                    src="/images/tokens/ygn.webp"
                     alt="xYGN"
                     width="24px"
                     onClick={() =>

@@ -1,7 +1,7 @@
 import { ChainId } from "@cryption-network/polydex-sdk";
 import React from "react";
 import { Button, LinkExternal } from "cryption-uikit";
-import Tick from "images/Tick";
+import Tick from "components/Tick";
 import { AutoColumn } from "../Column";
 import { getMaticExplorerLink } from "../../utils";
 import { Wrapper, Section, ConfirmedIcon, ContentHeader } from "./helpers";

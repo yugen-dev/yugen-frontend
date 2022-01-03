@@ -1,5 +1,4 @@
 import React from "react";
-import MascotImage from "images/yugen-main-img.png";
 
 // const RainbowLight = keyframes`
 // 	0% {
@@ -65,7 +64,14 @@ import MascotImage from "images/yugen-main-img.png";
 // `;
 
 const EarnAssetCard = () => {
-  return <img src={MascotImage} alt="Yugen" height="100%" width="100%" />;
+  return (
+    <img
+      src="/images/yugen-main-img.webp"
+      alt="Yugen"
+      height="100%"
+      width="100%"
+    />
+  );
 };
 
 // const StyledButton = styled(Button)`
