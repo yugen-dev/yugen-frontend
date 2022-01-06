@@ -3,18 +3,13 @@ import styled from "styled-components";
 import BigNumber from "bignumber.js";
 import { QuoteToken } from "config/constants/types";
 // import orderBy from "lodash/orderBy";
-import { useQuery } from "@apollo/client";
 import Container from "@material-ui/core/Container";
-import useWeb3 from "hooks/useWeb3";
 // import getCntPrice from "utils/getCntPrice";
 import useInterval from "hooks/useInterval";
-import { dayDatasQuery, burnQuery } from "apollo/queries";
 import {
-  CNT_CIRCULATING_SUPPLY_LINK,
   BLOCKS_PER_YEAR,
   CAKE_PER_BLOCK,
   CAKE_POOL_PID,
-  CNT_TOTAL_SUPPLY_LINK,
   YUGEN_INFO_CUSTOM_API,
 } from "config";
 import { getDayData } from "apollo/exchange";
@@ -52,54 +47,12 @@ const Home: React.FC = () => {
 
   const maxFarmsAPYRef = useRef(Number.MIN_VALUE);
   const [maxFarmsAPY, setMaxFarmsAPY] = useState("0");
-  const [ciculatingSupply, setciculatingSupply] = useState(0);
-  // const [valueOfCNTinUSD, setCNTVal] = useState(0);
-  const [totalSupplyVal, setTotalSupply] = useState(0);
-  // useEffect(() => {
-  //   const getPrice = async () => {
-  //     const apiResp = await getCntPrice();
-  //     setCNTVal(apiResp);
-  //   };
-  //   getPrice();
-  // }, []);
-  const getCirculatingSupply = async () => {
-    try {
-      const res = await fetch(CNT_CIRCULATING_SUPPLY_LINK);
-      const data = await res.json();
-      setciculatingSupply(parseFloat(data.toFixed(3)));
-    } catch {
-      // eslint-disable-next-line no-console
-      console.error("Failed to get Circulating supply");
-    }
-  };
-  const getTotalSupply = async () => {
-    try {
-      const res = await fetch(CNT_TOTAL_SUPPLY_LINK);
-      const data = await res.json();
-      setTotalSupply(parseFloat(data.toFixed(3)));
-    } catch {
-      // eslint-disable-next-line no-console
-      console.error("Failed to get Circulating supply");
-    }
-  };
-  useEffect(() => {
-    getCirculatingSupply();
-    getTotalSupply();
-  }, []);
 
   const cakePriceUsd = usePriceCakeBusd();
   const farmsLP = useFarms();
   const ethPriceUsd = usePriceEthBusd();
   const btcPriceUsd = usePriceBtcBusd();
-  let totalBurned = 0;
-  let liquidity = [];
-  let totalFees = "";
-  let devFees = "";
-  let stakerFees = "";
-  let lpFees = "";
-  let burnerFees = "";
   const bnbPrice = usePriceBnbBusd();
-  const web3 = useWeb3();
 
   const getHighestFarmsAPY = async () => {
     const activeFarms = farmsLP.filter((farm) => farm.multiplier !== "0X");
@@ -173,52 +126,6 @@ const Home: React.FC = () => {
     [bnbPrice, farmsLP, cakePriceUsd, ethPriceUsd, btcPriceUsd]
   );
 
-  const dayDatas = useQuery(dayDatasQuery, {
-    context: {
-      clientName: "exchange",
-    },
-  });
-  const burnData = useQuery(burnQuery, {
-    context: {
-      clientName: "burn",
-    },
-  });
-
-  if (
-    burnData &&
-    burnData.data &&
-    burnData.data.cntBurns &&
-    burnData.data.cntBurns.length > 0
-  ) {
-    totalBurned = parseFloat(
-      web3.utils.fromWei(burnData.data.cntBurns[0].amount, "ether")
-    );
-  }
-  if (dayDatas && dayDatas.data && dayDatas.data.dayDatas) {
-    [liquidity] = dayDatas.data.dayDatas
-      .filter((d) => d.liquidityUSD !== "0")
-      .reduce(
-        (previousValue, currentValue) => {
-          previousValue[0].unshift({
-            date: currentValue.date,
-            value: parseFloat(currentValue.liquidityUSD),
-          });
-          previousValue[1].unshift({
-            date: currentValue.date,
-            value: parseFloat(currentValue.volumeUSD),
-          });
-          return previousValue;
-        },
-        [[], []]
-      );
-    totalFees = (
-      parseFloat(dayDatas.data.dayDatas[0].volumeUSD) * 0.003
-    ).toFixed(4);
-    lpFees = (parseFloat(totalFees) * (5 / 6)).toFixed(4);
-    stakerFees = ((parseFloat(totalFees) / 6) * 0.35).toFixed(4);
-    burnerFees = ((parseFloat(totalFees) / 6) * 0.55).toFixed(4);
-    devFees = ((parseFloat(totalFees) / 6) * 0.1).toFixed(4);
-  }
   useInterval(() => Promise.all([getDayData]), 60000);
 
   const farmsGetterFunc = async () => {

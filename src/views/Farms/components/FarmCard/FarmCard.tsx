@@ -159,26 +159,6 @@ const FarmCard: React.FC<FarmCardProps> = ({
     farm.lpSymbol && farm.lpSymbol.toUpperCase().replace("PANCAKE", "");
   const earnLabel = farm.dual ? farm.dual.earnLabel : "fYGN";
 
-  let isDaysGreater = false;
-  let isHoursGreater = false;
-  const poolHarvestIntervalInDays = farm.poolHarvestInterval
-    ? (farm.poolHarvestInterval / 86400).toFixed(0)
-    : 0;
-
-  if (poolHarvestIntervalInDays > 0) {
-    isDaysGreater = true;
-  }
-  const poolHarvestIntervalinHours = farm.poolHarvestInterval
-    ? (farm.poolHarvestInterval / 3600).toFixed(0)
-    : 0;
-  if (poolHarvestIntervalinHours > 0) {
-    isHoursGreater = true;
-  }
-
-  const poolHarvestIntervalinMinutes = farm.poolHarvestInterval
-    ? (farm.poolHarvestInterval / 60).toFixed(0)
-    : 0;
-
   const { quoteTokenAdresses, quoteTokenSymbol, tokenAddresses } = farm;
   const liquidityUrlPathParts = getLiquidityUrlPathParts({
     quoteTokenAdresses,
