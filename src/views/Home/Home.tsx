@@ -15,6 +15,7 @@ import {
   CAKE_PER_BLOCK,
   CAKE_POOL_PID,
   CNT_TOTAL_SUPPLY_LINK,
+  YUGEN_INFO_CUSTOM_API,
 } from "config";
 import { getDayData } from "apollo/exchange";
 import {
@@ -26,6 +27,7 @@ import {
   usePriceCakeBusd,
   usePriceEthBusd,
   useVaultsApr,
+  useFetch,
 } from "state/hooks";
 
 import { Heading, Text } from "cryption-uikit";
@@ -38,6 +40,11 @@ import LotteryCard from "./components/LotteryCard";
 import PieChart from "./components/PieChart";
 
 const Home: React.FC = () => {
+  const {
+    data: ApiData,
+    loading: ApiLoading,
+    error: ApiError,
+  } = useFetch(YUGEN_INFO_CUSTOM_API);
   const farmsTVL = useFarmsTotalValue();
   const vaultsTVL = useVaultsTotalValue();
   const maxVaultsAPY = useVaultsApr();
@@ -249,10 +256,14 @@ const Home: React.FC = () => {
           <FarmedStakingCard />
         </Grid>
         <Grid item xs={12} md={8} lg={8} xl={8}>
-          <StatsCard />
+          <StatsCard data={ApiData} loading={ApiLoading} error={ApiError} />
         </Grid>
         <Grid item xs={12} md={4} lg={4} xl={4}>
-          <PieChart />
+          <PieChart
+            pieData={ApiData}
+            pieLoading={ApiLoading}
+            pieError={ApiError}
+          />
         </Grid>
         <Grid item xs={12} md={6} lg={6} xl={6}>
           <Card2>

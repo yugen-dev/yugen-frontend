@@ -1,14 +1,7 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React from "react";
 import styled from "styled-components";
-import { Text } from "cryption-uikit";
-import { useWeb3React } from "@web3-react/core";
-import { usePriceCakeBusd } from "state/hooks";
+import { Skeleton, Text } from "cryption-uikit";
 import BigNumber from "bignumber.js";
-import {
-  getCNTStakerContract,
-  getFygnBurnerContract,
-} from "utils/contractHelpers";
-import useWeb3 from "hooks/useWeb3";
 
 const Card = styled.div`
   border-radius: 0.625rem !important;
@@ -33,178 +26,277 @@ const ProgressItemText = styled.div`
   align-items: center;
 `;
 
-const CardValue = () => {
-  const [exchangeRate, setExchangeRate] = useState(new BigNumber(0));
-  const { account } = useWeb3React("web3");
-  const web3 = useWeb3();
-  const totalSupply = 100_000_000;
-
-  const [totoalYGNStakedInStaker, setTotalYGNStakedInStaker] = useState(
-    new BigNumber(0)
-  );
-
-  const getExchangeRate = useCallback(async () => {
-    try {
-      const contract = getFygnBurnerContract(web3);
-      const res = await contract.methods
-        .getYGNAmount(
-          new BigNumber(1).times(new BigNumber(10).pow(18)).toString()
-        )
-        .call();
-      setExchangeRate(new BigNumber(res).dividedBy(new BigNumber(10).pow(18)));
-    } catch (error) {
-      console.error("error: ", error);
-    }
-  }, [web3]);
-
-  const numberWithCommas = (number) => {
-    const parts = number.toString().split(".");
+const CardValue = ({ data, loading, error }) => {
+  const numberWithCommas = (number, numbersAfterDecimalPoint = 2) => {
+    const parts = new BigNumber(number)
+      .toFixed(numbersAfterDecimalPoint)
+      .split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return parts.join(".");
   };
 
-  const ygnPrice = usePriceCakeBusd();
-
-  useEffect(() => {
-    async function fetchTotalSupply() {
-      const xCNTContract = getCNTStakerContract();
-      const supply = await xCNTContract.methods.totalSupply().call();
-      setTotalYGNStakedInStaker(new BigNumber(supply).dividedBy(1e18));
-      getExchangeRate();
-    }
-    if (account) {
-      fetchTotalSupply();
-    }
-  }, [account, getExchangeRate, setTotalYGNStakedInStaker]);
-
-  return (
-    <Card>
-      <ProgressText style={{ marginBottom: "15px", flexDirection: "column" }}>
-        <Text color="#424945" fontSize="18px" fontWeight="700">
-          YGN & Summary
+  if (error) {
+    return (
+      <Card>
+        <Text color="#ff0000" fontSize="18px" fontWeight="700">
+          Error occurred while fetching data
         </Text>
-        <Text color="#887263" fontSize="12px" ml="5px" textAlign="center">
-          * Amount allocated through mining is distributed every second
-        </Text>
-      </ProgressText>
+      </Card>
+    );
+  }
 
-      <ProgressText
-        style={{
-          flexWrap: "wrap",
-          justifyContent: "space-evenly",
-          flexDirection: "column",
-          width: "100%",
-        }}
-      >
-        <div
+  if (loading) {
+    return (
+      <Card>
+        <ProgressText style={{ marginBottom: "15px", flexDirection: "column" }}>
+          <Text color="#424945" fontSize="18px" fontWeight="700">
+            YGN & Summary
+          </Text>
+          <Text color="#887263" fontSize="12px" ml="5px" textAlign="center">
+            * Amount allocated through mining is distributed every second
+          </Text>
+        </ProgressText>
+
+        <ProgressText
           style={{
-            display: "flex",
             flexWrap: "wrap",
             justifyContent: "space-evenly",
+            flexDirection: "column",
             width: "100%",
           }}
         >
-          <ProgressItemText>
-            <Text color="#887263" fontSize="15px" textAlign="center">
-              YGN price
-            </Text>
-            <Text
-              fontSize="22px"
-              fontWeight="700"
-              style={{ display: "flex", alignItems: "center" }}
-            >
-              ${numberWithCommas(ygnPrice.toFixed(2))}{" "}
-            </Text>
-          </ProgressItemText>
-          <ProgressItemText>
-            <Text color="#887263" fontSize="15px" textAlign="center">
-              Total Supply
-            </Text>
-            <Text
-              fontSize="22px"
-              fontWeight="700"
-              style={{ display: "flex", alignItems: "center" }}
-            >
-              {numberWithCommas(totalSupply)}{" "}
-              <Text color="#887263" fontSize="15px" ml="8px">
-                {" "}
-                YGN
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "space-evenly",
+              width: "100%",
+            }}
+          >
+            <ProgressItemText>
+              <Text color="#887263" fontSize="15px" textAlign="center">
+                YGN price
               </Text>
-            </Text>
-          </ProgressItemText>
-          <ProgressItemText>
-            <Text color="#887263" fontSize="15px" textAlign="center">
-              Total Market Cap
-            </Text>
-            <Text
-              fontSize="22px"
-              fontWeight="700"
-              style={{ display: "flex", alignItems: "center" }}
-            >
-              $
-              {numberWithCommas(
-                Number(
-                  new BigNumber(totalSupply).multipliedBy(ygnPrice).toFixed(2)
-                )
-              )}{" "}
-            </Text>
-          </ProgressItemText>
-        </div>
-        <div
+              <Text
+                fontSize="22px"
+                fontWeight="700"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <Skeleton width={100} />
+              </Text>
+            </ProgressItemText>
+            <ProgressItemText>
+              <Text color="#887263" fontSize="15px" textAlign="center">
+                Total Supply
+              </Text>
+              <Text
+                fontSize="22px"
+                fontWeight="700"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <Skeleton width={100} />
+                <Text color="#887263" fontSize="15px" ml="8px">
+                  {" "}
+                  YGN
+                </Text>
+              </Text>
+            </ProgressItemText>
+            <ProgressItemText>
+              <Text color="#887263" fontSize="15px" textAlign="center">
+                Total Market Cap
+              </Text>
+              <Text
+                fontSize="22px"
+                fontWeight="700"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <Skeleton width={100} />
+              </Text>
+            </ProgressItemText>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-evenly",
+              flexWrap: "wrap",
+              width: "100%",
+            }}
+          >
+            <ProgressItemText>
+              <Text color="#887263" fontSize="15px" textAlign="center">
+                Total YGN staked
+              </Text>
+              <Text
+                fontSize="22px"
+                fontWeight="700"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <Skeleton width={100} />
+                <Text color="#887263" fontSize="15px" ml="8px">
+                  {" "}
+                  YGN
+                </Text>
+              </Text>
+            </ProgressItemText>
+
+            <ProgressItemText>
+              <Text color="#887263" fontSize="15px" textAlign="center">
+                fYGN price
+              </Text>
+              <Text
+                fontSize="22px"
+                fontWeight="700"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <Skeleton width={100} />
+              </Text>
+            </ProgressItemText>
+
+            {/* TODO: Max supply */}
+            <ProgressItemText>
+              <Text color="#887263" fontSize="15px" textAlign="center">
+                fYGN total supply
+              </Text>
+              <Text
+                fontSize="22px"
+                fontWeight="700"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <Skeleton width={100} />
+              </Text>
+            </ProgressItemText>
+          </div>
+        </ProgressText>
+      </Card>
+    );
+  }
+
+  if (data) {
+    return (
+      <Card>
+        <ProgressText style={{ marginBottom: "15px", flexDirection: "column" }}>
+          <Text color="#424945" fontSize="18px" fontWeight="700">
+            YGN & Summary
+          </Text>
+          <Text color="#887263" fontSize="12px" ml="5px" textAlign="center">
+            * Amount allocated through mining is distributed every second
+          </Text>
+        </ProgressText>
+
+        <ProgressText
           style={{
-            display: "flex",
-            justifyContent: "space-evenly",
             flexWrap: "wrap",
+            justifyContent: "space-evenly",
+            flexDirection: "column",
             width: "100%",
           }}
         >
-          <ProgressItemText>
-            <Text color="#887263" fontSize="15px" textAlign="center">
-              Total YGN staked
-            </Text>
-            <Text
-              fontSize="22px"
-              fontWeight="700"
-              style={{ display: "flex", alignItems: "center" }}
-            >
-              {numberWithCommas(totoalYGNStakedInStaker.toFixed(2))}{" "}
-              <Text color="#887263" fontSize="15px" ml="8px">
-                {" "}
-                YGN
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "space-evenly",
+              width: "100%",
+            }}
+          >
+            <ProgressItemText>
+              <Text color="#887263" fontSize="15px" textAlign="center">
+                YGN price
               </Text>
-            </Text>
-          </ProgressItemText>
+              <Text
+                fontSize="22px"
+                fontWeight="700"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                ${numberWithCommas(data?.ygnPrice)}{" "}
+              </Text>
+            </ProgressItemText>
+            <ProgressItemText>
+              <Text color="#887263" fontSize="15px" textAlign="center">
+                Total Supply
+              </Text>
+              <Text
+                fontSize="22px"
+                fontWeight="700"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                {numberWithCommas(data?.ygnTotalSupply)}{" "}
+                <Text color="#887263" fontSize="15px" ml="8px">
+                  {" "}
+                  YGN
+                </Text>
+              </Text>
+            </ProgressItemText>
+            <ProgressItemText>
+              <Text color="#887263" fontSize="15px" textAlign="center">
+                Total Market Cap
+              </Text>
+              <Text
+                fontSize="22px"
+                fontWeight="700"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                ${data?.ygnTotalMarketCap}{" "}
+              </Text>
+            </ProgressItemText>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-evenly",
+              flexWrap: "wrap",
+              width: "100%",
+            }}
+          >
+            <ProgressItemText>
+              <Text color="#887263" fontSize="15px" textAlign="center">
+                Total YGN staked
+              </Text>
+              <Text
+                fontSize="22px"
+                fontWeight="700"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                {numberWithCommas(data?.totalYgnStaked, 6)}{" "}
+                <Text color="#887263" fontSize="15px" ml="8px">
+                  {" "}
+                  YGN
+                </Text>
+              </Text>
+            </ProgressItemText>
 
-          <ProgressItemText>
-            <Text color="#887263" fontSize="15px" textAlign="center">
-              fYGN price
-            </Text>
-            <Text
-              fontSize="22px"
-              fontWeight="700"
-              style={{ display: "flex", alignItems: "center" }}
-            >
-              ${ygnPrice.multipliedBy(exchangeRate).toFixed(9)}
-            </Text>
-          </ProgressItemText>
+            <ProgressItemText>
+              <Text color="#887263" fontSize="15px" textAlign="center">
+                fYGN price
+              </Text>
+              <Text
+                fontSize="22px"
+                fontWeight="700"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                ${numberWithCommas(data?.fygnPrice, 9)}
+              </Text>
+            </ProgressItemText>
 
-          {/* TODO: Max supply */}
-          <ProgressItemText>
-            <Text color="#887263" fontSize="15px" textAlign="center">
-              fYGN total supply
-            </Text>
-            <Text
-              fontSize="22px"
-              fontWeight="700"
-              style={{ display: "flex", alignItems: "center" }}
-            >
-              1,000,000
-            </Text>
-          </ProgressItemText>
-        </div>
-      </ProgressText>
-    </Card>
-  );
+            {/* TODO: Max supply */}
+            <ProgressItemText>
+              <Text color="#887263" fontSize="15px" textAlign="center">
+                fYGN total supply
+              </Text>
+              <Text
+                fontSize="22px"
+                fontWeight="700"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                {numberWithCommas(data?.fygnTotalSupply, 2)}{" "}
+              </Text>
+            </ProgressItemText>
+          </div>
+        </ProgressText>
+      </Card>
+    );
+  }
+  return <></>;
 };
 
 export default CardValue;

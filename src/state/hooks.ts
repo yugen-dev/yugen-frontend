@@ -10,10 +10,12 @@ import {
 import contracts from "config/constants/contracts";
 import { Toast, toastTypes } from "cryption-uikit";
 import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
 import { QuoteToken, Team } from "config/constants/types";
 import { getWeb3NoAccount } from "utils/web3";
 import useRefresh from "hooks/useRefresh";
 import CoinGecko from "coingecko-api";
+import { YUGEN_INFO_CUSTOM_API } from "config";
 import {
   fetchFarmsPublicDataAsync,
   fetchVaultsPublicDataAsync,
@@ -201,17 +203,37 @@ export const getCakeBnbPoolId = (): number => {
   return Number(poolIDs[`${chainID}`]);
 };
 
-export const usePriceCakeBusd = (): BigNumber => {
-  // TODO: Remove this when we have a farm in place
-  if (chainID === "80001" || chainID === "5") {
-    return new BigNumber(0.47);
-  }
+export const useFetch = (url: string) => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const pid = getCakeBnbPoolId(); // YGN-MATIC LP ,CAKE-BNB LP
-  const bnbPriceUSD = usePriceBnbBusd();
-  const farm = useFarmFromPid(pid);
-  return farm?.tokenPriceVsQuote
-    ? bnbPriceUSD.times(farm?.tokenPriceVsQuote)
+  useEffect(() => {
+    setLoading(() => true);
+    axios
+      .get(url)
+      .then((res) => {
+        setData(res.data);
+      })
+      .catch((err) => {
+        setError(err);
+      })
+      .finally(() => {
+        setLoading(() => false);
+      });
+  }, [url]);
+
+  return { data, loading, error };
+};
+
+export const usePriceCakeBusd = (): BigNumber => {
+  if (chainID === "80001" || chainID === "5" || chainID === "4002")
+    return new BigNumber(0.47);
+
+  const { data, loading, error } = useFetch(YUGEN_INFO_CUSTOM_API);
+
+  return data?.ygnPrice && !loading && !error
+    ? new BigNumber(data?.ygnPrice)
     : ZERO;
 };
 
