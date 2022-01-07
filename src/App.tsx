@@ -14,12 +14,12 @@ import SuspenseWithChunkError from "./components/SuspenseWithChunkError";
 import ToastListener from "./components/ToastListener";
 import PageLoader from "./components/PageLoader";
 import history from "./routerHistory";
+import Farms from "./views/Farms";
+import Vaults from "./views/Vaults";
 
 // Route-based code splitting
 // Only pool is included in the main bundle because of it's the most visited page
 const Home = lazy(() => import("./views/Home"));
-const Farms = lazy(() => import("./views/Farms"));
-const Vaults = lazy(() => import("./views/Vaults"));
 const YGNStaker = lazy(() => import("./views/YGNStaker"));
 const FYGNBurner = lazy(() => import("./views/FYGNBurner"));
 const RewardsManager = lazy(() => import("./views/RewardsManagerFactory"));
