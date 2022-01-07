@@ -299,6 +299,28 @@ const FYGNBurner = () => {
     }
   };
 
+  const validateInput = (val: string) => {
+    const valInWei = new BigNumber(val).times(new BigNumber(10).pow(18));
+
+    let errorFree = true;
+    if (!/^\d+\.?\d*$/.test(val)) {
+      toastError("Please enter a valid number");
+      errorFree = false;
+      return errorFree;
+    }
+    if (!new BigNumber(val).isGreaterThan(0)) {
+      toastError("Insuffiecint amount to burn");
+      errorFree = false;
+      return errorFree;
+    }
+    if (!new BigNumber(valInWei).isLessThanOrEqualTo(fygnBalance)) {
+      toastError("Cannot burn more than what you have");
+      errorFree = false;
+      return errorFree;
+    }
+    return errorFree;
+  };
+
   const renderBottomButtons = () => {
     if (!account) {
       return <UnlockButton mt="8px" width="100%" />;
@@ -341,9 +363,12 @@ const FYGNBurner = () => {
         <Button
           mr="5px"
           onClick={async () => {
-            setPendingTx(() => true);
-            await burnAndStakeFygn();
-            setPendingTx(() => false);
+            const goAheadWithBurnAndStakeTxn = validateInput(tokenAmount);
+            if (goAheadWithBurnAndStakeTxn) {
+              setPendingTx(() => true);
+              await burnAndStakeFygn();
+              setPendingTx(() => false);
+            }
           }}
         >
           Burn & Stake
@@ -352,9 +377,12 @@ const FYGNBurner = () => {
           ml="5px"
           style={{ maxWidth: "400px" }}
           onClick={async () => {
-            setPendingTx(() => true);
-            await burnFygn();
-            setPendingTx(() => false);
+            const goAheadWithBurnTxn = validateInput(tokenAmount);
+            if (goAheadWithBurnTxn) {
+              setPendingTx(() => true);
+              await burnFygn();
+              setPendingTx(() => false);
+            }
           }}
           variant="secondary"
         >
