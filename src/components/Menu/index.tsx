@@ -20,6 +20,7 @@ import fantomMainnetConfig, {
   socials,
   networks,
   maticTestnetConfig,
+  maticMainnetConfig,
 } from "./config";
 
 const Menu = (props) => {
@@ -110,6 +111,7 @@ const Menu = (props) => {
 
   let menuConfig = fantomMainnetConfig;
   if (chainId === "80001") menuConfig = maticTestnetConfig;
+  if (chainId === "137") menuConfig = maticMainnetConfig;
 
   const currentNetwork = networks.filter(
     (eachNetwork) => eachNetwork.chainId === chainId

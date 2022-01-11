@@ -231,22 +231,30 @@ const FarmCard: React.FC<FarmCardProps> = ({
           <Flex justifyContent="space-between" alignItems="center">
             <Text color="#9b9382">{TranslateString(736, "APR")}</Text>
             <Text bold style={{ display: "flex", alignItems: "center" }}>
-              {calculatedAPY !== "NaN" ? (
-                <>
-                  {false && (
-                    <ApyButton
-                      lpLabel={lpLabel}
-                      addLiquidityUrl={addLiquidityUrl}
-                      cakePrice={cakePrice}
-                      apy={farm.apy}
-                    />
-                  )}
-                  <span style={{ letterSpacing: "1px", color: "#424945" }}>
-                    {calculatedAPY}%
-                  </span>
-                </>
+              {farm.tempApr ? (
+                <span style={{ letterSpacing: "1px", color: "#424945" }}>
+                  {farm.tempApr}%
+                </span>
               ) : (
-                <Skeleton height={24} width={80} />
+                <>
+                  {calculatedAPY !== "NaN" ? (
+                    <>
+                      {false && (
+                        <ApyButton
+                          lpLabel={lpLabel}
+                          addLiquidityUrl={addLiquidityUrl}
+                          cakePrice={cakePrice}
+                          apy={farm.apy}
+                        />
+                      )}
+                      <span style={{ letterSpacing: "1px", color: "#424945" }}>
+                        {calculatedAPY}%
+                      </span>
+                    </>
+                  ) : (
+                    <Skeleton height={24} width={80} />
+                  )}
+                </>
               )}
             </Text>
           </Flex>

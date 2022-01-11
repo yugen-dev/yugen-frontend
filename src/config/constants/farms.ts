@@ -8,6 +8,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     pid: 0,
     tag: "Powered by QuickSwap",
     lpSymbol: "QUICK-wMATIC",
+    tempApr: "37.96",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
