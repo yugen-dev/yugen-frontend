@@ -15,10 +15,9 @@ import ToastListener from "./components/ToastListener";
 import PageLoader from "./components/PageLoader";
 import history from "./routerHistory";
 import Farms from "./views/Farms";
-import Vaults from "./views/Vaults";
 
 // Route-based code splitting
-// Only pool is included in the main bundle because of it's the most visited page
+// Only farms is included in the main bundle because of it's the most visited page
 const Home = lazy(() => import("./views/Home"));
 const YGNStaker = lazy(() => import("./views/YGNStaker"));
 const FYGNBurner = lazy(() => import("./views/FYGNBurner"));
@@ -45,8 +44,6 @@ const App: React.FC = () => {
         // Correctly handling chain changes can be complicated.
         // We recommend reloading the page unless you have good reason not to.
         window.location.reload();
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        // window.location.reload();
       });
     }
     const getChainID = async () => {
@@ -81,9 +78,6 @@ const App: React.FC = () => {
               </Route>
               <Route path="/farms">
                 <Farms />
-              </Route>
-              <Route path="/vaults">
-                <Vaults />
               </Route>
               <Route path="/ygnstaker">
                 <YGNStaker />

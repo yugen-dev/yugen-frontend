@@ -7,19 +7,9 @@ const fantomMainnetConfig: MenuEntry[] = [
     href: "/",
   },
   {
-    label: "Exchange",
-    icon: "TradeIcon",
-    href: "https://cryption.network/",
-  },
-  {
     label: "Farms",
     icon: "FarmIcon",
     href: "/farms",
-  },
-  {
-    label: "Vaults",
-    icon: "FarmIcon",
-    href: "/vaults",
   },
   {
     label: "YGN Staker",
@@ -51,19 +41,9 @@ export const maticTestnetConfig: MenuEntry[] = [
     href: "/",
   },
   {
-    label: "Exchange",
-    icon: "TradeIcon",
-    href: "https://cryption.network/",
-  },
-  {
     label: "Farms",
     icon: "FarmIcon",
     href: "/farms",
-  },
-  {
-    label: "Vaults",
-    icon: "FarmIcon",
-    href: "/vaults",
   },
   {
     label: "YGN Staker",
