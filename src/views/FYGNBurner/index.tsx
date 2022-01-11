@@ -31,6 +31,7 @@ import {
 import { useFygnBurner, useFygnBurnerGasless } from "hooks/useContract";
 import { registerToken } from "utils/wallet";
 import { getCakeAddress, getFygnBurnerAddress } from "utils/addressHelpers";
+import inputValidator from "utils/inputValidator";
 
 const CNHeading = styled.div`
   font-size: 45px;
@@ -147,8 +148,10 @@ const StyledOl = styled.ol`
 `;
 const FYGNBurner = () => {
   const [exchangeRate, setExchangeRate] = useState(new BigNumber(1.32));
-  const fYGNLogo = "https://i.ibb.co/zfhRMxc/xCNT.png";
-  const YGNLogo = "https://i.ibb.co/8D5r4Hp/CNT.png";
+  const fYGNLogo =
+    "https://s3.us-east-2.amazonaws.com/www.yugen.finance/assets/fygn.webp";
+  const YGNLogo =
+    "https://s3.us-east-2.amazonaws.com/www.yugen.finance/assets/ygn.webp";
   const [fygnBalance, setFygnBalance] = React.useState(new BigNumber(0)); // fygn token balance
   const [ygnBalance, setYgnBalance] = React.useState(new BigNumber(0));
   const [fygnAllowance, setFygnAllowance] = React.useState(new BigNumber(0));
@@ -299,28 +302,6 @@ const FYGNBurner = () => {
     }
   };
 
-  const validateInput = (val: string) => {
-    const valInWei = new BigNumber(val).times(new BigNumber(10).pow(18));
-
-    let errorFree = true;
-    if (!/^\d+\.?\d*$/.test(val)) {
-      toastError("Please enter a valid number");
-      errorFree = false;
-      return errorFree;
-    }
-    if (!new BigNumber(val).isGreaterThan(0)) {
-      toastError("Insuffiecint amount to burn");
-      errorFree = false;
-      return errorFree;
-    }
-    if (!new BigNumber(valInWei).isLessThanOrEqualTo(fygnBalance)) {
-      toastError("Cannot burn more than what you have");
-      errorFree = false;
-      return errorFree;
-    }
-    return errorFree;
-  };
-
   const renderBottomButtons = () => {
     if (!account) {
       return <UnlockButton mt="8px" width="100%" />;
@@ -363,7 +344,11 @@ const FYGNBurner = () => {
         <Button
           mr="5px"
           onClick={async () => {
-            const goAheadWithBurnAndStakeTxn = validateInput(tokenAmount);
+            const goAheadWithBurnAndStakeTxn = inputValidator(
+              toastError,
+              tokenAmount,
+              fygnBalance
+            );
             if (goAheadWithBurnAndStakeTxn) {
               setPendingTx(() => true);
               await burnAndStakeFygn();
@@ -377,7 +362,11 @@ const FYGNBurner = () => {
           ml="5px"
           style={{ maxWidth: "400px" }}
           onClick={async () => {
-            const goAheadWithBurnTxn = validateInput(tokenAmount);
+            const goAheadWithBurnTxn = inputValidator(
+              toastError,
+              tokenAmount,
+              fygnBalance
+            );
             if (goAheadWithBurnTxn) {
               setPendingTx(() => true);
               await burnFygn();
@@ -428,9 +417,6 @@ const FYGNBurner = () => {
         <Grid container spacing={3} style={{ marginTop: "30px" }}>
           <Grid item xs={12} md={6} lg={6} xl={6}>
             <StakingContainer>
-              {/* <Text bold fontSize="32px">
-                fYGN Burner
-              </Text> */}
               <InfoDiv>
                 <Text
                   bold
@@ -497,10 +483,6 @@ const FYGNBurner = () => {
                   >
                     Exchange Rate
                   </Text>
-                  {/* <Button variant="secondary" scale="sm">
-                    {" "}
-                    View Stats
-                  </Button> */}
                 </div>
                 <div>
                   <Text
@@ -536,7 +518,7 @@ const FYGNBurner = () => {
               <InfoDiv>
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <img
-                    src="/images/tokens/ygn.webp"
+                    src="/images/tokens/fygn.webp"
                     alt="fYGN"
                     width="24px"
                     style={{ marginRight: "10px", cursor: "pointer" }}

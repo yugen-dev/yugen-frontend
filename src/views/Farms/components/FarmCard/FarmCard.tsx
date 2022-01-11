@@ -8,7 +8,11 @@ import useI18n from "hooks/useI18n";
 import ExpandableSectionButton from "components/ExpandableSectionButton";
 import { QuoteToken } from "config/constants/types";
 import getLiquidityUrlPathParts from "utils/getLiquidityUrlPathParts";
-import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK } from "config";
+import {
+  BASE_ADD_LIQUIDITY_URL,
+  BLOCKS_PER_YEAR,
+  CAKE_PER_BLOCK,
+} from "config";
 import DetailsSection from "./DetailsSection";
 import CardHeading from "./CardHeading";
 import CardActionsContainer from "./CardActionsContainer";
@@ -165,7 +169,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
     quoteTokenSymbol,
     tokenAddresses,
   });
-  const addLiquidityUrl = `add/${liquidityUrlPathParts}`;
+  const addLiquidityUrl = `${BASE_ADD_LIQUIDITY_URL}/${liquidityUrlPathParts}`;
 
   // TODO: make sure to configure this so that
   // cakePrice === fygn price & not cake price === ygn price

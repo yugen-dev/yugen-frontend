@@ -34,10 +34,10 @@ const CardHeading: React.FC<ExpandableSectionProps> = ({
     <Wrapper justifyContent="space-between" alignItems="center" mb="12px">
       <Flex flexDirection="column" alignItems="flex-start">
         <Image
-          src={`/images/farms/${farmImage}.png`}
+          src={`/images/farms/${farmImage}.webp`}
           alt={tokenSymbol}
-          width={100}
-          height={94}
+          width={120}
+          height={70}
         />
         {tag && (
           <Tag marginTop="10px" variant="secondary">

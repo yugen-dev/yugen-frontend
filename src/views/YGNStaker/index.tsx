@@ -149,14 +149,15 @@ const StyledOl = styled.ol`
   padding-left: 16px;
 `;
 const CNTStaker = () => {
-  const xYGNLogo = "https://i.ibb.co/zfhRMxc/xCNT.png";
-  const YGNLogo = "https://i.ibb.co/8D5r4Hp/CNT.png";
+  const xYGNLogo =
+    "https://s3.us-east-2.amazonaws.com/www.yugen.finance/assets/xygn.webp";
+  const YGNLogo =
+    "https://s3.us-east-2.amazonaws.com/www.yugen.finance/assets/ygn.webp";
   const [index, setIndex] = React.useState(0);
   const [tokenBalance, setTokenBalance] = React.useState(new BigNumber(0));
   const [xCNTBalance, setxCNTBalance] = React.useState(new BigNumber(0));
   const [CntAllowance, setCntAllowance] = React.useState(new BigNumber(0));
   const CHAINID = useChainId().toString();
-  // const { onEnter } = useEnter();
   const [requestedApproval, setRequestedApproval] = useState(false);
   const [tokenAmount, handleTokenAmount] = useState("");
   const handleClick = (newIndex) => {
@@ -171,9 +172,7 @@ const CNTStaker = () => {
   const { onApprove } = useApproveStaking();
   const cake = getCakeContract();
   const [totalSupply, setTotalSupply] = useState<BigNumber>();
-  // const xTokenName = "xCNT";
   const web3 = useWeb3();
-  // const { onLeave } = useLeave();
   const cntStaker = useCNTStaker();
   const cntStakerGasless = useCNTStakerGasless();
   const { metaTranscation } = useProfile();
@@ -228,13 +227,6 @@ const CNTStaker = () => {
     }
   }, [account, setTotalSupply]);
 
-  // useEffect(() => {
-  //   const getPrice = async () => {
-  //     const apiResp = await getCntPrice();
-  //     setCNTVal(apiResp);
-  //   };
-  //   getPrice();
-  // }, []);
   useEffect(() => {
     if (account) {
       getTokenBalances();
@@ -553,10 +545,6 @@ const CNTStaker = () => {
                   >
                     Staking APR
                   </Text>
-                  {/* <Button variant="secondary" scale="sm">
-                    {" "}
-                    View Stats
-                  </Button> */}
                 </div>
                 <div>
                   <Text
@@ -614,7 +602,7 @@ const CNTStaker = () => {
                 </div>
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <img
-                    src="/images/tokens/ygn.webp"
+                    src="/images/tokens/xygn.webp"
                     alt="xYGN"
                     width="24px"
                     onClick={() =>

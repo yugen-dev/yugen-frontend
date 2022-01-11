@@ -76,20 +76,6 @@ const DepositModal: React.FC<DepositModalProps> = ({
         <Button variant="secondary" onClick={onDismiss} width="100%">
           {TranslateString(462, "Cancel")}
         </Button>
-        {/* <Button
-          width="100%"
-          disabled={pendingTx || fullBalance === "0" || val === "0"}
-          onClick={async () => {
-            setPendingTx(true);
-            await onConfirm(val);
-            setPendingTx(false);
-            onDismiss();
-          }}
-        >
-          {pendingTx
-            ? TranslateString(488, "Pending Confirmation")
-            : TranslateString(464, "Confirm")}
-        </Button> */}
         {BtnLoadingComp}
       </ModalActions>
       <LinkExternal href={addLiquidityUrl} style={{ alignSelf: "center" }}>
