@@ -521,6 +521,7 @@ const FYGNBurner = () => {
                     src="/images/tokens/fygn.webp"
                     alt="fYGN"
                     width="24px"
+                    loading="lazy"
                     style={{ marginRight: "10px", cursor: "pointer" }}
                     onClick={() =>
                       registerToken(
@@ -534,7 +535,6 @@ const FYGNBurner = () => {
                   <Text
                     bold
                     color="#887263"
-                    textTransform="uppercase"
                     style={{ whiteSpace: "nowrap" }}
                     fontSize="18px"
                   >
@@ -557,6 +557,7 @@ const FYGNBurner = () => {
                         YGNLogo
                       )
                     }
+                    loading="lazy"
                     style={{ marginRight: "10px", cursor: "pointer" }}
                   />
                   <Text

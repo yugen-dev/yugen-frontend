@@ -582,6 +582,7 @@ const CNTStaker = () => {
                     src="/images/tokens/ygn.webp"
                     alt="YGN"
                     width="24px"
+                    loading="lazy"
                     style={{ marginRight: "10px", cursor: "pointer" }}
                     onClick={() =>
                       registerToken(contracts.cake[CHAINID], "YGN", 18, YGNLogo)
@@ -605,6 +606,7 @@ const CNTStaker = () => {
                     src="/images/tokens/xygn.webp"
                     alt="xYGN"
                     width="24px"
+                    loading="lazy"
                     onClick={() =>
                       registerToken(
                         contracts.cntStaker[CHAINID],
