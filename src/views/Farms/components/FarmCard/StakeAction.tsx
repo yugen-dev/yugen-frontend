@@ -10,7 +10,6 @@ import { getBalanceNumber } from "utils/formatBalance";
 import DepositModal from "../DepositModal";
 import WithdrawModal from "../WithdrawModal";
 
-
 interface FarmCardActionsProps {
   stakedBalance?: BigNumber;
   tokenBalance?: BigNumber;
@@ -49,8 +48,6 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
 
   const rawStakedBalance = getBalanceNumber(stakedBalance);
 
-  // const displayBalance = rawStakedBalance.toLocaleString();
-
   const [onPresentDeposit] = useModal(
     <DepositModal
       max={tokenBalance}
@@ -77,39 +74,31 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
           {TranslateString(999, "Stake LP")}
         </Button>
       ) : (
-        // <IconButtonWrapper>
-        //   <IconButton variant="tertiary" onClick={onPresentWithdraw} mr="6px">
-        //     <MinusIcon color="primary" width="14px" />
-        //   </IconButton>
-        //   <IconButton variant="tertiary" onClick={onPresentDeposit}>
-        //     <AddIcon color="primary" width="14px" />
-        //   </IconButton>
-        // </IconButtonWrapper>
         <Row justifyContent="space-around">
-          {/* <Column> */}
-          <Button mt="8px" scale="md" height="45px" onClick={onPresentDeposit} minWidth="120px" width="auto" mr="15px">
-            {/* {approvalDisabled ? "Staking..." : "Stake"} */}
+          <Button
+            mt="8px"
+            scale="md"
+            height="45px"
+            onClick={onPresentDeposit}
+            minWidth="120px"
+            width="auto"
+            mr="15px"
+          >
             Stake
           </Button>
-          <Button mt="8px" scale="md" height="45px" onClick={onPresentWithdraw} minWidth="120px" width="auto">
-            {/* {approvalDisabled ? "Unstaking..." : "Unstake"} */}
+          <Button
+            mt="8px"
+            scale="md"
+            height="45px"
+            onClick={onPresentWithdraw}
+            minWidth="120px"
+            width="auto"
+          >
             Unstake
           </Button>
-          {/* </Column> */}
-          {/* <Column>
-           
-          </Column> */}
         </Row>
       );
     }
-
-    // if(signatureData !== null && signatureData.deadline < Math.ceil(Date.now() / 1000)){
-    //   return (
-    //     <Button mt="8px" disabled={approvalDisabled} onClick={handleApprove}>
-    //       {approvalDisabled ? "Approving..." : "Approve"}
-    //     </Button>
-    //   );
-    // }
 
     return (
       <div>
@@ -126,36 +115,12 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
           >
             {approvalDisabled ? "Approving..." : "Approve"}
           </Button>
-          {/* <Button
-            mt="8px"
-            scale="md"
-            height="45px"
-            // disabled={approvalDisabled}
-            minWidth="120px"
-            onClick={onPresentWithdraw}
-            width="auto"
-          >
-            Unstake
-          </Button> */}
         </Row>
       </div>
     );
   };
 
-  return (
-    <div>
-      {/* <Flex justifyContent="space-between" alignItems="center">
-        <Heading color={rawStakedBalance === 0 ? "textDisabled" : "text"}>
-          {displayBalance}
-        </Heading>
-        <Subtle style={{ alignSelf: "flex-start" }}>
-          {" "}
-          {totalValueOfUserFormated}
-        </Subtle>
-      </Flex> */}
-      {renderStakingButtons()}
-    </div>
-  );
+  return <div>{renderStakingButtons()}</div>;
 };
 
 export default StakeAction;

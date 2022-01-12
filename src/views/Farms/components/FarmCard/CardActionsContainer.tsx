@@ -306,22 +306,20 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     <Action>
       <RenderNextHarvestIn />
       <br />
-      <Flex>
-        <Text bold color="#887263" fontSize="12px" pr="5px">
-          {/* TODO: Is there a way to get a dynamic value here from useFarmFromSymbol? */}
+      <Flex justifyContent="center">
+        <Text bold color="#887263" fontSize="14px" pr="5px">
           fYGN
         </Text>
         <Text
           bold
           textTransform="uppercase"
           color="#887263"
-          fontSize="12px"
-          mb="10px"
+          fontSize="14px"
+          mb="5px"
         >
           Earned
         </Text>
       </Flex>
-
       <HarvestAction earnings={earnings} canHarvest={canHarvest} pid={pid} />
       {!account ? (
         <UnlockButton mt="8px" width="100%" />

@@ -24,8 +24,6 @@ const TransactionConfirmationModal = ({
 }: ConfirmationModalProps) => {
   const { chainId } = useActiveWeb3React();
 
-  if (!chainId) return null;
-
   // confirmation screen
   return (
     <Modal isOpen={isOpen} onDismiss={onDismiss} maxHeight={90}>
