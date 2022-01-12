@@ -121,14 +121,14 @@ const farms = {
   "4002": farmsFantomTestnet,
   "250": farmsFantomMainnet,
 };
-let chainId =
-  window && window.ethereum
-    ? window.ethereum.networkVersion
-    : process.env.REACT_APP_CHAIN_ID;
+
+let chainId = process.env.REACT_APP_CHAIN_ID;
 if (localStorage && localStorage.getItem("chainId")) {
   chainId = localStorage.getItem("chainId");
 }
-
-export default farms[chainId || "80001"]
-  ? farms[chainId || "80001"]
+if (window && window.ethereum && window.ethereum.networkVersion) {
+  chainId = window.ethereum.networkVersion;
+}
+export default farms[chainId || "137"]
+  ? farms[chainId || "137"]
   : farms[process.env.REACT_APP_CHAIN_ID];

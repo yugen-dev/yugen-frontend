@@ -182,14 +182,14 @@ const vaults = {
   "4002": vaultsFantomTestnet,
   "250": vaultsFantomMainnet,
 };
-let chainId =
-  window && window.ethereum
-    ? window.ethereum.networkVersion
-    : process.env.REACT_APP_CHAIN_ID;
+
+let chainId = process.env.REACT_APP_CHAIN_ID;
 if (localStorage && localStorage.getItem("chainId")) {
   chainId = localStorage.getItem("chainId");
 }
-
-export default vaults[chainId || "80001"]
-  ? vaults[chainId || "80001"]
+if (window && window.ethereum && window.ethereum.networkVersion) {
+  chainId = window.ethereum.networkVersion;
+}
+export default vaults[chainId || "137"]
+  ? vaults[chainId || "137"]
   : vaults[process.env.REACT_APP_CHAIN_ID];
