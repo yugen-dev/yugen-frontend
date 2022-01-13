@@ -1,10 +1,15 @@
 import React, { useCallback, useState } from "react";
 import BigNumber from "bignumber.js";
 import { AutoRenewIcon, Button, Flex, Heading } from "cryption-uikit";
-import { useHarvest } from "hooks/useHarvest";
+import { useHarvest, useHarvestAndStake } from "hooks/useHarvest";
 import { getBalanceNumber } from "utils/formatBalance";
 import ConfirmSwapModal from "components/harvestAndStake/ConfirmSwapModal";
 import { useActiveWeb3React } from "hooks";
+import {
+  getCNTStakerContract,
+  getFygnBurnerContract,
+} from "utils/contractHelpers";
+import useWeb3 from "hooks/useWeb3";
 
 interface FarmCardActionsProps {
   earnings?: BigNumber;
@@ -17,16 +22,57 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({
   pid,
   canHarvest,
 }) => {
-  const [isFetchingHarvestValues, setIsFetchingHarvestValues] = useState(false);
+  const [
+    { fYgynBalance, ygnBalance, xYgnBalance, isFetchingHarvestValues },
+    setHarvestValues,
+  ] = useState({
+    fYgynBalance: new BigNumber(0),
+    ygnBalance: new BigNumber(0),
+    xYgnBalance: new BigNumber(0),
+    isFetchingHarvestValues: false,
+  });
   const { account } = useActiveWeb3React();
+  const web3 = useWeb3();
   const recipient = account ?? null;
 
   const fetchHarvestValues = async () => {
-    setIsFetchingHarvestValues(true);
+    setHarvestValues({
+      isFetchingHarvestValues: true,
+      fYgynBalance,
+      ygnBalance,
+      xYgnBalance,
+    });
     try {
-      setIsFetchingHarvestValues(false);
+      let ygnResp = new BigNumber(1);
+      let xYgnResp = new BigNumber(1);
+      const burnerContract = getFygnBurnerContract(web3);
+      const stakerContract = getCNTStakerContract();
+
+      ygnResp = await burnerContract.methods
+        .getYGNAmount(earnings.toString())
+        .call();
+
+      xYgnResp = await stakerContract.methods
+        .getXYGNAmount(ygnResp.toString())
+        .call();
+
+      setHarvestValues({
+        isFetchingHarvestValues: false,
+        fYgynBalance: new BigNumber(earnings).dividedBy(
+          new BigNumber(10).pow(18)
+        ),
+        ygnBalance: new BigNumber(ygnResp).dividedBy(new BigNumber(10).pow(18)),
+        xYgnBalance: new BigNumber(xYgnResp).dividedBy(
+          new BigNumber(10).pow(18)
+        ),
+      });
     } catch (e) {
-      setIsFetchingHarvestValues(false);
+      setHarvestValues({
+        isFetchingHarvestValues: false,
+        fYgynBalance,
+        ygnBalance,
+        xYgnBalance,
+      });
     }
   };
 
@@ -46,9 +92,10 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({
   });
   const [pendingTx, setPendingTx] = useState(false);
   const { onReward } = useHarvest(pid);
+  const { onRewardAndStake } = useHarvestAndStake(pid);
   const rawEarningsBalance = getBalanceNumber(earnings);
   let harvestDisabled = false;
-  if (rawEarningsBalance === 0) {
+  if (earnings.isZero()) {
     harvestDisabled = true;
   }
 
@@ -72,7 +119,7 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({
     }));
 
     try {
-      const hash = await onReward();
+      const hash = await onRewardAndStake();
       setSwapState(() => ({
         attemptingTxn: false,
         harvestErrorMessage: undefined,
@@ -87,7 +134,7 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({
         txHash: undefined,
       }));
     }
-  }, [harvestErrorMessage, onReward]);
+  }, [harvestErrorMessage, onRewardAndStake]);
 
   const BtnLoadingComp =
     pendingTx === false ? (
@@ -104,8 +151,8 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({
           Harvest
         </Button>
         <Button
+          disabled={harvestDisabled}
           onClick={async () => {
-            await fetchHarvestValues();
             setSwapState(() => ({
               attemptingTxn: false,
               harvestErrorMessage: undefined,
@@ -148,9 +195,11 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({
         onConfirm={handleHarvestAndStake}
         swapErrorMessage={harvestErrorMessage}
         onDismiss={handleConfirmDismiss}
-        ygnGiven={new BigNumber(0)}
-        fYgnToHarvest={new BigNumber(0)}
-        xYgnGiven={new BigNumber(0)}
+        ygnGiven={ygnBalance}
+        fYgnToHarvest={fYgynBalance}
+        xYgnGiven={xYgnBalance}
+        isFetchingValues={isFetchingHarvestValues}
+        fetchHarvestValuesFunction={fetchHarvestValues}
       />
       {canHarvest ? (
         BtnLoadingComp

@@ -105,7 +105,6 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
         <Row justifyContent="space-around">
           <Button
             mt="8px"
-            mr="15px"
             scale="md"
             height="45px"
             disabled={approvalDisabled}

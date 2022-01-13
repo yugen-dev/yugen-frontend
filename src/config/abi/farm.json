@@ -14,43 +14,6 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "pid",
-        "type": "uint256"
-      },
-      {
-        "indexed": true,
-        "internalType": "contract IChildFarm",
-        "name": "childFarm",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "childPoolId",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "contract IERC20",
-        "name": "childFarmToken",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "bool",
-        "name": "childPoolSupportsReferral",
-        "type": "bool"
-      }
-    ],
-    "name": "AddedChildFarm",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
         "indexed": false,
         "internalType": "uint256",
         "name": "_blockRate",
@@ -146,6 +109,19 @@
     "anonymous": false,
     "inputs": [
       {
+        "indexed": false,
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "Paused",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
         "indexed": true,
         "internalType": "uint256",
         "name": "pid",
@@ -176,28 +152,10 @@
         "type": "uint256"
       },
       {
-        "indexed": true,
-        "internalType": "contract IChildFarm",
-        "name": "childFarm",
+        "indexed": false,
+        "internalType": "contract IStrategy",
+        "name": "strategy",
         "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "childPoolId",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "contract IERC20",
-        "name": "childFarmToken",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "bool",
-        "name": "childPoolSupportsReferral",
-        "type": "bool"
       }
     ],
     "name": "PoolAddition",
@@ -232,25 +190,6 @@
       }
     ],
     "name": "PoolUpdated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "pid",
-        "type": "uint256"
-      },
-      {
-        "indexed": true,
-        "internalType": "contract IChildFarm",
-        "name": "childFarm",
-        "type": "address"
-      }
-    ],
-    "name": "RemovedChildFarm",
     "type": "event"
   },
   {
@@ -301,75 +240,13 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "pid",
-        "type": "uint256"
-      },
-      {
-        "indexed": true,
-        "internalType": "contract IChildFarm",
-        "name": "childFarm",
-        "type": "address"
-      },
-      {
         "indexed": false,
-        "internalType": "uint256",
-        "name": "childPoolId",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "contract IERC20",
-        "name": "childFarmToken",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "bool",
-        "name": "childPoolSupportsReferral",
-        "type": "bool"
-      }
-    ],
-    "name": "UpdatedChildFarm",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "pid",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "contract IERC20",
-        "name": "childFarmToken",
+        "internalType": "address",
+        "name": "account",
         "type": "address"
       }
     ],
-    "name": "UpdatedChildPoolFarmToken",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "pid",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "bool",
-        "name": "childPoolSupportsReferral",
-        "type": "bool"
-      }
-    ],
-    "name": "UpdatedChildPoolReferralStatus",
+    "name": "Unpaused",
     "type": "event"
   },
   {
@@ -439,6 +316,25 @@
       }
     ],
     "name": "UpdatedPoolHarvestInterval",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "pid",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "contract IStrategy",
+        "name": "strategy",
+        "type": "address"
+      }
+    ],
+    "name": "UpdatedPoolStrategy",
     "type": "event"
   },
   {
@@ -525,6 +421,13 @@
   },
   {
     "inputs": [],
+    "name": "ACC_FYGN_PRECISION",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "BONUS_MULTIPLIER",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
@@ -570,50 +473,13 @@
         "type": "uint256"
       },
       {
-        "internalType": "contract IChildFarm",
-        "name": "_childFarm",
+        "internalType": "contract IStrategy",
+        "name": "_strategy",
         "type": "address"
-      },
-      { "internalType": "uint256", "name": "_childPoolId", "type": "uint256" },
-      {
-        "internalType": "contract IERC20",
-        "name": "_childFarmToken",
-        "type": "address"
-      },
-      {
-        "internalType": "bool",
-        "name": "_childPoolSupportsReferral",
-        "type": "bool"
       },
       { "internalType": "bool", "name": "_withUpdate", "type": "bool" }
     ],
     "name": "add",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "_pid", "type": "uint256" },
-      {
-        "internalType": "contract IChildFarm",
-        "name": "_childFarm",
-        "type": "address"
-      },
-      { "internalType": "uint256", "name": "_childPoolId", "type": "uint256" },
-      {
-        "internalType": "contract IERC20",
-        "name": "_childFarmToken",
-        "type": "address"
-      },
-      {
-        "internalType": "bool",
-        "name": "_childPoolSupportsReferral",
-        "type": "bool"
-      },
-      { "internalType": "bool", "name": "_withUpdate", "type": "bool" }
-    ],
-    "name": "addChildFarmToPool",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -647,7 +513,8 @@
   {
     "inputs": [
       { "internalType": "uint256", "name": "_pid", "type": "uint256" },
-      { "internalType": "uint256", "name": "_amount", "type": "uint256" }
+      { "internalType": "uint256", "name": "_amount", "type": "uint256" },
+      { "internalType": "bool", "name": "_userWantsToStake", "type": "bool" }
     ],
     "name": "deposit",
     "outputs": [],
@@ -658,18 +525,10 @@
     "inputs": [
       { "internalType": "uint256", "name": "_pid", "type": "uint256" },
       { "internalType": "uint256", "name": "_amount", "type": "uint256" },
-      { "internalType": "address", "name": "_user", "type": "address" }
+      { "internalType": "address", "name": "_user", "type": "address" },
+      { "internalType": "bool", "name": "_userWantsToStake", "type": "bool" }
     ],
     "name": "depositFor",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "_pid", "type": "uint256" }
-    ],
-    "name": "drain",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -713,8 +572,10 @@
     "inputs": [
       { "internalType": "uint256", "name": "_pid", "type": "uint256" }
     ],
-    "name": "getLpTokenValue",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "getLpTokenAmount",
+    "outputs": [
+      { "internalType": "uint256", "name": "lpSupply", "type": "uint256" }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
@@ -760,6 +621,20 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "pause",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "paused",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       { "internalType": "uint256", "name": "_pid", "type": "uint256" },
       { "internalType": "address", "name": "_user", "type": "address" }
@@ -796,20 +671,14 @@
         "type": "uint256"
       },
       {
-        "internalType": "contract IChildFarm",
-        "name": "childFarm",
-        "type": "address"
-      },
-      { "internalType": "uint256", "name": "childPoolId", "type": "uint256" },
-      {
-        "internalType": "contract IERC20",
-        "name": "childFarmToken",
-        "type": "address"
+        "internalType": "uint256",
+        "name": "totalInputTokensStaked",
+        "type": "uint256"
       },
       {
-        "internalType": "bool",
-        "name": "childPoolSupportsReferral",
-        "type": "bool"
+        "internalType": "contract IStrategy",
+        "name": "strategy",
+        "type": "address"
       }
     ],
     "stateMutability": "view",
@@ -824,16 +693,6 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_pid", "type": "uint256" },
-      { "internalType": "bool", "name": "_withUpdate", "type": "bool" }
-    ],
-    "name": "removeChildFarmFromPool",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
       { "internalType": "address", "name": "_user", "type": "address" }
     ],
     "name": "removeUserFromWhiteList",
@@ -844,6 +703,15 @@
   {
     "inputs": [],
     "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_pid", "type": "uint256" }
+    ],
+    "name": "rescueFundsFromStrategy",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -916,6 +784,13 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "unpause",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [
       { "internalType": "uint256", "name": "_fYGNPerBlock", "type": "uint256" }
     ],
@@ -933,66 +808,6 @@
       }
     ],
     "name": "updateBonusMultiplier",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "_pid", "type": "uint256" },
-      {
-        "internalType": "contract IChildFarm",
-        "name": "_newChildFarm",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_newChildPoolId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "contract IERC20",
-        "name": "_newChildFarmToken",
-        "type": "address"
-      },
-      {
-        "internalType": "bool",
-        "name": "_newChildPoolSupportsReferral",
-        "type": "bool"
-      },
-      { "internalType": "bool", "name": "_withUpdate", "type": "bool" }
-    ],
-    "name": "updateChildFarmInPool",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "_pid", "type": "uint256" },
-      {
-        "internalType": "contract IERC20",
-        "name": "_childFarmToken",
-        "type": "address"
-      },
-      { "internalType": "bool", "name": "_withUpdate", "type": "bool" }
-    ],
-    "name": "updateChildPoolFarmToken",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "_pid", "type": "uint256" },
-      {
-        "internalType": "bool",
-        "name": "_childPoolSupportsReferral",
-        "type": "bool"
-      },
-      { "internalType": "bool", "name": "_withUpdate", "type": "bool" }
-    ],
-    "name": "updateChildPoolReferralSupport",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -1028,6 +843,21 @@
       { "internalType": "bool", "name": "_withUpdate", "type": "bool" }
     ],
     "name": "updatePoolHarvestInterval",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_pid", "type": "uint256" },
+      {
+        "internalType": "contract IStrategy",
+        "name": "_strategy",
+        "type": "address"
+      },
+      { "internalType": "bool", "name": "_withUpdate", "type": "bool" }
+    ],
+    "name": "updatePoolStrategy",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -1105,7 +935,8 @@
   {
     "inputs": [
       { "internalType": "uint256", "name": "_pid", "type": "uint256" },
-      { "internalType": "uint256", "name": "_amount", "type": "uint256" }
+      { "internalType": "uint256", "name": "_amount", "type": "uint256" },
+      { "internalType": "bool", "name": "_userWantsToStake", "type": "bool" }
     ],
     "name": "withdraw",
     "outputs": [],
@@ -1125,7 +956,8 @@
     "inputs": [
       { "internalType": "uint256", "name": "_pid", "type": "uint256" },
       { "internalType": "uint256", "name": "_amount", "type": "uint256" },
-      { "internalType": "address", "name": "_user", "type": "address" }
+      { "internalType": "address", "name": "_user", "type": "address" },
+      { "internalType": "bool", "name": "_userWantsToStake", "type": "bool" }
     ],
     "name": "withdrawFor",
     "outputs": [],

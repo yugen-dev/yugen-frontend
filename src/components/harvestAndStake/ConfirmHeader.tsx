@@ -1,75 +1,84 @@
+import React, { useEffect } from "react";
 import { Dots } from "components/swap/styleds";
 import { Text } from "cryption-uikit";
-import React from "react";
 import { ArrowRight } from "react-feather";
 import styled from "styled-components";
+import BigNumber from "bignumber.js";
 
-const ConfirmHeader = ({ isLoading, fYgnValue, ygnValue, xYgnValue }) => {
+const ConfirmHeader = ({
+  isLoading,
+  fYgnValue,
+  ygnValue,
+  xYgnValue,
+  fetchFunction,
+}) => {
+  const getValues = () => {
+    fetchFunction();
+  };
+
+  useEffect(() => {
+    getValues();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <ConfirmHeaderContainer>
-      <TokenWrapper>
-        <TokenBox>
-          <ImageBox>
-            <Image
-              src="/images/tokens/fygn.webp"
-              alt="fYGN token"
-              loading="lazy"
-            />
-          </ImageBox>
-          <TokenName>fYGN</TokenName>
-        </TokenBox>
-        <ArrowBox>
-          <ArrowRight />
-        </ArrowBox>
-        <TokenBox>
-          <ImageBox>
-            <Image
-              src="/images/tokens/xygn.webp"
-              alt="xYGN token"
-              loading="lazy"
-            />
-          </ImageBox>
-          <TokenName>xYGN</TokenName>
-        </TokenBox>
-        <PlusBox>+</PlusBox>
-        <TokenBox>
-          <ImageBox>
-            <Image
-              src="/images/tokens/ygn.webp"
-              alt="YGN token"
-              loading="lazy"
-            />
-          </ImageBox>
-          <TokenName>YGN</TokenName>
-        </TokenBox>
-      </TokenWrapper>
-      {isLoading ? (
+      {isLoading && new BigNumber(fYgnValue).isZero() ? (
         <Text textAlign="center" marginTop="15px">
           Calculating
           <Dots />
         </Text>
       ) : (
-        <ValueWrapper>
-          <Text>
-            Harvesting <Value>{fYgnValue?.toFixed(6)} fYGNs</Value> for{" "}
-            <Value>{xYgnValue?.toFixed(6)} xYGNs</Value> +{" "}
-            <Value>{ygnValue.toFixed(6)} YGNs</Value>
-          </Text>
-        </ValueWrapper>
+        <TokenWrapper>
+          <TokenBox>
+            <ImageBox>
+              <Image
+                src="/images/tokens/fygn.webp"
+                alt="fYGN token"
+                loading="lazy"
+              />
+            </ImageBox>
+            <TokenValue>{fYgnValue?.toFixed(6)}</TokenValue>
+            <TokenName>fYGN</TokenName>
+          </TokenBox>
+          <ArrowBox>
+            <ArrowRight />
+          </ArrowBox>
+          <TokenBox>
+            <ImageBox>
+              <Image
+                src="/images/tokens/ygn.webp"
+                alt="YGN token"
+                loading="lazy"
+              />
+            </ImageBox>
+            <TokenValue>{ygnValue?.toFixed(6)}</TokenValue>
+            <TokenName>YGN</TokenName>
+          </TokenBox>
+          <ArrowBox>
+            <ArrowRight />
+          </ArrowBox>
+          <TokenBox>
+            <ImageBox>
+              <Image
+                src="/images/tokens/xygn.webp"
+                alt="xYGN token"
+                loading="lazy"
+              />
+            </ImageBox>
+            <TokenValue>{xYgnValue?.toFixed(6)}</TokenValue>
+            <TokenName>xYGN</TokenName>
+          </TokenBox>
+        </TokenWrapper>
       )}
     </ConfirmHeaderContainer>
   );
 };
 
-const Value = styled(Text)`
+const TokenValue = styled(Text)`
   font-size: 18px;
   display: inline-block;
   font-weight: bold;
-`;
-
-const ValueWrapper = styled.div`
-  margin-top: 15px;
-  text-align: center;
 `;
 
 const ConfirmHeaderContainer = styled.div`
@@ -93,10 +102,6 @@ const TokenBox = styled.div`
 `;
 
 const ArrowBox = styled.div`
-  margin: 0px 10px;
-`;
-
-const PlusBox = styled.div`
   margin: 0px 10px;
 `;
 

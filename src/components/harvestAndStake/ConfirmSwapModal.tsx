@@ -10,7 +10,6 @@ import ConfirmHeader from "./ConfirmHeader";
 export default function ConfirmSwapModal({
   onConfirm,
   onDismiss,
-  recipient,
   swapErrorMessage,
   isOpen,
   attemptingTxn,
@@ -18,6 +17,8 @@ export default function ConfirmSwapModal({
   fYgnToHarvest,
   ygnGiven,
   xYgnGiven,
+  isFetchingValues,
+  fetchHarvestValuesFunction,
 }: {
   isOpen: boolean;
   attemptingTxn: boolean;
@@ -29,15 +30,15 @@ export default function ConfirmSwapModal({
   fYgnToHarvest: BigNumber;
   ygnGiven: BigNumber;
   xYgnGiven: BigNumber;
+  isFetchingValues: boolean;
+  fetchHarvestValuesFunction: () => void;
 }) {
-  const isFetchingValues = false;
-
   // text to show while loading
   const pendingText = `
-  Harvesting ${fYgnToHarvest?.toFixed(6)} fYGNs for ${xYgnGiven?.toFixed(
+  Harvesting ${fYgnToHarvest?.toFixed(6)} fYGN for ${ygnGiven?.toFixed(
     6
-  )} xYGNs + 
-${ygnGiven?.toFixed(6)} YGNs
+  )} YGN then for 
+${xYgnGiven?.toFixed(6)} xYGN
   `;
 
   const modalHeader = useCallback(() => {
@@ -47,13 +48,29 @@ ${ygnGiven?.toFixed(6)} YGNs
         ygnValue={ygnGiven}
         xYgnValue={xYgnGiven}
         fYgnValue={fYgnToHarvest}
+        fetchFunction={fetchHarvestValuesFunction}
       />
     );
-  }, [fYgnToHarvest, isFetchingValues, xYgnGiven, ygnGiven]);
+  }, [
+    fYgnToHarvest,
+    fetchHarvestValuesFunction,
+    isFetchingValues,
+    xYgnGiven,
+    ygnGiven,
+  ]);
 
   const modalBottom = useCallback(() => {
-    return <Button width="100%">Confirm Harvest & Stake</Button>;
-  }, []);
+    return (
+      <Button
+        width="100%"
+        onClick={async () => {
+          await onConfirm();
+        }}
+      >
+        Confirm Harvest & Stake
+      </Button>
+    );
+  }, [onConfirm]);
 
   const confirmationContent = useCallback(
     () =>
