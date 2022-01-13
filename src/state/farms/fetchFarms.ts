@@ -72,7 +72,7 @@ const fetchFarms = async () => {
           // Balance of LP tokens in the master chef contract
           {
             address: getFarmAddress(),
-            name: "getLpTokenValue",
+            name: "getLpTokenAmount",
             params: [farmConfig.pid],
           },
         ]
