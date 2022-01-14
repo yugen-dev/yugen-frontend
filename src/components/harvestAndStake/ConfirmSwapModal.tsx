@@ -35,10 +35,9 @@ export default function ConfirmSwapModal({
 }) {
   // text to show while loading
   const pendingText = `
-  Harvesting ${fYgnToHarvest?.toFixed(6)} fYGN for ${ygnGiven?.toFixed(
+  Harvesting ${fYgnToHarvest?.toFixed(6)} fYGN\n for ${ygnGiven?.toFixed(
     6
-  )} YGN then for 
-${xYgnGiven?.toFixed(6)} xYGN
+  )} YGN\n then for ${xYgnGiven?.toFixed(6)} xYGN
   `;
 
   const modalHeader = useCallback(() => {

@@ -25,7 +25,11 @@ const ConfirmationPendingContent = ({
         </ConfirmedIcon>
         <AutoColumn gap="12px" justify="center">
           <AutoColumn gap="12px" justify="center">
-            <Text fontSize="14px">
+            <Text
+              fontSize="14px"
+              textAlign="center"
+              style={{ whiteSpace: "pre-line" }}
+            >
               <strong>{pendingText}</strong>
             </Text>
           </AutoColumn>
