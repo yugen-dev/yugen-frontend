@@ -41,6 +41,7 @@ import {
 } from "utils/contractHelpers";
 import { useCNTStaker, useCNTStakerGasless } from "hooks/useContract";
 import { registerToken } from "utils/wallet";
+import inputValidator from "utils/inputValidator";
 
 const CNHeading = styled.div`
   font-size: 45px;
@@ -390,9 +391,16 @@ const CNTStaker = () => {
         <Button
           style={{ maxWidth: "400px", width: "100%" }}
           onClick={async () => {
-            setPendingTx(true);
-            await stakeCnt();
-            setPendingTx(false);
+            const goAheadWithYgnStakeTxn = inputValidator(
+              toastError,
+              tokenAmount,
+              tokenBalance
+            );
+            if (goAheadWithYgnStakeTxn) {
+              setPendingTx(true);
+              await stakeCnt();
+              setPendingTx(false);
+            }
           }}
         >
           Stake YGN
@@ -419,9 +427,16 @@ const CNTStaker = () => {
       <Button
         style={{ maxWidth: "400px", width: "100%" }}
         onClick={async () => {
-          setPendingTx(true);
-          await unstakeCnt();
-          setPendingTx(false);
+          const goAheadWithXygnStakeTxn = inputValidator(
+            toastError,
+            tokenAmount,
+            xCNTBalance
+          );
+          if (goAheadWithXygnStakeTxn) {
+            setPendingTx(true);
+            await unstakeCnt();
+            setPendingTx(false);
+          }
         }}
       >
         Convert to YGN

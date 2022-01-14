@@ -16,17 +16,17 @@ const inputValidator = (
 
   let errorFree = true;
   if (!/^\d+\.?\d*$/.test(inputValue)) {
-    toastError("Please enter a valid number");
+    toastError("Please enter a valid amount");
     errorFree = false;
     return errorFree;
   }
   if (!new BigNumber(inputValue).isGreaterThan(0)) {
-    toastError("Insuffiecint amount to burn");
+    toastError("Insuffiecint amount too low");
     errorFree = false;
     return errorFree;
   }
   if (!new BigNumber(inputValueInWei).isLessThanOrEqualTo(maxValue)) {
-    toastError("Cannot burn more than what you have");
+    toastError("Input amount too high");
     errorFree = false;
     return errorFree;
   }
