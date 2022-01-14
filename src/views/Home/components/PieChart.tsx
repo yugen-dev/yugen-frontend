@@ -40,7 +40,7 @@ const PieChart = ({ pieData, pieLoading, pieError }) => {
       <StyledTotalValueLockedCard>
         <CNCardBody>
           <CNHeading>YGN Distribution</CNHeading>
-          <Heading color="#ff0000">Error occurred while fetching data</Heading>
+          <Heading color="#9c2c2c">Error occurred while fetching data</Heading>
         </CNCardBody>
       </StyledTotalValueLockedCard>
     );
@@ -59,11 +59,11 @@ const PieChart = ({ pieData, pieLoading, pieError }) => {
         color: "#e0b185",
       },
       {
-        name: "wMatic-YGN LP",
+        name: "QuickSwap LP",
         amount: `${pieData?.ygnInMaticLp}`,
         color: "#e4a86d",
       },
-      // { name: "FTM-YGN LP", amount: ``, color: "#c58154 " },
+      // { name: "SpookSwap LP", amount: ``, color: "#c58154 " },
       // { name: "Bonds", amount: "5000", color: "#d47a3e" },
     ];
     const totalSupplyOfYgn = 20_000;

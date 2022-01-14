@@ -114,7 +114,7 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({
     setSwapState(() => ({
       attemptingTxn: true,
       harvestErrorMessage,
-      showConfirm: undefined,
+      showConfirm: true,
       txHash: undefined,
     }));
 
@@ -123,14 +123,14 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({
       setSwapState(() => ({
         attemptingTxn: false,
         harvestErrorMessage: undefined,
-        showConfirm: false,
+        showConfirm: true,
         txHash: hash,
       }));
     } catch (e: any) {
       setSwapState(() => ({
         attemptingTxn: false,
         harvestErrorMessage: e.message,
-        showConfirm: false,
+        showConfirm: true,
         txHash: undefined,
       }));
     }

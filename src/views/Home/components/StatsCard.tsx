@@ -38,7 +38,7 @@ const CardValue = ({ data, loading, error }) => {
   if (error) {
     return (
       <Card>
-        <Text color="#ff0000" fontSize="18px" fontWeight="700">
+        <Text color="#9c2c2c" fontSize="18px" fontWeight="700">
           Error occurred while fetching data
         </Text>
       </Card>
@@ -236,7 +236,7 @@ const CardValue = ({ data, loading, error }) => {
                 fontWeight="700"
                 style={{ display: "flex", alignItems: "center" }}
               >
-                ${data?.ygnTotalMarketCap}{" "}
+                ${numberWithCommas(data?.ygnTotalMarketCap)}{" "}
               </Text>
             </ProgressItemText>
           </div>

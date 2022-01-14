@@ -171,7 +171,7 @@ const CNTStaker = () => {
 
   const { onApprove } = useApproveStaking();
   const cake = getCakeContract();
-  const [totalSupply, setTotalSupply] = useState<BigNumber>();
+  const [totalSupply, setTotalSupply] = useState(new BigNumber(0));
   const web3 = useWeb3();
   const cntStaker = useCNTStaker();
   const cntStakerGasless = useCNTStakerGasless();

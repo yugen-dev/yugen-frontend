@@ -224,7 +224,7 @@ const Home: React.FC = () => {
               <EarnAssetCard
                 topTitle="Earn up to"
                 description={`${maxFarmsAPY}%`}
-                descriptionColor="#29bb89"
+                descriptionColor="#449c2c"
                 bottomTitle="APR in farms"
                 redirectLink="/farms"
               />
@@ -234,7 +234,7 @@ const Home: React.FC = () => {
                 topTitle="Earn up to"
                 bottomTitle="APR in vaults"
                 description={`${new BigNumber(maxVaultsAPY).toFixed(2)}%`}
-                descriptionColor="#29bb89"
+                descriptionColor="#449c2c"
                 redirectLink="/vaults"
               />
             </Grid>

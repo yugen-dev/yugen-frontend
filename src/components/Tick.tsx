@@ -11,7 +11,7 @@ const Tick = ({ size = 150 }) => (
           max-height: 250px;
         }
           .circle {
-          stroke: #00ff00;
+          stroke: #449c2c;
           fill: none;
           stroke-width: 1.8;
           stroke-linecap: round;
@@ -25,7 +25,7 @@ const Tick = ({ size = 150 }) => (
         }
           .tick {
           fill: none;
-          stroke: #00ff00;
+          stroke: #449c2c;
           stroke-width: 1.8px;
           stroke-linecap: round;
           /* Stroke-dasharray property */

@@ -227,9 +227,6 @@ export const useFetch = (url: string) => {
 };
 
 export const usePriceCakeBusd = (): BigNumber => {
-  if (chainID === "80001" || chainID === "5" || chainID === "4002")
-    return new BigNumber(0.47);
-
   const { data, loading, error } = useFetch(YUGEN_INFO_CUSTOM_API);
 
   return data?.ygnPrice && !loading && !error
@@ -237,7 +234,14 @@ export const usePriceCakeBusd = (): BigNumber => {
     : ZERO;
 };
 
-// pending
+export const usePriceFygnUsd = (): BigNumber => {
+  const { data, loading, error } = useFetch(YUGEN_INFO_CUSTOM_API);
+
+  return data?.fygnPrice && !loading && !error
+    ? new BigNumber(data?.fygnPrice)
+    : ZERO;
+};
+
 export const usePriceEthBusd = (): BigNumber => {
   if (chainID === "80001" || chainID === "5") {
     return new BigNumber(10);
@@ -509,7 +513,6 @@ export const useFarmsTotalValue = (): BigNumber => {
   }
 
   value = value.plus(totalStakerBalance.multipliedBy(cntPrice));
-  // value = value.plus(totalHybridstakingCntBalance.multipliedBy(cntPrice));
 
   return value;
 };

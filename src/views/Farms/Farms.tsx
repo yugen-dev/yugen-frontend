@@ -11,8 +11,8 @@ import {
   useFarms,
   usePriceBnbBusd,
   usePriceBtcBusd,
-  usePriceCakeBusd,
   usePriceEthBusd,
+  usePriceFygnUsd,
 } from "state/hooks";
 import useRefresh from "hooks/useRefresh";
 import { fetchFarmUserDataAsync } from "state/actions";
@@ -148,7 +148,7 @@ const Farms: React.FC = () => {
   const { pathname } = useLocation();
   const TranslateString = useI18n();
   const farmsLP = useFarms();
-  const cakePrice = usePriceCakeBusd();
+  const cakePrice = usePriceFygnUsd();
   const bnbPrice = usePriceBnbBusd();
   const [query, setQuery] = useState("");
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

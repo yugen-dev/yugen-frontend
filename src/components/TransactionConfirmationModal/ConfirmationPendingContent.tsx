@@ -1,7 +1,9 @@
 import React from "react";
-import { Text, Spinner } from "cryption-uikit";
+import { Text } from "cryption-uikit";
+import Loader from "react-loader-spinner";
 import { AutoColumn } from "../Column";
 import { Wrapper, Section, ConfirmedIcon, ContentHeader } from "./helpers";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 type ConfirmationPendingContentProps = {
   onDismiss: () => void;
@@ -19,7 +21,7 @@ const ConfirmationPendingContent = ({
           Waiting for confirmation
         </ContentHeader>
         <ConfirmedIcon>
-          <Spinner />
+          <Loader type="Oval" height={300} width={200} color="#d47a3e" />
         </ConfirmedIcon>
         <AutoColumn gap="12px" justify="center">
           <AutoColumn gap="12px" justify="center">
