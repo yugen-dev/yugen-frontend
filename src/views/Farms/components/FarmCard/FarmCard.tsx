@@ -218,6 +218,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
           farmImage={farmImage}
           tokenSymbol={farm.tokenSymbol}
           tag={farm.tag}
+          isPool={farm.isPool}
         />
       </div>
       <div

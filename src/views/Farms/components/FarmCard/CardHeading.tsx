@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { Tag, Flex, Heading, Image } from "cryption-uikit";
 import Question from "components/QuestionHelper";
-// import { CommunityTag, CoreTag } from "components/Tags";
 
 export interface ExpandableSectionProps {
   lpLabel?: string;
@@ -10,6 +9,7 @@ export interface ExpandableSectionProps {
   farmImage?: string;
   tokenSymbol?: string;
   tag?: string;
+  isPool?: boolean;
 }
 
 const Wrapper = styled(Flex)`
@@ -29,6 +29,7 @@ const CardHeading: React.FC<ExpandableSectionProps> = ({
   tag,
   farmImage,
   tokenSymbol,
+  isPool,
 }) => {
   return (
     <Wrapper justifyContent="space-between" alignItems="center" mb="12px">
@@ -36,8 +37,8 @@ const CardHeading: React.FC<ExpandableSectionProps> = ({
         <Image
           src={`/images/farms/${farmImage}.webp`}
           alt={tokenSymbol}
-          width={120}
-          height={70}
+          width={isPool ? 100 : 120}
+          height={isPool ? 94 : 70}
         />
         {tag && (
           <Tag marginTop="10px" variant="secondary">
