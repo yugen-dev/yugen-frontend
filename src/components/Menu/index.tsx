@@ -16,6 +16,11 @@ import useAuth from "hooks/useAuth";
 import { toggleMetaTranscationState } from "state/actions";
 import { ETHERJS_PATHS } from "config";
 import { usePriceCakeBusd, useProfile } from "state/hooks";
+import useAllEarnings from "hooks/useAllEarnings";
+import BigNumber from "bignumber.js";
+import useTokenBalance from "hooks/useTokenBalance";
+import { getCakeAddress } from "utils/addressHelpers";
+import { getBalanceNumber } from "utils/formatBalance";
 import fantomMainnetConfig, {
   socials,
   networks,
@@ -27,6 +32,15 @@ const Menu = (props) => {
   const { login, logout, loginEther, logoutEther } = useAuth();
   const location = useLocation();
   const cakePriceBusd = usePriceCakeBusd();
+  const ygnBalance = useTokenBalance(getCakeAddress());
+  const ygnBalanceInString = getBalanceNumber(ygnBalance).toString();
+  const allEarnings = useAllEarnings();
+  const ygnEarnings = allEarnings.reduce((accum, earning) => {
+    return (
+      accum + new BigNumber(earning).div(new BigNumber(10).pow(18)).toNumber()
+    );
+  }, 0);
+  const ygnEarningsInString = ygnEarnings.toString();
 
   let accountId = "";
   if (ETHERJS_PATHS.includes(`/${location.pathname.split("/")[1]}`)) {
@@ -144,6 +158,8 @@ const Menu = (props) => {
       langs={allLanguages}
       setLang={setSelectedLanguage}
       cakePriceUsd={cakePriceBusd.toNumber()}
+      ygnBalance={ygnBalanceInString}
+      ygnEarnings={ygnEarningsInString}
       logoSize="53px"
       links={menuConfig}
       socials={socials}

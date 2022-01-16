@@ -26,7 +26,6 @@ import {
 } from "state/hooks";
 
 import { Heading, Text } from "cryption-uikit";
-import FarmedStakingCard from "views/Home/components/FarmStakingCard";
 import Grid from "@material-ui/core/Grid";
 import CardValue from "./components/CardValue";
 import EarnAssetCard from "./components/EarnAssetCard";
@@ -151,16 +150,6 @@ const Home: React.FC = () => {
             <Heading size="xxl">Yugen</Heading>
           </Hero>
           <LotteryCard />
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          md={6}
-          lg={6}
-          xl={6}
-          style={{ display: "flex", alignItems: "flex-end" }}
-        >
-          <FarmedStakingCard />
         </Grid>
         <Grid item xs={12} md={8} lg={8} xl={8}>
           <StatsCard data={ApiData} loading={ApiLoading} error={ApiError} />
