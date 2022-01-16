@@ -54,6 +54,8 @@ export enum QuoteToken {
   "WFTM" = "WFTM",
   "FTM" = "FTM",
   "BOO" = "BOO",
+  "FXS" = "FXS",
+  "KLIMA" = "KLIMA",
 }
 
 export enum PoolCategory {
