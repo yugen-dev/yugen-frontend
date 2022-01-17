@@ -95,6 +95,7 @@ export interface FarmConfig {
   singleSidedTokenName: string;
   singleSidedToTokenName: string;
   showSingleSided?: boolean;
+  getLpLink?: string;
   dual?: {
     rewardPerBlock: number;
     earnLabel: string;

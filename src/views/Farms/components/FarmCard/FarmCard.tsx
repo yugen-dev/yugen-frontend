@@ -7,12 +7,7 @@ import { provider as ProviderType } from "web3-core";
 import useI18n from "hooks/useI18n";
 import ExpandableSectionButton from "components/ExpandableSectionButton";
 import { QuoteToken } from "config/constants/types";
-import getLiquidityUrlPathParts from "utils/getLiquidityUrlPathParts";
-import {
-  BASE_ADD_LIQUIDITY_URL,
-  BLOCKS_PER_YEAR,
-  CAKE_PER_BLOCK,
-} from "config";
+import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK } from "config";
 import DetailsSection from "./DetailsSection";
 import CardHeading from "./CardHeading";
 import CardActionsContainer from "./CardActionsContainer";
@@ -163,13 +158,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
     farm.lpSymbol && farm.lpSymbol.toUpperCase().replace("PANCAKE", "");
   const earnLabel = farm.dual ? farm.dual.earnLabel : "fYGN";
 
-  const { quoteTokenAdresses, quoteTokenSymbol, tokenAddresses } = farm;
-  const liquidityUrlPathParts = getLiquidityUrlPathParts({
-    quoteTokenAdresses,
-    quoteTokenSymbol,
-    tokenAddresses,
-  });
-  const addLiquidityUrl = `${BASE_ADD_LIQUIDITY_URL}/${liquidityUrlPathParts}`;
+  const addLiquidityUrl = `${farm?.getLpLink}`;
 
   // TODO: make sure to configure this so that
   // cakePrice === fygn price & not cake price === ygn price
@@ -292,9 +281,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
       <ExpandingWrapper expanded={showExpandableSection}>
         <DetailsSection
           removed={removed}
-          maticExplorerAddress={`https://polygonscan.com/address/${
-            farm.lpAddresses[process.env.REACT_APP_CHAIN_ID]
-          }`}
+          maticExplorerAddress="0xe713DaAa96035982bf01F041c2BB248B5E07882a"
           totalValueFormated={totalValueFormated}
           lpLabel={lpLabel}
           addLiquidityUrl={addLiquidityUrl}

@@ -55,6 +55,8 @@ const farmsMaticMainnet: FarmConfig[] = [
       4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     singleSidedToTokenName: "QUICK",
+    getLpLink:
+      "https://quickswap.exchange/#/add/0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270/0x831753dd7087cac61ab5644b308642cc1c33dc13",
   },
   // {
   //   pid: 1,
@@ -107,6 +109,8 @@ const farmsMaticMainnet: FarmConfig[] = [
   //     4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
   //   },
   //   singleSidedToTokenName: "pBREW",
+  // getLpLink:
+  //   "https://polygondex.cafeswap.finance/#/add/0x7ceb23fd6bc0add59e62ac25578270cff1b9f619/0xb5106a3277718ecad2f20ab6b86ce0fee7a21f09",
   // },
   {
     pid: 2,
@@ -159,6 +163,8 @@ const farmsMaticMainnet: FarmConfig[] = [
       4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     singleSidedToTokenName: "wETH",
+    getLpLink:
+      "https://quickswap.exchange/#/add/0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270/ETH",
   },
   {
     pid: 3,
@@ -212,6 +218,8 @@ const farmsMaticMainnet: FarmConfig[] = [
     },
     singleSidedToTokenName: "NACHO",
     showSingleSided: true,
+    getLpLink:
+      "https://quickswap.exchange/#/add/ETH/0xcd86152047e800d67bdf00a4c635a8b6c0e5c4c2",
   },
   {
     pid: 4,
@@ -264,6 +272,8 @@ const farmsMaticMainnet: FarmConfig[] = [
       4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     singleSidedToTokenName: "NSHARE",
+    getLpLink:
+      "https://quickswap.exchange/#/add/0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270/0x948d0a28b600bdbd77af4ea30e6f338167034181",
   },
   {
     pid: 5,
@@ -316,6 +326,8 @@ const farmsMaticMainnet: FarmConfig[] = [
       4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     singleSidedToTokenName: "USDC",
+    getLpLink:
+      "https://quickswap.exchange/#/add/0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270/0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
   },
   {
     pid: 6,
@@ -368,6 +380,8 @@ const farmsMaticMainnet: FarmConfig[] = [
       4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     singleSidedToTokenName: "FRAX",
+    getLpLink:
+      "https://app.sushi.com/add/0x104592a158490a9228070e0a8e5343b499e125d0/0x3e121107f6f22da4911079845a470757af4e1a1b",
   },
   {
     pid: 7,
@@ -420,6 +434,8 @@ const farmsMaticMainnet: FarmConfig[] = [
       4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     singleSidedToTokenName: "AVAX",
+    getLpLink:
+      "https://app.sushi.com/add/0x2c89bbc92bd86f8075d1decc58c7f4e0107f286b/0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
   },
   {
     pid: 8,
@@ -472,6 +488,8 @@ const farmsMaticMainnet: FarmConfig[] = [
       4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     singleSidedToTokenName: "KLIMA",
+    getLpLink:
+      "https://app.sushi.com/add/0x2f800db0fdb5223b3c3f354886d907a671414a7f/0x4e78011ce80ee02d2c3e649fb657e45898257815",
   },
   {
     pid: 9,
@@ -525,6 +543,8 @@ const farmsMaticMainnet: FarmConfig[] = [
       4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     singleSidedToTokenName: "USDC",
+    getLpLink:
+      "https://quickswap.exchange/#/swap?inputCurrency=eth&outputCurrency=0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
   },
   {
     pid: 10,
@@ -578,6 +598,8 @@ const farmsMaticMainnet: FarmConfig[] = [
       4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     singleSidedToTokenName: "DAI",
+    getLpLink:
+      "https://quickswap.exchange/#/swap?inputCurrency=eth&outputCurrency=0x8f3cf7ad23cd3cadbd9735aff958023239c6a063",
   },
   {
     pid: 11,
@@ -631,6 +653,8 @@ const farmsMaticMainnet: FarmConfig[] = [
       4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     singleSidedToTokenName: "USDT",
+    getLpLink:
+      "https://quickswap.exchange/#/swap?inputCurrency=eth&outputCurrency=0xc2132d05d31c914a87c6611c10748aeb04b58e8f",
   },
 ];
 const farmsMaticTestnet: FarmConfig[] = [
@@ -684,6 +708,8 @@ const farmsMaticTestnet: FarmConfig[] = [
       4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     singleSidedToTokenName: "SUPER",
+    getLpLink:
+      "https://quickswap.exchange/#/add/0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270/0x831753dd7087cac61ab5644b308642cc1c33dc13",
   },
 ];
 const farmsFantomMainnet: FarmConfig[] = [];

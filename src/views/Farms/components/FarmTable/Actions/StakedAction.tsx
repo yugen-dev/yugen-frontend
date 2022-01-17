@@ -14,8 +14,6 @@ import { FarmWithStakedValue } from "views/Farms/components/FarmCard/FarmCard";
 import useI18n from "hooks/useI18n";
 import { useApprove } from "hooks/useApprove";
 import { getERC20Contract } from "utils/contractHelpers";
-import { BASE_ADD_LIQUIDITY_URL } from "config";
-import getLiquidityUrlPathParts from "utils/getLiquidityUrlPathParts";
 import { getBalanceNumber } from "utils/formatBalance";
 import { useStake } from "hooks/useStake";
 import useUnstake from "hooks/useUnstake";
@@ -41,9 +39,6 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({
   pid,
   lpSymbol,
   lpAddresses,
-  quoteTokenAdresses,
-  quoteTokenSymbol,
-  tokenAddresses,
   lpDecimals,
 }) => {
   const TranslateString = useI18n();
@@ -58,12 +53,8 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({
   const isApproved = account && allowance && allowance.isGreaterThan(0);
 
   const lpAddress = lpAddresses[process.env.REACT_APP_CHAIN_ID];
-  const liquidityUrlPathParts = getLiquidityUrlPathParts({
-    quoteTokenAdresses,
-    quoteTokenSymbol,
-    tokenAddresses,
-  });
-  const addLiquidityUrl = `${BASE_ADD_LIQUIDITY_URL}/${liquidityUrlPathParts}`;
+
+  const addLiquidityUrl = "";
   const rawStakedBalance = getBalanceNumber(stakedBalance);
   const displayBalance = rawStakedBalance.toLocaleString();
 

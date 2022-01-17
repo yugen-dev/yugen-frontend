@@ -3,7 +3,6 @@ import styled from "styled-components";
 import useI18n from "hooks/useI18n";
 import { LinkExternal, Text } from "cryption-uikit";
 import { FarmWithStakedValue } from "views/Farms/components/FarmCard/FarmCard";
-import getLiquidityUrlPathParts from "utils/getLiquidityUrlPathParts";
 import { communityFarms } from "config/constants";
 import { CommunityTag, CoreTag, DualTag } from "components/Tags";
 
@@ -111,20 +110,9 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
   const farm = details;
 
   const TranslateString = useI18n();
-  const {
-    quoteTokenAdresses,
-    quoteTokenSymbol,
-    tokenAddresses,
-    tokenSymbol,
-    dual,
-  } = farm;
+  const { tokenSymbol, dual } = farm;
   const lpLabel =
     farm.lpSymbol && farm.lpSymbol.toUpperCase().replace("PANCAKE", "");
-  const liquidityUrlPathParts = getLiquidityUrlPathParts({
-    quoteTokenAdresses,
-    quoteTokenSymbol,
-    tokenAddresses,
-  });
   const lpAddress = farm.lpAddresses[process.env.REACT_APP_CHAIN_ID];
   const bsc = `https://polygonscan.com/address/${lpAddress}`;
   const info = `https://pancakeswap.info/pair/${lpAddress}`;
@@ -134,9 +122,7 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
     <Container>
       <InfoContainer>
         <StakeContainer>
-          <StyledLinkExternal
-            href={`https://exchange.pancakeswap.finance/#/add/${liquidityUrlPathParts}`}
-          >
+          <StyledLinkExternal href={`${farm.getLpLink}`}>
             {TranslateString(999, `Stake:  ${lpLabel}`, { name: lpLabel })}
           </StyledLinkExternal>
         </StakeContainer>
