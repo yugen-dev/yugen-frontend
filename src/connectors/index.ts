@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ConnectorNames } from "yugen-uikit";
 import { Web3Provider } from "@ethersproject/providers";
 import { InjectedConnector } from "@web3-react/injected-connector";
