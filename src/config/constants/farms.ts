@@ -20,7 +20,7 @@ const farmsMaticMainnet: FarmConfig[] = [
       4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     tokenSymbol: "QUICK-wMATIC",
-    volatility: "failure",
+    volatility: "binance",
     tokenAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -176,7 +176,7 @@ const farmsMaticMainnet: FarmConfig[] = [
       4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     tokenSymbol: "wETH-NACHO",
-    volatility: "failure",
+    volatility: "success",
     tokenAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -229,7 +229,7 @@ const farmsMaticMainnet: FarmConfig[] = [
       4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     tokenSymbol: "wMATIC-NSHARE",
-    volatility: "failure",
+    volatility: "binance",
     tokenAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -333,7 +333,7 @@ const farmsMaticMainnet: FarmConfig[] = [
       4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     tokenSymbol: "FXS-FRAX",
-    volatility: "failure",
+    volatility: "success",
     tokenAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
