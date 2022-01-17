@@ -475,7 +475,7 @@ const CNTStaker = () => {
                 10% of the Interest generated is given back to the stakers of
                 YGN.
               </DescriptionTextLi>
-              <DescriptionTextLi>
+              <DescriptionTextLi style={{ textDecoration: "underline" }}>
                 fYGN rewards start on block no:{" "}
                 <Link
                   external

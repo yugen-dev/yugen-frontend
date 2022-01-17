@@ -179,7 +179,7 @@ const VestingFactory = () => {
               fYGN) is held for a cliff period of 2 weeks and then linearly
               distributed over the next 2 weeks.
             </DescriptionTextLi>
-            <DescriptionTextLi>
+            <DescriptionTextLi style={{ textDecoration: "underline" }}>
               fYGN rewards start on block no:{" "}
               <Link
                 external

@@ -412,7 +412,7 @@ const FYGNBurner = () => {
               <DescriptionTextLi>
                 fYGN can be burned to redeem YGN.
               </DescriptionTextLi>
-              <DescriptionTextLi>
+              <DescriptionTextLi style={{ textDecoration: "underline" }}>
                 fYGN rewards start on block no:{" "}
                 <Link
                   external
