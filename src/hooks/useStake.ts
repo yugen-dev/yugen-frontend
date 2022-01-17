@@ -3,51 +3,24 @@ import { useCallback } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { useDispatch } from "react-redux";
 import { fetchFarmUserDataAsync } from "state/actions";
-import { stake, vaultstake, GaslessStake } from "utils/callHelpers";
+import { stake, vaultstake } from "utils/callHelpers";
 import { useProfile, useToast } from "state/hooks";
 import { fetchVaultUserDataAsync } from "state/vaults";
-import {
-  useFarmWrapper,
-  useMasterchef,
-  useMasterchefGasless,
-  useVaultchef,
-} from "./useContract";
+import { useFarmWrapper, useMasterchef, useVaultchef } from "./useContract";
 
-export const useStake = (pid: number) => {
+export const useStake = (pid: number, decimals) => {
   const dispatch = useDispatch();
-  const { account, library } = useWeb3React("web3");
+  const { account } = useWeb3React("web3");
   const masterChefContract = useMasterchef();
-  const masterChefGaslessContract = useMasterchefGasless();
   const { toastInfo, toastError, toastSuccess } = useToast();
-  const { metaTranscation } = useProfile();
 
   const handleStake = useCallback(
     async (amount: string) => {
-      let resp;
       try {
         toastInfo("Processing...", `You requested to Deposited `);
-        if (metaTranscation) {
-          resp = await GaslessStake(
-            masterChefGaslessContract,
-            pid,
-            amount,
-            account,
-            library
-          );
-
-          // @ts-ignore
-          if (typeof resp !== "undefined" && resp.code === 4001) {
-            toastError("canceled", ` signautures rejected`);
-          } else {
-            toastSuccess("Success", ` Deposited successfully`);
-          }
-
-          dispatch(fetchFarmUserDataAsync(account));
-        } else {
-          await stake(masterChefContract, pid, amount, account);
-          toastSuccess("Success", ` Deposited successfully`);
-          dispatch(fetchFarmUserDataAsync(account));
-        }
+        await stake(masterChefContract, pid, amount, account, decimals);
+        toastSuccess("Success", ` Deposited successfully`);
+        dispatch(fetchFarmUserDataAsync(account));
       } catch (error) {
         if (
           error["message"] ===
@@ -64,15 +37,13 @@ export const useStake = (pid: number) => {
       }
     },
     [
-      account,
-      dispatch,
-      masterChefGaslessContract,
+      toastInfo,
       masterChefContract,
       pid,
-      metaTranscation,
-      library,
-      toastInfo,
+      account,
+      decimals,
       toastSuccess,
+      dispatch,
       toastError,
     ]
   );
@@ -80,7 +51,7 @@ export const useStake = (pid: number) => {
   return { onStake: handleStake };
 };
 
-export const useStakeSingleSided = (pid: number) => {
+export const useStakeSingleSided = (pid: number, decimals) => {
   const dispatch = useDispatch();
   const { account } = useWeb3React("web3");
   const farmWrapperContract = useFarmWrapper();
@@ -90,7 +61,7 @@ export const useStakeSingleSided = (pid: number) => {
     async (amount: string) => {
       try {
         toastInfo("Processing...", `You requested to Deposited `);
-        await stake(farmWrapperContract, pid, amount, account);
+        await stake(farmWrapperContract, pid, amount, account, decimals);
         toastSuccess("Success", ` Deposited successfully`);
         dispatch(fetchFarmUserDataAsync(account));
       } catch (error) {
@@ -113,6 +84,7 @@ export const useStakeSingleSided = (pid: number) => {
       farmWrapperContract,
       pid,
       account,
+      decimals,
       toastSuccess,
       dispatch,
       toastError,

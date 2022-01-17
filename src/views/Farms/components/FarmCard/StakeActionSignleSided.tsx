@@ -59,7 +59,9 @@ const StakeActionSignleSided: React.FC<FarmCardActionsProps> = ({
     }
   }, [onApprove]);
 
-  const { onStakeSingleSided } = useStakeSingleSided(pid);
+  const inputDecimals = new BigNumber(decimal || 18).toNumber();
+
+  const { onStakeSingleSided } = useStakeSingleSided(pid, inputDecimals);
 
   const [onPresentDeposit] = useModal(
     <DepositModalSingleSided

@@ -169,11 +169,17 @@ export const GaslessHarvest = async (
   );
 };
 
-export const stake = async (masterChefContract, pid, amount, account) => {
+export const stake = async (
+  masterChefContract,
+  pid,
+  amount,
+  account,
+  decimals
+) => {
   return masterChefContract.methods
     .deposit(
       pid,
-      new BigNumber(amount).times(new BigNumber(10).pow(18)).toString(),
+      new BigNumber(amount).times(new BigNumber(10).pow(decimals)).toString(),
       true
     )
     .send({ from: account })
@@ -320,11 +326,17 @@ export const sousStakeBnb = async (sousChefContract, amount, account) => {
     });
 };
 
-export const unstake = async (masterChefContract, pid, amount, account) => {
+export const unstake = async (
+  masterChefContract,
+  pid,
+  amount,
+  account,
+  decimals
+) => {
   return masterChefContract.methods
     .withdraw(
       pid,
-      new BigNumber(amount).times(new BigNumber(10).pow(18)).toString(),
+      new BigNumber(amount).times(new BigNumber(10).pow(decimals)).toString(),
       true
     )
     .send({ from: account })

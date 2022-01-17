@@ -132,7 +132,8 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
   const lpContract = getERC20Contract(lpAddress, web3);
 
   const { metaTranscation } = useProfile();
-  const rawStakedBalance = getBalanceNumber(stakedBalance);
+  const inputDecimals = new BigNumber(farm.lpDecimals || 18).toNumber();
+  const rawStakedBalance = getBalanceNumber(stakedBalance, inputDecimals);
   const displayBalance = rawStakedBalance.toFixed(4).toLocaleString();
   const [signatureData, setSignatureData] = useState<{
     v: number;

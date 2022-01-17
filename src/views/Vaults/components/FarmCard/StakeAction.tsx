@@ -10,7 +10,6 @@ import { getBalanceNumber } from "utils/formatBalance";
 import DepositModal from "../DepositModal";
 import WithdrawModal from "../WithdrawModal";
 
-
 interface FarmCardActionsProps {
   stakedBalance?: BigNumber;
   tokenBalance?: BigNumber;
@@ -39,13 +38,16 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
   // totalValueOfUserFormated,
 }) => {
   const TranslateString = useI18n();
-  const { onStake } = useStake(pid);
+  // TODO: fix later
+  const inputDecimals = new BigNumber(18).toNumber();
+  const { onStake } = useStake(pid, inputDecimals);
   const { onStakeWithPermit } = useStakeWithPermit(
     pid,
     signatureData,
-    setSignauteNull
+    setSignauteNull,
+    inputDecimals
   );
-  const { onUnstake } = useUnstake(pid);
+  const { onUnstake } = useUnstake(pid, inputDecimals);
 
   const rawStakedBalance = getBalanceNumber(stakedBalance);
 
@@ -87,11 +89,26 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
         // </IconButtonWrapper>
         <Row justifyContent="space-around">
           {/* <Column> */}
-          <Button mt="8px" scale="md" height="45px" onClick={onPresentDeposit} minWidth="120px" width="auto" mr="15px">
+          <Button
+            mt="8px"
+            scale="md"
+            height="45px"
+            onClick={onPresentDeposit}
+            minWidth="120px"
+            width="auto"
+            mr="15px"
+          >
             {/* {approvalDisabled ? "Staking..." : "Stake"} */}
             Stake
           </Button>
-          <Button mt="8px" scale="md" height="45px" onClick={onPresentWithdraw} minWidth="120px" width="auto">
+          <Button
+            mt="8px"
+            scale="md"
+            height="45px"
+            onClick={onPresentWithdraw}
+            minWidth="120px"
+            width="auto"
+          >
             {/* {approvalDisabled ? "Unstaking..." : "Unstake"} */}
             Unstake
           </Button>

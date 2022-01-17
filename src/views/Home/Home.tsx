@@ -13,6 +13,7 @@ import {
   YUGEN_INFO_CUSTOM_API,
 } from "config";
 import { getDayData } from "apollo/exchange";
+import { Lock } from "react-feather";
 import {
   useFarms,
   useFarmsTotalValue,
@@ -146,71 +147,89 @@ const Home: React.FC = () => {
         marginBottom: "80px",
       }}
     >
-      <Grid container spacing={5} justify="center">
-        <Grid item xs={12} md={6} lg={6} xl={6}>
-          <Hero>
-            <Heading size="xxl">Yugen</Heading>
-          </Hero>
-          <LotteryCard />
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          md={6}
-          lg={6}
-          xl={6}
-          style={{ display: "flex", alignItems: "flex-end" }}
-        >
-          <PieChart
-            pieData={ApiData}
-            pieLoading={ApiLoading}
-            pieError={ApiError}
-          />
-        </Grid>
-        <Grid item xs={12} md={4} lg={4} xl={4}>
-          <YgnStatsCard data={ApiData} loading={ApiLoading} error={ApiError} />
-        </Grid>
-        <Grid item xs={12} md={4} lg={4} xl={4}>
-          <FygnStatsCard data={ApiData} loading={ApiLoading} error={ApiError} />
-        </Grid>
-        <Grid item xs={12} md={4} lg={4} xl={4}>
-          <XygnStatsCard data={ApiData} loading={ApiLoading} error={ApiError} />
-        </Grid>
-        <Grid item xs={12} md={4} lg={6} xl={6}>
-          <Card2>
-            <Heading
-              size="lg"
-              textAlign="center"
-              style={{ width: "100%" }}
-              color="#887263"
-            >
-              Total Value Locked
-            </Heading>
-            <Heading
-              style={{ width: "100%" }}
-              textAlign="center"
-              color="#887263"
-            >
-              :
-            </Heading>
-            <div
-              style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <CardValue
-                value={Number(totalTVL)}
-                lineHeight="1.5"
-                prefix="$"
-                fontSize="38px"
-                decimals={0}
-              />
-            </div>
+      <HomeOverlay>
+        <Lock size="64px" />
+        <span style={{ margin: "0px 0px 0px 10px" }}> Coming Soon..... </span>
+      </HomeOverlay>
 
-            {/* <SubTVLContainer>
+      <HomeContainer>
+        <Grid container spacing={5} justify="center">
+          <Grid item xs={12} md={6} lg={6} xl={6}>
+            <Hero>
+              <Heading size="xxl">Yugen</Heading>
+            </Hero>
+            <LotteryCard />
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            md={6}
+            lg={6}
+            xl={6}
+            style={{ display: "flex", alignItems: "flex-end" }}
+          >
+            <PieChart
+              pieData={ApiData}
+              pieLoading={ApiLoading}
+              pieError={ApiError}
+            />
+          </Grid>
+          <Grid item xs={12} md={4} lg={4} xl={4}>
+            <YgnStatsCard
+              data={ApiData}
+              loading={ApiLoading}
+              error={ApiError}
+            />
+          </Grid>
+          <Grid item xs={12} md={4} lg={4} xl={4}>
+            <FygnStatsCard
+              data={ApiData}
+              loading={ApiLoading}
+              error={ApiError}
+            />
+          </Grid>
+          <Grid item xs={12} md={4} lg={4} xl={4}>
+            <XygnStatsCard
+              data={ApiData}
+              loading={ApiLoading}
+              error={ApiError}
+            />
+          </Grid>
+          <Grid item xs={12} md={4} lg={6} xl={6}>
+            <Card2>
+              <Heading
+                size="lg"
+                textAlign="center"
+                style={{ width: "100%" }}
+                color="#887263"
+              >
+                Total Value Locked
+              </Heading>
+              <Heading
+                style={{ width: "100%" }}
+                textAlign="center"
+                color="#887263"
+              >
+                :
+              </Heading>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <CardValue
+                  value={Number(totalTVL)}
+                  lineHeight="1.5"
+                  prefix="$"
+                  fontSize="38px"
+                  decimals={0}
+                />
+              </div>
+
+              {/* <SubTVLContainer>
               <FarmsTVL>
                 <Text>Farms</Text>
                 <CardValue
@@ -232,29 +251,29 @@ const Home: React.FC = () => {
                 />
               </VaultsTVL>
             </SubTVLContainer> */}
-          </Card2>
-        </Grid>
-        <Grid item xs={12} md={6} lg={6} xl={6}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={6} xl={6}>
-              <EarnAssetCard
-                topTitle="Earn up to"
-                description={`${maxFarmsAPY}%`}
-                descriptionColor="#449c2c"
-                bottomTitle="APR in farms"
-                redirectLink="/farms"
-              />
-            </Grid>
-            <Grid item xs={12} md={6} lg={6} xl={6}>
-              <EarnAssetCard
-                topTitle="Bonds"
-                bottomTitle="APR in bonds"
-                description="Coming soon..."
-                descriptionColor="#449c2c"
-                redirectLink="/bonds"
-              />
-            </Grid>
-            {/* <Grid item xs={12} md={6} lg={6} xl={6}>
+            </Card2>
+          </Grid>
+          <Grid item xs={12} md={6} lg={6} xl={6}>
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={6} lg={6} xl={6}>
+                <EarnAssetCard
+                  topTitle="Earn up to"
+                  description={`${maxFarmsAPY}%`}
+                  descriptionColor="#449c2c"
+                  bottomTitle="APR in farms"
+                  redirectLink="/farms"
+                />
+              </Grid>
+              <Grid item xs={12} md={6} lg={6} xl={6}>
+                <EarnAssetCard
+                  topTitle="Bonds"
+                  bottomTitle="APR in bonds"
+                  description="Coming soon..."
+                  descriptionColor="#449c2c"
+                  redirectLink="/bonds"
+                />
+              </Grid>
+              {/* <Grid item xs={12} md={6} lg={6} xl={6}>
               <EarnAssetCard
                 topTitle="Earn up to"
                 bottomTitle="APR in vaults"
@@ -263,12 +282,49 @@ const Home: React.FC = () => {
                 redirectLink="/vaults"
               />
             </Grid> */}
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      </HomeContainer>
     </Container>
   );
 };
+
+const HomeOverlay = styled.div`
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  position: absolute;
+  font-size: 74px;
+  text-align: center;
+  z-index: 99;
+  /* background: #d4c8ae; */
+  padding: 5px 0px;
+  color: #424945;
+  width: 100%;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+
+  &:hover {
+    cursor: not-allowed;
+  }
+`;
+
+const HomeContainer = styled.div`
+  min-height: 100%;
+  opacity: 0.4;
+  z-index: 1;
+  position: relative;
+
+  &:hover {
+    cursor: not-allowed;
+  }
+`;
 
 const Hero = styled.div`
   align-items: left;

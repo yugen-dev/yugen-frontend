@@ -40,13 +40,15 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
   // totalValueOfUserFormated,
 }) => {
   const TranslateString = useI18n();
-  const { onStake } = useStake(pid);
+  const decimals = new BigNumber(lpDecimals || 18).toNumber();
+  const { onStake } = useStake(pid, decimals);
   const { onStakeWithPermit } = useStakeWithPermit(
     pid,
     signatureData,
-    setSignauteNull
+    setSignauteNull,
+    decimals
   );
-  const { onUnstake } = useUnstake(pid);
+  const { onUnstake } = useUnstake(pid, decimals);
 
   const rawStakedBalance = getBalanceNumber(stakedBalance);
 

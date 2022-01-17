@@ -21,6 +21,7 @@ import { useStake } from "hooks/useStake";
 import useUnstake from "hooks/useUnstake";
 import useWeb3 from "hooks/useWeb3";
 
+import BigNumber from "bignumber.js";
 import DepositModal from "../../DepositModal";
 import WithdrawModal from "../../WithdrawModal";
 import {
@@ -43,13 +44,15 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({
   quoteTokenAdresses,
   quoteTokenSymbol,
   tokenAddresses,
+  lpDecimals,
 }) => {
   const TranslateString = useI18n();
   const { account } = useWeb3React("web3");
   const [requestedApproval, setRequestedApproval] = useState(false);
   const { allowance, tokenBalance, stakedBalance } = useFarmUser(pid);
-  const { onStake } = useStake(pid);
-  const { onUnstake } = useUnstake(pid);
+  const inputDecimals = new BigNumber(lpDecimals || 18).toNumber();
+  const { onStake } = useStake(pid, inputDecimals);
+  const { onUnstake } = useUnstake(pid, inputDecimals);
   const web3 = useWeb3();
 
   const isApproved = account && allowance && allowance.isGreaterThan(0);

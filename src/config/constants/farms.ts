@@ -478,7 +478,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     isPool: true,
     tag: "Powered by EthaLend",
     lpSymbol: "USDC",
-    tempApr: "8.04",
+    tempApr: "23.59",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -531,7 +531,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     isPool: true,
     tag: "Powered by EthaLend",
     lpSymbol: "DAI",
-    tempApr: "7.04",
+    tempApr: "29.42",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -584,7 +584,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     isPool: true,
     tag: "Powered by EthaLend",
     lpSymbol: "USDT",
-    tempApr: "10.35",
+    tempApr: "27.24",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
