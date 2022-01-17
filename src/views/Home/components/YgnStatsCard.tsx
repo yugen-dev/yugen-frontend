@@ -14,7 +14,6 @@ const ProgressText = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
 `;
 const ProgressItemText = styled.div`
   display: flex;
@@ -24,6 +23,11 @@ const ProgressItemText = styled.div`
   text-align: center;
   justify-items: center;
   align-items: center;
+`;
+
+const Img = styled.img`
+  width: 50px;
+  margin-bottom: 5px;
 `;
 
 const CardValue = ({ data, loading, error }) => {
@@ -49,11 +53,9 @@ const CardValue = ({ data, loading, error }) => {
     return (
       <Card>
         <ProgressText style={{ marginBottom: "15px", flexDirection: "column" }}>
+          <Img src="./images/tokens/ygn.webp" alt="YGN token" />
           <Text color="#424945" fontSize="18px" fontWeight="700">
-            YGN & Summary
-          </Text>
-          <Text color="#887263" fontSize="12px" ml="5px" textAlign="center">
-            * Amount allocated through mining is distributed every second
+            YGN
           </Text>
         </ProgressText>
 
@@ -75,7 +77,7 @@ const CardValue = ({ data, loading, error }) => {
           >
             <ProgressItemText>
               <Text color="#887263" fontSize="15px" textAlign="center">
-                YGN price
+                Price
               </Text>
               <Text
                 fontSize="22px"
@@ -113,15 +115,6 @@ const CardValue = ({ data, loading, error }) => {
                 <Skeleton width={100} />
               </Text>
             </ProgressItemText>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-evenly",
-              flexWrap: "wrap",
-              width: "100%",
-            }}
-          >
             <ProgressItemText>
               <Text color="#887263" fontSize="15px" textAlign="center">
                 Total YGN staked
@@ -138,33 +131,6 @@ const CardValue = ({ data, loading, error }) => {
                 </Text>
               </Text>
             </ProgressItemText>
-
-            <ProgressItemText>
-              <Text color="#887263" fontSize="15px" textAlign="center">
-                fYGN price
-              </Text>
-              <Text
-                fontSize="22px"
-                fontWeight="700"
-                style={{ display: "flex", alignItems: "center" }}
-              >
-                <Skeleton width={100} />
-              </Text>
-            </ProgressItemText>
-
-            {/* TODO: Max supply */}
-            <ProgressItemText>
-              <Text color="#887263" fontSize="15px" textAlign="center">
-                fYGN total supply
-              </Text>
-              <Text
-                fontSize="22px"
-                fontWeight="700"
-                style={{ display: "flex", alignItems: "center" }}
-              >
-                <Skeleton width={100} />
-              </Text>
-            </ProgressItemText>
           </div>
         </ProgressText>
       </Card>
@@ -175,11 +141,9 @@ const CardValue = ({ data, loading, error }) => {
     return (
       <Card>
         <ProgressText style={{ marginBottom: "15px", flexDirection: "column" }}>
+          <Img src="./images/tokens/ygn.webp" alt="YGN token" />
           <Text color="#424945" fontSize="18px" fontWeight="700">
-            YGN & Summary
-          </Text>
-          <Text color="#887263" fontSize="12px" ml="5px" textAlign="center">
-            * Amount allocated through mining is distributed every second
+            YGN
           </Text>
         </ProgressText>
 
@@ -201,7 +165,7 @@ const CardValue = ({ data, loading, error }) => {
           >
             <ProgressItemText>
               <Text color="#887263" fontSize="15px" textAlign="center">
-                YGN price
+                Price
               </Text>
               <Text
                 fontSize="22px"
@@ -239,15 +203,6 @@ const CardValue = ({ data, loading, error }) => {
                 ${numberWithCommas(data?.ygnTotalMarketCap)}{" "}
               </Text>
             </ProgressItemText>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-evenly",
-              flexWrap: "wrap",
-              width: "100%",
-            }}
-          >
             <ProgressItemText>
               <Text color="#887263" fontSize="15px" textAlign="center">
                 Total YGN staked
@@ -262,33 +217,6 @@ const CardValue = ({ data, loading, error }) => {
                   {" "}
                   YGN
                 </Text>
-              </Text>
-            </ProgressItemText>
-
-            <ProgressItemText>
-              <Text color="#887263" fontSize="15px" textAlign="center">
-                fYGN price
-              </Text>
-              <Text
-                fontSize="22px"
-                fontWeight="700"
-                style={{ display: "flex", alignItems: "center" }}
-              >
-                ${numberWithCommas(data?.fygnPrice, 9)}
-              </Text>
-            </ProgressItemText>
-
-            {/* TODO: Max supply */}
-            <ProgressItemText>
-              <Text color="#887263" fontSize="15px" textAlign="center">
-                fYGN total supply
-              </Text>
-              <Text
-                fontSize="22px"
-                fontWeight="700"
-                style={{ display: "flex", alignItems: "center" }}
-              >
-                {numberWithCommas(data?.fygnTotalSupply, 2)}{" "}
               </Text>
             </ProgressItemText>
           </div>

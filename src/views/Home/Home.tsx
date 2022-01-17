@@ -21,15 +21,17 @@ import {
   usePriceBtcBusd,
   usePriceCakeBusd,
   usePriceEthBusd,
-  useVaultsApr,
+  // useVaultsApr,
   useFetch,
 } from "state/hooks";
 
-import { Heading, Text } from "cryption-uikit";
+import { Heading } from "cryption-uikit";
 import Grid from "@material-ui/core/Grid";
 import CardValue from "./components/CardValue";
 import EarnAssetCard from "./components/EarnAssetCard";
-import StatsCard from "./components/StatsCard";
+import YgnStatsCard from "./components/YgnStatsCard";
+import FygnStatsCard from "./components/FygnStatsCard";
+import XygnStatsCard from "./components/XygnStatsCard";
 import LotteryCard from "./components/LotteryCard";
 import PieChart from "./components/PieChart";
 
@@ -41,7 +43,7 @@ const Home: React.FC = () => {
   } = useFetch(YUGEN_INFO_CUSTOM_API);
   const farmsTVL = useFarmsTotalValue();
   const vaultsTVL = useVaultsTotalValue();
-  const maxVaultsAPY = useVaultsApr();
+  // const maxVaultsAPY = useVaultsApr();
   const totalTVL = BigNumber.sum(farmsTVL, vaultsTVL).toFixed(2);
 
   const maxFarmsAPYRef = useRef(Number.MIN_VALUE);
@@ -151,20 +153,45 @@ const Home: React.FC = () => {
           </Hero>
           <LotteryCard />
         </Grid>
-        <Grid item xs={12} md={8} lg={8} xl={8}>
-          <StatsCard data={ApiData} loading={ApiLoading} error={ApiError} />
-        </Grid>
-        <Grid item xs={12} md={4} lg={4} xl={4}>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          lg={6}
+          xl={6}
+          style={{ display: "flex", alignItems: "flex-end" }}
+        >
           <PieChart
             pieData={ApiData}
             pieLoading={ApiLoading}
             pieError={ApiError}
           />
         </Grid>
-        <Grid item xs={12} md={6} lg={6} xl={6}>
+        <Grid item xs={12} md={4} lg={4} xl={4}>
+          <YgnStatsCard data={ApiData} loading={ApiLoading} error={ApiError} />
+        </Grid>
+        <Grid item xs={12} md={4} lg={4} xl={4}>
+          <FygnStatsCard data={ApiData} loading={ApiLoading} error={ApiError} />
+        </Grid>
+        <Grid item xs={12} md={4} lg={4} xl={4}>
+          <XygnStatsCard data={ApiData} loading={ApiLoading} error={ApiError} />
+        </Grid>
+        <Grid item xs={12} md={4} lg={6} xl={6}>
           <Card2>
-            <Heading size="lg" textAlign="center">
+            <Heading
+              size="lg"
+              textAlign="center"
+              style={{ width: "100%" }}
+              color="#887263"
+            >
               Total Value Locked
+            </Heading>
+            <Heading
+              style={{ width: "100%" }}
+              textAlign="center"
+              color="#887263"
+            >
+              :
             </Heading>
             <div
               style={{
@@ -183,7 +210,7 @@ const Home: React.FC = () => {
               />
             </div>
 
-            <SubTVLContainer>
+            {/* <SubTVLContainer>
               <FarmsTVL>
                 <Text>Farms</Text>
                 <CardValue
@@ -204,7 +231,7 @@ const Home: React.FC = () => {
                   decimals={0}
                 />
               </VaultsTVL>
-            </SubTVLContainer>
+            </SubTVLContainer> */}
           </Card2>
         </Grid>
         <Grid item xs={12} md={6} lg={6} xl={6}>
@@ -220,13 +247,22 @@ const Home: React.FC = () => {
             </Grid>
             <Grid item xs={12} md={6} lg={6} xl={6}>
               <EarnAssetCard
+                topTitle="Bonds"
+                bottomTitle="APR in bonds"
+                description="Coming soon..."
+                descriptionColor="#449c2c"
+                redirectLink="/bonds"
+              />
+            </Grid>
+            {/* <Grid item xs={12} md={6} lg={6} xl={6}>
+              <EarnAssetCard
                 topTitle="Earn up to"
                 bottomTitle="APR in vaults"
                 description={`${new BigNumber(maxVaultsAPY).toFixed(2)}%`}
                 descriptionColor="#449c2c"
                 redirectLink="/vaults"
               />
-            </Grid>
+            </Grid> */}
           </Grid>
         </Grid>
       </Grid>
@@ -241,38 +277,41 @@ const Hero = styled.div`
   text-align: center;
 `;
 
-const SubTVLContainer = styled.div`
-  min-width: 100%;
-  display: flex;
+// const SubTVLContainer = styled.div`
+//   min-width: 100%;
+//   display: flex;
 
-  @media (max-width: 550px) {
-    flex-wrap: wrap;
-  }
-`;
+//   @media (max-width: 550px) {
+//     flex-wrap: wrap;
+//   }
+// `;
 
-const FarmsTVL = styled.div`
-  margin-top: 20px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`;
-const VaultsTVL = styled.div`
-  margin-top: 20px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`;
+// const FarmsTVL = styled.div`
+//   margin-top: 20px;
+//   width: 100%;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   flex-direction: column;
+// `;
+// const VaultsTVL = styled.div`
+//   margin-top: 20px;
+//   width: 100%;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   flex-direction: column;
+// `;
 
 const Card2 = styled.div`
   background: #ffffff;
   width: 100%;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   border-radius: 1rem;
-  padding: 35px 35px;
+  padding: 30px 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default Home;

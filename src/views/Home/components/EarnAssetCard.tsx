@@ -124,8 +124,8 @@ const EarnAssetCard: React.FC<EarnAssestsProps> = ({
             {description}
           </CardMidContent>
           <Flex justifyContent={redirectLink ? "space-between" : "center"}>
-            <CNBottomHeader>{bottomTitle || "in Pools"}</CNBottomHeader>
-            {redirectLink && <ArrowForwardIcon color="#2082E9" />}
+            <CNBottomHeader>{bottomTitle || ""}</CNBottomHeader>
+            {redirectLink && <ArrowForwardIcon color="#424945" />}
           </Flex>
         </CNCardBody>
       </StyledFarmStakingCard>
