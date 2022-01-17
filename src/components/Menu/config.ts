@@ -76,6 +76,11 @@ export const maticMainnetConfig: MenuEntry[] = [
     icon: "RewardsManagerIcon",
     href: "/bonds",
   },
+  {
+    label: "Docs",
+    icon: "DocsIcon",
+    href: "https://docs.yugen.finance/",
+  },
 ];
 
 export const maticTestnetConfig: MenuEntry[] = [
