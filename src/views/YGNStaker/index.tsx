@@ -17,6 +17,7 @@ import {
   Input,
   Text,
   AutoRenewIcon,
+  Link,
 } from "yugen-uikit";
 import Grid from "@material-ui/core/Grid";
 import { useQuery } from "@apollo/client";
@@ -140,9 +141,13 @@ const HeaderGrid = styled(Grid)`
 const DescriptionTextLi = styled.li`
   font-size: 17px;
   font-weight: normal;
-  text-align: left;
+  text-align: center;
   margin-bottom: 10px !important;
   color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
 `;
 
 const StyledOl = styled.ol`
@@ -465,14 +470,22 @@ const CNTStaker = () => {
           >
             <CNHeading>YGN Staker</CNHeading>
             <StyledOl>
-              <DescriptionTextLi>Stake YGN to earn more YGN.</DescriptionTextLi>
+              <DescriptionTextLi>StakeYGN to earn more YGN.</DescriptionTextLi>
               <DescriptionTextLi>
-                You will earn a portion of the swap fees based on the amount of
-                xYGN held relative to the weight of the staking.
+                10% of the Interest generated is given back to the stakers of
+                YGN.
               </DescriptionTextLi>
               <DescriptionTextLi>
-                xYGN can be minted by staking YGN. To redeem the YGN staked plus
-                swap fees, convert xYGN back to YGN.
+                fYGN rewards start on block no:{" "}
+                <Link
+                  external
+                  href="https://polygonscan.com/block/countdown/23916250"
+                  color="white"
+                  fontSize="17px"
+                  ml="5px"
+                >
+                  23916250
+                </Link>
               </DescriptionTextLi>
             </StyledOl>
           </div>

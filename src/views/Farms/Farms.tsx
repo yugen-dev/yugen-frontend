@@ -4,7 +4,7 @@ import { Route, useRouteMatch, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import BigNumber from "bignumber.js";
 import { useWeb3React } from "@web3-react/core";
-import { RowType, Toggle, Text } from "yugen-uikit";
+import { RowType, Toggle, Text, Link } from "yugen-uikit";
 import styled from "styled-components";
 import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CAKE_POOL_PID } from "config";
 import {
@@ -478,12 +478,16 @@ const Farms: React.FC = () => {
     color: #ffffff;
     font-weight: bold;
     text-align: center;
+    margin-botton: 20px;
   `;
   const StyledSubHeading = styled.div`
-    margin-top: 30px;
-    font-size: 35px;
+    font-size: 25px;
     color: #ffffff;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
   `;
 
   return (
@@ -491,7 +495,19 @@ const Farms: React.FC = () => {
       <StyledContainer>
         <StyledSubContainer>
           <StyledHeading>Farms</StyledHeading>
-          <StyledSubHeading>stake LP tokens to earn</StyledSubHeading>
+          <StyledSubHeading>Stake your assets to earn fYGN</StyledSubHeading>
+          <StyledSubHeading>
+            fYGN rewards start on block no:{" "}
+            <Link
+              external
+              href="https://polygonscan.com/block/countdown/23916250"
+              color="white"
+              fontSize="25px"
+              ml="5px"
+            >
+              23916250
+            </Link>
+          </StyledSubHeading>
         </StyledSubContainer>
       </StyledContainer>
       <Page>

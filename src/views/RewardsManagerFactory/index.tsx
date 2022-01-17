@@ -7,10 +7,51 @@ import { useToast } from "state/hooks";
 import { useWeb3React } from "@web3-react/core";
 import BigNumber from "bignumber.js";
 import { getRewardsManagerContract } from "utils/contractHelpers";
+import Grid from "@material-ui/core/Grid";
+import { Link } from "yugen-uikit";
 import Timer from "./components/Timer";
-// import Banner from "./components/Banner";
 import Dashboard from "./components/Dashboard";
 import { ClaimButtons } from "./components/ClaimButtons";
+
+const CNHeading = styled.div`
+  font-size: 45px;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+  margin-bottom: 20px;
+  padding: 0px 10px;
+`;
+
+const HeaderGrid = styled(Grid)`
+  align-items: center;
+  color: ${({ theme }) => theme.colors.primary};
+  margin: 20px;
+  border-radius: 10px;
+  img {
+    height: auto;
+    max-width: 100%;
+  }
+  @media (min-width: 576px) {
+    max-width: none;
+  }
+`;
+
+const DescriptionTextLi = styled.li`
+  font-size: 17px;
+  font-weight: normal;
+  text-align: center;
+  margin-bottom: 10px !important;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+`;
+
+const StyledOl = styled.ol`
+  list-style-position: outside;
+  padding-left: 16px;
+`;
 
 declare global {
   interface Window {
@@ -122,6 +163,37 @@ const VestingFactory = () => {
 
   return (
     <Page>
+      <HeaderGrid container spacing={3}>
+        <div
+          style={{
+            backgroundColor: "#887963",
+            width: "100%",
+            borderRadius: "10px",
+            padding: "20px 10px",
+          }}
+        >
+          <CNHeading>Rewards Manager</CNHeading>
+          <StyledOl>
+            <DescriptionTextLi>
+              35% of fYGN is given on harvest (the rest, 65% of the remaining
+              fYGN) is held for a cliff period of 2 weeks and then linearly
+              distributed over the next 2 weeks.
+            </DescriptionTextLi>
+            <DescriptionTextLi>
+              fYGN rewards start on block no:{" "}
+              <Link
+                external
+                href="https://polygonscan.com/block/countdown/23916250"
+                color="white"
+                fontSize="17px"
+                ml="5px"
+              >
+                23916250
+              </Link>
+            </DescriptionTextLi>
+          </StyledOl>
+        </div>
+      </HeaderGrid>
       <MainContainer>
         <Dashboard vestedValues={vestedValues} />
         <ClaimButtons
