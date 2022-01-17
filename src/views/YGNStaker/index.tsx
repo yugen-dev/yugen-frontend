@@ -470,7 +470,7 @@ const CNTStaker = () => {
           >
             <CNHeading>YGN Staker</CNHeading>
             <StyledOl>
-              <DescriptionTextLi>StakeYGN to earn more YGN.</DescriptionTextLi>
+              <DescriptionTextLi>Stake YGN to earn more YGN.</DescriptionTextLi>
               <DescriptionTextLi>
                 10% of the Interest generated is given back to the stakers of
                 YGN.
