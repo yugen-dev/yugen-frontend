@@ -320,7 +320,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     pid: 6,
     tag: "Powered by SushiSwap",
     lpSymbol: "FXS-FRAX",
-    tempApr: "",
+    tempApr: "19.73",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -372,7 +372,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     pid: 7,
     tag: "Powered by SushiSwap",
     lpSymbol: "AVAX-wETH",
-    tempApr: "",
+    tempApr: "26.52",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -424,7 +424,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     pid: 8,
     tag: "Powered by SushiSwap",
     lpSymbol: "BCT-KLIMA",
-    tempApr: "",
+    tempApr: "203",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
