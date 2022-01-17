@@ -495,7 +495,9 @@ const Farms: React.FC = () => {
       <StyledContainer>
         <StyledSubContainer>
           <StyledHeading>Farms</StyledHeading>
-          <StyledSubHeading>Stake your assets to earn fYGN</StyledSubHeading>
+          <StyledSubHeading style={{ marginTop: "15px" }}>
+            Stake your assets to earn fYGN
+          </StyledSubHeading>
           <StyledSubHeading style={{ textDecoration: "underline" }}>
             fYGN rewards start on block no:{" "}
             <Link
