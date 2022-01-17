@@ -6,8 +6,9 @@ export interface TooltipProps {
 }
 
 const TooltipContent = styled.div`
-  background: linear-gradient(58.88deg, #2082e9 -1.8%, #9900ff 89.9%);
-  color: white;
+  background: white;
+  color: #424945;
+  border: 1px solid #424945;
   padding: 16px;
   border-radius: 14px;
   width: max-content;
@@ -28,12 +29,12 @@ const TooltipContent = styled.div`
     height: 0;
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    border-top: 10px solid #9900ff;
+    border-top: 10px solid #424945;
     bottom: 0;
     position: absolute;
     transform: translate(-34px, 9px);
     right: 0;
-    background: linear-gradient(58.88deg, #2082e9 -1.8%, #9900ff 89.9%);
+    background: white;
   }
 `;
 

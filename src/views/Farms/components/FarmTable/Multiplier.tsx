@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { HelpIcon } from "cryption-uikit";
 import useI18n from "hooks/useI18n";
-
 import Tooltip from "../Tooltip/Tooltip";
 
 export interface MultiplierProps {
