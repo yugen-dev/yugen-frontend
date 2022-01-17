@@ -10,16 +10,6 @@ import {
   getFygnBurnerContract,
 } from "utils/contractHelpers";
 import useWeb3 from "hooks/useWeb3";
-import styled from "styled-components";
-
-const StyledLink = styled.a`
-  font-weight: bold;
-  margin-left: 2px;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
 
 interface FarmCardActionsProps {
   earnings?: BigNumber;
@@ -186,23 +176,12 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({
     );
 
   const TempBtnLoadingComp = (
-    <>
-      <Flex margin="5px 0px 15px 0px">
-        Rewards will begin from block number:
-        <StyledLink
-          href="https://polygonscan.com/block/countdown/23916250"
-          target="__blank"
-        >
-          23916250
-        </StyledLink>
-      </Flex>
-      <Flex justifyContent="space-around" width="100%">
-        <Button variant="secondary" disabled>
-          Harvest
-        </Button>
-        <Button disabled>Harvest & Stake</Button>
-      </Flex>
-    </>
+    <Flex justifyContent="space-around" width="100%">
+      <Button variant="secondary" disabled>
+        Harvest
+      </Button>
+      <Button disabled>Harvest & Stake</Button>
+    </Flex>
   );
 
   return (
