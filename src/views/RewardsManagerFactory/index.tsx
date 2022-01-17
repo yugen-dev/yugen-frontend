@@ -29,8 +29,8 @@ const VestingFactory = () => {
     AmountBurnt: "-1",
   });
   // TODO: hardcoded start time & end time
-  const startDistributionTime = 1639144800;
-  const endDistributionTime = 1654696800;
+  const startDistributionTime = 1643810400;
+  const endDistributionTime = 1645020000;
 
   const [penaltyValue] = useState(350);
 
