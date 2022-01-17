@@ -188,13 +188,7 @@ const TranscationsModal: React.FC<DepositModalProps> = ({
   onDismiss,
 }) => {
   return (
-    <Modal
-      // title={TranslateString(1068, "Stake LP tokens")}
-      isOpen={isOpen}
-      maxHeight={100}
-      maxWidth={800}
-      onDismiss={onDismiss}
-    >
+    <Modal isOpen={isOpen} maxHeight={100} maxWidth={800} onDismiss={onDismiss}>
       <Flex flexDirection="column" width="100%">
         <ModalHeader>
           <ModalTitle>

@@ -212,7 +212,7 @@ const CardValue = ({ data, loading, error }) => {
                 fontWeight="700"
                 style={{ display: "flex", alignItems: "center" }}
               >
-                {numberWithCommas(data?.totalYgnStaked, 6)}{" "}
+                {numberWithCommas(data?.totalYgnStaked, 2)}{" "}
                 <Text color="#887263" fontSize="15px" ml="8px">
                   {" "}
                   YGN

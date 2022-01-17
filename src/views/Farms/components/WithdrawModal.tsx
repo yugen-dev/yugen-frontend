@@ -58,7 +58,7 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({
 
   return (
     <Modal
-      title={TranslateString(1126, "Unstake LP tokens")}
+      title={TranslateString(1126, "Withdraw LP tokens")}
       onDismiss={onDismiss}
     >
       <ModalInput
@@ -67,7 +67,7 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({
         value={val}
         max={fullBalance}
         symbol={tokenName}
-        inputTitle={TranslateString(588, "Unstake")}
+        inputTitle={TranslateString(588, "Withdraw")}
       />
       <ModalActions>
         <Button variant="secondary" onClick={onDismiss} width="100%">

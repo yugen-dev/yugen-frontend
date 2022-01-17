@@ -60,7 +60,7 @@ const DepositModal: React.FC<DepositModalProps> = ({
 
   return (
     <Modal
-      title={TranslateString(1068, "Stake LP tokens")}
+      title={TranslateString(1068, "Deposit LP tokens")}
       onDismiss={onDismiss}
     >
       <ModalInput
@@ -70,7 +70,7 @@ const DepositModal: React.FC<DepositModalProps> = ({
         max={fullBalance}
         symbol={tokenName}
         addLiquidityUrl={addLiquidityUrl}
-        inputTitle={TranslateString(1070, "Stake")}
+        inputTitle={TranslateString(1070, "Deposit")}
       />
       <ModalActions>
         <Button variant="secondary" onClick={onDismiss} width="100%">

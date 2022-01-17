@@ -71,7 +71,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
     ) {
       return rawStakedBalance === 0 ? (
         <Button onClick={onPresentDeposit} variant="secondary">
-          {TranslateString(999, "Stake LP")}
+          {TranslateString(999, "Deposit LP")}
         </Button>
       ) : (
         <Row justifyContent="space-around">
@@ -84,7 +84,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
             width="auto"
             mr="15px"
           >
-            Stake
+            Deposit
           </Button>
           <Button
             mt="8px"
@@ -94,7 +94,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
             minWidth="120px"
             width="auto"
           >
-            Unstake
+            Withdraw
           </Button>
         </Row>
       );

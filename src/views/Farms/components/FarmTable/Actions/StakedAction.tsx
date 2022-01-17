@@ -149,7 +149,7 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({
         </ActionTitles>
         <ActionContent>
           <Button width="100%" onClick={onPresentDeposit} variant="secondary">
-            {TranslateString(999, "Stake LP")}
+            {TranslateString(999, "Deposit LP")}
           </Button>
         </ActionContent>
       </ActionContainer>
