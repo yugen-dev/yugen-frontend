@@ -211,6 +211,7 @@ const farmsMaticMainnet: FarmConfig[] = [
       4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     singleSidedToTokenName: "NACHO",
+    showSingleSided: true,
   },
   {
     pid: 4,

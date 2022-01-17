@@ -94,6 +94,7 @@ export interface FarmConfig {
   singleSidedToToken?: Address;
   singleSidedTokenName: string;
   singleSidedToTokenName: string;
+  showSingleSided?: boolean;
   dual?: {
     rewardPerBlock: number;
     earnLabel: string;

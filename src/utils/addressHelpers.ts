@@ -33,6 +33,9 @@ export const getCakeAddress = () => {
 export const getFarmAddress = () => {
   return getAddress(addresses.farm);
 };
+export const getFarmWrapperAddress = () => {
+  return getAddress(addresses.farmWrapper);
+};
 export const getCNTStakerAddress = () => {
   return getAddress(addresses.cntStaker);
 };

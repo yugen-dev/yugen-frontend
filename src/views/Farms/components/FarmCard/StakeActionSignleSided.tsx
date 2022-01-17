@@ -1,22 +1,15 @@
 import React, { useCallback, useState } from "react";
 import BigNumber from "bignumber.js";
-import {
-  Button,
-  Flex,
-  Heading,
-  useModal,
-} from "cryption-uikit";
+import { Button, Flex, useModal } from "cryption-uikit";
 import useWeb3 from "hooks/useWeb3";
 
-import useI18n from "hooks/useI18n";
 import { getERC20Contract } from "utils/contractHelpers";
 import { useIfoApprove } from "hooks/useApprove";
-import { useProvideSingleSidedLiquidity } from "hooks/useProvideSingleSidedLiquidity";
 import {
   getSingleSidedLiquidityAddress,
   getWbnbAddress,
 } from "utils/addressHelpers";
-import { getBalanceNumber } from "utils/formatBalance";
+import { useStakeSingleSided } from "hooks/useStake";
 import DepositModalSingleSided from "../DepositModalSingleSided";
 
 interface FarmCardActionsProps {
@@ -35,7 +28,6 @@ interface FarmCardActionsProps {
 }
 
 const StakeActionSignleSided: React.FC<FarmCardActionsProps> = ({
-  stakedBalance,
   tokenBalance,
   tokenName,
   pid,
@@ -43,8 +35,6 @@ const StakeActionSignleSided: React.FC<FarmCardActionsProps> = ({
   isApproved,
   singleSidedAddress,
   decimal,
-  singleSidedToTokenAddress,
-  lpTokenAddress,
   valueOfEthBalance,
 }) => {
   const wmatic = getWbnbAddress();
@@ -69,23 +59,13 @@ const StakeActionSignleSided: React.FC<FarmCardActionsProps> = ({
     }
   }, [onApprove]);
 
-  const TranslateString = useI18n();
-  const { onProvideSingleSidedLiquidity } = useProvideSingleSidedLiquidity(
-    pid,
-    singleSidedAddress,
-    singleSidedToTokenAddress,
-    lpTokenAddress,
-    "0",
-    decimal
-  );
-
-  const rawStakedBalance = getBalanceNumber(stakedBalance);
+  const { onStakeSingleSided } = useStakeSingleSided(pid);
 
   const [onPresentDeposit] = useModal(
     <DepositModalSingleSided
       max={singleSidedAddress === wmatic ? valueOfEthBalance : tokenBalance}
       decimals={Number(decimal.toString())}
-      onConfirm={onProvideSingleSidedLiquidity}
+      onConfirm={onStakeSingleSided}
       tokenName={tokenName}
       addLiquidityUrl={addLiquidityUrl}
     />
@@ -93,19 +73,11 @@ const StakeActionSignleSided: React.FC<FarmCardActionsProps> = ({
 
   const renderStakingButtons = () => {
     if (isApproved || singleSidedAddress === wmatic) {
-      //  rawStakedBalance === 0 ? (
       return (
         <Button onClick={onPresentDeposit} variant="secondary" width="100%">
-          {TranslateString(999, "Provide Single Sided Liquidity")}
+          Provide Single Sided Supply
         </Button>
       );
-      // ) : (
-      //   <IconButtonWrapper>
-      //     <IconButton variant="tertiary" onClick={onPresentDeposit}>
-      //       <AddIcon color="primary" width="14px" />
-      //     </IconButton>
-      //   </IconButtonWrapper>
-      // );
     }
 
     return (
@@ -115,7 +87,9 @@ const StakeActionSignleSided: React.FC<FarmCardActionsProps> = ({
         onClick={handleSignleSidedApprove}
         width="100%"
       >
-        {requestedApproval ? "Approving..." : "Approve"}
+        {requestedApproval
+          ? `Approving ${tokenName}...`
+          : `Approve ${tokenName}`}
       </Button>
     );
   };
@@ -123,10 +97,6 @@ const StakeActionSignleSided: React.FC<FarmCardActionsProps> = ({
   return (
     <div style={{ textAlign: "left" }}>
       <Flex justifyContent="space-between" alignItems="center">
-        <Heading color={rawStakedBalance === 0 ? "textDisabled" : "text"}>
-          {/* {displayBalance} */}
-        </Heading>
-
         {renderStakingButtons()}
       </Flex>
     </div>

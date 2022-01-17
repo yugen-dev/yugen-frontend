@@ -7,6 +7,7 @@ import useI18n from "hooks/useI18n";
 import { getFullDisplayBalance } from "utils/formatBalance";
 
 interface WithdrawModalProps {
+  decimals?: BigNumber;
   max: BigNumber;
   onConfirm: (amount: string) => void;
   onDismiss?: () => void;
@@ -14,6 +15,7 @@ interface WithdrawModalProps {
 }
 
 const WithdrawModal: React.FC<WithdrawModalProps> = ({
+  decimals,
   onConfirm,
   onDismiss,
   max,
@@ -23,8 +25,9 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({
   const [pendingTx, setPendingTx] = useState(false);
   const TranslateString = useI18n();
   const fullBalance = useMemo(() => {
-    return getFullDisplayBalance(max);
-  }, [max]);
+    const inputTokenDecimals = new BigNumber(decimals || 18);
+    return getFullDisplayBalance(max, inputTokenDecimals.toNumber());
+  }, [max, decimals]);
 
   const handleChange = useCallback(
     (e: React.FormEvent<HTMLInputElement>) => {

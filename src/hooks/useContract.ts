@@ -30,6 +30,7 @@ import {
   getVaultContract,
   getFygnContract,
   getFygnBurnerContract,
+  getFarmWrapper,
 } from "utils/contractHelpers";
 import { useChainId } from "state/application/hooks";
 import polydexMigrator from "config/abi/polydexMigrator.json";
@@ -93,6 +94,11 @@ export const useLotteryTicket = () => {
 export const useMasterchef = () => {
   const web3 = useWeb3();
   return useMemo(() => getMasterchefContract(web3), [web3]);
+};
+
+export const useFarmWrapper = () => {
+  const web3 = useWeb3();
+  return useMemo(() => getFarmWrapper(web3), [web3]);
 };
 
 export const useVaultchef = (vaultAddress) => {

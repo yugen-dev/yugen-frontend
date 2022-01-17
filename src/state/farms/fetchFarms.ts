@@ -45,6 +45,10 @@ const fetchFarms = async () => {
           address: getAddress(farmConfig.singleSidedToToken),
           name: "decimals",
         },
+        {
+          address: getAddress(farmConfig.lpAddresses),
+          name: "decimals",
+        },
       ];
 
       const [
@@ -55,6 +59,7 @@ const fetchFarms = async () => {
         quoteTokenDecimals,
         singleSidedTokenDecimal,
         singleSidedToTokenDecimal,
+        lpDecimals,
       ] = await multicall(erc20, calls);
 
       const [info, totalAllocPoint, lpTokenBalanceMC] = await multicall(
@@ -81,6 +86,8 @@ const fetchFarms = async () => {
       const poolHarvestInterval = new BigNumber(info.harvestInterval._hex);
 
       const poolWeight = allocPoint.div(new BigNumber(totalAllocPoint));
+
+      const lpDecimalsLocal = new BigNumber(lpDecimals);
 
       const singleSidedTokenDecimalLocal = new BigNumber(
         singleSidedTokenDecimal
@@ -125,6 +132,7 @@ const fetchFarms = async () => {
         lpTotalSupplyInMasterchef: lpInMasterChef.toJSON(),
         singleSidedTokenDecimal: singleSidedTokenDecimalLocal.toJSON(),
         singleSidedToTokenDecimal: singleSidedToTokenDecimalLocal.toJSON(),
+        lpDecimals: lpDecimalsLocal.toJSON(),
       };
     })
   );

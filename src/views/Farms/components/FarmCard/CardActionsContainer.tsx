@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { provider as ProviderType } from "web3-core";
 import Countdown from "react-countdown";
 import { getAddress } from "utils/addressHelpers";
-import { Flex, Text, Heading } from "cryption-uikit";
+import { Flex, Text, Heading, Radio } from "cryption-uikit";
 import { Farm } from "state/types";
 import { getBalanceNumber } from "utils/formatBalance";
 import { useFarmFromSymbol, useFarmUser, useProfile } from "state/hooks";
@@ -84,17 +84,18 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     ? farm.singleSidedToTokenDecimal
     : new BigNumber(18);
 
-  const [radioValue] = React.useState("LP");
-  const [radioTrue] = React.useState(true);
+  const [radioValue, setRadioValue] = React.useState("LP");
+  const [radioTrue, setRadioTrue] = React.useState(true);
   const valueOfEthBalance = useEthBalance();
-  // const handleRadioChange = (value) => {
-  //   if (value === "LP") {
-  //     SetradioTrue(true);
-  //   } else {
-  //     SetradioTrue(false);
-  //   }
-  //   setRadioValue(() => value);
-  // };
+
+  const handleRadioChange = (value) => {
+    if (value === "LP") {
+      setRadioTrue(true);
+    } else {
+      setRadioTrue(false);
+    }
+    setRadioValue(() => value);
+  };
 
   const totalValueOfUser: BigNumber = useMemo(() => {
     if (!account) {
@@ -250,8 +251,71 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
           </Flex>
         </Flex>
         <div>
+          {farm.showSingleSided && (
+            <Flex>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-evenly",
+                  alignItems: "center",
+                  width: "100%",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text>LP</Text>
+                  <Radio
+                    name="radio"
+                    scale="sm"
+                    onChange={() => handleRadioChange("LP")}
+                    style={{ margin: "10px" }}
+                  />
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text>{singleSidedTokenName}</Text>
+                  <Radio
+                    scale="sm"
+                    name="radio"
+                    onChange={() => handleRadioChange(singleSidedTokenName)}
+                    style={{ margin: "10px" }}
+                  />
+                </div>
+                {farm.showSingleSided && singleSidedtoTokenName !== "NACHO" && (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text>{singleSidedtoTokenName}</Text>
+                    <Radio
+                      scale="sm"
+                      name="radio"
+                      // value={singleSidedtoTokenName}
+                      onChange={() => handleRadioChange(singleSidedtoTokenName)}
+                      // checked={!radioTrue}
+                      style={{ margin: "10px" }}
+                    />
+                  </div>
+                )}
+              </div>
+            </Flex>
+          )}
           {radioTrue && radioValue !== singleSidedtoTokenName && (
             <StakeAction
+              lpDecimals={farm.lpDecimals}
               stakedBalance={stakedBalance}
               tokenBalance={tokenBalance}
               tokenName={lpName}
@@ -265,38 +329,42 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
               totalValueOfUserFormated={totalValueOfUserFormated}
             />
           )}
-          {!radioTrue && radioValue !== singleSidedtoTokenName && (
-            <StakeActionSignleSided
-              stakedBalance={stakedBalance}
-              tokenBalance={SingleSidedTokenBalance}
-              tokenName={singleSidedTokenName}
-              decimal={singleSidedTokendecimals}
-              pid={pid}
-              addLiquidityUrl={addLiquidityUrl}
-              isApproved={isSignleSidedTokenApproved}
-              totalValueOfUserFormated={totalValueOfUserFormated}
-              singleSidedAddress={singleSidedAddress}
-              singleSidedToTokenAddress={singleSidedToTokenAddress}
-              lpTokenAddress={lpAddress}
-              valueOfEthBalance={valueOfEthBalance}
-            />
-          )}
-          {!radioTrue && radioValue === singleSidedtoTokenName && (
-            <StakeActionSignleSided
-              stakedBalance={stakedBalance}
-              tokenBalance={SingleSidedToTokenBalance}
-              tokenName={singleSidedtoTokenName}
-              decimal={singleSidedToTokendecimals}
-              pid={pid}
-              addLiquidityUrl={addLiquidityUrl}
-              isApproved={isSingleSidedToTokenApproved}
-              totalValueOfUserFormated={totalValueOfUserFormated}
-              singleSidedAddress={singleSidedToTokenAddress}
-              singleSidedToTokenAddress={singleSidedAddress}
-              lpTokenAddress={lpAddress}
-              valueOfEthBalance={valueOfEthBalance}
-            />
-          )}
+          {farm.showSingleSided &&
+            !radioTrue &&
+            radioValue !== singleSidedtoTokenName && (
+              <StakeActionSignleSided
+                stakedBalance={stakedBalance}
+                tokenBalance={SingleSidedTokenBalance}
+                tokenName={singleSidedTokenName}
+                decimal={singleSidedTokendecimals}
+                pid={pid}
+                addLiquidityUrl={addLiquidityUrl}
+                isApproved={isSignleSidedTokenApproved}
+                totalValueOfUserFormated={totalValueOfUserFormated}
+                singleSidedAddress={singleSidedAddress}
+                singleSidedToTokenAddress={singleSidedToTokenAddress}
+                lpTokenAddress={lpAddress}
+                valueOfEthBalance={valueOfEthBalance}
+              />
+            )}
+          {farm.showSingleSided &&
+            !radioTrue &&
+            radioValue === singleSidedtoTokenName && (
+              <StakeActionSignleSided
+                stakedBalance={stakedBalance}
+                tokenBalance={SingleSidedToTokenBalance}
+                tokenName={singleSidedtoTokenName}
+                decimal={singleSidedToTokendecimals}
+                pid={pid}
+                addLiquidityUrl={addLiquidityUrl}
+                isApproved={isSingleSidedToTokenApproved}
+                totalValueOfUserFormated={totalValueOfUserFormated}
+                singleSidedAddress={singleSidedToTokenAddress}
+                singleSidedToTokenAddress={singleSidedAddress}
+                lpTokenAddress={lpAddress}
+                valueOfEthBalance={valueOfEthBalance}
+              />
+            )}
         </div>
       </>
     );

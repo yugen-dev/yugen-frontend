@@ -11,6 +11,7 @@ import DepositModal from "../DepositModal";
 import WithdrawModal from "../WithdrawModal";
 
 interface FarmCardActionsProps {
+  lpDecimals?: BigNumber;
   stakedBalance?: BigNumber;
   tokenBalance?: BigNumber;
   tokenName?: string;
@@ -25,6 +26,7 @@ interface FarmCardActionsProps {
 }
 
 const StakeAction: React.FC<FarmCardActionsProps> = ({
+  lpDecimals,
   stakedBalance,
   tokenBalance,
   tokenName,
@@ -50,6 +52,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
 
   const [onPresentDeposit] = useModal(
     <DepositModal
+      decimals={lpDecimals}
       max={tokenBalance}
       onConfirm={signatureData !== null ? onStakeWithPermit : onStake}
       tokenName={tokenName}
@@ -58,6 +61,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
   );
   const [onPresentWithdraw] = useModal(
     <WithdrawModal
+      decimals={lpDecimals}
       max={stakedBalance}
       onConfirm={onUnstake}
       tokenName={tokenName}

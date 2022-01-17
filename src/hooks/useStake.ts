@@ -7,6 +7,7 @@ import { stake, vaultstake, GaslessStake } from "utils/callHelpers";
 import { useProfile, useToast } from "state/hooks";
 import { fetchVaultUserDataAsync } from "state/vaults";
 import {
+  useFarmWrapper,
   useMasterchef,
   useMasterchefGasless,
   useVaultchef,
@@ -77,6 +78,48 @@ export const useStake = (pid: number) => {
   );
 
   return { onStake: handleStake };
+};
+
+export const useStakeSingleSided = (pid: number) => {
+  const dispatch = useDispatch();
+  const { account } = useWeb3React("web3");
+  const farmWrapperContract = useFarmWrapper();
+  const { toastInfo, toastError, toastSuccess } = useToast();
+
+  const handleStakeSingleSided = useCallback(
+    async (amount: string) => {
+      try {
+        toastInfo("Processing...", `You requested to Deposited `);
+        await stake(farmWrapperContract, pid, amount, account);
+        toastSuccess("Success", ` Deposited successfully`);
+        dispatch(fetchFarmUserDataAsync(account));
+      } catch (error) {
+        if (
+          error["message"] ===
+            "MetaMask Tx Signature: User denied transaction signature." ||
+          error["message"] ===
+            "MetaMask Message Signature: User denied message signature." ||
+          error["code"] === 4001
+        ) {
+          // toastInfo("canceled...", `cancelled signature `);
+          toastError("canceled", ` signautures rejected`);
+        } else {
+          toastError("Error...", `Failed to Deposit`);
+        }
+      }
+    },
+    [
+      toastInfo,
+      farmWrapperContract,
+      pid,
+      account,
+      toastSuccess,
+      dispatch,
+      toastError,
+    ]
+  );
+
+  return { onStakeSingleSided: handleStakeSingleSided };
 };
 
 export const useVaultStake = (pid: number, vaultContractAddress: string) => {

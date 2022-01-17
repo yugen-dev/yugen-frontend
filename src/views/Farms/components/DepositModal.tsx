@@ -7,6 +7,7 @@ import useI18n from "hooks/useI18n";
 import { getFullDisplayBalance } from "utils/formatBalance";
 
 interface DepositModalProps {
+  decimals?: BigNumber;
   max: BigNumber;
   onConfirm: (amount: string) => void;
   onDismiss?: () => void;
@@ -15,6 +16,7 @@ interface DepositModalProps {
 }
 
 const DepositModal: React.FC<DepositModalProps> = ({
+  decimals,
   max,
   onConfirm,
   onDismiss,
@@ -24,9 +26,11 @@ const DepositModal: React.FC<DepositModalProps> = ({
   const [val, setVal] = useState("");
   const [pendingTx, setPendingTx] = useState(false);
   const TranslateString = useI18n();
+
   const fullBalance = useMemo(() => {
-    return getFullDisplayBalance(max);
-  }, [max]);
+    const inputTokenDecimals = new BigNumber(decimals || 18);
+    return getFullDisplayBalance(max, inputTokenDecimals.toNumber());
+  }, [decimals, max]);
 
   const handleChange = useCallback(
     (e: React.FormEvent<HTMLInputElement>) => {

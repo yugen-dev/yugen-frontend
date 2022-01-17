@@ -50,6 +50,7 @@ export interface Farm extends FarmConfig {
   lpTotalSupplyInMasterchef?: BigNumber;
   singleSidedTokenDecimal?: BigNumber;
   singleSidedToTokenDecimal?: BigNumber;
+  lpDecimals?: BigNumber;
   userData?: {
     allowance: BigNumber;
     tokenBalance: BigNumber;
