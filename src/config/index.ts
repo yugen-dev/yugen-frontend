@@ -33,4 +33,4 @@ export const CNT_TOTAL_SUPPLY_LINK =
 export const SUPPORTED_NETWORK_IDS = [137, 80001, 1, 5, 250, 4002];
 export const CROSS_CHAIN_API_LINK =
   "https://ccf-backend.polydex.org/transcation";
-export const YUGEN_INFO_CUSTOM_API = "https://karan-test.herokuapp.com/";
+export const YUGEN_INFO_CUSTOM_API = "https://api.yugen.finance/";
