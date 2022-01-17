@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { JSBI, Pair, Percent } from "@cryption-network/polydex-sdk";
-import { Button, Card as ToolKitCard, Text } from "cryption-uikit";
+import { Button, Card as ToolKitCard, Text } from "yugen-uikit";
 import { darken } from "polished";
 import { ChevronDown, ChevronUp } from "react-feather";
 import { Link } from "react-router-dom";

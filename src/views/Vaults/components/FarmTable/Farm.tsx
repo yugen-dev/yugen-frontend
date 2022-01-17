@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Text, Image, Tag } from "cryption-uikit";
+import { Text, Image, Tag } from "yugen-uikit";
 
 export interface FarmProps {
   label: string;

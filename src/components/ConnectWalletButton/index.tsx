@@ -8,7 +8,7 @@ import {
   ButtonProps,
   useWalletModal,
   ConnectorNames,
-} from "cryption-uikit";
+} from "yugen-uikit";
 import { connectorsByName } from "connectors";
 import useI18n from "hooks/useI18n";
 import { ETHERJS_PATHS } from "config";

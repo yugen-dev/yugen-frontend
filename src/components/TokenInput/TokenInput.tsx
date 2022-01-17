@@ -5,7 +5,7 @@ import {
   Flex,
   Text,
   // Input, InputProps
-} from "cryption-uikit";
+} from "yugen-uikit";
 import useI18n from "hooks/useI18n";
 import { Input, InputProps } from "@pancakeswap-libs/uikit";
 import BigNumber from "bignumber.js";

@@ -8,7 +8,7 @@ import {
   Text,
   Button,
   AutoRenewIcon,
-} from "cryption-uikit";
+} from "yugen-uikit";
 import useWeb3 from "hooks/useWeb3";
 import { usePolydexMigratorContract, usePairContract } from "hooks/useContract";
 import { getERC20Contract } from "utils/contractHelpers";

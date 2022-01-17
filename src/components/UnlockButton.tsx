@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from "react";
 import { useLocation } from "react-router-dom";
-import { Button, useWalletModal } from "cryption-uikit";
+import { Button, useWalletModal } from "yugen-uikit";
 import useAuth from "hooks/useAuth";
 import useI18n from "hooks/useI18n";
 import { ETHERJS_PATHS } from "config";

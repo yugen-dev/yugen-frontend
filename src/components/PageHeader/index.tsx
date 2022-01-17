@@ -9,7 +9,7 @@ import {
   useModal,
   CogIcon,
   Svg,
-} from "cryption-uikit";
+} from "yugen-uikit";
 import SettingsModal from "./SettingsModal";
 import RecentTransactionsModal from "./RecentTransactionsModal";
 

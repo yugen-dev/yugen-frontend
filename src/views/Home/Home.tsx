@@ -26,7 +26,7 @@ import {
   useFetch,
 } from "state/hooks";
 
-import { Heading } from "cryption-uikit";
+import { Heading } from "yugen-uikit";
 import Grid from "@material-ui/core/Grid";
 import CardValue from "./components/CardValue";
 import EarnAssetCard from "./components/EarnAssetCard";

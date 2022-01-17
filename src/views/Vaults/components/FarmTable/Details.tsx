@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { ChevronDownIcon, useMatchBreakpoints } from "cryption-uikit";
+import { ChevronDownIcon, useMatchBreakpoints } from "yugen-uikit";
 
 interface DetailsProps {
   actionPanelToggled: boolean;

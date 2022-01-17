@@ -1,6 +1,6 @@
 import React, { memo, useState } from "react";
 import UnlockButton from "components/UnlockButton";
-import { AutoRenewIcon, Button } from "cryption-uikit";
+import { AutoRenewIcon, Button } from "yugen-uikit";
 import { useToast } from "state/hooks";
 import styled from "styled-components";
 import QuestionHelper from "components/QuestionHelper";

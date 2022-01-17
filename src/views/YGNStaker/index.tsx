@@ -17,7 +17,7 @@ import {
   Input,
   Text,
   AutoRenewIcon,
-} from "cryption-uikit";
+} from "yugen-uikit";
 import Grid from "@material-ui/core/Grid";
 import { useQuery } from "@apollo/client";
 import { cntStakerQuery, stakerAllocatedQquery } from "apollo/queries";

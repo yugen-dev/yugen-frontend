@@ -1,6 +1,6 @@
-import React, {  } from "react";
-import StepperContainer from 'components/Stepper/Stepper';
-import { Modal } from "cryption-uikit";
+import React from "react";
+import StepperContainer from "components/Stepper/Stepper";
+import { Modal } from "yugen-uikit";
 
 interface DepositModalProps {
   onConfirm?: (amount: string) => void;
@@ -14,10 +14,7 @@ const StakeEthModal: React.FC<DepositModalProps> = ({
   onDismiss,
 }) => {
   return (
-    <Modal
-      title="Stake Ethereum tokens"
-      onDismiss={onDismiss}
-    >
+    <Modal title="Stake Ethereum tokens" onDismiss={onDismiss}>
       <StepperContainer activeIndex={activeIndex} />
     </Modal>
   );

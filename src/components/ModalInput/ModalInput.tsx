@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Text, Button, Flex, Link, Input, InputProps } from "cryption-uikit";
+import { Text, Button, Flex, Link, Input, InputProps } from "yugen-uikit";
 import useI18n from "../../hooks/useI18n";
 
 interface ModalInputProps {

@@ -9,7 +9,7 @@ import styled from "styled-components";
 import { useWeb3React } from "@web3-react/core";
 import BigNumber from "bignumber.js";
 import Container from "@material-ui/core/Container";
-import { Button, Flex, Input, Text, AutoRenewIcon } from "cryption-uikit";
+import { Button, Flex, Input, Text, AutoRenewIcon } from "yugen-uikit";
 import Grid from "@material-ui/core/Grid";
 import { useApproveBurner } from "hooks/useApprove";
 import { useChainId } from "state/application/hooks";

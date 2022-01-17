@@ -1,7 +1,7 @@
 import React, { useEffect, lazy } from "react";
 import { Router, Route, Switch } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
-import { ResetCSS } from "cryption-uikit";
+import { ResetCSS } from "yugen-uikit";
 import Web3 from "web3";
 import BigNumber from "bignumber.js";
 import useEagerConnect from "hooks/useEagerConnect";

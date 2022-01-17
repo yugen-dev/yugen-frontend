@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { provider as ProviderType } from "web3-core";
 import Countdown from "react-countdown";
 import { getAddress } from "utils/addressHelpers";
-import { Flex, Text, Heading, Radio } from "cryption-uikit";
+import { Flex, Text, Heading, Radio } from "yugen-uikit";
 import { Farm } from "state/types";
 import { getBalanceNumber } from "utils/formatBalance";
 import { useFarmFromSymbol, useFarmUser, useProfile } from "state/hooks";

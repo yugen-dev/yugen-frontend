@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Tag, Flex, Heading, Image } from "cryption-uikit";
+import { Tag, Flex, Heading, Image } from "yugen-uikit";
 import Question from "components/QuestionHelper";
 // import { CommunityTag, CoreTag } from "components/Tags";
 

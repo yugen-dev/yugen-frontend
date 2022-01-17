@@ -1,5 +1,5 @@
 import React from "react";
-import { Text } from "cryption-uikit";
+import { Text } from "yugen-uikit";
 import styled from "styled-components";
 import { RowFixed } from "../Row";
 

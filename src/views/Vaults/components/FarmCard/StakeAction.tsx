@@ -1,6 +1,6 @@
 import React from "react";
 import BigNumber from "bignumber.js";
-import { Button, useModal } from "cryption-uikit";
+import { Button, useModal } from "yugen-uikit";
 import Row from "components/Row";
 import useI18n from "hooks/useI18n";
 import { useStake } from "hooks/useStake";

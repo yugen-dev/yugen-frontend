@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import useI18n from "hooks/useI18n";
-import { LinkExternal, Text } from "cryption-uikit";
+import { LinkExternal, Text } from "yugen-uikit";
 import { VaultWithStakedValue } from "views/Farms/components/FarmCard/FarmCard";
 import { BigNumber } from "bignumber.js";
 import { getBalanceNumber } from "utils/formatBalance";

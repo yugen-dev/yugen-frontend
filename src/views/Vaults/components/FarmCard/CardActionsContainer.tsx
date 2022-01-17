@@ -9,7 +9,7 @@ import Countdown from "react-countdown";
 import HistoryIcon from "@material-ui/icons/History";
 import { getAddress, getFarmAddress } from "utils/addressHelpers";
 import { useChainId } from "state/application/hooks";
-import { Flex, Text, Radio, Heading, Button } from "cryption-uikit";
+import { Flex, Text, Radio, Heading, Button } from "yugen-uikit";
 import { Farm } from "state/types";
 import { getBalanceNumber } from "utils/formatBalance";
 import {

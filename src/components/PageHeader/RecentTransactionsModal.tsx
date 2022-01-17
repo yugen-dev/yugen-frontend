@@ -8,7 +8,7 @@ import {
   Text,
   Modal,
   Button,
-} from "cryption-uikit";
+} from "yugen-uikit";
 import { useActiveWeb3React } from "hooks";
 import { getMaticExplorerLink } from "utils";
 import {

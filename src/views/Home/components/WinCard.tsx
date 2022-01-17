@@ -1,12 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  Heading,
-  Card,
-  CardBody,
-  Flex,
-  ArrowForwardIcon,
-} from "cryption-uikit";
+import { Heading, Card, CardBody, Flex, ArrowForwardIcon } from "yugen-uikit";
 import { NavLink } from "react-router-dom";
 import useLotteryTotalPrizesUsd from "hooks/useLotteryTotalPrizesUsd";
 

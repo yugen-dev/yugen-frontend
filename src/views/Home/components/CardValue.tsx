@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useCountUp } from "react-countup";
-import { Text } from "cryption-uikit";
+import { Text } from "yugen-uikit";
 
 export interface CardValueProps {
   value: number;

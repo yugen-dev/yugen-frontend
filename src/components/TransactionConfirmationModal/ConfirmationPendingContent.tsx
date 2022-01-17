@@ -1,5 +1,5 @@
 import React from "react";
-import { Text } from "cryption-uikit";
+import { Text } from "yugen-uikit";
 import Loader from "react-loader-spinner";
 import { AutoColumn } from "../Column";
 import { Wrapper, Section, ConfirmedIcon, ContentHeader } from "./helpers";

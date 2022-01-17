@@ -1,6 +1,6 @@
 import { Token } from "@cryption-network/polydex-sdk";
 import { transparentize } from "polished";
-import { Button, Text } from "cryption-uikit";
+import { Button, Text } from "yugen-uikit";
 import React, { useCallback, useMemo, useState } from "react";
 import styled from "styled-components";
 import { AlertTriangle } from "react-feather";

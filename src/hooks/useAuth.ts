@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useWeb3React, UnsupportedChainIdError } from "@web3-react/core";
-import { ConnectorNames } from "cryption-uikit";
+import { ConnectorNames } from "yugen-uikit";
 import { useToast } from "state/hooks";
 import { connectorsByName } from "utils/web3React";
 import { setupNetwork } from "utils/wallet";

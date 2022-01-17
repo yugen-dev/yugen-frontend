@@ -1,4 +1,4 @@
-import { ConnectorNames } from "cryption-uikit";
+import { ConnectorNames } from "yugen-uikit";
 import Web3 from "web3";
 import getConnectors from "./web3Connectors";
 

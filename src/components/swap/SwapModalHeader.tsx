@@ -2,7 +2,7 @@
 import React, { useContext, useMemo } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { Trade, TradeType } from "@cryption-network/polydex-sdk";
-import { Button, Text } from "cryption-uikit";
+import { Button, Text } from "yugen-uikit";
 import { ArrowDown, AlertTriangle } from "react-feather";
 import { Field } from "../../state/swap/actions";
 import { isAddress, shortenAddress } from "../../utils";

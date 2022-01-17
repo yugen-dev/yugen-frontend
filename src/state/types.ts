@@ -1,4 +1,4 @@
-import { Toast } from "cryption-uikit";
+import { Toast } from "yugen-uikit";
 import BigNumber from "bignumber.js";
 import {
   CampaignType,

@@ -1,5 +1,5 @@
 import React from "react";
-import { Tag, VerifiedIcon, CommunityIcon, BinanceIcon } from "cryption-uikit";
+import { Tag, VerifiedIcon, CommunityIcon, BinanceIcon } from "yugen-uikit";
 
 const CoreTag = (props) => (
   <Tag

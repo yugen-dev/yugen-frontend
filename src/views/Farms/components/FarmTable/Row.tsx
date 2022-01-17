@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { FarmWithStakedValue } from "views/Farms/components/FarmCard/FarmCard";
-import { useMatchBreakpoints } from "cryption-uikit";
+import { useMatchBreakpoints } from "yugen-uikit";
 import useI18n from "hooks/useI18n";
 
 import Apr, { AprProps } from "./Apr";

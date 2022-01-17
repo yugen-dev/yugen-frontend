@@ -7,7 +7,7 @@ import {
   Flex,
   Text,
   // Input as UIKitInput
-} from "cryption-uikit";
+} from "yugen-uikit";
 
 import { Input as UIKitInput } from "@pancakeswap-libs/uikit";
 

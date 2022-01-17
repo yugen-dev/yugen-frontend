@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from "react";
 import styled from "styled-components";
-import { Card, Flex, Skeleton } from "cryption-uikit";
+import { Card, Flex, Skeleton } from "yugen-uikit";
 import useI18n from "hooks/useI18n";
 import BigNumber from "bignumber.js";
 import { QuoteToken } from "config/constants/types";

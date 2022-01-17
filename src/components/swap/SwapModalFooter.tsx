@@ -1,6 +1,6 @@
 import { Trade, TradeType } from "@cryption-network/polydex-sdk";
 import React, { useMemo, useState } from "react";
-import { Text, Button } from "cryption-uikit";
+import { Text, Button } from "yugen-uikit";
 import { Repeat } from "react-feather";
 
 import { Field } from "../../state/swap/actions";

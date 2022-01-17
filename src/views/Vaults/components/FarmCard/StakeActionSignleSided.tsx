@@ -1,11 +1,6 @@
 import React, { useCallback, useState } from "react";
 import BigNumber from "bignumber.js";
-import {
-  Button,
-  Flex,
-  Heading,
-  useModal,
-} from "cryption-uikit";
+import { Button, Flex, Heading, useModal } from "yugen-uikit";
 import useWeb3 from "hooks/useWeb3";
 
 import useI18n from "hooks/useI18n";

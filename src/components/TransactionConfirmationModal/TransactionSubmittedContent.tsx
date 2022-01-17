@@ -1,6 +1,6 @@
 import { ChainId } from "@cryption-network/polydex-sdk";
 import React from "react";
-import { Button, LinkExternal } from "cryption-uikit";
+import { Button, LinkExternal } from "yugen-uikit";
 import Tick from "components/Tick";
 import { AutoColumn } from "../Column";
 import { getMaticExplorerLink } from "../../utils";

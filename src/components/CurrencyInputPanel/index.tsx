@@ -3,7 +3,7 @@
 import React, { useState, useCallback } from "react";
 import { Currency, Pair } from "@cryption-network/polydex-sdk";
 import Grid from "@material-ui/core/Grid";
-import { Button, ChevronDownIcon, Text, Flex } from "cryption-uikit";
+import { Button, ChevronDownIcon, Text, Flex } from "yugen-uikit";
 import styled from "styled-components";
 import useI18n from "hooks/useI18n";
 import { useCurrencyBalance } from "../../state/wallet/hooks";

@@ -1,5 +1,5 @@
 import BigNumber from "bignumber.js";
-import { Button } from "cryption-uikit";
+import { Button } from "yugen-uikit";
 import React, { useCallback } from "react";
 import TransactionConfirmationModal, {
   ConfirmationModalContent,

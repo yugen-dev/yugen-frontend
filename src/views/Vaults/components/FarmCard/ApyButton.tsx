@@ -1,6 +1,6 @@
 import React from "react";
 import BigNumber from "bignumber.js";
-import { IconButton, useModal, CalculateIcon } from "cryption-uikit";
+import { IconButton, useModal, CalculateIcon } from "yugen-uikit";
 import ApyCalculatorModal from "./ApyCalculatorModal";
 
 export interface ApyButtonProps {

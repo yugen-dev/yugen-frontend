@@ -1,5 +1,5 @@
 import BigNumber from "bignumber.js";
-import { Toast } from "cryption-uikit";
+import { Toast } from "yugen-uikit";
 
 const inputValidator = (
   toastError: {

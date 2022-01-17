@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Card, Heading } from "cryption-uikit";
+import { Card, Heading } from "yugen-uikit";
 import { Group } from "@visx/group";
 import { Pie } from "@visx/shape";
 import { Text } from "@visx/text";

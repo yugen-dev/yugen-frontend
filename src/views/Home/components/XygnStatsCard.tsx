@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Skeleton, Text } from "cryption-uikit";
+import { Skeleton, Text } from "yugen-uikit";
 import BigNumber from "bignumber.js";
 
 const Card = styled.div`

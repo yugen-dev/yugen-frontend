@@ -4,7 +4,7 @@ import {
   Menu as UikitMenu,
   connectorLocalStorageKey,
   ConnectorNames,
-} from "cryption-uikit";
+} from "yugen-uikit";
 import { useLocation } from "react-router-dom";
 import { useWeb3React } from "@web3-react/core";
 import { useChainId } from "state/application/hooks";

@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import BigNumber from "bignumber.js";
 import styled, { keyframes } from "styled-components";
-import { Flex, Text, Skeleton, Tag } from "cryption-uikit";
+import { Flex, Text, Skeleton, Tag } from "yugen-uikit";
 import { Farm, Vault } from "state/types";
 import { provider as ProviderType } from "web3-core";
 import useI18n from "hooks/useI18n";

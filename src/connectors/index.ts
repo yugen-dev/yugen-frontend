@@ -1,4 +1,4 @@
-import { ConnectorNames } from "cryption-uikit";
+import { ConnectorNames } from "yugen-uikit";
 import { Web3Provider } from "@ethersproject/providers";
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";

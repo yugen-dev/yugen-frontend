@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { Toast } from "cryption-uikit";
+import { Toast } from "yugen-uikit";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ToastsState } from "../types";
 

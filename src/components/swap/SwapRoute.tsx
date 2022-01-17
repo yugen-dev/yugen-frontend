@@ -1,7 +1,7 @@
 import { Trade } from "@cryption-network/polydex-sdk";
 import React, { Fragment, memo, useContext } from "react";
 import { ChevronRight } from "react-feather";
-import { Flex, Text } from "cryption-uikit";
+import { Flex, Text } from "yugen-uikit";
 import { ThemeContext } from "styled-components";
 import CurrencyLogo from "../CurrencyLogo";
 

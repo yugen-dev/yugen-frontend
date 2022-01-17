@@ -1,6 +1,6 @@
 import React, { memo, useContext } from "react";
 import styled, { ThemeContext } from "styled-components";
-import { Heading, Skeleton, Text } from "cryption-uikit";
+import { Heading, Skeleton, Text } from "yugen-uikit";
 
 const DisplayInfo = ({ description, value }) => {
   const theme = useContext(ThemeContext);

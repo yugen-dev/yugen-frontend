@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import BigNumber from "bignumber.js";
 import { useWeb3React } from "@web3-react/core";
-import { RowType, Toggle, Text } from "cryption-uikit";
+import { RowType, Toggle, Text } from "yugen-uikit";
 import styled from "styled-components";
 import { CROSS_CHAIN_API_LINK } from "config";
 import { useVaults } from "state/hooks";

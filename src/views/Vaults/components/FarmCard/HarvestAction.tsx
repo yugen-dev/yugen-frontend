@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import BigNumber from "bignumber.js";
-import { AutoRenewIcon, Button, Flex, Heading } from "cryption-uikit";
+import { AutoRenewIcon, Button, Flex, Heading } from "yugen-uikit";
 import useI18n from "hooks/useI18n";
-import { useChainId } from 'state/application/hooks'
+import { useChainId } from "state/application/hooks";
 import { useHarvest } from "hooks/useHarvest";
 import { getBalanceNumber } from "utils/formatBalance";
 
@@ -26,7 +26,7 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({
   if (rawEarningsBalance === 0) {
     harvestDisabled = true;
   }
-  if (chainId === '1' || chainId === '5') {
+  if (chainId === "1" || chainId === "5") {
     harvestDisabled = true;
   }
   const displayBalance = rawEarningsBalance.toLocaleString();

@@ -1,7 +1,7 @@
 import React from "react";
 import useI18n from "hooks/useI18n";
 import styled from "styled-components";
-import { Text, Flex, Link, LinkExternal } from "cryption-uikit";
+import { Text, Flex, Link, LinkExternal } from "yugen-uikit";
 
 export interface ExpandableSectionProps {
   maticExplorerAddress?: string;

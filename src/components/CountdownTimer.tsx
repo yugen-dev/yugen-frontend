@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable no-bitwise */
-import { Heading } from "cryption-uikit";
+import { Heading } from "yugen-uikit";
 import React from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import styled from "styled-components";

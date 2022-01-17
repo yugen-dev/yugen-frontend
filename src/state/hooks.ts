@@ -8,7 +8,7 @@ import {
   getHybridStakingContract,
 } from "utils/contractHelpers";
 import contracts from "config/constants/contracts";
-import { Toast, toastTypes } from "cryption-uikit";
+import { Toast, toastTypes } from "yugen-uikit";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { QuoteToken, Team } from "config/constants/types";

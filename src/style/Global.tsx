@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 // eslint-disable-next-line import/no-unresolved
-import { PancakeTheme } from "cryption-uikit/dist/theme";
+import { PancakeTheme } from "yugen-uikit/dist/theme";
 import CatCafeTTF from "../fonts/catcafe/CatCafe.ttf";
 
 declare module "styled-components" {

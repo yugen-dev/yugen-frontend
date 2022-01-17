@@ -1,15 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect } from "react";
-import { Button, Card as ToolKitCard, Text } from "cryption-uikit";
+import { Button, Card as ToolKitCard, Text } from "yugen-uikit";
 import { darken } from "polished";
 import useWeb3 from "hooks/useWeb3";
 import { ChevronDown, ChevronUp } from "react-feather";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import {
-  usePairContract,
-} from "hooks/useContract";
+import { usePairContract } from "hooks/useContract";
 
 import { useActiveWeb3React } from "../../hooks";
 import { currencyId } from "../../utils/currencyId";
@@ -73,22 +71,21 @@ export function MinimalPositionCard({
   //       pair.getLiquidityValue(pair.token1, totalPoolTokens, userPoolBalance, false),
   //     ]
   //     : [undefined, undefined]
-  let poolTokenPercentage = '0.0';
+  let poolTokenPercentage = "0.0";
   if (totalPoolTokens && userPoolBalance) {
-    poolTokenPercentage = ((parseFloat(userPoolBalance) * 100) / parseFloat(totalPoolTokens)).toFixed(2).toString();
+    poolTokenPercentage = (
+      (parseFloat(userPoolBalance) * 100) /
+      parseFloat(totalPoolTokens)
+    )
+      .toFixed(2)
+      .toString();
   }
   const getBalance = async () => {
     if (pairContract) {
       let getLiquidity = await pairContract.balanceOf(account);
-      getLiquidity = web3.utils.fromWei(
-        getLiquidity.toString(),
-        "ether"
-      );
+      getLiquidity = web3.utils.fromWei(getLiquidity.toString(), "ether");
       let getTotalSupply = await pairContract.totalSupply();
-      getTotalSupply = web3.utils.fromWei(
-        getTotalSupply.toString(),
-        "ether"
-      );
+      getTotalSupply = web3.utils.fromWei(getTotalSupply.toString(), "ether");
       const getReserves = await pairContract.getReserves();
       const weiReserve1 = web3.utils.fromWei(
         getReserves.reserve0.toString(),
@@ -98,8 +95,14 @@ export function MinimalPositionCard({
         getReserves.reserve1.toString(),
         "ether"
       );
-      const token1Bal = (parseFloat(getLiquidity.toString()) / parseFloat(getTotalSupply.toString())) * parseFloat(weiReserve1.toString());
-      const token2Bal = (parseFloat(getLiquidity.toString()) / parseFloat(getTotalSupply.toString())) * parseFloat(weiReserve2.toString());
+      const token1Bal =
+        (parseFloat(getLiquidity.toString()) /
+          parseFloat(getTotalSupply.toString())) *
+        parseFloat(weiReserve1.toString());
+      const token2Bal =
+        (parseFloat(getLiquidity.toString()) /
+          parseFloat(getTotalSupply.toString())) *
+        parseFloat(weiReserve2.toString());
       setToken0Deposited(token1Bal);
       setToken1Deposited(token2Bal);
       setUserPoolBalance(getLiquidity);
@@ -141,8 +144,10 @@ export function MinimalPositionCard({
                 </Text>
               </RowFixed>
               <RowFixed>
-                <Text fontSize="18px" bold >
-                  {userPoolBalance ? parseFloat(userPoolBalance).toFixed(2) : "-"}
+                <Text fontSize="18px" bold>
+                  {userPoolBalance
+                    ? parseFloat(userPoolBalance).toFixed(2)
+                    : "-"}
                 </Text>
               </RowFixed>
             </FixedHeightRow>
@@ -152,7 +157,7 @@ export function MinimalPositionCard({
                   {currency0.symbol}:
                 </Text>
                 <RowFixed>
-                  <Text ml="6px" fontSize="18px" bold >
+                  <Text ml="6px" fontSize="18px" bold>
                     {parseFloat(token0Deposited).toFixed(2)}
                   </Text>
                 </RowFixed>
@@ -173,9 +178,7 @@ export function MinimalPositionCard({
                 </Text>
                 <RowFixed>
                   <Text ml="6px" fontSize="18px" bold>
-                  {poolTokenPercentage
-                  ? `${poolTokenPercentage}%`
-                  : "-"}
+                    {poolTokenPercentage ? `${poolTokenPercentage}%` : "-"}
                   </Text>
                 </RowFixed>
               </FixedHeightRow>
@@ -311,9 +314,7 @@ export default function FullPositionCard({
             <FixedHeightRow>
               <Text>Your pool share:</Text>
               <Text>
-                {poolTokenPercentage
-                  ? `${poolTokenPercentage}%`
-                  : "-"}
+                {poolTokenPercentage ? `${poolTokenPercentage}%` : "-"}
               </Text>
             </FixedHeightRow>
 

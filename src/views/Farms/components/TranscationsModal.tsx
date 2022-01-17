@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import React from "react";
-import { Flex, CloseIcon, IconButton } from "cryption-uikit";
+import { Flex, CloseIcon, IconButton } from "yugen-uikit";
 import { makeStyles, withStyles, createStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Collapse from "@material-ui/core/Collapse";

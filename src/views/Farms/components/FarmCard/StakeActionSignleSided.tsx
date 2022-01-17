@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import BigNumber from "bignumber.js";
-import { Button, Flex, useModal } from "cryption-uikit";
+import { Button, Flex, useModal } from "yugen-uikit";
 import useWeb3 from "hooks/useWeb3";
 
 import { getERC20Contract } from "utils/contractHelpers";

@@ -1,5 +1,5 @@
 import React from "react";
-import { Text } from "cryption-uikit";
+import { Text } from "yugen-uikit";
 import { getBalanceNumber } from "utils/formatBalance";
 import { useTotalRewards } from "hooks/useTickets";
 import useI18n from "hooks/useI18n";

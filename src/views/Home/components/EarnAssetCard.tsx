@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import { Card, Flex, ArrowForwardIcon } from "cryption-uikit";
+import { Card, Flex, ArrowForwardIcon } from "yugen-uikit";
 import { NavLink } from "react-router-dom";
 
 interface EarnAssestsProps {

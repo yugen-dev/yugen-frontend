@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable no-bitwise */
 import React, { memo, useContext } from "react";
-import { Heading } from "cryption-uikit";
+import { Heading } from "yugen-uikit";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import styled, { ThemeContext } from "styled-components";
 

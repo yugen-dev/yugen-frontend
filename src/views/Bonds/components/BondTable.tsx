@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
-import { Button } from "cryption-uikit";
+import { Button } from "yugen-uikit";
 import styled from "styled-components";
 import bondItems from "../bonds";
 

@@ -17,7 +17,7 @@ import ChartOverlay from "./ChartOverlay";
 //   FallingBunnies,
 //   FallingBunniesProps,
 //   useKonamiCheatCode,
-// } from "cryption-uikit";
+// } from "yugen-uikit";
 
 interface AreaChartPropsProps {
   data?: any;

@@ -4,7 +4,7 @@ import { Route, useRouteMatch, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import BigNumber from "bignumber.js";
 import { useWeb3React } from "@web3-react/core";
-import { RowType, Toggle, Text } from "cryption-uikit";
+import { RowType, Toggle, Text } from "yugen-uikit";
 import styled from "styled-components";
 import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CAKE_POOL_PID } from "config";
 import {

@@ -1,12 +1,6 @@
 import React, { useState, useCallback } from "react";
 import styled from "styled-components";
-import {
-  Button,
-  useModal,
-  IconButton,
-  AddIcon,
-  MinusIcon,
-} from "cryption-uikit";
+import { Button, useModal, IconButton, AddIcon, MinusIcon } from "yugen-uikit";
 import UnlockButton from "components/UnlockButton";
 import { useWeb3React } from "@web3-react/core";
 import { useVaultUser } from "state/hooks";

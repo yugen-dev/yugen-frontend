@@ -1,6 +1,6 @@
 import React from "react";
 import { Trade, TradeType } from "@cryption-network/polydex-sdk";
-import { Text } from "cryption-uikit";
+import { Text } from "yugen-uikit";
 import { Field } from "../../state/swap/actions";
 import { useUserSlippageTolerance } from "../../state/user/hooks";
 import {

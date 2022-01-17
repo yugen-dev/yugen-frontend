@@ -1,9 +1,15 @@
 import BigNumber from "bignumber.js";
 import styled from "styled-components";
 import React, { useCallback, useMemo, useState, useEffect } from "react";
-import { Button, AutoRenewIcon, Flex, CloseIcon, IconButton } from "cryption-uikit";
+import {
+  Button,
+  AutoRenewIcon,
+  Flex,
+  CloseIcon,
+  IconButton,
+} from "yugen-uikit";
 import Modal from "components/Modal";
-import StepperContainer from 'components/Stepper/Stepper';
+import StepperContainer from "components/Stepper/Stepper";
 import ModalActions from "components/ModalActions";
 import ModalInput from "components/ModalInputCrossChain";
 import useI18n from "hooks/useI18n";
@@ -70,9 +76,9 @@ const DepositModal: React.FC<DepositModalProps> = ({
     setVal(fullBalance);
   }, [fullBalance, setVal]);
   useEffect(() => {
-    toggleStakerSteps(showSteps)
+    toggleStakerSteps(showSteps);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showSteps])
+  }, [showSteps]);
   const BtnLoadingComp =
     pendingTx === false ? (
       <Button
@@ -105,13 +111,18 @@ const DepositModal: React.FC<DepositModalProps> = ({
           <ModalTitle>
             <Heading>Stake Eth</Heading>
           </ModalTitle>
-          <IconButton variant="text" onClick={onDismiss} aria-label="Close the dialog" size="23px">
+          <IconButton
+            variant="text"
+            onClick={onDismiss}
+            aria-label="Close the dialog"
+            size="23px"
+          >
             <CloseIcon color="#86878F" />
           </IconButton>
         </ModalHeader>
-        {showStakerSteps ?
+        {showStakerSteps ? (
           <StepperContainer activeIndex={activeIndex} />
-          :
+        ) : (
           <div>
             <ModalInput
               value={val}
@@ -129,7 +140,7 @@ const DepositModal: React.FC<DepositModalProps> = ({
               {BtnLoadingComp}
             </ModalActions>
           </div>
-        }
+        )}
       </Flex>
     </Modal>
   );

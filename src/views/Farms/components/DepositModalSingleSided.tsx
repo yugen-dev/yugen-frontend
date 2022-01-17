@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 import React, { useCallback, useMemo, useState } from "react";
-import { Button, Modal, LinkExternal, AutoRenewIcon } from "cryption-uikit";
+import { Button, Modal, LinkExternal, AutoRenewIcon } from "yugen-uikit";
 import ModalActions from "components/ModalActions";
 import ModalInput from "components/ModalInput";
 import useI18n from "hooks/useI18n";

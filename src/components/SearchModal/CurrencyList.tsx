@@ -14,7 +14,7 @@ import React, {
 } from "react";
 import { FixedSizeList } from "react-window";
 import styled from "styled-components";
-import { Text } from "cryption-uikit";
+import { Text } from "yugen-uikit";
 import { useActiveWeb3React } from "../../hooks";
 import {
   useSelectedTokenList,

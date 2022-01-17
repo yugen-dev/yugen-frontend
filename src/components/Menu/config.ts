@@ -1,4 +1,4 @@
-import { MenuEntry } from "cryption-uikit";
+import { MenuEntry } from "yugen-uikit";
 
 const fantomMainnetConfig: MenuEntry[] = [
   {

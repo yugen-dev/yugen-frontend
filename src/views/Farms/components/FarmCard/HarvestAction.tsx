@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import BigNumber from "bignumber.js";
-import { AutoRenewIcon, Button, Flex, Heading } from "cryption-uikit";
+import { AutoRenewIcon, Button, Flex, Heading } from "yugen-uikit";
 import { useHarvest, useHarvestAndStake } from "hooks/useHarvest";
 import { getBalanceNumber } from "utils/formatBalance";
 import ConfirmSwapModal from "components/harvestAndStake/ConfirmSwapModal";

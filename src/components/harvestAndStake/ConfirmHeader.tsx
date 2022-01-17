@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Dots } from "components/swap/styleds";
-import { Text } from "cryption-uikit";
+import { Text } from "yugen-uikit";
 import { ArrowRight } from "react-feather";
 import styled from "styled-components";
 import BigNumber from "bignumber.js";

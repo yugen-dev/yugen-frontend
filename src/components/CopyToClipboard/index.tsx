@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Text, CopyIcon } from "cryption-uikit";
+import { Text, CopyIcon } from "yugen-uikit";
 
 interface Props {
   toCopy: string;
@@ -16,7 +16,8 @@ const StyleButton = styled(Text).attrs({ role: "button" })`
 `;
 
 const Tooltip = styled.div<{ isTooltipDisplayed: boolean }>`
-  display: ${({ isTooltipDisplayed }) => (isTooltipDisplayed ? "block" : "none")};
+  display: ${({ isTooltipDisplayed }) =>
+    isTooltipDisplayed ? "block" : "none"};
   margin-top: 10px;
   position: absolute;
   left: -20px;

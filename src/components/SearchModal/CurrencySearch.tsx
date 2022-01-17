@@ -9,7 +9,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Text, CloseIcon } from "cryption-uikit";
+import { Text, CloseIcon } from "yugen-uikit";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { FixedSizeList } from "react-window";

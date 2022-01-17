@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Card, Skeleton } from "cryption-uikit";
+import { Card, Skeleton } from "yugen-uikit";
 import useI18n from "hooks/useI18n";
 import BigNumber from "bignumber.js";
 import CardValue from "./CardValue";

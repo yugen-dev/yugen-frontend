@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useCallback } from "react";
 import styled from "styled-components";
-import { Heading, Text, Card, CardBody, Button } from "cryption-uikit";
+import { Heading, Text, Card, CardBody, Button } from "yugen-uikit";
 import { useWeb3React } from "@web3-react/core";
 
 const APRcards = ({ farmsMaxAPR, vaultsMaxAPR }) => {

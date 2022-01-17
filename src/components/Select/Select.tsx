@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled, { css } from "styled-components";
-import { ArrowDropDownIcon, Text } from "cryption-uikit";
+import { ArrowDropDownIcon, Text } from "yugen-uikit";
 
 const DropDownHeader = styled.div`
   width: 100%;
@@ -12,7 +12,7 @@ const DropDownHeader = styled.div`
   box-shadow: ${({ theme }) => theme.shadows.inset};
   border: 1px solid ${({ theme }) => theme.colors.inputSecondary};
   border-radius: 16px;
-  background: linear-gradient(119.5deg, #9900FF 33.93%, #2082E9 105.9%);
+  background: linear-gradient(119.5deg, #9900ff 33.93%, #2082e9 105.9%);
   transition: border-radius 0.15s;
 `;
 
@@ -21,7 +21,7 @@ const DropDownListContainer = styled.div`
   height: 0;
   position: absolute;
   overflow: hidden;
-  background: #1A1B23;
+  background: #1a1b23;
   z-index: ${({ theme }) => theme.zIndices.dropdown};
   transition: transform 0.15s, opacity 0.15s;
   transform: scaleY(0);
@@ -56,7 +56,7 @@ const DropDownContainer = styled.div<{
     props.isOpen &&
     css`
       ${DropDownHeader} {
-        border-bottom: 1px solid #1A1B23;
+        border-bottom: 1px solid #1a1b23;
         box-shadow: ${({ theme }) => theme.tooltip.boxShadow};
         border-radius: 16px 16px 0 0;
       }
@@ -66,7 +66,7 @@ const DropDownContainer = styled.div<{
         width: 100%;
         transform: scaleY(1);
         opacity: 1;
-        border: 1px solid #1A1B23;
+        border: 1px solid #1a1b23;
         border-top-width: 0;
         border-radius: 0 0 16px 16px;
         box-shadow: ${({ theme }) => theme.tooltip.boxShadow};

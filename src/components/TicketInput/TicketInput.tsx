@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Button, Flex } from "cryption-uikit";
+import { Button, Flex } from "yugen-uikit";
 import { Input, InputProps } from "@pancakeswap-libs/uikit";
 import useI18n from "../../hooks/useI18n";
 
