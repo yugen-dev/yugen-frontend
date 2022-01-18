@@ -4,13 +4,20 @@ import farmABI from "config/abi/farm.json";
 import multicall from "utils/multicall";
 import { getAddress, getFarmAddress } from "utils/addressHelpers";
 import farmsConfig from "config/constants/farms";
+import axios from "axios";
 
 const fetchFarms = async () => {
+  const wmaticPrice = await axios.get(
+    `https://api.coingecko.com/api/v3/coins/wmatic`
+  );
+  const wethPrice = await axios.get(
+    `https://api.coingecko.com/api/v3/coins/weth`
+  );
   const data = await Promise.all(
     farmsConfig.map(async (farmConfig) => {
       const lpAdress = getAddress(farmConfig.lpAddresses);
       const calls = [
-        // Balance of token in the LP contract
+        // Balance of non quote token in the LP contract
         {
           address: getAddress(farmConfig.tokenAddresses),
           name: "balanceOf",
@@ -52,8 +59,8 @@ const fetchFarms = async () => {
       ];
 
       const [
-        tokenBalanceLP,
-        quoteTokenBlanceLP,
+        balanceOfNonQuoteTokenInLp,
+        balanceOfQuoteTokenInLp,
         lpTotalSupply,
         tokenDecimals,
         quoteTokenDecimals,
@@ -82,6 +89,34 @@ const fetchFarms = async () => {
           },
         ]
       );
+
+      let priceOfQuoteToken = new BigNumber(0);
+      if (farmConfig.quoteTokenCoinGeckoId === "wmatic")
+        priceOfQuoteToken = new BigNumber(
+          wmaticPrice.data.market_data.current_price.usd.toString()
+        );
+      else if (
+        farmConfig.quoteTokenCoinGeckoId === "ethereum" ||
+        farmConfig.quoteTokenCoinGeckoId === "weth"
+      )
+        priceOfQuoteToken = new BigNumber(
+          wethPrice.data.market_data.current_price.usd.toString()
+        );
+      else if (
+        farmConfig.quoteTokenCoinGeckoId === "usd-coin" ||
+        farmConfig.quoteTokenCoinGeckoId === "dai" ||
+        farmConfig.quoteTokenCoinGeckoId === "tether"
+      )
+        priceOfQuoteToken = new BigNumber(1);
+      else {
+        const res = await axios.get(
+          `https://api.coingecko.com/api/v3/coins/${farmConfig.quoteTokenCoinGeckoId}`
+        );
+        priceOfQuoteToken = new BigNumber(
+          res.data.market_data.current_price.usd.toString()
+        );
+      }
+
       const allocPoint = new BigNumber(info.allocPoint._hex);
       const poolHarvestInterval = new BigNumber(info.harvestInterval._hex);
 
@@ -103,25 +138,26 @@ const fetchFarms = async () => {
       );
 
       // Total value in staking in quote token value
-      const lpTotalInQuoteToken = new BigNumber(quoteTokenBlanceLP)
-        .div(new BigNumber(10).pow(18))
+      const lpTotalInQuoteToken = new BigNumber(balanceOfQuoteTokenInLp)
+        .div(new BigNumber(10).pow(quoteTokenDecimals))
         .times(new BigNumber(2))
         .times(lpTokenRatio);
 
       // Amount of token in the LP that are considered staking (i.e amount of token * lp ratio)
-      const tokenAmount = new BigNumber(tokenBalanceLP)
+      const nonQuoteTokenAmount = new BigNumber(balanceOfNonQuoteTokenInLp)
         .div(new BigNumber(10).pow(tokenDecimals))
         .times(lpTokenRatio);
-      const quoteTokenAmount = new BigNumber(quoteTokenBlanceLP)
+      const quoteTokenAmount = new BigNumber(balanceOfQuoteTokenInLp)
         .div(new BigNumber(10).pow(quoteTokenDecimals))
         .times(lpTokenRatio);
 
       return {
         ...farmConfig,
-        tokenAmount: tokenAmount.toJSON(),
+        tokenAmount: nonQuoteTokenAmount.toJSON(),
         quoteTokenAmount: quoteTokenAmount.toJSON(),
         lpTotalInQuoteToken: lpTotalInQuoteToken.toJSON(),
-        tokenPriceVsQuote: quoteTokenAmount.div(tokenAmount).toJSON(),
+        tokenPriceVsQuote: quoteTokenAmount.div(nonQuoteTokenAmount).toJSON(),
+        quoteTokenCoinGeckoPrice: priceOfQuoteToken.toJSON(),
         poolWeight: poolWeight.toJSON(),
         multiplier: `${allocPoint
           .div(totalAllocPoint)

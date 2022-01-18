@@ -6,7 +6,6 @@ import { Farm, Vault } from "state/types";
 import { provider as ProviderType } from "web3-core";
 import useI18n from "hooks/useI18n";
 import ExpandableSectionButton from "components/ExpandableSectionButton";
-import { QuoteToken } from "config/constants/types";
 import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK } from "config";
 import DetailsSection from "./DetailsSection";
 import CardHeading from "./CardHeading";
@@ -95,9 +94,6 @@ const FarmCard: React.FC<FarmCardProps> = ({
   farm,
   removed,
   cakePrice,
-  bnbPrice,
-  ethPrice,
-  btcPrice,
   account,
 }) => {
   const TranslateString = useI18n();
@@ -113,39 +109,31 @@ const FarmCard: React.FC<FarmCardProps> = ({
     if (!farm.lpTotalInQuoteToken) {
       return null;
     }
-    if (farm.quoteTokenSymbol === QuoteToken.BNB) {
-      return bnbPrice.times(farm.lpTotalInQuoteToken);
-    }
-    if (farm.quoteTokenSymbol === QuoteToken.CAKE) {
-      return cakePrice.times(farm.lpTotalInQuoteToken);
-    }
-    // if we want to keep cnt add and use CNT hook
-    if (farm.quoteTokenSymbol === QuoteToken.CNT) {
-      return cakePrice.times(farm.lpTotalInQuoteToken);
-    }
-    if (farm.quoteTokenSymbol === QuoteToken.ETH) {
-      return ethPrice.times(farm.lpTotalInQuoteToken);
-    }
-    if (farm.quoteTokenSymbol === QuoteToken.BTC) {
-      return btcPrice
-        .times(farm.quoteTokenAmount)
-        .plus(new BigNumber(farm.tokenAmount));
+
+    if (
+      farm.isPool &&
+      farm?.lpTotalSupplyInMasterchef &&
+      farm?.lpDecimals &&
+      farm?.quoteTokenCoinGeckoPrice
+    ) {
+      return new BigNumber(farm?.lpTotalSupplyInMasterchef)
+        .dividedBy(new BigNumber(10).pow(farm?.lpDecimals))
+        .multipliedBy(farm?.quoteTokenCoinGeckoPrice);
     }
 
-    if (farm.quoteTokenSymbol === QuoteToken.BUSD) {
-      return new BigNumber(farm.tokenAmount).plus(farm.quoteTokenAmount);
+    if (farm?.quoteTokenCoinGeckoPrice) {
+      return new BigNumber(farm?.quoteTokenCoinGeckoPrice).times(
+        farm?.lpTotalInQuoteToken
+      );
     }
 
     return farm.lpTotalInQuoteToken;
   }, [
-    bnbPrice,
-    cakePrice,
-    ethPrice,
-    btcPrice,
-    farm.tokenAmount,
-    farm.quoteTokenAmount,
+    farm.isPool,
+    farm?.lpDecimals,
     farm.lpTotalInQuoteToken,
-    farm.quoteTokenSymbol,
+    farm?.lpTotalSupplyInMasterchef,
+    farm?.quoteTokenCoinGeckoPrice,
   ]);
 
   const totalValueFormated = totalValue

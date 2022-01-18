@@ -47,6 +47,7 @@ export interface Farm extends FarmConfig {
   lpTotalInQuoteToken?: BigNumber;
   tokenPriceVsQuote?: BigNumber;
   poolWeight?: BigNumber;
+  quoteTokenCoinGeckoPrice?: BigNumber;
   lpTotalSupplyInMasterchef?: BigNumber;
   singleSidedTokenDecimal?: BigNumber;
   singleSidedToTokenDecimal?: BigNumber;

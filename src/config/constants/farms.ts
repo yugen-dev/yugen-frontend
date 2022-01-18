@@ -6,6 +6,7 @@ const farmsEthereumTestnet: FarmConfig[] = [];
 const farmsMaticMainnet: FarmConfig[] = [
   {
     pid: 0,
+    isPool: false,
     tag: "Powered by QuickSwap",
     lpSymbol: "QUICK-wMATIC",
     tempApr: "29.55",
@@ -33,6 +34,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     },
     quoteTokenSymbol: QuoteToken.WMATIC,
     quoteTokenAdresses: contracts.wbnb,
+    quoteTokenCoinGeckoId: "wmatic",
     singleSidedToken: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -60,6 +62,7 @@ const farmsMaticMainnet: FarmConfig[] = [
   },
   // {
   //   pid: 1,
+  // isPool:false,
   //   tag: "Powered by CafeSwap",
   //   lpSymbol: "pBREW-wETH",
   //   tempApr: "130.7",
@@ -87,6 +90,7 @@ const farmsMaticMainnet: FarmConfig[] = [
   //   },
   //   quoteTokenSymbol: QuoteToken.ETH,
   //   quoteTokenAdresses: contracts.eth,
+  //   quoteTokenCoinGeckoId: "ethereum",
   //   singleSidedToken: {
   //     97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
   //     56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -114,6 +118,7 @@ const farmsMaticMainnet: FarmConfig[] = [
   // },
   {
     pid: 2,
+    isPool: false,
     tag: "Powered by QuickSwap",
     lpSymbol: "wMATIC-wETH",
     tempApr: "12.36",
@@ -141,6 +146,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     },
     quoteTokenSymbol: QuoteToken.WMATIC,
     quoteTokenAdresses: contracts.wbnb,
+    quoteTokenCoinGeckoId: "wmatic",
     singleSidedToken: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -168,6 +174,7 @@ const farmsMaticMainnet: FarmConfig[] = [
   },
   {
     pid: 3,
+    isPool: false,
     tag: "Powered by Nacho Finance",
     lpSymbol: "wETH-NACHO",
     tempApr: "357.89",
@@ -195,6 +202,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     },
     quoteTokenSymbol: QuoteToken.ETH,
     quoteTokenAdresses: contracts.eth,
+    quoteTokenCoinGeckoId: "ethereum",
     singleSidedToken: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -223,6 +231,7 @@ const farmsMaticMainnet: FarmConfig[] = [
   },
   {
     pid: 4,
+    isPool: false,
     tag: "Powered by Nacho Finance",
     lpSymbol: "wMATIC-NSHARE",
     tempApr: "481.92",
@@ -250,6 +259,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     },
     quoteTokenSymbol: QuoteToken.WMATIC,
     quoteTokenAdresses: contracts.wbnb,
+    quoteTokenCoinGeckoId: "wmatic",
     singleSidedToken: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -277,6 +287,7 @@ const farmsMaticMainnet: FarmConfig[] = [
   },
   {
     pid: 5,
+    isPool: false,
     tag: "Powered by QuickSwap",
     lpSymbol: "wMATIC-USDC",
     tempApr: "21.24",
@@ -304,6 +315,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     },
     quoteTokenSymbol: QuoteToken.WMATIC,
     quoteTokenAdresses: contracts.wbnb,
+    quoteTokenCoinGeckoId: "wmatic",
     singleSidedToken: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -331,6 +343,7 @@ const farmsMaticMainnet: FarmConfig[] = [
   },
   {
     pid: 6,
+    isPool: false,
     tag: "Powered by SushiSwap",
     lpSymbol: "FXS-FRAX",
     tempApr: "19.73",
@@ -358,6 +371,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     },
     quoteTokenSymbol: QuoteToken.FXS,
     quoteTokenAdresses: contracts.fxs,
+    quoteTokenCoinGeckoId: "frax-share",
     singleSidedToken: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -385,6 +399,7 @@ const farmsMaticMainnet: FarmConfig[] = [
   },
   {
     pid: 7,
+    isPool: false,
     tag: "Powered by SushiSwap",
     lpSymbol: "AVAX-wETH",
     tempApr: "26.52",
@@ -412,6 +427,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     },
     quoteTokenSymbol: QuoteToken.ETH,
     quoteTokenAdresses: contracts.eth,
+    quoteTokenCoinGeckoId: "ethereum",
     singleSidedToken: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -439,6 +455,7 @@ const farmsMaticMainnet: FarmConfig[] = [
   },
   {
     pid: 8,
+    isPool: false,
     tag: "Powered by SushiSwap",
     lpSymbol: "BCT-KLIMA",
     tempApr: "203",
@@ -457,15 +474,16 @@ const farmsMaticMainnet: FarmConfig[] = [
     tokenAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
-      80001: "0x9293C7381b9cEA6B27Ce9069f26746e7D43bC29d", // BCT
+      80001: "0x9293C7381b9cEA6B27Ce9069f26746e7D43bC29d", // KLIMA
       5: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
-      137: "0x2f800db0fdb5223b3c3f354886d907a671414a7f",
+      137: "0x4e78011ce80ee02d2c3e649fb657e45898257815",
       1: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
-    quoteTokenSymbol: QuoteToken.KLIMA,
-    quoteTokenAdresses: contracts.klima,
+    quoteTokenSymbol: QuoteToken.BCT,
+    quoteTokenAdresses: contracts.bct,
+    quoteTokenCoinGeckoId: "toucan-protocol-base-carbon-tonne",
     singleSidedToken: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -521,6 +539,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     },
     quoteTokenSymbol: QuoteToken.USDC,
     quoteTokenAdresses: contracts.usdc,
+    quoteTokenCoinGeckoId: "usd-coin",
     singleSidedToken: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -576,6 +595,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     },
     quoteTokenSymbol: QuoteToken.DAI,
     quoteTokenAdresses: contracts.dai,
+    quoteTokenCoinGeckoId: "dai",
     singleSidedToken: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -631,6 +651,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     },
     quoteTokenSymbol: QuoteToken.USDT,
     quoteTokenAdresses: contracts.usdt,
+    quoteTokenCoinGeckoId: "tether",
     singleSidedToken: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -660,6 +681,7 @@ const farmsMaticMainnet: FarmConfig[] = [
 const farmsMaticTestnet: FarmConfig[] = [
   {
     pid: 0,
+    isPool: false,
     tag: "Powered by SpookySwap",
     lpSymbol: "SUPER-wMATIC",
     lpAddresses: {
@@ -686,6 +708,7 @@ const farmsMaticTestnet: FarmConfig[] = [
     },
     quoteTokenSymbol: QuoteToken.WMATIC,
     quoteTokenAdresses: contracts.wbnb,
+    quoteTokenCoinGeckoId: "wmatic",
     singleSidedToken: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",

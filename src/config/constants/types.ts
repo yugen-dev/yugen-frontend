@@ -56,6 +56,7 @@ export enum QuoteToken {
   "BOO" = "BOO",
   "FXS" = "FXS",
   "KLIMA" = "KLIMA",
+  "BCT" = "BCT",
 }
 
 export enum PoolCategory {
@@ -77,7 +78,7 @@ export interface Address {
 
 export interface FarmConfig {
   pid: number;
-  isPool?: boolean;
+  isPool: boolean;
   tag?: string;
   tempApr?: string;
   volatility: "failure" | "success" | "binance";
@@ -87,6 +88,7 @@ export interface FarmConfig {
   tokenAddresses: Address;
   quoteTokenSymbol: QuoteToken;
   quoteTokenAdresses: Address;
+  quoteTokenCoinGeckoId: string;
   multiplier?: string;
   poolHarvestInterval?: number;
   isCommunity?: boolean;
