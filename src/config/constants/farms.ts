@@ -170,7 +170,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     },
     singleSidedToTokenName: "wETH",
     getLpLink:
-      "https://quickswap.exchange/#/add/0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270/ETH",
+      "https://quickswap.exchange/#/add/0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270/0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
   },
   {
     pid: 3,
@@ -227,7 +227,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     singleSidedToTokenName: "NACHO",
     showSingleSided: true,
     getLpLink:
-      "https://quickswap.exchange/#/add/ETH/0xcd86152047e800d67bdf00a4c635a8b6c0e5c4c2",
+      "https://quickswap.exchange/#/add/0x7ceb23fd6bc0add59e62ac25578270cff1b9f619/0xcd86152047e800d67bdf00a4c635a8b6c0e5c4c2",
   },
   {
     pid: 4,
