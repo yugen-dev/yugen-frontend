@@ -175,7 +175,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     return (
       <div>
         {days > 0 ? `${days.toString()} days ` : ""}
-        {hours > 0 ? `${hours.toString()} Hr ` : ""}
+        {hours > 0 ? `${hours.toString()} hr ` : ""}
         {minutes > 0 ? `${minutes.toString()} min ` : ""}
         {seconds > 0 ? `${seconds.toString()} sec` : ""}
       </div>
