@@ -151,7 +151,7 @@ const StyledOl = styled.ol`
   padding-left: 16px;
 `;
 const FYGNBurner = () => {
-  const [exchangeRate, setExchangeRate] = useState(new BigNumber(1.32));
+  const [exchangeRate, setExchangeRate] = useState(new BigNumber(0));
   const fYGNLogo =
     "https://s3.us-east-2.amazonaws.com/www.yugen.finance/assets/fygn.webp";
   const YGNLogo =
@@ -471,6 +471,19 @@ const FYGNBurner = () => {
                   </Button>
                 </Flex>
               </CustomInputPannel>
+              {!exchangeRate.isZero() &&
+                !new BigNumber(tokenAmount).isZero() &&
+                !new BigNumber(tokenAmount)
+                  .multipliedBy(exchangeRate)
+                  .isNaN() && (
+                  <Text color="#887263" mb="15px">
+                    You will recieve approx{" "}
+                    {new BigNumber(tokenAmount)
+                      .multipliedBy(exchangeRate)
+                      .toFixed(6)}{" "}
+                    YGNs
+                  </Text>
+                )}
 
               {renderBottomButtons()}
             </StakingContainer>

@@ -163,6 +163,7 @@ const CNTStaker = () => {
   const [tokenBalance, setTokenBalance] = React.useState(new BigNumber(0));
   const [xCNTBalance, setxCNTBalance] = React.useState(new BigNumber(0));
   const [CntAllowance, setCntAllowance] = React.useState(new BigNumber(0));
+  const [exchangeRate, setExchangeRate] = React.useState(new BigNumber(0));
   const CHAINID = useChainId().toString();
   const [requestedApproval, setRequestedApproval] = useState(false);
   const [tokenAmount, handleTokenAmount] = useState("");
@@ -210,6 +211,20 @@ const CNTStaker = () => {
     }
   };
 
+  const getExchangeRate = React.useCallback(async () => {
+    try {
+      const contract = getCNTStakerContract(web3);
+      const res = await contract.methods
+        .getXYGNAmount(
+          new BigNumber(1).times(new BigNumber(10).pow(18)).toString()
+        )
+        .call();
+      setExchangeRate(new BigNumber(res).dividedBy(new BigNumber(10).pow(18)));
+    } catch (error) {
+      console.error("error: ", error);
+    }
+  }, [web3]);
+
   const getTokenBalances = async () => {
     const tokenBalanceResp = await fetchBalances(contracts.cake[CHAINID]);
     const xCNTBalanceResp = await fetchBalances(contracts.cntStaker[CHAINID]);
@@ -230,8 +245,9 @@ const CNTStaker = () => {
     }
     if (account) {
       fetchTotalSupply();
+      getExchangeRate();
     }
-  }, [account, setTotalSupply]);
+  }, [account, getExchangeRate, setTotalSupply]);
 
   useEffect(() => {
     if (account) {
@@ -548,6 +564,19 @@ const CNTStaker = () => {
                   </Button>
                 </Flex>
               </CustomInputPannel>
+              {!exchangeRate.isZero() &&
+                !new BigNumber(tokenAmount).isZero() &&
+                !new BigNumber(tokenAmount)
+                  .multipliedBy(exchangeRate)
+                  .isNaN() && (
+                  <Text color="#887263" mb="15px">
+                    You will recieve approx{" "}
+                    {new BigNumber(tokenAmount)
+                      .multipliedBy(exchangeRate)
+                      .toFixed(6)}{" "}
+                    xYGNs
+                  </Text>
+                )}
 
               {renderBottomButtons()}
             </StakingContainer>
