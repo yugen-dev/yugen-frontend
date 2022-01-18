@@ -46,7 +46,7 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({
       let ygnResp = new BigNumber(1);
       let xYgnResp = new BigNumber(1);
       const burnerContract = getFygnBurnerContract(web3);
-      const stakerContract = getCNTStakerContract();
+      const stakerContract = getCNTStakerContract(web3);
 
       ygnResp = await burnerContract.methods
         .getYGNAmount(earnings.toString())
