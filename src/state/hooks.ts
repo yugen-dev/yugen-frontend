@@ -11,7 +11,7 @@ import contracts from "config/constants/contracts";
 import { Toast, toastTypes } from "yugen-uikit";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import { QuoteToken, Team } from "config/constants/types";
+import { Team } from "config/constants/types";
 import { getWeb3NoAccount } from "utils/web3";
 import useRefresh from "hooks/useRefresh";
 import CoinGecko from "coingecko-api";
@@ -483,27 +483,27 @@ export const useFarmsTotalValue = (): BigNumber => {
   const farms = useFarms();
 
   const totalStakerBalance = useCntStakerTvl();
-  // const totalHybridstakingCntBalance = useHybridstakingTvl();
-  const bnbPrice = usePriceBnbBusd();
-  const cntPrice = usePriceCakeBusd();
-  const ethPrice = usePriceEthBusd();
-  const btcPrice = usePriceBtcBusd();
+  // TODO: change cnt price from fixed to dynamic
+  const cntPrice = new BigNumber(0);
 
   let value = new BigNumber(0);
   for (let i = 0; i < farms.length; i++) {
     const farm = farms[i];
     if (farm.lpTotalInQuoteToken) {
-      let val;
-      if (farm.quoteTokenSymbol === QuoteToken.BNB) {
-        val = bnbPrice.times(farm.lpTotalInQuoteToken);
-      } else if (farm.quoteTokenSymbol === QuoteToken.CAKE) {
-        val = cntPrice.times(farm.lpTotalInQuoteToken);
-      } else if (farm.quoteTokenSymbol === QuoteToken.ETH) {
-        val = ethPrice.times(farm.lpTotalInQuoteToken);
-      } else if (farm.quoteTokenSymbol === QuoteToken.BTC) {
-        val = btcPrice.times(farm.lpTotalInQuoteToken);
-      } else if (farm.quoteTokenSymbol === QuoteToken.BUSD) {
-        val = new BigNumber(farm.tokenAmount).plus(farm.quoteTokenAmount);
+      let val = new BigNumber(0);
+      if (
+        farm.isPool &&
+        farm?.lpTotalSupplyInMasterchef &&
+        farm?.lpDecimals &&
+        farm?.quoteTokenCoinGeckoPrice
+      ) {
+        val = new BigNumber(farm?.lpTotalSupplyInMasterchef)
+          .dividedBy(new BigNumber(10).pow(farm?.lpDecimals))
+          .multipliedBy(farm?.quoteTokenCoinGeckoPrice);
+      } else if (farm?.quoteTokenCoinGeckoPrice) {
+        val = new BigNumber(farm?.quoteTokenCoinGeckoPrice).times(
+          farm?.lpTotalInQuoteToken
+        );
       } else {
         val = farm.lpTotalInQuoteToken;
       }
