@@ -81,6 +81,11 @@ export const maticMainnetConfig: MenuEntry[] = [
     icon: "DocsIcon",
     href: "https://docs.yugen.finance/",
   },
+  {
+    label: "Audit Report",
+    icon: "DocsIcon",
+    href: "https://drive.google.com/file/d/1J6ULTUwtIQgZgpnqKr65lmxe95cua7K6/view",
+  },
 ];
 
 export const maticTestnetConfig: MenuEntry[] = [
