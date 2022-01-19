@@ -59,7 +59,7 @@ const BondTable = () => {
               }}
             >
               <img
-                src={`/images/bonds/${bond.token}.png`}
+                src={`/images/bonds/${bond.token.toLowerCase()}.png`}
                 alt={`${bond.token}`}
                 width={`${bond.isLP ? "60px" : "30px"}`}
               />
