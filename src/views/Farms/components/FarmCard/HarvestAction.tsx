@@ -152,7 +152,8 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({
           Harvest
         </Button>
         <Button
-          disabled={harvestDisabled}
+          // disabled={harvestDisabled}
+          disabled
           onClick={async () => {
             setSwapState(() => ({
               attemptingTxn: false,
@@ -174,15 +175,6 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({
         Processing
       </Button>
     );
-
-  const TempBtnLoadingComp = (
-    <Flex justifyContent="space-around" width="100%">
-      <Button variant="secondary" disabled>
-        Harvest
-      </Button>
-      <Button disabled>Harvest & Stake</Button>
-    </Flex>
-  );
 
   return (
     <Flex
@@ -212,8 +204,7 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({
         fetchHarvestValuesFunction={fetchHarvestValues}
       />
       {canHarvest ? (
-        // BtnLoadingComp
-        TempBtnLoadingComp
+        BtnLoadingComp
       ) : (
         <Flex justifyContent="space-around" width="100%">
           <Button variant="secondary" disabled>
