@@ -15,7 +15,7 @@ import useTheme from "hooks/useTheme";
 import useAuth from "hooks/useAuth";
 import { toggleMetaTranscationState } from "state/actions";
 import { ETHERJS_PATHS } from "config";
-import { useProfile } from "state/hooks";
+import { usePriceCakeBusd, useProfile } from "state/hooks";
 import useAllEarnings from "hooks/useAllEarnings";
 import BigNumber from "bignumber.js";
 import useTokenBalance from "hooks/useTokenBalance";
@@ -31,7 +31,7 @@ import fantomMainnetConfig, {
 const Menu = (props) => {
   const { login, logout, loginEther, logoutEther } = useAuth();
   const location = useLocation();
-  // const cakePriceBusd = usePriceCakeBusd();
+  const cakePriceBusd = usePriceCakeBusd();
   const ygnBalance = useTokenBalance(getCakeAddress());
   const ygnBalanceInString = getBalanceNumber(ygnBalance).toString();
   const allEarnings = useAllEarnings();
@@ -157,7 +157,7 @@ const Menu = (props) => {
       currentLang={selectedLanguage && selectedLanguage.code}
       langs={allLanguages}
       setLang={setSelectedLanguage}
-      cakePriceUsd={0}
+      cakePriceUsd={cakePriceBusd.toNumber() || 0}
       ygnBalance={ygnBalanceInString}
       ygnEarnings={ygnEarningsInString}
       logoSize="53px"

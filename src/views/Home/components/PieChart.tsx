@@ -47,6 +47,16 @@ const PieChart = ({ pieData, pieLoading, pieError }) => {
   }
 
   if (pieData) {
+    // TODO: change when launched on Fantom
+    const totalSupplyOfYgn = 10_000;
+
+    const ygnInHolders = new BigNumber(totalSupplyOfYgn)
+      .minus(pieData?.totalYgnStaked)
+      .minus(pieData?.ygnInBurner)
+      .minus(pieData?.ygnInMaticLp)
+      .minus(pieData?.ygnInTreasury)
+      .toString();
+
     const ygnTokenDistribution = [
       {
         name: "YGN Staker",
@@ -63,10 +73,19 @@ const PieChart = ({ pieData, pieLoading, pieError }) => {
         amount: `${pieData?.ygnInMaticLp}`,
         color: "#e4a86d",
       },
+      {
+        name: "Treasury",
+        amount: `${pieData?.ygnInTreasury}`,
+        color: "#ca8f54",
+      },
+      {
+        name: "Holders",
+        amount: `${ygnInHolders}`,
+        color: "#d48b42",
+      },
       // { name: "SpookSwap LP", amount: ``, color: "#c58154 " },
       // { name: "Bonds", amount: "5000", color: "#d47a3e" },
     ];
-    const totalSupplyOfYgn = 20_000;
 
     return (
       <StyledTotalValueLockedCard>

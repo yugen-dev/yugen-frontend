@@ -1,28 +1,19 @@
 import React, { useRef, useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import BigNumber from "bignumber.js";
-import { QuoteToken } from "config/constants/types";
 // import orderBy from "lodash/orderBy";
 import Container from "@material-ui/core/Container";
 // import getCntPrice from "utils/getCntPrice";
 import useInterval from "hooks/useInterval";
-import {
-  BLOCKS_PER_YEAR,
-  CAKE_PER_BLOCK,
-  CAKE_POOL_PID,
-  YUGEN_INFO_CUSTOM_API,
-} from "config";
+import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, YUGEN_INFO_CUSTOM_API } from "config";
 import { getDayData } from "apollo/exchange";
 import {
   useFarms,
   useFarmsTotalValue,
   useVaultsTotalValue,
-  usePriceBnbBusd,
-  usePriceBtcBusd,
-  usePriceCakeBusd,
-  usePriceEthBusd,
   // useVaultsApr,
   useFetch,
+  usePriceFygnUsd,
 } from "state/hooks";
 
 import { Heading } from "yugen-uikit";
@@ -48,12 +39,8 @@ const Home: React.FC = () => {
 
   const maxFarmsAPYRef = useRef(Number.MIN_VALUE);
   const [maxFarmsAPY, setMaxFarmsAPY] = useState("0");
-
-  const cakePriceUsd = usePriceCakeBusd();
+  const cakePrice = usePriceFygnUsd();
   const farmsLP = useFarms();
-  const ethPriceUsd = usePriceEthBusd();
-  const btcPriceUsd = usePriceBtcBusd();
-  const bnbPrice = usePriceBnbBusd();
 
   const getHighestFarmsAPY = async () => {
     const activeFarms = farmsLP.filter((farm) => farm.multiplier !== "0X");
@@ -63,70 +50,44 @@ const Home: React.FC = () => {
 
   const calculateFarmsAPR = useCallback(
     (farmsToDisplay) => {
-      const cakePriceVsBNB = new BigNumber(
-        farmsLP.find((farm) => farm.pid === CAKE_POOL_PID)?.tokenPriceVsQuote ||
-          0
-      );
-
       farmsToDisplay.map((farm) => {
         if (!farm.tokenAmount || !farm.lpTotalInQuoteToken) {
           return farm;
         }
-        const cakeRewardPerBlock = CAKE_PER_BLOCK.times(farm.poolWeight);
-        const cakeRewardPerYear = cakeRewardPerBlock.times(BLOCKS_PER_YEAR);
-        let apy = cakePriceVsBNB
-          .times(cakeRewardPerYear)
-          .div(farm.lpTotalInQuoteToken);
 
-        if (farm.tempApr) {
-          apy = new BigNumber(farm.tempApr);
-        } else if (
-          farm.quoteTokenSymbol === QuoteToken.BUSD ||
-          farm.quoteTokenSymbol === QuoteToken.UST
+        let totalValue = new BigNumber(1);
+
+        if (
+          farm.isPool &&
+          farm?.lpTotalSupplyInMasterchef &&
+          farm?.lpDecimals &&
+          farm?.quoteTokenCoinGeckoPrice
         ) {
-          apy = cakePriceVsBNB
-            .times(cakeRewardPerYear)
-            .div(new BigNumber(farm.tokenAmount).plus(farm.quoteTokenAmount))
-            .times(bnbPrice);
-        } else if (farm.quoteTokenSymbol === QuoteToken.ETH) {
-          apy = cakePriceUsd
-            .div(ethPriceUsd)
-            .times(cakeRewardPerYear)
-            .div(farm.lpTotalInQuoteToken);
-        } else if (farm.quoteTokenSymbol === QuoteToken.BTC) {
-          const usdcBTCAmt = new BigNumber(farm.tokenAmount).div(btcPriceUsd);
-          const totalTokensInLp = new BigNumber(farm.quoteTokenAmount).plus(
-            usdcBTCAmt
+          totalValue = new BigNumber(farm?.lpTotalSupplyInMasterchef)
+            .dividedBy(new BigNumber(10).pow(farm?.lpDecimals))
+            .multipliedBy(farm?.quoteTokenCoinGeckoPrice);
+        } else if (farm?.quoteTokenCoinGeckoPrice) {
+          totalValue = new BigNumber(farm?.quoteTokenCoinGeckoPrice).times(
+            farm?.lpTotalInQuoteToken
           );
-          apy = cakePriceUsd
-            .div(btcPriceUsd)
-            .times(cakeRewardPerYear)
-            .div(totalTokensInLp);
-        } else if (farm.quoteTokenSymbol === QuoteToken.CAKE) {
-          apy = cakeRewardPerYear.div(farm.lpTotalInQuoteToken);
-        } else if (farm.dual) {
-          const cakeApy =
-            farm &&
-            cakePriceVsBNB
-              .times(cakeRewardPerBlock)
-              .times(BLOCKS_PER_YEAR)
-              .div(farm.lpTotalInQuoteToken);
-          const dualApy =
-            farm.tokenPriceVsQuote &&
-            new BigNumber(farm.tokenPriceVsQuote)
-              .times(farm.dual.rewardPerBlock)
-              .times(BLOCKS_PER_YEAR)
-              .div(farm.lpTotalInQuoteToken);
-
-          apy = cakeApy && dualApy && cakeApy.plus(dualApy);
         }
+
+        let apy = new BigNumber(1);
+        if (cakePrice) {
+          apy = cakePrice
+            .multipliedBy(BLOCKS_PER_YEAR)
+            .multipliedBy(CAKE_PER_BLOCK)
+            .multipliedBy(farm?.multiplier?.replace(/[^\d.-]/g, ""))
+            .dividedBy(totalValue);
+        }
+
         if (maxFarmsAPYRef.current < apy.toNumber())
           maxFarmsAPYRef.current = apy.toNumber();
 
         return apy;
       });
     },
-    [bnbPrice, farmsLP, cakePriceUsd, ethPriceUsd, btcPriceUsd]
+    [cakePrice]
   );
 
   useInterval(() => Promise.all([getDayData]), 60000);

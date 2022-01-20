@@ -152,8 +152,7 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({
           Harvest
         </Button>
         <Button
-          // disabled={harvestDisabled}
-          disabled
+          disabled={harvestDisabled}
           onClick={async () => {
             setSwapState(() => ({
               attemptingTxn: false,
