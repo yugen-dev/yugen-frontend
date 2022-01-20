@@ -551,7 +551,7 @@ const FYGNBurner = () => {
                     style={{ marginRight: "10px", cursor: "pointer" }}
                     onClick={() =>
                       registerToken(
-                        contracts.cake[CHAINID],
+                        contracts.fygn[CHAINID],
                         "fYGN",
                         18,
                         fYGNLogo
@@ -576,12 +576,7 @@ const FYGNBurner = () => {
                     alt="YGN"
                     width="24px"
                     onClick={() =>
-                      registerToken(
-                        contracts.cntStaker[CHAINID],
-                        "YGN",
-                        18,
-                        YGNLogo
-                      )
+                      registerToken(contracts.cake[CHAINID], "YGN", 18, YGNLogo)
                     }
                     loading="lazy"
                     style={{ marginRight: "10px", cursor: "pointer" }}
