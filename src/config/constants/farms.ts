@@ -682,6 +682,7 @@ const farmsMaticTestnet: FarmConfig[] = [
   {
     pid: 0,
     isPool: false,
+    tempApr: "0",
     tag: "Powered by SpookySwap",
     lpSymbol: "SUPER-wMATIC",
     lpAddresses: {

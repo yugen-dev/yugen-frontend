@@ -13,7 +13,6 @@ import {
   YUGEN_INFO_CUSTOM_API,
 } from "config";
 import { getDayData } from "apollo/exchange";
-import { Lock } from "react-feather";
 import {
   useFarms,
   useFarmsTotalValue,
@@ -75,11 +74,13 @@ const Home: React.FC = () => {
         }
         const cakeRewardPerBlock = CAKE_PER_BLOCK.times(farm.poolWeight);
         const cakeRewardPerYear = cakeRewardPerBlock.times(BLOCKS_PER_YEAR);
-
         let apy = cakePriceVsBNB
           .times(cakeRewardPerYear)
           .div(farm.lpTotalInQuoteToken);
-        if (
+
+        if (farm.tempApr) {
+          apy = new BigNumber(farm.tempApr);
+        } else if (
           farm.quoteTokenSymbol === QuoteToken.BUSD ||
           farm.quoteTokenSymbol === QuoteToken.UST
         ) {
@@ -147,11 +148,6 @@ const Home: React.FC = () => {
         marginBottom: "80px",
       }}
     >
-      <HomeOverlay>
-        <Lock size="64px" />
-        <span style={{ margin: "0px 0px 0px 10px" }}> Coming Soon..... </span>
-      </HomeOverlay>
-
       <HomeContainer>
         <Grid container spacing={5} justify="center">
           <Grid item xs={12} md={6} lg={6} xl={6}>
@@ -290,41 +286,7 @@ const Home: React.FC = () => {
   );
 };
 
-const HomeOverlay = styled.div`
-  left: 50%;
-  top: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  position: absolute;
-  font-size: 74px;
-  text-align: center;
-  z-index: 99;
-  /* background: #d4c8ae; */
-  padding: 5px 0px;
-  color: #424945;
-  width: 100%;
-  text-transform: uppercase;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-
-  &:hover {
-    cursor: not-allowed;
-  }
-`;
-
-const HomeContainer = styled.div`
-  min-height: 100%;
-  opacity: 0.4;
-  z-index: 1;
-  position: relative;
-
-  &:hover {
-    cursor: not-allowed;
-  }
-`;
+const HomeContainer = styled.div``;
 
 const Hero = styled.div`
   align-items: left;

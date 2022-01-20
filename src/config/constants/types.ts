@@ -80,7 +80,7 @@ export interface FarmConfig {
   pid: number;
   isPool: boolean;
   tag?: string;
-  tempApr?: string;
+  tempApr: string;
   volatility: "failure" | "success" | "binance";
   lpSymbol: string;
   lpAddresses: Address;
