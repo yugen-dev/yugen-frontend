@@ -82,9 +82,18 @@ export const maticMainnetConfig: MenuEntry[] = [
     href: "https://docs.yugen.finance/",
   },
   {
-    label: "Audit Report",
-    icon: "DocsIcon",
-    href: "https://drive.google.com/file/d/1J6ULTUwtIQgZgpnqKr65lmxe95cua7K6/view",
+    label: "More",
+    icon: "MoreIcon",
+    items: [
+      {
+        label: "Audit Report",
+        href: "https://drive.google.com/file/d/1J6ULTUwtIQgZgpnqKr65lmxe95cua7K6/view",
+      },
+      {
+        label: "Github",
+        href: "https://github.com/yugen-dev/yugen-contracts",
+      },
+    ],
   },
 ];
 
