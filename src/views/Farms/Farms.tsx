@@ -4,7 +4,7 @@ import { Route, useRouteMatch, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import BigNumber from "bignumber.js";
 import { useWeb3React } from "@web3-react/core";
-import { RowType, Toggle, Text, Link } from "yugen-uikit";
+import { RowType, Toggle, Text } from "yugen-uikit";
 import styled from "styled-components";
 import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CAKE_POOL_PID } from "config";
 import {
@@ -497,18 +497,6 @@ const Farms: React.FC = () => {
           <StyledHeading>Farms</StyledHeading>
           <StyledSubHeading style={{ marginTop: "15px" }}>
             Stake your assets to earn fYGN
-          </StyledSubHeading>
-          <StyledSubHeading style={{ textDecoration: "underline" }}>
-            fYGN rewards start on block no:{" "}
-            <Link
-              external
-              href="https://polygonscan.com/block/countdown/23916250"
-              color="white"
-              fontSize="25px"
-              ml="5px"
-            >
-              23916250
-            </Link>
           </StyledSubHeading>
         </StyledSubContainer>
       </StyledContainer>

@@ -8,7 +8,6 @@ import { useWeb3React } from "@web3-react/core";
 import BigNumber from "bignumber.js";
 import { getRewardsManagerContract } from "utils/contractHelpers";
 import Grid from "@material-ui/core/Grid";
-import { Link } from "yugen-uikit";
 import Timer from "./components/Timer";
 import Dashboard from "./components/Dashboard";
 import { ClaimButtons } from "./components/ClaimButtons";
@@ -46,11 +45,16 @@ const DescriptionTextLi = styled.li`
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  width: 100%;
+  max-width: 860px;
 `;
 
 const StyledOl = styled.ol`
   list-style-position: outside;
-  padding-left: 16px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 declare global {
@@ -178,18 +182,6 @@ const VestingFactory = () => {
               35% of fYGN is given on harvest (the rest, 65% of the remaining
               fYGN) is held for a cliff period of 2 weeks and then linearly
               distributed over the next 2 weeks.
-            </DescriptionTextLi>
-            <DescriptionTextLi style={{ textDecoration: "underline" }}>
-              fYGN rewards start on block no:{" "}
-              <Link
-                external
-                href="https://polygonscan.com/block/countdown/23916250"
-                color="white"
-                fontSize="17px"
-                ml="5px"
-              >
-                23916250
-              </Link>
             </DescriptionTextLi>
           </StyledOl>
         </div>

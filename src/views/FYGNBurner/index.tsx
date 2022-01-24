@@ -9,7 +9,7 @@ import styled from "styled-components";
 import { useWeb3React } from "@web3-react/core";
 import BigNumber from "bignumber.js";
 import Container from "@material-ui/core/Container";
-import { Button, Flex, Input, Text, AutoRenewIcon, Link } from "yugen-uikit";
+import { Button, Flex, Input, Text, AutoRenewIcon } from "yugen-uikit";
 import Grid from "@material-ui/core/Grid";
 import { useApproveBurner } from "hooks/useApprove";
 import { useChainId } from "state/application/hooks";
@@ -411,18 +411,6 @@ const FYGNBurner = () => {
               </DescriptionTextLi>
               <DescriptionTextLi>
                 fYGN can be burned to redeem YGN.
-              </DescriptionTextLi>
-              <DescriptionTextLi style={{ textDecoration: "underline" }}>
-                fYGN rewards start on block no:{" "}
-                <Link
-                  external
-                  href="https://polygonscan.com/block/countdown/23916250"
-                  color="white"
-                  fontSize="17px"
-                  ml="5px"
-                >
-                  23916250
-                </Link>
               </DescriptionTextLi>
             </StyledOl>
           </div>

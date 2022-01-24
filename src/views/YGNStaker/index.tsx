@@ -17,7 +17,6 @@ import {
   Input,
   Text,
   AutoRenewIcon,
-  Link,
 } from "yugen-uikit";
 import Grid from "@material-ui/core/Grid";
 import { useQuery } from "@apollo/client";
@@ -490,18 +489,6 @@ const CNTStaker = () => {
               <DescriptionTextLi>
                 10% of the Interest generated is given back to the stakers of
                 YGN.
-              </DescriptionTextLi>
-              <DescriptionTextLi style={{ textDecoration: "underline" }}>
-                fYGN rewards start on block no:{" "}
-                <Link
-                  external
-                  href="https://polygonscan.com/block/countdown/23916250"
-                  color="white"
-                  fontSize="17px"
-                  ml="5px"
-                >
-                  23916250
-                </Link>
               </DescriptionTextLi>
             </StyledOl>
           </div>
