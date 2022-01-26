@@ -79,6 +79,7 @@ export interface Address {
 export interface FarmConfig {
   pid: number;
   isPool: boolean;
+  withdrawalFee?: string;
   tag?: string;
   tempApr: string;
   volatility: "failure" | "success" | "binance";

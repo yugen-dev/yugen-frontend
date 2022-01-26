@@ -236,6 +236,14 @@ const FarmCard: React.FC<FarmCardProps> = ({
             </Text>
           </Flex>
         )}
+        {farm.withdrawalFee && (
+          <Flex justifyContent="space-between">
+            <Text color="#9b9382">Withdrawal Fee</Text>
+            <Text bold color="#424945">
+              {farm.withdrawalFee}%
+            </Text>
+          </Flex>
+        )}
         <Flex justifyContent="space-between">
           <Text color="#9b9382">{TranslateString(318, "Earn")}</Text>
           <Text bold color="#424945">

@@ -513,6 +513,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     pid: 9,
     isPool: true,
     tag: "Powered by EthaLend",
+    withdrawalFee: "0.1",
     lpSymbol: "USDC",
     tempApr: "23.59",
     lpAddresses: {
@@ -569,6 +570,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     pid: 10,
     isPool: true,
     tag: "Powered by EthaLend",
+    withdrawalFee: "0.1",
     lpSymbol: "DAI",
     tempApr: "29.42",
     lpAddresses: {
@@ -625,6 +627,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     pid: 11,
     isPool: true,
     tag: "Powered by EthaLend",
+    withdrawalFee: "0.1",
     lpSymbol: "USDT",
     tempApr: "27.24",
     lpAddresses: {
