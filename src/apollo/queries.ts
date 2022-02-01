@@ -34,38 +34,23 @@ export const burnQuery = gql`
 const cntStakerAddress = getCNTStakerAddress();
 //  Value of `id` must not be checksummed.
 export const cntStakerQuery = gql`
-  query cntStaker($id: String! = "${
+  query ygnstaker($id: String! = "${
     cntStakerAddress
       ? cntStakerAddress.toLocaleLowerCase()
-      : "0x82C2Fb7410dcfFEd4e9147413BD5005a0a6F58aA"
+      : "0x940920386550c8Bfdd5F0dC685c23A6148e8cD38"
   }") {
-    cntstaker(id: $id) {
+    ygnstakers(id: $id) {
       id
       totalSupply
       ratio
-      xCNTMinted
-      xCNTBurned
-      CNTStaked
-      cntStakedUSD
-      cntHarvested
-      cntHarvestedUSD
-      xCNTAge
-      xCNTAgeDestroyed
-      # histories(first: 1000) {
-      #   id
-      #   date
-      #   timeframe
-      #   sushiStaked
-      #   sushiStakedUSD
-      #   sushiHarvested
-      #   sushiHarvestedUSD
-      #   xSushiAge
-      #   xSushiAgeDestroyed
-      #   xSushiMinted
-      #   xSushiBurned
-      #   xSushiSupply
-      #   ratio
-      # }
+      xYGNMinted
+      xYGNBurned
+      YGNStaked
+      ygnStakedUSD
+      ygnHarvested
+      ygnHarvestedUSD
+      xYGNAge
+      xYGNAgeDestroyed
     }
   }
 `;

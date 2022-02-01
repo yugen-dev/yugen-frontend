@@ -2,18 +2,17 @@ import { HttpLink, from, split } from "@apollo/client";
 import { RetryLink } from "@apollo/client/link/retry";
 
 const testNetLink = {
-  cntStaker: "https://api.thegraph.com/subgraphs/name/gulshanvas/cntstaker",
+  cntStaker: "https://api.thegraph.com/subgraphs/name/yugen-dev/ygn-staker",
   farm: "https://api.thegraph.com/subgraphs/name/gulshanvas/cntfarm",
   exchange: "https://api.thegraph.com/subgraphs/name/gulshanvas/c-exchange",
   block: "https://api.thegraph.com/subgraphs/name/samarth30/mumbai",
   lockup: "https://api.thegraph.com/subgraphs/name/matthewlilley/lockup",
   burn: "https://api.thegraph.com/subgraphs/name/gulshanvas/cntsubgraph",
   convertor:
-    "https://api.thegraph.com/subgraphs/name/gulshancryption/converter",
+    "https://api.thegraph.com/subgraphs/name/yugen-dev/yugen-converter",
 };
 const maintNetLink = {
-  cntStaker:
-    "https://api.thegraph.com/subgraphs/name/gulshancryption/cnt-staker",
+  cntStaker: "https://api.thegraph.com/subgraphs/name/yugen-dev/ygn-staker",
   farm: "https://api.thegraph.com/subgraphs/name/gulshancryption/cnt-farm",
   exchange:
     "https://api.thegraph.com/subgraphs/name/gulshancryption/cntexchange",
@@ -21,7 +20,7 @@ const maintNetLink = {
   lockup: "https://api.thegraph.com/subgraphs/name/matthewlilley/lockup",
   burn: "https://api.thegraph.com/subgraphs/name/gulshancryption/cnt",
   convertor:
-    "https://api.thegraph.com/subgraphs/name/gulshancryption/converter",
+    "https://api.thegraph.com/subgraphs/name/yugen-dev/yugen-converter",
 };
 const graphLinks = {
   "80001": testNetLink,

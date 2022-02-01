@@ -27,7 +27,6 @@ import contracts from "config/constants/contracts";
 import { useProfile, useToast } from "state/hooks";
 import { enter, enterGasless, leave, leaveGasless } from "utils/callHelpers";
 import UnlockButton from "components/UnlockButton";
-// import getCntPrice from "utils/getCntPrice";
 import useWeb3 from "hooks/useWeb3";
 import {
   getBalanceNumber,
@@ -267,18 +266,17 @@ const CNTStaker = () => {
   if (
     getCNTStakerInfo &&
     getCNTStakerInfo.data &&
-    getCNTStakerInfo.data.cntstaker &&
+    getCNTStakerInfo.data.ygnstakers &&
     getStakerallocated &&
     getStakerallocated.data &&
     getStakerallocated.data.weekDatas
   ) {
     cntStakingRatio =
-      (((parseFloat(getStakerallocated.data.weekDatas[0].stakersAllocated) /
-        10e18) *
-        0.35) /
-        (parseFloat(getCNTStakerInfo.data.cntstaker.totalSupply) *
-          parseFloat(getCNTStakerInfo.data.cntstaker.ratio))) *
-      365 *
+      (parseFloat(getStakerallocated.data.weekDatas[0].stakersAllocated) /
+        10e18 /
+        (parseFloat(getCNTStakerInfo.data.ygnstakers[0].totalSupply) *
+          parseFloat(getCNTStakerInfo.data.ygnstakers[0].ratio))) *
+      52 *
       100;
   }
   const onChange = (event) => {
@@ -605,7 +603,7 @@ const CNTStaker = () => {
                     style={{ whiteSpace: "nowrap" }}
                     fontSize="16px"
                   >
-                    Last Week's APR
+                    Tentative APR
                   </Text>
                 </div>
               </Flex>
