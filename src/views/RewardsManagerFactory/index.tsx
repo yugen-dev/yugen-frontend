@@ -8,7 +8,7 @@ import { useWeb3React } from "@web3-react/core";
 import BigNumber from "bignumber.js";
 import { getRewardsManagerContract } from "utils/contractHelpers";
 import Grid from "@material-ui/core/Grid";
-import Timer from "./components/Timer";
+// import Timer from "./components/Timer";
 import Dashboard from "./components/Dashboard";
 import { ClaimButtons } from "./components/ClaimButtons";
 
@@ -74,8 +74,8 @@ const VestingFactory = () => {
     AmountBurnt: "-1",
   });
   // TODO: hardcoded start time & end time
-  const startDistributionTime = 1643810400;
-  const endDistributionTime = 1645020000;
+  // const startDistributionTime = 1643810400;
+  // const endDistributionTime = 1645020000;
 
   const [penaltyValue] = useState(350);
 
@@ -193,10 +193,10 @@ const VestingFactory = () => {
           account={account}
           penaltyValue={penaltyValue}
         />
-        <Timer
+        {/* <Timer
           startDistributionTime={startDistributionTime}
           endDistributionTime={endDistributionTime}
-        />
+        /> */}
       </MainContainer>
     </Page>
   );
