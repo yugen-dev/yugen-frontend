@@ -550,6 +550,7 @@ const CNTStaker = () => {
                 </Flex>
               </CustomInputPannel>
               {!exchangeRate.isZero() &&
+                index === 0 &&
                 !new BigNumber(tokenAmount).isZero() &&
                 !new BigNumber(tokenAmount)
                   .multipliedBy(exchangeRate)
