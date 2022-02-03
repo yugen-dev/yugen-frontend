@@ -8,7 +8,7 @@ import { getAddress } from "utils/addressHelpers";
 import { Flex, Text, Heading, Radio } from "yugen-uikit";
 import { Farm } from "state/types";
 import { getBalanceNumber } from "utils/formatBalance";
-import { useFarmFromSymbol, useFarmUser, useProfile } from "state/hooks";
+import { useFarmFromPid, useFarmUser, useProfile } from "state/hooks";
 import useI18n from "hooks/useI18n";
 import useWeb3 from "hooks/useWeb3";
 import { getERC20Contract } from "utils/contractHelpers";
@@ -45,7 +45,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
   const TranslateString = useI18n();
   const [requestedApproval, setRequestedApproval] = useState(false);
   const { pid, lpAddresses, singleSidedToken, singleSidedToToken } =
-    useFarmFromSymbol(farm.lpSymbol);
+    useFarmFromPid(farm.pid);
 
   const {
     allowance,
