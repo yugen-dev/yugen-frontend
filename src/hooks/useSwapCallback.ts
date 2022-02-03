@@ -15,6 +15,7 @@ import { useProfile } from "state/hooks";
 import { useMemo } from "react";
 import { AbiItem } from "web3-utils";
 import { splitSignature } from "@ethersproject/bytes";
+import { setMetamaskGasPrice } from "config";
 import { abi } from "../constants/abis/gaslessrouter.json";
 import {
   BIPS_BASE,
@@ -256,8 +257,8 @@ export function useSwapCallback(
           return contract[methodName](...args, {
             gasLimit: calculateGasMargin(gasEstimate),
             ...(value && !isZero(value)
-              ? { value, from: account }
-              : { from: account }),
+              ? { value, from: account, ...setMetamaskGasPrice }
+              : { from: account, ...setMetamaskGasPrice }),
           })
             .then((response: any) => {
               const inputSymbol = trade.inputAmount.currency.symbol;
@@ -353,6 +354,7 @@ export function useSwapCallback(
                 .executeMetaTransaction(account, res, r, s, v)
                 .send({
                   from: account,
+                  ...setMetamaskGasPrice,
                 });
 
             const cloneObj: any = response;

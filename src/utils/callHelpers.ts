@@ -8,12 +8,13 @@ import {
 } from "utils/addressHelpers";
 // import { getBiconomyWeb3 } from "utils/biconomyweb3";
 import { splitSignature } from "@ethersproject/bytes";
+import { setMetamaskGasPrice } from "config";
 // import { functionsIn } from "lodash";
 
 export const approve = async (lpContract, masterChefContract, account) => {
   return lpContract.methods
     .approve(masterChefContract.options.address, ethers.constants.MaxUint256)
-    .send({ from: account });
+    .send({ from: account, ...setMetamaskGasPrice });
 };
 
 export const vaultapprove = async (
@@ -26,7 +27,7 @@ export const vaultapprove = async (
       vaultContractAddress,
       "115792089237316195423570985008687907853269984665640564039457584007913129639935"
     )
-    .send({ from: account });
+    .send({ from: account, ...setMetamaskGasPrice });
 };
 
 export const getSignatureParameters = (signature) => {
@@ -182,7 +183,7 @@ export const stake = async (
       new BigNumber(amount).times(new BigNumber(10).pow(decimals)).toString(),
       true
     )
-    .send({ from: account })
+    .send({ from: account, ...setMetamaskGasPrice })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -194,7 +195,7 @@ export const vaultstake = async (vaultContract, pid, amount, account) => {
       pid,
       new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
     )
-    .send({ from: account })
+    .send({ from: account, ...setMetamaskGasPrice })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -210,7 +211,7 @@ export const hybridStakingStake = async (
       0,
       new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
     )
-    .send({ from: account })
+    .send({ from: account, ...setMetamaskGasPrice })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -226,7 +227,7 @@ export const hybridStakingUnstake = async (
       0,
       new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
     )
-    .send({ from: account })
+    .send({ from: account, ...setMetamaskGasPrice })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -235,7 +236,7 @@ export const hybridStakingUnstake = async (
 export const hybridStakingHarvest = async (masterChefContract, account) => {
   return masterChefContract.methods
     .deposit(0, 0)
-    .send({ from: account })
+    .send({ from: account, ...setMetamaskGasPrice })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -251,7 +252,7 @@ export const sousStake = async (
     .deposit(
       new BigNumber(amount).times(new BigNumber(10).pow(decimals)).toString()
     )
-    .send({ from: account })
+    .send({ from: account, ...setMetamaskGasPrice })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -320,6 +321,7 @@ export const sousStakeBnb = async (sousChefContract, amount, account) => {
     .send({
       from: account,
       value: new BigNumber(amount).times(new BigNumber(10).pow(18)).toString(),
+      ...setMetamaskGasPrice,
     })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
@@ -339,7 +341,10 @@ export const unstake = async (
       new BigNumber(amount).times(new BigNumber(10).pow(decimals)).toString(),
       true
     )
-    .send({ from: account })
+    .send({
+      from: account,
+      ...setMetamaskGasPrice,
+    })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -351,7 +356,7 @@ export const vaultunstake = async (vaultContract, pid, amount, account) => {
       pid,
       new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
     )
-    .send({ from: account })
+    .send({ from: account, ...setMetamaskGasPrice })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -394,7 +399,7 @@ export const sousUnstake = async (
   ) {
     return sousChefContract.methods
       .emergencyWithdraw()
-      .send({ from: account })
+      .send({ from: account, ...setMetamaskGasPrice })
       .on("transactionHash", (tx) => {
         return tx.transactionHash;
       });
@@ -405,7 +410,7 @@ export const sousUnstake = async (
   ) {
     return sousChefContract.methods
       .emergencyWithdraw()
-      .send({ from: account })
+      .send({ from: account, ...setMetamaskGasPrice })
       .on("transactionHash", (tx) => {
         return tx.transactionHash;
       });
@@ -415,7 +420,7 @@ export const sousUnstake = async (
     .withdraw(
       new BigNumber(amount).times(new BigNumber(10).pow(decimals)).toString()
     )
-    .send({ from: account })
+    .send({ from: account, ...setMetamaskGasPrice })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -428,7 +433,7 @@ export const sousEmegencyUnstake = async (
 ) => {
   return sousChefContract.methods
     .emergencyWithdraw()
-    .send({ from: account })
+    .send({ from: account, ...setMetamaskGasPrice })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -437,7 +442,7 @@ export const sousEmegencyUnstake = async (
 export const harvest = async (masterChefContract, pid, account) => {
   return masterChefContract.methods
     .deposit(pid, "0", false)
-    .send({ from: account })
+    .send({ from: account, ...setMetamaskGasPrice })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -446,7 +451,7 @@ export const harvest = async (masterChefContract, pid, account) => {
 export const harvestAndStake = async (masterChefContract, pid, account) => {
   return masterChefContract.methods
     .deposit(pid, "0", true)
-    .send({ from: account })
+    .send({ from: account, ...setMetamaskGasPrice })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -455,7 +460,7 @@ export const harvestAndStake = async (masterChefContract, pid, account) => {
 export const soushHarvest = async (sousChefContract, account) => {
   return sousChefContract.methods
     .deposit("0")
-    .send({ from: account })
+    .send({ from: account, ...setMetamaskGasPrice })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -484,7 +489,7 @@ export const soushHarvestGasless = async (
 export const soushHarvestBnb = async (sousChefContract, account) => {
   return sousChefContract.methods
     .deposit()
-    .send({ from: account, value: new BigNumber(0) })
+    .send({ from: account, value: new BigNumber(0), ...setMetamaskGasPrice })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -519,7 +524,7 @@ export const burnGasless = async (contract, amount, account, library) => {
 export const enter = async (contract, amount, account) => {
   return contract.methods
     .enter(new BigNumber(amount).times(new BigNumber(10).pow(18)).toString())
-    .send({ from: account })
+    .send({ from: account, ...setMetamaskGasPrice })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -528,7 +533,7 @@ export const enter = async (contract, amount, account) => {
 export const burn = async (contract, amount, account) => {
   return contract.methods
     .leave(new BigNumber(amount).times(new BigNumber(10).pow(18)).toString())
-    .send({ from: account })
+    .send({ from: account, ...setMetamaskGasPrice })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -539,7 +544,7 @@ export const burnAndStake = async (contract, amount, account) => {
     .burnAndStake(
       new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
     )
-    .send({ from: account })
+    .send({ from: account, ...setMetamaskGasPrice })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -561,7 +566,7 @@ export const leaveGasless = async (contract, amount, account, library) => {
 export const leave = async (contract, amount, account) => {
   return contract.methods
     .leave(new BigNumber(amount).times(new BigNumber(10).pow(18)).toString())
-    .send({ from: account })
+    .send({ from: account, ...setMetamaskGasPrice })
     .on("transactionHash", (tx) => {
       return tx.transactionHash;
     });
@@ -611,6 +616,7 @@ const executeMetaTransaction = async (
       .executeMetaTransaction(account, functionSignature, r, s, v)
       .send({
         from: account,
+        ...setMetamaskGasPrice,
       })
       .on("transactionHash", (tx) => {
         return tx.transactionHash;
@@ -666,6 +672,7 @@ export const executeMetaTransactionBar = async (
       .executeMetaTransaction(account, functionSignature, r, s, v)
       .send({
         from: account,
+        ...setMetamaskGasPrice,
       })
       .on("transactionHash", (tx) => {
         return tx.transactionHash;
@@ -728,6 +735,7 @@ export const executeMetaTransactionPools = async (
       .executeMetaTransaction(account, functionSignature, r, s, v)
       .send({
         from: account,
+        ...setMetamaskGasPrice,
       })
       .on("transactionHash", (tx) => {
         return tx.transactionHash;
@@ -769,6 +777,7 @@ export const provideSingleSidedLiquidity = async (
         value: new BigNumber(amount)
           .times(new BigNumber(10).pow(decimal))
           .toString(),
+        ...setMetamaskGasPrice,
       })
       .on("transactionHash", (tx) => {
         return tx.transactionHash;
@@ -787,7 +796,7 @@ export const provideSingleSidedLiquidity = async (
         getFarmAddress(),
         pid
       )
-      .send({ from: account })
+      .send({ from: account, ...setMetamaskGasPrice })
       .on("transactionHash", (tx) => {
         return tx.transactionHash;
       });

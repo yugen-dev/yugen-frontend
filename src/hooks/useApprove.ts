@@ -10,6 +10,7 @@ import { splitSignature } from "@ethersproject/bytes";
 import { getFarmAddress } from "utils/addressHelpers";
 import { getBiconomyWeb3 } from "utils/biconomyweb3";
 import { fetchVaultUserDataAsync } from "state/vaults";
+import { setMetamaskGasPrice } from "config";
 import {
   useMasterchef,
   useCake,
@@ -209,6 +210,7 @@ export const useApproveStaking = () => {
           .executeMetaTransaction(account, res, r, s, v)
           .send({
             from: account,
+            ...setMetamaskGasPrice,
           })
           .then((response: any) => {
             return response.hash;
@@ -313,6 +315,7 @@ export const useApproveBurner = () => {
           .executeMetaTransaction(account, res, r, s, v)
           .send({
             from: account,
+            ...setMetamaskGasPrice,
           })
           .then((response: any) => {
             return response.hash;
@@ -367,7 +370,7 @@ export const useIfoApprove = (
   const onApprove = useCallback(async () => {
     const tx = await tokenContract.methods
       .approve(spenderAddress, ethers.constants.MaxUint256)
-      .send({ from: account });
+      .send({ from: account, ...setMetamaskGasPrice });
     dispatch(fetchFarmUserDataAsync(account));
     return tx;
   }, [account, spenderAddress, tokenContract, dispatch]);

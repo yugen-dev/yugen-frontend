@@ -6,6 +6,7 @@ import styled from "styled-components";
 import QuestionHelper from "components/QuestionHelper";
 import { getRewardsManagerContract } from "utils/contractHelpers";
 import Web3 from "web3";
+import { setMetamaskGasPrice } from "config";
 
 export const ClaimButtons = ({ vestedValues, account, penaltyValue }) => {
   const [btnLoading, setBtnLoading] = useState(false);
@@ -24,7 +25,7 @@ export const ClaimButtons = ({ vestedValues, account, penaltyValue }) => {
       const rewardMgSmartContract = getRewardsManagerContract(web3);
       await rewardMgSmartContract.methods
         .preMatureDraw()
-        .send({ from: account, gasPrice: 32000000000 });
+        .send({ from: account, ...setMetamaskGasPrice });
 
       setBtnLoading(() => false);
       toastSuccess(
@@ -46,7 +47,7 @@ export const ClaimButtons = ({ vestedValues, account, penaltyValue }) => {
 
       await rewardMgSmartContract.methods
         .drawDown()
-        .send({ from: account, gasPrice: 32000000000 });
+        .send({ from: account, ...setMetamaskGasPrice });
 
       setBtnLoading(() => false);
       toastSuccess("Success", "you have successfully claimed the rewards");
@@ -68,7 +69,7 @@ export const ClaimButtons = ({ vestedValues, account, penaltyValue }) => {
       const rewardMgSmartContract = getRewardsManagerContract(web3);
       await rewardMgSmartContract.methods
         .preMatureDrawAndStake()
-        .send({ from: account, gasPrice: 32000000000 });
+        .send({ from: account, ...setMetamaskGasPrice });
 
       setBtnLoading(() => false);
       toastSuccess(
@@ -90,7 +91,7 @@ export const ClaimButtons = ({ vestedValues, account, penaltyValue }) => {
 
       await rewardMgSmartContract.methods
         .drawDownAndStake()
-        .send({ from: account, gasPrice: 32000000000 });
+        .send({ from: account, ...setMetamaskGasPrice });
 
       setBtnLoading(() => false);
       toastSuccess("Success", "you have successfully claimed the rewards");

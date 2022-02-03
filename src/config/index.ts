@@ -5,7 +5,10 @@ BigNumber.config({
   DECIMAL_PLACES: 80,
 });
 
-// To-Do ask Ashwin if we need to get this dynamically
+export const setMetamaskGasPrice = {
+  maxPriorityFeePerGas: null,
+  maxFeePerGas: null,
+};
 export const CAKE_PER_BLOCK = new BigNumber(1);
 export const BLOCKS_PER_YEAR = new BigNumber(15768000);
 export const BSC_BLOCK_TIME = 2.1;

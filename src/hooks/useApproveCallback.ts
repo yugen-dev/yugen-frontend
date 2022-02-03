@@ -9,6 +9,7 @@ import {
 import { splitSignature } from "@ethersproject/bytes";
 import { useProfile } from "state/hooks";
 import { useCallback, useMemo } from "react";
+import { setMetamaskGasPrice } from "config";
 import { ROUTER_ADDRESS, META_TXN_SUPPORTED_TOKENS } from "../constants";
 import { useTokenAllowance } from "../data/Allowances";
 import { Field } from "../state/swap/actions";
@@ -168,6 +169,7 @@ export function useApproveCallback(
           .executeMetaTransaction(account, res, r, s, v)
           .send({
             from: account,
+            ...setMetamaskGasPrice,
           });
         const cloneObj: any = response;
 

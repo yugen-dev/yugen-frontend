@@ -5,7 +5,7 @@ import { getWeb3NoAccount } from "utils/web3";
 import MultiCallAbi from "config/abi/Multicall.json";
 import ticketAbi from "config/abi/lotteryNft.json";
 import lotteryAbi from "config/abi/lottery.json";
-import { LOTTERY_TICKET_PRICE } from "config";
+import { LOTTERY_TICKET_PRICE, setMetamaskGasPrice } from "config";
 import { AbiItem } from "web3-utils";
 import { getMulticallAddress } from "./addressHelpers";
 
@@ -58,7 +58,7 @@ export const multiBuy = async (
         new BigNumber(price).times(new BigNumber(10).pow(18)).toString(),
         numbersList
       )
-      .send({ from: account })
+      .send({ from: account, ...setMetamaskGasPrice })
       .on("transactionHash", (tx) => {
         return tx.transactionHash;
       });
@@ -157,7 +157,7 @@ export const multiClaim = async (lotteryContract, ticketsContract, account) => {
   try {
     return lotteryContract.methods
       .multiClaim(finanltokenIds)
-      .send({ from: account })
+      .send({ from: account, ...setMetamaskGasPrice })
       .on("transactionHash", (tx) => {
         return tx.transactionHash;
       });

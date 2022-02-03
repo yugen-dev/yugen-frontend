@@ -28,7 +28,7 @@ import { getERC20Contract } from "utils/contractHelpers";
 import useEthBalance from "hooks/useEthBalance";
 import { useApprove } from "hooks/useApprove";
 import UnlockButton from "components/UnlockButton";
-import { CROSS_CHAIN_API_LINK } from "config";
+import { CROSS_CHAIN_API_LINK, setMetamaskGasPrice } from "config";
 import { fetchVaultUserDataAsync } from "state/actions";
 import { Subtle } from "../FarmTable/Actions/styles";
 import StakeAction from "./StakeAction";
@@ -256,7 +256,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
     try {
       const farmAddress = getFarmAddress();
       let amoountInWei = web3.utils.toWei(amount).toString();
-      // const eastimedGas = await universalOneSidedFarm.methods.crossChainOneSidedFarm('0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', false, 0, farm.pid, lpAddress, singleSidedAddress, farmAddress, 0).estimateGas({ from: account, value: amoountInWei });
+      // const eastimedGas = await universalOneSidedFarm.methods.crossChainOneSidedFarm('0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', false, 0, farm.pid, lpAddress, singleSidedAddress, farmAddress, 0).estimateGas({ from: account, value: amoountInWei,...setMetamaskGasPrice   });
       if (ethBal.toString() === amoountInWei.toString()) {
         const amoountDiff =
           parseFloat(amoountInWei.toString()) - 1000000000000000;
@@ -275,7 +275,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
           farmAddress,
           0
         )
-        .send({ from: account, value: amoountInWei })
+        .send({ from: account, value: amoountInWei, ...setMetamaskGasPrice })
         .on("transactionHash", async (hash) => {
           toggleShowSteps(true);
           const Header = new Headers();
