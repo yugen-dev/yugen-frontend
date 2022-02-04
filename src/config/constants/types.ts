@@ -82,6 +82,7 @@ export interface FarmConfig {
   withdrawalFee?: string;
   tag?: string;
   fixedAllocPoint?: string;
+  rewardsStartIn?: string;
   volatility: "failure" | "success" | "binance";
   lpSymbol: string;
   lpAddresses: Address;

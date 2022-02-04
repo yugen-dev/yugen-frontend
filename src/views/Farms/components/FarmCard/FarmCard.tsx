@@ -11,6 +11,7 @@ import DetailsSection from "./DetailsSection";
 import CardHeading from "./CardHeading";
 import CardActionsContainer from "./CardActionsContainer";
 import ApyButton from "./ApyButton";
+import RewardsStartIn from "./RewardsStartIn";
 
 export interface FarmWithStakedValue extends Farm {
   apy?: BigNumber;
@@ -205,6 +206,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
           margin: "20px 0px",
         }}
       >
+        {farm.rewardsStartIn && <RewardsStartIn farm={farm} />}
         {!removed && (
           <Flex justifyContent="space-between" alignItems="center">
             <Text color="#9b9382">{TranslateString(736, "APR")}</Text>
