@@ -117,7 +117,12 @@ const fetchFarms = async () => {
         );
       }
 
-      const allocPoint = new BigNumber(info.allocPoint._hex);
+      let allocPoint = new BigNumber(info.allocPoint._hex);
+
+      if (farmConfig.fixedAllocPoint) {
+        allocPoint = new BigNumber(farmConfig.fixedAllocPoint);
+      }
+
       const poolHarvestInterval = new BigNumber(info.harvestInterval._hex);
 
       const poolWeight = allocPoint.div(new BigNumber(totalAllocPoint));

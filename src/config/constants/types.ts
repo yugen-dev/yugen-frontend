@@ -81,7 +81,7 @@ export interface FarmConfig {
   isPool: boolean;
   withdrawalFee?: string;
   tag?: string;
-  tempApr: string;
+  fixedAllocPoint?: string;
   volatility: "failure" | "success" | "binance";
   lpSymbol: string;
   lpAddresses: Address;

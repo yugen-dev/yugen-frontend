@@ -9,7 +9,6 @@ const farmsMaticMainnet: FarmConfig[] = [
     isPool: false,
     tag: "Powered by QuickSwap",
     lpSymbol: "QUICK-wMATIC",
-    tempApr: "29.55",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -60,68 +59,11 @@ const farmsMaticMainnet: FarmConfig[] = [
     getLpLink:
       "https://quickswap.exchange/#/add/0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270/0x831753dd7087cac61ab5644b308642cc1c33dc13",
   },
-  // {
-  //   pid: 1,
-  // isPool:false,
-  //   tag: "Powered by CafeSwap",
-  //   lpSymbol: "pBREW-wETH",
-  //   tempApr: "130.7",
-  //   lpAddresses: {
-  //     97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
-  //     56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
-  //     80001: "0x978d374800eb7861283ffa0326bb4c853045b919",
-  //     5: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
-  //     137: "0x3EF3a87d745FABCAc255E9352Ea402d20F922C1C",
-  //     1: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
-  //     250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-  //     4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-  //   },
-  //   tokenSymbol: "pBREW-wETH",
-  //   volatility: "failure",
-  //   tokenAddresses: {
-  //     97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
-  //     56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
-  //     80001: "0x9293C7381b9cEA6B27Ce9069f26746e7D43bC29d", // pBREW
-  //     5: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
-  //     137: "0xb5106a3277718ecad2f20ab6b86ce0fee7a21f09",
-  //     1: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
-  //     250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-  //     4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-  //   },
-  //   quoteTokenSymbol: QuoteToken.ETH,
-  //   quoteTokenAdresses: contracts.eth,
-  //   quoteTokenCoinGeckoId: "ethereum",
-  //   singleSidedToken: {
-  //     97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
-  //     56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
-  //     80001: "0x9c3c9283d3e44854697cd22d3faa240cfb032889", // wETH
-  //     5: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
-  //     137: "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
-  //     1: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
-  //     250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-  //     4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-  //   },
-  //   singleSidedTokenName: "wETH",
-  //   singleSidedToToken: {
-  //     97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
-  //     56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
-  //     80001: "0x9293C7381b9cEA6B27Ce9069f26746e7D43bC29d", // pBREW
-  //     5: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
-  //     137: "0xb5106a3277718ecad2f20ab6b86ce0fee7a21f09",
-  //     1: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
-  //     250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-  //     4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-  //   },
-  //   singleSidedToTokenName: "pBREW",
-  // getLpLink:
-  //   "https://polygondex.cafeswap.finance/#/add/0x7ceb23fd6bc0add59e62ac25578270cff1b9f619/0xb5106a3277718ecad2f20ab6b86ce0fee7a21f09",
-  // },
   {
     pid: 2,
     isPool: false,
     tag: "Powered by QuickSwap",
     lpSymbol: "wMATIC-wETH",
-    tempApr: "12.36",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -177,7 +119,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     isPool: false,
     tag: "Powered by Nacho Finance",
     lpSymbol: "wETH-NACHO",
-    tempApr: "357.89",
+    fixedAllocPoint: "48",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -234,7 +176,6 @@ const farmsMaticMainnet: FarmConfig[] = [
     isPool: false,
     tag: "Powered by Nacho Finance",
     lpSymbol: "wMATIC-NSHARE",
-    tempApr: "481.92",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -290,7 +231,6 @@ const farmsMaticMainnet: FarmConfig[] = [
     isPool: false,
     tag: "Powered by QuickSwap",
     lpSymbol: "wMATIC-USDC",
-    tempApr: "21.24",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -346,7 +286,6 @@ const farmsMaticMainnet: FarmConfig[] = [
     isPool: false,
     tag: "Powered by SushiSwap",
     lpSymbol: "FXS-FRAX",
-    tempApr: "19.73",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -402,7 +341,6 @@ const farmsMaticMainnet: FarmConfig[] = [
     isPool: false,
     tag: "Powered by SushiSwap",
     lpSymbol: "AVAX-wETH",
-    tempApr: "26.52",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -458,7 +396,6 @@ const farmsMaticMainnet: FarmConfig[] = [
     isPool: false,
     tag: "Powered by SushiSwap",
     lpSymbol: "BCT-KLIMA",
-    tempApr: "203",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -515,7 +452,6 @@ const farmsMaticMainnet: FarmConfig[] = [
     tag: "Powered by EthaLend",
     withdrawalFee: "0.1",
     lpSymbol: "USDC",
-    tempApr: "23.59",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -572,7 +508,6 @@ const farmsMaticMainnet: FarmConfig[] = [
     tag: "Powered by EthaLend",
     withdrawalFee: "0.1",
     lpSymbol: "DAI",
-    tempApr: "29.42",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -629,7 +564,6 @@ const farmsMaticMainnet: FarmConfig[] = [
     tag: "Powered by EthaLend",
     withdrawalFee: "0.1",
     lpSymbol: "USDT",
-    tempApr: "27.24",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -685,7 +619,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     isPool: false,
     tag: "Powered by QuickSwap",
     lpSymbol: "wETH-NACHO",
-    tempApr: "357.89",
+    fixedAllocPoint: "144",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -742,7 +676,6 @@ const farmsMaticTestnet: FarmConfig[] = [
   {
     pid: 0,
     isPool: false,
-    tempApr: "0",
     tag: "Powered by SpookySwap",
     lpSymbol: "SUPER-wMATIC",
     lpAddresses: {
