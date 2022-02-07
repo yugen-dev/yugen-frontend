@@ -672,6 +672,63 @@ const farmsMaticMainnet: FarmConfig[] = [
     getLpLink:
       "https://quickswap.exchange/#/swap?inputCurrency=eth&outputCurrency=0xc2132d05d31c914a87c6611c10748aeb04b58e8f",
   },
+  {
+    pid: 13,
+    isPool: false,
+    tag: "Powered by QuickSwap",
+    lpSymbol: "BICO-wETH",
+    fixedAllocPoint: "17",
+    rewardsStartIn: "1644330600",
+    lpAddresses: {
+      97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      80001: "0x978d374800eb7861283ffa0326bb4c853045b919",
+      5: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      137: "0x7e02a82a9f2b96ee2836c5c64c44e0ab13020f4b",
+      1: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+    },
+    tokenSymbol: "BICO-wETH",
+    volatility: "binance",
+    tokenAddresses: {
+      97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      80001: "0x9293C7381b9cEA6B27Ce9069f26746e7D43bC29d", // BICO
+      5: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      137: "0x91c89a94567980f0e9723b487b0bed586ee96aa7",
+      1: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+    },
+    quoteTokenSymbol: QuoteToken.ETH,
+    quoteTokenAdresses: contracts.eth,
+    quoteTokenCoinGeckoId: "ethereum",
+    singleSidedToken: {
+      97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      80001: "0x9c3c9283d3e44854697cd22d3faa240cfb032889", // wETH
+      5: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      137: "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
+      1: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+    },
+    singleSidedTokenName: "wETH",
+    singleSidedToToken: {
+      97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      80001: "0x9293C7381b9cEA6B27Ce9069f26746e7D43bC29d", // BICO
+      5: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      137: "0x91c89a94567980f0e9723b487b0bed586ee96aa7",
+      1: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+    },
+    singleSidedToTokenName: "BICO",
+    getLpLink:
+      "https://quickswap.exchange/#/add/0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619/0x91c89A94567980f0e9723b487b0beD586eE96aa7",
+  },
 ];
 const farmsMaticTestnet: FarmConfig[] = [
   {
