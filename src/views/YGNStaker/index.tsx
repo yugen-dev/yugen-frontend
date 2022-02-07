@@ -175,8 +175,8 @@ const CNTStaker = () => {
   let tokenBal = tokenBalance;
 
   const { onApprove } = useApproveStaking();
-  const cake = getCakeContract();
   const [totalSupply, setTotalSupply] = useState(new BigNumber(0));
+  const [ygnTotalSupply, setYgnTotalSupply] = useState(new BigNumber(0));
   const web3 = useWeb3();
   const cntStaker = useCNTStaker();
   const cntStakerGasless = useCNTStakerGasless();
@@ -238,14 +238,19 @@ const CNTStaker = () => {
   useEffect(() => {
     async function fetchTotalSupply() {
       const xCNTContract = getCNTStakerContract();
+      const ygnContract = getCakeContract();
+      const totalYgnInStaker = await ygnContract.methods
+        .balanceOf(contracts.cntStaker[CHAINID])
+        .call();
       const supply = await xCNTContract.methods.totalSupply().call();
+      setYgnTotalSupply(new BigNumber(totalYgnInStaker));
       setTotalSupply(new BigNumber(supply));
     }
     if (account) {
       fetchTotalSupply();
       getExchangeRate();
     }
-  }, [account, getExchangeRate, setTotalSupply]);
+  }, [CHAINID, account, getExchangeRate, setTotalSupply, setYgnTotalSupply]);
 
   useEffect(() => {
     if (account) {
@@ -563,7 +568,22 @@ const CNTStaker = () => {
                     xYGNs
                   </Text>
                 )}
-
+              {!totalSupply.isZero() &&
+                index === 1 &&
+                !ygnTotalSupply.isZero() &&
+                !new BigNumber(tokenAmount).isZero() &&
+                !new BigNumber(tokenAmount)
+                  .multipliedBy(ygnTotalSupply)
+                  .isNaN() && (
+                  <Text color="#887263" mb="15px">
+                    You will recieve approx{" "}
+                    {new BigNumber(tokenAmount)
+                      .multipliedBy(ygnTotalSupply)
+                      .dividedBy(totalSupply)
+                      .toFixed(6)}{" "}
+                    YGNs
+                  </Text>
+                )}
               {renderBottomButtons()}
             </StakingContainer>
           </Grid>
