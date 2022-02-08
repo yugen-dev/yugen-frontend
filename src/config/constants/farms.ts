@@ -509,7 +509,6 @@ const farmsMaticMainnet: FarmConfig[] = [
     isPool: false,
     tag: "Powered by QuickSwap",
     lpSymbol: "BICO-wETH",
-    fixedAllocPoint: "17",
     rewardsStartIn: "1644330600",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
