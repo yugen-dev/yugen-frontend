@@ -3,7 +3,7 @@ import { fetchPrice } from "state/hooks";
 import { getPoolApy } from "utils/apy";
 import { getBalanceNumber } from "utils/formatBalance";
 
-const calculatePoolsFunc = async (pool, prices, cntPrice) => {
+const calculatePoolsFunc = async (pool, prices, ygnPrice) => {
   if (prices) {
     let tempStakingTokenPrice;
     if (pool.tokenName === "LUSD") tempStakingTokenPrice = 0.08;
@@ -21,8 +21,8 @@ const calculatePoolsFunc = async (pool, prices, cntPrice) => {
 
       if (pool.rewardTokenCoinGeckoid === "PEAR") {
         tempRewardTokenPrice = await fetchPrice(pool.rewardTokenCoinGeckoid);
-      } else if (pool.rewardTokenCoinGeckoid === "CNT") {
-        tempRewardTokenPrice = cntPrice;
+      } else if (pool.rewardTokenCoinGeckoid === "YGN") {
+        tempRewardTokenPrice = ygnPrice;
       } else {
         tempRewardTokenPrice = prices[`${pool.coinGeckoIds[i]}`.toLowerCase()];
       }

@@ -7,23 +7,23 @@ import { enter, enterGasless } from "utils/callHelpers";
 // import { useProfile } from "state/hooks";
 // const { metaTranscation } = useProfile();
 
-import { useCNTStaker, useCNTStakerGasless } from "./useContract";
+import { useYgnStaker, useYgnStakerGasless } from "./useContract";
 
 const useEnter = () => {
   const { account, library } = useWeb3React("web3");
-  const cntStaker = useCNTStaker();
-  const cntStakerGasless = useCNTStakerGasless();
+  const ygnStaker = useYgnStaker();
+  const ygnStakerGasless = useYgnStakerGasless();
   const { metaTranscation } = useProfile();
 
   const handle = useCallback(
     async (amount: string) => {
       if (metaTranscation) {
-        await enterGasless(cntStakerGasless, amount, account, library);
+        await enterGasless(ygnStakerGasless, amount, account, library);
       } else {
-        await enter(cntStaker, amount, account);
+        await enter(ygnStaker, amount, account);
       }
     },
-    [account, cntStaker, cntStakerGasless, metaTranscation, library]
+    [metaTranscation, ygnStakerGasless, account, library, ygnStaker]
   );
 
   return { onEnter: handle };

@@ -11,7 +11,7 @@ import {
   getPancakeRabbitsAddress,
   getBunnyFactoryAddress,
   getBunnySpecialAddress,
-  getCNTStakerAddress,
+  getYgnStakerAddress,
   getCakeAddress,
   getLotteryAddress,
   getLotteryTicketAddress,
@@ -42,7 +42,7 @@ import pointCenterIfo from "config/abi/pointCenterIfo.json";
 import lotteryTicketAbi from "config/abi/lotteryNft.json";
 import farmABI from "config/abi/farm.json";
 import vaultAbi from "config/abi/vault.json";
-import cntStaker from "config/abi/cntStaker.json";
+import ygnStaker from "config/abi/ygnStaker.json";
 import sousChef from "config/abi/sousChef.json";
 import sousChefBnb from "config/abi/sousChefBnb.json";
 import claimRefundAbi from "config/abi/claimRefund.json";
@@ -74,8 +74,8 @@ export const getSouschefContract = (id: number, web3?: Web3) => {
     config.poolCategory === PoolCategory.BINANCE ? sousChefBnb : sousChef;
   return getContract(abi, getAddress(config.contractAddress), web3);
 };
-export const getCNTStakerContract = (web3?: Web3) => {
-  return getContract(cntStaker, getCNTStakerAddress(), web3);
+export const getYgnStakerContract = (web3?: Web3) => {
+  return getContract(ygnStaker, getYgnStakerAddress(), web3);
 };
 export const getPointCenterIfoContract = (web3?: Web3) => {
   return getContract(pointCenterIfo, getPointCenterIfoAddress(), web3);

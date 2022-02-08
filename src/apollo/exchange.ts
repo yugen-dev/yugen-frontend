@@ -1,6 +1,6 @@
 /* eslint-disable no-return-await */
 /* eslint-disable import/prefer-default-export */
-import { dayDatasQuery, burnQuery, cntStakerQuery } from "./queries";
+import { dayDatasQuery, burnQuery, ygnStakerQuery } from "./queries";
 
 import { getApollo } from "./index";
 
@@ -36,18 +36,18 @@ export async function getBurnSupply(client = getApollo()) {
 
 export async function getBar(client = getApollo()) {
   const { data } = await client.query({
-    query: cntStakerQuery,
+    query: ygnStakerQuery,
     context: {
       clientName: "cntstaker",
     },
   });
 
   await client.cache.writeQuery({
-    query: cntStakerQuery,
+    query: ygnStakerQuery,
     data,
   });
 
   return await client.cache.readQuery({
-    query: cntStakerQuery,
+    query: ygnStakerQuery,
   });
 }

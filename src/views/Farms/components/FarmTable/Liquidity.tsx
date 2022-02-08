@@ -43,7 +43,7 @@ const Liquidity: React.FunctionComponent<LiquidityProps> = ({ liquidity }) => {
   return (
     <Container>
       <LiquidityWrapper>
-        <CNText>{displayLiquidity}</CNText>
+        <Text>{displayLiquidity}</Text>
       </LiquidityWrapper>
       <Tooltip
         content={TranslateString(
@@ -57,7 +57,7 @@ const Liquidity: React.FunctionComponent<LiquidityProps> = ({ liquidity }) => {
   );
 };
 
-const CNText = styled.div`
+const Text = styled.div`
   margin-right: 5px;
   font-size: 20px;
   font-weight: 600;

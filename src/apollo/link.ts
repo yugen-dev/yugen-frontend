@@ -2,23 +2,22 @@ import { HttpLink, from, split } from "@apollo/client";
 import { RetryLink } from "@apollo/client/link/retry";
 
 const testNetLink = {
-  cntStaker: "https://api.thegraph.com/subgraphs/name/yugen-dev/ygn-staker",
-  farm: "https://api.thegraph.com/subgraphs/name/gulshanvas/cntfarm",
-  exchange: "https://api.thegraph.com/subgraphs/name/gulshanvas/c-exchange",
-  block: "https://api.thegraph.com/subgraphs/name/samarth30/mumbai",
-  lockup: "https://api.thegraph.com/subgraphs/name/matthewlilley/lockup",
-  burn: "https://api.thegraph.com/subgraphs/name/gulshanvas/cntsubgraph",
+  ygnStaker: "https://api.thegraph.com/subgraphs/name/yugen-dev/ygn-staker",
+  farm: "",
+  exchange: "",
+  block: "",
+  lockup: "",
+  burn: "",
   convertor:
     "https://api.thegraph.com/subgraphs/name/yugen-dev/yugen-converter",
 };
 const maintNetLink = {
-  cntStaker: "https://api.thegraph.com/subgraphs/name/yugen-dev/ygn-staker",
-  farm: "https://api.thegraph.com/subgraphs/name/gulshancryption/cnt-farm",
-  exchange:
-    "https://api.thegraph.com/subgraphs/name/gulshancryption/cntexchange",
-  block: "https://api.thegraph.com/subgraphs/name/sameepsi/maticblocks",
-  lockup: "https://api.thegraph.com/subgraphs/name/matthewlilley/lockup",
-  burn: "https://api.thegraph.com/subgraphs/name/gulshancryption/cnt",
+  ygnStaker: "https://api.thegraph.com/subgraphs/name/yugen-dev/ygn-staker",
+  farm: "",
+  exchange: "",
+  block: "",
+  lockup: "",
+  burn: "",
   convertor:
     "https://api.thegraph.com/subgraphs/name/yugen-dev/yugen-converter",
 };
@@ -30,13 +29,7 @@ const graphLinks = {
   "250": maintNetLink,
   "40002": testNetLink,
 };
-// export const uniswap = from([
-//   new RetryLink(),
-//   new HttpLink({
-//     uri: "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2",
-//
-//   }),
-// ]);
+
 let chainId = "137";
 if (window && window.ethereum) {
   chainId = process.env.REACT_APP_CHAIN_ID;
@@ -44,10 +37,10 @@ if (window && window.ethereum) {
   chainId = localStorage.getItem("chainId");
 }
 const finalLinks = graphLinks[chainId];
-export const cntStaker = from([
+export const ygnStaker = from([
   new RetryLink(),
   new HttpLink({
-    uri: finalLinks.cntStaker,
+    uri: finalLinks.ygnStaker,
   }),
 ]);
 
@@ -105,7 +98,7 @@ export default split(
       (operation) => {
         return operation.getContext().clientName === "cntstaker";
       },
-      cntStaker,
+      ygnStaker,
       split(
         (operation) => {
           return operation.getContext().clientName === "lockup";

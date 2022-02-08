@@ -41,13 +41,13 @@ const TotalValueLockedCard = () => {
             <Skeleton height={66} />
           </>
         )}
-        <CNText>{TranslateString(764, "Across all LPs and Pools")}</CNText>
+        <Text>{TranslateString(764, "Across all LPs and Pools")}</Text>
       </CNCardBody>
     </StyledTotalValueLockedCard>
   );
 };
 
-const CNText = styled.div`
+const Text = styled.div`
   font-size: 16px;
   text-align: center;
   font-weight: normal;

@@ -21,7 +21,7 @@ import {
   getMasterchefContract,
   getPointCenterIfoContract,
   getSouschefContract,
-  getCNTStakerContract,
+  getYgnStakerContract,
   getClaimRefundContract,
   getSingleSidedLiquidityContract,
   getHybridStakingContract,
@@ -33,7 +33,7 @@ import {
   getFarmWrapper,
 } from "utils/contractHelpers";
 import { useChainId } from "state/application/hooks";
-import polydexMigrator from "config/abi/polydexMigrator.json";
+import yugenMigrator from "config/abi/yugenMigrator.json";
 import ENS_ABI from "../constants/abis/ens-registrar.json";
 import ENS_PUBLIC_RESOLVER_ABI from "../constants/abis/ens-public-resolver.json";
 import { ERC20_BYTES32_ABI } from "../constants/abis/erc20";
@@ -131,9 +131,9 @@ export const useSousChefGasless = (id) => {
   return useMemo(() => getSouschefContract(id, web3), [id, web3]);
 };
 
-export const useCNTStaker = () => {
+export const useYgnStaker = () => {
   const web3 = useWeb3();
-  return useMemo(() => getCNTStakerContract(web3), [web3]);
+  return useMemo(() => getYgnStakerContract(web3), [web3]);
 };
 
 export const useFygnBurner = () => {
@@ -141,9 +141,9 @@ export const useFygnBurner = () => {
   return useMemo(() => getFygnBurnerContract(web3), [web3]);
 };
 
-export const useCNTStakerGasless = () => {
+export const useYgnStakerGasless = () => {
   const web3 = getBiconomyWeb3();
-  return useMemo(() => getCNTStakerContract(web3), [web3]);
+  return useMemo(() => getYgnStakerContract(web3), [web3]);
 };
 
 export const useFygnBurnerGasless = () => {
@@ -250,8 +250,8 @@ export function useMulticallContract(): Contract | null {
     false
   );
 }
-export const usePolydexMigratorContract = (address: string) => {
-  return useContract(address, polydexMigrator, true);
+export const useYugenMigratorContract = (address: string) => {
+  return useContract(address, yugenMigrator, true);
 };
 export const useFactoryContract = (
   factoryAddress,

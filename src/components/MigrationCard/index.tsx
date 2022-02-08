@@ -10,7 +10,7 @@ import {
   AutoRenewIcon,
 } from "yugen-uikit";
 import useWeb3 from "hooks/useWeb3";
-import { usePolydexMigratorContract, usePairContract } from "hooks/useContract";
+import { useYugenMigratorContract, usePairContract } from "hooks/useContract";
 import { getERC20Contract } from "utils/contractHelpers";
 import { useMigrationpairRemover } from "state/user/hooks";
 import ConfirmationPendingContent from "components/TransactionConfirmationModal/ConfirmationPendingContent";
@@ -63,8 +63,8 @@ export default function MigrationCard({
   const migratorAddress = migration.filter(
     (eachExchange) => eachExchange.value === factoryAddrees
   );
-  const polydexMigratorAddress = migratorAddress[0].migratorAddress[chainId];
-  const polydexMigrator = usePolydexMigratorContract(polydexMigratorAddress);
+  const yugenMigratorAddress = migratorAddress[0].migratorAddress[chainId];
+  const yugenMigrator = useYugenMigratorContract(yugenMigratorAddress);
   let poolTokenPercentage = 0.0;
   if (totalPoolTokens && balance) {
     poolTokenPercentage =
@@ -78,7 +78,7 @@ export default function MigrationCard({
       Math.round(utcMilllisecondsSinceEpoch / 1000) + 1200;
     try {
       const balanceInWei = web3.utils.toWei(balance);
-      const txHash = await polydexMigrator.functions.migrate(
+      const txHash = await yugenMigrator.functions.migrate(
         token0Address,
         token1Address,
         balanceInWei,
@@ -109,7 +109,7 @@ export default function MigrationCard({
       const balanceInWei = web3.utils.toWei(balance);
       let txHash;
       if (isPool) {
-        txHash = await polydexMigrator.functions.migrateWithDeposit(
+        txHash = await yugenMigrator.functions.migrateWithDeposit(
           token0Address,
           token1Address,
           balanceInWei,
@@ -120,7 +120,7 @@ export default function MigrationCard({
           ethers.constants.MaxUint256.toString()
         );
       } else {
-        txHash = await polydexMigrator.functions.migrateWithDeposit(
+        txHash = await yugenMigrator.functions.migrateWithDeposit(
           token0Address,
           token1Address,
           balanceInWei,
@@ -148,14 +148,14 @@ export default function MigrationCard({
     setApproveLoading(true);
     try {
       const txHash = await pairContract.approve(
-        polydexMigratorAddress,
+        yugenMigratorAddress,
         ethers.constants.MaxUint256
       );
       const receipt = await txHash.wait();
       if (receipt.status) {
         const checkAllowence = await pairContract.allowance(
           account,
-          polydexMigratorAddress
+          yugenMigratorAddress
         );
         toastSuccess("Success", "Account successfully approved");
         setApproveLoading(false);
@@ -172,7 +172,7 @@ export default function MigrationCard({
       if (parseFloat(lpBalance) > 0) {
         const checkAllowence = await pairContract.allowance(
           account,
-          polydexMigratorAddress
+          yugenMigratorAddress
         );
         const getTotalSupply = await pairContract.totalSupply();
         const getReserves = await pairContract.getReserves();

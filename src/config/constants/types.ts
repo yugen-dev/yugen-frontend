@@ -36,6 +36,7 @@ export enum QuoteToken {
   "SUSHI" = "SUSHI",
   "TPT" = "TPT",
   "CNT" = "CNT",
+  "YGN" = "YGN",
   "MUSD" = "MUSD",
   "MATIC" = "MATIC",
   "PR" = "PR",

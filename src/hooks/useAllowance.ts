@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import BigNumber from "bignumber.js";
 import { useWeb3React } from "@web3-react/core";
 import { Contract } from "web3-eth-contract";
-import { getLotteryAddress, getCNTStakerAddress } from "utils/addressHelpers";
+import { getLotteryAddress, getYgnStakerAddress } from "utils/addressHelpers";
 import { useCake } from "./useContract";
 import useRefresh from "./useRefresh";
 
@@ -38,7 +38,7 @@ export const useStakingAllowance = () => {
   useEffect(() => {
     const fetchAllowance = async () => {
       const res = await cakeContract.methods
-        .allowance(account, getCNTStakerAddress())
+        .allowance(account, getYgnStakerAddress())
         .call();
       setAllowance(new BigNumber(res));
     };

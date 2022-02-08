@@ -36,8 +36,8 @@ export const getFarmAddress = () => {
 export const getFarmWrapperAddress = () => {
   return getAddress(addresses.farmWrapper);
 };
-export const getCNTStakerAddress = () => {
-  return getAddress(addresses.cntStaker);
+export const getYgnStakerAddress = () => {
+  return getAddress(addresses.ygnStaker);
 };
 export const getMulticallAddress = () => {
   return getAddress(addresses.mulltiCall);
@@ -69,8 +69,8 @@ export const getPointCenterIfoAddress = () => {
 export const getBunnySpecialAddress = () => {
   return getAddress(addresses.bunnySpecial);
 };
-export const getPolydexMigratorAddress = () => {
-  return getAddress(addresses.polyDexMigrator);
+export const getYugenMigratorAddress = () => {
+  return getAddress(addresses.yugenMigrator);
 };
 export const getRewardsManagerAddress = () => {
   return getAddress(addresses.rewardsManager);

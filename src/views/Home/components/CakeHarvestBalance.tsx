@@ -7,7 +7,7 @@ import styled from "styled-components";
 import CardValue from "./CardValue";
 import CardBusdValue from "./CardBusdValue";
 
-const CNText = styled.div`
+const Text = styled.div`
   color: #d04863;
   font-size: 20px;
   font-weight: 500;
@@ -29,7 +29,7 @@ const CakeHarvestBalance = () => {
     .toNumber();
 
   if (!account) {
-    return <CNText>Locked</CNText>;
+    return <Text>Locked</Text>;
   }
 
   return (

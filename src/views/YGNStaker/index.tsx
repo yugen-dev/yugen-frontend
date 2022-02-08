@@ -20,7 +20,7 @@ import {
 } from "yugen-uikit";
 import Grid from "@material-ui/core/Grid";
 import { useQuery } from "@apollo/client";
-import { cntStakerQuery, stakerAllocatedQquery } from "apollo/queries";
+import { ygnStakerQuery, stakerAllocatedQquery } from "apollo/queries";
 import { useApproveStaking } from "hooks/useApprove";
 import { useChainId } from "state/application/hooks";
 import contracts from "config/constants/contracts";
@@ -35,10 +35,10 @@ import {
 } from "utils/formatBalance";
 import {
   getCakeContract,
-  getCNTStakerContract,
+  getYgnStakerContract,
   getERC20Contract,
 } from "utils/contractHelpers";
-import { useCNTStaker, useCNTStakerGasless } from "hooks/useContract";
+import { useYgnStaker, useYgnStakerGasless } from "hooks/useContract";
 import { registerToken } from "utils/wallet";
 import inputValidator from "utils/inputValidator";
 
@@ -152,15 +152,15 @@ const StyledOl = styled.ol`
   list-style-position: outside;
   padding-left: 16px;
 `;
-const CNTStaker = () => {
+const YgnStaker = () => {
   const xYGNLogo =
     "https://s3.us-east-2.amazonaws.com/www.yugen.finance/assets/xygn.webp";
   const YGNLogo =
     "https://s3.us-east-2.amazonaws.com/www.yugen.finance/assets/ygn.webp";
   const [index, setIndex] = React.useState(0);
   const [tokenBalance, setTokenBalance] = React.useState(new BigNumber(0));
-  const [xCNTBalance, setxCNTBalance] = React.useState(new BigNumber(0));
-  const [CntAllowance, setCntAllowance] = React.useState(new BigNumber(0));
+  const [xygnBalance, setXygnBalance] = React.useState(new BigNumber(0));
+  const [ygnAllowance, setYgnAllowance] = React.useState(new BigNumber(0));
   const [exchangeRate, setExchangeRate] = React.useState(new BigNumber(0));
   const CHAINID = useChainId().toString();
   const [requestedApproval, setRequestedApproval] = useState(false);
@@ -178,13 +178,13 @@ const CNTStaker = () => {
   const [totalSupply, setTotalSupply] = useState(new BigNumber(0));
   const [ygnTotalSupply, setYgnTotalSupply] = useState(new BigNumber(0));
   const web3 = useWeb3();
-  const cntStaker = useCNTStaker();
-  const cntStakerGasless = useCNTStakerGasless();
+  const ygnStaker = useYgnStaker();
+  const ygnStakerGasless = useYgnStakerGasless();
   const { metaTranscation } = useProfile();
-  let cntStakingRatio = 0.0;
+  let ygnStakingRatio = 0.0;
   const { toastSuccess, toastError } = useToast();
   if (index === 1) {
-    tokenBal = xCNTBalance;
+    tokenBal = xygnBalance;
   }
   const fetchBalances = async (tokenAddress) => {
     try {
@@ -211,7 +211,7 @@ const CNTStaker = () => {
 
   const getExchangeRate = React.useCallback(async () => {
     try {
-      const contract = getCNTStakerContract(web3);
+      const contract = getYgnStakerContract(web3);
       const res = await contract.methods
         .getXYGNAmount(
           new BigNumber(1).times(new BigNumber(10).pow(18)).toString()
@@ -225,24 +225,24 @@ const CNTStaker = () => {
 
   const getTokenBalances = async () => {
     const tokenBalanceResp = await fetchBalances(contracts.cake[CHAINID]);
-    const xCNTBalanceResp = await fetchBalances(contracts.cntStaker[CHAINID]);
-    const cntAllowance = await fetchAllowance(
+    const xygnBalanceResp = await fetchBalances(contracts.ygnStaker[CHAINID]);
+    const allowanceOfYgn = await fetchAllowance(
       contracts.cake[CHAINID],
-      contracts.cntStaker[CHAINID]
+      contracts.ygnStaker[CHAINID]
     );
-    setCntAllowance(cntAllowance);
+    setYgnAllowance(allowanceOfYgn);
     setTokenBalance(tokenBalanceResp);
-    setxCNTBalance(xCNTBalanceResp);
+    setXygnBalance(xygnBalanceResp);
   };
 
   useEffect(() => {
     async function fetchTotalSupply() {
-      const xCNTContract = getCNTStakerContract();
+      const xygnContract = getYgnStakerContract();
       const ygnContract = getCakeContract();
       const totalYgnInStaker = await ygnContract.methods
-        .balanceOf(contracts.cntStaker[CHAINID])
+        .balanceOf(contracts.ygnStaker[CHAINID])
         .call();
-      const supply = await xCNTContract.methods.totalSupply().call();
+      const supply = await xygnContract.methods.totalSupply().call();
       setYgnTotalSupply(new BigNumber(totalYgnInStaker));
       setTotalSupply(new BigNumber(supply));
     }
@@ -263,24 +263,24 @@ const CNTStaker = () => {
       clientName: "convertor",
     },
   });
-  const getCNTStakerInfo = useQuery(cntStakerQuery, {
+  const getYgnStakerInfo = useQuery(ygnStakerQuery, {
     context: {
       clientName: "cntstaker",
     },
   });
   if (
-    getCNTStakerInfo &&
-    getCNTStakerInfo.data &&
-    getCNTStakerInfo.data.ygnstakers &&
+    getYgnStakerInfo &&
+    getYgnStakerInfo.data &&
+    getYgnStakerInfo.data.ygnstakers &&
     getStakerallocated &&
     getStakerallocated.data &&
     getStakerallocated.data.weekDatas
   ) {
-    cntStakingRatio =
+    ygnStakingRatio =
       (parseFloat(getStakerallocated.data.weekDatas[0].stakersAllocated) /
         10e18 /
-        (parseFloat(getCNTStakerInfo.data.ygnstakers[0].totalSupply) *
-          parseFloat(getCNTStakerInfo.data.ygnstakers[0].ratio))) *
+        (parseFloat(getYgnStakerInfo.data.ygnstakers[0].totalSupply) *
+          parseFloat(getYgnStakerInfo.data.ygnstakers[0].ratio))) *
       52 *
       100;
   }
@@ -291,7 +291,7 @@ const CNTStaker = () => {
     if (index === 0) {
       handleTokenAmount(getFullDisplayBalance(tokenBalance).toString());
     } else {
-      handleTokenAmount(getFullDisplayBalance(xCNTBalance).toString());
+      handleTokenAmount(getFullDisplayBalance(xygnBalance).toString());
     }
   };
 
@@ -309,12 +309,12 @@ const CNTStaker = () => {
     }
   }, [onApprove, setRequestedApproval]);
 
-  const stakeCnt = async () => {
+  const stakeYgn = async () => {
     setPendingDepositTx(true);
     try {
       if (metaTranscation) {
         try {
-          await enterGasless(cntStakerGasless, tokenAmount, account, library);
+          await enterGasless(ygnStakerGasless, tokenAmount, account, library);
           toastSuccess(
             "Success!",
             `You have successfully staked ${tokenAmount} YGN !`
@@ -323,7 +323,7 @@ const CNTStaker = () => {
           toastError("An error occurred while staking YGN");
         }
       } else {
-        await enter(cntStaker, tokenAmount, account);
+        await enter(ygnStaker, tokenAmount, account);
         toastSuccess(
           "Success!",
           `You have successfully staked ${tokenAmount} YGN !`
@@ -336,13 +336,13 @@ const CNTStaker = () => {
     }
     setPendingDepositTx(false);
   };
-  const unstakeCnt = async () => {
+  const unstakeYgn = async () => {
     setPendingTx(true);
     try {
       if (metaTranscation) {
-        await leaveGasless(cntStakerGasless, tokenAmount, account, library);
+        await leaveGasless(ygnStakerGasless, tokenAmount, account, library);
       } else {
-        await leave(cntStaker, tokenAmount, account);
+        await leave(ygnStaker, tokenAmount, account);
       }
 
       await getTokenBalances();
@@ -380,7 +380,7 @@ const CNTStaker = () => {
     }
     if (index === 0) {
       if (tokenBalance.toNumber() > 0) {
-        if (CntAllowance.toNumber() <= 0) {
+        if (ygnAllowance.toNumber() <= 0) {
           return pendingTx === false ? (
             <Button
               style={{ maxWidth: "400px", width: "100%" }}
@@ -421,7 +421,7 @@ const CNTStaker = () => {
             );
             if (goAheadWithYgnStakeTxn) {
               setPendingTx(true);
-              await stakeCnt();
+              await stakeYgn();
               setPendingTx(false);
             }
           }}
@@ -438,7 +438,7 @@ const CNTStaker = () => {
         </Button>
       );
     }
-    if (xCNTBalance.toNumber() <= 0) {
+    if (xygnBalance.toNumber() <= 0) {
       return (
         <Button style={{ maxWidth: "400px", width: "100%" }} disabled>
           Insufficent xYGN Balance
@@ -453,11 +453,11 @@ const CNTStaker = () => {
           const goAheadWithXygnStakeTxn = inputValidator(
             toastError,
             tokenAmount,
-            xCNTBalance
+            xygnBalance
           );
           if (goAheadWithXygnStakeTxn) {
             setPendingTx(true);
-            await unstakeCnt();
+            await unstakeYgn();
             setPendingTx(false);
           }
         }}
@@ -617,7 +617,7 @@ const CNTStaker = () => {
                     style={{ whiteSpace: "nowrap" }}
                     fontSize="24px"
                   >
-                    {parseFloat(cntStakingRatio.toFixed(2))} %
+                    {parseFloat(ygnStakingRatio.toFixed(2))} %
                   </Text>
                   <Text
                     color="#887263"
@@ -672,7 +672,7 @@ const CNTStaker = () => {
                     loading="lazy"
                     onClick={() =>
                       registerToken(
-                        contracts.cntStaker[CHAINID],
+                        contracts.ygnStaker[CHAINID],
                         "xYGN",
                         18,
                         xYGNLogo
@@ -688,7 +688,7 @@ const CNTStaker = () => {
                   >
                     xYGN:{" "}
                     <span style={{ color: "#424945" }}>
-                      {getBalanceNumber(xCNTBalance).toFixed(2)}
+                      {getBalanceNumber(xygnBalance).toFixed(2)}
                     </span>
                   </Text>
                 </div>
@@ -701,4 +701,4 @@ const CNTStaker = () => {
   );
 };
 
-export default CNTStaker;
+export default YgnStaker;

@@ -10,7 +10,7 @@ import styled from "styled-components";
 import CardValue from "./CardValue";
 import CardBusdValue from "./CardBusdValue";
 
-const CNText = styled.div`
+const Text = styled.div`
   color: #d04863;
   font-size: 20px;
   font-weight: 500;
@@ -28,7 +28,7 @@ const CakeWalletBalance = () => {
   const { account } = useWeb3React("web3");
 
   if (!account) {
-    return <CNText>{TranslateString(298, "Locked")}</CNText>;
+    return <Text>{TranslateString(298, "Locked")}</Text>;
   }
 
   return (

@@ -27,11 +27,11 @@ export const ETHERJS_PATHS = [
   "/migrate",
   "/migrate/find",
 ];
-export const CNTinUSDLink =
+export const YgnInUSDLink =
   "https://api.coingecko.com/api/v3/simple/price?ids=cryption-network&vs_currencies=USD";
-export const CNT_CIRCULATING_SUPPLY_LINK =
+export const YGN_CIRCULATING_SUPPLY_LINK =
   "https://api.cryption.network/circulating-supply";
-export const CNT_TOTAL_SUPPLY_LINK =
+export const YGN_TOTAL_SUPPLY_LINK =
   "https://api.cryption.network/total-supply";
 export const SUPPORTED_NETWORK_IDS = [137, 80001, 1, 5, 250, 4002];
 export const CROSS_CHAIN_API_LINK =

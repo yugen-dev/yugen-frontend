@@ -1,7 +1,7 @@
 import BigNumber from "bignumber.js";
 import { ethers } from "ethers";
 import {
-  getCNTStakerAddress,
+  getYgnStakerAddress,
   getFarmAddress,
   getSouschefContract,
   getWbnbAddress,
@@ -68,9 +68,9 @@ const domainData = {
 };
 
 const domainDataBar = {
-  name: "CNTStaker",
+  name: "YgnStaker",
   version: "1",
-  verifyingContract: getCNTStakerAddress(),
+  verifyingContract: getYgnStakerAddress(),
   chainId: 137,
 };
 

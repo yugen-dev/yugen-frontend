@@ -35,7 +35,7 @@ const CakeStats = () => {
     <StyledCakeStats>
       <CNCardBody>
         <CNHeading>{TranslateString(534, "Cake Stats")}</CNHeading>
-        <CNTable>
+        <Table>
           <Row>
             <Text fontSize="14px" bold color="#686B7A">
               {TranslateString(536, "Total CAKE Supply")}
@@ -73,13 +73,13 @@ const CakeStats = () => {
               color="#686B7A"
             />
           </Row>
-        </CNTable>
+        </Table>
       </CNCardBody>
     </StyledCakeStats>
   );
 };
 
-const CNTable = styled.div`
+const Table = styled.div`
   margin: 15px 0 0 0;
   height: 100%;
   display: flex;

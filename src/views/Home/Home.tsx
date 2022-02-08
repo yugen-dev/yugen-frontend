@@ -1,9 +1,7 @@
 import React, { useRef, useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import BigNumber from "bignumber.js";
-// import orderBy from "lodash/orderBy";
 import Container from "@material-ui/core/Container";
-// import getCntPrice from "utils/getCntPrice";
 import useInterval from "hooks/useInterval";
 import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, YUGEN_INFO_CUSTOM_API } from "config";
 import { getDayData } from "apollo/exchange";

@@ -14,7 +14,7 @@ import { setMetamaskGasPrice } from "config";
 import {
   useMasterchef,
   useCake,
-  useCNTStaker,
+  useYgnStaker,
   useLottery,
   useFygn,
   useFygnBurner,
@@ -134,7 +134,7 @@ export const useVaultApprove = (
 
 export const useApproveStaking = () => {
   const cakeContract = useCake();
-  const cntStakerContract = useCNTStaker();
+  const ygnStakerContract = useYgnStaker();
 
   const { account, chainId, library } = useWeb3React("web3");
   const { metaTranscation } = useProfile();
@@ -157,7 +157,7 @@ export const useApproveStaking = () => {
         const biconomyNonce = await nonceMethod(account).call();
         const res = biconomyContract.methods
           .approve(
-            cntStakerContract.options.address,
+            ygnStakerContract.options.address,
             ethers.constants.MaxUint256.toString()
           )
           .encodeABI();
@@ -220,7 +220,7 @@ export const useApproveStaking = () => {
             throw error;
           });
       }
-      const tx = await approve(cakeContract, cntStakerContract, account);
+      const tx = await approve(cakeContract, ygnStakerContract, account);
       return tx;
     } catch (e) {
       return false;
@@ -228,7 +228,7 @@ export const useApproveStaking = () => {
   }, [
     account,
     cakeContract,
-    cntStakerContract,
+    ygnStakerContract,
     metaTranscation,
     chainId,
     library,
@@ -239,7 +239,7 @@ export const useApproveStaking = () => {
 
 export const useApproveBurner = () => {
   const cakeContract = useFygn();
-  const cntStakerContract = useFygnBurner();
+  const ygnStakerContract = useFygnBurner();
 
   const { account, chainId, library } = useWeb3React("web3");
   const { metaTranscation } = useProfile();
@@ -262,7 +262,7 @@ export const useApproveBurner = () => {
         const biconomyNonce = await nonceMethod(account).call();
         const res = biconomyContract.methods
           .approve(
-            cntStakerContract.options.address,
+            ygnStakerContract.options.address,
             ethers.constants.MaxUint256.toString()
           )
           .encodeABI();
@@ -325,7 +325,7 @@ export const useApproveBurner = () => {
             throw error;
           });
       }
-      const tx = await approve(cakeContract, cntStakerContract, account);
+      const tx = await approve(cakeContract, ygnStakerContract, account);
       return tx;
     } catch (e) {
       return false;
@@ -333,7 +333,7 @@ export const useApproveBurner = () => {
   }, [
     account,
     cakeContract,
-    cntStakerContract,
+    ygnStakerContract,
     metaTranscation,
     chainId,
     library,

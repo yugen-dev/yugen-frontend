@@ -41,13 +41,13 @@ const Liquidity: React.FunctionComponent<LiquidityProps> = ({
   return (
     <Container>
       <LiquidityWrapper>
-        <CNText>{displayLiquidity}</CNText>
+        <Text>{displayLiquidity}</Text>
       </LiquidityWrapper>
     </Container>
   );
 };
 
-const CNText = styled.div`
+const Text = styled.div`
   margin-right: 5px;
   font-size: 20px;
   font-weight: 600;

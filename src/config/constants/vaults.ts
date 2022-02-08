@@ -75,7 +75,7 @@ const vaultsMaticTestnet: VaultConfig[] = [
     nonQuoteTokenSymbol: QuoteToken.CAKE,
     nonQuoteTokenAddress: contracts.cake,
     addLiquidityLink:
-      "https://app.polydex.org/add/0x86652c1301843b4e06fbfbbdaa6849266fb2b5e7/0xac0ec8a0a5062feecb496ac1ef7d2177f06f88b0",
+      "https://quickswap.exchange/add/0x86652c1301843b4e06fbfbbdaa6849266fb2b5e7/0xac0ec8a0a5062feecb496ac1ef7d2177f06f88b0",
     blockExplorerLink:
       "https://mumbai.polygonscan.com/address/0xeF4E6c3119A7a7260C1d3fA90939B32De02e363A",
   },

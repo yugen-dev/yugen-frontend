@@ -552,7 +552,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
                     style={{ margin: "10px" }}
                   />
                 </div>
-                {singleSidedtoTokenName !== "CNT" && (
+                {singleSidedtoTokenName !== "YGN" && (
                   <div
                     style={{
                       display: "flex",
@@ -651,7 +651,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
           pr="5px"
         >
           {/* TODO: Is there a way to get a dynamic value here from useFarmFromSymbol? */}
-          CNT
+          YGN
         </Text>
         <Text
           bold

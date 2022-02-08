@@ -428,26 +428,26 @@ export const GetApiPrice = (token: string) => {
   return prices[token.toLowerCase()];
 };
 
-export const useCntStakerTvl = (): BigNumber => {
-  const [CntStakerTvlPrice, setCntStakerTvlPrice] = useState(
+export const useYgnStakerTvl = (): BigNumber => {
+  const [ygnStakerTvlPrice, setYgnStakerTvlPrice] = useState(
     new BigNumber(2000)
   );
 
   useEffect(() => {
-    const fetchPriceXCNT = async () => {
+    const fetchPriceXygn = async () => {
       const contract = getCakeContract();
       const res = await contract.methods
-        .balanceOf(contracts.cntStaker[chainID || "137"])
+        .balanceOf(contracts.ygnStaker[chainID || "137"])
         .call();
-      setCntStakerTvlPrice(
+      setYgnStakerTvlPrice(
         new BigNumber(res).dividedBy(new BigNumber(10).pow(18))
       );
     };
 
-    fetchPriceXCNT();
+    fetchPriceXygn();
   }, []);
 
-  return CntStakerTvlPrice;
+  return ygnStakerTvlPrice;
 };
 
 export const useHybridstakingTvl = (): BigNumber => {
@@ -456,7 +456,7 @@ export const useHybridstakingTvl = (): BigNumber => {
   );
 
   useEffect(() => {
-    const fetchPriceHybridCNT = async () => {
+    const fetchPriceHybridYgn = async () => {
       try {
         const contract = getHybridStakingContract();
         const res = await contract.methods.totalCNTStaked().call();
@@ -468,7 +468,7 @@ export const useHybridstakingTvl = (): BigNumber => {
       }
     };
 
-    fetchPriceHybridCNT();
+    fetchPriceHybridYgn();
   }, []);
 
   return HybridstakingTvlPrice;
@@ -482,9 +482,9 @@ export const useBlock = (): Block => {
 export const useFarmsTotalValue = (): BigNumber => {
   const farms = useFarms();
 
-  const totalStakerBalance = useCntStakerTvl();
-  // TODO: change cnt price from fixed to dynamic
-  const cntPrice = new BigNumber(0);
+  const totalStakerBalance = useYgnStakerTvl();
+  // TODO: change ygn price from fixed to dynamic
+  const ygnPrice = new BigNumber(0);
 
   let value = new BigNumber(0);
   for (let i = 0; i < farms.length; i++) {
@@ -512,7 +512,7 @@ export const useFarmsTotalValue = (): BigNumber => {
     }
   }
 
-  value = value.plus(totalStakerBalance.multipliedBy(cntPrice));
+  value = value.plus(totalStakerBalance.multipliedBy(ygnPrice));
 
   return value;
 };

@@ -6,7 +6,7 @@ import { getBalanceNumber } from "utils/formatBalance";
 import ConfirmSwapModal from "components/harvestAndStake/ConfirmSwapModal";
 import { useActiveWeb3React } from "hooks";
 import {
-  getCNTStakerContract,
+  getYgnStakerContract,
   getFygnBurnerContract,
 } from "utils/contractHelpers";
 import useWeb3 from "hooks/useWeb3";
@@ -46,7 +46,7 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({
       let ygnResp = new BigNumber(1);
       let xYgnResp = new BigNumber(1);
       const burnerContract = getFygnBurnerContract(web3);
-      const stakerContract = getCNTStakerContract(web3);
+      const stakerContract = getYgnStakerContract(web3);
 
       ygnResp = await burnerContract.methods
         .getYGNAmount(earnings.toString())

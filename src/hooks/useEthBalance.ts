@@ -1,6 +1,5 @@
 import { useWeb3React } from "@web3-react/core";
 import BigNumber from "bignumber.js";
-// import { CNTinUSDLink } from "config";
 import { useEffect, useState } from "react";
 import useRefresh from "./useRefresh";
 import useWeb3 from "./useWeb3";
