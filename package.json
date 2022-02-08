@@ -129,7 +129,7 @@
     "web3-eth-contract": "^1.7.0",
     "web3-utils": "^1.7.0",
     "webpack": "4.44.2",
-    "yugen-uikit": "0.0.2"
+    "yugen-uikit": "0.0.3"
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",

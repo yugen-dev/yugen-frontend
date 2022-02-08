@@ -15,12 +15,14 @@ import useTheme from "hooks/useTheme";
 import useAuth from "hooks/useAuth";
 import { toggleMetaTranscationState } from "state/actions";
 import { ETHERJS_PATHS } from "config";
-import { usePriceCakeBusd, useProfile } from "state/hooks";
+import { usePriceCakeBusd, usePriceFygnUsd, useProfile } from "state/hooks";
 import useAllEarnings from "hooks/useAllEarnings";
 import BigNumber from "bignumber.js";
 import useTokenBalance from "hooks/useTokenBalance";
 import { getCakeAddress } from "utils/addressHelpers";
 import { getBalanceNumber } from "utils/formatBalance";
+import { getFygnBurnerContract } from "utils/contractHelpers";
+import useWeb3 from "hooks/useWeb3";
 import fantomMainnetConfig, {
   socials,
   networks,
@@ -31,7 +33,10 @@ import fantomMainnetConfig, {
 const Menu = (props) => {
   const { login, logout, loginEther, logoutEther } = useAuth();
   const location = useLocation();
+  const web3 = useWeb3();
   const cakePriceBusd = usePriceCakeBusd();
+  const fygnPrice = usePriceFygnUsd();
+  const [exchangeRate, setExchangeRate] = React.useState(new BigNumber(0));
   const ygnBalance = useTokenBalance(getCakeAddress());
   const ygnBalanceInString = getBalanceNumber(ygnBalance).toString();
   const allEarnings = useAllEarnings();
@@ -48,6 +53,25 @@ const Menu = (props) => {
   } else {
     accountId = useWeb3React("web3").account;
   }
+
+  const getExchangeRate = React.useCallback(async () => {
+    try {
+      const contract = getFygnBurnerContract(web3);
+      const res = await contract.methods
+        .getYGNAmount(
+          new BigNumber(1).times(new BigNumber(10).pow(18)).toString()
+        )
+        .call();
+      setExchangeRate(new BigNumber(res).dividedBy(new BigNumber(10).pow(18)));
+    } catch (error) {
+      console.error("error: ", error);
+    }
+  }, [web3]);
+
+  useEffect(() => {
+    getExchangeRate();
+  }, [getExchangeRate]);
+
   useEffect(() => {
     if (accountId === null || accountId === undefined) {
       const connectorId = window.localStorage.getItem(
@@ -159,7 +183,9 @@ const Menu = (props) => {
       setLang={setSelectedLanguage}
       cakePriceUsd={cakePriceBusd.toNumber() || 0}
       ygnBalance={ygnBalanceInString}
-      ygnEarnings={ygnEarningsInString}
+      fygnEarnings={ygnEarningsInString}
+      fygnPrice={fygnPrice.toNumber() || 0}
+      exchangeRate={exchangeRate.toNumber() || 0}
       logoSize="53px"
       links={menuConfig}
       socials={socials}
