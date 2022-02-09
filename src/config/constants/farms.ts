@@ -119,8 +119,6 @@ const farmsMaticMainnet: FarmConfig[] = [
     isPool: false,
     tag: "Powered by QuickSwap",
     lpSymbol: "wETH-NACHO",
-    fixedAllocPoint: "144",
-    rewardsStartIn: "1644417000",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -509,7 +507,6 @@ const farmsMaticMainnet: FarmConfig[] = [
     isPool: false,
     tag: "Powered by QuickSwap",
     lpSymbol: "BICO-wETH",
-    rewardsStartIn: "1644330600",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
