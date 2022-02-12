@@ -168,8 +168,12 @@ const Farms: React.FC = () => {
 
   const [stackedOnly, setStackedOnly] = useState(false);
 
-  const activeFarms = farmsLP.filter((farm) => farm.multiplier !== "0X");
-  const inactiveFarms = farmsLP.filter((farm) => farm.multiplier === "0X");
+  const activeFarms = farmsLP.filter(
+    (farm) => farm.multiplier !== "0X" && farm.multiplier !== "0.00X"
+  );
+  const inactiveFarms = farmsLP.filter(
+    (farm) => farm.multiplier === "0X" || farm.multiplier === "0.00X"
+  );
 
   const stackedOnlyFarms = activeFarms.filter(
     (farm) =>
