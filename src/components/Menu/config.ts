@@ -48,7 +48,7 @@ export const maticMainnetConfig: MenuEntry[] = [
   {
     label: "Get YGN",
     icon: "TradeIcon",
-    href: "https://quickswap.exchange/#/swap?inputCurrency=0x2791bca1f2de4661ed88a30c99a7a9449aa84174&outputCurrency=0xA33aAa07853038943eF2c32cDE73a094cF993EE0",
+    href: "https://app.polydex.org/dex?inputCurrency=0x2791bca1f2de4661ed88a30c99a7a9449aa84174&outputCurrency=0xA33aAa07853038943eF2c32cDE73a094cF993EE0",
   },
   {
     label: "Farms",
