@@ -292,25 +292,29 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
                     style={{ margin: "10px" }}
                   />
                 </div>
-                {farm.showSingleSided && singleSidedtoTokenName !== "NACHO" && (
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Text>{singleSidedtoTokenName}</Text>
-                    <Radio
-                      scale="sm"
-                      name="radio"
-                      // value={singleSidedtoTokenName}
-                      onChange={() => handleRadioChange(singleSidedtoTokenName)}
-                      // checked={!radioTrue}
-                      style={{ margin: "10px" }}
-                    />
-                  </div>
-                )}
+                {farm.showSingleSided &&
+                  singleSidedtoTokenName !== "NACHO" &&
+                  singleSidedtoTokenName !== "CXETH" && (
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Text>{singleSidedtoTokenName}</Text>
+                      <Radio
+                        scale="sm"
+                        name="radio"
+                        // value={singleSidedtoTokenName}
+                        onChange={() =>
+                          handleRadioChange(singleSidedtoTokenName)
+                        }
+                        // checked={!radioTrue}
+                        style={{ margin: "10px" }}
+                      />
+                    </div>
+                  )}
               </div>
             </Flex>
           )}

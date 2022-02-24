@@ -31,6 +31,7 @@ import {
   getFygnContract,
   getFygnBurnerContract,
   getFarmWrapper,
+  getCxEthWethFarmWrapper,
 } from "utils/contractHelpers";
 import { useChainId } from "state/application/hooks";
 import yugenMigrator from "config/abi/yugenMigrator.json";
@@ -99,6 +100,11 @@ export const useMasterchef = () => {
 export const useFarmWrapper = () => {
   const web3 = useWeb3();
   return useMemo(() => getFarmWrapper(web3), [web3]);
+};
+
+export const useCxEthWethFarmWrapper = () => {
+  const web3 = useWeb3();
+  return useMemo(() => getCxEthWethFarmWrapper(web3), [web3]);
 };
 
 export const useVaultchef = (vaultAddress) => {

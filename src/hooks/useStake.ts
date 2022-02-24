@@ -6,7 +6,12 @@ import { fetchFarmUserDataAsync } from "state/actions";
 import { stake, vaultstake } from "utils/callHelpers";
 import { useProfile, useToast } from "state/hooks";
 import { fetchVaultUserDataAsync } from "state/vaults";
-import { useFarmWrapper, useMasterchef, useVaultchef } from "./useContract";
+import {
+  useCxEthWethFarmWrapper,
+  useFarmWrapper,
+  useMasterchef,
+  useVaultchef,
+} from "./useContract";
 
 export const useStake = (pid: number, decimals) => {
   const dispatch = useDispatch();
@@ -55,13 +60,18 @@ export const useStakeSingleSided = (pid: number, decimals) => {
   const dispatch = useDispatch();
   const { account } = useWeb3React("web3");
   const farmWrapperContract = useFarmWrapper();
+  const cxEthWethFarmWrapperContract = useCxEthWethFarmWrapper();
+  let wrapperContract = farmWrapperContract;
+  if (pid === 15) {
+    wrapperContract = cxEthWethFarmWrapperContract;
+  }
   const { toastInfo, toastError, toastSuccess } = useToast();
 
   const handleStakeSingleSided = useCallback(
     async (amount: string) => {
       try {
         toastInfo("Processing...", `You requested to Deposited `);
-        await stake(farmWrapperContract, pid, amount, account, decimals);
+        await stake(wrapperContract, pid, amount, account, decimals);
         toastSuccess("Success", ` Deposited successfully`);
         dispatch(fetchFarmUserDataAsync(account));
       } catch (error) {
@@ -81,7 +91,7 @@ export const useStakeSingleSided = (pid: number, decimals) => {
     },
     [
       toastInfo,
-      farmWrapperContract,
+      wrapperContract,
       pid,
       account,
       decimals,

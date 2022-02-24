@@ -7,6 +7,7 @@ import { getERC20Contract } from "utils/contractHelpers";
 import { useIfoApprove } from "hooks/useApprove";
 import {
   getSingleSidedLiquidityAddress,
+  getCxEthWethSingleSidedLiquidityAddress,
   getWbnbAddress,
 } from "utils/addressHelpers";
 import { useStakeSingleSided } from "hooks/useStake";
@@ -42,10 +43,11 @@ const StakeActionSignleSided: React.FC<FarmCardActionsProps> = ({
   const web3 = useWeb3();
   const singleSidedTokenContract = getERC20Contract(singleSidedAddress, web3);
 
-  const onApprove = useIfoApprove(
-    singleSidedTokenContract,
-    getSingleSidedLiquidityAddress()
-  );
+  let singleSidedLiqAddr = getSingleSidedLiquidityAddress();
+  if (pid === 15)
+    singleSidedLiqAddr = getCxEthWethSingleSidedLiquidityAddress();
+
+  const onApprove = useIfoApprove(singleSidedTokenContract, singleSidedLiqAddr);
 
   const handleSignleSidedApprove = useCallback(async () => {
     try {

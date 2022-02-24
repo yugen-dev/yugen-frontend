@@ -27,6 +27,10 @@ export const getSingleSidedLiquidityAddress = () => {
   return getAddress(addresses.signleSidedLiquidity);
 };
 
+export const getCxEthWethSingleSidedLiquidityAddress = () => {
+  return getAddress(addresses.cxEthWethSingleSidedLiquidity);
+};
+
 export const getCakeAddress = () => {
   return getAddress(addresses.cake);
 };
@@ -35,6 +39,9 @@ export const getFarmAddress = () => {
 };
 export const getFarmWrapperAddress = () => {
   return getAddress(addresses.farmWrapper);
+};
+export const getCxEthWethFarmWrapperAddress = () => {
+  return getAddress(addresses.cxEthWethFarmWrapper);
 };
 export const getYgnStakerAddress = () => {
   return getAddress(addresses.ygnStaker);
