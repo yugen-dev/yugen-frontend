@@ -37,8 +37,8 @@ const CardHeading: React.FC<ExpandableSectionProps> = ({
         <Image
           src={`/images/farms/${farmImage}.webp`}
           alt={tokenSymbol}
-          width={isPool || farmImage === "cxeth-weth" ? 100 : 120}
-          height={isPool || farmImage === "cxeth-weth" ? 94 : 70}
+          width={isPool ? 100 : 120}
+          height={isPool ? 94 : 70}
         />
         {tag && (
           <Tag marginTop="10px" variant="secondary">
