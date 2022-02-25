@@ -119,8 +119,6 @@ const farmsMaticMainnet: FarmConfig[] = [
     isPool: false,
     tag: "Powered by QuickSwap",
     lpSymbol: "cxETH-WETH",
-    rewardsStartIn: "1645799400",
-    fixedAllocPoint: "17",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
