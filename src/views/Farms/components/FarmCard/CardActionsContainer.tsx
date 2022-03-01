@@ -15,6 +15,7 @@ import { getERC20Contract } from "utils/contractHelpers";
 import useEthBalance from "hooks/useEthBalance";
 import { useApprove } from "hooks/useApprove";
 import UnlockButton from "components/UnlockButton";
+import QuestionHelper from "components/QuestionHelper";
 import { Subtle } from "../FarmTable/Actions/styles";
 import StakeAction from "./StakeAction";
 import HarvestAction from "./HarvestAction";
@@ -284,7 +285,12 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
                     alignItems: "center",
                   }}
                 >
-                  <Text>{singleSidedTokenName}</Text>
+                  <Text>
+                    {singleSidedTokenName}
+                    <QuestionHelper
+                      text={`wETH is converted into ${farm.lpSymbol} LP automatically and then staked. Upon withdrawal, you will receive LP`}
+                    />
+                  </Text>
                   <Radio
                     scale="sm"
                     name="radio"
