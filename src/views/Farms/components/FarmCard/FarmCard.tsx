@@ -281,6 +281,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
           maticExplorerAddress="0xe713DaAa96035982bf01F041c2BB248B5E07882a"
           totalValueFormated={totalValueFormated}
           lpLabel={lpLabel}
+          isPool={farm.isPool}
           addLiquidityUrl={addLiquidityUrl}
         />
       </ExpandingWrapper>

@@ -839,8 +839,10 @@ const farmsMaticMainnet: FarmConfig[] = [
     pid: 16,
     isPool: true,
     tag: "Powered by Quickswap",
-    withdrawalFee: "0.1",
-    lpSymbol: "QUICK",
+    withdrawalFee: "0",
+    fixedAllocPoint: "50",
+    rewardsStartIn: "1654005600",
+    lpSymbol: "QUICK (new)",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -888,8 +890,7 @@ const farmsMaticMainnet: FarmConfig[] = [
       4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     singleSidedToTokenName: "QUICK",
-    getLpLink:
-      "https://quickswap.exchange/#/swap?inputCurrency=eth&outputCurrency=0xB5C064F955D8e7F38fE0460C556a72987494eE17",
+    getLpLink: "https://beta.quickswap.exchange/#/convert",
   },
 ];
 const farmsMaticTestnet: FarmConfig[] = [

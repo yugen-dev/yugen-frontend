@@ -9,6 +9,7 @@ export interface ExpandableSectionProps {
   totalValueFormated?: string;
   lpLabel?: string;
   addLiquidityUrl?: string;
+  isPool?: boolean;
 }
 
 const Wrapper = styled.div`
@@ -35,13 +36,14 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({
   totalValueFormated,
   lpLabel,
   addLiquidityUrl,
+  isPool,
 }) => {
   const TranslateString = useI18n();
 
   return (
     <Wrapper>
       <Flex justifyContent="space-between">
-        <Text color="#887263">{TranslateString(316, "Get LP")}</Text>
+        <Text color="#887263">{TranslateString(316, isPool ? "Get Token" : "Get LP")}</Text>
         <StyledLinkExternal href={addLiquidityUrl} color="#424945">
           {lpLabel}
         </StyledLinkExternal>
