@@ -841,7 +841,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     tag: "Powered by Quickswap",
     withdrawalFee: "0",
     fixedAllocPoint: "50",
-    rewardsStartIn: "1654005600",
+    rewardsStartIn: "1653998400",
     lpSymbol: "QUICK (new)",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -891,6 +891,64 @@ const farmsMaticMainnet: FarmConfig[] = [
     },
     singleSidedToTokenName: "QUICK",
     getLpLink: "https://beta.quickswap.exchange/#/convert",
+  },
+  {
+    pid: 17,
+    isPool: false,
+    tag: "Powered by QuickSwap",
+    lpSymbol: "cxBTC-wBTC",
+    fixedAllocPoint: "17",
+    rewardsStartIn: "1654084800",
+    lpAddresses: {
+      97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      80001: "0x978d374800eb7861283ffa0326bb4c853045b919",
+      5: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      137: "0xda7cd765DF426fCA6FB5E1438c78581E4e66bFe7",
+      1: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+    },
+    tokenSymbol: "cxBTC-wBTC",
+    volatility: "binance",
+    tokenAddresses: {
+      97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      80001: "0x9293C7381b9cEA6B27Ce9069f26746e7D43bC29d", // cxETH
+      5: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      137: "0x384B41bD57D4Eb3ceC5eD8063C4b15A6071CEE29",
+      1: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+    },
+    quoteTokenSymbol: QuoteToken.BTC,
+    quoteTokenAdresses: contracts.btc,
+    quoteTokenCoinGeckoId: "wrapped-bitcoin",
+    singleSidedToken: {
+      97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      80001: "0x9c3c9283d3e44854697cd22d3faa240cfb032889", // wETH
+      5: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      137: "0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6",
+      1: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+    },
+    singleSidedTokenName: "wBTC",
+    singleSidedToToken: {
+      97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      80001: "0x9293C7381b9cEA6B27Ce9069f26746e7D43bC29d", // cxETH
+      5: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      137: "0xD30DC92b8ec0fa8de625768d208f51A93C10aFF2",
+      1: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+    },
+    singleSidedToTokenName: "cxBTC",
+    showSingleSided: false,
+    getLpLink:
+      "https://quickswap.exchange/#/add/0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6/0xD30DC92b8ec0fa8de625768d208f51A93C10aFF2",
   },
 ];
 const farmsMaticTestnet: FarmConfig[] = [
