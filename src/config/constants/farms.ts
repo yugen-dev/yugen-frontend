@@ -835,6 +835,62 @@ const farmsMaticMainnet: FarmConfig[] = [
     getLpLink:
       "https://quickswap.exchange/#/swap?inputCurrency=eth&outputCurrency=0xc2132d05d31c914a87c6611c10748aeb04b58e8f",
   },
+  {
+    pid: 16,
+    isPool: true,
+    tag: "Powered by Quickswap",
+    withdrawalFee: "0.1",
+    lpSymbol: "QUICK",
+    lpAddresses: {
+      97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      80001: "0x978d374800eb7861283ffa0326bb4c853045b919",
+      5: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      137: "0xB5C064F955D8e7F38fE0460C556a72987494eE17",
+      1: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+    },
+    tokenSymbol: "QUICK",
+    volatility: "success",
+    tokenAddresses: {
+      97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      80001: "0x9293C7381b9cEA6B27Ce9069f26746e7D43bC29d", // USDT
+      5: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      137: "0xB5C064F955D8e7F38fE0460C556a72987494eE17",
+      1: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+    },
+    quoteTokenSymbol: QuoteToken.QUICK,
+    quoteTokenAdresses: contracts.quick,
+    quoteTokenCoinGeckoId: "quickswap",
+    singleSidedToken: {
+      97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      80001: "0x9c3c9283d3e44854697cd22d3faa240cfb032889", // USDT
+      5: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      137: "0xB5C064F955D8e7F38fE0460C556a72987494eE17",
+      1: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+    },
+    singleSidedTokenName: "QUICK",
+    singleSidedToToken: {
+      97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      80001: "0x9293C7381b9cEA6B27Ce9069f26746e7D43bC29d", // USDT
+      5: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      137: "0xB5C064F955D8e7F38fE0460C556a72987494eE17",
+      1: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
+      250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+      4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
+    },
+    singleSidedToTokenName: "QUICK",
+    getLpLink:
+      "https://quickswap.exchange/#/swap?inputCurrency=eth&outputCurrency=0xB5C064F955D8e7F38fE0460C556a72987494eE17",
+  },
 ];
 const farmsMaticTestnet: FarmConfig[] = [
   {

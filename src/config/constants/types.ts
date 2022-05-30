@@ -58,6 +58,7 @@ export enum QuoteToken {
   "FXS" = "FXS",
   "KLIMA" = "KLIMA",
   "BCT" = "BCT",
+  "QUICK" = "QUICK",
 }
 
 export enum PoolCategory {
