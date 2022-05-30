@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React, { useEffect, lazy } from "react";
 import { Router, Route, Switch } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
