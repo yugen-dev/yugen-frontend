@@ -840,8 +840,6 @@ const farmsMaticMainnet: FarmConfig[] = [
     isPool: true,
     tag: "Powered by Quickswap",
     withdrawalFee: "0",
-    fixedAllocPoint: "50",
-    rewardsStartIn: "1653998400",
     lpSymbol: "QUICK (new)",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
