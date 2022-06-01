@@ -895,8 +895,6 @@ const farmsMaticMainnet: FarmConfig[] = [
     isPool: false,
     tag: "Powered by QuickSwap",
     lpSymbol: "cxBTC-wBTC",
-    fixedAllocPoint: "17",
-    rewardsStartIn: "1654084800",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -908,7 +906,7 @@ const farmsMaticMainnet: FarmConfig[] = [
       4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     tokenSymbol: "cxBTC-wBTC",
-    volatility: "binance",
+    volatility: "success",
     tokenAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
