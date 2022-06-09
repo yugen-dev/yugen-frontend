@@ -951,6 +951,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     isPool: false,
     tag: "Powered By Penrose",
     lpSymbol: "USD+-USDC",
+    subtitle: "Stable Pool",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -1009,6 +1010,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     isPool: false,
     tag: "Powered By Penrose",
     lpSymbol: "FRAX-MAI",
+    subtitle: "Stable Pool",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -1033,9 +1035,9 @@ const farmsMaticMainnet: FarmConfig[] = [
       250: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
       4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
-    quoteTokenSymbol: QuoteToken.FRAX,
-    quoteTokenAdresses: contracts.frax,
-    quoteTokenCoinGeckoId: "frax",
+    quoteTokenSymbol: QuoteToken.MAI,
+    quoteTokenAdresses: contracts.mai,
+    quoteTokenCoinGeckoId: "mimatic",
     singleSidedToken: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -1067,6 +1069,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     isPool: false,
     tag: "Powered By Penrose",
     lpSymbol: "USDC-FRAX",
+    subtitle: "Stable Pool",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
       56: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -1123,6 +1126,7 @@ const farmsMaticMainnet: FarmConfig[] = [
   {
     pid: 21,
     isPool: false,
+    subtitle: "Volatile Pool",
     tag: "Powered By Penrose",
     lpSymbol: "WMATIC-DYST",
     lpAddresses: {
@@ -1182,6 +1186,7 @@ const farmsMaticMainnet: FarmConfig[] = [
     pid: 22,
     isPool: false,
     tag: "Powered By Penrose",
+    subtitle: "Stable Pool",
     lpSymbol: "USDT-USDC",
     lpAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",

@@ -59,7 +59,8 @@ export enum QuoteToken {
   "KLIMA" = "KLIMA",
   "BCT" = "BCT",
   "QUICK" = "QUICK",
-  "FRAX" = "FRAX"
+  "FRAX" = "FRAX",
+  "MAI" = "MAI",
 }
 
 export enum PoolCategory {
@@ -82,6 +83,7 @@ export interface Address {
 export interface FarmConfig {
   pid: number;
   isPool: boolean;
+  subtitle?: string;
   withdrawalFee?: string;
   tag?: string;
   fixedAllocPoint?: string;

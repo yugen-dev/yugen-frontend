@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Tag, Flex, Heading, Image } from "yugen-uikit";
+import { Tag, Flex, Heading, Image, Text } from "yugen-uikit";
 import Question from "components/QuestionHelper";
 
 export interface ExpandableSectionProps {
@@ -10,6 +10,7 @@ export interface ExpandableSectionProps {
   tokenSymbol?: string;
   tag?: string;
   isPool?: boolean;
+  subtitle?:string;
 }
 
 const Wrapper = styled(Flex)`
@@ -29,6 +30,7 @@ const CardHeading: React.FC<ExpandableSectionProps> = ({
   tag,
   farmImage,
   tokenSymbol,
+  subtitle,
   isPool,
 }) => {
   return (
@@ -47,7 +49,10 @@ const CardHeading: React.FC<ExpandableSectionProps> = ({
         )}
       </Flex>
       <Flex flexDirection="column" alignItems="flex-end">
-        <Heading mb="15px">{lpLabel}</Heading>
+        <Heading mb="15px">
+          {lpLabel}
+          {subtitle && <Text color="gray">{subtitle}</Text>}
+        </Heading>
         <Flex justifyContent="center">
           {/* {isCommunityFarm ? <CommunityTag /> : <CoreTag />} */}
           <MultiplierTag variant="secondary">{multiplier}</MultiplierTag>

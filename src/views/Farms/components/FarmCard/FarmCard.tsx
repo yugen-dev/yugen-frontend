@@ -192,6 +192,7 @@ const FarmCard: React.FC<FarmCardProps> = ({
       <div style={{ borderBottom: "1px solid #524B63", paddingBottom: "10px" }}>
         <CardHeading
           lpLabel={lpLabel}
+          subtitle={farm.subtitle}
           multiplier={farm.multiplier}
           farmImage={farmImage}
           tokenSymbol={farm.tokenSymbol}
