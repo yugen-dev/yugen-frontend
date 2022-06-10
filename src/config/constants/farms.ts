@@ -963,8 +963,6 @@ const farmsMaticMainnet: FarmConfig[] = [
       4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     tokenSymbol: "USD+-USDC",
-    fixedAllocPoint: "25",
-    rewardsStartIn: "1654792200",
     volatility: "success",
     tokenAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -1022,8 +1020,6 @@ const farmsMaticMainnet: FarmConfig[] = [
       4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     tokenSymbol: "FRAX-MAI",
-    fixedAllocPoint: "25",
-    rewardsStartIn: "1654792200",
     volatility: "success",
     tokenAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -1081,8 +1077,6 @@ const farmsMaticMainnet: FarmConfig[] = [
       4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     tokenSymbol: "USDC-FRAX",
-    fixedAllocPoint: "25",
-    rewardsStartIn: "1654792200",
     volatility: "success",
     tokenAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -1140,8 +1134,6 @@ const farmsMaticMainnet: FarmConfig[] = [
       4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     tokenSymbol: "WMATIC-DYST",
-    fixedAllocPoint: "75",
-    rewardsStartIn: "1654792200",
     volatility: "binance",
     tokenAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
@@ -1199,8 +1191,6 @@ const farmsMaticMainnet: FarmConfig[] = [
       4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
     },
     tokenSymbol: "USDT-USDC",
-    fixedAllocPoint: "20",
-    rewardsStartIn: "1654792200",
     volatility: "success",
     tokenAddresses: {
       97: "0x86652c1301843B4E06fBfbBDaA6849266fb2b5e7",
