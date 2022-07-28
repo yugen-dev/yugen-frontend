@@ -43,4 +43,4 @@ npm run start
 npm run build
 ```
   
-> If you face any RPC issues you can update the RPC URL by creating a .env file.
+> If you face any RPC issues you can update the RPC URL in the .env file.
