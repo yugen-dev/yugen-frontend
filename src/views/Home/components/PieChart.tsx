@@ -5,8 +5,7 @@ import { Group } from "@visx/group";
 import { Pie } from "@visx/shape";
 import { Text } from "@visx/text";
 import BigNumber from "bignumber.js";
-import Loader from "react-loader-spinner";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import { Oval } from "react-loader-spinner";
 
 const StyledTotalValueLockedCard = styled(Card)`
   height: 100%;
@@ -30,7 +29,7 @@ const PieChart = ({ pieData, pieLoading, pieError }) => {
       <StyledTotalValueLockedCard>
         <CNCardBody>
           <CNHeading>YGN Distribution</CNHeading>
-          <Loader type="Oval" height={300} width={200} color="#d47a3e" />
+          <Oval height={300} width={200} color="#d47a3e" />
         </CNCardBody>
       </StyledTotalValueLockedCard>
     );

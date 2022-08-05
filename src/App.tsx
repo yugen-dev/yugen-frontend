@@ -17,6 +17,7 @@ import ToastListener from "./components/ToastListener";
 import PageLoader from "./components/PageLoader";
 import history from "./routerHistory";
 import Farms from "./views/Farms";
+import Vaults from "./views/Vaults";
 
 // Route-based code splitting
 // Only farms is included in the main bundle because of it's the most visited page
@@ -89,6 +90,9 @@ const App: React.FC = () => {
               </Route>
               <Route path="/bonds">
                 <Bonds />
+              </Route>
+              <Route path="/vaults">
+                <Vaults />
               </Route>
               <Route exact path="/rewardsmanager" component={RewardsManager} />
 
