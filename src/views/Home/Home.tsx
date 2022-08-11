@@ -96,7 +96,9 @@ const Home: React.FC = () => {
   };
 
   useEffect(() => {
-    farmsGetterFunc();
+    farmsGetterFunc().catch((e) =>
+      console.error("Error while fetching farms: ", e)
+    );
   });
 
   return (
@@ -108,7 +110,7 @@ const Home: React.FC = () => {
       }}
     >
       <HomeContainer>
-        <Grid container spacing={5} justify="center">
+        <Grid container spacing={5} justifyContent="center">
           <Grid item xs={12} md={6} lg={6} xl={6}>
             <Hero>
               <Heading size="xxl">Yugen</Heading>
@@ -180,7 +182,7 @@ const Home: React.FC = () => {
                   lineHeight="1.5"
                   prefix="$"
                   fontSize="38px"
-                  decimals={0}
+                  decimals={2}
                 />
               </div>
 
@@ -248,9 +250,9 @@ const Home: React.FC = () => {
 const HomeContainer = styled.div``;
 
 const Hero = styled.div`
-  align-items: left;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   text-align: center;
 `;
 
@@ -283,7 +285,7 @@ const Hero = styled.div`
 const Card2 = styled.div`
   background: #ffffff;
   width: 100%;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   border-radius: 1rem;
   padding: 30px 15px;
   display: flex;

@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import { useCountUp } from "react-countup";
+import React from "react";
+import CountUp from "react-countup";
 import { Text } from "yugen-uikit";
 
 export interface CardValueProps {
@@ -21,22 +21,6 @@ const CardValue: React.FC<CardValueProps> = ({
   bold = true,
   color = "#424945",
 }) => {
-  const { countUp, update } = useCountUp({
-    start: 0,
-    end: value,
-    duration: 1,
-    separator: ",",
-    decimals:
-      // eslint-disable-next-line no-nested-ternary
-      decimals !== undefined ? decimals : value < 0 ? 4 : value > 1e5 ? 0 : 3,
-  });
-
-  const updateValue = useRef(update);
-
-  useEffect(() => {
-    updateValue.current(value);
-  }, [value, updateValue]);
-
   return (
     <Text
       bold={bold}
@@ -45,7 +29,11 @@ const CardValue: React.FC<CardValueProps> = ({
       color={color}
     >
       {prefix}
-      {countUp}
+      <CountUp
+        end={value}
+        decimal="."
+        decimals={decimals !== undefined ? decimals : 2}
+      />
     </Text>
   );
 };

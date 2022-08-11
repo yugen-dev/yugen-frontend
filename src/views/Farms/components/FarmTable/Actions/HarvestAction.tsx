@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { Button } from "yugen-uikit";
 import BigNumber from "bignumber.js";
@@ -7,7 +7,7 @@ import { getBalanceNumber } from "utils/formatBalance";
 import { useHarvest } from "hooks/useHarvest";
 import useI18n from "hooks/useI18n";
 import { usePriceCakeBusd } from "state/hooks";
-import { useCountUp } from "react-countup";
+import CountUp from "react-countup";
 
 import {
   ActionContainer,
@@ -40,19 +40,6 @@ const HarvestAction: React.FunctionComponent<FarmWithStakedValue> = ({
   const { onReward } = useHarvest(pid);
   const TranslateString = useI18n();
 
-  const { countUp, update } = useCountUp({
-    start: 0,
-    end: earningsBusd,
-    duration: 1,
-    separator: ",",
-    decimals: 3,
-  });
-  const updateValue = useRef(update);
-
-  useEffect(() => {
-    updateValue.current(earningsBusd);
-  }, [earningsBusd, updateValue]);
-
   return (
     <ActionContainer>
       <ActionTitles>
@@ -62,7 +49,10 @@ const HarvestAction: React.FunctionComponent<FarmWithStakedValue> = ({
       <ActionContent>
         <div>
           <Earned>{displayBalance}</Earned>
-          <Staked>~ ${countUp}</Staked>
+          <Staked>
+            ~
+            <CountUp end={earningsBusd} decimal="." decimals={3} />
+          </Staked>
         </div>
         {/* // TODO: re-implement Button CNButton or imported Button  */}
         <Button
