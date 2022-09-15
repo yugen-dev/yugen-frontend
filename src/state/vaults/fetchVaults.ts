@@ -1,6 +1,7 @@
 import BigNumber from "bignumber.js";
 import erc20 from "config/abi/erc20.json";
 import vaultStratergyABI from "config/abi/vaultStratergy.json";
+import vaultERC4626ABI from "config/abi/VaultERC4626.json";
 import multicall from "utils/multicall";
 import { getAddress } from "utils/addressHelpers";
 import vaultsConfig from "config/constants/vaults";
@@ -8,21 +9,34 @@ import { VaultConfig } from "config/constants/types";
 import { fetchPrice } from "state/hooks";
 
 const fetchVaults = async () => {
-  const data = await Promise.all(
-    vaultsConfig.map(async (vaultConfig: VaultConfig) => {
-      // const proxyAddress = getAddress(vaultConfig.proxyAddress);
-      const lpAddress = getAddress(vaultConfig.lpTokenAddress);
-      //const lpFarmAddress = getAddress(vaultConfig.lpTokenFarmAddress);
-      const stratergyAddress = getAddress(vaultConfig.strategyAddress);
+  const vaultsfetch = await fetch("https://api.penrose.money/pools", {
+    method: "GET"
+  });
+  const vaultsdata = await vaultsfetch.json()
+  console.log(vaultsdata[0].totalApr)
 
-      const [lpTokenBalanceInVaults] = await multicall(vaultStratergyABI, [
-        // Balance of LP tokens in the master chef contract
+  const data = await Promise.all(
+
+    vaultsConfig.map(async (vaultConfig: VaultConfig) => {
+
+      const lpAddress = getAddress(vaultConfig.lpTokenAddress);
+      const vaultAddress = getAddress(vaultConfig.vaultAddress);
+      const vaultaprdata = await vaultsdata.filter(v => v.poolData.id === lpAddress);
+      console.log(vaultaprdata)
+      const vaultapr = (vaultaprdata[0].totalApr.toString())
+      console.log(typeof (vaultapr), vaultapr)
+      const [lpTokenBalanceInVaults] = await multicall(vaultERC4626ABI, [
+        // Balance of LP tokens in vaults
+
         {
-          address: stratergyAddress,
-          name: "wantLockedTotal",
+          address: vaultAddress,
+          name: "totalAssets",
         },
       ]);
 
+
+
+      console.log("lptokensinvaults", lpTokenBalanceInVaults);
       const calls = [
         // Balance of non-quote token in the LP contract
         {
@@ -51,13 +65,8 @@ const fetchVaults = async () => {
           address: getAddress(vaultConfig.quoteTokenAddress),
           name: "decimals",
         },
-        // {
-        //   address: lpAddress,
-        //   name: "balanceOf",
-        //   params: [lpFarmAddress],
-        // },
-      ];
 
+      ];
 
       const [
         balanceOfNonQuoteToken,
@@ -65,13 +74,15 @@ const fetchVaults = async () => {
         lpTotalSupply,
         nonQuoteTokenDecimals,
         quoteTokenDecimals,
-        //lpTokenBalanceInUnderlyingFarm,
+
       ] = await multicall(erc20, calls);
 
-      // // Ratio in % a LP tokens that are in staking, vs the total number in circulation
-      // const lpTokenRatioOfUnderlyingFarm = new BigNumber(
-      //   lpTokenBalanceInUnderlyingFarm
-      // ).div(new BigNumber(lpTotalSupply));
+      const lpTokenBalanceInUnderlyingFarm = lpTokenBalanceInVaults
+
+      // Ratio in % a LP tokens that are in staking, vs the total number in circulation
+      const lpTokenRatioOfUnderlyingFarm = new BigNumber(
+        lpTokenBalanceInUnderlyingFarm
+      ).div(new BigNumber(lpTotalSupply));
 
       const lpTokenRatioOfVaults = new BigNumber(lpTokenBalanceInVaults).div(
         new BigNumber(lpTotalSupply)
@@ -83,27 +94,27 @@ const fetchVaults = async () => {
         .times(lpTokenRatioOfVaults);
 
       // Total value in staking in quote token value
-      // const lpTotalInQuoteToken = new BigNumber(balanceOfQuoteToken)
-      //   .div(new BigNumber(10).pow(18))
-      //   .times(new BigNumber(2))
-      //   .times(lpTokenRatioOfUnderlyingFarm);
+      const lpTotalInQuoteToken = new BigNumber(balanceOfQuoteToken)
+        .div(new BigNumber(10).pow(18))
+        .times(new BigNumber(2))
+        .times(lpTokenRatioOfUnderlyingFarm);
 
       const lpTokenBalanceInVaultsInBN = new BigNumber(
         lpTokenBalanceInVaults
       ).dividedBy(new BigNumber(10).pow(18));
 
-      // const lpTokenBalanceInUnderlyingFarmInBN = new BigNumber(
-      //   lpTokenBalanceInUnderlyingFarm
-      // ).dividedBy(new BigNumber(10).pow(18));
+      const lpTokenBalanceInUnderlyingFarmInBN = new BigNumber(
+        lpTokenBalanceInUnderlyingFarm
+      ).dividedBy(new BigNumber(10).pow(18));
 
-      // // Amount of token in the LP that are considered staking (i.e amount of token * lp ratio)
-      // const nonQuotetokenAmount = new BigNumber(balanceOfNonQuoteToken)
-      //   .div(new BigNumber(10).pow(nonQuoteTokenDecimals))
-      //   .times(lpTokenRatioOfUnderlyingFarm);
+      // Amount of token in the LP that are considered staking (i.e amount of token * lp ratio)
+      const nonQuotetokenAmount = new BigNumber(balanceOfNonQuoteToken)
+        .div(new BigNumber(10).pow(nonQuoteTokenDecimals))
+        .times(lpTokenRatioOfUnderlyingFarm);
 
-      // const quoteTokenAmount = new BigNumber(balanceOfQuoteToken)
-      //   .div(new BigNumber(10).pow(quoteTokenDecimals))
-      //   .times(lpTokenRatioOfUnderlyingFarm);
+      const quoteTokenAmount = new BigNumber(balanceOfQuoteToken)
+        .div(new BigNumber(10).pow(quoteTokenDecimals))
+        .times(lpTokenRatioOfUnderlyingFarm);
 
       // fetch price of underlying token from coin gecko here... & calculate APR
       let priceOfRewardToken = new BigNumber(1);
@@ -122,16 +133,16 @@ const fetchVaults = async () => {
 
       return {
         ...vaultConfig,
-        // nonQuoteTokenAmount: nonQuotetokenAmount.toJSON(),
-        // quoteTokenAmount: quoteTokenAmount.toJSON(),
-        // lpTotalInQuoteToken: lpTotalInQuoteToken.toJSON(),
+        nonQuoteTokenAmount: nonQuotetokenAmount.toJSON(),
+        quoteTokenAmount: quoteTokenAmount.toJSON(),
+        lpTotalInQuoteToken: lpTotalInQuoteToken.toJSON(),
         lpTotalInQuoteTokenOfVaults: lpTotalInQuoteTokenOfVaults.toJSON(),
-        // nonQuoteVsQuote: quoteTokenAmount.div(nonQuotetokenAmount).toJSON(),
+        nonQuoteVsQuote: quoteTokenAmount.div(nonQuotetokenAmount).toJSON(),
         priceOfRewardToken: priceOfRewardToken.toJSON(),
         priceOfQuoteToken: priceOfQuoteToken.toJSON(),
         priceOfNonQuoteToken: priceOfNonQuoteToken.toJSON(),
-        //  totalLPTokensStakedInFarms: lpTokenBalanceInUnderlyingFarmInBN.toJSON(),
         totalLPTokensStakedInVaults: lpTokenBalanceInVaultsInBN.toJSON(),
+        totalapr: vaultapr
       };
     })
   );

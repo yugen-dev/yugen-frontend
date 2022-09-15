@@ -11,8 +11,8 @@ import { getERC20Contract } from "utils/contractHelpers";
 import { BASE_ADD_LIQUIDITY_URL } from "config";
 import { getBalanceNumber } from "utils/formatBalance";
 // import { useVaultStake } from "hooks/useStake";
-import { useVaultStake } from "hooks/useProxyStake";
-import { useVaultUnstake } from "hooks/useProxyUnstake";
+import { useVaultStake } from "hooks/useStake";
+import { useVaultUnstake } from "hooks/useUnstake";
 import useWeb3 from "hooks/useWeb3";
 
 import { getAddress } from "utils/addressHelpers";

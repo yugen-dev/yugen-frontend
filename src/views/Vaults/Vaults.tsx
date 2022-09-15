@@ -219,16 +219,6 @@ const Vaults: React.FC = () => {
 
           const priceOf1RewardToken = new BigNumber(vault?.priceOfRewardToken);
 
-          // // daily apr
-          // const apr = new BigNumber(
-          //   priceOf1RewardToken
-          //     .multipliedBy(vault.blocksPerYearOfRewardToken)
-          //     .multipliedBy(vault.rewardTokenPerBlockPerPool)
-          //     .dividedBy(liquidity.toFixed(3))
-          //     .multipliedBy(100)
-          //     .toFixed(2)
-          // );
-
           const apr = new BigNumber(vault.totalapr);
 
           const n = 365 * 24;
