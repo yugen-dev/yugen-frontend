@@ -35,8 +35,8 @@ const Farm: React.FunctionComponent<FarmProps> = ({ image, label, tag }) => {
       <IconImage
         src={`/images/farms/${image}.png`}
         alt="icon"
-        width={40}
-        height={40}
+        width={80}
+        height={50}
         mr="8px"
       />
       <div>

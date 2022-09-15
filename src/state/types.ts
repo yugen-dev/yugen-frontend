@@ -12,12 +12,12 @@ import {
 export type TranslatableText =
   | string
   | {
-      id: number;
-      fallback: string;
-      data?: {
-        [key: string]: string | number;
-      };
+    id: number;
+    fallback: string;
+    data?: {
+      [key: string]: string | number;
     };
+  };
 
 export interface Vault extends VaultConfig {
   nonQuoteTokenAmount?: BigNumber;
@@ -30,6 +30,7 @@ export interface Vault extends VaultConfig {
   priceOfRewardToken?: BigNumber;
   poolWeight?: BigNumber;
   multiplier?: string;
+  totalapr: BigNumber;
   totalLPTokensStakedInFarms?: BigNumber;
   totalLPTokensStakedInVaults?: BigNumber;
   userData?: {

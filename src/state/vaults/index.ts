@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from "@reduxjs/toolkit";
 import vaultsConfig from "config/constants/vaults";
-import fetchVaults from "./fetchVaults";
+import fetchVaultsProxy from "./fetchVaultsProxy";
 import {
   fetchVaultUserAllowances,
   fetchVaultLpBalances,
@@ -39,7 +39,7 @@ export const { setVaultsPublicData, setVaultUserData } = vaultsSlice.actions;
 
 // Thunks
 export const fetchVaultsPublicDataAsync = () => async (dispatch) => {
-  const vaults = await fetchVaults();
+  const vaults = await fetchVaultsProxy();
   dispatch(setVaultsPublicData(vaults));
 };
 export const fetchVaultUserDataAsync = (account) => async (dispatch) => {

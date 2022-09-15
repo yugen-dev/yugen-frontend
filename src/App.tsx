@@ -88,12 +88,13 @@ const App: React.FC = () => {
               <Route path="/fygnburner">
                 <FYGNBurner />
               </Route>
-              <Route path="/bonds">
-                <Bonds />
-              </Route>
               <Route path="/vaults">
                 <Vaults />
               </Route>
+              <Route path="/bonds">
+                <Bonds />
+              </Route>
+
               <Route exact path="/rewardsmanager" component={RewardsManager} />
 
               {/* 404 */}

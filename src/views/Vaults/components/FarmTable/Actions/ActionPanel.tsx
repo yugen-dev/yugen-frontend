@@ -161,7 +161,7 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
             </StyledTextValueItem>
           </StyledText>
 
-          <StyledText>
+          {/* <StyledText>
             <StyledTextLabelItem>
               {" "}
               {vault.quoteTokenSymbol} balance{" "}
@@ -203,7 +203,7 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
               ).toFixed(2)}
               )
             </StyledTextValueItem>
-          </StyledText>
+          </StyledText> */}
 
           <StyledText style={{ marginTop: "10px" }}>
             <StyledTextLabelItem> Daily ROI</StyledTextLabelItem>{" "}

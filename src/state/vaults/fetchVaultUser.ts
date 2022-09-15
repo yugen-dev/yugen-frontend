@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 import erc20ABI from "config/abi/erc20.json";
-import vaultABI from "config/abi/vault.json";
+import vaultABI from "config/abi/VaultERC4626.json";
 import multicall from "utils/multicall";
 import vaultsConfig from "config/constants/vaults";
 import { getAddress } from "utils/addressHelpers";
@@ -79,12 +79,14 @@ export const fetchVaultUserStakedBalances = async (account: string) => {
     const vaultAddress = getAddress(vault.vaultAddress);
     return {
       address: vaultAddress,
-      name: "stakedWantTokens",
-      params: [vault.pid, account],
+      name: "balanceOf",
+      params: [account]
+      // name: "stakedWantTokens",
+      // params: [vault.pid, account],
     };
   });
 
-  const rawStakedBalances = await multicall(vaultABI, calls);
+  const rawStakedBalances = await multicall(erc20ABI, calls);
   const parsedStakedBalances = rawStakedBalances.map((stakedBalance) => {
     return new BigNumber(stakedBalance[0]._hex).toJSON();
   });

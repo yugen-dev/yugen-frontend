@@ -27,6 +27,7 @@ import {
   getFygnAddress,
   getFarmWrapperAddress,
   getCxEthWethFarmWrapperAddress,
+  getProxyAddress
 } from "utils/addressHelpers";
 
 // ABI
@@ -42,7 +43,7 @@ import ifoAbi from "config/abi/ifo.json";
 import pointCenterIfo from "config/abi/pointCenterIfo.json";
 import lotteryTicketAbi from "config/abi/lotteryNft.json";
 import farmABI from "config/abi/farm.json";
-import vaultAbi from "config/abi/vault.json";
+import vaultAbi from "config/abi/VaultERC4626.json"; // change
 import ygnStaker from "config/abi/ygnStaker.json";
 import sousChef from "config/abi/sousChef.json";
 import sousChefBnb from "config/abi/sousChefBnb.json";
@@ -55,6 +56,7 @@ import fygnAbi from "config/abi/fygn_abi.json";
 import fygnBurnerAbi from "config/abi/fygn_burner.json";
 import farmWrapperAbi from "config/abi/farmWrapper.json";
 import cxEthWethFarmWrapperAbi from "config/abi/cxEthWethFarmWrapper.json";
+import proxyABI from "config/abi/proxy.json"; // change
 
 export const getContract = (abi: any, address: string, web3?: Web3) => {
   const _web3 = web3 ?? web3NoAccount;
@@ -119,6 +121,11 @@ export const getLotteryTicketContract = (web3?: Web3) => {
 export const getMasterchefContract = (web3?: Web3) => {
   return getContract(farmABI, getFarmAddress(), web3);
 };
+
+export const getProxyContract = (web3?: Web3) => {    // change
+  return getContract(proxyABI, getProxyAddress(), web3);
+};
+
 export const getFarmWrapper = (web3?: Web3) => {
   return getContract(farmWrapperAbi, getFarmWrapperAddress(), web3);
 };

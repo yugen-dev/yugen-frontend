@@ -9,6 +9,7 @@ export const nodes = {
   "1": [process.env.REACT_APP_MAINNET_NETWORK_URL],
   "250": [process.env.REACT_APP_FANTOM_MAINNET_NETWORK_URL],
   "4002": [process.env.REACT_APP_FANTOM_TESTNET_NETWORK_URL],
+  "31337": [process.env.REACT_APP_LocalHost_NETWORK_URL]
 };
 
 const getNodeUrl = () => {

@@ -23,6 +23,7 @@ export interface RowProps {
   liquidity: LiquidityProps;
   deposited: DepositedProps;
   details: VaultWithStakedValue;
+  totalapr: any;
 }
 
 const cells = {
