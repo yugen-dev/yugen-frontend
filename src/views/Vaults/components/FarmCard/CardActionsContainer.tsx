@@ -100,7 +100,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({
   const [showTranscationsModal, toggleTranscationsModal] = useState(false);
   const [stakeEthProcessEth, setStakeEthProcessEth] = useState(0);
   const chainId = useChainId().toString();
-  // console.log('farm details', crossChainTranscations);
+
   const { pid, lpAddresses, singleSidedToken, singleSidedToToken } =
     useFarmFromSymbol(farm.lpSymbol);
 

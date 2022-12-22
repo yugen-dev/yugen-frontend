@@ -59,8 +59,6 @@ export const fetchVaultUserDataAsync = (account) => async (dispatch) => {
   const userVaultWithdrawableBalances =
     await fetchVaultUserWithdrawableBalances(account);
 
-  console.log("userVaultWithdrawableBalances", userVaultWithdrawableBalances);
-
   const arrayOfUserDataObjects = userVaultAllowances.map(
     (vaultAllowance, index) => {
       return {
@@ -70,7 +68,7 @@ export const fetchVaultUserDataAsync = (account) => async (dispatch) => {
         firstLpTokenBalance: userVaultFirstLpTokenBalance[index],
         secondLpTokenBalance: userVaultSecondLpTokenBalance[index],
         stakedBalance: userVaultUserStakedBalances[index],
-        withhdrawableBalance: userVaultWithdrawableBalances[index],
+        withdrawableBalance: userVaultWithdrawableBalances[index],
       };
     }
   );

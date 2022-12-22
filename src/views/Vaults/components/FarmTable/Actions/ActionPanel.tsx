@@ -125,10 +125,6 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
   const lpLabel =
     vault.lpTokenName && vault.lpTokenName.toUpperCase().replace("PANCAKE", "");
 
-  console.log(
-    "vault withdrwable balance",
-    vault?.userData?.withdrawableBalance
-  );
   return (
     <Container>
       <ValueContainer>
@@ -152,7 +148,7 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
               {getBalanceNumber(
                 new BigNumber(vault?.userData?.stakedBalance)
               ).toFixed(2)}{" "}
-              {vault?.lpTokenName} LP
+              LP
             </StyledTextValueItem>
           </StyledText>
 
@@ -162,7 +158,7 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
               {getBalanceNumber(
                 new BigNumber(vault?.userData?.withdrawableBalance)
               ).toFixed(2)}{" "}
-              {vault?.lpTokenName} LP
+              LP
             </StyledTextValueItem>
           </StyledText>
 
@@ -170,8 +166,8 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
             <StyledTextLabelItem>In Wallet</StyledTextLabelItem>
             <StyledTextValueItem>
               {" "}
-              {wallet?.value} {vault?.lpTokenName} LP ($
-              {totalBalanceValue.toFixed(2)})
+              {wallet?.value} LP
+              {/* ($ {totalBalanceValue.toFixed(2)}) */}
             </StyledTextValueItem>
           </StyledText>
 
