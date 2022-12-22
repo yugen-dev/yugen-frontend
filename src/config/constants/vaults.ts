@@ -5,29 +5,26 @@ const vaultsEthereumMainnet: VaultConfig[] = [];
 const vaultsEthereumTestnet: VaultConfig[] = [];
 
 const vaultsMaticMainnet: VaultConfig[] = [
-
   {
     pid: 1,
     tag: "Penrose",
-    lpTokenName: "DYST-WMATIC-Volatile",
-    coinGeckoLpTokenName: "DYST-WMATIC",
+    lpTokenName: "WMATIC-STMATIC-STABLE",
+    coinGeckoLpTokenName: "WMATIC-STMATIC",
     rewardTokenCoinGecko: "dystopia",
     quoteTokenCoinGecko: "WMATIC",
-    nonQuoteTokenCoinGecko: "dystopia",
+    nonQuoteTokenCoinGecko: "STMATIC",
     // blocksPerYearOfRewardToken: 31536000,
     // rewardTokenPerBlockPerPool: 0.0632,
 
-
     lpTokenAddress: {
-
-      97: "0x2c5ba816da67ce34029fc4a9cc7545d207abf945",
-      56: "0x2c5ba816da67ce34029fc4a9cc7545d207abf945",
-      80001: "0x2c5ba816da67ce34029fc4a9cc7545d207abf945",
-      137: "0x2c5ba816da67ce34029fc4a9cc7545d207abf945",
-      31337: "0x1e08A5B6A1694bC1A65395db6f4c506498DAA349",
-      1: "0x2c5ba816da67ce34029fc4a9cc7545d207abf945",
-      250: "0x2c5ba816da67ce34029fc4a9cc7545d207abf945",
-      4002: "0x2c5ba816da67ce34029fc4a9cc7545d207abf945",
+      97: "0x1237feA0b26F68191d50900BfFD85E142697C423",
+      56: "0x1237feA0b26F68191d50900BfFD85E142697C423",
+      80001: "0x1237feA0b26F68191d50900BfFD85E142697C423",
+      137: "0x1237feA0b26F68191d50900BfFD85E142697C423",
+      31337: "0x1237feA0b26F68191d50900BfFD85E142697C423",
+      1: "0x1237feA0b26F68191d50900BfFD85E142697C423",
+      250: "0x1237feA0b26F68191d50900BfFD85E142697C423",
+      4002: "0x1237feA0b26F68191d50900BfFD85E142697C423",
     },
 
     // lpTokenFarmAddress: {
@@ -42,149 +39,133 @@ const vaultsMaticMainnet: VaultConfig[] = [
     // },
 
     lpTokenPart1Address: {
-
-      97: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
-      56: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
-      80001: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
-      137: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
+      97: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+      56: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+      80001: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+      137: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
       31337: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
-      1: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
-      250: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
-      4002: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
-
+      1: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+      250: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+      4002: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
     },
     lpTokenPart2Address: {
-
-      97: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
-      56: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
-      80001: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
-      137: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
-      31337: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
-      1: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
-      250: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
-      4002: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
-
+      97: "0x3A58a54C066FdC0f2D55FC9C89F0415C92eBf3C4",
+      56: "0x3A58a54C066FdC0f2D55FC9C89F0415C92eBf3C4",
+      80001: "0x3A58a54C066FdC0f2D55FC9C89F0415C92eBf3C4",
+      137: "0x3A58a54C066FdC0f2D55FC9C89F0415C92eBf3C4",
+      31337: "0x3A58a54C066FdC0f2D55FC9C89F0415C92eBf3C4",
+      1: "0x3A58a54C066FdC0f2D55FC9C89F0415C92eBf3C4",
+      250: "0x3A58a54C066FdC0f2D55FC9C89F0415C92eBf3C4",
+      4002: "0x3A58a54C066FdC0f2D55FC9C89F0415C92eBf3C4",
     },
     vaultAddress: {
-      97: "0x858CC26a30B06f86a5CE5cdCBd735B3c255b0b14",
-      56: "0x858CC26a30B06f86a5CE5cdCBd735B3c255b0b14",
-      80001: "0x858CC26a30B06f86a5CE5cdCBd735B3c255b0b14",
-      137: "0x858CC26a30B06f86a5CE5cdCBd735B3c255b0b14",
-      31337: "0x33bF377A2FFA05e5d7eDF2121E6202EF2966731E",
-      1: "0x858CC26a30B06f86a5CE5cdCBd735B3c255b0b14",
-      250: "0x858CC26a30B06f86a5CE5cdCBd735B3c255b0b14",
-      4002: "0x858CC26a30B06f86a5CE5cdCBd735B3c255b0b14",
-
+      97: "0xe4Cd411940083b1c95406E11e518918A4D92F1EF",
+      56: "0xe4Cd411940083b1c95406E11e518918A4D92F1EF",
+      80001: "0xe4Cd411940083b1c95406E11e518918A4D92F1EF",
+      137: "0xe4Cd411940083b1c95406E11e518918A4D92F1EF",
+      31337: "0xe4Cd411940083b1c95406E11e518918A4D92F1EF",
+      1: "0xe4Cd411940083b1c95406E11e518918A4D92F1EF",
+      250: "0xe4Cd411940083b1c95406E11e518918A4D92F1EF",
+      4002: "0xe4Cd411940083b1c95406E11e518918A4D92F1EF",
     },
     strategyAddress: {
-
-
-      97: "0xbA040D73aDE0B2f8ad9c8A674971A66A2022DbFF",
-      56: "0xbA040D73aDE0B2f8ad9c8A674971A66A2022DbFF",
-      80001: "0xbA040D73aDE0B2f8ad9c8A674971A66A2022DbFF",
-      137: "0xbA040D73aDE0B2f8ad9c8A674971A66A2022DbFF",
-      31337: "0x36A7f9ca3EBD83E00c1bca3A1db378bcF039Bf85",
-      1: "0xbA040D73aDE0B2f8ad9c8A674971A66A2022DbFF",
-      250: "0xbA040D73aDE0B2f8ad9c8A674971A66A2022DbFF",
-      4002: "0xbA040D73aDE0B2f8ad9c8A674971A66A2022DbFF",
-
+      97: "0x83de1c86ac72de937fbe7c99f040513d0dff28d9",
+      56: "0x83de1c86ac72de937fbe7c99f040513d0dff28d9",
+      80001: "0x83de1c86ac72de937fbe7c99f040513d0dff28d9",
+      137: "0x83de1c86ac72de937fbe7c99f040513d0dff28d9",
+      31337: "0x83de1c86ac72de937fbe7c99f040513d0dff28d9",
+      1: "0x83de1c86ac72de937fbe7c99f040513d0dff28d9",
+      250: "0x83de1c86ac72de937fbe7c99f040513d0dff28d9",
+      4002: "0x83de1c86ac72de937fbe7c99f040513d0dff28d9",
     },
     quoteTokenSymbol: QuoteToken.WMATIC,
-    quoteTokenAddress: contracts.wbnb,
-    nonQuoteTokenSymbol: QuoteToken.DYST,
-    nonQuoteTokenAddress: contracts.dyst,
-    addLiquidityLink:
-      `https://www.dystopia.exchange/liquidity/0x1e08A5B6A1694bC1A65395db6f4c506498DAA349`,
+    quoteTokenAddress: contracts.wmatic,
+    nonQuoteTokenSymbol: QuoteToken.STMATIC,
+    nonQuoteTokenAddress: contracts.stmatic,
+    addLiquidityLink: `https://www.dystopia.exchange/liquidity/0x1e08A5B6A1694bC1A65395db6f4c506498DAA349`,
     blockExplorerLink:
       "https://polygonscan.com/address/0x1e08A5B6A1694bC1A65395db6f4c506498DAA349",
   },
 
+  // {
+  //   pid: 2,
+  //   tag: "Penrose",
+  //   lpTokenName: "PEN-WMATIC-Volatile",
+  //   coinGeckoLpTokenName: "PEN-WMATIC",
+  //   rewardTokenCoinGecko: "penrose-finance",
+  //   quoteTokenCoinGecko: "WMATIC",
+  //   nonQuoteTokenCoinGecko: "penrose-finance",
+  //   // blocksPerYearOfRewardToken: 31536000,
+  //   // rewardTokenPerBlockPerPool: 0.0632,
 
-  {
-    pid: 2,
-    tag: "Penrose",
-    lpTokenName: "PEN-WMATIC-Volatile",
-    coinGeckoLpTokenName: "PEN-WMATIC",
-    rewardTokenCoinGecko: "penrose-finance",
-    quoteTokenCoinGecko: "WMATIC",
-    nonQuoteTokenCoinGecko: "penrose-finance",
-    // blocksPerYearOfRewardToken: 31536000,
-    // rewardTokenPerBlockPerPool: 0.0632,
+  //   lpTokenAddress: {
 
+  //     97: "0x2c5ba816da67ce34029fc4a9cc7545d207abf945",
+  //     56: "0x2c5ba816da67ce34029fc4a9cc7545d207abf945",
+  //     80001: "0x2c5ba816da67ce34029fc4a9cc7545d207abf945",
+  //     137: "0x2c5ba816da67ce34029fc4a9cc7545d207abf945",
+  //     31337: "0x2c5Ba816Da67cE34029fC4A9Cc7545d207ABF945",
+  //     1: "0x2c5ba816da67ce34029fc4a9cc7545d207abf945",
+  //     250: "0x2c5ba816da67ce34029fc4a9cc7545d207abf945",
+  //     4002: "0x2c5ba816da67ce34029fc4a9cc7545d207abf945",
+  //   },
 
-    lpTokenAddress: {
+  //   lpTokenPart1Address: {
 
-      97: "0x2c5ba816da67ce34029fc4a9cc7545d207abf945",
-      56: "0x2c5ba816da67ce34029fc4a9cc7545d207abf945",
-      80001: "0x2c5ba816da67ce34029fc4a9cc7545d207abf945",
-      137: "0x2c5ba816da67ce34029fc4a9cc7545d207abf945",
-      31337: "0x2c5Ba816Da67cE34029fC4A9Cc7545d207ABF945",
-      1: "0x2c5ba816da67ce34029fc4a9cc7545d207abf945",
-      250: "0x2c5ba816da67ce34029fc4a9cc7545d207abf945",
-      4002: "0x2c5ba816da67ce34029fc4a9cc7545d207abf945",
-    },
+  //     97: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
+  //     56: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
+  //     80001: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
+  //     137: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
+  //     31337: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
+  //     1: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
+  //     250: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
+  //     4002: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
 
+  //   },
+  //   lpTokenPart2Address: {
 
+  //     97: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
+  //     56: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
+  //     80001: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
+  //     137: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
+  //     31337: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+  //     1: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
+  //     250: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
+  //     4002: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
 
-    lpTokenPart1Address: {
+  //   },
+  //   vaultAddress: {
+  //     97: "0x858CC26a30B06f86a5CE5cdCBd735B3c255b0b14",
+  //     56: "0x858CC26a30B06f86a5CE5cdCBd735B3c255b0b14",
+  //     80001: "0x858CC26a30B06f86a5CE5cdCBd735B3c255b0b14",
+  //     137: "0x858CC26a30B06f86a5CE5cdCBd735B3c255b0b14",
+  //     31337: "0xe4f2222d155699B7d23E69c1D1264C947A59eda8",
+  //     1: "0x858CC26a30B06f86a5CE5cdCBd735B3c255b0b14",
+  //     250: "0x858CC26a30B06f86a5CE5cdCBd735B3c255b0b14",
+  //     4002: "0x858CC26a30B06f86a5CE5cdCBd735B3c255b0b14",
 
-      97: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
-      56: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
-      80001: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
-      137: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
-      31337: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
-      1: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
-      250: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
-      4002: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
+  //   },
+  //   strategyAddress: {
 
-    },
-    lpTokenPart2Address: {
+  //     97: "0xbA040D73aDE0B2f8ad9c8A674971A66A2022DbFF",
+  //     56: "0xbA040D73aDE0B2f8ad9c8A674971A66A2022DbFF",
+  //     80001: "0xbA040D73aDE0B2f8ad9c8A674971A66A2022DbFF",
+  //     137: "0xbA040D73aDE0B2f8ad9c8A674971A66A2022DbFF",
+  //     31337: "0x247005eFa6fe1E8Fa828c24b82044f74D7b2D49e",
+  //     1: "0xbA040D73aDE0B2f8ad9c8A674971A66A2022DbFF",
+  //     250: "0xbA040D73aDE0B2f8ad9c8A674971A66A2022DbFF",
+  //     4002: "0xbA040D73aDE0B2f8ad9c8A674971A66A2022DbFF",
 
-      97: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
-      56: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
-      80001: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
-      137: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
-      31337: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
-      1: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
-      250: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
-      4002: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
-
-    },
-    vaultAddress: {
-      97: "0x858CC26a30B06f86a5CE5cdCBd735B3c255b0b14",
-      56: "0x858CC26a30B06f86a5CE5cdCBd735B3c255b0b14",
-      80001: "0x858CC26a30B06f86a5CE5cdCBd735B3c255b0b14",
-      137: "0x858CC26a30B06f86a5CE5cdCBd735B3c255b0b14",
-      31337: "0xe4f2222d155699B7d23E69c1D1264C947A59eda8",
-      1: "0x858CC26a30B06f86a5CE5cdCBd735B3c255b0b14",
-      250: "0x858CC26a30B06f86a5CE5cdCBd735B3c255b0b14",
-      4002: "0x858CC26a30B06f86a5CE5cdCBd735B3c255b0b14",
-
-    },
-    strategyAddress: {
-
-
-      97: "0xbA040D73aDE0B2f8ad9c8A674971A66A2022DbFF",
-      56: "0xbA040D73aDE0B2f8ad9c8A674971A66A2022DbFF",
-      80001: "0xbA040D73aDE0B2f8ad9c8A674971A66A2022DbFF",
-      137: "0xbA040D73aDE0B2f8ad9c8A674971A66A2022DbFF",
-      31337: "0x247005eFa6fe1E8Fa828c24b82044f74D7b2D49e",
-      1: "0xbA040D73aDE0B2f8ad9c8A674971A66A2022DbFF",
-      250: "0xbA040D73aDE0B2f8ad9c8A674971A66A2022DbFF",
-      4002: "0xbA040D73aDE0B2f8ad9c8A674971A66A2022DbFF",
-
-    },
-    quoteTokenSymbol: QuoteToken.WMATIC,
-    quoteTokenAddress: contracts.wbnb,
-    nonQuoteTokenSymbol: QuoteToken.PEN,
-    nonQuoteTokenAddress: contracts.pen,
-    addLiquidityLink:
-      "https://quickswap.exchange/add/0x86652c1301843b4e06fbfbbdaa6849266fb2b5e7/0xac0ec8a0a5062feecb496ac1ef7d2177f06f88b0",
-    blockExplorerLink:
-      "https://mumbai.polygonscan.com/address/0xeF4E6c3119A7a7260C1d3fA90939B32De02e363A",
-  },
-
-
+  //   },
+  //   quoteTokenSymbol: QuoteToken.WMATIC,
+  //   quoteTokenAddress: contracts.wbnb,
+  //   nonQuoteTokenSymbol: QuoteToken.PEN,
+  //   nonQuoteTokenAddress: contracts.pen,
+  //   addLiquidityLink:
+  //     "https://quickswap.exchange/add/0x86652c1301843b4e06fbfbbdaa6849266fb2b5e7/0xac0ec8a0a5062feecb496ac1ef7d2177f06f88b0",
+  //   blockExplorerLink:
+  //     "https://mumbai.polygonscan.com/address/0xeF4E6c3119A7a7260C1d3fA90939B32De02e363A",
+  // },
 ];
 const vaultsMaticTestnet: VaultConfig[] = [
   {
@@ -197,8 +178,6 @@ const vaultsMaticTestnet: VaultConfig[] = [
     nonQuoteTokenCoinGecko: "YGN",
     // blocksPerYearOfRewardToken: 31536000,
     // rewardTokenPerBlockPerPool: 0.0632,
-
-
 
     lpTokenAddress: {
       97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
@@ -355,7 +334,7 @@ const vaults = {
   "5": vaultsEthereumTestnet,
   "4002": vaultsFantomTestnet,
   "250": vaultsFantomMainnet,
-  "31337": vaultsMaticMainnet
+  "31337": vaultsMaticMainnet,
 };
 
 let chainId = process.env.REACT_APP_CHAIN_ID;

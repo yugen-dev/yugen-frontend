@@ -46,6 +46,7 @@ export enum QuoteToken {
   "MAHA" = "MAHA",
   "PEAR" = "PEAR",
   "WMATIC" = "WMATIC",
+  "STMATIC" = "STMATIC",
   "USDC" = "USDC",
   "DAI" = "DAI",
   "USDT" = "USDT",

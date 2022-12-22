@@ -32,7 +32,6 @@ import {
   getFygnBurnerContract,
   getFarmWrapper,
   getCxEthWethFarmWrapper,
-  getProxyContract
 } from "utils/contractHelpers";
 import { useChainId } from "state/application/hooks";
 import yugenMigrator from "config/abi/yugenMigrator.json";
@@ -97,12 +96,6 @@ export const useMasterchef = () => {
   const web3 = useWeb3();
   return useMemo(() => getMasterchefContract(web3), [web3]);
 };
-
-export const useProxy = () => {
-  const web3 = useWeb3();
-  return useMemo(() => getProxyContract(web3), [web3]); // change
-};
-
 
 export const useFarmWrapper = () => {
   const web3 = useWeb3();

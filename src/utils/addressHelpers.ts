@@ -94,7 +94,3 @@ export const getFygnAddress = () => {
 export const getFygnBurnerAddress = () => {
   return getAddress(addresses.fygnBurner);
 };
-
-export const getProxyAddress = () => {
-  return getAddress(addresses.proxy)
-};

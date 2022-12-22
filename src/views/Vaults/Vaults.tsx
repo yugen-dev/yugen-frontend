@@ -8,7 +8,6 @@ import { RowType, Toggle, Text } from "yugen-uikit";
 import styled from "styled-components";
 import { CROSS_CHAIN_API_LINK } from "config";
 import { useVaults } from "state/hooks";
-// import {useProxy} from "state/hooks"; // useProxy
 import useRefresh from "hooks/useRefresh";
 import useI18n from "hooks/useI18n";
 import { useChainId } from "state/application/hooks";
@@ -314,6 +313,17 @@ const Vaults: React.FC = () => {
           ? new BigNumber(vault.userData.stakedBalance)
           : null,
       },
+
+      withdrawableBalance: {
+        value: vault.userData
+          ? getBalanceNumber(new BigNumber(vault.userData.withdrawableBalance))
+              .toFixed(2)
+              .toString()
+          : "0",
+        originalValue: vault.userData
+          ? new BigNumber(vault.userData.withdrawableBalance)
+          : null,
+      },
       liquidity: {
         liquidity: vault.liquidity,
         realLiquidityInVaults: new BigNumber(vault?.priceOfQuoteToken)
@@ -328,9 +338,6 @@ const Vaults: React.FC = () => {
   });
 
   const renderContent = (): JSX.Element => {
-    console.log("render", vaultsStaked);
-
-    console.log(rowData);
     if (viewMode === ViewMode.TABLE && rowData.length) {
       const columnSchema = DesktopColumnSchema;
 

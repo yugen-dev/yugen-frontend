@@ -10,21 +10,20 @@ import { fetchPrice } from "state/hooks";
 
 const fetchVaults = async () => {
   const vaultsfetch = await fetch("https://api.penrose.money/pools", {
-    method: "GET"
+    method: "GET",
   });
-  const vaultsdata = await vaultsfetch.json()
-  console.log(vaultsdata[0].totalApr)
+  const vaultsdata = await vaultsfetch.json();
 
   const data = await Promise.all(
-
     vaultsConfig.map(async (vaultConfig: VaultConfig) => {
-
       const lpAddress = getAddress(vaultConfig.lpTokenAddress);
       const vaultAddress = getAddress(vaultConfig.vaultAddress);
-      const vaultaprdata = await vaultsdata.filter(v => v.poolData.id === lpAddress);
-      console.log(vaultaprdata)
-      const vaultapr = (vaultaprdata[0].totalApr.toString())
-      console.log(typeof (vaultapr), vaultapr)
+      const vaultaprdata = await vaultsdata.filter(
+        (v) => v.poolData.id === lpAddress
+      );
+
+      const vaultapr = vaultaprdata[0].totalApr.toString();
+
       const [lpTokenBalanceInVaults] = await multicall(vaultERC4626ABI, [
         // Balance of LP tokens in vaults
 
@@ -34,9 +33,6 @@ const fetchVaults = async () => {
         },
       ]);
 
-
-
-      console.log("lptokensinvaults", lpTokenBalanceInVaults);
       const calls = [
         // Balance of non-quote token in the LP contract
         {
@@ -65,7 +61,6 @@ const fetchVaults = async () => {
           address: getAddress(vaultConfig.quoteTokenAddress),
           name: "decimals",
         },
-
       ];
 
       const [
@@ -74,10 +69,9 @@ const fetchVaults = async () => {
         lpTotalSupply,
         nonQuoteTokenDecimals,
         quoteTokenDecimals,
-
       ] = await multicall(erc20, calls);
 
-      const lpTokenBalanceInUnderlyingFarm = lpTokenBalanceInVaults
+      const lpTokenBalanceInUnderlyingFarm = lpTokenBalanceInVaults;
 
       // Ratio in % a LP tokens that are in staking, vs the total number in circulation
       const lpTokenRatioOfUnderlyingFarm = new BigNumber(
@@ -142,7 +136,7 @@ const fetchVaults = async () => {
         priceOfQuoteToken: priceOfQuoteToken.toJSON(),
         priceOfNonQuoteToken: priceOfNonQuoteToken.toJSON(),
         totalLPTokensStakedInVaults: lpTokenBalanceInVaultsInBN.toJSON(),
-        totalapr: vaultapr
+        totalapr: vaultapr,
       };
     })
   );

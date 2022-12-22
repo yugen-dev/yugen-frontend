@@ -22,8 +22,9 @@ export interface RowProps {
   wallet: WalletProps;
   liquidity: LiquidityProps;
   deposited: DepositedProps;
+  withdrawableBalance: DepositedProps;
   details: VaultWithStakedValue;
-  totalapr: any;
+  totalapr: string;
 }
 
 const cells = {
