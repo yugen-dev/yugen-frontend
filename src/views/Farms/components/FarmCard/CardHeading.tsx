@@ -10,7 +10,7 @@ export interface ExpandableSectionProps {
   tokenSymbol?: string;
   tag?: string;
   isPool?: boolean;
-  subtitle?:string;
+  subtitle?: string;
 }
 
 const Wrapper = styled(Flex)`

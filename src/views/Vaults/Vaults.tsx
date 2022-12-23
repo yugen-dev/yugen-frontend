@@ -218,15 +218,7 @@ const Vaults: React.FC = () => {
 
           const priceOf1RewardToken = new BigNumber(vault?.priceOfRewardToken);
 
-          // daily apr
-          const apr = new BigNumber(
-            priceOf1RewardToken
-              .multipliedBy(vault.blocksPerYearOfRewardToken)
-              .multipliedBy(vault.rewardTokenPerBlockPerPool)
-              .dividedBy(liquidity.toFixed(3))
-              .multipliedBy(100)
-              .toFixed(2)
-          );
+          const apr = new BigNumber(vault.totalapr);
 
           const n = 365 * 24;
           const apyValueInBN = new BigNumber(
@@ -237,7 +229,7 @@ const Vaults: React.FC = () => {
             .multipliedBy(100);
           const apy = new BigNumber(apyValueInBN.toFixed(2));
 
-          return { ...vault, apy, apr, liquidity };
+          return { ...vault, apy, liquidity };
         }
       );
 
@@ -294,12 +286,12 @@ const Vaults: React.FC = () => {
       },
       apr: {
         value:
-          new BigNumber(vault.apr).dividedBy(365).toString() &&
-          new BigNumber(vault.apr)
+          new BigNumber(vault.totalapr).dividedBy(365).toString() &&
+          new BigNumber(vault.totalapr)
             .dividedBy(365)
             .toNumber()
             .toLocaleString("en-US", { maximumFractionDigits: 2 }),
-        originalValue: new BigNumber(vault.apr).dividedBy(365),
+        originalValue: new BigNumber(vault.totalapr).dividedBy(365),
       },
       wallet: {
         value: vault.userData
@@ -321,12 +313,24 @@ const Vaults: React.FC = () => {
           ? new BigNumber(vault.userData.stakedBalance)
           : null,
       },
+
+      withdrawableBalance: {
+        value: vault.userData
+          ? getBalanceNumber(new BigNumber(vault.userData.withdrawableBalance))
+              .toFixed(2)
+              .toString()
+          : "0",
+        originalValue: vault.userData
+          ? new BigNumber(vault.userData.withdrawableBalance)
+          : null,
+      },
       liquidity: {
         liquidity: vault.liquidity,
         realLiquidityInVaults: new BigNumber(vault?.priceOfQuoteToken)
           .times(vault.lpTotalInQuoteTokenOfVaults)
           .toNumber(),
       },
+      totalapr: vault.totalapr,
       details: vault,
     };
 

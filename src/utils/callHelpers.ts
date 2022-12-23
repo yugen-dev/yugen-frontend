@@ -170,6 +170,7 @@ export const GaslessHarvest = async (
   );
 };
 
+
 export const stake = async (
   masterChefContract,
   pid,
@@ -194,6 +195,34 @@ export const vaultstake = async (vaultContract, pid, amount, account) => {
     .deposit(
       pid,
       new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
+    )
+    .send({ from: account, ...setMetamaskGasPrice })
+    .on("transactionHash", (tx) => {
+      return tx.transactionHash;
+    });
+};
+
+export const vaultproxystake = async (vaultContract, amount, account) => {
+  return vaultContract.methods
+    .deposit(
+
+      new BigNumber(amount).times(new BigNumber(10).pow(18)).toString(),
+      account
+    )
+    .send({ from: account, ...setMetamaskGasPrice })
+    .on("transactionHash", (tx) => {
+      return tx.transactionHash;
+    });
+};
+
+
+export const proxystake = async (proxyContract, pid, amount, account) => {
+  return proxyContract.methods
+    .depositVault(
+
+      new BigNumber(amount).times(new BigNumber(10).pow(18)).toString(),
+      pid,
+      account
     )
     .send({ from: account, ...setMetamaskGasPrice })
     .on("transactionHash", (tx) => {
@@ -355,6 +384,21 @@ export const vaultunstake = async (vaultContract, pid, amount, account) => {
     .withdraw(
       pid,
       new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
+    )
+    .send({ from: account, ...setMetamaskGasPrice })
+    .on("transactionHash", (tx) => {
+      return tx.transactionHash;
+    });
+};
+
+export const vaultproxyunstake = async (vaultContract, amount, account) => {
+  return vaultContract.methods
+    .withdraw(
+
+      new BigNumber(amount).times(new BigNumber(10).pow(18)).toString(),
+      account,
+      account
+
     )
     .send({ from: account, ...setMetamaskGasPrice })
     .on("transactionHash", (tx) => {

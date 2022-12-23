@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { useDispatch } from "react-redux";
 import { fetchFarmUserDataAsync } from "state/actions";
-import { unstake, vaultunstake } from "utils/callHelpers";
+import { unstake, vaultunstake, vaultproxyunstake } from "utils/callHelpers";
 import { useProfile, useToast } from "state/hooks";
 import { fetchVaultUserDataAsync } from "state/vaults";
 import { useMasterchef, useVaultchef } from "./useContract";
@@ -24,9 +24,9 @@ const useUnstake = (pid: number, decimals) => {
       } catch (error) {
         if (
           error["message"] ===
-            "MetaMask Tx Signature: User denied transaction signature." ||
+          "MetaMask Tx Signature: User denied transaction signature." ||
           error["message"] ===
-            "MetaMask Message Signature: User denied message signature." ||
+          "MetaMask Message Signature: User denied message signature." ||
           error["code"] === 4001
         ) {
           // toastInfo("canceled...", `cancelled signature `);
@@ -51,7 +51,7 @@ const useUnstake = (pid: number, decimals) => {
   return { onUnstake: handleUnstake };
 };
 
-export const useVaultUnstake = (pid: number, vaultContractAddress: string) => {
+export const useVaultUnstake = (vaultContractAddress: string) => {
   const dispatch = useDispatch();
   const { account } = useWeb3React("web3");
   const vaultContract = useVaultchef(vaultContractAddress);
@@ -64,7 +64,7 @@ export const useVaultUnstake = (pid: number, vaultContractAddress: string) => {
         let resp;
         toastInfo("Processing...", `You requested to withdraw `);
         if (metaTranscation) {
-          resp = await vaultunstake(vaultContract, pid, amount, account);
+          resp = await vaultproxyunstake(vaultContract, amount, account);
           // @ts-ignore
           if (typeof resp !== "undefined" && resp.code === 4001) {
             toastError("Cancelled", "Signautures rejected");
@@ -74,16 +74,16 @@ export const useVaultUnstake = (pid: number, vaultContractAddress: string) => {
 
           dispatch(fetchVaultUserDataAsync(account));
         } else {
-          await vaultunstake(vaultContract, pid, amount, account);
+          await vaultproxyunstake(vaultContract, amount, account);
           toastSuccess("Success", "Withdraw successfull");
           dispatch(fetchVaultUserDataAsync(account));
         }
       } catch (error) {
         if (
           error["message"] ===
-            "MetaMask Tx Signature: User denied transaction signature." ||
+          "MetaMask Tx Signature: User denied transaction signature." ||
           error["message"] ===
-            "MetaMask Message Signature: User denied message signature." ||
+          "MetaMask Message Signature: User denied message signature." ||
           error["code"] === 4001
         ) {
           toastError("Cancelled", "Signautures rejected");
@@ -96,7 +96,7 @@ export const useVaultUnstake = (pid: number, vaultContractAddress: string) => {
       toastInfo,
       metaTranscation,
       vaultContract,
-      pid,
+
       account,
       dispatch,
       toastError,

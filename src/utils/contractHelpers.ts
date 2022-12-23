@@ -42,7 +42,7 @@ import ifoAbi from "config/abi/ifo.json";
 import pointCenterIfo from "config/abi/pointCenterIfo.json";
 import lotteryTicketAbi from "config/abi/lotteryNft.json";
 import farmABI from "config/abi/farm.json";
-import vaultAbi from "config/abi/vault.json";
+import vaultAbi from "config/abi/VaultERC4626.json"; // change
 import ygnStaker from "config/abi/ygnStaker.json";
 import sousChef from "config/abi/sousChef.json";
 import sousChefBnb from "config/abi/sousChefBnb.json";
@@ -119,6 +119,7 @@ export const getLotteryTicketContract = (web3?: Web3) => {
 export const getMasterchefContract = (web3?: Web3) => {
   return getContract(farmABI, getFarmAddress(), web3);
 };
+
 export const getFarmWrapper = (web3?: Web3) => {
   return getContract(farmWrapperAbi, getFarmWrapperAddress(), web3);
 };

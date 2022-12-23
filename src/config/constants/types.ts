@@ -46,6 +46,7 @@ export enum QuoteToken {
   "MAHA" = "MAHA",
   "PEAR" = "PEAR",
   "WMATIC" = "WMATIC",
+  "STMATIC" = "STMATIC",
   "USDC" = "USDC",
   "DAI" = "DAI",
   "USDT" = "USDT",
@@ -61,6 +62,8 @@ export enum QuoteToken {
   "QUICK" = "QUICK",
   "FRAX" = "FRAX",
   "MAI" = "MAI",
+  "DYST" = "DYST",
+  "PEN" = "PEN",
 }
 
 export enum PoolCategory {
@@ -78,6 +81,7 @@ export interface Address {
   1?: string;
   250?: string;
   4002?: string;
+  31337?: string;
 }
 
 export interface FarmConfig {
@@ -147,12 +151,9 @@ export interface VaultConfig {
   rewardTokenCoinGecko?: string;
   quoteTokenCoinGecko?: string;
   nonQuoteTokenCoinGecko?: string;
-  blocksPerYearOfRewardToken: number;
-  rewardTokenPerBlockPerPool: number;
   lpTokenName: string;
   coinGeckoLpTokenName?: string;
   lpTokenAddress: Address;
-  lpTokenFarmAddress: Address;
   lpTokenPart1Address: Address;
   lpTokenPart2Address: Address;
   vaultAddress: Address;

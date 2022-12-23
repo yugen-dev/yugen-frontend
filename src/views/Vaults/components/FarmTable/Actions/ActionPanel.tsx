@@ -148,61 +148,23 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
               {getBalanceNumber(
                 new BigNumber(vault?.userData?.stakedBalance)
               ).toFixed(2)}{" "}
-              {vault?.lpTokenName} LP
+              LP
+            </StyledTextValueItem>
+          </StyledText>
+
+          <StyledText>
+            <StyledTextLabelItem>Withdrawable</StyledTextLabelItem>
+            <StyledTextValueItem>
+              {getBalanceNumber(
+                new BigNumber(vault?.userData?.withdrawableBalance)
+              ).toFixed(2)}{" "}
+              LP
             </StyledTextValueItem>
           </StyledText>
 
           <StyledText style={{ marginTop: "10px" }}>
             <StyledTextLabelItem>In Wallet</StyledTextLabelItem>
-            <StyledTextValueItem>
-              {" "}
-              {wallet?.value} {vault?.lpTokenName} LP ($
-              {totalBalanceValue.toFixed(2)})
-            </StyledTextValueItem>
-          </StyledText>
-
-          <StyledText>
-            <StyledTextLabelItem>
-              {" "}
-              {vault.quoteTokenSymbol} balance{" "}
-            </StyledTextLabelItem>
-            <StyledTextValueItem>
-              {getBalanceNumber(
-                new BigNumber(vault?.userData?.stakedBalance)
-                  .multipliedBy(vault.quoteTokenAmount)
-                  .dividedBy(vault.totalLPTokensStakedInFarms)
-              ).toFixed(2)}{" "}
-              {vault.quoteTokenSymbol} ($
-              {getBalanceNumber(
-                new BigNumber(vault?.userData?.stakedBalance)
-                  .multipliedBy(vault.quoteTokenAmount)
-                  .dividedBy(vault.totalLPTokensStakedInFarms)
-                  .multipliedBy(vault.priceOfQuoteToken)
-              ).toFixed(2)}
-              )
-            </StyledTextValueItem>
-          </StyledText>
-
-          <StyledText>
-            <StyledTextLabelItem>
-              {" "}
-              {vault.nonQuoteTokenSymbol} balance{" "}
-            </StyledTextLabelItem>
-            <StyledTextValueItem>
-              {getBalanceNumber(
-                new BigNumber(vault?.userData?.stakedBalance)
-                  .multipliedBy(vault.nonQuoteTokenAmount)
-                  .dividedBy(vault.totalLPTokensStakedInFarms)
-              ).toFixed(2)}{" "}
-              {vault.quoteTokenSymbol} ($
-              {getBalanceNumber(
-                new BigNumber(vault?.userData?.stakedBalance)
-                  .multipliedBy(vault.nonQuoteTokenAmount)
-                  .dividedBy(vault.totalLPTokensStakedInFarms)
-                  .multipliedBy(vault.priceOfNonQuoteToken)
-              ).toFixed(2)}
-              )
-            </StyledTextValueItem>
+            <StyledTextValueItem> {wallet?.value} LP</StyledTextValueItem>
           </StyledText>
 
           <StyledText style={{ marginTop: "10px" }}>

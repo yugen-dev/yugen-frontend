@@ -30,6 +30,7 @@ export interface Vault extends VaultConfig {
   priceOfRewardToken?: BigNumber;
   poolWeight?: BigNumber;
   multiplier?: string;
+  totalapr: string;
   totalLPTokensStakedInFarms?: BigNumber;
   totalLPTokensStakedInVaults?: BigNumber;
   userData?: {
@@ -39,6 +40,7 @@ export interface Vault extends VaultConfig {
     firstLpTokenBalance: BigNumber;
     secondLpTokenBalance: BigNumber;
     stakedBalance: BigNumber;
+    withdrawableBalance: BigNumber;
   };
 }
 export interface Farm extends FarmConfig {

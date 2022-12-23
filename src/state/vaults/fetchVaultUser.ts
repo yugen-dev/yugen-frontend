@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 import erc20ABI from "config/abi/erc20.json";
-import vaultABI from "config/abi/vault.json";
+import vaultABI from "config/abi/VaultERC4626.json";
 import multicall from "utils/multicall";
 import vaultsConfig from "config/constants/vaults";
 import { getAddress } from "utils/addressHelpers";
@@ -79,14 +79,47 @@ export const fetchVaultUserStakedBalances = async (account: string) => {
     const vaultAddress = getAddress(vault.vaultAddress);
     return {
       address: vaultAddress,
-      name: "stakedWantTokens",
-      params: [vault.pid, account],
+      name: "balanceOf",
+      params: [account],
     };
   });
 
-  const rawStakedBalances = await multicall(vaultABI, calls);
+  const rawStakedBalances = await multicall(erc20ABI, calls);
   const parsedStakedBalances = rawStakedBalances.map((stakedBalance) => {
     return new BigNumber(stakedBalance[0]._hex).toJSON();
   });
   return parsedStakedBalances;
+};
+
+export const fetchVaultUserWithdrawableBalances = async (account: string) => {
+  const calls = vaultsConfig.map((vault) => {
+    const vaultAddress = getAddress(vault.vaultAddress);
+    return {
+      address: vaultAddress,
+      name: "balanceOf",
+      params: [account],
+    };
+  });
+
+  const rawStakedBalances = await multicall(erc20ABI, calls);
+  const parsedStakedBalances = rawStakedBalances.map((stakedBalance) => {
+    return new BigNumber(stakedBalance[0]._hex).toJSON();
+  });
+
+  const calls2 = vaultsConfig.map((vault) => {
+    const vaultAddress = getAddress(vault.vaultAddress);
+    return {
+      address: vaultAddress,
+      name: "convertToAssets",
+      params: [parsedStakedBalances[0]],
+    };
+  });
+  const rawWithdrawableBalances = await multicall(vaultABI, calls2);
+  const parsedWithdrawableBalances = rawWithdrawableBalances.map(
+    (withdrawableBalance) => {
+      return new BigNumber(withdrawableBalance[0]._hex).toJSON();
+    }
+  );
+
+  return parsedWithdrawableBalances;
 };

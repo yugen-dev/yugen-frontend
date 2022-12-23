@@ -539,37 +539,3 @@ export const useVaultsTotalValue = (): BigNumber => {
 
   return value;
 };
-
-export const useVaultsApr = (): BigNumber => {
-  const vaults = useVaults();
-
-  let maxApr = new BigNumber(0);
-  vaults.map((vault) => {
-    if (!vault.nonQuoteTokenAmount || !vault.lpTotalInQuoteToken) {
-      return new BigNumber(1);
-    }
-
-    let liquidity = new BigNumber(vault.lpTotalInQuoteToken);
-    liquidity = new BigNumber(vault?.priceOfQuoteToken).times(
-      vault.lpTotalInQuoteToken
-    );
-
-    const priceOf1RewardToken = new BigNumber(vault?.priceOfRewardToken);
-
-    const apr = new BigNumber(
-      priceOf1RewardToken
-        .multipliedBy(vault.blocksPerYearOfRewardToken)
-        .multipliedBy(vault.rewardTokenPerBlockPerPool)
-        .dividedBy(liquidity.toFixed(3))
-        .multipliedBy(100)
-        .toFixed(2)
-    );
-
-    if (apr?.isGreaterThan(maxApr)) maxApr = apr;
-    return maxApr;
-  });
-
-  const value = maxApr;
-
-  return value;
-};

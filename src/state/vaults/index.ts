@@ -8,6 +8,7 @@ import {
   fetchVaultFirstLpTokenBalance,
   fetchVaultSecondLpTokenBalance,
   fetchVaultUserStakedBalances,
+  fetchVaultUserWithdrawableBalances,
 } from "./fetchVaultUser";
 import { VaultsState, Vault } from "../types";
 
@@ -55,6 +56,9 @@ export const fetchVaultUserDataAsync = (account) => async (dispatch) => {
     account
   );
 
+  const userVaultWithdrawableBalances =
+    await fetchVaultUserWithdrawableBalances(account);
+
   const arrayOfUserDataObjects = userVaultAllowances.map(
     (vaultAllowance, index) => {
       return {
@@ -64,6 +68,7 @@ export const fetchVaultUserDataAsync = (account) => async (dispatch) => {
         firstLpTokenBalance: userVaultFirstLpTokenBalance[index],
         secondLpTokenBalance: userVaultSecondLpTokenBalance[index],
         stakedBalance: userVaultUserStakedBalances[index],
+        withdrawableBalance: userVaultWithdrawableBalances[index],
       };
     }
   );

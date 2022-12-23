@@ -10,6 +10,7 @@ import { useVaultApprove } from "hooks/useApprove";
 import { getERC20Contract } from "utils/contractHelpers";
 import { BASE_ADD_LIQUIDITY_URL } from "config";
 import { getBalanceNumber } from "utils/formatBalance";
+// import { useVaultStake } from "hooks/useStake";
 import { useVaultStake } from "hooks/useStake";
 import { useVaultUnstake } from "hooks/useUnstake";
 import useWeb3 from "hooks/useWeb3";
@@ -41,8 +42,8 @@ const Staked: React.FunctionComponent<VaultWithStakedValue> = ({
   const [requestedApproval, setRequestedApproval] = useState(false);
   const { allowance, tokenBalance, stakedBalance } = useVaultUser(pid);
   const vaultContractAddress = getAddress(vaultAddress);
-  const { onStake } = useVaultStake(pid, vaultContractAddress);
-  const { onUnstake } = useVaultUnstake(pid, vaultContractAddress);
+  const { onStake } = useVaultStake(vaultContractAddress);
+  const { onUnstake } = useVaultUnstake(vaultContractAddress);
   const web3 = useWeb3();
 
   const isApproved = account && allowance && allowance.isGreaterThan(0);

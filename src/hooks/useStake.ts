@@ -3,7 +3,12 @@ import { useCallback } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { useDispatch } from "react-redux";
 import { fetchFarmUserDataAsync } from "state/actions";
-import { stake, vaultstake } from "utils/callHelpers";
+import {
+  stake,
+  vaultstake,
+  proxystake,
+  vaultproxystake,
+} from "utils/callHelpers";
 import { useProfile, useToast } from "state/hooks";
 import { fetchVaultUserDataAsync } from "state/vaults";
 import {
@@ -23,7 +28,7 @@ export const useStake = (pid: number, decimals) => {
     async (amount: string) => {
       try {
         toastInfo("Processing...", `You requested to Deposited `);
-        await stake(masterChefContract, pid, amount, account, decimals);
+        await proxystake(masterChefContract, pid, amount, account);
         toastSuccess("Success", ` Deposited successfully`);
         dispatch(fetchFarmUserDataAsync(account));
       } catch (error) {
@@ -46,7 +51,6 @@ export const useStake = (pid: number, decimals) => {
       masterChefContract,
       pid,
       account,
-      decimals,
       toastSuccess,
       dispatch,
       toastError,
@@ -104,7 +108,7 @@ export const useStakeSingleSided = (pid: number, decimals) => {
   return { onStakeSingleSided: handleStakeSingleSided };
 };
 
-export const useVaultStake = (pid: number, vaultContractAddress: string) => {
+export const useVaultStake = (vaultContractAddress: string) => {
   const dispatch = useDispatch();
   const { account } = useWeb3React("web3");
   const vaultContract = useVaultchef(vaultContractAddress);
@@ -117,7 +121,7 @@ export const useVaultStake = (pid: number, vaultContractAddress: string) => {
       try {
         toastInfo("Processing...", `You requested to Deposited `);
         if (metaTranscation) {
-          resp = await vaultstake(vaultContract, pid, amount, account);
+          resp = await vaultproxystake(vaultContract, amount, account);
 
           // @ts-ignore
           if (typeof resp !== "undefined" && resp.code === 4001) {
@@ -128,7 +132,7 @@ export const useVaultStake = (pid: number, vaultContractAddress: string) => {
 
           dispatch(fetchVaultUserDataAsync(account));
         } else {
-          await vaultstake(vaultContract, pid, amount, account);
+          await vaultproxystake(vaultContract, amount, account);
           toastSuccess("Success", "Deposited successfully");
           dispatch(fetchVaultUserDataAsync(account));
         }
@@ -150,7 +154,6 @@ export const useVaultStake = (pid: number, vaultContractAddress: string) => {
       account,
       dispatch,
       vaultContract,
-      pid,
       metaTranscation,
       toastInfo,
       toastSuccess,
@@ -161,4 +164,4 @@ export const useVaultStake = (pid: number, vaultContractAddress: string) => {
   return { onStake: handleStake };
 };
 
-export default useStake;
+export default useVaultStake;

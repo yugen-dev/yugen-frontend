@@ -1,6 +1,7 @@
 import BigNumber from "bignumber.js";
 import erc20 from "config/abi/erc20.json";
 import vaultStratergyABI from "config/abi/vaultStratergy.json";
+import vaultERC4626ABI from "config/abi/VaultERC4626.json";
 import multicall from "utils/multicall";
 import { getAddress } from "utils/addressHelpers";
 import vaultsConfig from "config/constants/vaults";
@@ -8,17 +9,27 @@ import { VaultConfig } from "config/constants/types";
 import { fetchPrice } from "state/hooks";
 
 const fetchVaults = async () => {
+  const vaultsfetch = await fetch("https://api.penrose.money/pools", {
+    method: "GET",
+  });
+  const vaultsdata = await vaultsfetch.json();
+
   const data = await Promise.all(
     vaultsConfig.map(async (vaultConfig: VaultConfig) => {
       const lpAddress = getAddress(vaultConfig.lpTokenAddress);
-      const lpFarmAddress = getAddress(vaultConfig.lpTokenFarmAddress);
-      const stratergyAddress = getAddress(vaultConfig.strategyAddress);
+      const vaultAddress = getAddress(vaultConfig.vaultAddress);
+      const vaultaprdata = await vaultsdata.filter(
+        (v) => v.poolData.id === lpAddress
+      );
 
-      const [lpTokenBalanceInVaults] = await multicall(vaultStratergyABI, [
-        // Balance of LP tokens in the master chef contract
+      const vaultapr = vaultaprdata[0].totalApr.toString();
+
+      const [lpTokenBalanceInVaults] = await multicall(vaultERC4626ABI, [
+        // Balance of LP tokens in vaults
+
         {
-          address: stratergyAddress,
-          name: "wantLockedTotal",
+          address: vaultAddress,
+          name: "totalAssets",
         },
       ]);
 
@@ -50,11 +61,6 @@ const fetchVaults = async () => {
           address: getAddress(vaultConfig.quoteTokenAddress),
           name: "decimals",
         },
-        {
-          address: lpAddress,
-          name: "balanceOf",
-          params: [lpFarmAddress],
-        },
       ];
 
       const [
@@ -63,8 +69,9 @@ const fetchVaults = async () => {
         lpTotalSupply,
         nonQuoteTokenDecimals,
         quoteTokenDecimals,
-        lpTokenBalanceInUnderlyingFarm,
       ] = await multicall(erc20, calls);
+
+      const lpTokenBalanceInUnderlyingFarm = lpTokenBalanceInVaults;
 
       // Ratio in % a LP tokens that are in staking, vs the total number in circulation
       const lpTokenRatioOfUnderlyingFarm = new BigNumber(
@@ -128,8 +135,8 @@ const fetchVaults = async () => {
         priceOfRewardToken: priceOfRewardToken.toJSON(),
         priceOfQuoteToken: priceOfQuoteToken.toJSON(),
         priceOfNonQuoteToken: priceOfNonQuoteToken.toJSON(),
-        totalLPTokensStakedInFarms: lpTokenBalanceInUnderlyingFarmInBN.toJSON(),
         totalLPTokensStakedInVaults: lpTokenBalanceInVaultsInBN.toJSON(),
+        totalapr: vaultapr,
       };
     })
   );

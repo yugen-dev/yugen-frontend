@@ -32,11 +32,18 @@ const fantomMainnetConfig: MenuEntry[] = [
     href: "/fygnburner",
   },
   {
+    label: "Vaults",
+    icon: "TicketIcon",
+    href: "/vaults"
+
+  },
+  {
     label: "Bonds",
     subText: "Coming soon",
     icon: "RewardsManagerIcon",
     href: "/bonds",
-  },
+  }
+
 ];
 
 export const maticMainnetConfig: MenuEntry[] = [
@@ -69,6 +76,12 @@ export const maticMainnetConfig: MenuEntry[] = [
     label: "fYGN Burner",
     icon: "TicketIcon",
     href: "/fygnburner",
+  },
+  {
+    label: "Vaults",
+    icon: "TicketIcon",
+    href: "/vaults"
+
   },
   {
     label: "Bonds",
@@ -124,6 +137,52 @@ export const maticTestnetConfig: MenuEntry[] = [
     href: "/fygnburner",
   },
   {
+    label: "Vaults",
+    icon: "TicketIcon",
+    href: "/vaults"
+
+  },
+  {
+    label: "Bonds",
+    subText: "Coming soon",
+    icon: "RewardsManagerIcon",
+    href: "/bonds",
+  },
+];
+
+export const localhostConfig: MenuEntry[] = [
+  {
+    label: "Home",
+    icon: "HomeIcon",
+    href: "/",
+  },
+  {
+    label: "Farms",
+    icon: "FarmIcon",
+    href: "/farms",
+  },
+  {
+    label: "YGN Staker",
+    icon: "TicketIcon",
+    href: "/ygnstaker",
+  },
+  {
+    label: "Rewards Manager",
+    icon: "RewardsManagerIcon",
+    href: "/rewardsmanager",
+  },
+  {
+    label: "fYGN Burner",
+    icon: "TicketIcon",
+    href: "/fygnburner",
+  },
+  {
+    label: "Vaults",
+    icon: "TicketIcon",
+    href: "/vaults"
+
+  },
+  {
     label: "Bonds",
     subText: "Coming soon",
     icon: "RewardsManagerIcon",
@@ -169,6 +228,14 @@ export const networks = [
     imgSrc: "",
     rpcUrl: "https://rpc.testnet.fantom.network/",
   },
+
+  {
+    title: "LocalHost",
+    chainId: "31337",
+    imgSrc: "",
+    rpcUrl: "http://127.0.0.1:8545/",
+  },
+
 ];
 
 export default fantomMainnetConfig;
