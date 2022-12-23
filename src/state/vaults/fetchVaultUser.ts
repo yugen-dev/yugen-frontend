@@ -81,8 +81,6 @@ export const fetchVaultUserStakedBalances = async (account: string) => {
       address: vaultAddress,
       name: "balanceOf",
       params: [account],
-      // name: "stakedWantTokens",
-      // params: [vault.pid, account],
     };
   });
 
@@ -100,8 +98,6 @@ export const fetchVaultUserWithdrawableBalances = async (account: string) => {
       address: vaultAddress,
       name: "balanceOf",
       params: [account],
-      // name: "stakedWantTokens",
-      // params: [vault.pid, account],
     };
   });
 
@@ -118,7 +114,6 @@ export const fetchVaultUserWithdrawableBalances = async (account: string) => {
       params: [parsedStakedBalances[0]],
     };
   });
-  console.log("parsedStakedBalances", parsedStakedBalances);
   const rawWithdrawableBalances = await multicall(vaultABI, calls2);
   const parsedWithdrawableBalances = rawWithdrawableBalances.map(
     (withdrawableBalance) => {
@@ -126,6 +121,5 @@ export const fetchVaultUserWithdrawableBalances = async (account: string) => {
     }
   );
 
-  console.log("parsedWithdrawableBalances", parsedWithdrawableBalances);
   return parsedWithdrawableBalances;
 };

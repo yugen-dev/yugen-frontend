@@ -27,17 +27,6 @@ const vaultsMaticMainnet: VaultConfig[] = [
       4002: "0x1237feA0b26F68191d50900BfFD85E142697C423",
     },
 
-    // lpTokenFarmAddress: {
-    //   97: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-    //   56: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-    //   80001: "0xA824f2DE0d8b8C1c6D91B613FD56A0c205028e34",
-    //   137: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-    //   31337: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-    //   1: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-    //   250: "0x2b2929E785374c651a81A63878Ab22742656DcDd",
-    //   4002: "0x401e9E359d6De9B313c85Cde095D61b42B96EBEd",
-    // },
-
     lpTokenPart1Address: {
       97: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
       56: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
@@ -82,90 +71,10 @@ const vaultsMaticMainnet: VaultConfig[] = [
     quoteTokenAddress: contracts.wmatic,
     nonQuoteTokenSymbol: QuoteToken.STMATIC,
     nonQuoteTokenAddress: contracts.stmatic,
-    addLiquidityLink: `https://www.dystopia.exchange/liquidity/0x1e08A5B6A1694bC1A65395db6f4c506498DAA349`,
+    addLiquidityLink: `https://www.dystopia.exchange/liquidity/0x1237fea0b26f68191d50900bffd85e142697c423`,
     blockExplorerLink:
-      "https://polygonscan.com/address/0x1e08A5B6A1694bC1A65395db6f4c506498DAA349",
+      "https://polygonscan.com/address/0x1237fea0b26f68191d50900bffd85e142697c423",
   },
-
-  // {
-  //   pid: 2,
-  //   tag: "Penrose",
-  //   lpTokenName: "PEN-WMATIC-Volatile",
-  //   coinGeckoLpTokenName: "PEN-WMATIC",
-  //   rewardTokenCoinGecko: "penrose-finance",
-  //   quoteTokenCoinGecko: "WMATIC",
-  //   nonQuoteTokenCoinGecko: "penrose-finance",
-  //   // blocksPerYearOfRewardToken: 31536000,
-  //   // rewardTokenPerBlockPerPool: 0.0632,
-
-  //   lpTokenAddress: {
-
-  //     97: "0x2c5ba816da67ce34029fc4a9cc7545d207abf945",
-  //     56: "0x2c5ba816da67ce34029fc4a9cc7545d207abf945",
-  //     80001: "0x2c5ba816da67ce34029fc4a9cc7545d207abf945",
-  //     137: "0x2c5ba816da67ce34029fc4a9cc7545d207abf945",
-  //     31337: "0x2c5Ba816Da67cE34029fC4A9Cc7545d207ABF945",
-  //     1: "0x2c5ba816da67ce34029fc4a9cc7545d207abf945",
-  //     250: "0x2c5ba816da67ce34029fc4a9cc7545d207abf945",
-  //     4002: "0x2c5ba816da67ce34029fc4a9cc7545d207abf945",
-  //   },
-
-  //   lpTokenPart1Address: {
-
-  //     97: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
-  //     56: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
-  //     80001: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
-  //     137: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
-  //     31337: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
-  //     1: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
-  //     250: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
-  //     4002: "0x9008D70A5282a936552593f410AbcBcE2F891A97",
-
-  //   },
-  //   lpTokenPart2Address: {
-
-  //     97: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
-  //     56: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
-  //     80001: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
-  //     137: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
-  //     31337: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
-  //     1: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
-  //     250: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
-  //     4002: "0x39aB6574c289c3Ae4d88500eEc792AB5B947A5Eb",
-
-  //   },
-  //   vaultAddress: {
-  //     97: "0x858CC26a30B06f86a5CE5cdCBd735B3c255b0b14",
-  //     56: "0x858CC26a30B06f86a5CE5cdCBd735B3c255b0b14",
-  //     80001: "0x858CC26a30B06f86a5CE5cdCBd735B3c255b0b14",
-  //     137: "0x858CC26a30B06f86a5CE5cdCBd735B3c255b0b14",
-  //     31337: "0xe4f2222d155699B7d23E69c1D1264C947A59eda8",
-  //     1: "0x858CC26a30B06f86a5CE5cdCBd735B3c255b0b14",
-  //     250: "0x858CC26a30B06f86a5CE5cdCBd735B3c255b0b14",
-  //     4002: "0x858CC26a30B06f86a5CE5cdCBd735B3c255b0b14",
-
-  //   },
-  //   strategyAddress: {
-
-  //     97: "0xbA040D73aDE0B2f8ad9c8A674971A66A2022DbFF",
-  //     56: "0xbA040D73aDE0B2f8ad9c8A674971A66A2022DbFF",
-  //     80001: "0xbA040D73aDE0B2f8ad9c8A674971A66A2022DbFF",
-  //     137: "0xbA040D73aDE0B2f8ad9c8A674971A66A2022DbFF",
-  //     31337: "0x247005eFa6fe1E8Fa828c24b82044f74D7b2D49e",
-  //     1: "0xbA040D73aDE0B2f8ad9c8A674971A66A2022DbFF",
-  //     250: "0xbA040D73aDE0B2f8ad9c8A674971A66A2022DbFF",
-  //     4002: "0xbA040D73aDE0B2f8ad9c8A674971A66A2022DbFF",
-
-  //   },
-  //   quoteTokenSymbol: QuoteToken.WMATIC,
-  //   quoteTokenAddress: contracts.wbnb,
-  //   nonQuoteTokenSymbol: QuoteToken.PEN,
-  //   nonQuoteTokenAddress: contracts.pen,
-  //   addLiquidityLink:
-  //     "https://quickswap.exchange/add/0x86652c1301843b4e06fbfbbdaa6849266fb2b5e7/0xac0ec8a0a5062feecb496ac1ef7d2177f06f88b0",
-  //   blockExplorerLink:
-  //     "https://mumbai.polygonscan.com/address/0xeF4E6c3119A7a7260C1d3fA90939B32De02e363A",
-  // },
 ];
 const vaultsMaticTestnet: VaultConfig[] = [
   {

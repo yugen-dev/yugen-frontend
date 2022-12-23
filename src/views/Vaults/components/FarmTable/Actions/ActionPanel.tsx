@@ -164,56 +164,8 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
 
           <StyledText style={{ marginTop: "10px" }}>
             <StyledTextLabelItem>In Wallet</StyledTextLabelItem>
-            <StyledTextValueItem>
-              {" "}
-              {wallet?.value} LP
-              {/* ($ {totalBalanceValue.toFixed(2)}) */}
-            </StyledTextValueItem>
+            <StyledTextValueItem> {wallet?.value} LP</StyledTextValueItem>
           </StyledText>
-
-          {/* <StyledText>
-            <StyledTextLabelItem>
-              {" "}
-              {vault.quoteTokenSymbol} balance{" "}
-            </StyledTextLabelItem>
-            <StyledTextValueItem>
-              {getBalanceNumber(
-                new BigNumber(vault?.userData?.stakedBalance)
-                  .multipliedBy(vault.quoteTokenAmount)
-                  .dividedBy(vault.totalLPTokensStakedInFarms)
-              ).toFixed(2)}{" "}
-              {vault.quoteTokenSymbol} ($
-              {getBalanceNumber(
-                new BigNumber(vault?.userData?.stakedBalance)
-                  .multipliedBy(vault.quoteTokenAmount)
-                  .dividedBy(vault.totalLPTokensStakedInFarms)
-                  .multipliedBy(vault.priceOfQuoteToken)
-              ).toFixed(2)}
-              )
-            </StyledTextValueItem>
-          </StyledText>
-
-          <StyledText>
-            <StyledTextLabelItem>
-              {" "}
-              {vault.nonQuoteTokenSymbol} balance{" "}
-            </StyledTextLabelItem>
-            <StyledTextValueItem>
-              {getBalanceNumber(
-                new BigNumber(vault?.userData?.stakedBalance)
-                  .multipliedBy(vault.nonQuoteTokenAmount)
-                  .dividedBy(vault.totalLPTokensStakedInFarms)
-              ).toFixed(2)}{" "}
-              {vault.quoteTokenSymbol} ($
-              {getBalanceNumber(
-                new BigNumber(vault?.userData?.stakedBalance)
-                  .multipliedBy(vault.nonQuoteTokenAmount)
-                  .dividedBy(vault.totalLPTokensStakedInFarms)
-                  .multipliedBy(vault.priceOfNonQuoteToken)
-              ).toFixed(2)}
-              )
-            </StyledTextValueItem>
-          </StyledText> */}
 
           <StyledText style={{ marginTop: "10px" }}>
             <StyledTextLabelItem> Daily ROI</StyledTextLabelItem>{" "}
